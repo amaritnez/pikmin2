@@ -67,6 +67,9 @@ template <typename T> struct Vector3 {
 		vec.y = y;
 		vec.z = z;
 	}
+	inline T dot(const Vector3<T>& other) {
+		return other.x * x + other.y * y + other.z * z;
+	}
 	// 	inline Vector3& operator+(const Vector3 other) {
 	//     Vector3 newVector = *this;
 	//     x += other.x;

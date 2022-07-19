@@ -27,8 +27,8 @@ struct GridDivider : public TriDivider {
 	    : m_boundingBox()
 	{
 		m_triIndexLists = nullptr;
-		_24             = 0;
-		_20             = 0;
+		m_maxZ             = 0;
+		m_maxX             = 0;
 	}
 
 	virtual ~GridDivider();                                                         // _00
@@ -45,12 +45,12 @@ struct GridDivider : public TriDivider {
 	// Unused/inlined:
 	void write(Stream&); // TODO: I wonder if this was declared virtual and then removed when unused somehow...
 
-	int _20;
-	int _24;
+	int m_maxX;
+	int m_maxZ;
 	TriIndexList* m_triIndexLists;
 	BoundBox m_boundingBox;
-	float _44;
-	float _48;
+	float m_scaleX;
+	float m_scaleZ;
 };
 } // namespace Sys
 

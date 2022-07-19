@@ -6,8 +6,15 @@
 #include "Dolphin/math.h"
 #include "sysMath.h"
 #include "Vector3.h"
+#include "Plane.h"
 
 #define FABS(x) (float)__fabs(x)
+
+extern "C"{
+void PSMTXMultVec (Matrixf*,Vector3f*,Vector3f*);
+}
+
+struct Plane;
 
 // probably a Vector3.h thing
 inline float lenVec(const Vector3f& a) 

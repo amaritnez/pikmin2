@@ -1156,8 +1156,72 @@ bool Sys::Triangle::intersect(Sys::Edge& edge, float cutoff, Vector3f& intersect
  * Address:	804172EC
  * Size:	0002AC
  */
-bool Triangle::intersect(Sys::VertexTable&, Sys::Sphere&)
+// NOT MATCHING - r6 | r8 REGSWAP: https://decomp.me/scratch/nRiNq 
+bool Triangle::intersect(VertexTable& vertTable, Sphere& ball) 
 {
+    // check if ball intersects triangle, given a table of its vertices
+    // return true if intersects
+    
+    float ballDists[3]; // distances from ball center to each edge plane
+    Sys::Edge edge;     // reusable edge to check intersections
+    float t;            // dummy variable for intersection check
+
+    // check we're not too high or low from plane of triangle
+    if (FABS(planeDist(ball.m_position, m_trianglePlane)) > ball.m_radius) {
+        return false;
+    }
+
+    // check center of sphere isn't more than its radius away from the edge planes
+    for (int i = 0; i < 3; i++) {
+        // get distance from center of ball to plane
+        float edgePlaneDist = planeDist(ball.m_position, m_edgePlanes[i]);
+        if (edgePlaneDist > ball.m_radius) { // too far away, can't possibly intersect
+            return false;
+        }
+        // keep track of distances for later
+        ballDists[i] = edgePlaneDist;
+    }
+
+    // check for intersection with each edge in turn
+    // REGSWAP START
+    int vert_1 = m_vertices.x;
+    int vert_2 = m_vertices.y;
+    edge.m_startPos = vertTable.m_objects[vert_1];
+    edge.m_endPos = vertTable.m_objects[vert_2];
+    
+    if (ball.intersect(edge, t) != 0) {
+        return true;
+    }
+    
+    vert_1 = m_vertices.y;
+    vert_2 = m_vertices.z;
+    edge.m_startPos = vertTable.m_objects[vert_1];
+    edge.m_endPos = vertTable.m_objects[vert_2];
+    
+    if (ball.intersect(edge, t) != 0) {
+        return true;
+    }
+
+    vert_1 = m_vertices.z;
+    vert_2 = m_vertices.x;
+    edge.m_startPos = vertTable.m_objects[vert_1];
+    edge.m_endPos = vertTable.m_objects[vert_2];
+    
+    if (ball.intersect(edge, t) != 0) {
+        return true; 
+    }
+    // REGSWAP END
+
+    // check ball center is 'inside' triangle (i.e. directly above or below)
+    for (int i = 0; i < 3; i++) {
+        if (ballDists[i] > 0.0f) { // ball not 'inside' triangle
+            return false;
+        }
+    }
+    
+    // passes all checks, assume it intersects
+    return true;
+
 	/*
 	stwu     r1, -0x40(r1)
 	mflr     r0
@@ -1360,8 +1424,76 @@ lbl_8041757C:
  * Address:	80417598
  * Size:	0002F8
  */
-bool Triangle::intersect(Sys::VertexTable&, Sys::Sphere&, Vector3f&)
+// NOT MATCHING - regswaps and some errors, 95%: https://decomp.me/scratch/B5UUN 
+bool Triangle::intersect(VertexTable& vertTable, Sphere& ball, Vector3f& intersectPoint) 
 {
+    // check if ball intersects triangle, given a table of its vertices
+    // return true if intersects, along with intersection point in intersectPoint (?)
+    
+    float ballDists[3]; // distances from ball center to each edge plane
+    Sys::Edge edge;     // reusable edge to check intersections
+    float t;            // dummy variable for intersection check
+
+    // check we're not too high or low from plane of triangle
+    if (FABS(planeDist(ball.m_position, m_trianglePlane)) > ball.m_radius) {
+        return false;
+    }
+
+    // this is wrong/suspicious
+    // but should get all the distances?? from sphere to triangle? maybe?
+    float triPlaneDist = (m_trianglePlane.a * ball.m_position.x + m_trianglePlane.b * ball.m_position.y + m_trianglePlane.c * ball.m_position.z) - m_trianglePlane.d;
+    Vector3f triPlaneNormal (m_trianglePlane.a, m_trianglePlane.b, m_trianglePlane.c);
+    Vector3f sepVec = ball.m_position - triPlaneNormal * triPlaneDist;
+
+    for (int i = 0; i < 3; i++) {
+        float edgePlaneDist = (sepVec.x * m_edgePlanes[i].a + sepVec.y * m_edgePlanes[i].b + sepVec.z * m_edgePlanes[i].c) - m_edgePlanes[i].d;
+        ballDists[i] = edgePlaneDist;
+    }
+    // end wrong/suspicious
+
+    // check for intersection with each edge in turn
+    int vert_1 = m_vertices.x;
+    int vert_2 = m_vertices.y;
+    edge.m_startPos = vertTable.m_objects[vert_1];
+    edge.m_endPos = vertTable.m_objects[vert_2];
+    
+    if (ball.intersect(edge, t, intersectPoint) != 0) {
+        return true;
+    }
+
+    vert_1 = m_vertices.y;
+    vert_2 = m_vertices.z;
+    edge.m_startPos = vertTable.m_objects[vert_1];
+    edge.m_endPos = vertTable.m_objects[vert_2];
+
+    if (ball.intersect(edge, t, intersectPoint) != 0) {
+        return true;
+    }
+    
+    vert_1 = m_vertices.z;
+    vert_2 = m_vertices.x;
+    edge.m_startPos = vertTable.m_objects[vert_1];
+    edge.m_endPos = vertTable.m_objects[vert_2];
+    
+    if (ball.intersect(edge, t, intersectPoint) != 0) {
+        return true;
+    }
+
+    // check ball center is 'inside' triangle (i.e. directly above or below)
+    for (int i = 0; i < 3; i++) {
+        if (ballDists[i] > 0.0f) {
+            return false;
+        }
+    }
+
+    // get normal to plane scaled by ball radius??
+    triPlaneNormal = Vector3f(m_trianglePlane.a, m_trianglePlane.b, m_trianglePlane.c);
+    Vector3f radNorm = triPlaneNormal * ball.m_radius;
+
+    // calc outputs
+    intersectPoint = ball.m_position - radNorm;
+    return true;
+
 	/*
 	stwu     r1, -0x40(r1)
 	mflr     r0
@@ -1577,8 +1709,82 @@ lbl_80417870:
  * Address:	80417890
  * Size:	0002F8
  */
-bool Triangle::intersectHard(Sys::VertexTable&, Sys::Sphere&, Vector3f&)
+// NOT MATCHING - same regswaps as above, should be same fix for all 3
+bool Triangle::intersectHard(VertexTable& vertTable, Sphere& ball, Vector3f& intersectPoint) 
 {
+    // check if ball intersects triangle, given a table of its vertices
+    // return true if intersects along with intersection point
+    // assumes triangle is a surface of an object, positive side of plane of triangle = outside 
+    
+    float ballDists[3]; // distances from ball center to each edge plane
+    Sys::Edge edge;     // reusable edge to check intersections
+    float t;            // dummy variable for intersection check
+
+    // check we're not too high from plane of triangle
+    // (if we're below, we're potentially inside the object, so it's fine
+    if (planeDist(ball.m_position, m_trianglePlane) > ball.m_radius) {
+        return false;
+    }
+
+    // check center of sphere isn't more than its radius away from the edge planes
+    for (int i = 0; i < 3; i++) {
+        // get distance from center of ball to plane
+        float edgePlaneDist = planeDist(ball.m_position, m_edgePlanes[i]);
+        if (edgePlaneDist > ball.m_radius) { // too far away, can't possibly intersect
+            return false;
+        }
+        // keep track of distances for later
+        ballDists[i] = edgePlaneDist;
+    }
+
+    // check for intersection with each edge in turn
+    // REGSWAP START
+    // A-B
+    int vert_1 = m_vertices.x;
+    int vert_2 = m_vertices.y;
+    edge.m_startPos = vertTable.m_objects[vert_1];
+    edge.m_endPos = vertTable.m_objects[vert_2];
+    
+    if (ball.intersect(edge, t, intersectPoint)) {
+        return true;
+    }
+
+    // B-C
+    vert_1 = m_vertices.y;
+    vert_2 = m_vertices.z;
+    edge.m_startPos = vertTable.m_objects[vert_1];
+    edge.m_endPos = vertTable.m_objects[vert_2];
+    
+    if (ball.intersect(edge, t, intersectPoint)) {
+        return true;
+    }
+
+    // C-A
+    vert_1 = m_vertices.z;
+    vert_2 = m_vertices.x;
+    edge.m_startPos = vertTable.m_objects[vert_1];
+    edge.m_endPos = vertTable.m_objects[vert_2];
+
+    if (ball.intersect(edge, t, intersectPoint)) {
+        return true;
+    }
+    // REGSWAP END
+    
+    // check ball center is 'inside' triangle (i.e. directly above or below)
+    for (int i = 0; i < 3; i++) {
+        if (ballDists[i] > 0.0f) {
+            return false;
+        }
+    }
+
+    // get normal to plane scaled by ball radius??
+    Vector3f triPlaneNormal (m_trianglePlane.a, m_trianglePlane.b, m_trianglePlane.c);
+    Vector3f radNorm = triPlaneNormal * ball.m_radius;
+
+    // calc outputs
+    intersectPoint = ball.m_position - radNorm;
+    return true;
+
 	/*
 	stwu     r1, -0x40(r1)
 	mflr     r0
@@ -1800,87 +2006,39 @@ lbl_80417B68:
  * Address:	........
  * Size:	00014C
  */
-bool Triangle::intersectOptimistic(Sys::Sphere&, Vector3f&)
-{
-	// UNUSED FUNCTION
-}
+// bool Triangle::intersectOptimistic(Sys::Sphere&, Vector3f&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	80417B88
  * Size:	0000EC
  */
-bool Triangle::insideXZ(Vector3f&)
+bool Triangle::insideXZ(Vector3f& point) 
 {
-	/*
-	lfs      f4, 0x10(r3)
-	lfs      f7, lbl_80520308@sda21(r2)
-	fcmpo    cr0, f4, f7
-	cror     2, 0, 2
-	bne      lbl_80417BA4
-	li       r3, 0
-	blr
+    // work out if 'shadow' of a given point 'point' lies inside triangle
+    // i.e. if y is adjusted to be on triangle plane, is that point inside triangle?
+    
+    // make sure plane of triangle is "pointing up"; if not, false 
+    // only want to deal with correctly oriented triangles?
+    if (m_trianglePlane.b <= 0.0f) { 
+        return false;
+    }
 
-lbl_80417BA4:
-	lfs      f1, 0x14(r3)
-	lfs      f0, 8(r4)
-	lfs      f2, 0xc(r3)
-	fmuls    f0, f1, f0
-	lfs      f1, 0(r4)
-	lfs      f3, 0x18(r3)
-	fmadds   f0, f2, f1, f0
-	fsubs    f0, f3, f0
-	fdivs    f0, f0, f4
-	stfs     f0, 4(r4)
-	lfs      f2, 4(r4)
-	lfs      f0, 0x20(r3)
-	lfs      f4, 0(r4)
-	fmuls    f1, f2, f0
-	lfs      f3, 0x1c(r3)
-	lfs      f6, 8(r4)
-	lfs      f5, 0x24(r3)
-	fmadds   f1, f4, f3, f1
-	lfs      f0, 0x28(r3)
-	fmadds   f1, f6, f5, f1
-	fsubs    f0, f1, f0
-	fcmpo    cr0, f0, f7
-	ble      lbl_80417C08
-	li       r3, 0
-	blr
-
-lbl_80417C08:
-	lfs      f0, 0x30(r3)
-	lfs      f3, 0x2c(r3)
-	fmuls    f1, f2, f0
-	lfs      f5, 0x34(r3)
-	lfs      f0, 0x38(r3)
-	fmadds   f1, f4, f3, f1
-	fmadds   f1, f6, f5, f1
-	fsubs    f0, f1, f0
-	fcmpo    cr0, f0, f7
-	ble      lbl_80417C38
-	li       r3, 0
-	blr
-
-lbl_80417C38:
-	addi     r3, r3, 0x20
-	lfs      f0, 0x20(r3)
-	lfs      f3, 0x1c(r3)
-	fmuls    f1, f2, f0
-	lfs      f5, 0x24(r3)
-	lfs      f0, 0x28(r3)
-	fmadds   f1, f4, f3, f1
-	fmadds   f1, f6, f5, f1
-	fsubs    f0, f1, f0
-	fcmpo    cr0, f0, f7
-	ble      lbl_80417C6C
-	li       r3, 0
-	blr
-
-lbl_80417C6C:
-	li       r3, 1
-	blr
-	*/
+    // adjust y such that 'point' lies on the same plane as triangle
+    point.y = (m_trianglePlane.d - ((m_trianglePlane.a * point.x) + (m_trianglePlane.c * point.z))) / m_trianglePlane.b;
+    
+    // check if point is 'inside' triangle (negative side of each tangent plane), or on an edge
+    for (int i = 0; i < 3; ++i) {
+        if (planeDist(point, m_edgePlanes[i]) > 0.0f) { // wrong side of edge, not inside
+            return false;
+        }
+    }
+    
+    // pass all tests, inside triangle
+    return true;
 }
 
 /*
@@ -1888,6 +2046,7 @@ lbl_80417C6C:
  * Address:	80417C74
  * Size:	0004C8
  */
+// NOT MATCHED - needs correct cross product inline etc: https://decomp.me/scratch/60XB1 
 void Triangle::makePlanes(Sys::VertexTable&)
 {
 	/*
@@ -2213,30 +2372,17 @@ lbl_8041806C:
  * Address:	8041813C
  * Size:	000040
  */
-bool RayIntersectInfo::condition(Sys::Triangle&)
+bool RayIntersectInfo::condition(Triangle& triangle) 
 {
-	/*
-	lbz      r0, 0x1c(r3)
-	cmplwi   r0, 0
-	beq      lbl_80418174
-	lfs      f1, 0x10(r4)
-	lfs      f0, lbl_80520310@sda21(r2)
-	fcmpo    cr0, f1, f0
-	bge      lbl_8041816C
-	lfs      f0, lbl_80520324@sda21(r2)
-	fcmpo    cr0, f1, f0
-	ble      lbl_8041816C
-	li       r3, 1
-	blr
-
-lbl_8041816C:
-	li       r3, 0
-	blr
-
-lbl_80418174:
-	li       r3, 1
-	blr
-	*/
+    // return true if _1C is 0 (false?) OR if triangle plane is close(ish) to vertical
+    if (_1C) { // possibly a bool, not u8?
+        // check if triangle plane is close to vertical
+        if ((triangle.m_trianglePlane.b < 0.5f) && (triangle.m_trianglePlane.b > -0.1f)) {
+            return true;
+        }
+        return false;
+    }
+    return true;
 }
 
 /*
@@ -2244,7 +2390,8 @@ lbl_80418174:
  * Address:	8041817C
  * Size:	000428
  */
-void GridDivider::createTriangles(Sys::CreateTriangleArg&)
+// WIP: https://decomp.me/scratch/M4AN3 
+void GridDivider::createTriangles(CreateTriangleArg&)
 {
 	/*
 	stwu     r1, -0x1440(r1)
@@ -2545,6 +2692,7 @@ lbl_80418584:
  * Address:	804185A4
  * Size:	0001D8
  */
+// WIP: https://decomp.me/scratch/H3idD 
 float GridDivider::getMinY(Vector3f&)
 {
 	/*
@@ -2698,8 +2846,61 @@ lbl_80418774:
  * Address:	8041877C
  * Size:	000234
  */
-void GridDivider::getCurrTri(Game::CurrTriInfo&)
-{
+// WIP: https://decomp.me/scratch/IewGq
+void GridDivider::getCurrTri(Game::CurrTriInfo& inputInfo) {
+
+    Triangle* testTri;
+    TriIndexList* triList;
+
+    float x_in = inputInfo.m_position.x;
+    float z_in = inputInfo.m_position.z;
+    int x_diff = (int) ((x_in - m_boundingBox.m_min.x) / m_scaleX);
+    int z_diff = (int) ((z_in - m_boundingBox.m_min.z) / m_scaleZ);
+    
+    bool withinBounds = ((x_diff >= 0) && (z_diff >= 0) && (x_diff < (int) m_maxX) && (z_diff < (int) m_maxZ));
+    
+    if (withinBounds) {
+        bool yTest = 0;
+        float min_y = 328000.0f; 
+        float max_y = -328000.0f;
+        float y_val = inputInfo.m_position.y;
+        triList = &m_triIndexLists[(int)(z_diff + (x_diff * m_maxZ))];
+        
+        for (int triCtr = 0; triCtr < triList->m_count; triCtr++) {
+            testTri = &m_triangleTable->m_objects[triList->m_objects[triCtr]];
+            float triNorm_y = testTri->m_trianglePlane.b;
+            Vector3f tempPoint (x_in, y_val, z_in);
+            if (testTri->insideXZ(tempPoint)) {
+                if (min_y > y_val) {
+                    min_y = y_val;
+                    if (inputInfo._0C != 0) {
+                        yTest = 1;
+                        inputInfo.m_normal.x = testTri->m_trianglePlane.a;
+                        inputInfo.m_normal.y = testTri->m_trianglePlane.b;
+                        inputInfo.m_normal.z = testTri->m_trianglePlane.c;
+                        inputInfo.m_triangle = testTri;
+                    }
+                }
+                
+                if (y_val > max_y) {
+                    max_y = y_val;
+                    if (inputInfo._0C == 0) {
+                        yTest = 1;
+                        inputInfo.m_normal.x = testTri->m_trianglePlane.a;
+                        inputInfo.m_normal.y = testTri->m_trianglePlane.b;
+                        inputInfo.m_normal.z = testTri->m_trianglePlane.c;
+                        inputInfo.m_triangle = testTri;
+                    }
+                }
+                
+            }
+        }
+        
+        if (yTest) {
+            inputInfo.m_maxHeight = max_y; // max height?
+            inputInfo.m_minHeight = min_y; // min height?
+        }
+    }
 	/*
 	stwu     r1, -0x20(r1)
 	li       r5, 0
@@ -2872,8 +3073,96 @@ lbl_804189A8:
  * Address:	804189B0
  * Size:	000230
  */
-TriIndexList* GridDivider::findTriLists(Sys::Sphere&)
+// NOT MATCHING - regswaps: https://decomp.me/scratch/JaTJj 
+TriIndexList* GridDivider::findTriLists(Sphere& ball) 
 {
+    
+    int listCtr = 0;
+    TriIndexList* triList;
+    
+    float x_in = ball.m_position.x;
+    float z_in = ball.m_position.z;
+
+    int x_min = (int) (((x_in - ball.m_radius) - m_boundingBox.m_min.x) / m_scaleX);
+    int z_min = (int) (((z_in - ball.m_radius) - m_boundingBox.m_min.z) / m_scaleZ);
+    int x_max = (int) (((x_in + ball.m_radius) - m_boundingBox.m_min.x) / m_scaleX);
+    int z_max = (int) (((z_in + ball.m_radius) - m_boundingBox.m_min.z) / m_scaleZ);
+
+    int x_stop;   // 30
+    int z_start; // 31
+    int z_stop; // 29
+
+    // bound x_min
+    if (x_min < 0) {
+        x_min = 0;
+    } else {
+        if (x_min >= m_maxX) {
+            x_min = m_maxX - 1;
+        }
+    }
+
+    // bound z_min
+    if (z_min < 0) {
+        z_start = 0;
+    } else {
+        if (z_min >= m_maxZ) {
+            z_start = m_maxZ - 1;
+        } else {
+            z_start = z_min;
+        }
+    }
+
+    // bound x_max
+    if (x_max < 0) {
+        x_stop = 0;
+    } else {
+        if (x_max >= m_maxX) {
+            x_stop = m_maxX - 1;
+        } else {
+            x_stop = x_max;
+        }
+    }
+
+    // bound z_max
+    if (z_max < 0) {
+        z_stop = 0;
+    } else {
+        if (z_max >= m_maxZ) {
+            z_stop = m_maxZ - 1;
+        } else {
+            z_stop = z_max;
+        }
+    }
+    
+    TriIndexList* outTriList = nullptr;
+
+    for (int x_ctr = x_min; x_ctr <= x_stop; x_ctr++) {
+        for (int z_ctr = z_start; z_ctr <= z_stop; z_ctr++) {
+            
+            bool withinBounds =  ((x_ctr >= 0) && (z_ctr >= 0) && (x_ctr < m_maxX) && (z_ctr < m_maxZ));
+            if (withinBounds) {
+                if (outTriList) {
+                    // temp_r4_2 = m_triIndexLists + ((z_ctr + (x_ctr * m_maxZ)) * 0x28);
+                    triList = &m_triIndexLists[(int)(z_ctr + (x_ctr * m_maxZ))];
+                    triList->clearRelations();
+                    outTriList->concat(triList);
+                    listCtr += 1;
+                } else {
+                    triList = &m_triIndexLists[(int)(z_ctr + (x_ctr * m_maxZ))];
+                    triList->clearRelations();
+                    outTriList = triList;
+                    listCtr += 1;
+                }
+            }
+        }
+    }
+    
+    if (listCtr > 0x32) {
+        outTriList->calcNextCount();
+    }
+    
+    return outTriList;
+
 	/*
 	stwu     r1, -0x50(r1)
 	mflr     r0
@@ -3061,6 +3350,7 @@ lbl_80418BC8:
  * Address:	80418BE0
  * Size:	00045C
  */
+// WIP: https://decomp.me/scratch/BaAsV 
 void GridDivider::create(BoundBox&, int, int, Sys::VertexTable*, Sys::TriangleTable*)
 {
 	/*
@@ -3422,55 +3712,17 @@ void GridDivider::create(BoundBox&, int, int, Sys::VertexTable*, Sys::TriangleTa
  * Address:	8041903C
  * Size:	000088
  */
-TriIndexList::TriIndexList()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	bl       __ct__5CNodeFv
-	lis      r4, __vt__16GenericContainer@ha
-	lis      r3, "__vt__12Container<i>"@ha
-	addi     r0, r4, __vt__16GenericContainer@l
-	lis      r5, "__vt__17ArrayContainer<i>"@ha
-	stw      r0, 0(r31)
-	addi     r0, r3, "__vt__12Container<i>"@l
-	lis      r4, __vt__Q23Sys9IndexList@ha
-	lis      r3, __vt__Q23Sys12TriIndexList@ha
-	stw      r0, 0(r31)
-	li       r7, 0
-	addi     r6, r5, "__vt__17ArrayContainer<i>"@l
-	li       r5, 1
-	stb      r7, 0x18(r31)
-	addi     r4, r4, __vt__Q23Sys9IndexList@l
-	addi     r0, r3, __vt__Q23Sys12TriIndexList@l
-	mr       r3, r31
-	stw      r6, 0(r31)
-	stb      r5, 0x18(r31)
-	stw      r7, 0x20(r31)
-	stw      r7, 0x1c(r31)
-	stw      r7, 0x24(r31)
-	stw      r4, 0(r31)
-	stw      r0, 0(r31)
-	lwz      r31, 0xc(r1)
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+TriIndexList::TriIndexList() { }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	00006C
  */
-void GridDivider::write(Stream&)
-{
-	// UNUSED FUNCTION
-}
+// void GridDivider::write(Stream&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * @generated{write__31ArrayContainer<Q23Sys8Triangle>FR6Stream}
@@ -3554,16 +3806,17 @@ void GridDivider::write(Stream&)
  * Address:	........
  * Size:	0000C0
  */
-void GridInfo::write(Stream&)
-{
-	// UNUSED FUNCTION
-}
+// void GridInfo::write(Stream&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	8041919C
  * Size:	000248
  */
+// WIP: https://decomp.me/scratch/QBKfC 
 void GridDivider::read(Stream&)
 {
 	/*
@@ -3797,43 +4050,11 @@ lbl_804193B0:
  * Address:	80419498
  * Size:	000074
  */
-void TriangleTable::createTriangleSphere(Sys::VertexTable&)
+void TriangleTable::createTriangleSphere(VertexTable& vertTable) 
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	li       r31, 0
-	stw      r30, 0x18(r1)
-	li       r30, 0
-	stw      r29, 0x14(r1)
-	mr       r29, r4
-	stw      r28, 0x10(r1)
-	mr       r28, r3
-	b        lbl_804194E0
-
-lbl_804194C8:
-	lwz      r0, 0x24(r28)
-	mr       r4, r29
-	add      r3, r0, r31
-	bl       createSphere__Q23Sys8TriangleFRQ23Sys11VertexTable
-	addi     r31, r31, 0x60
-	addi     r30, r30, 1
-
-lbl_804194E0:
-	lwz      r0, 0x20(r28)
-	cmpw     r30, r0
-	blt      lbl_804194C8
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	lwz      r28, 0x10(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+    for (int i = 0; i < m_limit; i++) {
+        m_objects[i].createSphere(vertTable);
+    }
 }
 
 /*
@@ -3841,48 +4062,12 @@ lbl_804194E0:
  * Address:	8041950C
  * Size:	000088
  */
-void TriIndexList::constructClone(Sys::TriangleTable&)
+void TriIndexList::constructClone(TriangleTable& triTable) 
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	mr       r31, r4
-	stw      r30, 0x18(r1)
-	mr       r30, r3
-	lwz      r12, 0(r3)
-	lwz      r4, 0x1c(r4)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	li       r0, 0
-	stw      r0, 8(r1)
-	b        lbl_8041956C
-
-lbl_80419548:
-	mr       r3, r30
-	addi     r4, r1, 8
-	lwz      r12, 0(r30)
-	lwz      r12, 0x40(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 8(r1)
-	addi     r0, r3, 1
-	stw      r0, 8(r1)
-
-lbl_8041956C:
-	lwz      r3, 8(r1)
-	lwz      r0, 0x1c(r31)
-	cmpw     r3, r0
-	blt      lbl_80419548
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+    alloc(triTable.m_count);
+    for (int i = 0; i < triTable.m_count; i++) {
+        addOne(i);
+    }
 }
 
 /*
@@ -3890,105 +4075,30 @@ lbl_8041956C:
  * Address:	80419594
  * Size:	000150
  */
-void TriIndexList::getMinMax(Sys::VertexTable&, Sys::TriangleTable&, Vector3f&, Vector3f&, float&, float&)
+// credit to encounter for matching this
+void TriIndexList::getMinMax(VertexTable& vertTable, TriangleTable& triTable, Vector3f& vec1, Vector3f& vec2, float& min, float& max) 
 {
-	/*
-	.loc_0x0:
-	  stwu      r1, -0x40(r1)
-	  lfs       f1, 0x1FE4(r2)
-	  stw       r31, 0x3C(r1)
-	  lfs       f0, 0x1FE8(r2)
-	  stw       r30, 0x38(r1)
-	  stw       r29, 0x34(r1)
-	  li        r29, 0
-	  stw       r28, 0x30(r1)
-	  li        r28, 0
-	  stfs      f1, 0x0(r8)
-	  stfs      f0, 0x0(r9)
-	  b         .loc_0x12C
+    min = 10000000000.0f;
+    max = -10000000000.0f;
+    
+    for (int i = 0; i < m_count; i++) {
+        Triangle* currTri = &triTable.m_objects[m_objects[i]];
+        Vector3f vertices[3];
+        vertices[0] = vertTable.m_objects[currTri->m_vertices.x]; 
+        vertices[1] = vertTable.m_objects[currTri->m_vertices.y]; 
+        vertices[2] = vertTable.m_objects[currTri->m_vertices.z]; 
 
-	.loc_0x30:
-	  lwz       r10, 0x24(r3)
-	  li        r0, 0x3
-	  lwz       r11, 0x24(r5)
-	  addi      r30, r1, 0x8
-	  lwzx      r10, r10, r29
-	  lwz       r31, 0x24(r4)
-	  mulli     r10, r10, 0x60
-	  add       r10, r11, r10
-	  lwz       r12, 0x0(r10)
-	  lwz       r11, 0x4(r10)
-	  lwz       r10, 0x8(r10)
-	  mulli     r12, r12, 0xC
-	  add       r12, r31, r12
-	  mulli     r11, r11, 0xC
-	  lfs       f1, 0x0(r12)
-	  lfs       f0, 0x4(r12)
-	  lfs       f6, 0x8(r12)
-	  add       r11, r31, r11
-	  stfs      f1, 0x8(r1)
-	  mulli     r10, r10, 0xC
-	  lfs       f5, 0x0(r11)
-	  lfs       f4, 0x4(r11)
-	  lfs       f3, 0x8(r11)
-	  add       r10, r31, r10
-	  stfs      f0, 0xC(r1)
-	  lfs       f2, 0x0(r10)
-	  lfs       f1, 0x4(r10)
-	  lfs       f0, 0x8(r10)
-	  stfs      f6, 0x10(r1)
-	  stfs      f5, 0x14(r1)
-	  stfs      f4, 0x18(r1)
-	  stfs      f3, 0x1C(r1)
-	  stfs      f2, 0x20(r1)
-	  stfs      f1, 0x24(r1)
-	  stfs      f0, 0x28(r1)
-	  mtctr     r0
 
-	.loc_0xC0:
-	  lfs       f1, 0x4(r30)
-	  lfs       f0, 0x4(r7)
-	  lfs       f3, 0x0(r30)
-	  lfs       f2, 0x0(r7)
-	  fsubs     f1, f1, f0
-	  lfs       f0, 0x4(r6)
-	  fsubs     f2, f3, f2
-	  lfs       f4, 0x8(r30)
-	  lfs       f3, 0x8(r7)
-	  fmuls     f0, f1, f0
-	  lfs       f1, 0x0(r6)
-	  fsubs     f3, f4, f3
-	  fmadds    f1, f2, f1, f0
-	  lfs       f2, 0x8(r6)
-	  lfs       f0, 0x0(r9)
-	  fmadds    f1, f3, f2, f1
-	  fcmpo     cr0, f1, f0
-	  ble-      .loc_0x10C
-	  stfs      f1, 0x0(r9)
-
-	.loc_0x10C:
-	  lfs       f0, 0x0(r8)
-	  fcmpo     cr0, f1, f0
-	  bge-      .loc_0x11C
-	  stfs      f1, 0x0(r8)
-
-	.loc_0x11C:
-	  addi      r30, r30, 0xC
-	  bdnz+     .loc_0xC0
-	  addi      r29, r29, 0x4
-	  addi      r28, r28, 0x1
-
-	.loc_0x12C:
-	  lwz       r0, 0x1C(r3)
-	  cmpw      r28, r0
-	  blt+      .loc_0x30
-	  lwz       r31, 0x3C(r1)
-	  lwz       r30, 0x38(r1)
-	  lwz       r29, 0x34(r1)
-	  lwz       r28, 0x30(r1)
-	  addi      r1, r1, 0x40
-	  blr
-	*/
+        for (int j = 0; j < 3; j++) {
+            float testVal = vec1.dot(vertices[j] - vec2);
+            if (testVal > max) {
+                max = testVal;
+            }
+            if (testVal < min) {
+                min = testVal;
+            }
+        };
+    }
 }
 
 /*
@@ -3996,6 +4106,7 @@ void TriIndexList::getMinMax(Sys::VertexTable&, Sys::TriangleTable&, Vector3f&, 
  * Address:	804196E4
  * Size:	000294
  */
+// WIP: https://decomp.me/scratch/Lej6k 
 void TriIndexList::makeCovarianceMatrix(Sys::VertexTable&, Sys::TriangleTable&, Matrix3f&, Vector3f&)
 {
 	/*
@@ -4185,49 +4296,14 @@ void TriIndexList::makeCovarianceMatrix(Sys::VertexTable&, Sys::TriangleTable&, 
  * Address:	80419978
  * Size:	000004
  */
-void TriIndexList::draw(Graphics&, Sys::VertexTable&, Sys::TriangleTable&, bool) { }
+void TriIndexList::draw(Graphics&, VertexTable&, TriangleTable&, bool) { }
 
 /*
  * --INFO--
  * Address:	8041997C
  * Size:	00007C
  */
-TriangleTable::TriangleTable(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	bl       __ct__5CNodeFv
-	lis      r4, __vt__16GenericContainer@ha
-	lis      r3, "__vt__26Container<Q23Sys8Triangle>"@ha
-	addi     r0, r4, __vt__16GenericContainer@l
-	lis      r4, "__vt__31ArrayContainer<Q23Sys8Triangle>"@ha
-	stw      r0, 0(r31)
-	addi     r0, r3, "__vt__26Container<Q23Sys8Triangle>"@l
-	lis      r3, __vt__Q23Sys13TriangleTable@ha
-	li       r6, 0
-	stw      r0, 0(r31)
-	addi     r5, r4, "__vt__31ArrayContainer<Q23Sys8Triangle>"@l
-	li       r4, 1
-	addi     r0, r3, __vt__Q23Sys13TriangleTable@l
-	stb      r6, 0x18(r31)
-	mr       r3, r31
-	stw      r5, 0(r31)
-	stb      r4, 0x18(r31)
-	stw      r6, 0x20(r31)
-	stw      r6, 0x1c(r31)
-	stw      r6, 0x24(r31)
-	stw      r0, 0(r31)
-	lwz      r31, 0xc(r1)
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+TriangleTable::TriangleTable(void) { }
 
 /*
  * @generated{__dt__31ArrayContainer<Q23Sys8Triangle>Fv}
@@ -4326,119 +4402,33 @@ TriangleTable::TriangleTable(void)
  * Address:	........
  * Size:	000060
  */
-void TriangleTable::findMaxVertexIndex(void)
-{
-	// UNUSED FUNCTION
-}
+// void TriangleTable::findMaxVertexIndex(void)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	80419AE8
  * Size:	00013C
  */
-void VertexTable::transform(Matrixf&)
+// credit to EstexNT for matching this
+void VertexTable::transform(Matrixf& mat) 
 {
-	/*
-	stwu     r1, -0x30(r1)
-	mflr     r0
-	stw      r0, 0x34(r1)
-	stmw     r27, 0x1c(r1)
-	mr       r27, r3
-	mr       r28, r4
-	li       r30, 0
-	li       r31, 0
-	b        lbl_80419B44
+    for (int i = 0; i < m_count; i++) {
+        Vector3f* vertex = &m_objects[i];
+        Vector3f outvec;
+        PSMTXMultVec(&mat, vertex, &outvec);
+        f32 x = outvec.x;
+        f32 y = outvec.y;
+        f32 z = outvec.z;
+        *vertex = Vector3f(x, y, z);
+    }
 
-lbl_80419B0C:
-	lwz      r0, 0x24(r27)
-	mr       r3, r28
-	addi     r5, r1, 8
-	add      r29, r0, r31
-	mr       r4, r29
-	bl       PSMTXMultVec
-	lfs      f1, 0xc(r1)
-	addi     r31, r31, 0xc
-	lfs      f2, 0x10(r1)
-	addi     r30, r30, 1
-	lfs      f0, 8(r1)
-	stfs     f0, 0(r29)
-	stfs     f1, 4(r29)
-	stfs     f2, 8(r29)
+    m_boundBox.m_min = 32768.0f;
+    m_boundBox.m_max = -32768.0f;
 
-lbl_80419B44:
-	lwz      r0, 0x1c(r27)
-	cmpw     r30, r0
-	blt      lbl_80419B0C
-	lfs      f1, lbl_8052033C@sda21(r2)
-	li       r3, 0
-	lfs      f0, lbl_80520340@sda21(r2)
-	mr       r5, r3
-	stfs     f1, 0x28(r27)
-	stfs     f1, 0x2c(r27)
-	stfs     f1, 0x30(r27)
-	stfs     f0, 0x34(r27)
-	stfs     f0, 0x38(r27)
-	stfs     f0, 0x3c(r27)
-	b        lbl_80419C04
-
-lbl_80419B7C:
-	lwz      r0, 0x24(r27)
-	lfs      f0, 0x28(r27)
-	add      r4, r0, r5
-	lfs      f1, 0(r4)
-	fcmpo    cr0, f1, f0
-	bge      lbl_80419B98
-	stfs     f1, 0x28(r27)
-
-lbl_80419B98:
-	lfs      f1, 4(r4)
-	lfs      f0, 0x2c(r27)
-	fcmpo    cr0, f1, f0
-	bge      lbl_80419BAC
-	stfs     f1, 0x2c(r27)
-
-lbl_80419BAC:
-	lfs      f1, 8(r4)
-	lfs      f0, 0x30(r27)
-	fcmpo    cr0, f1, f0
-	bge      lbl_80419BC0
-	stfs     f1, 0x30(r27)
-
-lbl_80419BC0:
-	lfs      f1, 0(r4)
-	lfs      f0, 0x34(r27)
-	fcmpo    cr0, f1, f0
-	ble      lbl_80419BD4
-	stfs     f1, 0x34(r27)
-
-lbl_80419BD4:
-	lfs      f1, 4(r4)
-	lfs      f0, 0x38(r27)
-	fcmpo    cr0, f1, f0
-	ble      lbl_80419BE8
-	stfs     f1, 0x38(r27)
-
-lbl_80419BE8:
-	lfs      f1, 8(r4)
-	lfs      f0, 0x3c(r27)
-	fcmpo    cr0, f1, f0
-	ble      lbl_80419BFC
-	stfs     f1, 0x3c(r27)
-
-lbl_80419BFC:
-	addi     r5, r5, 0xc
-	addi     r3, r3, 1
-
-lbl_80419C04:
-	lwz      r0, 0x1c(r27)
-	cmpw     r3, r0
-	blt      lbl_80419B7C
-	lmw      r27, 0x1c(r1)
-	lwz      r0, 0x34(r1)
-	mtlr     r0
-	addi     r1, r1, 0x30
-	blr
-	*/
+    includeVertices();
 }
 
 /*
@@ -4446,67 +4436,19 @@ lbl_80419C04:
  * Address:	80419C24
  * Size:	0000D4
  */
-void VertexTable::write(Stream&)
+void VertexTable::write(Stream& stream) 
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stmw     r27, 0xc(r1)
-	mr       r28, r4
-	mr       r27, r3
-	lwz      r4, 0x14(r3)
-	mr       r3, r28
-	bl       textBeginGroup__6StreamFPc
-	lwz      r4, 0x414(r28)
-	mr       r3, r28
-	bl       textWriteTab__6StreamFi
-	lwz      r4, 0x20(r27)
-	mr       r3, r28
-	bl       writeInt__6StreamFi
-	mr       r3, r28
-	addi     r4, r2, lbl_80520338@sda21
-	crclr    6
-	bl       textWriteText__6StreamFPce
-	lis      r3, lbl_804997A8@ha
-	li       r29, 0
-	addi     r31, r3, lbl_804997A8@l
-	li       r30, 0
-	b        lbl_80419CD0
+    stream.textBeginGroup((char*) m_name);
+    stream.textWriteTab(stream.m_tabCount);
+    stream.writeInt(m_limit);
+    stream.textWriteText("\r\n");
 
-lbl_80419C84:
-	lwz      r4, 0x414(r28)
-	mr       r3, r28
-	bl       textWriteTab__6StreamFi
-	mr       r3, r27
-	lwz      r0, 0x24(r27)
-	lwz      r12, 0(r27)
-	mr       r4, r28
-	add      r5, r0, r30
-	lwz      r12, 0x2c(r12)
-	mtctr    r12
-	bctrl
-	lwz      r6, 0x20(r27)
-	mr       r3, r28
-	mr       r4, r31
-	mr       r5, r29
-	crclr    6
-	bl       textWriteText__6StreamFPce
-	addi     r30, r30, 0xc
-	addi     r29, r29, 1
-
-lbl_80419CD0:
-	lwz      r0, 0x20(r27)
-	cmpw     r29, r0
-	blt      lbl_80419C84
-	mr       r3, r28
-	bl       textEndGroup__6StreamFv
-	lmw      r27, 0xc(r1)
-	lwz      r0, 0x24(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+    for (int i = 0; i < m_limit; i++) {
+        stream.textWriteTab(stream.m_tabCount);
+        writeObject(stream, m_objects[i]);
+        stream.textWriteText("# %d/%d\r\n", i, m_limit);
+    }
+    stream.textEndGroup();
 }
 
 /*
@@ -4514,19 +4456,9 @@ lbl_80419CD0:
  * Address:	80419CF8
  * Size:	000024
  */
-void VertexTable::writeObject(Stream&, Vector3f&)
+void VertexTable::writeObject(Stream& stream, Vector3f& vec) 
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	mr       r3, r5
-	stw      r0, 0x14(r1)
-	bl       "write__10Vector3<f>FR6Stream"
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+    vec.write(stream);
 }
 
 /*
@@ -4534,166 +4466,36 @@ void VertexTable::writeObject(Stream&, Vector3f&)
  * Address:	80419D1C
  * Size:	000090
  */
-VertexTable::~VertexTable(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	or.      r30, r3, r3
-	beq      lbl_80419D90
-	lis      r4, __vt__Q23Sys11VertexTable@ha
-	addi     r0, r4, __vt__Q23Sys11VertexTable@l
-	stw      r0, 0(r30)
-	beq      lbl_80419D80
-	lis      r4, "__vt__28ArrayContainer<10Vector3<f>>"@ha
-	addi     r0, r4, "__vt__28ArrayContainer<10Vector3<f>>"@l
-	stw      r0, 0(r30)
-	beq      lbl_80419D80
-	lis      r4, "__vt__23Container<10Vector3<f>>"@ha
-	addi     r0, r4, "__vt__23Container<10Vector3<f>>"@l
-	stw      r0, 0(r30)
-	beq      lbl_80419D80
-	lis      r5, __vt__16GenericContainer@ha
-	li       r4, 0
-	addi     r0, r5, __vt__16GenericContainer@l
-	stw      r0, 0(r30)
-	bl       __dt__5CNodeFv
-
-lbl_80419D80:
-	extsh.   r0, r31
-	ble      lbl_80419D90
-	mr       r3, r30
-	bl       __dl__FPv
-
-lbl_80419D90:
-	lwz      r0, 0x14(r1)
-	mr       r3, r30
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+VertexTable::~VertexTable() { }
 
 /*
  * --INFO--
  * Address:	80419DAC
  * Size:	000024
  */
-void VertexTable::readObject(Stream&, Vector3f&)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	mr       r3, r5
-	stw      r0, 0x14(r1)
-	bl       "read__10Vector3<f>FR6Stream"
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void VertexTable::readObject(Stream& stream, Vector3f& vec) { vec.read(stream); }
 
 /*
  * --INFO--
  * Address:	80419DD0
  * Size:	000090
  */
-TriangleTable::~TriangleTable(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	or.      r30, r3, r3
-	beq      lbl_80419E44
-	lis      r4, __vt__Q23Sys13TriangleTable@ha
-	addi     r0, r4, __vt__Q23Sys13TriangleTable@l
-	stw      r0, 0(r30)
-	beq      lbl_80419E34
-	lis      r4, "__vt__31ArrayContainer<Q23Sys8Triangle>"@ha
-	addi     r0, r4, "__vt__31ArrayContainer<Q23Sys8Triangle>"@l
-	stw      r0, 0(r30)
-	beq      lbl_80419E34
-	lis      r4, "__vt__26Container<Q23Sys8Triangle>"@ha
-	addi     r0, r4, "__vt__26Container<Q23Sys8Triangle>"@l
-	stw      r0, 0(r30)
-	beq      lbl_80419E34
-	lis      r5, __vt__16GenericContainer@ha
-	li       r4, 0
-	addi     r0, r5, __vt__16GenericContainer@l
-	stw      r0, 0(r30)
-	bl       __dt__5CNodeFv
-
-lbl_80419E34:
-	extsh.   r0, r31
-	ble      lbl_80419E44
-	mr       r3, r30
-	bl       __dl__FPv
-
-lbl_80419E44:
-	lwz      r0, 0x14(r1)
-	mr       r3, r30
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+TriangleTable::~TriangleTable() { }
 
 /*
  * --INFO--
  * Address:	80419E60
  * Size:	000088
  */
-void TriangleTable::readObject(Stream&, Sys::Triangle&)
+void TriangleTable::readObject(Stream& stream, Triangle& triangle) 
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r5
-	stw      r30, 8(r1)
-	mr       r30, r4
-	mr       r3, r30
-	bl       readInt__6StreamFv
-	stw      r3, 0(r31)
-	mr       r3, r30
-	bl       readInt__6StreamFv
-	stw      r3, 4(r31)
-	mr       r3, r30
-	bl       readInt__6StreamFv
-	stw      r3, 8(r31)
-	mr       r4, r30
-	addi     r3, r31, 0xc
-	bl       read__5PlaneFR6Stream
-	mr       r4, r30
-	addi     r3, r31, 0x1c
-	bl       read__5PlaneFR6Stream
-	mr       r4, r30
-	addi     r3, r31, 0x2c
-	bl       read__5PlaneFR6Stream
-	mr       r4, r30
-	addi     r3, r31, 0x3c
-	bl       read__5PlaneFR6Stream
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+    triangle.m_vertices.x = stream.readInt();
+    triangle.m_vertices.y = stream.readInt();
+    triangle.m_vertices.z = stream.readInt();
+    triangle.m_trianglePlane.read(stream);
+    triangle.m_edgePlanes[0].read(stream);
+    triangle.m_edgePlanes[1].read(stream);
+    triangle.m_edgePlanes[2].read(stream);
 }
 
 /*
@@ -4701,44 +4503,16 @@ void TriangleTable::readObject(Stream&, Sys::Triangle&)
  * Address:	80419EE8
  * Size:	000088
  */
-void TriangleTable::writeObject(Stream&, Sys::Triangle&)
+void TriangleTable::writeObject(Stream& stream, Triangle& triangle) 
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r5
-	stw      r30, 8(r1)
-	mr       r30, r4
-	mr       r3, r30
-	lwz      r4, 0(r5)
-	bl       writeInt__6StreamFi
-	lwz      r4, 4(r31)
-	mr       r3, r30
-	bl       writeInt__6StreamFi
-	lwz      r4, 8(r31)
-	mr       r3, r30
-	bl       writeInt__6StreamFi
-	mr       r4, r30
-	addi     r3, r31, 0xc
-	bl       write__5PlaneFR6Stream
-	mr       r4, r30
-	addi     r3, r31, 0x1c
-	bl       write__5PlaneFR6Stream
-	mr       r4, r30
-	addi     r3, r31, 0x2c
-	bl       write__5PlaneFR6Stream
-	mr       r4, r30
-	addi     r3, r31, 0x3c
-	bl       write__5PlaneFR6Stream
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+    stream.writeInt(triangle.m_vertices.x);
+    stream.writeInt(triangle.m_vertices.y);
+    stream.writeInt(triangle.m_vertices.z);
+    
+    triangle.m_trianglePlane.write(stream);
+    triangle.m_edgePlanes[0].write(stream);
+    triangle.m_edgePlanes[1].write(stream);
+    triangle.m_edgePlanes[2].write(stream);
 }
 
 /*
@@ -4746,23 +4520,9 @@ void TriangleTable::writeObject(Stream&, Sys::Triangle&)
  * Address:	80419F70
  * Size:	000034
  */
-void GridDivider::getBoundBox(BoundBox&)
+void GridDivider::getBoundBox(BoundBox& box) 
 {
-	/*
-	lfs      f0, 0x2c(r3)
-	stfs     f0, 0(r4)
-	lfs      f0, 0x30(r3)
-	stfs     f0, 4(r4)
-	lfs      f0, 0x34(r3)
-	stfs     f0, 8(r4)
-	lfs      f0, 0x38(r3)
-	stfs     f0, 0xc(r4)
-	lfs      f0, 0x3c(r3)
-	stfs     f0, 0x10(r4)
-	lfs      f0, 0x40(r3)
-	stfs     f0, 0x14(r4)
-	blr
-	*/
+    box = m_boundingBox;
 }
 
 } // namespace Sys

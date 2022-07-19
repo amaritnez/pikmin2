@@ -10,18 +10,13 @@ struct TriangleTable;
 
 namespace Game {
 struct CurrTriInfo {
-	Vector3f _00;                // _00
-	u8 _0C;                      // _0C
-	u8 _0D;                      // _0D
-	u8 _0E;                      // _0E
-	u8 _0F;                      // _0F
+	Vector3f m_position;         // _00
+	bool _0C;                    // _0C
 	Sys::TriangleTable* m_table; // _10
 	Sys::Triangle* m_triangle;   // _14
-	float _18;                   // _18
-	float _1C;                   // _1C
-	float _20;                   // _20
-	float _24;                   // _24
-	float _28;                   // _28
+	float m_maxHeight;           // _18
+	float m_minHeight;           // _1C
+	Vector3f m_normal;			 // _20
 };
 } // namespace Game
 

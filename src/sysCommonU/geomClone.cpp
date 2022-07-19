@@ -95,7 +95,7 @@ void TriangleTable::cloneFrom(Matrixf& p1, TriangleTable* triTable, VertexTable*
 TriDivider* GridDivider::do_clone(Matrixf& p1, VertexTable* vtxTable, TriangleTable* triTable)
 {
 	GridDivider* copy = new GridDivider();
-	copy->create(vtxTable->m_boundBox, _20, _24, vtxTable, triTable);
+	copy->create(vtxTable->m_boundBox, m_maxX, m_maxZ, vtxTable, triTable);
 	return copy;
 }
 } // namespace Sys
