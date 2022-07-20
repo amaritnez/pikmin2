@@ -20,8 +20,11 @@ struct OBBTree : TriDivider {
 
 	virtual ~OBBTree() { }                             	// _00 - WEAK (in collinfo.cpp)
 	// virtual int getChildCount();					  	// _04 - from CNode
-	virtual float getMinY(Vector3f&);                 	// _08
-	virtual TriIndexList* findTriLists(Sys::Sphere&); 	// _0C - WEAK (in geomOBBTree.cpp)
+	virtual void getMinY(Vector3f&);                 	// _08
+	virtual TriIndexList* findTriLists(Sys::Sphere& ball) 	// _0C - WEAK (in geomOBBTree.cpp)
+	{ 
+		return m_obb.findTriLists(ball); 
+	}
 	virtual void read(Stream&);                       	// _10
 	virtual void getCurrTri(Game::CurrTriInfo&);      	// _14
 	// virtual void createTriangles(CreateTriangleArg); // _18 - from TriDivider - WEAK (in mapMgr.cpp)
@@ -29,9 +32,13 @@ struct OBBTree : TriDivider {
 	virtual OBBTree* clone(Matrixf&);              		// _20
 	// virtual void do_clone(Matrixf&, VertexTable, TriangleTable) // _24 - from TriDivider - WEAK (in geomOBBTree.cpp)
 
+	void traceMove(Matrixf&, Matrixf&, Game::MoveInfo&, float);
+	void traceMove_global(Game::MoveInfo&, float);
 	void traceMove_new(Matrixf&, Matrixf&, Game::MoveInfo&, float);
 	void traceMove_new_global(Game::MoveInfo&, float);
 	void readWithoutVerts(Stream&, Sys::VertexTable&);
+	int findRayIntersection(RayIntersectInfo&, Matrixf&, Matrixf&);
+
 
 	VertexTable* m_vertexTable;     // _18
 	TriangleTable* m_triangleTable; // _1C

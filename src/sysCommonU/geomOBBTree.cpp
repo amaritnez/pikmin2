@@ -3,6 +3,7 @@
 #include "Game/MoveInfo.h"
 #include "Sys/geometry.h"
 #include "Game/CurrTriInfo.h"
+#include "Sys/RayIntersectInfo.h"
 #include "types.h"
 
 /*
@@ -195,10 +196,13 @@ r1, 0x30 blr
  * Address:	........
  * Size:	000108
  */
-// OBB::OBB(void)
-// {
-// 	// UNUSED FUNCTION
-// }
+// INLINE
+inline OBB::OBB()
+{
+	m_name = "OBB";
+	_C4 = 0;
+	_C0 = 0;
+}
 
 /*
  * --INFO--
@@ -1334,89 +1338,8 @@ lbl_8041E038:
  */
 OBBTree::OBBTree()
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	mr       r31, r3
-	mr       r0, r31
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	mr       r29, r0
-	bl       __ct__5CNodeFv
-	lis      r4, __vt__Q23Sys10TriDivider@ha
-	lis      r3, __vt__Q23Sys7OBBTree@ha
-	addi     r0, r4, __vt__Q23Sys10TriDivider@l
-	addi     r30, r31, 0x20
-	stw      r0, 0(r29)
-	addi     r0, r3, __vt__Q23Sys7OBBTree@l
-	mr       r3, r30
-	stw      r0, 0(r31)
-	bl       __ct__5CNodeFv
-	lis      r3, __vt__Q23Sys3OBB@ha
-	lis      r4, __ct__5PlaneFv@ha
-	addi     r0, r3, __vt__Q23Sys3OBB@l
-	li       r5, 0
-	stw      r0, 0(r30)
-	addi     r3, r30, 0x18
-	addi     r4, r4, __ct__5PlaneFv@l
-	li       r6, 0x10
-	li       r7, 6
-	bl       __construct_array
-	lis      r4, "__ct__10Vector3<f>Fv"@ha
-	addi     r3, r30, 0x84
-	addi     r4, r4, "__ct__10Vector3<f>Fv"@l
-	li       r5, 0
-	li       r6, 0xc
-	li       r7, 3
-	bl       __construct_array
-	lfs      f1, lbl_805203C0@sda21(r2)
-	addi     r29, r30, 0xd8
-	lfs      f0, lbl_805203C4@sda21(r2)
-	mr       r3, r29
-	stfs     f1, 0xc8(r30)
-	stfs     f0, 0xcc(r30)
-	stfs     f1, 0xd0(r30)
-	stfs     f1, 0xd4(r30)
-	bl       __ct__5CNodeFv
-	lis      r4, __vt__16GenericContainer@ha
-	lis      r3, "__vt__12Container<i>"@ha
-	addi     r0, r4, __vt__16GenericContainer@l
-	lis      r5, "__vt__17ArrayContainer<i>"@ha
-	stw      r0, 0(r29)
-	addi     r0, r3, "__vt__12Container<i>"@l
-	lis      r4, __vt__Q23Sys9IndexList@ha
-	lis      r3, __vt__Q23Sys12TriIndexList@ha
-	stw      r0, 0(r29)
-	li       r8, 0
-	addi     r7, r5, "__vt__17ArrayContainer<i>"@l
-	li       r6, 1
-	stb      r8, 0x18(r29)
-	addi     r5, r4, __vt__Q23Sys9IndexList@l
-	addi     r4, r3, __vt__Q23Sys12TriIndexList@l
-	addi     r0, r2, lbl_805203C8@sda21
-	stw      r7, 0(r29)
-	mr       r3, r31
-	stb      r6, 0x18(r29)
-	stw      r8, 0x20(r29)
-	stw      r8, 0x1c(r29)
-	stw      r8, 0x24(r29)
-	stw      r5, 0(r29)
-	stw      r4, 0(r29)
-	stw      r0, 0x14(r30)
-	stw      r8, 0xc4(r30)
-	stw      r8, 0xc0(r30)
-	stw      r8, 0x18(r31)
-	stw      r8, 0x1c(r31)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	lwz      r0, 0x24(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+    m_vertexTable = 0;
+    m_triangleTable = 0;
 }
 
 /*
@@ -1435,6 +1358,7 @@ void OBBTree::getCurrTri(Game::CurrTriInfo& info)
  * Address:	8041E1C4
  * Size:	000498
  */
+// WIP: https://decomp.me/scratch/85nkj 
 void OBB::getCurrTri(Game::CurrTriInfo&)
 {
 	/*
@@ -1933,6 +1857,7 @@ lbl_8041E7AC:
  * Address:	8041E7CC
  * Size:	0000B4
  */
+// WIP: https://decomp.me/scratch/VV2Cn 
 void OBBTree::construct(VertexTable*, TriangleTable*, int, int)
 {
 	/*
@@ -2011,84 +1936,13 @@ void OBBTree::construct(VertexTable*, TriangleTable*, int, int)
  * Address:	8041E880
  * Size:	000118
  */
-void OBBTree::read(Stream&)
+void OBBTree::read(Stream& stream) 
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	mr       r30, r4
-	stw      r29, 0x14(r1)
-	mr       r29, r3
-	li       r3, 0x50
-	bl       __nw__FUl
-	or.      r31, r3, r3
-	beq      lbl_8041E920
-	bl       __ct__5CNodeFv
-	lis      r4, __vt__16GenericContainer@ha
-	lis      r3, "__vt__23Container<10Vector3<f>>"@ha
-	addi     r0, r4, __vt__16GenericContainer@l
-	lis      r4, "__vt__28ArrayContainer<10Vector3<f>>"@ha
-	stw      r0, 0(r31)
-	addi     r0, r3, "__vt__23Container<10Vector3<f>>"@l
-	lis      r3, __vt__Q23Sys11VertexTable@ha
-	li       r6, 0
-	stw      r0, 0(r31)
-	addi     r5, r4, "__vt__28ArrayContainer<10Vector3<f>>"@l
-	li       r4, 1
-	addi     r0, r3, __vt__Q23Sys11VertexTable@l
-	stb      r6, 0x18(r31)
-	lfs      f1, lbl_805203B8@sda21(r2)
-	stw      r5, 0(r31)
-	lfs      f0, lbl_805203BC@sda21(r2)
-	stb      r4, 0x18(r31)
-	stw      r6, 0x20(r31)
-	stw      r6, 0x1c(r31)
-	stw      r6, 0x24(r31)
-	stw      r0, 0(r31)
-	stfs     f1, 0x28(r31)
-	stfs     f1, 0x2c(r31)
-	stfs     f1, 0x30(r31)
-	stfs     f0, 0x34(r31)
-	stfs     f0, 0x38(r31)
-	stfs     f0, 0x3c(r31)
-
-lbl_8041E920:
-	stw      r31, 0x18(r29)
-	mr       r4, r30
-	lwz      r3, 0x18(r29)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x38(r12)
-	mtctr    r12
-	bctrl
-	li       r3, 0x28
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_8041E954
-	bl       __ct__Q23Sys13TriangleTableFv
-	mr       r0, r3
-
-lbl_8041E954:
-	stw      r0, 0x1c(r29)
-	mr       r4, r30
-	lwz      r3, 0x1c(r29)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x38(r12)
-	mtctr    r12
-	bctrl
-	mr       r4, r30
-	addi     r3, r29, 0x20
-	bl       read__Q23Sys3OBBFR6Stream
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+    m_vertexTable = new VertexTable;
+    m_vertexTable->read(stream);
+    m_triangleTable = new TriangleTable;
+    m_triangleTable->read(stream);
+    m_obb.read(stream);
 }
 
 /*
@@ -2116,42 +1970,12 @@ lbl_8041E954:
  * Address:	8041E998
  * Size:	000078
  */
-void OBBTree::readWithoutVerts(Stream&, VertexTable&)
+void OBBTree::readWithoutVerts(Stream& stream, VertexTable& vertTable)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	stw      r5, 0x18(r3)
-	li       r3, 0x28
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_8041E9D0
-	bl       __ct__Q23Sys13TriangleTableFv
-	mr       r0, r3
-
-lbl_8041E9D0:
-	stw      r0, 0x1c(r30)
-	mr       r4, r31
-	lwz      r3, 0x1c(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x38(r12)
-	mtctr    r12
-	bctrl
-	mr       r4, r31
-	addi     r3, r30, 0x20
-	bl       read__Q23Sys3OBBFR6Stream
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+    m_vertexTable = &vertTable;
+    m_triangleTable = new TriangleTable;
+    m_triangleTable->read(stream);
+    m_obb.read(stream);
 }
 
 /*
@@ -2159,40 +1983,14 @@ lbl_8041E9D0:
  * Address:	8041EA10
  * Size:	000024
  */
-void OBBTree::traceMove(Matrixf&, Matrixf&, Game::MoveInfo&, float)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	lfs      f1, lbl_805203C0@sda21(r2)
-	stw      r0, 0x14(r1)
-	bl       traceMove_new__Q23Sys7OBBTreeFR7MatrixfR7MatrixfRQ24Game8MoveInfof
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void OBBTree::traceMove(Matrixf& mat1, Matrixf& mat2, Game::MoveInfo& info, float p1) { traceMove_new(mat1, mat2, info, 0.0f); }
 
 /*
  * --INFO--
  * Address:	8041EA34
  * Size:	000024
  */
-void OBBTree::traceMove_global(Game::MoveInfo&, float)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	lfs      f1, lbl_805203C0@sda21(r2)
-	stw      r0, 0x14(r1)
-	bl       traceMove_new_global__Q23Sys7OBBTreeFRQ24Game8MoveInfof
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void OBBTree::traceMove_global(Game::MoveInfo& info, f32 p1) { traceMove_new_global(info, 0.0f); }
 
 /*
  * --INFO--
@@ -2209,6 +2007,7 @@ void OBBTree::traceMove_global(Game::MoveInfo&, float)
  * Address:	8041EA58
  * Size:	000214
  */
+// WIP: https://decomp.me/scratch/cpNI2
 void OBBTree::findRayIntersection(RayIntersectInfo&, Matrixf&, Matrixf&)
 {
 	/*
@@ -2983,7 +2782,7 @@ lbl_8041F31C:
  * Address:	8041F340
  * Size:	000178
  */
-void OBB::findTriLists(Sys::Sphere&)
+TriIndexList* OBB::findTriLists(Sys::Sphere&)
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -3112,22 +2911,7 @@ lbl_8041F49C:
  * Address:	8041F4B8
  * Size:	00002C
  */
-void OBBTree::getMinY(Vector3f&)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	lfs      f1, lbl_805203D8@sda21(r2)
-	stw      r0, 0x14(r1)
-	lwz      r5, 0x1c(r3)
-	addi     r3, r3, 0x20
-	bl       "getMinY__Q23Sys3OBBFR10Vector3<f>RQ23Sys13TriangleTablef"
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void OBBTree::getMinY(Vector3f& vec) { m_obb.getMinY(vec, *m_triangleTable, -128000.0f); }
 
 /*
  * --INFO--
@@ -3689,61 +3473,17 @@ lbl_8041FB74:
  * Address:	8041FBA4
  * Size:	0000B4
  */
-void OBB::getMinYTriList(Vector3f&, TriangleTable&)
+float OBB::getMinYTriList(Vector3f& vec, TriangleTable& triTable) 
 {
-	/*
-	stwu     r1, -0x40(r1)
-	mflr     r0
-	stw      r0, 0x44(r1)
-	stfd     f31, 0x30(r1)
-	psq_st   f31, 56(r1), 0, qr0
-	stmw     r27, 0x1c(r1)
-	lfs      f31, lbl_805203D8@sda21(r2)
-	mr       r27, r3
-	mr       r28, r4
-	mr       r29, r5
-	li       r30, 0
-	li       r31, 0
-	b        lbl_8041FC2C
-
-lbl_8041FBD8:
-	lwz      r3, 0xfc(r27)
-	addi     r4, r1, 8
-	lwz      r5, 0x24(r29)
-	lwzx     r0, r3, r31
-	lfs      f0, 0(r28)
-	mulli    r0, r0, 0x60
-	stfs     f0, 8(r1)
-	lfs      f0, 4(r28)
-	add      r3, r5, r0
-	stfs     f0, 0xc(r1)
-	lfs      f0, 8(r28)
-	stfs     f0, 0x10(r1)
-	bl       "insideXZ__Q23Sys8TriangleFR10Vector3<f>"
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8041FC24
-	lfs      f0, 0xc(r1)
-	fcmpo    cr0, f31, f0
-	bge      lbl_8041FC24
-	fmr      f31, f0
-
-lbl_8041FC24:
-	addi     r31, r31, 4
-	addi     r30, r30, 1
-
-lbl_8041FC2C:
-	lwz      r0, 0xf4(r27)
-	cmpw     r30, r0
-	blt      lbl_8041FBD8
-	fmr      f1, f31
-	psq_l    f31, 56(r1), 0, qr0
-	lfd      f31, 0x30(r1)
-	lmw      r27, 0x1c(r1)
-	lwz      r0, 0x44(r1)
-	mtlr     r0
-	addi     r1, r1, 0x40
-	blr
-	*/
+    float min = -128000.0f;
+    for (int i = 0; i < m_triIndexList.m_count; i++) {
+        Triangle* currTri = &triTable.m_objects[m_triIndexList.m_objects[i]];
+        Vector3f testVec = vec;
+        if ((currTri->insideXZ(testVec)) && (min < testVec.y)) {
+            min = testVec.y;
+        }
+    }
+    return min;
 }
 
 /*
@@ -3992,21 +3732,8 @@ lbl_8041FF64:
  * Address:	8041FF78
  * Size:	000024
  */
-// WEAK FUNCTION - needs to be in "Sys/OBBTree.h" header
-void OBBTree::findTriLists(Sys::Sphere&)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	addi     r3, r3, 0x20
-	stw      r0, 0x14(r1)
-	bl       findTriLists__Q23Sys3OBBFRQ23Sys6Sphere
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// WEAK FUNCTION - in "Sys/OBBTree.h" header
+// TriIndexList* OBBTree::findTriLists(Sphere& ball) { return m_obb.findTriLists(ball); }
 
 /*
  * --INFO--

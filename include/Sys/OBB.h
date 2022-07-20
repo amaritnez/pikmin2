@@ -39,11 +39,11 @@ struct OBB : public CNode {
 	bool divide(Sys::VertexTable&, Sys::TriangleTable&);
 	void findRayIntersection(Sys::RayIntersectInfo&, struct Matrixf&, Matrixf&);
 	void findRayIntersectionTriList(Sys::RayIntersectInfo&, Matrixf&, Matrixf&);
-	void findTriLists(Sys::Sphere&);
+	TriIndexList* findTriLists(Sys::Sphere&);
 	void getCurrTri(Game::CurrTriInfo&);
 	void getCurrTriTriList(Game::CurrTriInfo&);
 	void getMinY(Vector3f&, Sys::TriangleTable&, float);
-	void getMinYTriList(Vector3f&, Sys::TriangleTable&);
+	float getMinYTriList(Vector3f&, Sys::TriangleTable&);
 	bool isLeaf() { return (!_C0 && !_C4); }; // weak function from geomOBBTree.cpp
 	void read(Stream&);
 	void traceMove_new_global(Game::MoveInfo&, Sys::VertexTable&, Sys::TriangleTable&, int&, Sys::Triangle**, float*, Vector3f*);
