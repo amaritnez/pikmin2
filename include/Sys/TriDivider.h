@@ -24,15 +24,16 @@ struct TriDivider : public CNode {
 	 * @reifiedAddress{80133F04}
 	 * @reifiedFile{plugProjectKandoU/collinfo.cpp}
 	 */
-	virtual ~TriDivider() {};                                             // _00
-	virtual float getMinY(Vector3f&)                 = 0;                 // _08
-	virtual TriIndexList* findTriLists(Sys::Sphere&) = 0;                 // _0C
-	virtual void read(Stream&)                       = 0;                 // _10
-	virtual void getCurrTri(Game::CurrTriInfo&)      = 0;                 // _14
-	virtual void createTriangles(CreateTriangleArg&) {};                  // _18
-	virtual void getBoundBox(BoundBox&) = 0;                              // _1C
-	virtual TriDivider* clone(Matrixf&);                                  // _20
-	virtual TriDivider* do_clone(Matrixf&, VertexTable*, TriangleTable*); // _24
+	virtual ~TriDivider() { }                                             					 // _00
+	// virtual int getChildCount();															 // _04 - from CNode
+	virtual float getMinY(Vector3f&)                 = 0;                					 // _08
+	virtual TriIndexList* findTriLists(Sys::Sphere&) = 0;                					 // _0C
+	virtual void read(Stream&)                       = 0;                					 // _10
+	virtual void getCurrTri(Game::CurrTriInfo&)      = 0;                					 // _14
+	virtual void createTriangles(CreateTriangleArg&) {}                 					 // _18 - WEAK - in mapMgr.cpp
+	virtual void getBoundBox(BoundBox&) = 0;                              					 // _1C
+	virtual TriDivider* clone(Matrixf&);                                  					 // _20
+	virtual TriDivider* do_clone(Matrixf&, VertexTable*, TriangleTable*) { return nullptr; } // _24 - WEAK - in geomOBBTree.cpp
 
 	void construct(Sys::VertexTable*, Sys::TriangleTable*, int, int);
 	void findRayIntersection(Sys::RayIntersectInfo&, Matrixf&, Matrixf&);

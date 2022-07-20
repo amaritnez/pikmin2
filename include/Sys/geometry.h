@@ -49,6 +49,7 @@ inline float normalise(Vector3f* a)
 }
 
 // useful for planes, could be a plane method
+// IS A PLANE METHOD: calcDist
 inline float planeDist(Vector3f& vec, Plane& plane) 
 {
     return (vec.x * plane.a + vec.y * plane.b + vec.z * plane.c) - plane.d;

@@ -1,5 +1,8 @@
 #include "Sys/OBB.h"
 #include "Sys/OBBTree.h"
+#include "Game/MoveInfo.h"
+#include "Sys/geometry.h"
+#include "Game/CurrTriInfo.h"
 #include "types.h"
 
 /*
@@ -65,8 +68,28 @@ namespace Sys {
  * Address:	8041CEBC
  * Size:	000170
  */
-void* OBBTree::clone(Matrixf&)
-{
+// WIP: https://decomp.me/scratch/QDVKX - mostly regswaps left
+OBBTree* OBBTree::clone(Matrixf& mat) {
+
+    OBBTree* copy = new OBBTree;
+    
+    copy->m_triangleTable = m_triangleTable;
+    
+    copy->m_vertexTable = new VertexTable;
+    copy->m_vertexTable->alloc(m_vertexTable->m_count);
+    
+    VertexTable* vertTable = copy->m_vertexTable;
+    for (int i = 0; i < vertTable->m_count; i++) {
+        Vector3f vert = vertTable->m_objects[i];
+        copy->m_vertexTable->addOne(vert);
+    }
+    
+    copy->m_vertexTable->transform((Matrixf) mat);
+    
+    copy->construct(copy->m_vertexTable, copy->m_triangleTable, 8, 8);
+    
+    return copy;
+}
 	/*
 	stwu     r1, -0x30(r1)
 	mflr     r0
@@ -172,81 +195,78 @@ r1, 0x30 blr
  * Address:	........
  * Size:	000108
  */
-OBB::OBB(void)
-{
-	// UNUSED FUNCTION
-}
-
-} // namespace Sys
+// OBB::OBB(void)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	0000C8
  */
-void calcPointDist__Q23Sys3OBBFR10Vector3f(void)
-{
-	// UNUSED FUNCTION
-}
+// void OBB::calcPointDist(Vector3f&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	0000C0
  */
-void intersect__Q23Sys3OBBFR10Vector3f(void)
-{
-	// UNUSED FUNCTION
-}
-
-namespace Sys {
+// void OBB::intersect(Vector3f&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	000008
  */
-bool OBB::intersect(Sys::Sphere&)
-{
-	// UNUSED FUNCTION
-}
+// bool OBB::intersect(Sphere&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	0002AC
  */
-bool OBB::intersect(Sys::VertexTable&, Sys::Triangle&)
-{
-	// UNUSED FUNCTION
-}
+// bool OBB::intersect(VertexTable&, Triangle&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	000004
  */
-void TriDivider::drawTriList(Graphics&, Sys::TriIndexList*)
-{
-	// UNUSED FUNCTION
-}
+// void TriDivider::drawTriList(Graphics&, TriIndexList*)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	000004
  */
-void OBB::draw(Graphics&, Sys::VertexTable&, Sys::TriangleTable&)
-{
-	// UNUSED FUNCTION
-}
+// void OBB::draw(Graphics&, VertexTable&, TriangleTable&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	8041D02C
  * Size:	000704
  */
-void create2__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableR8Matrix3fR8Matrix3fR10Vector3<float>(void)
+// WIP: https://decomp.me/scratch/fwNWY 
+void OBB::create2(VertexTable&, TriangleTable&, Matrix3f&, Matrix3f&, Vector3f&)
 {
 	/*
 	.loc_0x0:
@@ -709,218 +729,97 @@ void create2__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableR8Matrix3fR8M
  * Address:	........
  * Size:	000084
  */
-void OBB::constructOBB2(Sys::VertexTable&, Sys::TriangleTable&)
-{
-	// UNUSED FUNCTION
-}
+// void OBB::constructOBB2(VertexTable&, TriangleTable&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	8041D730
  * Size:	0002D8
  */
-void OBB::autoDivide(Sys::VertexTable&, Sys::TriangleTable&, int, int)
-{
-	/*
-	stwu     r1, -0x30(r1)
-	mflr     r0
-	stw      r0, 0x34(r1)
-	stmw     r25, 0x14(r1)
-	mr       r30, r6
-	mr       r27, r3
-	mr       r28, r4
-	mr       r29, r5
-	mr       r31, r7
-	lwz      r0, 0xf4(r3)
-	cmpw     r0, r30
-	ble      lbl_8041D9F4
-	cmpwi    r31, 0
-	ble      lbl_8041D9F4
-	bl       divide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTable
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8041D9F4
-	lwz      r26, 0xc0(r27)
-	cmplwi   r26, 0
-	beq      lbl_8041D8B4
-	lwz      r0, 0xf4(r26)
-	cmpw     r0, r30
-	ble      lbl_8041D8B4
-	addic.   r0, r31, -1
-	ble      lbl_8041D8B4
-	mr       r3, r26
-	mr       r4, r28
-	mr       r5, r29
-	bl       divide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTable
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8041D8B4
-	lwz      r25, 0xc0(r26)
-	cmplwi   r25, 0
-	beq      lbl_8041D830
-	addi     r3, r25, 0xd8
-	bl       "getNum__17ArrayContainer<i>Fv"
-	cmpw     r3, r30
-	ble      lbl_8041D830
-	addic.   r0, r31, -2
-	ble      lbl_8041D830
-	addi     r3, r25, 0xd8
-	bl       "getNum__17ArrayContainer<i>Fv"
-	mr       r3, r25
-	mr       r4, r28
-	mr       r5, r29
-	bl       divide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTable
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8041D830
-	lwz      r3, 0xc0(r25)
-	cmplwi   r3, 0
-	beq      lbl_8041D810
-	mr       r4, r28
-	mr       r5, r29
-	mr       r6, r30
-	addi     r7, r31, -3
-	bl       autoDivide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableii
+void OBB::autoDivide(VertexTable& vertTable, TriangleTable& triTable, int p1, int p2) {
+    
+    if ((m_triIndexList.m_count > p1) && (p2 > 0) && (divide(vertTable, triTable))) {
+        // FIRST HALF
+        OBB* half_1 = _C0;
+        if ((half_1) && (half_1->m_triIndexList.m_count > p1) && ((p2 - 1) > 0) && (half_1->divide(vertTable, triTable))) {
+            // FIRST HALF, FIRST HALF
+            OBB* quarter_1 = half_1->_C0;
+            if ((quarter_1) && (quarter_1->m_triIndexList.getNum() > p1) && ((p2 - 2) > 0)) {
+                quarter_1->m_triIndexList.getNum();
+                if (quarter_1->divide(vertTable, triTable)) {
+                    // FIRST HALF, FIRST HALF, FIRST HALF
+                    OBB* eighth_1 = quarter_1->_C0;
+                    if (eighth_1) {
+                        eighth_1->autoDivide(vertTable, triTable, p1, p2 - 3);
+                    }
+                    // FIRST HALF, FIRST HALF, SECOND HALF
+                    OBB* eighth_2 = quarter_1->_C4;
+                    if (eighth_2) {
+                        eighth_2->autoDivide(vertTable, triTable, p1, p2 - 3);
+                    }
+                }
+            }
+            // FIRST HALF, SECOND HALF
+            OBB* quarter_2 = half_1->_C4;
+            if ((quarter_2) && (quarter_2->m_triIndexList.getNum() > p1) && ((p2 - 2) > 0)) {
+                quarter_2->m_triIndexList.getNum();
+                if (quarter_2->divide(vertTable, triTable)) {
+                    // FIRST HALF, SECOND HALF, FIRST HALF
+                    OBB* eighth_1 = quarter_2->_C0;
+                    if (eighth_1) {
+                        eighth_1->autoDivide(vertTable, triTable, p1, p2 - 3);
+                    }
+                    // FIRST HALF, SECOND HALF, SECOND HALF
+                    OBB* eighth_2 = quarter_2->_C4;
+                    if (eighth_2) {
+                        eighth_2->autoDivide(vertTable, triTable, p1, p2 - 3);
+                    }
+                }
+            }
+        }
 
-lbl_8041D810:
-	lwz      r3, 0xc4(r25)
-	cmplwi   r3, 0
-	beq      lbl_8041D830
-	mr       r4, r28
-	mr       r5, r29
-	mr       r6, r30
-	addi     r7, r31, -3
-	bl       autoDivide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableii
-
-lbl_8041D830:
-	lwz      r25, 0xc4(r26)
-	cmplwi   r25, 0
-	beq      lbl_8041D8B4
-	addi     r3, r25, 0xd8
-	bl       "getNum__17ArrayContainer<i>Fv"
-	cmpw     r3, r30
-	ble      lbl_8041D8B4
-	addic.   r0, r31, -2
-	ble      lbl_8041D8B4
-	addi     r3, r25, 0xd8
-	bl       "getNum__17ArrayContainer<i>Fv"
-	mr       r3, r25
-	mr       r4, r28
-	mr       r5, r29
-	bl       divide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTable
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8041D8B4
-	lwz      r3, 0xc0(r25)
-	cmplwi   r3, 0
-	beq      lbl_8041D894
-	mr       r4, r28
-	mr       r5, r29
-	mr       r6, r30
-	addi     r7, r31, -3
-	bl       autoDivide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableii
-
-lbl_8041D894:
-	lwz      r3, 0xc4(r25)
-	cmplwi   r3, 0
-	beq      lbl_8041D8B4
-	mr       r4, r28
-	mr       r5, r29
-	mr       r6, r30
-	addi     r7, r31, -3
-	bl       autoDivide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableii
-
-lbl_8041D8B4:
-	lwz      r25, 0xc4(r27)
-	cmplwi   r25, 0
-	beq      lbl_8041D9F4
-	lwz      r0, 0xf4(r25)
-	cmpw     r0, r30
-	ble      lbl_8041D9F4
-	addic.   r0, r31, -1
-	ble      lbl_8041D9F4
-	mr       r3, r25
-	mr       r4, r28
-	mr       r5, r29
-	bl       divide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTable
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8041D9F4
-	lwz      r26, 0xc0(r25)
-	cmplwi   r26, 0
-	beq      lbl_8041D970
-	addi     r3, r26, 0xd8
-	bl       "getNum__17ArrayContainer<i>Fv"
-	cmpw     r3, r30
-	ble      lbl_8041D970
-	addic.   r0, r31, -2
-	ble      lbl_8041D970
-	addi     r3, r26, 0xd8
-	bl       "getNum__17ArrayContainer<i>Fv"
-	mr       r3, r26
-	mr       r4, r28
-	mr       r5, r29
-	bl       divide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTable
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8041D970
-	lwz      r3, 0xc0(r26)
-	cmplwi   r3, 0
-	beq      lbl_8041D950
-	mr       r4, r28
-	mr       r5, r29
-	mr       r6, r30
-	addi     r7, r31, -3
-	bl       autoDivide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableii
-
-lbl_8041D950:
-	lwz      r3, 0xc4(r26)
-	cmplwi   r3, 0
-	beq      lbl_8041D970
-	mr       r4, r28
-	mr       r5, r29
-	mr       r6, r30
-	addi     r7, r31, -3
-	bl       autoDivide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableii
-
-lbl_8041D970:
-	lwz      r25, 0xc4(r25)
-	cmplwi   r25, 0
-	beq      lbl_8041D9F4
-	addi     r3, r25, 0xd8
-	bl       "getNum__17ArrayContainer<i>Fv"
-	cmpw     r3, r30
-	ble      lbl_8041D9F4
-	addic.   r0, r31, -2
-	ble      lbl_8041D9F4
-	addi     r3, r25, 0xd8
-	bl       "getNum__17ArrayContainer<i>Fv"
-	mr       r3, r25
-	mr       r4, r28
-	mr       r5, r29
-	bl       divide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTable
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8041D9F4
-	lwz      r3, 0xc0(r25)
-	cmplwi   r3, 0
-	beq      lbl_8041D9D4
-	mr       r4, r28
-	mr       r5, r29
-	mr       r6, r30
-	addi     r7, r31, -3
-	bl       autoDivide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableii
-
-lbl_8041D9D4:
-	lwz      r3, 0xc4(r25)
-	cmplwi   r3, 0
-	beq      lbl_8041D9F4
-	mr       r4, r28
-	mr       r5, r29
-	mr       r6, r30
-	addi     r7, r31, -3
-	bl       autoDivide__Q23Sys3OBBFRQ23Sys11VertexTableRQ23Sys13TriangleTableii
-
-lbl_8041D9F4:
-	lmw      r25, 0x14(r1)
-	lwz      r0, 0x34(r1)
-	mtlr     r0
-	addi     r1, r1, 0x30
-	blr
-	*/
+        // SECOND HALF
+        OBB* half_2 = _C4; 
+        if ((half_2) && (half_2->m_triIndexList.m_count > p1) && ((p2 - 1) > 0) && (half_2->divide(vertTable, triTable))) {
+            // SECOND HALF, FIRST HALF
+            OBB* quarter_1 = half_2->_C0;
+            if ((quarter_1) && (quarter_1->m_triIndexList.getNum() > p1) && ((p2 - 2) > 0)) {
+                quarter_1->m_triIndexList.getNum();
+                if (quarter_1->divide(vertTable, triTable)) {
+                    // SECOND HALF, FIRST HALF, FIRST HALF
+                    OBB* eighth_1 = quarter_1->_C0;
+                    if (eighth_1) {
+                        eighth_1->autoDivide(vertTable, triTable, p1, p2 - 3);
+                    }
+                    // SECOND HALF, FIRST HALF, SECOND HALF
+                    OBB* eighth_2 = quarter_1->_C4;
+                    if (eighth_2) {
+                        eighth_2->autoDivide(vertTable, triTable, p1, p2 - 3);
+                    }
+                }
+            }
+            // SECOND HALF, SECOND HALF
+            OBB* quarter_2 = half_2->_C4;
+            if ((quarter_2) && (quarter_2->m_triIndexList.getNum() > p1) && ((p2 - 2) > 0)) {
+                quarter_2->m_triIndexList.getNum();
+                if (quarter_2->divide(vertTable, triTable)) {
+                    // SECOND HALF, SECOND HALF, FIRST HALF
+                    OBB* eighth_1 = quarter_2->_C0;
+                    if (eighth_1) {
+                        eighth_1->autoDivide(vertTable, triTable, p1, p2 - 3);
+                    }
+                    // SECOND HALF, SECOND HALF, SECOND HALF
+                    OBB* eighth_2 = quarter_2->_C4;
+                    if (eighth_2) {
+                        eighth_2->autoDivide(vertTable, triTable, p1, p2 - 3);
+                    }
+                }
+            }
+        }
+    }
 }
 
 } // namespace Sys
@@ -930,13 +829,8 @@ lbl_8041D9F4:
  * Address:	8041DA08
  * Size:	000008
  */
-void ArrayContainer<int>::getNum()
-{
-	/*
-	lwz      r3, 0x1c(r3)
-	blr
-	*/
-}
+// WEAK FUNCTION - should be in ArrayContainer.h header?
+int ArrayContainer<int>::getNum() { return m_count; }
 
 namespace Sys {
 
@@ -945,17 +839,18 @@ namespace Sys {
  * Address:	........
  * Size:	000128
  */
-void OBB::countDivResult(Sys::VertexTable&, Sys::TriangleTable&, int, int&, int&)
-{
-	// UNUSED FUNCTION
-}
+// void OBB::countDivResult(VertexTable&, TriangleTable&, int, int&, int&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	8041DA10
  * Size:	0001C4
  */
-void OBB::determineDivPlane(Sys::VertexTable&, Sys::TriangleTable&)
+// WIP: https://decomp.me/scratch/GvZd5 
+void OBB::determineDivPlane(VertexTable&, TriangleTable&)
 {
 	/*
 	stwu     r1, -0x80(r1)
@@ -1097,7 +992,8 @@ lbl_8041DB4C:
  * Address:	8041DBD4
  * Size:	000480
  */
-void OBB::divide(Sys::VertexTable&, Sys::TriangleTable&)
+// WIP: https://decomp.me/scratch/MQS7O
+bool OBB::divide(VertexTable&, TriangleTable&)
 {
 	/*
 	stwu     r1, -0x140(r1)
@@ -1436,7 +1332,7 @@ lbl_8041E038:
  * Address:	8041E054
  * Size:	000144
  */
-OBBTree::OBBTree(void)
+OBBTree::OBBTree()
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -1528,21 +1424,10 @@ OBBTree::OBBTree(void)
  * Address:	8041E198
  * Size:	00002C
  */
-void OBBTree::getCurrTri(Game::CurrTriInfo&)
+void OBBTree::getCurrTri(Game::CurrTriInfo& info) 
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lwz      r0, 0x1c(r3)
-	addi     r3, r3, 0x20
-	stw      r0, 0x10(r4)
-	bl       getCurrTri__Q23Sys3OBBFRQ24Game11CurrTriInfo
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+    info.m_table = m_triangleTable;
+    m_obb.getCurrTri(info);
 }
 
 /*
@@ -1906,63 +1791,61 @@ lbl_8041E640:
 	*/
 }
 
-} // namespace Sys
+// } // namespace Sys
 
 /*
  * --INFO--
  * Address:	8041E65C
  * Size:	000030
  */
-void Plane::calcDist(const Vector3f&) const
-{
-	/*
-	lfs      f1, 4(r4)
-	lfs      f0, 4(r3)
-	lfs      f2, 0(r4)
-	fmuls    f0, f1, f0
-	lfs      f1, 0(r3)
-	lfs      f4, 8(r4)
-	lfs      f3, 8(r3)
-	fmadds   f1, f2, f1, f0
-	lfs      f0, 0xc(r3)
-	fmadds   f1, f4, f3, f1
-	fsubs    f1, f1, f0
-	blr
-	*/
-}
+// WEAK FUNCTION - in "Plane.h" header
+// float Plane::calcDist(const Vector3f& vec) const { return (vec.x * a + vec.y * b + vec.z * c) - d; }
 
-namespace Sys {
+// namespace Sys {
 
 /*
  * --INFO--
  * Address:	8041E68C
  * Size:	000028
  */
-void OBB::isLeaf(void)
-{
-	/*
-	lwz      r0, 0xc0(r3)
-	li       r4, 0
-	cmplwi   r0, 0
-	bne      lbl_8041E6AC
-	lwz      r0, 0xc4(r3)
-	cmplwi   r0, 0
-	bne      lbl_8041E6AC
-	li       r4, 1
-
-lbl_8041E6AC:
-	mr       r3, r4
-	blr
-	*/
-}
+// WEAK FUNCTION - in "Sys/OBB.h" header
+// bool OBB::isLeaf() { return (!_C0 && !_C4); }
 
 /*
  * --INFO--
  * Address:	8041E6B4
  * Size:	000118
  */
-void OBB::getCurrTriTriList(Game::CurrTriInfo&)
+// WIP - regswaps: https://decomp.me/scratch/5vF7M 
+void OBB::getCurrTriTriList(Game::CurrTriInfo& info) 
 {
+    for (int i = 0; i < m_triIndexList.m_count; i++) {
+        Triangle* currTri = &info.m_table->m_objects[m_triIndexList.m_objects[i]];
+        Vector3f vec = info._00;
+        if (currTri->insideXZ(vec)) {
+            if (info._18 > vec.y) {
+                info._18 = vec.y;
+                if (info._0C) {
+                    info._20 = currTri->m_trianglePlane.a;
+                    info._24 = currTri->m_trianglePlane.b;
+                    info._28 = currTri->m_trianglePlane.c;
+                    info.m_triangle = currTri;
+                    info._0D = 1;
+                }
+            }
+            if (info._1C < vec.y) {
+                info._1C = vec.y;
+                if (!info._0C) {
+                    info._20 = currTri->m_trianglePlane.a;
+                    info._24 = currTri->m_trianglePlane.b;
+                    info._28 = currTri->m_trianglePlane.c;
+                    info.m_triangle = currTri;
+                    info._0D = 1;
+                }
+            }
+        }
+    }
+
 	/*
 	stwu     r1, -0x30(r1)
 	mflr     r0
@@ -2050,7 +1933,7 @@ lbl_8041E7AC:
  * Address:	8041E7CC
  * Size:	0000B4
  */
-void OBBTree::construct(Sys::VertexTable*, Sys::TriangleTable*, int, int)
+void OBBTree::construct(VertexTable*, TriangleTable*, int, int)
 {
 	/*
 	stwu     r1, -0xa0(r1)
@@ -2108,20 +1991,20 @@ void OBBTree::construct(Sys::VertexTable*, Sys::TriangleTable*, int, int)
  * Address:	........
  * Size:	000004
  */
-void OBBTree::draw(Graphics&)
-{
-	// UNUSED FUNCTION
-}
+// void OBBTree::draw(Graphics&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	00006C
  */
-void OBBTree::write(Stream&)
-{
-	// UNUSED FUNCTION
-}
+// void OBBTree::write(Stream&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
@@ -2213,27 +2096,27 @@ lbl_8041E954:
  * Address:	........
  * Size:	000030
  */
-void OBBTree::writeVertsOnly(Stream&)
-{
-	// UNUSED FUNCTION
-}
+// void OBBTree::writeVertsOnly(Stream&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	000054
  */
-void OBBTree::writeWithoutVerts(Stream&)
-{
-	// UNUSED FUNCTION
-}
+// void OBBTree::writeWithoutVerts(Stream&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	8041E998
  * Size:	000078
  */
-void OBBTree::readWithoutVerts(Stream&, Sys::VertexTable&)
+void OBBTree::readWithoutVerts(Stream&, VertexTable&)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2316,17 +2199,17 @@ void OBBTree::traceMove_global(Game::MoveInfo&, float)
  * Address:	........
  * Size:	0003A4
  */
-void OBBTree::traceMove_original(Matrixf&, Matrixf&, Game::MoveInfo&, float)
-{
-	// UNUSED FUNCTION
-}
+// void OBBTree::traceMove_original(Matrixf&, Matrixf&, Game::MoveInfo&, float)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	8041EA58
  * Size:	000214
  */
-void OBBTree::findRayIntersection(Sys::RayIntersectInfo&, Matrixf&, Matrixf&)
+void OBBTree::findRayIntersection(RayIntersectInfo&, Matrixf&, Matrixf&)
 {
 	/*
 	stwu     r1, -0xc0(r1)
@@ -2461,68 +2344,62 @@ lbl_8041EC1C:
 	*/
 }
 
-} // namespace Sys
-
 /*
  * --INFO--
  * Address:	........
  * Size:	000070
  */
-void testIntersection__Q23Sys7OBBTreeFRQ23Sys6SphereR10Vector3f(void)
-{
-	// UNUSED FUNCTION
-}
+// void OBBTree::testIntersection(Sphere&, Vector3f&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	000180
  */
-void testIntersectionTriList__Q23Sys3OBBFRQ23Sys6SphereR10Vector3f RQ23Sys11VertexTableRQ23Sys13TriangleTable(void)
-{
-	// UNUSED FUNCTION
-}
+// void OBB::testIntersectionTriList(Sphere&, Vector3f&, VertexTable&, TriangleTable&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	00019C
  */
-void testIntersection__Q23Sys3OBBFRQ23Sys6SphereR10Vector3f RQ23Sys11VertexTableRQ23Sys13TriangleTable(void)
-{
-	// UNUSED FUNCTION
-}
+// void OBB::testIntersection(Sphere&, Vector3f&, VertexTable&, TriangleTable&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	000224
  */
-void traceMoveTriList_original__Q23Sys3OBBFRQ24Game8MoveInfoRQ23Sys11VertexTableRQ23Sys13TriangleTableR7MatrixfR7MatrixfRiPPQ23Sys8TrianglePfP10Vector3<
-    float>(void)
-{
-	// UNUSED FUNCTION
-}
+// void OBB::traceMoveTriList_original(Game::MoveInfo&, VertexTable&, TriangleTable&, Matrixf&, Matrixf&, int, Triangle&, Vector3f&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	0007F0
  */
-void traceMove_original__Q23Sys3OBBFRQ24Game8MoveInfoRQ23Sys11VertexTableRQ23Sys13TriangleTableR7MatrixfR7MatrixfRiPPQ23Sys8TrianglePfP10Vector3<
-    float>(void)
-{
-	// UNUSED FUNCTION
-}
-
-namespace Sys {
+// void OBB::traceMove_original(Game::MoveInfo&, VertexTable&, TriangleTable&, Matrixf&, Matrixf&, int, Triangle&, Vector3f&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	8041EC6C
  * Size:	0005C0
  */
-void OBB::findRayIntersection(Sys::RayIntersectInfo&, Matrixf&, Matrixf&)
+void OBB::findRayIntersection(RayIntersectInfo&, Matrixf&, Matrixf&)
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -3020,7 +2897,7 @@ lbl_8041F218:
  * Address:	8041F22C
  * Size:	000114
  */
-void OBB::findRayIntersectionTriList(Sys::RayIntersectInfo&, Matrixf&, Matrixf&)
+void OBB::findRayIntersectionTriList(RayIntersectInfo&, Matrixf&, Matrixf&)
 {
 	/*
 	stwu     r1, -0x40(r1)
@@ -3230,14 +3107,12 @@ lbl_8041F49C:
 	*/
 }
 
-} // namespace Sys
-
 /*
  * --INFO--
  * Address:	8041F4B8
  * Size:	00002C
  */
-void getMinY__Q23Sys7OBBTreeFR10Vector3f(void)
+void OBBTree::getMinY(Vector3f&)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -3259,7 +3134,7 @@ void getMinY__Q23Sys7OBBTreeFR10Vector3f(void)
  * Address:	8041F4E4
  * Size:	0006C0
  */
-void getMinY__Q23Sys3OBBFR10Vector3f RQ23Sys13TriangleTablef(void)
+void OBB::getMinY(Vector3f&, TriangleTable&, float)
 {
 	/*
 	stwu     r1, -0x70(r1)
@@ -3814,7 +3689,7 @@ lbl_8041FB74:
  * Address:	8041FBA4
  * Size:	0000B4
  */
-void getMinYTriList__Q23Sys3OBBFR10Vector3f RQ23Sys13TriangleTable(void)
+void OBB::getMinYTriList(Vector3f&, TriangleTable&)
 {
 	/*
 	stwu     r1, -0x40(r1)
@@ -3871,17 +3746,15 @@ lbl_8041FC2C:
 	*/
 }
 
-namespace Sys {
-
 /*
  * --INFO--
  * Address:	........
  * Size:	000304
  */
-void OBB::write(Stream&)
-{
-	// UNUSED FUNCTION
-}
+// void OBB::write(Stream&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
@@ -4119,6 +3992,7 @@ lbl_8041FF64:
  * Address:	8041FF78
  * Size:	000024
  */
+// WEAK FUNCTION - needs to be in "Sys/OBBTree.h" header
 void OBBTree::findTriLists(Sys::Sphere&)
 {
 	/*
@@ -4139,12 +4013,14 @@ void OBBTree::findTriLists(Sys::Sphere&)
  * Address:	8041FF9C
  * Size:	000004
  */
-void OBBTree::getBoundBox(BoundBox&) { }
+// WEAK FUNCTION - in "Sys/OBBTree.h" header
+// void OBBTree::getBoundBox(BoundBox&) { }
 
 /*
  * --INFO--
  * Address:	8041FFA0
  * Size:	000008
  */
-TriDivider* TriDivider::do_clone(Matrixf&, Sys::VertexTable*, Sys::TriangleTable*) { return null; }
+// WEAK FUNCTION - in "Sys/TriDivider.h" header
+// TriDivider* TriDivider::do_clone(Matrixf&, Sys::VertexTable*, Sys::TriangleTable*) { return nullptr; }
 } // namespace Sys
