@@ -90,7 +90,6 @@ OBBTree* OBBTree::clone(Matrixf& mat) {
     copy->construct(copy->m_vertexTable, copy->m_triangleTable, 8, 8);
     
     return copy;
-}
 	/*
 	stwu     r1, -0x30(r1)
 	mflr     r0
@@ -733,16 +732,27 @@ void OBB::create2(VertexTable&, TriangleTable&, Matrix3f&, Matrix3f&, Vector3f&)
  * Address:	........
  * Size:	000084
  */
-// void OBB::constructOBB2(VertexTable&, TriangleTable&)
-// {
-// 	// UNUSED FUNCTION
-// }
+// not sure if this is quite correct but something like this
+inline void OBB::constructOBB2(VertexTable&, TriangleTable&)
+{
+    Vector3f pos;
+    Matrix3f covar;
+    Matrix3f P;
+    Matrix3f D;
+
+    TriIndexList* triList = &m_triIndexList;
+    triList->makeCovarianceMatrix(vertTable, triTable, covar, pos);
+    P.makeIdentity();
+    covar.calcEigenMatrix(D, P);
+    create2(vertTable, triTable, D, P, pos);
+}
 
 /*
  * --INFO--
  * Address:	8041D730
  * Size:	0002D8
  */
+// this should probably be recursive, not...... this: https://decomp.me/scratch/dbiLh
 void OBB::autoDivide(VertexTable& vertTable, TriangleTable& triTable, int p1, int p2) {
     
     if ((m_triIndexList.m_count > p1) && (p2 > 0) && (divide(vertTable, triTable))) {
@@ -833,7 +843,7 @@ void OBB::autoDivide(VertexTable& vertTable, TriangleTable& triTable, int p1, in
  * Address:	8041DA08
  * Size:	000008
  */
-// WEAK FUNCTION - should be in ArrayContainer.h header?
+// WEAK FUNCTION - should be in ArrayContainer.h header??
 int ArrayContainer<int>::getNum() { return m_count; }
 
 namespace Sys {
@@ -843,10 +853,26 @@ namespace Sys {
  * Address:	........
  * Size:	000128
  */
-// void OBB::countDivResult(VertexTable&, TriangleTable&, int, int&, int&)
-// {
-// 	// UNUSED FUNCTION
-// }
+// not sure if quite right, but something like this (see OBB::divide)
+inline void OBB::countDivResult(VertexTable& vertTable, TriangleTable& triTable, int count, int& numAbove, int& numBelow) 
+{
+    _C0->m_triIndexList.alloc(numAbove);
+    _C4->m_triIndexList.alloc(numBelow);
+
+    for (int i = 0; i < m_triIndexList.m_count; i++) {
+        int currIndex = m_triIndexList.m_objects[i];
+        Triangle* currTri = &triTable.m_objects[currIndex];
+        float triDist = currTri->calcDist(m_divPlane, vertTable);
+        if (triDist > 0.0f) {
+            _C0->m_triIndexList.addOne(currIndex);
+        } else if (triDist < 0.0f) {
+            _C4->m_triIndexList.addOne(currIndex);
+        } else {
+            _C0->m_triIndexList.addOne(currIndex);
+            _C4->m_triIndexList.addOne(currIndex);
+        }
+    }
+}
 
 /*
  * --INFO--
@@ -996,9 +1022,56 @@ lbl_8041DB4C:
  * Address:	8041DBD4
  * Size:	000480
  */
-// WIP: https://decomp.me/scratch/MQS7O
-bool OBB::divide(VertexTable&, TriangleTable&)
-{
+// NOT MATCHING: https://decomp.me/scratch/MQS7O - some regswaps left mostly
+bool Sys::OBB::divide(Sys::VertexTable& vertTable, Sys::TriangleTable& triTable) {
+
+    determineDivPlane(vertTable, triTable);
+    bool checkAbove = true;
+    bool checkBelow = true;
+    int numAbove = 0;
+    int numBelow = 0;
+
+    for (int i = 0; i < m_triIndexList.m_count; i++) {
+        Triangle* currTri = &triTable.m_objects[m_triIndexList.m_objects[i]];
+        float triDist = currTri->calcDist(m_divPlane, vertTable);
+        if (triDist > 0.0f) {
+            numAbove += 1;
+        } else if (triDist < 0.0f) {
+            numBelow += 1;
+        } else {
+            numAbove += 1;
+            numBelow += 1;
+        }
+    }
+    
+    
+    if ((numAbove == 0) || (numBelow == 0)) { // no cuts
+        return false;
+    }
+    if (numAbove == m_triIndexList.m_count) {
+        checkAbove = false;
+    }
+    if (numBelow == m_triIndexList.m_count) {
+        checkBelow = false;
+    }
+    if (!checkAbove && !checkBelow) {
+        return false;
+    }
+
+    _C0 = new OBB;
+    add(_C0);
+
+    _C4 = new OBB;
+    add(_C4);
+    
+
+    countDivResult(vertTable, triTable, 0, numAbove, numBelow);
+
+    _C0->constructOBB2(vertTable, triTable);
+    _C4->constructOBB2(vertTable, triTable);
+
+    return true;
+
 	/*
 	stwu     r1, -0x140(r1)
 	mflr     r0
@@ -2008,7 +2081,7 @@ void OBBTree::traceMove_global(Game::MoveInfo& info, f32 p1) { traceMove_new_glo
  * Size:	000214
  */
 // WIP: https://decomp.me/scratch/cpNI2
-void OBBTree::findRayIntersection(RayIntersectInfo&, Matrixf&, Matrixf&)
+bool OBBTree::findRayIntersection(RayIntersectInfo&, Matrixf&, Matrixf&)
 {
 	/*
 	stwu     r1, -0xc0(r1)
@@ -2198,7 +2271,8 @@ lbl_8041EC1C:
  * Address:	8041EC6C
  * Size:	0005C0
  */
-void OBB::findRayIntersection(RayIntersectInfo&, Matrixf&, Matrixf&)
+// WIP: https://decomp.me/scratch/BdRVs
+bool OBB::findRayIntersection(RayIntersectInfo&, Matrixf&, Matrixf&)
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -2696,8 +2770,30 @@ lbl_8041F218:
  * Address:	8041F22C
  * Size:	000114
  */
-void OBB::findRayIntersectionTriList(RayIntersectInfo&, Matrixf&, Matrixf&)
+// NOT MATCHING - regswaps - WIP: https://decomp.me/scratch/9KTBp
+bool OBB::findRayIntersectionTriList(RayIntersectInfo& rayInfo, Matrixf& arg1, Matrixf& arg2) 
 {
+    bool isIntersect = false;
+    
+    for (int i = 0; i < m_triIndexList.m_count; i++) {
+        Triangle* currTri = &rayInfo._30->m_objects[m_triIndexList.m_objects[i]];
+        Vector3f intersectVec; 
+        
+        if (rayInfo.condition(*currTri) && currTri->intersect(rayInfo._00, rayInfo._18, intersectVec)) {
+            isIntersect = true;
+            Vector3f sepVec = intersectVec - rayInfo._00.m_startPos;
+            float sqSep = sepVec.x * sepVec.x + sepVec.y * sepVec.y + sepVec.z * sepVec.z;
+            if (sqSep < rayInfo._40) {
+                rayInfo._40 = sqSep;
+                Vector3f outVec;
+                PSMTXMultVec(arg1, &intersectVec, &outVec);
+                rayInfo._34 = Vector3f(outVec);
+                rayInfo._48 = currTri->m_trianglePlane.b;
+            }
+        }
+    }
+    return isIntersect;
+
 	/*
 	stwu     r1, -0x40(r1)
 	mflr     r0
@@ -2782,8 +2878,77 @@ lbl_8041F31C:
  * Address:	8041F340
  * Size:	000178
  */
-TriIndexList* OBB::findTriLists(Sys::Sphere&)
-{
+// this matches but is incredibly fake, needs fixing: https://decomp.me/scratch/gHNrE 
+TriIndexList* OBB::findTriLists(Sphere& ball) {
+
+    TriIndexList* triList = 0;
+    bool leafCheck = false;
+    OBB* half_1 = _C0;
+    if (!half_1 && !_C4) {
+        leafCheck = true;
+    }
+    if (leafCheck) {
+        m_triIndexList.clearRelations();
+        return &m_triIndexList;
+    }
+    
+    float rad = ball.m_radius;
+    float ballDist = m_divPlane.calcDist(ball.m_position);
+    // temp_f1 = ((ball->unk8 * this->unkD0) + ((ball->unk0 * this->unkC8) + (ball->unk4 * this->unkCC))) - this->unkD4;
+    if (ballDist > rad) {
+        if (half_1) {
+            TriIndexList* triListTemp = half_1->findTriLists(ball);
+            if (triListTemp) {
+                return triListTemp;
+            }
+        } else {
+            goto nullreturn;
+        }
+        return 0;
+    }
+    if (ballDist < -rad) {
+        OBB* half_2 = _C4;
+        if (half_2) {
+            TriIndexList* triListTemp = half_2->findTriLists(ball);
+            if (triListTemp) {
+                return triListTemp;
+            }
+        } else {
+            goto nullreturn;
+        }
+        return 0;
+    }
+    
+    if (half_1) {
+        TriIndexList* triListTemp1 = half_1->findTriLists(ball);
+        if (triListTemp1) {
+            triList = triListTemp1;
+        }
+    }
+    OBB* half_2 = _C4;
+    if (half_2) {
+        TriIndexList* triListTemp2 = half_2->findTriLists(ball);
+        if (triListTemp2) {
+            if (triList) {
+                triList->concat(triListTemp2);
+            } else {
+                triList = triListTemp2;
+            }
+        } else {
+            goto trireturn;
+        }
+        return triList;
+    } else {
+        goto trireturn;
+    }
+    return triList;
+    
+trireturn:
+    return triList;
+    
+nullreturn:
+    return 0;
+
 	/*
 	stwu     r1, -0x20(r1)
 	mflr     r0
@@ -2918,6 +3083,7 @@ void OBBTree::getMinY(Vector3f& vec) { m_obb.getMinY(vec, *m_triangleTable, -128
  * Address:	8041F4E4
  * Size:	0006C0
  */
+// WIP: https://decomp.me/scratch/kx7GD 
 void OBB::getMinY(Vector3f&, TriangleTable&, float)
 {
 	/*
@@ -3501,230 +3667,52 @@ float OBB::getMinYTriList(Vector3f& vec, TriangleTable& triTable)
  * Address:	8041FC58
  * Size:	000320
  */
-void OBB::read(Stream&)
+void OBB::read(Stream& stream) 
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stmw     r27, 0xc(r1)
-	mr       r28, r3
-	mr       r29, r4
-	li       r30, 0
-	mr       r27, r28
+    // read side planes
+    for (int i = 0; i < 6; i++) {
+        m_sidePlanes[i].read(stream);
+    } 
+    // read position of box
+    m_position.read(stream);
 
-lbl_8041FC78:
-	mr       r4, r29
-	addi     r3, r27, 0x18
-	bl       read__5PlaneFR6Stream
-	addi     r30, r30, 1
-	addi     r27, r27, 0x10
-	cmpwi    r30, 6
-	blt      lbl_8041FC78
-	mr       r4, r29
-	addi     r3, r28, 0x78
-	bl       "read__10Vector3<f>FR6Stream"
-	li       r30, 0
-	mr       r27, r28
+    // read box axes
+    for (int i = 0; i < 3; i++) {
+        m_axes[i].read(stream);
+    } 
 
-lbl_8041FCA8:
-	mr       r4, r29
-	addi     r3, r27, 0x84
-	bl       "read__10Vector3<f>FR6Stream"
-	addi     r30, r30, 1
-	addi     r27, r27, 0xc
-	cmpwi    r30, 3
-	blt      lbl_8041FCA8
-	li       r30, 0
-	mr       r27, r28
+    // read max and min vals for axes
+    for (int i = 0; i < 3; i++) {
+        m_minXYZ[i] = stream.readFloat();
+        m_maxXYZ[i] = stream.readFloat();
+    }
 
-lbl_8041FCCC:
-	mr       r3, r29
-	bl       readFloat__6StreamFv
-	stfs     f1, 0xa8(r27)
-	mr       r3, r29
-	bl       readFloat__6StreamFv
-	addi     r30, r30, 1
-	stfs     f1, 0xb4(r27)
-	cmpwi    r30, 3
-	addi     r27, r27, 4
-	blt      lbl_8041FCCC
-	mr       r4, r29
-	addi     r3, r28, 0xc8
-	bl       read__5PlaneFR6Stream
-	mr       r4, r29
-	addi     r3, r28, 0x100
-	bl       "read__10Vector3<f>FR6Stream"
-	mr       r3, r29
-	bl       readFloat__6StreamFv
-	stfs     f1, 0x10c(r28)
-	mr       r3, r29
-	bl       readByte__6StreamFv
-	clrlwi   r0, r3, 0x18
-	cmplwi   r0, 1
-	bne      lbl_8041FD44
-	addi     r3, r28, 0xd8
-	mr       r4, r29
-	lwz      r12, 0xd8(r28)
-	lwz      r12, 0x38(r12)
-	mtctr    r12
-	bctrl
+    // read div plane
+    m_divPlane.read(stream);
 
-lbl_8041FD44:
-	mr       r3, r29
-	bl       readByte__6StreamFv
-	clrlwi.  r0, r3, 0x1f
-	clrlwi   r30, r3, 0x18
-	beq      lbl_8041FE50
-	li       r3, 0x110
-	bl       __nw__FUl
-	or.      r31, r3, r3
-	beq      lbl_8041FE3C
-	bl       __ct__5CNodeFv
-	lis      r3, __vt__Q23Sys3OBB@ha
-	lis      r4, __ct__5PlaneFv@ha
-	addi     r0, r3, __vt__Q23Sys3OBB@l
-	li       r5, 0
-	stw      r0, 0(r31)
-	addi     r3, r31, 0x18
-	addi     r4, r4, __ct__5PlaneFv@l
-	li       r6, 0x10
-	li       r7, 6
-	bl       __construct_array
-	lis      r4, "__ct__10Vector3<f>Fv"@ha
-	addi     r3, r31, 0x84
-	addi     r4, r4, "__ct__10Vector3<f>Fv"@l
-	li       r5, 0
-	li       r6, 0xc
-	li       r7, 3
-	bl       __construct_array
-	lfs      f1, lbl_805203C0@sda21(r2)
-	addi     r27, r31, 0xd8
-	lfs      f0, lbl_805203C4@sda21(r2)
-	mr       r3, r27
-	stfs     f1, 0xc8(r31)
-	stfs     f0, 0xcc(r31)
-	stfs     f1, 0xd0(r31)
-	stfs     f1, 0xd4(r31)
-	bl       __ct__5CNodeFv
-	lis      r4, __vt__16GenericContainer@ha
-	lis      r3, "__vt__12Container<i>"@ha
-	addi     r0, r4, __vt__16GenericContainer@l
-	lis      r5, "__vt__17ArrayContainer<i>"@ha
-	stw      r0, 0(r27)
-	addi     r0, r3, "__vt__12Container<i>"@l
-	lis      r4, __vt__Q23Sys9IndexList@ha
-	lis      r3, __vt__Q23Sys12TriIndexList@ha
-	stw      r0, 0(r27)
-	li       r7, 0
-	addi     r6, r5, "__vt__17ArrayContainer<i>"@l
-	li       r5, 1
-	stb      r7, 0x18(r27)
-	addi     r4, r4, __vt__Q23Sys9IndexList@l
-	addi     r3, r3, __vt__Q23Sys12TriIndexList@l
-	addi     r0, r2, lbl_805203C8@sda21
-	stw      r6, 0(r27)
-	stb      r5, 0x18(r27)
-	stw      r7, 0x20(r27)
-	stw      r7, 0x1c(r27)
-	stw      r7, 0x24(r27)
-	stw      r4, 0(r27)
-	stw      r3, 0(r27)
-	stw      r0, 0x14(r31)
-	stw      r7, 0xc4(r31)
-	stw      r7, 0xc0(r31)
+    // read sphere
+    m_sphere.m_position.read(stream);
+    m_sphere.m_radius = stream.readFloat();
 
-lbl_8041FE3C:
-	stw      r31, 0xc0(r28)
-	mr       r4, r29
-	lwz      r3, 0xc0(r28)
-	bl       read__Q23Sys3OBBFR6Stream
-	b        lbl_8041FE58
+    // read triIndexList
+    if (stream.readByte() == 1) {
+        m_triIndexList.read(stream);
+    }
 
-lbl_8041FE50:
-	li       r0, 0
-	stw      r0, 0xc0(r28)
-
-lbl_8041FE58:
-	rlwinm.  r0, r30, 0, 0x1e, 0x1e
-	beq      lbl_8041FF5C
-	li       r3, 0x110
-	bl       __nw__FUl
-	or.      r31, r3, r3
-	beq      lbl_8041FF48
-	mr       r27, r31
-	bl       __ct__5CNodeFv
-	lis      r3, __vt__Q23Sys3OBB@ha
-	lis      r4, __ct__5PlaneFv@ha
-	addi     r0, r3, __vt__Q23Sys3OBB@l
-	li       r5, 0
-	stw      r0, 0(r27)
-	addi     r3, r27, 0x18
-	addi     r4, r4, __ct__5PlaneFv@l
-	li       r6, 0x10
-	li       r7, 6
-	bl       __construct_array
-	lis      r4, "__ct__10Vector3<f>Fv"@ha
-	addi     r3, r27, 0x84
-	addi     r4, r4, "__ct__10Vector3<f>Fv"@l
-	li       r5, 0
-	li       r6, 0xc
-	li       r7, 3
-	bl       __construct_array
-	lfs      f1, lbl_805203C0@sda21(r2)
-	addi     r30, r27, 0xd8
-	lfs      f0, lbl_805203C4@sda21(r2)
-	mr       r3, r30
-	stfs     f1, 0xc8(r27)
-	stfs     f0, 0xcc(r27)
-	stfs     f1, 0xd0(r27)
-	stfs     f1, 0xd4(r27)
-	bl       __ct__5CNodeFv
-	lis      r4, __vt__16GenericContainer@ha
-	lis      r3, "__vt__12Container<i>"@ha
-	addi     r0, r4, __vt__16GenericContainer@l
-	lis      r5, "__vt__17ArrayContainer<i>"@ha
-	stw      r0, 0(r30)
-	addi     r0, r3, "__vt__12Container<i>"@l
-	lis      r4, __vt__Q23Sys9IndexList@ha
-	lis      r3, __vt__Q23Sys12TriIndexList@ha
-	stw      r0, 0(r30)
-	li       r7, 0
-	addi     r6, r5, "__vt__17ArrayContainer<i>"@l
-	li       r5, 1
-	stb      r7, 0x18(r30)
-	addi     r4, r4, __vt__Q23Sys9IndexList@l
-	addi     r3, r3, __vt__Q23Sys12TriIndexList@l
-	addi     r0, r2, lbl_805203C8@sda21
-	stw      r6, 0(r30)
-	stb      r5, 0x18(r30)
-	stw      r7, 0x20(r30)
-	stw      r7, 0x1c(r30)
-	stw      r7, 0x24(r30)
-	stw      r4, 0(r30)
-	stw      r3, 0(r30)
-	stw      r0, 0x14(r27)
-	stw      r7, 0xc4(r27)
-	stw      r7, 0xc0(r27)
-
-lbl_8041FF48:
-	stw      r31, 0xc4(r28)
-	mr       r4, r29
-	lwz      r3, 0xc4(r28)
-	bl       read__Q23Sys3OBBFR6Stream
-	b        lbl_8041FF64
-
-lbl_8041FF5C:
-	li       r0, 0
-	stw      r0, 0xc4(r28)
-
-lbl_8041FF64:
-	lmw      r27, 0xc(r1)
-	lwz      r0, 0x24(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+    // read sub-OBBs if not a leaf
+    u8 testByte = stream.readByte();
+    if ((testByte & 1) != 0) {
+        _C0 = new OBB;
+        _C0->read(stream);
+    } else {
+        _C0 = nullptr;
+    }
+    if ((testByte & 2) != 0) {
+        _C4 = new OBB;
+        _C4->read(stream);
+        return;
+    }
+    _C4 = nullptr;
 }
 
 /*
