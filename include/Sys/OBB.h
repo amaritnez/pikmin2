@@ -7,6 +7,7 @@
 #include "Sys/TriIndexList.h"
 #include "Vector3.h"
 #include "types.h"
+#include "Matrixf.h"
 
 namespace Game {
 struct MoveInfo;
@@ -34,10 +35,10 @@ struct OBB : public CNode {
 	// virtual int getChildCount(); // _04 - from CNode
 
 	void autoDivide(Sys::VertexTable&, Sys::TriangleTable&, int, int);
-	void create2(Sys::VertexTable&, Sys::TriangleTable&, struct Matrix3f&, Matrix3f&, Vector3f&);
+	void create2(Sys::VertexTable&, Sys::TriangleTable&, Matrix3f&, Matrix3f&, Vector3f&);
 	void determineDivPlane(Sys::VertexTable&, Sys::TriangleTable&);
 	bool divide(Sys::VertexTable&, Sys::TriangleTable&);
-	bool findRayIntersection(Sys::RayIntersectInfo&, struct Matrixf&, Matrixf&);
+	bool findRayIntersection(Sys::RayIntersectInfo&, Matrixf&, Matrixf&);
 	bool findRayIntersectionTriList(Sys::RayIntersectInfo&, Matrixf&, Matrixf&);
 	TriIndexList* findTriLists(Sys::Sphere&);
 	void getCurrTri(Game::CurrTriInfo&);
