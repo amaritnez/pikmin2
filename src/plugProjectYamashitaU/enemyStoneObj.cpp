@@ -109,72 +109,22 @@ void Obj::start()
  */
 void Obj::shake()
 {
-	/*
-	stwu     r1, -0x40(r1)
-	mflr     r0
-	stw      r0, 0x44(r1)
-	stfd     f31, 0x30(r1)
-	psq_st   f31, 56(r1), 0, qr0
-	stfd     f30, 0x20(r1)
-	psq_st   f30, 40(r1), 0, qr0
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	stw      r28, 0x10(r1)
-	mr       r28, r3
-	lbz      r3, 0x50(r3)
-	rlwinm.  r0, r3, 0, 0x1c, 0x1c
-	bne      lbl_80129D8C
-	ori      r3, r3, 8
-	lis      r0, 0x4330
-	stb      r3, 0x50(r28)
-	mr       r31, r28
-	lfd      f1, lbl_80518040@sda21(r2)
-	li       r30, 0
-	lwz      r3, 0x18(r28)
-	stw      r0, 8(r1)
-	lbz      r0, 0(r3)
-	lfs      f2, lbl_8051803C@sda21(r2)
-	stw      r0, 0xc(r1)
-	lfs      f31, lbl_80518038@sda21(r2)
-	lfd      f0, 8(r1)
-	fsubs    f0, f0, f1
-	fdivs    f30, f2, f0
-
-lbl_80129D54:
-	lwz      r3, 0x2c(r31)
-	b        lbl_80129D74
-
-lbl_80129D5C:
-	fmr      f1, f31
-	lwz      r29, 4(r3)
-	lwz      r4, 0x4c(r28)
-	bl       shake__Q34Game10EnemyStone8DrawInfoFPQ24Game9EnemyBasef
-	fsubs    f31, f31, f30
-	mr       r3, r29
-
-lbl_80129D74:
-	cmplwi   r3, 0
-	bne      lbl_80129D5C
-	addi     r30, r30, 1
-	addi     r31, r31, 0x18
-	cmpwi    r30, 2
-	blt      lbl_80129D54
-
-lbl_80129D8C:
-	psq_l    f31, 56(r1), 0, qr0
-	lfd      f31, 0x30(r1)
-	psq_l    f30, 40(r1), 0, qr0
-	lfd      f30, 0x20(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	lwz      r0, 0x44(r1)
-	lwz      r28, 0x10(r1)
-	mtlr     r0
-	addi     r1, r1, 0x40
-	blr
-	*/
+	u8 temp_r3 = _50;
+	if ((temp_r3 & 8) == 0) {
+		_50                            = temp_r3 | 8;
+		f32 var_f31                    = 0.0;
+		f32 temp_f30                   = 1.0f / m_info->m_infoCnt;
+		Game::EnemyStone::Obj* var_r31 = this;
+		for (s32 i = 0; i < 2; i++) {
+			Game::EnemyStone::DrawInfo* var_r3 = (DrawInfo*)var_r31->m_nodeArray[i].m_child;
+			while (var_r3 != NULL) {
+				Game::EnemyStone::DrawInfo* temp_r29 = (DrawInfo*)var_r3->m_next;
+				var_r3->shake(m_enemy, var_f31);
+				var_f31 -= temp_f30;
+				var_r3 = temp_r29;
+			}
+		}
+	}
 }
 
 /*
