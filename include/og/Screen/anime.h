@@ -1,7 +1,8 @@
 #ifndef _OG_SCREEN_ANIME_H
 #define _OG_SCREEN_ANIME_H
 
-#include "Screen/Bases.h"
+#include "Screen/screenObj.h"
+#include "og/Screen/ogScreen.h"
 #include "types.h"
 
 struct J2DAnmBase;
@@ -13,88 +14,109 @@ namespace Screen {
 struct AnimBaseBase {
 	AnimBaseBase();
 
-	virtual void start()    = 0; // _00
-	virtual void moveAnim() = 0; // _04
+	virtual void start()    = 0; // _08
+	virtual void moveAnim() = 0; // _0C
 
 	void init(JKRArchive*, char*);
-	void setArea(float, float);
+	void setArea(f32, f32);
 	void setAllArea();
-	void start(float);
+	void start(f32);
 	bool update();
 	bool updateSub();
 
-	// VTBL _00
-	/* set to 1 by AnimScreen(), 2 by AnimPane() */
-	int _04;              // _04
-	bool _08;             // _08
-	float _0C;            // _0C
-	u8 _10;               // _10
-	u8 _11;               // _11 /* alpha of pane/screen? */
-	u8 _12;               // _12
-	J2DAnmBase* m_anm;    // _14
-	float m_frame;        // _18
-	float m_lastFrame;    // _1C
-	float _20;            // _20 /* speed */
-	float _24;            // _24
-	float _28;            // _28
-	float _2C;            // _2C
-	float _30;            // _30
-	float _34;            // _34
-	bool _38;             // _38
-	bool _39;             // _39
-	char* m_resourcePath; // _3C
+	// _00 = VTBL
+	int mType;           // _04 1 =AnimScreen, 2 = AnimPane
+	bool _08;            // _08
+	f32 _0C;             // _0C
+	u8 _10;              // _10
+	u8 mAlpha;           // _11
+	bool mDoSetAlpha;    // _12
+	J2DAnmBase* mAnm;    // _14
+	f32 mCurrentFrame;   // _18
+	f32 mLastFrame;      // _1C
+	f32 mSpeed;          // _20
+	f32 _24;             // _24
+	f32 _28;             // _28
+	f32 _2C;             // _2C
+	f32 mArea;           // _30
+	f32 _34;             // _34
+	bool mIsRepeating;   // _38
+	bool _39;            // _39
+	char* mResourcePath; // _3C
 };
 
 struct AnimScreen : public AnimBaseBase {
 	AnimScreen();
 
-	virtual void start();    // _00
-	virtual void moveAnim(); // _04
+	virtual void start();    // _08
+	virtual void moveAnim(); // _0C
 
 	void init(JKRArchive*, J2DScreen*, char*);
 
-	J2DScreen* m_screen; // _40
+	inline void updateScreen(J2DScreen* screen, J2DAnmBase* anm)
+	{
+		mScreen = screen;
+		mScreen->setAnimation(anm);
+		anm->searchUpdateMaterialID(screen);
+	}
+
+	// _00     = VTBL
+	// _00-_40 = AnimBaseBase
+	J2DScreen* mScreen; // _40
 };
 
 struct AnimPane : public AnimBaseBase {
 	AnimPane();
 
-	virtual void start();    // _00
-	virtual void moveAnim(); // _04
+	virtual void start();    // _08
+	virtual void moveAnim(); // _0C
 
 	void init(JKRArchive*, J2DScreen*, u64, char*);
 
-	J2DPane* m_pane;
+	inline void updatePane(J2DScreen* screen, u64 tag, J2DAnmBase* anm)
+	{
+		mPane = TagSearch(screen, tag);
+		mPane->setAnimation(anm);
+		anm->searchUpdateMaterialID(screen);
+	}
+
+	// _00     = VTBL
+	// _00-_40 = AnimBaseBase
+	J2DPane* mPane; // _40
 };
 
 struct AnimGroup {
 	AnimGroup(int);
-	float getFrame();
-	float getLastFrame();
-	void reservAnim(float, float, float);
+
+	f32 getFrame();
+	f32 getLastFrame();
+	void reservAnim(f32, f32, f32);
 	void setAllArea();
 	void setAlpha(u8);
 	void setAnim(AnimBaseBase*);
-	void setArea(float, float);
-	void setFrame(float);
+	void setArea(f32, f32);
+	void setFrame(f32);
 	void setRepeat(bool);
-	void setSpeed(float);
+	void setSpeed(f32);
 	void start();
 	bool update();
 
-	AnimBaseBase** m_animPanes; // _00
-	int m_paneCount;            // _04
-	int m_paneLimit;            // _08
-	u8 _0C;                     // _0C
-	float _10;                  // _10
-	float _14;                  // _14
-	float _18;                  // _18
+	inline f32 getVal() { return _10; }
+
+	AnimBaseBase** mAnimPanes; // _00
+	int mPaneCount;            // _04
+	int mPaneLimit;            // _08
+	u8 _0C;                    // _0C
+	f32 _10;                   // _10
+	f32 _14;                   // _14
+	f32 _18;                   // _18
 };
 
 struct AnimList {
 	AnimList(u16);
+
 	void addAnim(AnimScreen*);
-	void nextAnim(float);
+	void nextAnim(f32);
 	void start();
 	void update();
 };

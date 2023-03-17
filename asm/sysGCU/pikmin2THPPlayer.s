@@ -1,74 +1,96 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-lbl_8049B510:
+.obj lbl_8049B510, local
 	.asciz "/thp/opening1.thp"
+.endobj lbl_8049B510
 .balign 4
-lbl_8049B524:
+.obj lbl_8049B524, local
 	.asciz "/thp/opening1.ini"
+.endobj lbl_8049B524
 .balign 4
-lbl_8049B538:
+.obj lbl_8049B538, local
 	.asciz "/thp/opening2.thp"
+.endobj lbl_8049B538
 .balign 4
-lbl_8049B54C:
+.obj lbl_8049B54C, local
 	.asciz "/thp/opening2.ini"
+.endobj lbl_8049B54C
 .balign 4
-lbl_8049B560:
+.obj lbl_8049B560, local
 	.asciz "/thp/ending1.thp"
+.endobj lbl_8049B560
 .balign 4
-lbl_8049B574:
+.obj lbl_8049B574, local
 	.asciz "/thp/ending1.ini"
+.endobj lbl_8049B574
 .balign 4
-lbl_8049B588:
+.obj lbl_8049B588, local
 	.asciz "/thp/ending2.thp"
+.endobj lbl_8049B588
 .balign 4
-lbl_8049B59C:
+.obj lbl_8049B59C, local
 	.asciz "/thp/staffroll.thp"
+.endobj lbl_8049B59C
 .balign 4
 .if version == 1
-lbl_8049B5B0:
+.obj lbl_8049B5B0, local
 	.asciz "/thp/play1.thp"
+.endobj lbl_8049B5B0
 .balign 4
-lbl_8049B5C0:
+.obj lbl_8049B5C0, local
 	.asciz "/thp/play1.ini"
+.endobj lbl_8049B5C0
 .balign 4
-lbl_8049B5D0:
+.obj lbl_8049B5D0, local
 	.asciz "/thp/play2.thp"
+.endobj lbl_8049B5D0
 .balign 4
-lbl_8049B5E0:
+.obj lbl_8049B5E0, local
 	.asciz "/thp/play2.ini"
+.endobj lbl_8049B5E0
 .balign 4
-lbl_8049B5F0:
+.obj lbl_8049B5F0, local
 	.asciz "/thp/play3.thp"
+.endobj lbl_8049B5F0
 .balign 4
-lbl_8049B600:
+.obj lbl_8049B600, local
 	.asciz "/thp/play3.ini"
+.endobj lbl_8049B600
 .balign 4
-lbl_8049B610:
+.obj lbl_8049B610, local
 	.asciz "/thp/play4.thp"
+.endobj lbl_8049B610
 .balign 4
-lbl_8049B620:
+.obj lbl_8049B620, local
 	.asciz "/thp/play4.ini"
+.endobj lbl_8049B620
 .balign 4
-lbl_demoPlay5thp:
+.obj lbl_demoPlay5thp, local
 	.asciz "/thp/play5.thp"
+.endobj lbl_demoPlay5thp
 .balign 4
-lbl_demoPlay5ini:
+.obj lbl_demoPlay5ini, local
 	.asciz "/thp/play5.ini"
+.endobj lbl_demoPlay5ini
 .balign 4
-lbl_demoPlay6thp:
+.obj lbl_demoPlay6thp, local
 	.asciz "/thp/play6.thp"
+.endobj lbl_demoPlay6thp
 .balign 4
-lbl_demoPlay6ini:
+.obj lbl_demoPlay6ini, local
 	.asciz "/thp/play6.ini"
+.endobj lbl_demoPlay6ini
 .balign 4
-lbl_demoCrimethp:
+.obj lbl_demoCrimethp, local
 	.asciz "/thp/crime.thp"
+.endobj lbl_demoCrimethp
 .balign 4
-lbl_demoCrimeini:
+.obj lbl_demoCrimeini, local
 	.asciz "/thp/crime.ini"
+.endobj lbl_demoCrimeini
 .balign 4
-"sTHPFileSettingTable__Q24Game30@unnamed@pikmin2THPPlayer_cpp@":
+.obj "sTHPFileSettingTable__Q24Game30@unnamed@pikmin2THPPlayer_cpp@", local
 	.4byte lbl_8049B510
 	.4byte lbl_8049B524
 	.4byte 0x00000000
@@ -117,32 +139,41 @@ lbl_demoCrimeini:
 	.4byte lbl_demoCrimeini
 	.4byte 0x00000000
 	.4byte 0x0000000B
+.endobj "sTHPFileSettingTable__Q24Game30@unnamed@pikmin2THPPlayer_cpp@"
 .else
-lbl_8049B5B0:
+.obj lbl_8049B5B0, local
 	.asciz "/thp/play1.thp"
+.endobj lbl_8049B5B0
 .balign 4
-lbl_8049B5C0:
+.obj lbl_8049B5C0, local
 	.asciz "/thp/play2.thp"
+.endobj lbl_8049B5C0
 .balign 4
-lbl_8049B5D0:
+.obj lbl_8049B5D0, local
 	.asciz "/thp/play3.thp"
+.endobj lbl_8049B5D0
 .balign 4
-lbl_8049B5E0:
+.obj lbl_8049B5E0, local
 	.asciz "/thp/play4.thp"
+.endobj lbl_8049B5E0
 .balign 4
-lbl_8049B5F0:
+.obj lbl_8049B5F0, local
 	.asciz "/thp/play5.thp"
+.endobj lbl_8049B5F0
 .balign 4
-lbl_8049B600:
+.obj lbl_8049B600, local
 	.asciz "/thp/play6.thp"
+.endobj lbl_8049B600
 .balign 4
-lbl_8049B610:
+.obj lbl_8049B610, local
 	.asciz "/thp/crime.thp"
+.endobj lbl_8049B610
 .balign 4
-lbl_8049B620:
+.obj lbl_8049B620, local
 	.asciz "/thp/crime.ini"
+.endobj lbl_8049B620
 .balign 4
-"sTHPFileSettingTable__Q24Game30@unnamed@pikmin2THPPlayer_cpp@":
+.obj "sTHPFileSettingTable__Q24Game30@unnamed@pikmin2THPPlayer_cpp@", local
 	.4byte lbl_8049B510
 	.4byte lbl_8049B524
 	.4byte 0x00000000
@@ -191,63 +222,81 @@ lbl_8049B620:
 	.4byte lbl_8049B620
 	.4byte 0x00000000
 	.4byte 0x0000000B
+.endobj "sTHPFileSettingTable__Q24Game30@unnamed@pikmin2THPPlayer_cpp@"
 .endif
-lbl_8049B6F0:
+.balign 4
+.obj lbl_8049B6F0, local
 	.asciz "THPPlayer"
+.endobj lbl_8049B6F0
 .balign 4
-lbl_8049B6FC:
+.obj lbl_8049B6FC, local
 	.asciz "pikmin2THPPlayer.cpp"
+.endobj lbl_8049B6FC
 .balign 4
-lbl_8049B714:
+.obj lbl_8049B714, local
 	.asciz "P2Assert"
+.endobj lbl_8049B714
 .balign 4
-lbl_8049B720:
+.obj lbl_8049B720, local
 	.asciz "THPPlayerInit failure."
+.endobj lbl_8049B720
 .balign 4
-lbl_8049B738:
+.obj lbl_8049B738, local
 	.asciz "THPPlayer::loadResource"
+.endobj lbl_8049B738
 .balign 4
-lbl_8049B750:
+.obj lbl_8049B750, local
 	.asciz "THPPlayer_Resource"
+.endobj lbl_8049B750
 .balign 4
-lbl_8049B764:
+.obj lbl_8049B764, local
 	.asciz "THPPlayr_caption"
+.endobj lbl_8049B764
 .balign 4
-lbl_8049B778:
+.obj lbl_8049B778, local
 	.asciz "fail to open the caption file\n[%s]\n"
+.endobj lbl_8049B778
 .balign 4
-lbl_8049B79C:
+.obj lbl_8049B79C, local
 	.asciz "THPPlayerOpen"
+.endobj lbl_8049B79C
 .balign 4
-lbl_8049B7AC:
+.obj lbl_8049B7AC, local
 	.asciz "Fail to open the thp file\n[%s]\n"
+.endobj lbl_8049B7AC
 .balign 4
-lbl_8049B7CC:
+.obj lbl_8049B7CC, local
 	.asciz "THPPlayer_prepare"
+.endobj lbl_8049B7CC
 .balign 4
-lbl_8049B7E0:
+.obj lbl_8049B7E0, local
 	.asciz "THPPlayer_work"
+.endobj lbl_8049B7E0
 .balign 4
-lbl_8049B7F0:
+.obj lbl_8049B7F0, local
 	.asciz "Can't allocate the memory"
+.endobj lbl_8049B7F0
 .balign 4
-lbl_8049B80C:
+.obj lbl_8049B80C, local
 	.asciz "Fail to prepare\n"
+.endobj lbl_8049B80C
 .balign 4
-lbl_8049B820:
+.obj lbl_8049B820, local
 	.asciz "PSSystemIF.h"
+.endobj lbl_8049B820
 .balign 4
-lbl_8049B830:
+.obj lbl_8049B830, local
 	.asciz "Unknown State : %d \n"
+.endobj lbl_8049B830
 
 .section .data, "wa"	# 0x8049E220 - 0x804EFC20
 .balign 8
-lbl_804ED4C0:
+.obj lbl_804ED4C0, local
 	.4byte 0x00000000
 	.4byte 0xFFFFFFFF
 	.4byte loadResource__Q24Game9THPPlayerFv
-.global __vt__Q24Game9THPPlayer
-__vt__Q24Game9THPPlayer:
+.endobj lbl_804ED4C0
+.obj __vt__Q24Game9THPPlayer, global
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q24Game9THPPlayerFv
@@ -259,27 +308,29 @@ __vt__Q24Game9THPPlayer:
 	.4byte draw__Q24Game9THPPlayerFR8Graphics
 	.4byte draw__Q24Game9THPPlayerFR8GraphicsllUlUl
 	.4byte draw__Q24Game9THPPlayerFR8Graphicsllf
-.global "__vt__27Delegate<Q24Game9THPPlayer>"
-"__vt__27Delegate<Q24Game9THPPlayer>":
+.endobj __vt__Q24Game9THPPlayer
+.obj "__vt__27Delegate<Q24Game9THPPlayer>", weak
 	.4byte 0
 	.4byte 0
 	.4byte "invoke__27Delegate<Q24Game9THPPlayer>Fv"
+.endobj "__vt__27Delegate<Q24Game9THPPlayer>"
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_80520B10:
+.obj lbl_80520B10, local
 	.asciz ""
+.endobj lbl_80520B10
 .balign 4
-lbl_80520B14:
+.obj lbl_80520B14, local
 	.float 127.0
+.endobj lbl_80520B14
 .balign 8
-lbl_80520B18:
-	.4byte 0x43300000
-	.4byte 0x00000000
+.obj lbl_80520B18, local
+	.8byte 0x4330000000000000
+.endobj lbl_80520B18
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__Q24Game9THPPlayerFv
-__ct__Q24Game9THPPlayerFv:
+.fn __ct__Q24Game9THPPlayerFv, global
 /* 8044FDF0 0044CD30  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8044FDF4 0044CD34  7C 08 02 A6 */	mflr r0
 /* 8044FDF8 0044CD38  90 01 00 24 */	stw r0, 0x24(r1)
@@ -335,10 +386,10 @@ __ct__Q24Game9THPPlayerFv:
 /* 8044FEC0 0044CE00  98 1F 00 E8 */	stb r0, 0xe8(r31)
 /* 8044FEC4 0044CE04  4B BD 3F E1 */	bl __nw__FUl
 /* 8044FEC8 0044CE08  7C 60 1B 79 */	or. r0, r3, r3
-/* 8044FECC 0044CE0C  41 82 00 0C */	beq lbl_8044FED8
+/* 8044FECC 0044CE0C  41 82 00 0C */	beq .L_8044FED8
 /* 8044FED0 0044CE10  48 00 0A 7D */	bl __ct__Q27Caption3MgrFv
 /* 8044FED4 0044CE14  7C 60 1B 78 */	mr r0, r3
-lbl_8044FED8:
+.L_8044FED8:
 /* 8044FED8 0044CE18  90 1F 00 54 */	stw r0, 0x54(r31)
 /* 8044FEDC 0044CE1C  38 7F 00 18 */	addi r3, r31, 0x18
 /* 8044FEE0 0044CE20  80 9F 00 54 */	lwz r4, 0x54(r31)
@@ -351,9 +402,9 @@ lbl_8044FED8:
 /* 8044FEFC 0044CE3C  7C 08 03 A6 */	mtlr r0
 /* 8044FF00 0044CE40  38 21 00 20 */	addi r1, r1, 0x20
 /* 8044FF04 0044CE44  4E 80 00 20 */	blr 
+.endfn __ct__Q24Game9THPPlayerFv
 
-.global __dt__Q24Game9THPPlayerFv
-__dt__Q24Game9THPPlayerFv:
+.fn __dt__Q24Game9THPPlayerFv, global
 /* 8044FF08 0044CE48  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8044FF0C 0044CE4C  7C 08 02 A6 */	mflr r0
 /* 8044FF10 0044CE50  90 01 00 14 */	stw r0, 0x14(r1)
@@ -361,7 +412,7 @@ __dt__Q24Game9THPPlayerFv:
 /* 8044FF18 0044CE58  7C 9F 23 78 */	mr r31, r4
 /* 8044FF1C 0044CE5C  93 C1 00 08 */	stw r30, 8(r1)
 /* 8044FF20 0044CE60  7C 7E 1B 79 */	or. r30, r3, r3
-/* 8044FF24 0044CE64  41 82 00 60 */	beq lbl_8044FF84
+/* 8044FF24 0044CE64  41 82 00 60 */	beq .L_8044FF84
 /* 8044FF28 0044CE68  3C 60 80 4F */	lis r3, __vt__Q24Game9THPPlayer@ha
 /* 8044FF2C 0044CE6C  38 63 D4 CC */	addi r3, r3, __vt__Q24Game9THPPlayer@l
 /* 8044FF30 0044CE70  90 7E 00 00 */	stw r3, 0(r30)
@@ -370,12 +421,12 @@ __dt__Q24Game9THPPlayerFv:
 /* 8044FF3C 0044CE7C  4B FF EB 1D */	bl THPPlayerStop
 /* 8044FF40 0044CE80  4B FF E0 79 */	bl THPPlayerQuit
 /* 8044FF44 0044CE84  34 1E 00 5C */	addic. r0, r30, 0x5c
-/* 8044FF48 0044CE88  41 82 00 14 */	beq lbl_8044FF5C
+/* 8044FF48 0044CE88  41 82 00 14 */	beq .L_8044FF5C
 /* 8044FF4C 0044CE8C  34 7E 00 B8 */	addic. r3, r30, 0xb8
-/* 8044FF50 0044CE90  41 82 00 0C */	beq lbl_8044FF5C
+/* 8044FF50 0044CE90  41 82 00 0C */	beq .L_8044FF5C
 /* 8044FF54 0044CE94  38 80 00 00 */	li r4, 0
 /* 8044FF58 0044CE98  4B BD 68 79 */	bl __dt__10JSUPtrLinkFv
-lbl_8044FF5C:
+.L_8044FF5C:
 /* 8044FF5C 0044CE9C  38 7E 00 18 */	addi r3, r30, 0x18
 /* 8044FF60 0044CEA0  38 80 00 00 */	li r4, 0
 /* 8044FF64 0044CEA4  4B FC 16 25 */	bl __dt__5CNodeFv
@@ -383,10 +434,10 @@ lbl_8044FF5C:
 /* 8044FF6C 0044CEAC  38 80 00 00 */	li r4, 0
 /* 8044FF70 0044CEB0  4B BC D0 C5 */	bl __dt__11JKRDisposerFv
 /* 8044FF74 0044CEB4  7F E0 07 35 */	extsh. r0, r31
-/* 8044FF78 0044CEB8  40 81 00 0C */	ble lbl_8044FF84
+/* 8044FF78 0044CEB8  40 81 00 0C */	ble .L_8044FF84
 /* 8044FF7C 0044CEBC  7F C3 F3 78 */	mr r3, r30
 /* 8044FF80 0044CEC0  4B BD 41 35 */	bl __dl__FPv
-lbl_8044FF84:
+.L_8044FF84:
 /* 8044FF84 0044CEC4  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8044FF88 0044CEC8  7F C3 F3 78 */	mr r3, r30
 /* 8044FF8C 0044CECC  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -394,10 +445,10 @@ lbl_8044FF84:
 /* 8044FF94 0044CED4  7C 08 03 A6 */	mtlr r0
 /* 8044FF98 0044CED8  38 21 00 10 */	addi r1, r1, 0x10
 /* 8044FF9C 0044CEDC  4E 80 00 20 */	blr 
+.endfn __dt__Q24Game9THPPlayerFv
 
 .if version == 1
-.global load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex
-load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex:
+.fn load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex, global
 /* 8044FFA0 0044CEE0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8044FFA4 0044CEE4  7C 08 02 A6 */	mflr r0
 /* 8044FFA8 0044CEE8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -409,19 +460,19 @@ load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex:
 /* 8044FFC0 0044CF00  93 A1 00 14 */	stw r29, 0x14(r1)
 /* 8044FFC4 0044CF04  7C 7D 1B 78 */	mr r29, r3
 /* 8044FFC8 0044CF08  3B E4 B5 10 */	addi r31, r4, lbl_8049B510@l
-/* 8044FFCC 0044CF0C  41 80 00 10 */	blt lbl_8044FFDC
+/* 8044FFCC 0044CF0C  41 80 00 10 */	blt .L_8044FFDC
 /* 8044FFD0 0044CF10  2C 1E 00 0C */	cmpwi r30, 0xc
-/* 8044FFD4 0044CF14  40 80 00 08 */	bge lbl_8044FFDC
+/* 8044FFD4 0044CF14  40 80 00 08 */	bge .L_8044FFDC
 /* 8044FFD8 0044CF18  38 00 00 01 */	li r0, 1
-lbl_8044FFDC:
+.L_8044FFDC:
 /* 8044FFDC 0044CF1C  54 00 06 3F */	clrlwi. r0, r0, 0x18
-/* 8044FFE0 0044CF20  40 82 00 18 */	bne lbl_8044FFF8
+/* 8044FFE0 0044CF20  40 82 00 18 */	bne .L_8044FFF8
 /* 8044FFE4 0044CF24  38 7F 01 EC */	addi r3, r31, 0x24c
 /* 8044FFE8 0044CF28  38 BF 02 04 */	addi r5, r31, 0x264
 /* 8044FFEC 0044CF2C  38 80 00 E3 */	li r4, 0xe9
 /* 8044FFF0 0044CF30  4C C6 31 82 */	crclr 6
 /* 8044FFF4 0044CF34  4B BD A6 4D */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8044FFF8:
+.L_8044FFF8:
 /* 8044FFF8 0044CF38  57 C0 20 36 */	slwi r0, r30, 4
 /* 8044FFFC 0044CF3C  3B DF 01 20 */	addi r30, r31, 0x180
 /* 80450000 0044CF40  7F DE 02 14 */	add r30, r30, r0
@@ -435,13 +486,13 @@ lbl_8044FFF8:
 /* 80450020 0044CF60  48 00 00 4D */	bl load__Q24Game9THPPlayerFv
 /* 80450024 0044CF64  80 1E 00 0C */	lwz r0, 0xc(r30)
 /* 80450028 0044CF68  2C 00 00 0C */	cmpwi r0, 0xc
-/* 8045002C 0044CF6C  41 80 00 18 */	blt lbl_80450044
+/* 8045002C 0044CF6C  41 80 00 18 */	blt .L_80450044
 /* 80450030 0044CF70  38 7F 01 EC */	addi r3, r31, 0x24c
 /* 80450034 0044CF74  38 BF 02 04 */	addi r5, r31, 0x264
 /* 80450038 0044CF78  38 80 00 EB */	li r4, 0xf1
 /* 8045003C 0044CF7C  4C C6 31 82 */	crclr 6
 /* 80450040 0044CF80  4B BD A6 01 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80450044:
+.L_80450044:
 /* 80450044 0044CF84  80 9E 00 0C */	lwz r4, 0xc(r30)
 /* 80450048 0044CF88  38 6D 9C C0 */	addi r3, r13, sTHPDinamicsProc__3PSM@sda21
 /* 8045004C 0044CF8C  48 02 24 55 */	bl setSetting__Q23PSM15THPDinamicsProcFQ23PSM6THP_ID
@@ -452,9 +503,9 @@ lbl_80450044:
 /* 80450060 0044CFA0  7C 08 03 A6 */	mtlr r0
 /* 80450064 0044CFA4  38 21 00 20 */	addi r1, r1, 0x20
 /* 80450068 0044CFA8  4E 80 00 20 */	blr 
+.endfn load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex
 .else
-.global load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex
-load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex:
+.fn load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex, global
 /* 8044FFA0 0044CEE0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8044FFA4 0044CEE4  7C 08 02 A6 */	mflr r0
 /* 8044FFA8 0044CEE8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -466,19 +517,19 @@ load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex:
 /* 8044FFC0 0044CF00  93 A1 00 14 */	stw r29, 0x14(r1)
 /* 8044FFC4 0044CF04  7C 7D 1B 78 */	mr r29, r3
 /* 8044FFC8 0044CF08  3B E4 B5 10 */	addi r31, r4, lbl_8049B510@l
-/* 8044FFCC 0044CF0C  41 80 00 10 */	blt lbl_8044FFDC
+/* 8044FFCC 0044CF0C  41 80 00 10 */	blt .L_8044FFDC
 /* 8044FFD0 0044CF10  2C 1E 00 0C */	cmpwi r30, 0xc
-/* 8044FFD4 0044CF14  40 80 00 08 */	bge lbl_8044FFDC
+/* 8044FFD4 0044CF14  40 80 00 08 */	bge .L_8044FFDC
 /* 8044FFD8 0044CF18  38 00 00 01 */	li r0, 1
-lbl_8044FFDC:
+.L_8044FFDC:
 /* 8044FFDC 0044CF1C  54 00 06 3F */	clrlwi. r0, r0, 0x18
-/* 8044FFE0 0044CF20  40 82 00 18 */	bne lbl_8044FFF8
+/* 8044FFE0 0044CF20  40 82 00 18 */	bne .L_8044FFF8
 /* 8044FFE4 0044CF24  38 7F 01 EC */	addi r3, r31, 0x1ec
 /* 8044FFE8 0044CF28  38 BF 02 04 */	addi r5, r31, 0x204
 /* 8044FFEC 0044CF2C  38 80 00 E3 */	li r4, 0xe3
 /* 8044FFF0 0044CF30  4C C6 31 82 */	crclr 6
 /* 8044FFF4 0044CF34  4B BD A6 4D */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8044FFF8:
+.L_8044FFF8:
 /* 8044FFF8 0044CF38  57 C0 20 36 */	slwi r0, r30, 4
 /* 8044FFFC 0044CF3C  3B DF 01 20 */	addi r30, r31, 0x120
 /* 80450000 0044CF40  7F DE 02 14 */	add r30, r30, r0
@@ -492,13 +543,13 @@ lbl_8044FFF8:
 /* 80450020 0044CF60  48 00 00 4D */	bl load__Q24Game9THPPlayerFv
 /* 80450024 0044CF64  80 1E 00 0C */	lwz r0, 0xc(r30)
 /* 80450028 0044CF68  2C 00 00 0C */	cmpwi r0, 0xc
-/* 8045002C 0044CF6C  41 80 00 18 */	blt lbl_80450044
+/* 8045002C 0044CF6C  41 80 00 18 */	blt .L_80450044
 /* 80450030 0044CF70  38 7F 01 EC */	addi r3, r31, 0x1ec
 /* 80450034 0044CF74  38 BF 02 04 */	addi r5, r31, 0x204
 /* 80450038 0044CF78  38 80 00 EB */	li r4, 0xeb
 /* 8045003C 0044CF7C  4C C6 31 82 */	crclr 6
 /* 80450040 0044CF80  4B BD A6 01 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80450044:
+.L_80450044:
 /* 80450044 0044CF84  80 9E 00 0C */	lwz r4, 0xc(r30)
 /* 80450048 0044CF88  38 6D 9C C0 */	addi r3, r13, sTHPDinamicsProc__3PSM@sda21
 /* 8045004C 0044CF8C  48 02 24 55 */	bl setSetting__Q23PSM15THPDinamicsProcFQ23PSM6THP_ID
@@ -509,11 +560,11 @@ lbl_80450044:
 /* 80450060 0044CFA0  7C 08 03 A6 */	mtlr r0
 /* 80450064 0044CFA4  38 21 00 20 */	addi r1, r1, 0x20
 /* 80450068 0044CFA8  4E 80 00 20 */	blr 
+.endfn load__Q24Game9THPPlayerFQ34Game9THPPlayer11EMovieIndex
 .endif
 
 .if version == 1
-.global load__Q24Game9THPPlayerFv
-load__Q24Game9THPPlayerFv:
+.fn load__Q24Game9THPPlayerFv, global
 /* 8045006C 0044CFAC  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80450070 0044CFB0  7C 08 02 A6 */	mflr r0
 /* 80450074 0044CFB4  90 01 00 14 */	stw r0, 0x14(r1)
@@ -524,7 +575,7 @@ load__Q24Game9THPPlayerFv:
 /* 80450088 0044CFC8  38 60 00 00 */	li r3, 0
 /* 8045008C 0044CFCC  4B FF DE 55 */	bl THPPlayerInit
 /* 80450090 0044CFD0  2C 03 00 00 */	cmpwi r3, 0
-/* 80450094 0044CFD4  40 82 00 20 */	bne lbl_804500B4
+/* 80450094 0044CFD4  40 82 00 20 */	bne .L_804500B4
 /* 80450098 0044CFD8  3C 60 80 4A */	lis r3, lbl_8049B6FC@ha
 /* 8045009C 0044CFDC  3C A0 80 4A */	lis r5, lbl_8049B720@ha
 /* 804500A0 0044CFE0  38 63 B6 FC */	addi r3, r3, lbl_8049B6FC@l
@@ -532,7 +583,7 @@ load__Q24Game9THPPlayerFv:
 /* 804500A8 0044CFE8  38 A5 B7 20 */	addi r5, r5, lbl_8049B720@l
 /* 804500AC 0044CFEC  4C C6 31 82 */	crclr 6
 /* 804500B0 0044CFF0  4B BD A5 91 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_804500B4:
+.L_804500B4:
 /* 804500B4 0044CFF4  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 804500B8 0044CFF8  38 9F 00 5C */	addi r4, r31, 0x5c
 /* 804500BC 0044CFFC  38 BF 00 C8 */	addi r5, r31, 0xc8
@@ -542,9 +593,9 @@ lbl_804500B4:
 /* 804500CC 0044D00C  7C 08 03 A6 */	mtlr r0
 /* 804500D0 0044D010  38 21 00 10 */	addi r1, r1, 0x10
 /* 804500D4 0044D014  4E 80 00 20 */	blr 
+.endfn load__Q24Game9THPPlayerFv
 .else
-.global load__Q24Game9THPPlayerFv
-load__Q24Game9THPPlayerFv:
+.fn load__Q24Game9THPPlayerFv, global
 /* 8045006C 0044CFAC  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80450070 0044CFB0  7C 08 02 A6 */	mflr r0
 /* 80450074 0044CFB4  90 01 00 14 */	stw r0, 0x14(r1)
@@ -555,7 +606,7 @@ load__Q24Game9THPPlayerFv:
 /* 80450088 0044CFC8  38 60 00 00 */	li r3, 0
 /* 8045008C 0044CFCC  4B FF DE 55 */	bl THPPlayerInit
 /* 80450090 0044CFD0  2C 03 00 00 */	cmpwi r3, 0
-/* 80450094 0044CFD4  40 82 00 20 */	bne lbl_804500B4
+/* 80450094 0044CFD4  40 82 00 20 */	bne .L_804500B4
 /* 80450098 0044CFD8  3C 60 80 4A */	lis r3, lbl_8049B6FC@ha
 /* 8045009C 0044CFDC  3C A0 80 4A */	lis r5, lbl_8049B720@ha
 /* 804500A0 0044CFE0  38 63 B6 FC */	addi r3, r3, lbl_8049B6FC@l
@@ -563,7 +614,7 @@ load__Q24Game9THPPlayerFv:
 /* 804500A8 0044CFE8  38 A5 B7 20 */	addi r5, r5, lbl_8049B720@l
 /* 804500AC 0044CFEC  4C C6 31 82 */	crclr 6
 /* 804500B0 0044CFF0  4B BD A5 91 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_804500B4:
+.L_804500B4:
 /* 804500B4 0044CFF4  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 804500B8 0044CFF8  38 9F 00 5C */	addi r4, r31, 0x5c
 /* 804500BC 0044CFFC  38 BF 00 C8 */	addi r5, r31, 0xc8
@@ -573,10 +624,10 @@ lbl_804500B4:
 /* 804500CC 0044D00C  7C 08 03 A6 */	mtlr r0
 /* 804500D0 0044D010  38 21 00 10 */	addi r1, r1, 0x10
 /* 804500D4 0044D014  4E 80 00 20 */	blr 
+.endfn load__Q24Game9THPPlayerFv
 .endif
 
-.global loadResource__Q24Game9THPPlayerFv
-loadResource__Q24Game9THPPlayerFv:
+.fn loadResource__Q24Game9THPPlayerFv, global
 /* 804500D8 0044D018  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804500DC 0044D01C  7C 08 02 A6 */	mflr r0
 /* 804500E0 0044D020  38 83 00 DC */	addi r4, r3, 0xdc
@@ -586,10 +637,10 @@ loadResource__Q24Game9THPPlayerFv:
 /* 804500F0 0044D030  7C 08 03 A6 */	mtlr r0
 /* 804500F4 0044D034  38 21 00 10 */	addi r1, r1, 0x10
 /* 804500F8 0044D038  4E 80 00 20 */	blr 
+.endfn loadResource__Q24Game9THPPlayerFv
 
 .if version == 1
-.global loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg
-loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg:
+.fn loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg, global
 /* 804500FC 0044D03C  94 21 FB B0 */	stwu r1, -0x450(r1)
 /* 80450100 0044D040  7C 08 02 A6 */	mflr r0
 /* 80450104 0044D044  3C A0 80 4A */	lis r5, lbl_8049B510@ha
@@ -617,7 +668,7 @@ loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg:
 /* 8045015C 0044D09C  80 7C 00 04 */	lwz r3, 4(r28)
 /* 80450160 0044D0A0  88 03 00 00 */	lbz r0, 0(r3)
 /* 80450164 0044D0A4  7C 00 07 75 */	extsb. r0, r0
-/* 80450168 0044D0A8  41 82 00 AC */	beq lbl_80450214
+/* 80450168 0044D0A8  41 82 00 AC */	beq .L_80450214
 /* 8045016C 0044D0AC  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80450170 0044D0B0  38 9F 02 54 */	addi r4, r31, 0x2b4
 /* 80450174 0044D0B4  38 A0 00 00 */	li r5, 0
@@ -634,14 +685,14 @@ loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg:
 /* 804501A0 0044D0E0  39 40 00 00 */	li r10, 0
 /* 804501A4 0044D0E4  4B BC EF E5 */	bl loadToMainRAM__12JKRDvdRipperFPCcPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
 /* 804501A8 0044D0E8  7C 7D 1B 79 */	or. r29, r3, r3
-/* 804501AC 0044D0EC  40 82 00 1C */	bne lbl_804501C8
+/* 804501AC 0044D0EC  40 82 00 1C */	bne .L_804501C8
 /* 804501B0 0044D0F0  80 DC 00 04 */	lwz r6, 4(r28)
 /* 804501B4 0044D0F4  38 7F 01 EC */	addi r3, r31, 0x24c
 /* 804501B8 0044D0F8  38 BF 02 68 */	addi r5, r31, 0x2c8
 /* 804501BC 0044D0FC  38 80 01 37 */	li r4, 0x13d
 /* 804501C0 0044D100  4C C6 31 82 */	crclr 6
 /* 804501C4 0044D104  4B BD A4 7D */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_804501C8:
+.L_804501C8:
 /* 804501C8 0044D108  7F A4 EB 78 */	mr r4, r29
 /* 804501CC 0044D10C  38 61 00 10 */	addi r3, r1, 0x10
 /* 804501D0 0044D110  38 A0 FF FF */	li r5, -1
@@ -649,10 +700,10 @@ lbl_804501C8:
 /* 804501D8 0044D118  38 00 00 01 */	li r0, 1
 /* 804501DC 0044D11C  2C 00 00 01 */	cmpwi r0, 1
 /* 804501E0 0044D120  90 01 00 1C */	stw r0, 0x1c(r1)
-/* 804501E4 0044D124  40 82 00 0C */	bne lbl_804501F0
+/* 804501E4 0044D124  40 82 00 0C */	bne .L_804501F0
 /* 804501E8 0044D128  38 00 00 00 */	li r0, 0
 /* 804501EC 0044D12C  90 01 04 24 */	stw r0, 0x424(r1)
-lbl_804501F0:
+.L_804501F0:
 /* 804501F0 0044D130  80 7B 00 54 */	lwz r3, 0x54(r27)
 /* 804501F4 0044D134  38 81 00 10 */	addi r4, r1, 0x10
 /* 804501F8 0044D138  81 83 00 00 */	lwz r12, 0(r3)
@@ -662,10 +713,10 @@ lbl_804501F0:
 /* 80450208 0044D148  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 8045020C 0044D14C  38 9F 02 54 */	addi r4, r31, 0x2b4
 /* 80450210 0044D150  4B FD 31 55 */	bl heapStatusEnd__6SystemFPc
-lbl_80450214:
+.L_80450214:
 /* 80450214 0044D154  80 1C 00 00 */	lwz r0, 0(r28)
 /* 80450218 0044D158  28 00 00 00 */	cmplwi r0, 0
-/* 8045021C 0044D15C  41 82 00 4C */	beq lbl_80450268
+/* 8045021C 0044D15C  41 82 00 4C */	beq .L_80450268
 /* 80450220 0044D160  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80450224 0044D164  38 9F 02 8C */	addi r4, r31, 0x2ec
 /* 80450228 0044D168  38 A0 00 00 */	li r5, 0
@@ -674,18 +725,18 @@ lbl_80450214:
 /* 80450234 0044D174  38 80 00 00 */	li r4, 0
 /* 80450238 0044D178  4B FF DD B5 */	bl THPPlayerOpen
 /* 8045023C 0044D17C  2C 03 00 00 */	cmpwi r3, 0
-/* 80450240 0044D180  40 82 00 1C */	bne lbl_8045025C
+/* 80450240 0044D180  40 82 00 1C */	bne .L_8045025C
 /* 80450244 0044D184  80 DC 00 00 */	lwz r6, 0(r28)
 /* 80450248 0044D188  38 7F 01 EC */	addi r3, r31, 0x24c
 /* 8045024C 0044D18C  38 BF 02 9C */	addi r5, r31, 0x2fc
 /* 80450250 0044D190  38 80 01 45 */	li r4, 0x14b
 /* 80450254 0044D194  4C C6 31 82 */	crclr 6
 /* 80450258 0044D198  4B BD A3 E9 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8045025C:
+.L_8045025C:
 /* 8045025C 0044D19C  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80450260 0044D1A0  38 9F 02 8C */	addi r4, r31, 0x2ec
 /* 80450264 0044D1A4  4B FD 31 01 */	bl heapStatusEnd__6SystemFPc
-lbl_80450268:
+.L_80450268:
 /* 80450268 0044D1A8  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 8045026C 0044D1AC  38 9F 02 40 */	addi r4, r31, 0x2a0
 /* 80450270 0044D1B0  4B FD 30 F5 */	bl heapStatusEnd__6SystemFPc
@@ -710,9 +761,9 @@ lbl_80450268:
 /* 804502BC 0044D1FC  7C 08 03 A6 */	mtlr r0
 /* 804502C0 0044D200  38 21 04 50 */	addi r1, r1, 0x450
 /* 804502C4 0044D204  4E 80 00 20 */	blr 
+.endfn loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg
 .else
-.global loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg
-loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg:
+.fn loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg, global
 /* 804500FC 0044D03C  94 21 FB B0 */	stwu r1, -0x450(r1)
 /* 80450100 0044D040  7C 08 02 A6 */	mflr r0
 /* 80450104 0044D044  3C A0 80 4A */	lis r5, lbl_8049B510@ha
@@ -740,7 +791,7 @@ loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg:
 /* 8045015C 0044D09C  80 7C 00 04 */	lwz r3, 4(r28)
 /* 80450160 0044D0A0  88 03 00 00 */	lbz r0, 0(r3)
 /* 80450164 0044D0A4  7C 00 07 75 */	extsb. r0, r0
-/* 80450168 0044D0A8  41 82 00 AC */	beq lbl_80450214
+/* 80450168 0044D0A8  41 82 00 AC */	beq .L_80450214
 /* 8045016C 0044D0AC  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80450170 0044D0B0  38 9F 02 54 */	addi r4, r31, 0x254
 /* 80450174 0044D0B4  38 A0 00 00 */	li r5, 0
@@ -757,14 +808,14 @@ loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg:
 /* 804501A0 0044D0E0  39 40 00 00 */	li r10, 0
 /* 804501A4 0044D0E4  4B BC EF E5 */	bl loadToMainRAM__12JKRDvdRipperFPCcPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
 /* 804501A8 0044D0E8  7C 7D 1B 79 */	or. r29, r3, r3
-/* 804501AC 0044D0EC  40 82 00 1C */	bne lbl_804501C8
+/* 804501AC 0044D0EC  40 82 00 1C */	bne .L_804501C8
 /* 804501B0 0044D0F0  80 DC 00 04 */	lwz r6, 4(r28)
 /* 804501B4 0044D0F4  38 7F 01 EC */	addi r3, r31, 0x1ec
 /* 804501B8 0044D0F8  38 BF 02 68 */	addi r5, r31, 0x268
 /* 804501BC 0044D0FC  38 80 01 37 */	li r4, 0x137
 /* 804501C0 0044D100  4C C6 31 82 */	crclr 6
 /* 804501C4 0044D104  4B BD A4 7D */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_804501C8:
+.L_804501C8:
 /* 804501C8 0044D108  7F A4 EB 78 */	mr r4, r29
 /* 804501CC 0044D10C  38 61 00 10 */	addi r3, r1, 0x10
 /* 804501D0 0044D110  38 A0 FF FF */	li r5, -1
@@ -772,10 +823,10 @@ lbl_804501C8:
 /* 804501D8 0044D118  38 00 00 01 */	li r0, 1
 /* 804501DC 0044D11C  2C 00 00 01 */	cmpwi r0, 1
 /* 804501E0 0044D120  90 01 00 1C */	stw r0, 0x1c(r1)
-/* 804501E4 0044D124  40 82 00 0C */	bne lbl_804501F0
+/* 804501E4 0044D124  40 82 00 0C */	bne .L_804501F0
 /* 804501E8 0044D128  38 00 00 00 */	li r0, 0
 /* 804501EC 0044D12C  90 01 04 24 */	stw r0, 0x424(r1)
-lbl_804501F0:
+.L_804501F0:
 /* 804501F0 0044D130  80 7B 00 54 */	lwz r3, 0x54(r27)
 /* 804501F4 0044D134  38 81 00 10 */	addi r4, r1, 0x10
 /* 804501F8 0044D138  81 83 00 00 */	lwz r12, 0(r3)
@@ -785,10 +836,10 @@ lbl_804501F0:
 /* 80450208 0044D148  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 8045020C 0044D14C  38 9F 02 54 */	addi r4, r31, 0x254
 /* 80450210 0044D150  4B FD 31 55 */	bl heapStatusEnd__6SystemFPc
-lbl_80450214:
+.L_80450214:
 /* 80450214 0044D154  80 1C 00 00 */	lwz r0, 0(r28)
 /* 80450218 0044D158  28 00 00 00 */	cmplwi r0, 0
-/* 8045021C 0044D15C  41 82 00 4C */	beq lbl_80450268
+/* 8045021C 0044D15C  41 82 00 4C */	beq .L_80450268
 /* 80450220 0044D160  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80450224 0044D164  38 9F 02 8C */	addi r4, r31, 0x28c
 /* 80450228 0044D168  38 A0 00 00 */	li r5, 0
@@ -797,18 +848,18 @@ lbl_80450214:
 /* 80450234 0044D174  38 80 00 00 */	li r4, 0
 /* 80450238 0044D178  4B FF DD B5 */	bl THPPlayerOpen
 /* 8045023C 0044D17C  2C 03 00 00 */	cmpwi r3, 0
-/* 80450240 0044D180  40 82 00 1C */	bne lbl_8045025C
+/* 80450240 0044D180  40 82 00 1C */	bne .L_8045025C
 /* 80450244 0044D184  80 DC 00 00 */	lwz r6, 0(r28)
 /* 80450248 0044D188  38 7F 01 EC */	addi r3, r31, 0x1ec
 /* 8045024C 0044D18C  38 BF 02 9C */	addi r5, r31, 0x29c
 /* 80450250 0044D190  38 80 01 45 */	li r4, 0x145
 /* 80450254 0044D194  4C C6 31 82 */	crclr 6
 /* 80450258 0044D198  4B BD A3 E9 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8045025C:
+.L_8045025C:
 /* 8045025C 0044D19C  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80450260 0044D1A0  38 9F 02 8C */	addi r4, r31, 0x28c
 /* 80450264 0044D1A4  4B FD 31 01 */	bl heapStatusEnd__6SystemFPc
-lbl_80450268:
+.L_80450268:
 /* 80450268 0044D1A8  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 8045026C 0044D1AC  38 9F 02 40 */	addi r4, r31, 0x240
 /* 80450270 0044D1B0  4B FD 30 F5 */	bl heapStatusEnd__6SystemFPc
@@ -833,11 +884,11 @@ lbl_80450268:
 /* 804502BC 0044D1FC  7C 08 03 A6 */	mtlr r0
 /* 804502C0 0044D200  38 21 04 50 */	addi r1, r1, 0x450
 /* 804502C4 0044D204  4E 80 00 20 */	blr 
+.endfn loadResource__Q24Game9THPPlayerFRCQ24Game24THPPlayerLoadResourceArg
 .endif
 
 .if version == 1
-.global prepare__Q24Game9THPPlayerFv
-prepare__Q24Game9THPPlayerFv:
+.fn prepare__Q24Game9THPPlayerFv, global
 /* 804502C8 0044D208  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804502CC 0044D20C  7C 08 02 A6 */	mflr r0
 /* 804502D0 0044D210  3C 80 80 4A */	lis r4, lbl_8049B510@ha
@@ -862,13 +913,13 @@ prepare__Q24Game9THPPlayerFv:
 /* 8045031C 0044D25C  38 80 00 20 */	li r4, 0x20
 /* 80450320 0044D260  4B BD 3C D9 */	bl __nwa__FUli
 /* 80450324 0044D264  7C 7E 1B 79 */	or. r30, r3, r3
-/* 80450328 0044D268  40 82 00 18 */	bne lbl_80450340
+/* 80450328 0044D268  40 82 00 18 */	bne .L_80450340
 /* 8045032C 0044D26C  38 7F 01 EC */	addi r3, r31, 0x24c
 /* 80450330 0044D270  38 BF 02 E0 */	addi r5, r31, 0x340
 /* 80450334 0044D274  38 80 01 6F */	li r4, 0x175
 /* 80450338 0044D278  4C C6 31 82 */	crclr 6
 /* 8045033C 0044D27C  4B C9 D4 31 */	bl OSPanic
-lbl_80450340:
+.L_80450340:
 /* 80450340 0044D280  7F C3 F3 78 */	mr r3, r30
 /* 80450344 0044D284  4B FF E0 E1 */	bl THPPlayerSetBuffer
 /* 80450348 0044D288  80 6D 9A EC */	lwz r3, sys@sda21(r13)
@@ -876,26 +927,26 @@ lbl_80450340:
 /* 80450350 0044D290  4B FD 30 15 */	bl heapStatusEnd__6SystemFPc
 /* 80450354 0044D294  80 1C 00 50 */	lwz r0, 0x50(r28)
 /* 80450358 0044D298  28 00 00 01 */	cmplwi r0, 1
-/* 8045035C 0044D29C  40 81 00 1C */	ble lbl_80450378
+/* 8045035C 0044D29C  40 81 00 1C */	ble .L_80450378
 /* 80450360 0044D2A0  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80450364 0044D2A4  80 63 00 60 */	lwz r3, 0x60(r3)
 /* 80450368 0044D2A8  88 03 00 38 */	lbz r0, 0x38(r3)
 /* 8045036C 0044D2AC  28 00 00 02 */	cmplwi r0, 2
-/* 80450370 0044D2B0  40 82 00 08 */	bne lbl_80450378
+/* 80450370 0044D2B0  40 82 00 08 */	bne .L_80450378
 /* 80450374 0044D2B4  3B A0 00 01 */	li r29, 1
-lbl_80450378:
+.L_80450378:
 /* 80450378 0044D2B8  7F A5 EB 78 */	mr r5, r29
 /* 8045037C 0044D2BC  38 60 00 00 */	li r3, 0
 /* 80450380 0044D2C0  38 80 00 00 */	li r4, 0
 /* 80450384 0044D2C4  4B FF E2 E1 */	bl THPPlayerPrepare
 /* 80450388 0044D2C8  2C 03 00 00 */	cmpwi r3, 0
-/* 8045038C 0044D2CC  40 82 00 18 */	bne lbl_804503A4
+/* 8045038C 0044D2CC  40 82 00 18 */	bne .L_804503A4
 /* 80450390 0044D2D0  38 7F 01 EC */	addi r3, r31, 0x24c
 /* 80450394 0044D2D4  38 BF 02 FC */	addi r5, r31, 0x35c
 /* 80450398 0044D2D8  38 80 01 8D */	li r4, 0x193
 /* 8045039C 0044D2DC  4C C6 31 82 */	crclr 6
 /* 804503A0 0044D2E0  4B BD A2 A1 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_804503A4:
+.L_804503A4:
 /* 804503A4 0044D2E4  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 804503A8 0044D2E8  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 804503AC 0044D2EC  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -904,9 +955,9 @@ lbl_804503A4:
 /* 804503B8 0044D2F8  7C 08 03 A6 */	mtlr r0
 /* 804503BC 0044D2FC  38 21 00 20 */	addi r1, r1, 0x20
 /* 804503C0 0044D300  4E 80 00 20 */	blr 
+.endfn prepare__Q24Game9THPPlayerFv
 .else
-.global prepare__Q24Game9THPPlayerFv
-prepare__Q24Game9THPPlayerFv:
+.fn prepare__Q24Game9THPPlayerFv, global
 /* 804502C8 0044D208  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804502CC 0044D20C  7C 08 02 A6 */	mflr r0
 /* 804502D0 0044D210  3C 80 80 4A */	lis r4, lbl_8049B510@ha
@@ -931,13 +982,13 @@ prepare__Q24Game9THPPlayerFv:
 /* 8045031C 0044D25C  38 80 00 20 */	li r4, 0x20
 /* 80450320 0044D260  4B BD 3C D9 */	bl __nwa__FUli
 /* 80450324 0044D264  7C 7E 1B 79 */	or. r30, r3, r3
-/* 80450328 0044D268  40 82 00 18 */	bne lbl_80450340
+/* 80450328 0044D268  40 82 00 18 */	bne .L_80450340
 /* 8045032C 0044D26C  38 7F 01 EC */	addi r3, r31, 0x1ec
 /* 80450330 0044D270  38 BF 02 E0 */	addi r5, r31, 0x2e0
 /* 80450334 0044D274  38 80 01 6F */	li r4, 0x16f
 /* 80450338 0044D278  4C C6 31 82 */	crclr 6
 /* 8045033C 0044D27C  4B C9 D4 31 */	bl OSPanic
-lbl_80450340:
+.L_80450340:
 /* 80450340 0044D280  7F C3 F3 78 */	mr r3, r30
 /* 80450344 0044D284  4B FF E0 E1 */	bl THPPlayerSetBuffer
 /* 80450348 0044D288  80 6D 9A EC */	lwz r3, sys@sda21(r13)
@@ -945,26 +996,26 @@ lbl_80450340:
 /* 80450350 0044D290  4B FD 30 15 */	bl heapStatusEnd__6SystemFPc
 /* 80450354 0044D294  80 1C 00 50 */	lwz r0, 0x50(r28)
 /* 80450358 0044D298  28 00 00 01 */	cmplwi r0, 1
-/* 8045035C 0044D29C  40 81 00 1C */	ble lbl_80450378
+/* 8045035C 0044D29C  40 81 00 1C */	ble .L_80450378
 /* 80450360 0044D2A0  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80450364 0044D2A4  80 63 00 60 */	lwz r3, 0x60(r3)
 /* 80450368 0044D2A8  88 03 00 38 */	lbz r0, 0x38(r3)
 /* 8045036C 0044D2AC  28 00 00 02 */	cmplwi r0, 2
-/* 80450370 0044D2B0  40 82 00 08 */	bne lbl_80450378
+/* 80450370 0044D2B0  40 82 00 08 */	bne .L_80450378
 /* 80450374 0044D2B4  3B A0 00 01 */	li r29, 1
-lbl_80450378:
+.L_80450378:
 /* 80450378 0044D2B8  7F A5 EB 78 */	mr r5, r29
 /* 8045037C 0044D2BC  38 60 00 00 */	li r3, 0
 /* 80450380 0044D2C0  38 80 00 00 */	li r4, 0
 /* 80450384 0044D2C4  4B FF E2 E1 */	bl THPPlayerPrepare
 /* 80450388 0044D2C8  2C 03 00 00 */	cmpwi r3, 0
-/* 8045038C 0044D2CC  40 82 00 18 */	bne lbl_804503A4
+/* 8045038C 0044D2CC  40 82 00 18 */	bne .L_804503A4
 /* 80450390 0044D2D0  38 7F 01 EC */	addi r3, r31, 0x1ec
 /* 80450394 0044D2D4  38 BF 02 FC */	addi r5, r31, 0x2fc
 /* 80450398 0044D2D8  38 80 01 8D */	li r4, 0x18d
 /* 8045039C 0044D2DC  4C C6 31 82 */	crclr 6
 /* 804503A0 0044D2E0  4B BD A2 A1 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_804503A4:
+.L_804503A4:
 /* 804503A4 0044D2E4  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 804503A8 0044D2E8  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 804503AC 0044D2EC  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -973,11 +1024,11 @@ lbl_804503A4:
 /* 804503B8 0044D2F8  7C 08 03 A6 */	mtlr r0
 /* 804503BC 0044D2FC  38 21 00 20 */	addi r1, r1, 0x20
 /* 804503C0 0044D300  4E 80 00 20 */	blr 
+.endfn prepare__Q24Game9THPPlayerFv
 .endif
 
 .if version == 1
-.global init__Q24Game9THPPlayerFP7JKRHeap
-init__Q24Game9THPPlayerFP7JKRHeap:
+.fn init__Q24Game9THPPlayerFP7JKRHeap, global
 /* 804503C4 0044D304  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804503C8 0044D308  7C 08 02 A6 */	mflr r0
 /* 804503CC 0044D30C  90 01 00 24 */	stw r0, 0x24(r1)
@@ -988,7 +1039,7 @@ init__Q24Game9THPPlayerFP7JKRHeap:
 /* 804503E0 0044D320  7C 7D 1B 78 */	mr r29, r3
 /* 804503E4 0044D324  80 03 00 58 */	lwz r0, 0x58(r3)
 /* 804503E8 0044D328  28 00 00 00 */	cmplwi r0, 0
-/* 804503EC 0044D32C  41 82 00 20 */	beq lbl_8045040C
+/* 804503EC 0044D32C  41 82 00 20 */	beq .L_8045040C
 /* 804503F0 0044D330  3C 60 80 4A */	lis r3, lbl_8049B6FC@ha
 /* 804503F4 0044D334  3C A0 80 4A */	lis r5, lbl_8049B714@ha
 /* 804503F8 0044D338  38 63 B6 FC */	addi r3, r3, lbl_8049B6FC@l
@@ -996,12 +1047,12 @@ init__Q24Game9THPPlayerFP7JKRHeap:
 /* 80450400 0044D340  38 A5 B7 14 */	addi r5, r5, lbl_8049B714@l
 /* 80450404 0044D344  4C C6 31 82 */	crclr 6
 /* 80450408 0044D348  4B BD A2 39 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8045040C:
+.L_8045040C:
 /* 8045040C 0044D34C  28 1E 00 00 */	cmplwi r30, 0
 /* 80450410 0044D350  83 ED 88 2C */	lwz r31, sCurrentHeap__7JKRHeap@sda21(r13)
-/* 80450414 0044D354  40 82 00 08 */	bne lbl_8045041C
+/* 80450414 0044D354  40 82 00 08 */	bne .L_8045041C
 /* 80450418 0044D358  7F FE FB 78 */	mr r30, r31
-lbl_8045041C:
+.L_8045041C:
 /* 8045041C 0044D35C  7F C3 F3 78 */	mr r3, r30
 /* 80450420 0044D360  4B BD 31 85 */	bl becomeCurrentHeap__7JKRHeapFv
 /* 80450424 0044D364  7F C4 F3 78 */	mr r4, r30
@@ -1011,7 +1062,7 @@ lbl_8045041C:
 /* 80450434 0044D374  90 7D 00 58 */	stw r3, 0x58(r29)
 /* 80450438 0044D378  80 1D 00 58 */	lwz r0, 0x58(r29)
 /* 8045043C 0044D37C  28 00 00 00 */	cmplwi r0, 0
-/* 80450440 0044D380  40 82 00 20 */	bne lbl_80450460
+/* 80450440 0044D380  40 82 00 20 */	bne .L_80450460
 /* 80450444 0044D384  3C 60 80 4A */	lis r3, lbl_8049B6FC@ha
 /* 80450448 0044D388  3C A0 80 4A */	lis r5, lbl_8049B714@ha
 /* 8045044C 0044D38C  38 63 B6 FC */	addi r3, r3, lbl_8049B6FC@l
@@ -1019,7 +1070,7 @@ lbl_8045041C:
 /* 80450454 0044D394  38 A5 B7 14 */	addi r5, r5, lbl_8049B714@l
 /* 80450458 0044D398  4C C6 31 82 */	crclr 6
 /* 8045045C 0044D39C  4B BD A1 E5 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80450460:
+.L_80450460:
 /* 80450460 0044D3A0  7F E3 FB 78 */	mr r3, r31
 /* 80450464 0044D3A4  4B BD 31 41 */	bl becomeCurrentHeap__7JKRHeapFv
 /* 80450468 0044D3A8  80 01 00 24 */	lwz r0, 0x24(r1)
@@ -1029,9 +1080,9 @@ lbl_80450460:
 /* 80450478 0044D3B8  7C 08 03 A6 */	mtlr r0
 /* 8045047C 0044D3BC  38 21 00 20 */	addi r1, r1, 0x20
 /* 80450480 0044D3C0  4E 80 00 20 */	blr 
+.endfn init__Q24Game9THPPlayerFP7JKRHeap
 .else
-.global init__Q24Game9THPPlayerFP7JKRHeap
-init__Q24Game9THPPlayerFP7JKRHeap:
+.fn init__Q24Game9THPPlayerFP7JKRHeap, global
 /* 804503C4 0044D304  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804503C8 0044D308  7C 08 02 A6 */	mflr r0
 /* 804503CC 0044D30C  90 01 00 24 */	stw r0, 0x24(r1)
@@ -1042,7 +1093,7 @@ init__Q24Game9THPPlayerFP7JKRHeap:
 /* 804503E0 0044D320  7C 7D 1B 78 */	mr r29, r3
 /* 804503E4 0044D324  80 03 00 58 */	lwz r0, 0x58(r3)
 /* 804503E8 0044D328  28 00 00 00 */	cmplwi r0, 0
-/* 804503EC 0044D32C  41 82 00 20 */	beq lbl_8045040C
+/* 804503EC 0044D32C  41 82 00 20 */	beq .L_8045040C
 /* 804503F0 0044D330  3C 60 80 4A */	lis r3, lbl_8049B6FC@ha
 /* 804503F4 0044D334  3C A0 80 4A */	lis r5, lbl_8049B714@ha
 /* 804503F8 0044D338  38 63 B6 FC */	addi r3, r3, lbl_8049B6FC@l
@@ -1050,12 +1101,12 @@ init__Q24Game9THPPlayerFP7JKRHeap:
 /* 80450400 0044D340  38 A5 B7 14 */	addi r5, r5, lbl_8049B714@l
 /* 80450404 0044D344  4C C6 31 82 */	crclr 6
 /* 80450408 0044D348  4B BD A2 39 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8045040C:
+.L_8045040C:
 /* 8045040C 0044D34C  28 1E 00 00 */	cmplwi r30, 0
 /* 80450410 0044D350  83 ED 88 2C */	lwz r31, sCurrentHeap__7JKRHeap@sda21(r13)
-/* 80450414 0044D354  40 82 00 08 */	bne lbl_8045041C
+/* 80450414 0044D354  40 82 00 08 */	bne .L_8045041C
 /* 80450418 0044D358  7F FE FB 78 */	mr r30, r31
-lbl_8045041C:
+.L_8045041C:
 /* 8045041C 0044D35C  7F C3 F3 78 */	mr r3, r30
 /* 80450420 0044D360  4B BD 31 85 */	bl becomeCurrentHeap__7JKRHeapFv
 /* 80450424 0044D364  7F C4 F3 78 */	mr r4, r30
@@ -1065,7 +1116,7 @@ lbl_8045041C:
 /* 80450434 0044D374  90 7D 00 58 */	stw r3, 0x58(r29)
 /* 80450438 0044D378  80 1D 00 58 */	lwz r0, 0x58(r29)
 /* 8045043C 0044D37C  28 00 00 00 */	cmplwi r0, 0
-/* 80450440 0044D380  40 82 00 20 */	bne lbl_80450460
+/* 80450440 0044D380  40 82 00 20 */	bne .L_80450460
 /* 80450444 0044D384  3C 60 80 4A */	lis r3, lbl_8049B6FC@ha
 /* 80450448 0044D388  3C A0 80 4A */	lis r5, lbl_8049B714@ha
 /* 8045044C 0044D38C  38 63 B6 FC */	addi r3, r3, lbl_8049B6FC@l
@@ -1073,7 +1124,7 @@ lbl_8045041C:
 /* 80450454 0044D394  38 A5 B7 14 */	addi r5, r5, lbl_8049B714@l
 /* 80450458 0044D398  4C C6 31 82 */	crclr 6
 /* 8045045C 0044D39C  4B BD A1 E5 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80450460:
+.L_80450460:
 /* 80450460 0044D3A0  7F E3 FB 78 */	mr r3, r31
 /* 80450464 0044D3A4  4B BD 31 41 */	bl becomeCurrentHeap__7JKRHeapFv
 /* 80450468 0044D3A8  80 01 00 24 */	lwz r0, 0x24(r1)
@@ -1083,10 +1134,10 @@ lbl_80450460:
 /* 80450478 0044D3B8  7C 08 03 A6 */	mtlr r0
 /* 8045047C 0044D3BC  38 21 00 20 */	addi r1, r1, 0x20
 /* 80450480 0044D3C0  4E 80 00 20 */	blr 
+.endfn init__Q24Game9THPPlayerFP7JKRHeap
 .endif
 
-.global play__Q24Game9THPPlayerFv
-play__Q24Game9THPPlayerFv:
+.fn play__Q24Game9THPPlayerFv, global
 /* 80450484 0044D3C4  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80450488 0044D3C8  7C 08 02 A6 */	mflr r0
 /* 8045048C 0044D3CC  90 01 00 24 */	stw r0, 0x24(r1)
@@ -1095,11 +1146,11 @@ play__Q24Game9THPPlayerFv:
 /* 80450498 0044D3D8  48 01 B3 D9 */	bl PSStop2DStream__Fv
 /* 8045049C 0044D3DC  80 1F 00 30 */	lwz r0, 0x30(r31)
 /* 804504A0 0044D3E0  2C 00 00 02 */	cmpwi r0, 2
-/* 804504A4 0044D3E4  40 82 00 68 */	bne lbl_8045050C
+/* 804504A4 0044D3E4  40 82 00 68 */	bne .L_8045050C
 /* 804504A8 0044D3E8  4B FF E5 51 */	bl THPPlayerPlay
 /* 804504AC 0044D3EC  80 0D 98 58 */	lwz r0, spSysIF__8PSSystem@sda21(r13)
 /* 804504B0 0044D3F0  28 00 00 00 */	cmplwi r0, 0
-/* 804504B4 0044D3F4  40 82 00 20 */	bne lbl_804504D4
+/* 804504B4 0044D3F4  40 82 00 20 */	bne .L_804504D4
 /* 804504B8 0044D3F8  3C 60 80 4A */	lis r3, lbl_8049B820@ha
 /* 804504BC 0044D3FC  3C A0 80 4A */	lis r5, lbl_8049B714@ha
 /* 804504C0 0044D400  38 63 B8 20 */	addi r3, r3, lbl_8049B820@l
@@ -1107,52 +1158,52 @@ play__Q24Game9THPPlayerFv:
 /* 804504C8 0044D408  38 A5 B7 14 */	addi r5, r5, lbl_8049B714@l
 /* 804504CC 0044D40C  4C C6 31 82 */	crclr 6
 /* 804504D0 0044D410  4B BD A1 71 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_804504D4:
+.L_804504D4:
 /* 804504D4 0044D414  80 6D 98 58 */	lwz r3, spSysIF__8PSSystem@sda21(r13)
 /* 804504D8 0044D418  C0 22 27 B4 */	lfs f1, lbl_80520B14@sda21(r2)
 /* 804504DC 0044D41C  C0 03 00 24 */	lfs f0, 0x24(r3)
 /* 804504E0 0044D420  EC 01 00 32 */	fmuls f0, f1, f0
 /* 804504E4 0044D424  FC 00 08 40 */	fcmpo cr0, f0, f1
-/* 804504E8 0044D428  40 81 00 08 */	ble lbl_804504F0
+/* 804504E8 0044D428  40 81 00 08 */	ble .L_804504F0
 /* 804504EC 0044D42C  FC 00 08 90 */	fmr f0, f1
-lbl_804504F0:
+.L_804504F0:
 /* 804504F0 0044D430  FC 00 00 1E */	fctiwz f0, f0
 /* 804504F4 0044D434  38 80 00 00 */	li r4, 0
 /* 804504F8 0044D438  D8 01 00 08 */	stfd f0, 8(r1)
 /* 804504FC 0044D43C  80 61 00 0C */	lwz r3, 0xc(r1)
 /* 80450500 0044D440  4B FF EF 65 */	bl THPPlayerSetVolume
 /* 80450504 0044D444  38 60 00 01 */	li r3, 1
-/* 80450508 0044D448  48 00 00 08 */	b lbl_80450510
-lbl_8045050C:
+/* 80450508 0044D448  48 00 00 08 */	b .L_80450510
+.L_8045050C:
 /* 8045050C 0044D44C  38 60 00 00 */	li r3, 0
-lbl_80450510:
+.L_80450510:
 /* 80450510 0044D450  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 80450514 0044D454  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 80450518 0044D458  7C 08 03 A6 */	mtlr r0
 /* 8045051C 0044D45C  38 21 00 20 */	addi r1, r1, 0x20
 /* 80450520 0044D460  4E 80 00 20 */	blr 
+.endfn play__Q24Game9THPPlayerFv
 
-.global pause__Q24Game9THPPlayerFv
-pause__Q24Game9THPPlayerFv:
+.fn pause__Q24Game9THPPlayerFv, global
 /* 80450524 0044D464  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80450528 0044D468  7C 08 02 A6 */	mflr r0
 /* 8045052C 0044D46C  90 01 00 14 */	stw r0, 0x14(r1)
 /* 80450530 0044D470  80 03 00 30 */	lwz r0, 0x30(r3)
 /* 80450534 0044D474  2C 00 00 02 */	cmpwi r0, 2
-/* 80450538 0044D478  40 82 00 10 */	bne lbl_80450548
+/* 80450538 0044D478  40 82 00 10 */	bne .L_80450548
 /* 8045053C 0044D47C  4B FF E5 ED */	bl THPPlayerPause
 /* 80450540 0044D480  38 60 00 01 */	li r3, 1
-/* 80450544 0044D484  48 00 00 08 */	b lbl_8045054C
-lbl_80450548:
+/* 80450544 0044D484  48 00 00 08 */	b .L_8045054C
+.L_80450548:
 /* 80450548 0044D488  38 60 00 00 */	li r3, 0
-lbl_8045054C:
+.L_8045054C:
 /* 8045054C 0044D48C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80450550 0044D490  7C 08 03 A6 */	mtlr r0
 /* 80450554 0044D494  38 21 00 10 */	addi r1, r1, 0x10
 /* 80450558 0044D498  4E 80 00 20 */	blr 
+.endfn pause__Q24Game9THPPlayerFv
 
-.global stop__Q24Game9THPPlayerFv
-stop__Q24Game9THPPlayerFv:
+.fn stop__Q24Game9THPPlayerFv, global
 /* 8045055C 0044D49C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80450560 0044D4A0  7C 08 02 A6 */	mflr r0
 /* 80450564 0044D4A4  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1163,10 +1214,10 @@ stop__Q24Game9THPPlayerFv:
 /* 80450578 0044D4B8  7C 08 03 A6 */	mtlr r0
 /* 8045057C 0044D4BC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80450580 0044D4C0  4E 80 00 20 */	blr 
+.endfn stop__Q24Game9THPPlayerFv
 
 .if version == 1
-.global update__Q24Game9THPPlayerFv
-update__Q24Game9THPPlayerFv:
+.fn update__Q24Game9THPPlayerFv, global
 /* 80450584 0044D4C4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80450588 0044D4C8  7C 08 02 A6 */	mflr r0
 /* 8045058C 0044D4CC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1174,28 +1225,28 @@ update__Q24Game9THPPlayerFv:
 /* 80450594 0044D4D4  7C 7F 1B 78 */	mr r31, r3
 /* 80450598 0044D4D8  80 C3 00 30 */	lwz r6, 0x30(r3)
 /* 8045059C 0044D4DC  2C 06 00 01 */	cmpwi r6, 1
-/* 804505A0 0044D4E0  41 82 00 20 */	beq lbl_804505C0
-/* 804505A4 0044D4E4  40 80 00 10 */	bge lbl_804505B4
+/* 804505A0 0044D4E0  41 82 00 20 */	beq .L_804505C0
+/* 804505A4 0044D4E4  40 80 00 10 */	bge .L_804505B4
 /* 804505A8 0044D4E8  2C 06 00 00 */	cmpwi r6, 0
-/* 804505AC 0044D4EC  40 80 00 58 */	bge lbl_80450604
-/* 804505B0 0044D4F0  48 00 00 38 */	b lbl_804505E8
-lbl_804505B4:
+/* 804505AC 0044D4EC  40 80 00 58 */	bge .L_80450604
+/* 804505B0 0044D4F0  48 00 00 38 */	b .L_804505E8
+.L_804505B4:
 /* 804505B4 0044D4F4  2C 06 00 03 */	cmpwi r6, 3
-/* 804505B8 0044D4F8  40 80 00 30 */	bge lbl_804505E8
-/* 804505BC 0044D4FC  48 00 00 1C */	b lbl_804505D8
-lbl_804505C0:
+/* 804505B8 0044D4F8  40 80 00 30 */	bge .L_804505E8
+/* 804505BC 0044D4FC  48 00 00 1C */	b .L_804505D8
+.L_804505C0:
 /* 804505C0 0044D500  48 00 02 79 */	bl isFinishLoading__Q24Game9THPPlayerFv
 /* 804505C4 0044D504  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 804505C8 0044D508  41 82 00 3C */	beq lbl_80450604
+/* 804505C8 0044D508  41 82 00 3C */	beq .L_80450604
 /* 804505CC 0044D50C  38 00 00 02 */	li r0, 2
 /* 804505D0 0044D510  90 1F 00 30 */	stw r0, 0x30(r31)
-/* 804505D4 0044D514  48 00 00 30 */	b lbl_80450604
-lbl_804505D8:
+/* 804505D4 0044D514  48 00 00 30 */	b .L_80450604
+.L_804505D8:
 /* 804505D8 0044D518  80 7F 00 54 */	lwz r3, 0x54(r31)
 /* 804505DC 0044D51C  80 9F 00 34 */	lwz r4, 0x34(r31)
 /* 804505E0 0044D520  48 00 06 99 */	bl update__Q27Caption3MgrFl
-/* 804505E4 0044D524  48 00 00 20 */	b lbl_80450604
-lbl_804505E8:
+/* 804505E4 0044D524  48 00 00 20 */	b .L_80450604
+.L_804505E8:
 /* 804505E8 0044D528  3C 60 80 4A */	lis r3, lbl_8049B6FC@ha
 /* 804505EC 0044D52C  3C 80 80 4A */	lis r4, lbl_8049B830@ha
 /* 804505F0 0044D530  38 A4 B8 30 */	addi r5, r4, lbl_8049B830@l
@@ -1203,15 +1254,15 @@ lbl_804505E8:
 /* 804505F8 0044D538  38 80 01 F8 */	li r4, 0x1fe
 /* 804505FC 0044D53C  4C C6 31 82 */	crclr 6
 /* 80450600 0044D540  4B BD A0 41 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80450604:
+.L_80450604:
 /* 80450604 0044D544  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80450608 0044D548  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 8045060C 0044D54C  7C 08 03 A6 */	mtlr r0
 /* 80450610 0044D550  38 21 00 10 */	addi r1, r1, 0x10
 /* 80450614 0044D554  4E 80 00 20 */	blr 
+.endfn update__Q24Game9THPPlayerFv
 .else
-.global update__Q24Game9THPPlayerFv
-update__Q24Game9THPPlayerFv:
+.fn update__Q24Game9THPPlayerFv, global
 /* 80450584 0044D4C4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80450588 0044D4C8  7C 08 02 A6 */	mflr r0
 /* 8045058C 0044D4CC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1219,28 +1270,28 @@ update__Q24Game9THPPlayerFv:
 /* 80450594 0044D4D4  7C 7F 1B 78 */	mr r31, r3
 /* 80450598 0044D4D8  80 C3 00 30 */	lwz r6, 0x30(r3)
 /* 8045059C 0044D4DC  2C 06 00 01 */	cmpwi r6, 1
-/* 804505A0 0044D4E0  41 82 00 20 */	beq lbl_804505C0
-/* 804505A4 0044D4E4  40 80 00 10 */	bge lbl_804505B4
+/* 804505A0 0044D4E0  41 82 00 20 */	beq .L_804505C0
+/* 804505A4 0044D4E4  40 80 00 10 */	bge .L_804505B4
 /* 804505A8 0044D4E8  2C 06 00 00 */	cmpwi r6, 0
-/* 804505AC 0044D4EC  40 80 00 58 */	bge lbl_80450604
-/* 804505B0 0044D4F0  48 00 00 38 */	b lbl_804505E8
-lbl_804505B4:
+/* 804505AC 0044D4EC  40 80 00 58 */	bge .L_80450604
+/* 804505B0 0044D4F0  48 00 00 38 */	b .L_804505E8
+.L_804505B4:
 /* 804505B4 0044D4F4  2C 06 00 03 */	cmpwi r6, 3
-/* 804505B8 0044D4F8  40 80 00 30 */	bge lbl_804505E8
-/* 804505BC 0044D4FC  48 00 00 1C */	b lbl_804505D8
-lbl_804505C0:
+/* 804505B8 0044D4F8  40 80 00 30 */	bge .L_804505E8
+/* 804505BC 0044D4FC  48 00 00 1C */	b .L_804505D8
+.L_804505C0:
 /* 804505C0 0044D500  48 00 02 79 */	bl isFinishLoading__Q24Game9THPPlayerFv
 /* 804505C4 0044D504  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 804505C8 0044D508  41 82 00 3C */	beq lbl_80450604
+/* 804505C8 0044D508  41 82 00 3C */	beq .L_80450604
 /* 804505CC 0044D50C  38 00 00 02 */	li r0, 2
 /* 804505D0 0044D510  90 1F 00 30 */	stw r0, 0x30(r31)
-/* 804505D4 0044D514  48 00 00 30 */	b lbl_80450604
-lbl_804505D8:
+/* 804505D4 0044D514  48 00 00 30 */	b .L_80450604
+.L_804505D8:
 /* 804505D8 0044D518  80 7F 00 54 */	lwz r3, 0x54(r31)
 /* 804505DC 0044D51C  80 9F 00 34 */	lwz r4, 0x34(r31)
 /* 804505E0 0044D520  48 00 06 99 */	bl update__Q27Caption3MgrFl
-/* 804505E4 0044D524  48 00 00 20 */	b lbl_80450604
-lbl_804505E8:
+/* 804505E4 0044D524  48 00 00 20 */	b .L_80450604
+.L_804505E8:
 /* 804505E8 0044D528  3C 60 80 4A */	lis r3, lbl_8049B6FC@ha
 /* 804505EC 0044D52C  3C 80 80 4A */	lis r4, lbl_8049B830@ha
 /* 804505F0 0044D530  38 A4 B8 30 */	addi r5, r4, lbl_8049B830@l
@@ -1248,16 +1299,16 @@ lbl_804505E8:
 /* 804505F8 0044D538  38 80 01 F8 */	li r4, 0x1f8
 /* 804505FC 0044D53C  4C C6 31 82 */	crclr 6
 /* 80450600 0044D540  4B BD A0 41 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80450604:
+.L_80450604:
 /* 80450604 0044D544  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80450608 0044D548  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 8045060C 0044D54C  7C 08 03 A6 */	mtlr r0
 /* 80450610 0044D550  38 21 00 10 */	addi r1, r1, 0x10
 /* 80450614 0044D554  4E 80 00 20 */	blr 
+.endfn update__Q24Game9THPPlayerFv
 .endif
 
-.global draw__Q24Game9THPPlayerFR8Graphics
-draw__Q24Game9THPPlayerFR8Graphics:
+.fn draw__Q24Game9THPPlayerFR8Graphics, global
 /* 80450618 0044D558  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8045061C 0044D55C  7C 08 02 A6 */	mflr r0
 /* 80450620 0044D560  90 01 00 24 */	stw r0, 0x24(r1)
@@ -1268,9 +1319,9 @@ draw__Q24Game9THPPlayerFR8Graphics:
 /* 80450634 0044D574  7C 7D 1B 78 */	mr r29, r3
 /* 80450638 0044D578  88 03 00 E4 */	lbz r0, 0xe4(r3)
 /* 8045063C 0044D57C  2C 00 00 01 */	cmpwi r0, 1
-/* 80450640 0044D580  41 82 00 08 */	beq lbl_80450648
-/* 80450644 0044D584  48 00 00 44 */	b lbl_80450688
-lbl_80450648:
+/* 80450640 0044D580  41 82 00 08 */	beq .L_80450648
+/* 80450644 0044D584  48 00 00 44 */	b .L_80450688
+.L_80450648:
 /* 80450648 0044D588  4B FD 2B DD */	bl getRenderModeObj__6SystemFv
 /* 8045064C 0044D58C  A0 03 00 04 */	lhz r0, 4(r3)
 /* 80450650 0044D590  7F A3 EB 78 */	mr r3, r29
@@ -1286,8 +1337,8 @@ lbl_80450648:
 /* 80450678 0044D5B8  7C 05 0E 70 */	srawi r5, r0, 1
 /* 8045067C 0044D5BC  7D 89 03 A6 */	mtctr r12
 /* 80450680 0044D5C0  4E 80 04 21 */	bctrl 
-/* 80450684 0044D5C4  48 00 00 54 */	b lbl_804506D8
-lbl_80450688:
+/* 80450684 0044D5C4  48 00 00 54 */	b .L_804506D8
+.L_80450688:
 /* 80450688 0044D5C8  4B FD 2B 9D */	bl getRenderModeObj__6SystemFv
 /* 8045068C 0044D5CC  A3 E3 00 06 */	lhz r31, 6(r3)
 /* 80450690 0044D5D0  4B FD 2B 95 */	bl getRenderModeObj__6SystemFv
@@ -1308,7 +1359,7 @@ lbl_80450688:
 /* 804506CC 0044D60C  7C 06 0E 70 */	srawi r6, r0, 1
 /* 804506D0 0044D610  7D 89 03 A6 */	mtctr r12
 /* 804506D4 0044D614  4E 80 04 21 */	bctrl 
-lbl_804506D8:
+.L_804506D8:
 /* 804506D8 0044D618  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 804506DC 0044D61C  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 804506E0 0044D620  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -1316,9 +1367,9 @@ lbl_804506D8:
 /* 804506E8 0044D628  7C 08 03 A6 */	mtlr r0
 /* 804506EC 0044D62C  38 21 00 20 */	addi r1, r1, 0x20
 /* 804506F0 0044D630  4E 80 00 20 */	blr 
+.endfn draw__Q24Game9THPPlayerFR8Graphics
 
-.global draw__Q24Game9THPPlayerFR8Graphicsllf
-draw__Q24Game9THPPlayerFR8Graphicsllf:
+.fn draw__Q24Game9THPPlayerFR8Graphicsllf, global
 /* 804506F4 0044D634  94 21 FF C0 */	stwu r1, -0x40(r1)
 /* 804506F8 0044D638  7C 08 02 A6 */	mflr r0
 /* 804506FC 0044D63C  90 01 00 44 */	stw r0, 0x44(r1)
@@ -1366,9 +1417,9 @@ draw__Q24Game9THPPlayerFR8Graphicsllf:
 /* 804507A4 0044D6E4  7C 08 03 A6 */	mtlr r0
 /* 804507A8 0044D6E8  38 21 00 40 */	addi r1, r1, 0x40
 /* 804507AC 0044D6EC  4E 80 00 20 */	blr 
+.endfn draw__Q24Game9THPPlayerFR8Graphicsllf
 
-.global draw__Q24Game9THPPlayerFR8GraphicsllUlUl
-draw__Q24Game9THPPlayerFR8GraphicsllUlUl:
+.fn draw__Q24Game9THPPlayerFR8GraphicsllUlUl, global
 /* 804507B0 0044D6F0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804507B4 0044D6F4  7C 08 02 A6 */	mflr r0
 /* 804507B8 0044D6F8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -1381,7 +1432,7 @@ draw__Q24Game9THPPlayerFR8GraphicsllUlUl:
 /* 804507D4 0044D714  7D 1F 43 78 */	mr r31, r8
 /* 804507D8 0044D718  48 00 00 61 */	bl isFinishLoading__Q24Game9THPPlayerFv
 /* 804507DC 0044D71C  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 804507E0 0044D720  41 82 00 44 */	beq lbl_80450824
+/* 804507E0 0044D720  41 82 00 44 */	beq .L_80450824
 /* 804507E4 0044D724  38 7B 00 BC */	addi r3, r27, 0xbc
 /* 804507E8 0044D728  81 9B 00 BC */	lwz r12, 0xbc(r27)
 /* 804507EC 0044D72C  81 8C 00 14 */	lwz r12, 0x14(r12)
@@ -1398,15 +1449,15 @@ draw__Q24Game9THPPlayerFR8GraphicsllUlUl:
 /* 80450818 0044D758  80 7A 00 54 */	lwz r3, 0x54(r26)
 /* 8045081C 0044D75C  7F 64 DB 78 */	mr r4, r27
 /* 80450820 0044D760  48 00 05 ED */	bl draw__Q27Caption3MgrFR8Graphics
-lbl_80450824:
+.L_80450824:
 /* 80450824 0044D764  BB 41 00 08 */	lmw r26, 8(r1)
 /* 80450828 0044D768  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 8045082C 0044D76C  7C 08 03 A6 */	mtlr r0
 /* 80450830 0044D770  38 21 00 20 */	addi r1, r1, 0x20
 /* 80450834 0044D774  4E 80 00 20 */	blr 
+.endfn draw__Q24Game9THPPlayerFR8GraphicsllUlUl
 
-.global isFinishLoading__Q24Game9THPPlayerFv
-isFinishLoading__Q24Game9THPPlayerFv:
+.fn isFinishLoading__Q24Game9THPPlayerFv, global
 /* 80450838 0044D778  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8045083C 0044D77C  7C 08 02 A6 */	mflr r0
 /* 80450840 0044D780  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1418,13 +1469,13 @@ isFinishLoading__Q24Game9THPPlayerFv:
 /* 80450858 0044D798  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 8045085C 0044D79C  4B FD 2D 79 */	bl dvdLoadSyncNoBlock__6SystemFP16DvdThreadCommand
 /* 80450860 0044D7A0  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80450864 0044D7A4  40 82 00 10 */	bne lbl_80450874
+/* 80450864 0044D7A4  40 82 00 10 */	bne .L_80450874
 /* 80450868 0044D7A8  80 1E 00 30 */	lwz r0, 0x30(r30)
 /* 8045086C 0044D7AC  2C 00 00 00 */	cmpwi r0, 0
-/* 80450870 0044D7B0  40 82 00 08 */	bne lbl_80450878
-lbl_80450874:
+/* 80450870 0044D7B0  40 82 00 08 */	bne .L_80450878
+.L_80450874:
 /* 80450874 0044D7B4  3B E0 00 01 */	li r31, 1
-lbl_80450878:
+.L_80450878:
 /* 80450878 0044D7B8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8045087C 0044D7BC  7F E3 FB 78 */	mr r3, r31
 /* 80450880 0044D7C0  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -1432,9 +1483,9 @@ lbl_80450878:
 /* 80450888 0044D7C8  7C 08 03 A6 */	mtlr r0
 /* 8045088C 0044D7CC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80450890 0044D7D0  4E 80 00 20 */	blr 
+.endfn isFinishLoading__Q24Game9THPPlayerFv
 
-.global isFinishPlaying__Q24Game9THPPlayerFv
-isFinishPlaying__Q24Game9THPPlayerFv:
+.fn isFinishPlaying__Q24Game9THPPlayerFv, global
 /* 80450894 0044D7D4  3C 60 80 51 */	lis r3, ActivePlayer@ha
 /* 80450898 0044D7D8  38 63 44 90 */	addi r3, r3, ActivePlayer@l
 /* 8045089C 0044D7DC  88 03 00 A4 */	lbz r0, 0xa4(r3)
@@ -1442,9 +1493,9 @@ isFinishPlaying__Q24Game9THPPlayerFv:
 /* 804508A4 0044D7E4  7C 00 00 34 */	cntlzw r0, r0
 /* 804508A8 0044D7E8  54 03 D9 7E */	srwi r3, r0, 5
 /* 804508AC 0044D7EC  4E 80 00 20 */	blr 
+.endfn isFinishPlaying__Q24Game9THPPlayerFv
 
-.global "invoke__27Delegate<Q24Game9THPPlayer>Fv"
-"invoke__27Delegate<Q24Game9THPPlayer>Fv":
+.fn "invoke__27Delegate<Q24Game9THPPlayer>Fv", weak
 /* 804508B0 0044D7F0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804508B4 0044D7F4  7C 08 02 A6 */	mflr r0
 /* 804508B8 0044D7F8  7C 64 1B 78 */	mr r4, r3
@@ -1457,8 +1508,9 @@ isFinishPlaying__Q24Game9THPPlayerFv:
 /* 804508D4 0044D814  7C 08 03 A6 */	mtlr r0
 /* 804508D8 0044D818  38 21 00 10 */	addi r1, r1, 0x10
 /* 804508DC 0044D81C  4E 80 00 20 */	blr 
+.endfn "invoke__27Delegate<Q24Game9THPPlayer>Fv"
 
-.global "@24@__dt__Q24Game9THPPlayerFv"
-"@24@__dt__Q24Game9THPPlayerFv": # weak function
+.fn "@24@__dt__Q24Game9THPPlayerFv", weak
 /* 804508E0 0044D820  38 63 FF E8 */	addi r3, r3, -24
 /* 804508E4 0044D824  4B FF F6 24 */	b __dt__Q24Game9THPPlayerFv
+.endfn "@24@__dt__Q24Game9THPPlayerFv"

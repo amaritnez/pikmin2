@@ -1,6 +1,7 @@
 #ifndef _JSYSTEM_JMESSAGE_TPARSE_H
 #define _JSYSTEM_JMESSAGE_TPARSE_H
 
+#include "JSystem/JMessage/TResource.h"
 #include "types.h"
 #include "JSystem/JGadget/binary.h"
 
@@ -12,15 +13,23 @@ struct TParse_header_block;
 
 namespace JMessage {
 struct TParse : public JGadget::binary::TParse_header_block {
-	virtual ~TParse();                                                          // _08
-	virtual bool parseHeader_next(const void**, unsigned long*, unsigned long); // _0C
-	virtual bool parseBlock_next(const void**, unsigned long*, unsigned long);  // _10
+	TParse(TResourceContainer*);
+
+	virtual ~TParse();                                      // _08
+	virtual bool parseHeader_next(const void**, u32*, u32); // _0C
+	virtual bool parseBlock_next(const void**, u32*, u32);  // _10
+
+	// _00 = VTBL
 };
 
 struct TParse_color : public JGadget::binary::TParse_header_block {
-	virtual ~TParse_color();                                                    // _08
-	virtual bool parseHeader_next(const void**, unsigned long*, unsigned long); // _0C
-	virtual bool parseBlock_next(const void**, unsigned long*, unsigned long);  // _10
+	TParse_color(TResourceContainer*);
+
+	virtual ~TParse_color();                                // _08
+	virtual bool parseHeader_next(const void**, u32*, u32); // _0C
+	virtual bool parseBlock_next(const void**, u32*, u32);  // _10
+
+	// _00 = VTBL
 };
 } // namespace JMessage
 

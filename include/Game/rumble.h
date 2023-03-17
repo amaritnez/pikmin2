@@ -8,34 +8,34 @@
 #include "types.h"
 #include "stream.h"
 
-namespace Game {
 struct Controller;
 
+namespace Game {
 struct RumbleData {
 	RumbleData();
 
 	inline void read(Stream& stream)
 	{
-		m_count = stream.readInt();
-		if (m_count <= 0) {
+		mCount = stream.readInt();
+		if (mCount <= 0) {
 			return;
 		}
 
-		_04 = new f32[m_count];
-		_08 = new f32[m_count];
+		_04 = new f32[mCount];
+		_08 = new f32[mCount];
 
-		for (int j = 0; j < m_count; j++) {
+		for (int j = 0; j < mCount; j++) {
 			_04[j] = stream.readFloat();
 		}
 
-		for (int j = 0; j < m_count; j++) {
+		for (int j = 0; j < mCount; j++) {
 			_08[j] = stream.readFloat();
 		}
 	}
 
-	s32 m_count; // _00
-	f32* _04;    // _04
-	f32* _08;    // _08
+	s32 mCount; // _00
+	f32* _04;   // _04
+	f32* _08;   // _08
 };
 
 struct RumbleDataMgr {
@@ -44,8 +44,8 @@ struct RumbleDataMgr {
 	RumbleData* getRumbleData(int);
 	void read(Stream& stream);
 
-	s32 m_dataCnt;         // _00
-	RumbleData* m_dataArr; // _04
+	s32 mDataCnt;         // _00
+	RumbleData* mDataArr; // _04
 };
 
 struct RumbleNode : public CNode {
@@ -59,14 +59,17 @@ struct RumbleNode : public CNode {
 	    , _2C(0)
 	{
 	}
-	virtual ~RumbleNode(); // _00
 
-	int _18;   // _18
-	float _1C; // _1C
-	float _20; // _20
-	float _24; // _24
-	float _28; // _28
-	u32 _2C;   // _2C
+	virtual ~RumbleNode(); // _08 (weak)
+
+	// _00     = VTBL
+	// _00-_18 = CNode
+	int _18; // _18
+	f32 _1C; // _1C
+	f32 _20; // _20
+	f32 _24; // _24
+	f32 _28; // _28
+	u32 _2C; // _2C
 };
 
 struct ContRumble {
@@ -75,32 +78,28 @@ struct ContRumble {
 	void init();
 	void update();
 	void setController(bool);
-	void startRumble(int, float);
+	void startRumble(int, f32);
 	void rumbleStop();
 	void rumbleStop(int);
-	void getRumbleParameter(int, float&, float&);
+	void getRumbleParameter(int, f32&, f32&);
 
-	bool _00;                 // _00
-	int _04;                  // _04
-	Vector3f _08;             // _08
-	RumbleNode* _14;          // _14
-	RumbleNode* _18;          // _18
-	RumbleDataMgr* m_dataMgr; // _1C
+	bool _00;                // _00
+	int _04;                 // _04
+	Vector3f _08;            // _08
+	RumbleNode* _14;         // _14
+	RumbleNode* _18;         // _18
+	RumbleDataMgr* mDataMgr; // _1C
 };
 
 struct RumbleMgr : public CNode {
-	/**
-	 * @fabricated
-	 * @size{0x38}
-	 */
 	struct Parms : public Parameters {
-		Parm<float> m_maxDistance; // _0C
-		u32 m_end;                 // _34
+		Parm<f32> mMaxDistance; // _0C
+		u32 mEnd;               // _34
 	};
 
 	RumbleMgr();
 
-	virtual ~RumbleMgr(); // _00
+	virtual ~RumbleMgr(); // _08 (weak)
 
 	void loadResource();
 	void init();
@@ -121,11 +120,11 @@ struct RumbleMgr : public CNode {
 	void* _1C; // _1C
 
 	// ptr to array of two pointers to ContRumble
-	ContRumble** m_contRumble; // _20
-	Parms* m_parms;            // _24
-	RumbleDataMgr* m_dataMgr;  // _28
-	Controller* m_controller;  // _2C
-	Vector3f* _30;             // _30
+	ContRumble** mContRumble; // _20
+	Parms* mParms;            // _24
+	RumbleDataMgr* mDataMgr;  // _28
+	Controller* mController;  // _2C
+	Vector3f* _30;            // _30
 };
 
 extern RumbleMgr* rumbleMgr;

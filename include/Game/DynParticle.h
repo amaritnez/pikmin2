@@ -11,11 +11,12 @@ namespace Game {
  * @fabricatedName
  */
 struct _DynParticleParent {
-	Vector3f _00;               // _00
-	Vector3f _0C;               // _0C
-	u8 _18[4];                  // _18
-	_DynParticleParent* m_next; // _1C
-	u8 _20[0x10];               // _18
+	Vector3f _00;              // _00
+	Vector3f _0C;              // _0C
+	f32 _18;                   // _18
+	_DynParticleParent* mNext; // _1C
+	Vector3f _20;              // _20
+	u8 _2C;                    // _2C
 };
 
 /**
@@ -26,13 +27,13 @@ struct _DynParticleParent {
 struct DynParticle : _DynParticleParent {
 	DynParticle();
 
-	virtual void constructor();           // _00
-	virtual void doAnimation();           // _04
-	virtual void doEntry();               // _08
-	virtual void doSetView(u32);          // _0C
-	virtual void doViewCalc();            // _10
-	virtual void doSimulation(float);     // _14
-	virtual void doDirectDraw(Graphics&); // _18
+	virtual void constructor();               // _08 (weak)
+	virtual void doAnimation();               // _0C (weak)
+	virtual void doEntry();                   // _10 (weak)
+	virtual void doSetView(u32);              // _14 (weak)
+	virtual void doViewCalc();                // _18 (weak)
+	virtual void doSimulation(f32);           // _1C (weak)
+	virtual void doDirectDraw(Graphics& gfx); // _20 (weak)
 
 	DynParticle* getAt(int);
 
@@ -41,14 +42,19 @@ struct DynParticle : _DynParticleParent {
 	void updateGlobal(Matrixf&);
 };
 
-struct DynParticleMgr : MonoObjectMgr<DynParticle> {
+struct DynParticleMgr : public MonoObjectMgr<DynParticle> {
 	DynParticleMgr(int);
 
 	// vtable 1
-	virtual ~DynParticleMgr(); // _00
+	virtual ~DynParticleMgr(); // _08 (weak)
 	// vtable 2
-	virtual void resetMgr(); // _4C
+	virtual void resetMgr(); // _80 (weak)
+
+	// _00     = VTBL
+	// _00-_30 = MonoObjectMgr
 };
+
+extern DynParticleMgr* dynParticleMgr;
 } // namespace Game
 
 #endif

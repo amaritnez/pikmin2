@@ -2,11 +2,11 @@
 #define _PSAUTOBGM_CONDUCTOR_H
 
 #include "types.h"
-#include "JSystem/JAD/JADUtility.h"
+#include "JSystem/JAudio/JAD/JADUtility.h"
 #include "PSAutoBgm/Track.h"
 #include "JSystem/JSupport/JSUList.h"
-#include "JSystem/JKR/JKRArchive.h"
-#include "JSystem/JAS/JASTrack.h"
+#include "JSystem/JKernel/JKRArchive.h"
+#include "JSystem/JAudio/JAS/JASTrack.h"
 
 namespace PSAutoBgm {
 
@@ -36,7 +36,7 @@ struct Conductor : JADUtility::PrmSetRC<PSAutoBgm::Track> {
 struct ConductorArcMgr {
 	virtual ~ConductorArcMgr(); // _08 (weak)
 
-	JKRArchive* m_archive; // _04
+	JKRArchive* mArchive; // _04
 };
 
 /**

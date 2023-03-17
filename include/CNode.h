@@ -7,15 +7,15 @@ struct CNode {
 	CNode();
 	inline CNode(char* name)
 	{
-		m_child  = nullptr;
-		m_parent = nullptr;
-		m_prev   = nullptr;
-		m_next   = nullptr;
-		m_name   = name;
+		mChild  = nullptr;
+		mParent = nullptr;
+		mPrev   = nullptr;
+		mNext   = nullptr;
+		mName   = name;
 	};
 
-	virtual ~CNode();
-	virtual int getChildCount();
+	virtual ~CNode();            // _08
+	virtual int getChildCount(); // _0C
 
 	int calcNextCount();
 	CNode* getChildAt(int);
@@ -29,17 +29,17 @@ struct CNode {
 	 * @reifiedAddress{8013917C}
 	 * @reifiedFile{plugProjectKandoU/collinfo.cpp}
 	 */
-	void setName(char* name) { m_name = name; }
+	void setName(char* name) { mName = name; }
 
 	/**
 	 * @fabricated
 	 */
 	inline void clearRelations()
 	{
-		m_child  = nullptr;
-		m_parent = nullptr;
-		m_prev   = nullptr;
-		m_next   = nullptr;
+		mChild  = nullptr;
+		mParent = nullptr;
+		mPrev   = nullptr;
+		mNext   = nullptr;
 	}
 
 	/**
@@ -52,11 +52,15 @@ struct CNode {
 	}
 
 	// _00 vtbl
-	CNode* m_next;      // _04
-	CNode* m_prev;      // _08
-	CNode* m_parent;    // _0C
-	CNode* m_child;     // _10
-	const char* m_name; // _14
+	CNode* mNext;      // _04
+	CNode* mPrev;      // _08
+	CNode* mParent;    // _0C
+	CNode* mChild;     // _10
+	const char* mName; // _14
 };
+
+#define FOREACH_NODE(type, first, varname) for (type* varname = (type*)(first); varname != nullptr; varname = (type*)(varname->mNext))
+#define FOREACH_NODE_EX(type, first, varname, excond) \
+	for (type* varname = (type*)(first); varname != nullptr && (excond); varname = (type*)(varname->mNext))
 
 #endif

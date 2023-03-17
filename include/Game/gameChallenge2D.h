@@ -4,51 +4,68 @@
 #include "types.h"
 #include "Game/PikiContainer.h"
 #include "Game/Highscore.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
 
 namespace Game {
-class Challenge2D_TitleInfo {
+enum Challenge2D_ResultFlags {
+	CHAL2D_Multiplayer = 0x1,  // is multiplayer
+	CHAL2D_SuccessEnd  = 0x2,  // beat the course, display confetti on result screen
+	CHAL2D_PerfectEnd  = 0x4,  // beat the course with all treasures + no deaths, display ribbon in top left
+	CHAL2D_Cleared     = 0x8,  // mark course as having been cleared (flower)
+	CHAL2D_PinkFlower  = 0x10, // mark course with pink flower (collected all treasures with no deaths, referred to as 'kunsho')
+};
+
+struct Challenge2D_TitleInfo {
 	struct Info {
 		Info();
-		u32 m_floorCount;                // _00
-		u32 m_sprayCounts[2];            // _04
-		u32 m_0C;                        // _0C
-		PikiContainer* m_pPikiContainer; // _10
-		Highscore* m_pHighscore1;        // _14
-		Highscore* m_pHighscore2;        // _18
-		u32 m_1C;                        // _1C
-		bool m_bool;                     // _20
-	};
-	Info* pInfoArray; // _00
-	int m_count;      // _04
 
-	Challenge2D_TitleInfo(int);
+		inline void setDisplayFlag(u32 flag) { mDisplayFlag.typeView |= flag; }
+
+		int mFloorCount;               // _00
+		int mSprayCounts[2];           // _04
+		int mTimeLimit;                // _0C
+		PikiContainer* mPikiContainer; // _10
+		Highscore* mHighscore1;        // _14
+		Highscore* mHighscore2;        // _18
+		u32 mStageIndex;               // _1C
+		BitFlag<u8> mDisplayFlag;      // _20
+	};
+
+	Challenge2D_TitleInfo(int stageNum);
+
 	Challenge2D_TitleInfo::Info* operator()(int);
+
+	Info* pInfoArray; // _00
+	int mCount;       // _04
 };
 
-class Challenge2D_ResultInfo {
-	bool m_bool; // _00
-	u32 m_04;    // _04
-	u32 m_08;    // _08
-	u32 m_0C;    // _0C
-	u32 m_10;    // _10
-	u32 m_14;    // _14
-	u32 m_18;    // _18
-	u32 m_1C;    // _1C
-
+struct Challenge2D_ResultInfo {
 	Challenge2D_ResultInfo();
+
+	inline void setDisplayFlag(u32 flag) { mDisplayFlag.typeView |= flag; }
+
+	BitFlag<u8> mDisplayFlag; // _00, see Challenge2D_ResultFlags enum
+	u32 mStageIndex;          // _04
+	u32 mTimeLeft;            // _08
+	u32 mPokos;               // _0C
+	u32 mPikminLeft;          // _10
+	u32 mScore;               // _14
+	u32 mDisplayIndex;        // _18
+	Highscore* mHighScore;    // _1C
 };
 
-class Vs2D_TitleInfo {
+struct Vs2D_TitleInfo {
 	struct Info {
 		Info();
-		u32 m_info; // _00
+		u32 mInfo; // _00
 	};
-	Info* pInfoArray; // _00
-	int m_infoCount;  // _04
 
-	Vs2D_TitleInfo(int);
+	Vs2D_TitleInfo(int stageNum);
+
 	Vs2D_TitleInfo::Info* operator()(int);
+
+	Info* pInfoArray; // _00
+	int mInfoCount;   // _04
 };
 } // namespace Game
 

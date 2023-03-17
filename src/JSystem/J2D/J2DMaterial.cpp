@@ -1,7 +1,11 @@
 #include "Dolphin/gx.h"
-#include "JSystem/J2D/ind.h"
 #include "JSystem/J2D/J2DAnm.h"
+#include "JSystem/J2D/J2DIndBlock.h"
 #include "JSystem/J2D/J2DMaterial.h"
+#include "JSystem/J2D/J2DTevBlock.h"
+#include "JSystem/J2D/J2DTypes.h"
+#include "JSystem/J3D/J3DTypes.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
 /*
@@ -52,9 +56,20 @@
  * --INFO--
  * Address:	80051EA4
  * Size:	000120
+ * __ct__11J2DMaterialFv
  */
 J2DMaterial::J2DMaterial()
+    : mColorBlock()
+    , mTexGenBlock()
+    , mPeBlock()
 {
+	mPane      = nullptr;
+	mIndex     = 0xFFFF;
+	mTevBlock  = nullptr;
+	mIndBlock  = nullptr;
+	mAnmPtr    = nullptr;
+	_08        = 1;
+	mIsVisible = 1;
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -138,16 +153,9 @@ J2DMaterial::J2DMaterial()
  */
 J2DTexCoord::J2DTexCoord()
 {
-	/*
-	lis      r4, j2dDefaultTexCoordInfo@ha
-	lbzu     r0, j2dDefaultTexCoordInfo@l(r4)
-	stb      r0, 0(r3)
-	lbz      r0, 1(r4)
-	stb      r0, 1(r3)
-	lbz      r0, 2(r4)
-	stb      r0, 2(r3)
-	blr
-	*/
+	mTexCoordInfo = j2dDefaultTexCoordInfo[0];
+	// _01 = j2dDefaultTexCoordInfo[0]._01;
+	// _02 = j2dDefaultTexCoordInfo[0]._02;
 }
 
 /*
@@ -155,46 +163,23 @@ J2DTexCoord::J2DTexCoord()
  * Address:	80051FE4
  * Size:	000048
  */
-J2DColorBlock::~J2DColorBlock()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_80052014
-	lis      r5, __vt__13J2DColorBlock@ha
-	extsh.   r0, r4
-	addi     r0, r5, __vt__13J2DColorBlock@l
-	stw      r0, 0x14(r31)
-	ble      lbl_80052014
-	bl       __dl__FPv
-
-lbl_80052014:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// J2DColorBlock::~J2DColorBlock() { }
 
 /*
  * --INFO--
  * Address:	8005202C
  * Size:	000010
  */
-J2DColorChan::J2DColorChan()
-{
-	/*
-	addi     r4, r2, j2dDefaultColorChanInfo@sda21
-	lbz      r0, 1(r4)
-	sth      r0, 0(r3)
-	blr
-	*/
-}
+// J2DColorChan::J2DColorChan()
+// {
+// 	mData = j2dDefaultColorChanInfo._01;
+// 	/*
+// 	addi     r4, r2, j2dDefaultColorChanInfo@sda21
+// 	lbz      r0, 1(r4)
+// 	sth      r0, 0(r3)
+// 	blr
+// 	*/
+// }
 
 /*
  * --INFO--
@@ -297,64 +282,9 @@ J2DMaterial::J2DMaterial(unsigned long)
  */
 J2DMaterial::~J2DMaterial()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	or.      r30, r3, r3
-	beq      lbl_8005222C
-	lis      r3, __vt__11J2DMaterial@ha
-	addi     r0, r3, __vt__11J2DMaterial@l
-	stw      r0, 0(r30)
-	lwz      r3, 0x70(r30)
-	cmplwi   r3, 0
-	beq      lbl_800521D4
-	lwz      r12, 0(r3)
-	li       r4, 1
-	lwz      r12, 0xb8(r12)
-	mtctr    r12
-	bctrl
-
-lbl_800521D4:
-	lwz      r3, 0x74(r30)
-	cmplwi   r3, 0
-	beq      lbl_800521F4
-	lwz      r12, 0(r3)
-	li       r4, 1
-	lwz      r12, 0x34(r12)
-	mtctr    r12
-	bctrl
-
-lbl_800521F4:
-	lwz      r3, 0x84(r30)
-	bl       __dl__FPv
-	addi     r3, r30, 0x28
-	li       r4, -1
-	bl       __dt__14J2DTexGenBlockFv
-	addic.   r0, r30, 0x10
-	beq      lbl_8005221C
-	lis      r3, __vt__13J2DColorBlock@ha
-	addi     r0, r3, __vt__13J2DColorBlock@l
-	stw      r0, 0x24(r30)
-
-lbl_8005221C:
-	extsh.   r0, r31
-	ble      lbl_8005222C
-	mr       r3, r30
-	bl       __dl__FPv
-
-lbl_8005222C:
-	lwz      r0, 0x14(r1)
-	mr       r3, r30
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	delete mTevBlock;
+	delete mIndBlock;
+	delete mAnmPtr;
 }
 
 /*
@@ -412,159 +342,36 @@ lbl_800522B8:
  * Address:	800522CC
  * Size:	0001B4
  */
-J2DTevBlock* J2DMaterial::createTevBlock(int, bool)
+J2DTevBlock* J2DMaterial::createTevBlock(int stageCount, bool p2)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	clrlwi.  r0, r4, 0x18
-	beq      lbl_800523A0
-	cmpwi    r3, 1
-	bgt      lbl_80052308
-	li       r3, 0x60
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_80052300
-	bl       __ct__12J2DTevBlock1Fv
-	mr       r0, r3
-
-lbl_80052300:
-	mr       r3, r0
-	b        lbl_80052470
-
-lbl_80052308:
-	cmpwi    r3, 2
-	bne      lbl_80052330
-	li       r3, 0x7c
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_80052328
-	bl       __ct__12J2DTevBlock2Fv
-	mr       r0, r3
-
-lbl_80052328:
-	mr       r3, r0
-	b        lbl_80052470
-
-lbl_80052330:
-	cmpwi    r3, 4
-	bgt      lbl_80052358
-	li       r3, 0xb4
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_80052350
-	bl       __ct__12J2DTevBlock4Fv
-	mr       r0, r3
-
-lbl_80052350:
-	mr       r3, r0
-	b        lbl_80052470
-
-lbl_80052358:
-	cmpwi    r3, 8
-	bgt      lbl_80052380
-	li       r3, 0x124
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_80052378
-	bl       __ct__12J2DTevBlock8Fv
-	mr       r0, r3
-
-lbl_80052378:
-	mr       r3, r0
-	b        lbl_80052470
-
-lbl_80052380:
-	li       r3, 0x1b4
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_80052398
-	bl       __ct__13J2DTevBlock16Fv
-	mr       r0, r3
-
-lbl_80052398:
-	mr       r3, r0
-	b        lbl_80052470
-
-lbl_800523A0:
-	cmpwi    r3, 1
-	bgt      lbl_800523CC
-	li       r3, 0x60
-	li       r4, -4
-	bl       __nw__FUli
-	or.      r0, r3, r3
-	beq      lbl_800523C4
-	bl       __ct__12J2DTevBlock1Fv
-	mr       r0, r3
-
-lbl_800523C4:
-	mr       r3, r0
-	b        lbl_80052470
-
-lbl_800523CC:
-	cmpwi    r3, 2
-	bne      lbl_800523F8
-	li       r3, 0x7c
-	li       r4, -4
-	bl       __nw__FUli
-	or.      r0, r3, r3
-	beq      lbl_800523F0
-	bl       __ct__12J2DTevBlock2Fv
-	mr       r0, r3
-
-lbl_800523F0:
-	mr       r3, r0
-	b        lbl_80052470
-
-lbl_800523F8:
-	cmpwi    r3, 4
-	bgt      lbl_80052424
-	li       r3, 0xb4
-	li       r4, -4
-	bl       __nw__FUli
-	or.      r0, r3, r3
-	beq      lbl_8005241C
-	bl       __ct__12J2DTevBlock4Fv
-	mr       r0, r3
-
-lbl_8005241C:
-	mr       r3, r0
-	b        lbl_80052470
-
-lbl_80052424:
-	cmpwi    r3, 8
-	bgt      lbl_80052450
-	li       r3, 0x124
-	li       r4, -4
-	bl       __nw__FUli
-	or.      r0, r3, r3
-	beq      lbl_80052448
-	bl       __ct__12J2DTevBlock8Fv
-	mr       r0, r3
-
-lbl_80052448:
-	mr       r3, r0
-	b        lbl_80052470
-
-lbl_80052450:
-	li       r3, 0x1b4
-	li       r4, -4
-	bl       __nw__FUli
-	or.      r0, r3, r3
-	beq      lbl_8005246C
-	bl       __ct__13J2DTevBlock16Fv
-	mr       r0, r3
-
-lbl_8005246C:
-	mr       r3, r0
-
-lbl_80052470:
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if (p2) {
+		if (stageCount <= 1) {
+			return new J2DTevBlock1();
+		}
+		if (stageCount == 2) {
+			return new J2DTevBlock2();
+		}
+		if (stageCount <= 4) {
+			return new J2DTevBlock4();
+		}
+		if (stageCount <= 8) {
+			return new J2DTevBlock8();
+		}
+		return new J2DTevBlock16();
+	}
+	if (stageCount <= 1) {
+		return new (-4) J2DTevBlock1();
+	}
+	if (stageCount == 2) {
+		return new (-4) J2DTevBlock2();
+	}
+	if (stageCount <= 4) {
+		return new (-4) J2DTevBlock4();
+	}
+	if (stageCount <= 8) {
+		return new (-4) J2DTevBlock8();
+	}
+	return new (-4) J2DTevBlock16();
 }
 
 /*
@@ -572,140 +379,18 @@ lbl_80052470:
  * Address:	80052480
  * Size:	0001D8
  */
-J2DIndBlock* J2DMaterial::createIndBlock(int, bool)
+J2DIndBlock* J2DMaterial::createIndBlock(int stageCount, bool p2)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	clrlwi.  r0, r4, 0x18
-	stw      r31, 0xc(r1)
-	beq      lbl_8005256C
-	cmpwi    r3, 0
-	beq      lbl_80052540
-	li       r3, 0x6c
-	bl       __nw__FUl
-	or.      r31, r3, r3
-	beq      lbl_80052538
-	lis      r4, __vt__11J2DIndBlock@ha
-	lis      r3, __vt__15J2DIndBlockFull@ha
-	addi     r0, r4, __vt__11J2DIndBlock@l
-	li       r5, 0
-	stw      r0, 0(r31)
-	addi     r0, r3, __vt__15J2DIndBlockFull@l
-	lis      r4, __ct__14J2DIndTexOrderFv@ha
-	addi     r3, r31, 5
-	stw      r0, 0(r31)
-	addi     r4, r4, __ct__14J2DIndTexOrderFv@l
-	li       r6, 2
-	li       r7, 4
-	bl       __construct_array
-	lis      r3, __ct__12J2DIndTexMtxFv@ha
-	lis      r5, __dt__12J2DIndTexMtxFv@ha
-	addi     r4, r3, __ct__12J2DIndTexMtxFv@l
-	li       r6, 0x1c
-	addi     r3, r31, 0x10
-	addi     r5, r5, __dt__12J2DIndTexMtxFv@l
-	li       r7, 3
-	bl       __construct_array
-	lis      r3, __ct__19J2DIndTexCoordScaleFv@ha
-	lis      r5, __dt__19J2DIndTexCoordScaleFv@ha
-	addi     r4, r3, __ct__19J2DIndTexCoordScaleFv@l
-	li       r6, 2
-	addi     r3, r31, 0x64
-	addi     r5, r5, __dt__19J2DIndTexCoordScaleFv@l
-	li       r7, 4
-	bl       __construct_array
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-
-lbl_80052538:
-	mr       r3, r31
-	b        lbl_80052644
-
-lbl_80052540:
-	li       r3, 4
-	bl       __nw__FUl
-	cmplwi   r3, 0
-	beq      lbl_80052644
-	lis      r5, __vt__11J2DIndBlock@ha
-	lis      r4, __vt__15J2DIndBlockNull@ha
-	addi     r0, r5, __vt__11J2DIndBlock@l
-	stw      r0, 0(r3)
-	addi     r0, r4, __vt__15J2DIndBlockNull@l
-	stw      r0, 0(r3)
-	b        lbl_80052644
-
-lbl_8005256C:
-	cmpwi    r3, 0
-	beq      lbl_80052618
-	li       r3, 0x6c
-	li       r4, -4
-	bl       __nw__FUli
-	or.      r31, r3, r3
-	beq      lbl_80052610
-	lis      r4, __vt__11J2DIndBlock@ha
-	lis      r3, __vt__15J2DIndBlockFull@ha
-	addi     r0, r4, __vt__11J2DIndBlock@l
-	li       r5, 0
-	stw      r0, 0(r31)
-	addi     r0, r3, __vt__15J2DIndBlockFull@l
-	lis      r4, __ct__14J2DIndTexOrderFv@ha
-	addi     r3, r31, 5
-	stw      r0, 0(r31)
-	addi     r4, r4, __ct__14J2DIndTexOrderFv@l
-	li       r6, 2
-	li       r7, 4
-	bl       __construct_array
-	lis      r3, __ct__12J2DIndTexMtxFv@ha
-	lis      r5, __dt__12J2DIndTexMtxFv@ha
-	addi     r4, r3, __ct__12J2DIndTexMtxFv@l
-	li       r6, 0x1c
-	addi     r3, r31, 0x10
-	addi     r5, r5, __dt__12J2DIndTexMtxFv@l
-	li       r7, 3
-	bl       __construct_array
-	lis      r3, __ct__19J2DIndTexCoordScaleFv@ha
-	lis      r5, __dt__19J2DIndTexCoordScaleFv@ha
-	addi     r4, r3, __ct__19J2DIndTexCoordScaleFv@l
-	li       r6, 2
-	addi     r3, r31, 0x64
-	addi     r5, r5, __dt__19J2DIndTexCoordScaleFv@l
-	li       r7, 4
-	bl       __construct_array
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-
-lbl_80052610:
-	mr       r3, r31
-	b        lbl_80052644
-
-lbl_80052618:
-	li       r3, 4
-	li       r4, -4
-	bl       __nw__FUli
-	cmplwi   r3, 0
-	beq      lbl_80052644
-	lis      r5, __vt__11J2DIndBlock@ha
-	lis      r4, __vt__15J2DIndBlockNull@ha
-	addi     r0, r5, __vt__11J2DIndBlock@l
-	stw      r0, 0(r3)
-	addi     r0, r4, __vt__15J2DIndBlockNull@l
-	stw      r0, 0(r3)
-
-lbl_80052644:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if (p2) {
+		if (stageCount != 0) {
+			return new J2DIndBlockFull();
+		}
+		return new J2DIndBlockNull();
+	}
+	if (stageCount != 0) {
+		return new (-4) J2DIndBlockFull();
+	}
+	return new (-4) J2DIndBlockNull();
 }
 
 /*
@@ -1706,8 +1391,9 @@ void J2DIndBlockNull::setGX() { }
  * Address:	80053280
  * Size:	00000C
  */
-i32 J2DIndBlockNull::getType()
+u32 J2DIndBlockNull::getType()
 {
+	return JBT_IndNull;
 	/*
 	lis      r3, 0x49424C4E@ha
 	addi     r3, r3, 0x49424C4E@l

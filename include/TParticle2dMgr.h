@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "CNode.h"
-#include "JSystem/JKR/JKRDisposer.h"
+#include "JSystem/JKernel/JKRDisposer.h"
 #include "Vector2.h"
 
 struct JPABaseEmitter;
@@ -13,7 +13,8 @@ struct JKRSolidHeap;
 
 struct TParticle2dMgr : public CNode, JKRDisposer {
 	TParticle2dMgr();
-	virtual ~TParticle2dMgr();
+
+	virtual ~TParticle2dMgr(); // _08 (weak)
 
 	static void globalInstance();
 	static TParticle2dMgr* Instance();
@@ -33,11 +34,14 @@ struct TParticle2dMgr : public CNode, JKRDisposer {
 	void setSceneResourceManager(JPAResourceManager*);
 	void update();
 
-	JPAEmitterManager* _30;                // _30
-	JPAResourceManager* m_resourceManager; // _34
-	JKRSolidHeap* m_solidHeap;             // _38
-	JPAEmitterManager* _3C;                // _3C
-	u8 _40[4];                             // _40
+	// _00		= VTBL
+	// _00-_18	= CNode
+	// _18-_30	= JKRDisposer
+	JPAEmitterManager* _30;               // _30
+	JPAResourceManager* mResourceManager; // _34
+	JKRSolidHeap* mSolidHeap;             // _38
+	JPAEmitterManager* _3C;               // _3C
+	u8 _40[4];                            // _40
 
 	static TParticle2dMgr* _instance;
 };

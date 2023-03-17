@@ -3,7 +3,7 @@
 
 #include "JSystem/J3D/J3DAnmBase.h"
 #include "JSystem/J3D/J3DModel.h"
-#include "JSystem/J3D/J3DTevColorAnm.h"
+#include "JSystem/J3D/J3DMaterialAnm.h"
 
 struct J3DModelData;
 
@@ -17,19 +17,18 @@ struct MatBaseAnimation {
 	virtual J3DAnmBase* getAnmBase()     = 0; // _0C
 	virtual void set()                   = 0; // _10
 	virtual bool remove()                = 0; // _14
-	// virtual void _10() 				 = 0; // _18 - need to work out what this is
 
 	void attachResource(void*, J3DModelData*);
-	void getFrameMax();
+	f32 getFrameMax();
 
-	// VTBL _00
-	J3DModelData* m_modelData; // _04
+	// _00 = VTBL
+	J3DModelData* mModelData; // _04
 };
 
 /**
  * @size{0x18}
  */
-struct MatTevRegAnimation : MatBaseAnimation {
+struct MatTevRegAnimation : public MatBaseAnimation {
 	MatTevRegAnimation();
 
 	virtual void onAttachResource(void*); // _08
@@ -37,15 +36,15 @@ struct MatTevRegAnimation : MatBaseAnimation {
 	virtual void set();                   // _10
 	virtual bool remove();                // _14
 
-	J3DAnmTevRegKey* m_anmTevRegKey; // _08
-	J3DTevColorAnm* m_tevColorAnm;   // _10
-	J3DTevKColorAnm* m_tevKColorAnm; // _14
+	J3DAnmTevRegKey* mAnmTevRegKey; // _08
+	J3DTevColorAnm* mTevColorAnm;   // _10
+	J3DTevKColorAnm* mTevKColorAnm; // _14
 };
 
 /**
  * @size{0x10}
  */
-struct MatTexAnimation : MatBaseAnimation {
+struct MatTexAnimation : public MatBaseAnimation {
 	MatTexAnimation();
 
 	virtual void onAttachResource(void*); // _08

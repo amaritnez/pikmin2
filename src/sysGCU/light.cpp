@@ -1,4 +1,10 @@
+#include "Light.h"
+
+#include "Graphics.h"
+#include "Viewport.h"
+
 #include "types.h"
+#include "nans.h"
 
 /*
     Generated from dpostproc
@@ -99,60 +105,29 @@
  * --INFO--
  * Address:	8042B46C
  * Size:	0000C4
+ * Matches with fuckry... had to remove the changes because
+ * breaks build elsewhere, wtf is going on?
  */
-LightObj::LightObj(char*, _GXLightID, ELightTypeFlag, JUtility::TColor)
+LightObj::LightObj(char* name, _GXLightID lightID, ELightTypeFlag typeFlag, JUtility::TColor color)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stmw     r27, 0xc(r1)
-	mr       r27, r3
-	mr       r28, r4
-	mr       r29, r5
-	mr       r30, r6
-	mr       r31, r7
-	bl       __ct__5CNodeFv
-	lis      r3, __vt__8LightObj@ha
-	lfs      f6, lbl_805205A8@sda21(r2)
-	addi     r0, r3, __vt__8LightObj@l
-	lfs      f5, lbl_805205AC@sda21(r2)
-	stw      r0, 0(r27)
-	li       r5, 1
-	lfs      f4, lbl_805205B0@sda21(r2)
-	li       r4, 3
-	stb      r29, 0x18(r27)
-	li       r0, 0
-	lwz      r6, 0(r31)
-	mr       r3, r27
-	stb      r30, 0x19(r27)
-	lfs      f3, lbl_805205B4@sda21(r2)
-	stfs     f6, 0x1c(r27)
-	lfs      f2, lbl_805205B8@sda21(r2)
-	stfs     f5, 0x20(r27)
-	lfs      f1, lbl_805205BC@sda21(r2)
-	stfs     f6, 0x24(r27)
-	lfs      f0, lbl_805205C0@sda21(r2)
-	stfs     f6, 0x28(r27)
-	stfs     f4, 0x2c(r27)
-	stfs     f6, 0x30(r27)
-	stw      r6, 0x34(r27)
-	stfs     f3, 0x38(r27)
-	stfs     f5, 0x3c(r27)
-	stfs     f3, 0x40(r27)
-	stfs     f2, 0x44(r27)
-	stb      r5, 0x48(r27)
-	stb      r4, 0x49(r27)
-	stfs     f1, 0x4c(r27)
-	stfs     f0, 0x50(r27)
-	stb      r0, 0x54(r27)
-	stw      r28, 0x14(r27)
-	lmw      r27, 0xc(r1)
-	lwz      r0, 0x24(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	mLightID  = lightID;
+	mTypeFlag = typeFlag;
+
+	mPosition      = Vector3f(0.0f, 1000.0f, 0.0f);
+	mElevation     = Vector3f(0.0f, -1.0f, 0.0f);
+	mColor         = color.toUInt32();
+	mIntensity     = 1.0f;
+	mRefDistance   = 1000.0f;
+	mRefBrightness = 1.0f;
+	mCutoffAngle   = 60.0f;
+
+	mDistAttnFn   = GX_DA_GENTLE;
+	mSpotFn       = GX_SP_COS2;
+	_4C           = 16.0f;
+	mSphereRadius = 30.0f;
+	_54           = 0;
+
+	setName(name);
 }
 
 /*
@@ -160,8 +135,67 @@ LightObj::LightObj(char*, _GXLightID, ELightTypeFlag, JUtility::TColor)
  * Address:	8042B530
  * Size:	0002DC
  */
-void LightObj::set(Matrixf&)
+void LightObj::set(Matrixf& mtx)
 {
+	u_color color = (u32)-1;
+
+	f32 rCol = mColor.GXColorView.r * mIntensity;
+	if (rCol > 255.0f) {
+		rCol = 255.0f;
+	}
+	color.GXColorView.r = (u8)rCol;
+
+	f32 gCol = mColor.GXColorView.g * mIntensity;
+	if (gCol > 255.0f) {
+		gCol = 255.0f;
+	}
+	color.GXColorView.g = gCol;
+
+	f32 bCol = mColor.GXColorView.b * mIntensity;
+	if (bCol > 255.0f) {
+		bCol = 255.0f;
+	}
+	color.GXColorView.b = bCol;
+
+	f32 aCol = mColor.GXColorView.a * mIntensity;
+	if (aCol > 255.0f) {
+		aCol = 255.0f;
+	}
+	color.GXColorView.a = aCol;
+
+	GXLightObj lightObj;
+	GXInitLightColor(&lightObj, color.GXColorView);
+
+	Mtx m1, m2;
+	Vec r1, r2;
+	switch (mTypeFlag) {
+	case TYPE_1:
+		PSMTXMultVec(mtx.mMatrix.mtxView, (Vec*)&mPosition, &r1);
+		GXInitLightPos(&lightObj, r1.x, r1.y, r1.z);
+		break;
+	case TYPE_4:
+		PSMTXInverse(mtx.mMatrix.mtxView, m1);
+		PSMTXTranspose(m1, m2);
+		PSMTXMultVec(m2, (Vec*)&mElevation, &r1);
+
+		GXInitSpecularDir(&lightObj, r1.x, r1.y, r1.z);
+		GXInitLightAttn(&lightObj, 0.0f, 0.0f, 1.0f, _4C * 0.5f, 0.0f, _4C * 0.5f);
+		break;
+	default:
+		PSMTXMultVec(mtx.mMatrix.mtxView, (Vec*)&mElevation, &r1);
+		GXInitLightPos(&lightObj, r1.x, r1.y, r1.z);
+
+		PSMTXInverse(mtx.mMatrix.mtxView, m1);
+		PSMTXTranspose(m1, m2);
+		PSMTXMultVec(m2, (Vec*)&mElevation, &r2);
+
+		GXInitLightDir(&lightObj, r2.x, r2.y, r2.z);
+		GXInitLightSpot(&lightObj, mCutoffAngle, mSpotFn);
+		GXInitLightDistAttn(&lightObj, mRefDistance, mRefBrightness, mDistAttnFn);
+		break;
+	}
+
+	GXLoadLightObjImm(&lightObj, mLightID);
 	/*
 	stwu     r1, -0x140(r1)
 	mflr     r0
@@ -372,75 +406,17 @@ lbl_8042B7E8:
  * Address:	8042B80C
  * Size:	00005C
  */
-void LightObj::drawPos(Graphics&)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	lwz      r3, 0x25c(r4)
-	li       r4, 0
-	bl       getMatrix__8ViewportFb
-	lwz      r12, 0(r30)
-	mr       r5, r3
-	mr       r3, r30
-	mr       r4, r31
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void LightObj::drawPos(Graphics& gfx) { drawPos(gfx, *gfx.mCurrentViewport->getMatrix(false)); }
 
 /*
  * --INFO--
  * Address:	8042B868
  * Size:	00007C
  */
-void LightObj::drawPos(Graphics&, Camera&)
+void LightObj::drawPos(Graphics& gfx, Camera& cam)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	mr       r31, r5
-	stw      r30, 0x18(r1)
-	mr       r30, r4
-	stw      r29, 0x14(r1)
-	mr       r29, r3
-	mr       r3, r31
-	bl       setProjection__6CameraFv
-	mr       r3, r31
-	li       r4, 0
-	lwz      r12, 0(r31)
-	lwz      r12, 0x48(r12)
-	mtctr    r12
-	bctrl
-	lwz      r12, 0(r29)
-	mr       r5, r3
-	mr       r3, r29
-	mr       r4, r30
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	cam.setProjection();
+	drawPos(gfx, *cam.getViewMatrix(false));
 }
 
 /*
@@ -448,8 +424,15 @@ void LightObj::drawPos(Graphics&, Camera&)
  * Address:	8042B8E4
  * Size:	0001A8
  */
-void LightObj::drawPos(Graphics&, Matrixf&)
+void LightObj::drawPos(Graphics& gfx, Matrixf& mtx)
 {
+	if (_54 & 1) {
+		gfx.initPrimDraw(&mtx);
+
+		Matrixf debugMtx;
+		debugMtx.makeT(mPosition);
+	}
+
 	/*
 	stwu     r1, -0x50(r1)
 	mflr     r0
@@ -574,6 +557,7 @@ lbl_8042BA74:
  * Size:	0000D8
  */
 LightMgr::LightMgr(char*)
+    : mAmbientLight("ambient light", Color4(0, 0, 0, 0))
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -792,18 +776,18 @@ void LightMgr::update() { }
  * Address:	8042BCE4
  * Size:	000028
  */
-void __sinit_light_cpp(void)
-{
-	/*
-	lis      r4, __float_nan@ha
-	li       r0, -1
-	lfs      f0, __float_nan@l(r4)
-	lis      r3, lbl_804EBE88@ha
-	stw      r0, lbl_805161B8@sda21(r13)
-	stfsu    f0, lbl_804EBE88@l(r3)
-	stfs     f0, lbl_805161BC@sda21(r13)
-	stfs     f0, 4(r3)
-	stfs     f0, 8(r3)
-	blr
-	*/
-}
+// void __sinit_light_cpp()
+// {
+// 	/*
+// 	lis      r4, __float_nan@ha
+// 	li       r0, -1
+// 	lfs      f0, __float_nan@l(r4)
+// 	lis      r3, lbl_804EBE88@ha
+// 	stw      r0, lbl_805161B8@sda21(r13)
+// 	stfsu    f0, lbl_804EBE88@l(r3)
+// 	stfs     f0, lbl_805161BC@sda21(r13)
+// 	stfs     f0, 4(r3)
+// 	stfs     f0, 8(r3)
+// 	blr
+// 	*/
+// }

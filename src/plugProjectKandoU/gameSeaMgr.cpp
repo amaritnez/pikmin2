@@ -7,13 +7,13 @@
 #include "Game/MapMgr.h"
 #include "Game/routeMgr.h"
 #include "Game/seaMgr.h"
-#include "Game/AABBWaterBox.h"
+#include "Game/WaterBox.h"
 #include "Iterator.h"
 #include "JSystem/J3D/J3DModel.h"
 #include "JSystem/J3D/J3DTexture.h"
-#include "JSystem/JKR/JKRArchive.h"
-#include "JSystem/JUT/JUTException.h"
-#include "JSystem/JUT/JUTNameTab.h"
+#include "JSystem/JKernel/JKRArchive.h"
+#include "JSystem/JUtility/JUTException.h"
+#include "JSystem/JUtility/JUTNameTab.h"
 #include "Matrixf.h"
 #include "ObjectMgr.h"
 #include "nans.h"
@@ -309,12 +309,12 @@ namespace Game {
  * Size:	000028
  */
 WaterBox::WaterBox()
-    : m_flags(0)
+    : mFlags(0)
 {
 	const char* fakeMatch_gameSeaMgr[3] = { nullptr, nullptr, nullptr };
 	// UNUSED FUNCTION
-	m_flags = 0;
-	m_flags |= WBF_Unknown1;
+	mFlags = 0;
+	mFlags |= WBF_Unknown1;
 }
 
 /*
@@ -323,18 +323,18 @@ WaterBox::WaterBox()
  * Size:	0000B8
  */
 AABBWaterBox::AABBWaterBox()
-    : m_bounds()
-    , m_matAnimator()
+    : mBounds()
+    , mMatAnimator()
 {
 	// UNUSED FUNCTION
-	_0C     = 0.0f;
-	_08     = 0;
-	_10     = 0.0f;
-	_14     = 0.0f;
-	_30     = 0.0f;
-	m_model = nullptr;
-	_34     = 0.0f;
-	_60     = nullptr;
+	_0C    = 0.0f;
+	_08    = 0;
+	_10    = 0.0f;
+	_14    = 0.0f;
+	_30    = 0.0f;
+	mModel = nullptr;
+	_34    = 0.0f;
+	_60    = nullptr;
 }
 
 /*
@@ -365,16 +365,16 @@ void AABBWaterBox::startUp(float) { JUT_PANICLINE(167, "まんだ! startUp\n"); 
  * Address:	801AE4A8
  * Size:	0000B8
  */
-inline bool AABBWaterBox::update(void)
+inline bool AABBWaterBox::update()
 {
 	if (_08 == 1) {
-		_0C = -(_38 * sys->m_secondsPerFrame - _0C);
-		_38 = sys->m_secondsPerFrame * 5.0f + _38;
+		_0C = -(_38 * sys->mDeltaTime - _0C);
+		_38 = sys->mDeltaTime * 5.0f + _38;
 		_34 = _30 + _0C;
 		if (_0C <= _10) {
 			_0C = _10;
 			_08 = 3;
-			Game::mapMgr->m_seaMgr->delNode(this);
+			Game::mapMgr->mSeaMgr->delNode(this);
 			return true;
 		}
 	}
@@ -389,21 +389,21 @@ inline bool AABBWaterBox::update(void)
  */
 void AABBWaterBox::attachModel(J3DModelData* modelData, Sys::MatTexAnimation* anm, float p3)
 {
-	_64          = -1;
-	_60          = 0;
-	m_model      = new SysShape::Model(modelData, 0, 2);
-	m_model->_04 = 1;
-	_3C          = FABS(m_bounds.m_max.x - m_bounds.m_min.x) / p3;
-	_40          = FABS(m_bounds.m_max.z - m_bounds.m_min.z) / p3;
-	_44.x        = (m_bounds.m_min.x + m_bounds.m_max.x) * 0.5f;
-	_44.z        = (m_bounds.m_min.z + m_bounds.m_max.z) * 0.5f;
-	_44.y        = _30 + _0C;
-	m_matAnimator.start(anm);
+	_64         = -1;
+	_60         = 0;
+	mModel      = new SysShape::Model(modelData, 0, 2);
+	mModel->_04 = 1;
+	_3C         = FABS(mBounds.mMax.x - mBounds.mMin.x) / p3;
+	_40         = FABS(mBounds.mMax.z - mBounds.mMin.z) / p3;
+	_44.x       = (mBounds.mMin.x + mBounds.mMax.x) * 0.5f;
+	_44.z       = (mBounds.mMin.z + mBounds.mMax.z) * 0.5f;
+	_44.y       = _30 + _0C;
+	mMatAnimator.start(anm);
 	calcMatrix();
 	_34 = _30 + _0C;
-	for (u16 i = 0; i < m_model->m_j3dModel->m_modelData->m_materialTable.m_texture->_00; i++) {
-		if (strcmp(m_model->m_j3dModel->m_modelData->m_materialTable._18->getName(i), "fbtex_dummy") == 0) {
-			_60 = m_model->m_j3dModel->m_modelData->m_materialTable.m_texture;
+	for (u16 i = 0; i < mModel->mJ3dModel->mModelData->mMaterialTable.mTextures->_00; i++) {
+		if (strcmp(mModel->mJ3dModel->mModelData->mMaterialTable.mTextureNames->getName(i), "fbtex_dummy") == 0) {
+			_60 = mModel->mJ3dModel->mModelData->mMaterialTable.mTextures;
 			_64 = i;
 		}
 	}
@@ -414,15 +414,15 @@ void AABBWaterBox::attachModel(J3DModelData* modelData, Sys::MatTexAnimation* an
  * Address:	801AE710
  * Size:	0000A0
  */
-void AABBWaterBox::calcMatrix(void)
+void AABBWaterBox::calcMatrix()
 {
-	if (m_model != nullptr) {
+	if (mModel) {
 		_44.y = _30 + _0C;
 		Vector3f v1(_3C, 1.0f, _40);
 		Matrixf mtx;
 		mtx.makeSRT(v1, Vector3f::zero, _44);
-		PSMTXCopy(mtx.m_matrix.mtxView, m_model->m_j3dModel->_24);
-		m_model->m_j3dModel->calc();
+		PSMTXCopy(mtx.mMatrix.mtxView, mModel->mJ3dModel->mPosMtx);
+		mModel->mJ3dModel->calc();
 	}
 }
 
@@ -431,9 +431,9 @@ void AABBWaterBox::calcMatrix(void)
  * Address:	801AE7B0
  * Size:	000048
  */
-void AABBWaterBox::doAnimation(void)
+void AABBWaterBox::doAnimation()
 {
-	m_matAnimator.animate(30.0f);
+	mMatAnimator.animate(30.0f);
 	calcMatrix();
 }
 
@@ -444,8 +444,8 @@ void AABBWaterBox::doAnimation(void)
  */
 void AABBWaterBox::doSetView(int viewNo)
 {
-	if (m_model != nullptr) {
-		m_model->setCurrentViewNo((u16)viewNo);
+	if (mModel) {
+		mModel->setCurrentViewNo((u16)viewNo);
 	}
 }
 
@@ -454,10 +454,10 @@ void AABBWaterBox::doSetView(int viewNo)
  * Address:	801AE828
  * Size:	00002C
  */
-void AABBWaterBox::doViewCalc(void)
+void AABBWaterBox::doViewCalc()
 {
-	if (m_model != nullptr) {
-		m_model->viewCalc();
+	if (mModel) {
+		mModel->viewCalc();
 	}
 }
 
@@ -466,7 +466,7 @@ void AABBWaterBox::doViewCalc(void)
  * Address:	801AE854
  * Size:	000538
  */
-void AABBWaterBox::doEntry(void)
+void AABBWaterBox::doEntry()
 {
 	/*
 	stwu     r1, -0x80(r1)
@@ -843,7 +843,7 @@ void SeaMgr::update()
 		iterator.next();
 	}
 	if (isRefreshNeeded) {
-		mapMgr->m_routeMgr->refreshWater();
+		mapMgr->mRouteMgr->refreshWater();
 	}
 }
 
@@ -854,7 +854,7 @@ void SeaMgr::update()
  */
 bool AABBWaterBox::inWater(Sys::Sphere& collision)
 {
-	if (_34 - 3.0f < collision.m_position.y) {
+	if (_34 - 3.0f < collision.mPosition.y) {
 		return false;
 	}
 	// TODO: The rest
@@ -1042,7 +1042,7 @@ lbl_801AF17C:
  * Address:	........
  * Size:	000060
  */
-// void create__Q24Game12AABBWaterBoxFR10Vector3f R10Vector3f(void)
+// void create__Q24Game12AABBWaterBoxFR10Vector3f R10Vector3f()
 void AABBWaterBox::create(Vector3f&, Vector3f&)
 {
 	// UNUSED FUNCTION
@@ -1057,54 +1057,54 @@ void AABBWaterBox::globalise(Game::AABBWaterBox* other, Matrixf& p2)
 {
 	Matrixf a;
 	Vec b;
-	Vec* c   = &a.m_matrix.flippedVecView.x;
-	m_bounds = other->m_bounds;
-	// a.m_matrix.flippedVectorView.x = m_bounds.m_min;
-	// a.m_matrix.flippedVectorView.z = m_bounds.m_max;
-	a.m_matrix.flippedVectorView.x.x = m_bounds.m_min.x;
-	a.m_matrix.flippedVectorView.x.y = m_bounds.m_min.y;
-	a.m_matrix.flippedVectorView.x.z = m_bounds.m_min.z;
-	a.m_matrix.flippedVectorView.z.x = m_bounds.m_max.x;
-	a.m_matrix.flippedVectorView.z.y = m_bounds.m_max.y;
-	a.m_matrix.flippedVectorView.z.z = m_bounds.m_max.z;
-	a.m_matrix.flippedVectorView.y.z = m_bounds.m_max.z;
-	a.m_matrix.flippedVectorView.y.y = m_bounds.m_min.y;
-	a.m_matrix.flippedVectorView.y.x = m_bounds.m_min.x;
-	a.m_matrix.flippedVectorView.t.z = m_bounds.m_min.z;
-	a.m_matrix.flippedVectorView.t.y = m_bounds.m_min.y;
-	a.m_matrix.flippedVectorView.t.x = m_bounds.m_max.x;
-	m_bounds.m_min.x                 = 32768.0f;
-	m_bounds.m_min.y                 = 32768.0f;
-	m_bounds.m_min.z                 = 32768.0f;
-	m_bounds.m_max.x                 = -32768.0f;
-	m_bounds.m_max.y                 = -32768.0f;
-	m_bounds.m_max.z                 = -32768.0f;
+	Vec* c  = &a.mMatrix.flippedVecView.x;
+	mBounds = other->mBounds;
+	// a.mMatrix.flippedVectorView.x = mBounds.mMin;
+	// a.mMatrix.flippedVectorView.z = mBounds.mMax;
+	a.mMatrix.flippedVectorView.x.x = mBounds.mMin.x;
+	a.mMatrix.flippedVectorView.x.y = mBounds.mMin.y;
+	a.mMatrix.flippedVectorView.x.z = mBounds.mMin.z;
+	a.mMatrix.flippedVectorView.z.x = mBounds.mMax.x;
+	a.mMatrix.flippedVectorView.z.y = mBounds.mMax.y;
+	a.mMatrix.flippedVectorView.z.z = mBounds.mMax.z;
+	a.mMatrix.flippedVectorView.y.z = mBounds.mMax.z;
+	a.mMatrix.flippedVectorView.y.y = mBounds.mMin.y;
+	a.mMatrix.flippedVectorView.y.x = mBounds.mMin.x;
+	a.mMatrix.flippedVectorView.t.z = mBounds.mMin.z;
+	a.mMatrix.flippedVectorView.t.y = mBounds.mMin.y;
+	a.mMatrix.flippedVectorView.t.x = mBounds.mMax.x;
+	mBounds.mMin.x                  = 32768.0f;
+	mBounds.mMin.y                  = 32768.0f;
+	mBounds.mMin.z                  = 32768.0f;
+	mBounds.mMax.x                  = -32768.0f;
+	mBounds.mMax.y                  = -32768.0f;
+	mBounds.mMax.z                  = -32768.0f;
 	for (int i = 0; i < 4; i++) {
-		PSMTXMultVec(p2.m_matrix.mtxView, c, &b);
+		PSMTXMultVec(p2.mMatrix.mtxView, c, &b);
 		*c = b;
-		if (c->x < m_bounds.m_min.x) {
-			m_bounds.m_min.x = c->x;
+		if (c->x < mBounds.mMin.x) {
+			mBounds.mMin.x = c->x;
 		}
-		if (c->y < m_bounds.m_min.y) {
-			m_bounds.m_min.y = c->y;
+		if (c->y < mBounds.mMin.y) {
+			mBounds.mMin.y = c->y;
 		}
-		if (c->z < m_bounds.m_min.z) {
-			m_bounds.m_min.z = c->z;
+		if (c->z < mBounds.mMin.z) {
+			mBounds.mMin.z = c->z;
 		}
-		if (c->x > m_bounds.m_max.x) {
-			m_bounds.m_max.x = c->x;
+		if (c->x > mBounds.mMax.x) {
+			mBounds.mMax.x = c->x;
 		}
-		if (c->y > m_bounds.m_max.y) {
-			m_bounds.m_max.y = c->y;
+		if (c->y > mBounds.mMax.y) {
+			mBounds.mMax.y = c->y;
 		}
-		if (c->z > m_bounds.m_max.z) {
-			m_bounds.m_max.z = c->z;
+		if (c->z > mBounds.mMax.z) {
+			mBounds.mMax.z = c->z;
 		}
 		c++;
 	}
 	_30 = other->_30;
-	m_bounds.m_min.y -= 1000.0f;
-	_30 = m_bounds.m_max.y;
+	mBounds.mMin.y -= 1000.0f;
+	_30 = mBounds.mMax.y;
 	_08 = 0;
 	_0C = 0.0f;
 	_14 = 0.0f;
@@ -1253,23 +1253,23 @@ void AABBWaterBox::directDraw(Graphics&) { }
  * Address:	801AF350
  * Size:	0002F8
  */
-SeaMgr::SeaMgr(void)
+SeaMgr::SeaMgr()
 {
-	_3C         = 1;
-	m_modelData = new J3DModelData*[_3C];
+	_3C        = 1;
+	mModelData = new J3DModelData*[_3C];
 
 	JKRArchive* archive;
-	// if (Game::gameSystem != nullptr && !(Game::gameSystem->m_mode == GSM_VERSUS_MODE || Game::gameSystem->m_mode ==
+	// if (Game::gameSystem != nullptr && !(Game::gameSystem->isVersusMode() || Game::gameSystem->mMode ==
 	// GSM_TWO_PLAYER_CHALLENGE)) {
 	if (Game::gameSystem != nullptr && !Game::gameSystem->isMultiplayerMode()) {
-		archive = JKRArchive::mount("user/Kando/map/waterbox.szs", JKRArchive::EMM_Unk1, nullptr, JKRArchive::EMD_Unk1);
+		archive = JKRArchive::mount("user/Kando/map/waterbox.szs", JKRArchive::EMM_Mem, nullptr, JKRArchive::EMD_Head);
 	} else {
-		archive = JKRArchive::mount("user/Kando/map/waterbox2p.szs", JKRArchive::EMM_Unk1, nullptr, JKRArchive::EMD_Unk1);
+		archive = JKRArchive::mount("user/Kando/map/waterbox2p.szs", JKRArchive::EMM_Mem, nullptr, JKRArchive::EMD_Head);
 	}
 	P2ASSERTLINE(527, archive != nullptr);
 
 	void* resourceData;
-	// if (Game::gameSystem != nullptr && !Game::gameSystem->m_mode == GSM_VERSUS_MODE || Game::gameSystem->m_mode ==
+	// if (Game::gameSystem != nullptr && !Game::gameSystem->isVersusMode() || Game::gameSystem->mMode ==
 	// GSM_TWO_PLAYER_CHALLENGE)) {
 	if (Game::gameSystem != nullptr && !Game::gameSystem->isMultiplayerMode()) {
 		resourceData = archive->getResource("100x100/mizu100x100.bmd");
@@ -1278,16 +1278,16 @@ SeaMgr::SeaMgr(void)
 	}
 
 	u32 flags;
-	// if (Game::gameSystem == nullptr || !(Game::gameSystem->m_mode == GSM_VERSUS_MODE || Game::gameSystem->m_mode ==
+	// if (Game::gameSystem == nullptr || !(Game::gameSystem->isVersusMode() || Game::gameSystem->mMode ==
 	// GSM_TWO_PLAYER_CHALLENGE)) {
 	if (!(Game::gameSystem == nullptr || !Game::gameSystem->isMultiplayerMode())) {
 		flags = 0x20240010;
 	} else {
 		flags = 0x21240010;
 	}
-	m_modelData[0] = J3DModelLoaderDataBase::load(resourceData, flags);
-	SysShape::Model::enableMaterialAnim(m_modelData[0], 0);
-	m_animations = new Sys::MatTexAnimation[_3C];
+	mModelData[0] = J3DModelLoaderDataBase::load(resourceData, flags);
+	SysShape::Model::enableMaterialAnim(mModelData[0], 0);
+	mAnimations = new Sys::MatTexAnimation[_3C];
 
 	if (!(Game::gameSystem == nullptr || Game::gameSystem->isMultiplayerMode())) {
 		resourceData = archive->getResource("100x100/mizu100x100.btk");
@@ -1295,7 +1295,7 @@ SeaMgr::SeaMgr(void)
 		resourceData = archive->getResource("2p/2p.btk");
 	}
 	P2ASSERTLINE(567, resourceData != nullptr);
-	m_animations[0].attachResource(resourceData, m_modelData[0]);
+	mAnimations[0].attachResource(resourceData, mModelData[0]);
 }
 
 // } // namespace Game
@@ -1515,9 +1515,9 @@ void SeaMgr::addWaterBox(Game::WaterBox* wb)
 {
 	// INLINED FUNCTION
 	TObjectNode<Game::WaterBox>* node = new TObjectNode<Game::WaterBox>();
-	node->m_contents                  = wb;
-	wb->attachModel(*m_modelData, m_animations, 100.0f);
-	m_node.add(node);
+	node->mContents                   = wb;
+	wb->attachModel(*mModelData, mAnimations, 100.0f);
+	mNode.add(node);
 }
 
 /*
@@ -1597,16 +1597,16 @@ void SeaMgr::read(Stream& input)
 		BoundBox boundBox;
 		boundBox.read(input);
 		AABBWaterBox* wb = new AABBWaterBox();
-		boundBox.m_min.y -= 1000.0f;
-		wb->m_bounds                      = boundBox;
-		wb->_30                           = boundBox.m_max.y;
+		boundBox.mMin.y -= 1000.0f;
+		wb->mBounds                       = boundBox;
+		wb->_30                           = boundBox.mMax.y;
 		wb->_08                           = 0;
 		wb->_0C                           = 0.0f;
 		wb->_14                           = 0.0f;
 		TObjectNode<Game::WaterBox>* node = new TObjectNode<Game::WaterBox>();
-		node->m_contents                  = wb;
-		wb->attachModel(*m_modelData, m_animations, 100.0f);
-		m_node.add(node);
+		node->mContents                   = wb;
+		wb->attachModel(*mModelData, mAnimations, 100.0f);
+		mNode.add(node);
 	}
 }
 
@@ -1625,9 +1625,9 @@ void SeaMgr::addSeaMgr(Game::SeaMgr* otherMgr, Matrixf& p2)
 		wb->globalise((AABBWaterBox*)otherWB, p2);
 		addWaterBox(wb);
 		// TObjectNode<Game::WaterBox>* node = new TObjectNode<Game::WaterBox>();
-		// node->m_contents = wb;
-		// wb->attachModel(*m_modelData, m_animations, 100.0f);
-		// m_node.add(node);
+		// node->mContents = wb;
+		// wb->attachModel(*mModelData, mAnimations, 100.0f);
+		// mNode.add(node);
 		iterator.next();
 	}
 	/*
@@ -1853,7 +1853,7 @@ lbl_801B0170:
  * Address:	801B01B0
  * Size:	0000E0
  */
-SeaMgr::~SeaMgr(void)
+SeaMgr::~SeaMgr()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1926,7 +1926,7 @@ lbl_801B0274:
  * Address:	801B0290
  * Size:	000010
  */
-float AABBWaterBox::getSeaLevel(void)
+float AABBWaterBox::getSeaLevel()
 {
 	/*
 	lfs      f1, 0x30(r3)
@@ -1941,7 +1941,7 @@ float AABBWaterBox::getSeaLevel(void)
  * Address:	801B02A0
  * Size:	000008
  */
-float* AABBWaterBox::getSeaHeightPtr(void)
+float* AABBWaterBox::getSeaHeightPtr()
 {
 	/*
 	addi     r3, r3, 0x34
@@ -1989,7 +1989,7 @@ void WaterBox::directDraw(Graphics&) { }
  * Address:	801B02BC
  * Size:	000004
  */
-void WaterBox::calcMatrix(void) { }
+void WaterBox::calcMatrix() { }
 
 } // namespace Game
 
@@ -2458,7 +2458,7 @@ void WaterBox::calcMatrix(void) { }
 //  * Address:	801B0760
 //  * Size:	000028
 //  */
-// void __sinit_gameSeaMgr_cpp(void)
+// void __sinit_gameSeaMgr_cpp()
 // {
 // 	/*
 // 	lis      r4, __float_nan@ha

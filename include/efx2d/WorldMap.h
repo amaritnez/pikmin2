@@ -9,85 +9,158 @@
 namespace efx2d {
 namespace WorldMap {
 struct ArgDirScale : public Arg {
-	/**
-	 * @reifiedAddress{803F80F4}
-	 * @reifiedFile{plugProjectKonoU/khWorldMap.cpp}
-	 */
-	virtual const char* getName() // _00
+	ArgDirScale(Vector2f& pos, Vector2f& dir, f32 scale)
+	    : Arg(pos)
+	{
+		mDir   = dir;
+		mScale = scale;
+	}
+
+	virtual const char* getName() // _08 (weak)
 	{
 		return "ArgDirScale";
 	}
 
-	Vector3f _0C; // _0C
+	// _00-_08 	= Vector2f
+	// _08		= VTBL
+	Vector2f mDir; // _0C
+	f32 mScale;
 };
 
 struct TSimple_ArgDirScale : public TSimple1 {
-	virtual bool create(Arg*); // _00
+	inline TSimple_ArgDirScale(u16 effectID)
+	    : TSimple1(effectID)
+	{
+	}
+
+	virtual bool create(Arg*); // _08
+
+	// _00		= VTBL
+	// _00-_10	= TSimple1
 };
 
 /**
  * @size{0x18}
  */
 struct T2DMapFlare : public TChasePos {
-	virtual ~T2DMapFlare(); // _14
+	T2DMapFlare()
+	    : TChasePos(PID_WMap_LensFlare)
+	{
+	}
 
-	u8 _14[8]; // _14
+	virtual ~T2DMapFlare() { } // _34 (weak)
+
+	// _00		= VTBL
+	// _00-_18	= TChasePos
+	u8 _18[4]; // _18
 };
 
 struct T2DNewmap : public TSimple2 {
-	virtual bool create(Arg*); // _00
+	inline T2DNewmap()
+	    : TSimple2(PID_WMap_NewMap1, PID_WMap_NewMap2)
+	{
+	}
+
+	virtual bool create(Arg*); // _08
+
+	// _00		= VTBL
+	// _00-_14	= TSimple2
 };
 
 /**
  * @size{0x28}
  */
 struct T2DOnyonKira : public TChasePosDir {
+	T2DOnyonKira(Vector2f& pos, Vector2f& pos2)
+	    : TChasePosDir(0, pos, pos2)
+	{
+		_04 = 1;
+	}
 	// vtable 1
-	virtual bool create(Arg*); // _00
+	virtual bool create(Arg*); // _08
 	// vtable 2
-	virtual ~T2DOnyonKira(); // _14
+	virtual ~T2DOnyonKira() { } // _34 (weak)
 
-	void setGlobalParticleScale(float);
+	void setGlobalParticleScale(f32);
 
-	Vector3f _1C; // _1C
+	// _00		= VTBL
+	// _00-_1C	= TChasePosDir
+	JGeometry::TVec3f mPosition; // _1C
 };
 
 struct T2DRocketA : public TSimple_ArgDirScale {
+	inline T2DRocketA()
+	    : TSimple_ArgDirScale(PID_RocketA)
+	{
+	}
+
+	// _00		= VTBL
+	// _00-_10	= TSimple_ArgDirScale
 };
 
 /**
  * @size{0x28}
  */
 struct T2DRocketB : public TChasePosDir {
+	T2DRocketB(Vector2f& pos, Vector2f& pos2)
+	    : TChasePosDir(PID_WMap_RocketSparks, pos, pos2)
+	{
+		_04 = 1;
+	}
 	// vtable 1
-	virtual bool create(Arg*); // _00
+	virtual bool create(Arg*); // _08
 	// vtable 2
-	virtual ~T2DRocketB(); // _14
+	virtual ~T2DRocketB() { } // _34 (weak)
 
-	void setGlobalParticleScale(float);
+	void setGlobalParticleScale(f32);
 
-	Vector3f _1C;
+	// _00		= VTBL
+	// _00-_1C	= TChasePosDir
+	Vector3f _1C; // _1C
 };
 
 /**
  * @size{0x1C}
  */
 struct T2DRocketGlow : public TChasePosDir {
+	T2DRocketGlow(Vector2f& pos, Vector2f& pos2)
+	    : TChasePosDir(PID_WMap_RocketGlow, pos, pos2)
+	{
+	}
 	// vtable 2
-	virtual ~T2DRocketGlow(); // _14
+	virtual ~T2DRocketGlow() { } // _34 (weak)
 
-	void setGlobalParticleScale(float);
+	void setGlobalParticleScale(f32);
+
+	// _00		= VTBL
+	// _00-_1C	= TChasePosDir
 };
 
 /**
  * @size{0x18}
  */
 struct T2DShstar1 : public TChasePos {
-	virtual ~T2DShstar1(); // _14
+	T2DShstar1()
+	    : TChasePos(PID_WMap_ShootingStar1)
+	{
+	}
+
+	virtual ~T2DShstar1(); // _34 (weak)
+
+	// _00		= VTBL
+	// _00-_18	= TChasePos
 };
 
 struct T2DShstar2 : public TSimple1 {
-	virtual bool create(Arg*); // _00
+	inline T2DShstar2()
+	    : TSimple1(PID_WMap_ShootingStar)
+	{
+	}
+
+	virtual bool create(Arg*); // _08
+
+	// _00		= VTBL
+	// _00-_10	= TSimple1
 };
 } // namespace WorldMap
 } // namespace efx2d

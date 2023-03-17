@@ -1,141 +1,7 @@
-#include "types.h"
 #include "Game/Entities/Baby.h"
-
-/*
-    Generated from dpostproc
-
-    .section .data, "wa"  # 0x8049E220 - 0x804EFC20
-    .global __vt__Q34Game4Baby11StateAttack
-    __vt__Q34Game4Baby11StateAttack:
-        .4byte 0
-        .4byte 0
-        .4byte
-   init__Q34Game4Baby11StateAttackFPQ24Game9EnemyBasePQ24Game8StateArg .4byte
-   exec__Q34Game4Baby11StateAttackFPQ24Game9EnemyBase .4byte
-   cleanup__Q34Game4Baby11StateAttackFPQ24Game9EnemyBase .4byte
-   resume__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase .4byte
-   restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase .4byte
-   transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg .4byte
-   doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics .global
-   __vt__Q34Game4Baby9StateMove
-    __vt__Q34Game4Baby9StateMove:
-        .4byte 0
-        .4byte 0
-        .4byte init__Q34Game4Baby9StateMoveFPQ24Game9EnemyBasePQ24Game8StateArg
-        .4byte exec__Q34Game4Baby9StateMoveFPQ24Game9EnemyBase
-        .4byte cleanup__Q34Game4Baby9StateMoveFPQ24Game9EnemyBase
-        .4byte resume__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte
-   transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg .4byte
-   doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics .global
-   __vt__Q34Game4Baby9StateBorn
-    __vt__Q34Game4Baby9StateBorn:
-        .4byte 0
-        .4byte 0
-        .4byte init__Q34Game4Baby9StateBornFPQ24Game9EnemyBasePQ24Game8StateArg
-        .4byte exec__Q34Game4Baby9StateBornFPQ24Game9EnemyBase
-        .4byte cleanup__Q34Game4Baby9StateBornFPQ24Game9EnemyBase
-        .4byte resume__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte
-   transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg .4byte
-   doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics .global
-   __vt__Q23efx10TBabyBecha
-    __vt__Q23efx10TBabyBecha:
-        .4byte 0
-        .4byte 0
-        .4byte create__Q23efx8TSimple1FPQ23efx3Arg
-        .4byte forceKill__Q23efx8TSimple1Fv
-        .4byte fade__Q23efx8TSimple1Fv
-    .global __vt__Q34Game4Baby10StatePress
-    __vt__Q34Game4Baby10StatePress:
-        .4byte 0
-        .4byte 0
-        .4byte
-   init__Q34Game4Baby10StatePressFPQ24Game9EnemyBasePQ24Game8StateArg .4byte
-   exec__Q34Game4Baby10StatePressFPQ24Game9EnemyBase .4byte
-   cleanup__Q34Game4Baby10StatePressFPQ24Game9EnemyBase .4byte
-   resume__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase .4byte
-   restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase .4byte
-   transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg .4byte
-   doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics .global
-   __vt__Q34Game4Baby9StateDead
-    __vt__Q34Game4Baby9StateDead:
-        .4byte 0
-        .4byte 0
-        .4byte init__Q34Game4Baby9StateDeadFPQ24Game9EnemyBasePQ24Game8StateArg
-        .4byte exec__Q34Game4Baby9StateDeadFPQ24Game9EnemyBase
-        .4byte cleanup__Q34Game4Baby9StateDeadFPQ24Game9EnemyBase
-        .4byte resume__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte
-   transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg .4byte
-   doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics .global
-   __vt__Q34Game4Baby5State
-    __vt__Q34Game4Baby5State:
-        .4byte 0
-        .4byte 0
-        .4byte init__Q24Game13EnemyFSMStateFPQ24Game9EnemyBasePQ24Game8StateArg
-        .4byte exec__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte cleanup__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte resume__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
-        .4byte
-   transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg .4byte
-   doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics .global
-   __vt__Q34Game4Baby3FSM
-    __vt__Q34Game4Baby3FSM:
-        .4byte 0
-        .4byte 0
-        .4byte init__Q34Game4Baby3FSMFPQ24Game9EnemyBase
-        .4byte
-   start__Q24Game17EnemyStateMachineFPQ24Game9EnemyBaseiPQ24Game8StateArg .4byte
-   exec__Q24Game17EnemyStateMachineFPQ24Game9EnemyBase .4byte
-   transit__Q24Game17EnemyStateMachineFPQ24Game9EnemyBaseiPQ24Game8StateArg
-        .4byte
-   doDirectDraw__Q24Game17EnemyStateMachineFPQ24Game9EnemyBaseR8Graphics .4byte
-   getCurrState__Q24Game17EnemyStateMachineFPQ24Game9EnemyBase .4byte
-   setCurrState__Q24Game17EnemyStateMachineFPQ24Game9EnemyBasePQ24Game13EnemyFSMState
-
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .global lbl_8051B888
-    lbl_8051B888:
-        .4byte 0x64656164
-        .4byte 0x00000000
-    .global lbl_8051B890
-    lbl_8051B890:
-        .4byte 0x70726573
-        .4byte 0x73000000
-    .global lbl_8051B898
-    lbl_8051B898:
-        .4byte 0x626F726E
-        .4byte 0x00000000
-    .global lbl_8051B8A0
-    lbl_8051B8A0:
-        .4byte 0x6D6F7665
-        .4byte 0x00000000
-    .global lbl_8051B8A8
-    lbl_8051B8A8:
-        .4byte 0x61747461
-        .4byte 0x636B0000
-    .global lbl_8051B8B0
-    lbl_8051B8B0:
-        .4byte 0x00000000
-    .global lbl_8051B8B4
-    lbl_8051B8B4:
-        .4byte 0x3F733333
-    .global lbl_8051B8B8
-    lbl_8051B8B8:
-        .4byte 0x40490FDB
-    .global lbl_8051B8BC
-    lbl_8051B8BC:
-        .4byte 0x3BB60B61
-    .global lbl_8051B8C0
-    lbl_8051B8C0:
-        .float 0.25
-        .4byte 0x00000000
-*/
+#include "Game/EnemyAnimKeyEvent.h"
+#include "Game/EnemyFunc.h"
+#include "efx/TBaby.h"
 
 namespace Game {
 namespace Baby {
@@ -144,116 +10,13 @@ namespace Baby {
  * Address:	8028C584
  * Size:	0001D0
  */
-void FSM::init(Game::EnemyBase*)
+void FSM::init(EnemyBase* enemy)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	li       r4, 5
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	bl       create__Q24Game17EnemyStateMachineFi
-	li       r3, 0x10
-	bl       __nw__FUl
-	or.      r4, r3, r3
-	beq      lbl_8028C5E8
-	lis      r3, __vt__Q24Game13EnemyFSMState@ha
-	lis      r5, __vt__Q34Game4Baby5State@ha
-	addi     r0, r3, __vt__Q24Game13EnemyFSMState@l
-	lis      r3, __vt__Q34Game4Baby9StateDead@ha
-	stw      r0, 0(r4)
-	li       r7, 0
-	addi     r6, r5, __vt__Q34Game4Baby5State@l
-	addi     r5, r2, lbl_8051B888@sda21
-	stw      r7, 4(r4)
-	addi     r0, r3, __vt__Q34Game4Baby9StateDead@l
-	stw      r7, 8(r4)
-	stw      r6, 0(r4)
-	stw      r5, 0xc(r4)
-	stw      r0, 0(r4)
-
-lbl_8028C5E8:
-	mr       r3, r31
-	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState li
-r3, 0x10 bl       __nw__FUl or.      r4, r3, r3 beq      lbl_8028C63C lis
-r3, __vt__Q24Game13EnemyFSMState@ha lis      r5, __vt__Q34Game4Baby5State@ha
-	addi     r0, r3, __vt__Q24Game13EnemyFSMState@l
-	lis      r3, __vt__Q34Game4Baby10StatePress@ha
-	stw      r0, 0(r4)
-	li       r0, 1
-	li       r7, 0
-	addi     r6, r5, __vt__Q34Game4Baby5State@l
-	stw      r0, 4(r4)
-	addi     r5, r2, lbl_8051B890@sda21
-	addi     r0, r3, __vt__Q34Game4Baby10StatePress@l
-	stw      r7, 8(r4)
-	stw      r6, 0(r4)
-	stw      r5, 0xc(r4)
-	stw      r0, 0(r4)
-
-lbl_8028C63C:
-	mr       r3, r31
-	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState li
-r3, 0x10 bl       __nw__FUl or.      r4, r3, r3 beq      lbl_8028C690 lis
-r3, __vt__Q24Game13EnemyFSMState@ha lis      r5, __vt__Q34Game4Baby5State@ha
-	addi     r0, r3, __vt__Q24Game13EnemyFSMState@l
-	lis      r3, __vt__Q34Game4Baby9StateBorn@ha
-	stw      r0, 0(r4)
-	li       r0, 2
-	li       r7, 0
-	addi     r6, r5, __vt__Q34Game4Baby5State@l
-	stw      r0, 4(r4)
-	addi     r5, r2, lbl_8051B898@sda21
-	addi     r0, r3, __vt__Q34Game4Baby9StateBorn@l
-	stw      r7, 8(r4)
-	stw      r6, 0(r4)
-	stw      r5, 0xc(r4)
-	stw      r0, 0(r4)
-
-lbl_8028C690:
-	mr       r3, r31
-	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState li
-r3, 0x10 bl       __nw__FUl or.      r4, r3, r3 beq      lbl_8028C6E4 lis
-r3, __vt__Q24Game13EnemyFSMState@ha lis      r5, __vt__Q34Game4Baby5State@ha
-	addi     r0, r3, __vt__Q24Game13EnemyFSMState@l
-	lis      r3, __vt__Q34Game4Baby9StateMove@ha
-	stw      r0, 0(r4)
-	li       r0, 3
-	li       r7, 0
-	addi     r6, r5, __vt__Q34Game4Baby5State@l
-	stw      r0, 4(r4)
-	addi     r5, r2, lbl_8051B8A0@sda21
-	addi     r0, r3, __vt__Q34Game4Baby9StateMove@l
-	stw      r7, 8(r4)
-	stw      r6, 0(r4)
-	stw      r5, 0xc(r4)
-	stw      r0, 0(r4)
-
-lbl_8028C6E4:
-	mr       r3, r31
-	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState li
-r3, 0x10 bl       __nw__FUl or.      r4, r3, r3 beq      lbl_8028C738 lis
-r3, __vt__Q24Game13EnemyFSMState@ha lis      r5, __vt__Q34Game4Baby5State@ha
-	addi     r0, r3, __vt__Q24Game13EnemyFSMState@l
-	lis      r3, __vt__Q34Game4Baby11StateAttack@ha
-	stw      r0, 0(r4)
-	li       r0, 4
-	li       r7, 0
-	addi     r6, r5, __vt__Q34Game4Baby5State@l
-	stw      r0, 4(r4)
-	addi     r5, r2, lbl_8051B8A8@sda21
-	addi     r0, r3, __vt__Q34Game4Baby11StateAttack@l
-	stw      r7, 8(r4)
-	stw      r6, 0(r4)
-	stw      r5, 0xc(r4)
-	stw      r0, 0(r4)
-
-lbl_8028C738:
-	mr       r3, r31
-	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState lwz
-r0, 0x14(r1) lwz      r31, 0xc(r1) mtlr     r0 addi     r1, r1, 0x10 blr
-	*/
+	create(BABY_Count), registerState(new StateDead);
+	registerState(new StatePress);
+	registerState(new StateBorn);
+	registerState(new StateMove);
+	registerState(new StateAttack);
 }
 
 /*
@@ -261,32 +24,13 @@ r0, 0x14(r1) lwz      r31, 0xc(r1) mtlr     r0 addi     r1, r1, 0x10 blr
  * Address:	8028C754
  * Size:	000058
  */
-void StateDead::init(Game::EnemyBase*, Game::StateArg*)
+void StateDead::init(EnemyBase* enemy, StateArg* stateArg)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	mr       r3, r31
-	bl       createHoney__Q34Game4Baby3ObjFv
-	mr       r3, r31
-	bl       deathProcedure__Q24Game9EnemyBaseFv
-	lfs      f0, lbl_8051B8B0@sda21(r2)
-	mr       r3, r31
-	li       r4, 0
-	li       r5, 0
-	stfs     f0, 0x1d4(r31)
-	stfs     f0, 0x1d8(r31)
-	stfs     f0, 0x1dc(r31)
-	bl       startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	Obj* baby = static_cast<Obj*>(enemy);
+	baby->createHoney();
+	baby->deathProcedure();
+	baby->mTargetVelocity = Vector3f(0.0f);
+	baby->startMotion(0, nullptr);
 }
 
 /*
@@ -294,29 +38,11 @@ void StateDead::init(Game::EnemyBase*, Game::StateArg*)
  * Address:	8028C7AC
  * Size:	000044
  */
-void StateDead::exec(Game::EnemyBase*)
+void StateDead::exec(EnemyBase* enemy)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lwz      r3, 0x188(r4)
-	lbz      r0, 0x24(r3)
-	cmplwi   r0, 0
-	beq      lbl_8028C7E0
-	lwz      r0, 0x1c(r3)
-	cmplwi   r0, 0x3e8
-	bne      lbl_8028C7E0
-	mr       r3, r4
-	li       r4, 0
-	bl       kill__Q24Game8CreatureFPQ24Game15CreatureKillArg
-
-lbl_8028C7E0:
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if (enemy->mCurAnim->mIsPlaying && (u32)enemy->mCurAnim->mType == KEYEVENT_END) {
+		enemy->kill(nullptr);
+	}
 }
 
 /*
@@ -324,72 +50,27 @@ lbl_8028C7E0:
  * Address:	8028C7F0
  * Size:	000004
  */
-void StateDead::cleanup(Game::EnemyBase*) { }
+void StateDead::cleanup(EnemyBase* enemy) { }
 
 /*
  * --INFO--
  * Address:	8028C7F4
  * Size:	0000DC
  */
-void StatePress::init(Game::EnemyBase*, Game::StateArg*)
+void StatePress::init(EnemyBase* enemy, StateArg* stateArg)
 {
-	/*
-	stwu     r1, -0x40(r1)
-	mflr     r0
-	stw      r0, 0x44(r1)
-	stw      r31, 0x3c(r1)
-	mr       r31, r4
-	mr       r3, r31
-	bl       createHoney__Q34Game4Baby3ObjFv
-	lfs      f0, lbl_8051B8B0@sda21(r2)
-	mr       r3, r31
-	stfs     f0, 0x200(r31)
-	bl       deathProcedure__Q24Game9EnemyBaseFv
-	lfs      f0, lbl_8051B8B0@sda21(r2)
-	mr       r3, r31
-	li       r4, 1
-	li       r5, 0
-	stfs     f0, 0x1d4(r31)
-	stfs     f0, 0x1d8(r31)
-	stfs     f0, 0x1dc(r31)
-	bl       startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-	mr       r4, r31
-	addi     r3, r1, 8
-	lwz      r12, 0(r31)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	lis      r4, __vt__Q23efx5TBase@ha
-	lis      r3, __vt__Q23efx8TSimple1@ha
-	addi     r0, r4, __vt__Q23efx5TBase@l
-	lfs      f2, 8(r1)
-	stw      r0, 0x14(r1)
-	addi     r0, r3, __vt__Q23efx8TSimple1@l
-	lfs      f1, 0xc(r1)
-	lis      r4, __vt__Q23efx3Arg@ha
-	lfs      f0, 0x10(r1)
-	lis      r3, __vt__Q23efx10TBabyBecha@ha
-	addi     r4, r4, __vt__Q23efx3Arg@l
-	li       r6, 3
-	li       r5, 0
-	stw      r0, 0x14(r1)
-	addi     r0, r3, __vt__Q23efx10TBabyBecha@l
-	addi     r3, r1, 0x14
-	stw      r4, 0x20(r1)
-	addi     r4, r1, 0x20
-	stfs     f2, 0x24(r1)
-	stfs     f1, 0x28(r1)
-	stfs     f0, 0x2c(r1)
-	sth      r6, 0x18(r1)
-	stw      r5, 0x1c(r1)
-	stw      r0, 0x14(r1)
-	bl       create__Q23efx8TSimple1FPQ23efx3Arg
-	lwz      r0, 0x44(r1)
-	lwz      r31, 0x3c(r1)
-	mtlr     r0
-	addi     r1, r1, 0x40
-	blr
-	*/
+	Obj* baby = static_cast<Obj*>(enemy);
+	baby->createHoney();
+	baby->mHealth = 0.0f;
+	baby->deathProcedure();
+	baby->mTargetVelocity = Vector3f(0.0f);
+	baby->startMotion(1, nullptr);
+	Vector3f position = baby->getPosition();
+
+	efx::Arg fxArg(position);
+	efx::TBabyBecha bechaEffect;
+
+	bechaEffect.create(&fxArg);
 }
 
 /*
@@ -397,29 +78,11 @@ void StatePress::init(Game::EnemyBase*, Game::StateArg*)
  * Address:	8028C8D0
  * Size:	000044
  */
-void StatePress::exec(Game::EnemyBase*)
+void StatePress::exec(EnemyBase* enemy)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lwz      r3, 0x188(r4)
-	lbz      r0, 0x24(r3)
-	cmplwi   r0, 0
-	beq      lbl_8028C904
-	lwz      r0, 0x1c(r3)
-	cmplwi   r0, 0x3e8
-	bne      lbl_8028C904
-	mr       r3, r4
-	li       r4, 0
-	bl       kill__Q24Game8CreatureFPQ24Game15CreatureKillArg
-
-lbl_8028C904:
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if (enemy->mCurAnim->mIsPlaying && (u32)enemy->mCurAnim->mType == KEYEVENT_END) {
+		enemy->kill(nullptr);
+	}
 }
 
 /*
@@ -427,33 +90,18 @@ lbl_8028C904:
  * Address:	8028C914
  * Size:	000004
  */
-void StatePress::cleanup(Game::EnemyBase*) { }
+void StatePress::cleanup(EnemyBase* enemy) { }
 
 /*
  * --INFO--
  * Address:	8028C918
  * Size:	000040
  */
-void StateBorn::init(Game::EnemyBase*, Game::StateArg*)
+void StateBorn::init(EnemyBase* enemy, StateArg* stateArg)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	mr       r3, r31
-	bl       createBornEffect__Q34Game4Baby3ObjFv
-	mr       r3, r31
-	li       r4, 5
-	li       r5, 0
-	bl       startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	Obj* baby = static_cast<Obj*>(enemy);
+	baby->createBornEffect();
+	baby->startMotion(5, nullptr);
 }
 
 /*
@@ -461,70 +109,25 @@ void StateBorn::init(Game::EnemyBase*, Game::StateArg*)
  * Address:	8028C958
  * Size:	0000D8
  */
-void StateBorn::exec(Game::EnemyBase*)
+void StateBorn::exec(EnemyBase* enemy)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	lwz      r0, 0xc8(r4)
-	cmplwi   r0, 0
-	beq      lbl_8028C9A4
-	lfs      f2, 0x1d4(r31)
-	mr       r3, r31
-	lfs      f0, lbl_8051B8B4@sda21(r2)
-	lfs      f3, 0x1dc(r31)
-	fmuls    f2, f2, f0
-	fmuls    f3, f3, f0
-	stfs     f2, 0x1d4(r31)
-	stfs     f3, 0x1dc(r31)
-	bl       finishMotion__Q24Game9EnemyBaseFv
+	if (enemy->mBounceTriangle) {
 
-lbl_8028C9A4:
-	lwz      r3, 0x188(r31)
-	lbz      r0, 0x24(r3)
-	cmplwi   r0, 0
-	beq      lbl_8028CA18
-	lwz      r0, 0x1c(r3)
-	cmplwi   r0, 0x3e8
-	bne      lbl_8028CA18
-	lfs      f1, 0x200(r31)
-	lfs      f0, lbl_8051B8B0@sda21(r2)
-	fcmpo    cr0, f1, f0
-	cror     2, 0, 2
-	bne      lbl_8028C9F8
-	mr       r3, r30
-	mr       r4, r31
-	lwz      r12, 0(r30)
-	li       r5, 0
-	li       r6, 0
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	b        lbl_8028CA18
+		Vector3f vec = enemy->mTargetVelocity;
+		weightVecXZ(vec, 0.95f);
+		enemy->mTargetVelocity = vec;
 
-lbl_8028C9F8:
-	mr       r3, r30
-	mr       r4, r31
-	lwz      r12, 0(r30)
-	li       r5, 3
-	li       r6, 0
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
+		enemy->finishMotion();
+	}
 
-lbl_8028CA18:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if (enemy->mCurAnim->mIsPlaying && (u32)enemy->mCurAnim->mType == KEYEVENT_END) {
+		if (enemy->mHealth <= 0.0f) {
+			transit(enemy, BABY_Dead, nullptr);
+
+		} else {
+			transit(enemy, BABY_Move, nullptr);
+		}
+	}
 }
 
 /*
@@ -532,30 +135,18 @@ lbl_8028CA18:
  * Address:	8028CA30
  * Size:	000004
  */
-void StateBorn::cleanup(Game::EnemyBase*) { }
+void StateBorn::cleanup(EnemyBase* enemy) { }
 
 /*
  * --INFO--
  * Address:	8028CA34
  * Size:	000034
  */
-void StateMove::init(Game::EnemyBase*, Game::StateArg*)
+void StateMove::init(EnemyBase* enemy, StateArg* stateArg)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	mr       r3, r4
-	li       r4, 2
-	stw      r0, 0x14(r1)
-	li       r0, 0
-	li       r5, 0
-	stw      r0, 0x230(r3)
-	bl       startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	Obj* baby             = static_cast<Obj*>(enemy);
+	baby->mTargetCreature = nullptr;
+	baby->startMotion(2, nullptr);
 }
 
 /*
@@ -563,8 +154,56 @@ void StateMove::init(Game::EnemyBase*, Game::StateArg*)
  * Address:	8028CA68
  * Size:	000468
  */
-void StateMove::exec(Game::EnemyBase*)
+// NON-MATCHING
+void StateMove::exec(EnemyBase* enemy)
 {
+	Obj* baby = static_cast<Obj*>(enemy);
+	if (baby->mHealth <= 0.0f) {
+		transit(baby, BABY_Dead, nullptr);
+		return;
+	}
+
+	Creature* creature = EnemyFunc::getNearestPikminOrNavi(baby, CG_PARMS(baby)->mGeneral.mViewAngle.mValue,
+	                                                       CG_PARMS(baby)->mGeneral.mSightRadius.mValue, nullptr, nullptr, nullptr);
+
+	if (creature) {
+
+		f32 angleDist = baby->turnToTargetNishi(creature, CG_PARMS(baby)->mGeneral.mRotationalAccel.mValue,
+		                                        CG_PARMS(baby)->mGeneral.mRotationalSpeed.mValue);
+
+		f32 limit   = PI * (DEG2RAD * *CG_PARMS(baby)->mGeneral.mMinAttackRange());
+		f32 absDist = FABS(angleDist);
+
+		if (absDist <= limit) {
+			f32 speed    = CG_PARMS(baby)->mGeneral.mMoveSpeed.mValue;
+			f32 sintheta = (f32)sin(baby->getFaceDir());
+			f32 y        = baby->getTargetVelocity().y;
+			f32 costheta = (f32)cos(baby->getFaceDir());
+
+			baby->mTargetVelocity = Vector3f(speed * sintheta, y, speed * costheta);
+
+		} else {
+			f32 speed    = CG_PARMS(baby)->mGeneral.mMoveSpeed.mValue * 0.25f;
+			f32 sintheta = (f32)sin(baby->getFaceDir());
+			f32 y        = baby->getTargetVelocity().y;
+			f32 costheta = (f32)cos(baby->getFaceDir());
+
+			baby->mTargetVelocity = Vector3f(speed * sintheta, y, speed * costheta);
+		}
+
+		if (baby->checkDistAndAngle(creature, angleDist, CG_PARMS(baby)->mGeneral.mMaxAttackRange.mValue,
+		                            CG_PARMS(baby)->mGeneral.mMinAttackRange.mValue)) {
+			transit(baby, BABY_Attack, nullptr);
+		}
+
+	} else {
+		baby->moveNoTarget();
+	}
+
+	if (baby->mCurAnim->mIsPlaying && (u32)baby->mCurAnim->mType == KEYEVENT_END) {
+		transit(baby, BABY_Move, nullptr);
+	}
+
 	/*
 	stwu     r1, -0xf0(r1)
 	mflr     r0
@@ -875,37 +514,18 @@ lbl_8028CE80:
  * Address:	8028CED0
  * Size:	000004
  */
-void StateMove::cleanup(Game::EnemyBase*) { }
+void StateMove::cleanup(EnemyBase* enemy) { }
 
 /*
  * --INFO--
  * Address:	8028CED4
  * Size:	000050
  */
-void StateAttack::init(Game::EnemyBase*, Game::StateArg*)
+void StateAttack::init(EnemyBase* enemy, StateArg* stateArg)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	lfs      f0, lbl_8051B8B0@sda21(r2)
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	mr       r3, r31
-	stfs     f0, 0x1d4(r4)
-	stfs     f0, 0x1d8(r4)
-	stfs     f0, 0x1dc(r4)
-	bl       setEmotionExcitement__Q24Game9EnemyBaseFv
-	mr       r3, r31
-	li       r4, 3
-	li       r5, 0
-	bl       startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	enemy->mTargetVelocity = Vector3f(0.0f);
+	enemy->setEmotionExcitement();
+	enemy->startMotion(3, nullptr);
 }
 
 /*
@@ -913,86 +533,36 @@ void StateAttack::init(Game::EnemyBase*, Game::StateArg*)
  * Address:	8028CF24
  * Size:	000104
  */
-void StateAttack::exec(Game::EnemyBase*)
+void StateAttack::exec(EnemyBase* enemy)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	lwz      r5, 0x188(r4)
-	lbz      r0, 0x24(r5)
-	cmplwi   r0, 0
-	beq      lbl_8028D014
-	lwz      r0, 0x1c(r5)
-	cmplwi   r0, 2
-	bne      lbl_8028CFA4
-	lwz      r6, 0xc0(r31)
-	mr       r3, r31
-	li       r4, 0
-	li       r5, 0
-	lfs      f1, 0x5b4(r6)
-	lfs      f2, 0x5dc(r6)
-	lfs      f3, 0x604(r6)
-	bl
-"attackNavi__Q24Game9EnemyFuncFPQ24Game8CreaturefffP8CollPartP23Condition<Q24Game4Navi>"
-	mr       r3, r31
-	li       r4, 0
-	bl
-"eatPikmin__Q24Game9EnemyFuncFPQ24Game9EnemyBaseP23Condition<Q24Game4Piki>"
-mr r3, r31 bl       getSlotPikiNum__Q34Game4Baby3ObjFv cmpwi    r3, 0 bne
-lbl_8028D014 mr       r3, r31 li       r4, 4 li       r5, 0 bl
-startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener b lbl_8028D014
-
-lbl_8028CFA4:
-	cmplwi   r0, 3
-	bne      lbl_8028CFC4
-	lwz      r5, 0xc0(r31)
-	mr       r3, r31
-	li       r4, 0
-	lfs      f1, 0x81c(r5)
-	bl
-"swallowPikmin__Q24Game9EnemyFuncFPQ24Game8CreaturefP23Condition<Q24Game4Piki>"
-	b        lbl_8028D014
-
-lbl_8028CFC4:
-	cmplwi   r0, 0x3e8
-	bne      lbl_8028D014
-	lfs      f1, 0x200(r31)
-	lfs      f0, lbl_8051B8B0@sda21(r2)
-	fcmpo    cr0, f1, f0
-	cror     2, 0, 2
-	bne      lbl_8028CFFC
-	lwz      r12, 0(r3)
-	li       r5, 0
-	li       r6, 0
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	b        lbl_8028D014
-
-lbl_8028CFFC:
-	lwz      r12, 0(r3)
-	li       r5, 3
-	li       r6, 0
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-
-lbl_8028D014:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	Obj* baby = static_cast<Obj*>(enemy);
+	if (baby->mCurAnim->mIsPlaying) {
+		if ((u32)baby->mCurAnim->mType == KEYEVENT_2) {
+			Parms* parms = static_cast<Parms*>(baby->mParms);
+			EnemyFunc::attackNavi(baby, parms->mGeneral.mAttackRadius.mValue, parms->mGeneral.mAttackHitAngle.mValue,
+			                      parms->mGeneral.mAttackDamage.mValue, nullptr, nullptr);
+			EnemyFunc::eatPikmin(baby, nullptr);
+			int slotCount = baby->getSlotPikiNum();
+			if (slotCount == 0) {
+				baby->startMotion(4, nullptr);
+			}
+		} else if ((u32)baby->mCurAnim->mType == KEYEVENT_3) {
+			Parms* parms = static_cast<Parms*>(baby->mParms);
+			EnemyFunc::swallowPikmin(baby, parms->mProperParms.mPoisonDamage.mValue, nullptr);
+		} else if ((u32)baby->mCurAnim->mType == KEYEVENT_END) {
+			if (baby->mHealth <= 0.0f) {
+				transit(baby, BABY_Dead, nullptr);
+			} else {
+				transit(baby, BABY_Move, nullptr);
+			}
+		}
+	}
 }
 /*
  * --INFO--
  * Address:	8028D028
  * Size:	000024
  */
-void StateAttack::cleanup(EnemyBase* baby) { setEmotionCaution(baby); }
+void StateAttack::cleanup(EnemyBase* enemy) { enemy->setEmotionCaution(); }
 } // namespace Baby
 } // namespace Game

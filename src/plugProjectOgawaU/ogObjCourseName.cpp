@@ -1,112 +1,18 @@
-#include "types.h"
+#include "og/newScreen/CourseName.h"
+#include "P2DScreen.h"
+#include "og/Screen/anime.h"
+#include "og/Screen/ogScreen.h"
+#include "JSystem/J2D/J2DMaterial.h"
+#include "System.h"
 
 /*
-    Generated from dpostproc
-
-    .section .ctors, "wa"  # 0x80472F00 - 0x804732C0
-    .4byte __sinit_ogObjCourseName_cpp
-
-    .section .rodata  # 0x804732E0 - 0x8049E220
-    .global lbl_8048E700
-    lbl_8048E700:
-        .4byte 0x6F674F62
-        .4byte 0x6A436F75
-        .4byte 0x7273654E
-        .4byte 0x616D652E
-        .4byte 0x63707000
-        .4byte 0x00000000
-        .4byte 0x6E756B69
-        .4byte 0x5F746578
-        .4byte 0x65666563
-        .4byte 0x745F3030
-        .4byte 0x65666563
-        .4byte 0x745F3031
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x45525221
-        .4byte 0x20696E20
-        .4byte 0x4F626A43
-        .4byte 0x6F757273
-        .4byte 0x654E616D
-        .4byte 0x65204372
-        .4byte 0x65617465
-        .4byte 0x8EB89473
-        .4byte 0x81490A00
-        .4byte 0x73637265
-        .4byte 0x656E4F62
-        .4byte 0x6A2E6800
-        .asciz "P2Assert"
-        .skip 3
-
-    .section .data, "wa"  # 0x8049E220 - 0x804EFC20
-    .global __vt__Q32og9newScreen13ObjCourseName
-    __vt__Q32og9newScreen13ObjCourseName:
-        .4byte 0
-        .4byte 0
-        .4byte __dt__Q32og9newScreen13ObjCourseNameFv
-        .4byte getChildCount__5CNodeFv
-        .4byte 0
-        .4byte 0
-        .4byte "@24@__dt__Q32og9newScreen13ObjCourseNameFv"
-        .4byte update__Q26Screen7ObjBaseFv
-        .4byte draw__Q26Screen7ObjBaseFR8Graphics
-        .4byte start__Q26Screen7ObjBaseFPCQ26Screen13StartSceneArg
-        .4byte end__Q26Screen7ObjBaseFPCQ26Screen11EndSceneArg
-        .4byte setOwner__Q26Screen7ObjBaseFPQ26Screen9SceneBase
-        .4byte getOwner__Q26Screen7ObjBaseCFv
-        .4byte create__Q26Screen7ObjBaseFP10JKRArchive
-        .4byte confirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg
-        .4byte confirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg
-        .4byte confirmEndScene__Q26Screen7ObjBaseFPQ26Screen11EndSceneArg
-        .4byte
-   doStart__Q32og9newScreen13ObjCourseNameFPCQ26Screen13StartSceneArg .4byte
-   doEnd__Q32og9newScreen13ObjCourseNameFPCQ26Screen11EndSceneArg .4byte
-   doCreate__Q32og9newScreen13ObjCourseNameFP10JKRArchive .4byte
-   doUpdateFadein__Q32og9newScreen13ObjCourseNameFv .4byte
-   doUpdateFadeinFinish__Q32og9newScreen13ObjCourseNameFv .4byte
-   doUpdate__Q32og9newScreen13ObjCourseNameFv .4byte
-   doUpdateFinish__Q32og9newScreen13ObjCourseNameFv .4byte
-   doUpdateFadeout__Q32og9newScreen13ObjCourseNameFv .4byte
-   doUpdateFadeoutFinish__Q32og9newScreen13ObjCourseNameFv .4byte
-   doDraw__Q32og9newScreen13ObjCourseNameFR8Graphics .4byte
-   doConfirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg .4byte
-   doConfirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg .4byte
-   doConfirmEndScene__Q26Screen7ObjBaseFRPQ26Screen11EndSceneArg
-
-    .section .bss  # 0x804EFC20 - 0x8051467C
-    .global msVal__Q32og9newScreen13ObjCourseName
-    msVal__Q32og9newScreen13ObjCourseName:
-        .skip 0x10
-
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .global lbl_8051D8D0
-    lbl_8051D8D0:
-        .4byte 0x00000000
-    .global lbl_8051D8D4
-    lbl_8051D8D4:
-        .float 1.0
-    .global lbl_8051D8D8
-    lbl_8051D8D8:
-        .4byte 0x437F0000
-        .4byte 0x00000000
-    .global lbl_8051D8E0
-    lbl_8051D8E0:
-        .4byte 0x43300000
-        .4byte 0x00000000
-    .global lbl_8051D8E8
-    lbl_8051D8E8:
-        .float 0.3
-    .global lbl_8051D8EC
-    lbl_8051D8EC:
-        .4byte 0x3E4CCCCD
-    .global lbl_8051D8F0
-    lbl_8051D8F0:
-        .4byte 0x40400000
-        .4byte 0x00000000
-*/
+ * --INFO--
+ * Address:	........
+ * Size:	0000E4
+ */
+static void _Print(char* format, ...) { OSReport(format, __FILE__); }
 
 namespace og {
-
 namespace newScreen {
 
 /*
@@ -114,52 +20,22 @@ namespace newScreen {
  * Address:	8031741C
  * Size:	0000A8
  */
-ObjCourseName::ObjCourseName(char const*)
+ObjCourseName::ObjCourseName(char const* name)
+    : mFadeLevel(0.0f)
+    , mAlpha(0.0f)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	bl       __ct__Q26Screen7ObjBaseFv
-	lis      r4, __vt__Q32og9newScreen13ObjCourseName@ha
-	lis      r3, msVal__Q32og9newScreen13ObjCourseName@ha
-	addi     r4, r4, __vt__Q32og9newScreen13ObjCourseName@l
-	lfs      f1, lbl_8051D8D0@sda21(r2)
-	stw      r4, 0(r30)
-	addi     r0, r4, 0x10
-	li       r6, -1
-	li       r5, 0
-	stw      r0, 0x18(r30)
-	addi     r4, r3, msVal__Q32og9newScreen13ObjCourseName@l
-	li       r0, 0xff
-	mr       r3, r30
-	stfs     f1, 0x44(r30)
-	stfs     f1, 0x48(r30)
-	stw      r6, 0x54(r30)
-	stw      r31, 0x14(r30)
-	stw      r5, 0x38(r30)
-	stw      r5, 0x3c(r30)
-	stw      r5, 0x40(r30)
-	lfs      f0, 0xc(r4)
-	stfs     f0, 0x4c(r30)
-	stb      r5, 0x50(r30)
-	stb      r5, 0x54(r30)
-	stb      r5, 0x55(r30)
-	stb      r5, 0x56(r30)
-	stb      r0, 0x57(r30)
-	stb      r5, 0x58(r30)
-	stfs     f1, 0x5c(r30)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mName = name;
+
+	mDisp   = nullptr;
+	mScreen = nullptr;
+	mAnims  = nullptr;
+
+	mTimer = msVal._0C;
+	mState = 0;
+
+	mColor.set(0, 0, 0, 255);
+	mDoEnd           = 0;
+	mBackgroundAlpha = 0.0f;
 }
 
 /*
@@ -167,66 +43,55 @@ ObjCourseName::ObjCourseName(char const*)
  * Address:	803174C4
  * Size:	0000AC
  */
-ObjCourseName::~ObjCourseName(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	or.      r30, r3, r3
-	beq      lbl_80317554
-	lis      r4, __vt__Q32og9newScreen13ObjCourseName@ha
-	addi     r4, r4, __vt__Q32og9newScreen13ObjCourseName@l
-	stw      r4, 0(r30)
-	addi     r0, r4, 0x10
-	stw      r0, 0x18(r30)
-	beq      lbl_80317544
-	lis      r4, __vt__Q26Screen7ObjBase@ha
-	addi     r4, r4, __vt__Q26Screen7ObjBase@l
-	stw      r4, 0(r30)
-	addi     r0, r4, 0x10
-	stw      r0, 0x18(r30)
-	beq      lbl_80317544
-	lis      r4, __vt__Q26Screen8IObjBase@ha
-	addi     r4, r4, __vt__Q26Screen8IObjBase@l
-	stw      r4, 0(r30)
-	addi     r0, r4, 0x10
-	stw      r0, 0x18(r30)
-	bl       del__5CNodeFv
-	addi     r3, r30, 0x18
-	li       r4, 0
-	bl       __dt__11JKRDisposerFv
-	mr       r3, r30
-	li       r4, 0
-	bl       __dt__5CNodeFv
-
-lbl_80317544:
-	extsh.   r0, r31
-	ble      lbl_80317554
-	mr       r3, r30
-	bl       __dl__FPv
-
-lbl_80317554:
-	lwz      r0, 0x14(r1)
-	mr       r3, r30
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+ObjCourseName::~ObjCourseName() { }
 
 /*
  * --INFO--
  * Address:	80317570
  * Size:	000334
  */
-void ObjCourseName::doCreate(JKRArchive*)
+void ObjCourseName::doCreate(JKRArchive* arc)
 {
+	og::Screen::DispMemberCourseName* disp = static_cast<og::Screen::DispMemberCourseName*>(getDispMember());
+	if (disp->isID(OWNER_OGA, MEMBER_COURSE_NAME)) {
+		mDisp = disp;
+
+	} else if (disp->isID(OWNER_OGA, MEMBER_DUMMY)) {
+		mDisp = new og::Screen::DispMemberCourseName;
+
+	} else {
+		JUT_PANICLINE(101, "ERR! in ObjCourseName Createé∏îsÅI\n");
+	}
+
+	CourseName* owner = static_cast<CourseName*>(getOwner());
+	const char* path  = bloFileNameCourse[owner->mCourseIndex];
+
+	mScreen = new P2DScreen::Mgr_tuning;
+	mScreen->set(path, 0x1040000, arc);
+
+	mAnims         = new og::Screen::AnimGroup(5);
+	char** list    = animFileTableCourse[owner->mCourseIndex];
+	char* listItem = list[0];
+	for (int i = 0; listItem != nullptr; listItem = list[i + 1], i++) {
+		og::Screen::registAnimGroupScreen(mAnims, arc, mScreen, listItem, 1.0f);
+	}
+
+	og::Screen::setAlphaScreen(mScreen);
+
+	J2DBlend info = J2DBlend(1, 7, 6, 0);
+	u64 tags[4]   = { 'nuki_tex', 'efect_00', 'efect_01', 0 };
+	mScreen->setBlendInfo(info, tags);
+
+	J2DPane* pane = mScreen->search('nuki_tex');
+	if (pane) {
+		J2DPane* pane1 = mScreen->search('efect_00');
+		J2DPane* pane2 = mScreen->search('efect_01');
+		mScreen->prependChild(pane);
+		if (pane1)
+			pane1->hide();
+		if (pane2)
+			pane2->hide();
+	}
 	/*
 	stwu     r1, -0x50(r1)
 	mflr     r0
@@ -466,9 +331,30 @@ lbl_80317890:
  * Address:	........
  * Size:	0000F0
  */
-void ObjCourseName::commonUpdate(void)
+bool ObjCourseName::commonUpdate()
 {
-	// UNUSED FUNCTION
+	bool check = false;
+	mAnims->update();
+	mScreen->animation();
+	mScreen->update();
+
+	if (mState != 0) {
+		mTimer -= sys->mDeltaTime;
+		if (mTimer < 0.0f) {
+			check = true;
+		}
+	} else {
+		og::Screen::DispMemberCourseName* disp = static_cast<og::Screen::DispMemberCourseName*>(getDispMember());
+		if (disp->isID(OWNER_OGA, MEMBER_COURSE_NAME)) {
+			if (disp->mIsCounting) {
+				mState = 1;
+			}
+			if (disp->mIsExiting) {
+				mDoEnd = true;
+			}
+		}
+	}
+	return check;
 }
 
 /*
@@ -476,180 +362,37 @@ void ObjCourseName::commonUpdate(void)
  * Address:	803178A4
  * Size:	0000F0
  */
-void ObjCourseName::doUpdate(void)
-{
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	li       r30, 0
-	stw      r29, 0x14(r1)
-	mr       r29, r3
-	lwz      r3, 0x40(r3)
-	bl       update__Q32og6Screen9AnimGroupFv
-	lwz      r3, 0x3c(r29)
-	bl       animation__9J2DScreenFv
-	lwz      r3, 0x3c(r29)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x30(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0x50(r29)
-	cmplwi   r0, 0
-	beq      lbl_80317920
-	lwz      r3, sys@sda21(r13)
-	lfs      f2, 0x4c(r29)
-	lfs      f1, 0x54(r3)
-	lfs      f0, lbl_8051D8D0@sda21(r2)
-	fsubs    f1, f2, f1
-	stfs     f1, 0x4c(r29)
-	lfs      f1, 0x4c(r29)
-	fcmpo    cr0, f1, f0
-	bge      lbl_80317974
-	li       r30, 1
-	b        lbl_80317974
-
-lbl_80317920:
-	mr       r3, r29
-	bl       getDispMember__Q26Screen7ObjBaseFv
-	lis      r4, 0x004F4741@ha
-	lis      r6, 0x55525345@ha
-	mr       r31, r3
-	li       r5, 0x434f
-	addi     r4, r4, 0x004F4741@l
-	addi     r6, r6, 0x55525345@l
-	bl       isID__Q32og6Screen14DispMemberBaseFUlUx
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_80317974
-	lbz      r0, 0xc(r31)
-	cmplwi   r0, 0
-	beq      lbl_80317960
-	li       r0, 1
-	stb      r0, 0x50(r29)
-
-lbl_80317960:
-	lbz      r0, 0xd(r31)
-	cmplwi   r0, 0
-	beq      lbl_80317974
-	li       r0, 1
-	stb      r0, 0x58(r29)
-
-lbl_80317974:
-	lwz      r0, 0x24(r1)
-	mr       r3, r30
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
-}
+bool ObjCourseName::doUpdate() { return commonUpdate(); }
 
 /*
  * --INFO--
  * Address:	80317994
  * Size:	000170
  */
-void ObjCourseName::doDraw(Graphics&)
+void ObjCourseName::doDraw(Graphics& gfx)
 {
-	/*
-	stwu     r1, -0x60(r1)
-	mflr     r0
-	stw      r0, 0x64(r1)
-	stmw     r27, 0x4c(r1)
-	mr       r27, r3
-	mr       r28, r4
-	bl       drawBG__Q32og9newScreen13ObjCourseNameFR8Graphics
-	addi     r31, r28, 0x190
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	bl       getRenderModeObj__6SystemFv
-	lhz      r30, 4(r3)
-	bl       getRenderModeObj__6SystemFv
-	li       r0, 0xff
-	lhz      r29, 6(r3)
-	stb      r0, 0x18(r1)
-	mr       r3, r31
-	addi     r4, r1, 8
-	addi     r5, r1, 0xc
-	stb      r0, 0x19(r1)
-	addi     r6, r1, 0x10
-	addi     r7, r1, 0x14
-	stb      r0, 0x1a(r1)
-	stb      r0, 0x1b(r1)
-	lwz      r0, 0x18(r1)
-	stw      r0, 0x14(r1)
-	stw      r0, 0x10(r1)
-	stw      r0, 0xc(r1)
-	stw      r0, 8(r1)
-	bl
-	setColor__14J2DGrafContextFQ28JUtility6TColorQ28JUtility6TColorQ28JUtility6TColorQ28JUtility6TColor
-	li       r3, 0
-	bl       GXSetColorUpdate
-	li       r3, 1
-	bl       GXSetAlphaUpdate
-	lis      r0, 0x4330
-	lfs      f3, lbl_8051D8D0@sda21(r2)
-	stw      r30, 0x34(r1)
-	mr       r3, r31
-	lfd      f2, lbl_8051D8E0@sda21(r2)
-	addi     r4, r1, 0x1c
-	stw      r0, 0x30(r1)
-	lfd      f0, 0x30(r1)
-	stw      r29, 0x3c(r1)
-	fsubs    f1, f0, f2
-	stw      r0, 0x38(r1)
-	lfd      f0, 0x38(r1)
-	fadds    f1, f3, f1
-	stfs     f3, 0x1c(r1)
-	fsubs    f0, f0, f2
-	stfs     f3, 0x20(r1)
-	fadds    f0, f3, f0
-	stfs     f1, 0x24(r1)
-	stfs     f0, 0x28(r1)
-	bl       "fillBox__14J2DGrafContextFRCQ29JGeometry8TBox2<f>"
-	li       r3, 1
-	bl       GXSetColorUpdate
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lfs      f1, lbl_8051D8D8@sda21(r2)
-	lfs      f0, 0x48(r27)
-	lwz      r3, 0x3c(r27)
-	fmuls    f0, f1, f0
-	lwz      r12, 0(r3)
-	fctiwz   f0, f0
-	lwz      r12, 0x24(r12)
-	stfd     f0, 0x40(r1)
-	lwz      r4, 0x44(r1)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x3c(r27)
-	mr       r4, r28
-	mr       r5, r31
-	lwz      r12, 0(r3)
-	lwz      r12, 0x9c(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lmw      r27, 0x4c(r1)
-	lwz      r0, 0x64(r1)
-	mtlr     r0
-	addi     r1, r1, 0x60
-	blr
-	*/
+	drawBG(gfx);
+
+	J2DPerspGraph* graf = &gfx.mPerspGraph;
+	graf->setPort();
+
+	u16 w = sys->getRenderModeObj()->fbWidth;
+	u16 h = sys->getRenderModeObj()->efbHeight;
+	JUtility::TColor color(255, 255, 255, 255);
+	graf->setColor(color);
+	GXSetColorUpdate(GX_FALSE);
+	GXSetAlphaUpdate(GX_TRUE);
+
+	JGeometry::TVec2f vec(0.0f, 0.0f);
+	JGeometry::TBox2f box(vec.x, vec.y, vec.x + w, vec.y + h);
+	graf->fillBox(box);
+	GXSetColorUpdate(GX_TRUE);
+	graf->setPort();
+
+	f32 alpha = mAlpha * 255.0f;
+	mScreen->setAlpha(alpha);
+	mScreen->draw(gfx, *graf);
+	graf->setPort();
 }
 
 /*
@@ -657,15 +400,11 @@ void ObjCourseName::doDraw(Graphics&)
  * Address:	80317B04
  * Size:	000014
  */
-void ObjCourseName::doStart(Screen::StartSceneArg const*)
+bool ObjCourseName::doStart(::Screen::StartSceneArg const*)
 {
-	/*
-	lfs      f0, lbl_8051D8D0@sda21(r2)
-	stfs     f0, 0x44(r3)
-	stfs     f0, 0x48(r3)
-	li       r3, 1
-	blr
-	*/
+	mFadeLevel = 0.0f;
+	mAlpha     = 0.0f;
+	return true;
 }
 
 /*
@@ -673,14 +412,10 @@ void ObjCourseName::doStart(Screen::StartSceneArg const*)
  * Address:	80317B18
  * Size:	000010
  */
-void ObjCourseName::doEnd(Screen::EndSceneArg const*)
+bool ObjCourseName::doEnd(::Screen::EndSceneArg const*)
 {
-	/*
-	lfs      f0, lbl_8051D8D0@sda21(r2)
-	stfs     f0, 0x44(r3)
-	li       r3, 1
-	blr
-	*/
+	mFadeLevel = 0.0f;
+	return true;
 }
 
 /*
@@ -688,118 +423,38 @@ void ObjCourseName::doEnd(Screen::EndSceneArg const*)
  * Address:	80317B28
  * Size:	000004
  */
-void ObjCourseName::doUpdateFadeinFinish(void) { }
+void ObjCourseName::doUpdateFadeinFinish() { }
 
 /*
  * --INFO--
  * Address:	80317B2C
  * Size:	00000C
  */
-void ObjCourseName::doUpdateFinish(void)
-{
-	/*
-	lfs      f0, lbl_8051D8D0@sda21(r2)
-	stfs     f0, 0x44(r3)
-	blr
-	*/
-}
+void ObjCourseName::doUpdateFinish() { mFadeLevel = 0.0f; }
 
 /*
  * --INFO--
  * Address:	80317B38
  * Size:	000004
  */
-void ObjCourseName::doUpdateFadeoutFinish(void) { }
+void ObjCourseName::doUpdateFadeoutFinish() { }
 
 /*
  * --INFO--
  * Address:	80317B3C
  * Size:	000120
  */
-void ObjCourseName::doUpdateFadein(void)
+bool ObjCourseName::doUpdateFadein()
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	li       r30, 0
-	stw      r29, 0x14(r1)
-	mr       r29, r3
-	lis      r3, msVal__Q32og9newScreen13ObjCourseName@ha
-	lwz      r4, sys@sda21(r13)
-	addi     r3, r3, msVal__Q32og9newScreen13ObjCourseName@l
-	lfs      f1, 0x44(r29)
-	lfs      f0, 0x54(r4)
-	fadds    f0, f1, f0
-	stfs     f0, 0x44(r29)
-	lfs      f0, 0x44(r29)
-	lfs      f1, 4(r3)
-	fcmpo    cr0, f0, f1
-	ble      lbl_80317B90
-	stfs     f1, 0x44(r29)
-	li       r30, 1
-
-lbl_80317B90:
-	lfs      f1, 0x44(r29)
-	lfs      f0, 4(r3)
-	fdivs    f0, f1, f0
-	stfs     f0, 0x48(r29)
-	lwz      r3, 0x40(r29)
-	bl       update__Q32og6Screen9AnimGroupFv
-	lwz      r3, 0x3c(r29)
-	bl       animation__9J2DScreenFv
-	lwz      r3, 0x3c(r29)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x30(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0x50(r29)
-	cmplwi   r0, 0
-	beq      lbl_80317BE8
-	lwz      r3, sys@sda21(r13)
-	lfs      f2, 0x4c(r29)
-	lfs      f1, 0x54(r3)
-	fsubs    f1, f2, f1
-	stfs     f1, 0x4c(r29)
-	b        lbl_80317C3C
-
-lbl_80317BE8:
-	mr       r3, r29
-	bl       getDispMember__Q26Screen7ObjBaseFv
-	lis      r4, 0x004F4741@ha
-	lis      r6, 0x55525345@ha
-	mr       r31, r3
-	li       r5, 0x434f
-	addi     r4, r4, 0x004F4741@l
-	addi     r6, r6, 0x55525345@l
-	bl       isID__Q32og6Screen14DispMemberBaseFUlUx
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_80317C3C
-	lbz      r0, 0xc(r31)
-	cmplwi   r0, 0
-	beq      lbl_80317C28
-	li       r0, 1
-	stb      r0, 0x50(r29)
-
-lbl_80317C28:
-	lbz      r0, 0xd(r31)
-	cmplwi   r0, 0
-	beq      lbl_80317C3C
-	li       r0, 1
-	stb      r0, 0x58(r29)
-
-lbl_80317C3C:
-	lwz      r0, 0x24(r1)
-	mr       r3, r30
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	bool check = false;
+	mFadeLevel += sys->mDeltaTime;
+	if (mFadeLevel > msVal._04) {
+		mFadeLevel = msVal._04;
+		check      = true;
+	}
+	mAlpha = mFadeLevel / msVal._04;
+	commonUpdate();
+	return check;
 }
 
 /*
@@ -807,95 +462,19 @@ lbl_80317C3C:
  * Address:	80317C5C
  * Size:	000134
  */
-void ObjCourseName::doUpdateFadeout(void)
+bool ObjCourseName::doUpdateFadeout()
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	li       r30, 0
-	stw      r29, 0x14(r1)
-	mr       r29, r3
-	lis      r3, msVal__Q32og9newScreen13ObjCourseName@ha
-	lwz      r4, sys@sda21(r13)
-	addi     r3, r3, msVal__Q32og9newScreen13ObjCourseName@l
-	lfs      f1, 0x44(r29)
-	lfs      f0, 0x54(r4)
-	fadds    f0, f1, f0
-	stfs     f0, 0x44(r29)
-	lfs      f0, 0x44(r29)
-	lfs      f1, 8(r3)
-	fcmpo    cr0, f0, f1
-	ble      lbl_80317CBC
-	stfs     f1, 0x44(r29)
-	lbz      r0, 0x58(r29)
-	cmplwi   r0, 0
-	bne      lbl_80317CBC
-	li       r30, 1
-
-lbl_80317CBC:
-	lfs      f1, 0x44(r29)
-	lfs      f0, 8(r3)
-	lfs      f2, lbl_8051D8D4@sda21(r2)
-	fdivs    f0, f1, f0
-	fsubs    f0, f2, f0
-	stfs     f0, 0x48(r29)
-	lwz      r3, 0x40(r29)
-	bl       update__Q32og6Screen9AnimGroupFv
-	lwz      r3, 0x3c(r29)
-	bl       animation__9J2DScreenFv
-	lwz      r3, 0x3c(r29)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x30(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0x50(r29)
-	cmplwi   r0, 0
-	beq      lbl_80317D1C
-	lwz      r3, sys@sda21(r13)
-	lfs      f2, 0x4c(r29)
-	lfs      f1, 0x54(r3)
-	fsubs    f1, f2, f1
-	stfs     f1, 0x4c(r29)
-	b        lbl_80317D70
-
-lbl_80317D1C:
-	mr       r3, r29
-	bl       getDispMember__Q26Screen7ObjBaseFv
-	lis      r4, 0x004F4741@ha
-	lis      r6, 0x55525345@ha
-	mr       r31, r3
-	li       r5, 0x434f
-	addi     r4, r4, 0x004F4741@l
-	addi     r6, r6, 0x55525345@l
-	bl       isID__Q32og6Screen14DispMemberBaseFUlUx
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_80317D70
-	lbz      r0, 0xc(r31)
-	cmplwi   r0, 0
-	beq      lbl_80317D5C
-	li       r0, 1
-	stb      r0, 0x50(r29)
-
-lbl_80317D5C:
-	lbz      r0, 0xd(r31)
-	cmplwi   r0, 0
-	beq      lbl_80317D70
-	li       r0, 1
-	stb      r0, 0x58(r29)
-
-lbl_80317D70:
-	lwz      r0, 0x24(r1)
-	mr       r3, r30
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	bool check = false;
+	mFadeLevel += sys->mDeltaTime;
+	if (mFadeLevel > msVal._08) {
+		mFadeLevel = msVal._08;
+		if (!mDoEnd) {
+			check = true;
+		}
+	}
+	mAlpha = 1.0f - mFadeLevel / msVal._08;
+	commonUpdate();
+	return check;
 }
 
 /*
@@ -903,143 +482,34 @@ lbl_80317D70:
  * Address:	80317D90
  * Size:	000168
  */
-void ObjCourseName::drawBG(Graphics&)
+void ObjCourseName::drawBG(Graphics& gfx)
 {
-	/*
-	stwu     r1, -0x50(r1)
-	mflr     r0
-	stw      r0, 0x54(r1)
-	stw      r31, 0x4c(r1)
-	addi     r31, r4, 0x190
-	stw      r30, 0x48(r1)
-	stw      r29, 0x44(r1)
-	stw      r28, 0x40(r1)
-	mr       r28, r3
-	lbz      r0, 0x58(r3)
-	cmplwi   r0, 0
-	beq      lbl_80317E20
-	lwz      r4, sys@sda21(r13)
-	lis      r3, msVal__Q32og9newScreen13ObjCourseName@ha
-	lfs      f1, 0x5c(r28)
-	lfs      f0, 0x54(r4)
-	lfs      f3, lbl_8051D8D4@sda21(r2)
-	fadds    f1, f1, f0
-	lfs      f0, lbl_8051D8D0@sda21(r2)
-	stfs     f1, 0x5c(r28)
-	lfs      f2, 0x5c(r28)
-	lfs      f1, msVal__Q32og9newScreen13ObjCourseName@l(r3)
-	fdivs    f1, f2, f1
-	fsubs    f1, f3, f1
-	fcmpo    cr0, f1, f0
-	ble      lbl_80317E14
-	lfs      f0, lbl_8051D8D8@sda21(r2)
-	fmuls    f0, f0, f1
-	fctiwz   f0, f0
-	stfd     f0, 0x30(r1)
-	lwz      r0, 0x34(r1)
-	stb      r0, 0x57(r28)
-	b        lbl_80317E20
+	J2DPerspGraph* graf = &gfx.mPerspGraph;
+	if (mDoEnd) {
+		mBackgroundAlpha += sys->mDeltaTime;
+		f32 temp = 1.0f - mBackgroundAlpha / msVal._00;
+		if (temp > 0.0f) {
+			mColor.a = temp * 255.0f;
+		} else {
+			mColor.a = 0;
+			mDoEnd   = 0;
+		}
+	}
 
-lbl_80317E14:
-	li       r0, 0
-	stb      r0, 0x57(r28)
-	stb      r0, 0x58(r28)
+	if (mColor.a != 0) {
+		graf->setPort();
+		u16 w = sys->getRenderModeObj()->fbWidth;
+		u16 h = sys->getRenderModeObj()->efbHeight;
+		graf->setColor(mColor);
+		GXSetAlphaUpdate(GX_FALSE);
 
-lbl_80317E20:
-	lbz      r0, 0x57(r28)
-	cmplwi   r0, 0
-	beq      lbl_80317ED8
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	bl       getRenderModeObj__6SystemFv
-	lhz      r30, 4(r3)
-	bl       getRenderModeObj__6SystemFv
-	lhz      r29, 6(r3)
-	mr       r3, r31
-	lwz      r0, 0x54(r28)
-	addi     r4, r1, 8
-	addi     r5, r1, 0xc
-	addi     r6, r1, 0x10
-	stw      r0, 0x18(r1)
-	addi     r7, r1, 0x14
-	stw      r0, 0x14(r1)
-	stw      r0, 0x10(r1)
-	stw      r0, 0xc(r1)
-	stw      r0, 8(r1)
-	bl
-setColor__14J2DGrafContextFQ28JUtility6TColorQ28JUtility6TColorQ28JUtility6TColorQ28JUtility6TColor
-	li       r3, 0
-	bl       GXSetAlphaUpdate
-	lis      r0, 0x4330
-	lfs      f3, lbl_8051D8D0@sda21(r2)
-	stw      r30, 0x34(r1)
-	mr       r3, r31
-	lfd      f2, lbl_8051D8E0@sda21(r2)
-	addi     r4, r1, 0x1c
-	stw      r0, 0x30(r1)
-	lfd      f0, 0x30(r1)
-	stw      r29, 0x3c(r1)
-	fsubs    f1, f0, f2
-	stw      r0, 0x38(r1)
-	lfd      f0, 0x38(r1)
-	fadds    f1, f3, f1
-	stfs     f3, 0x1c(r1)
-	fsubs    f0, f0, f2
-	stfs     f3, 0x20(r1)
-	fadds    f0, f3, f0
-	stfs     f1, 0x24(r1)
-	stfs     f0, 0x28(r1)
-	bl       "fillBox__14J2DGrafContextFRCQ29JGeometry8TBox2<f>"
-
-lbl_80317ED8:
-	lwz      r0, 0x54(r1)
-	lwz      r31, 0x4c(r1)
-	lwz      r30, 0x48(r1)
-	lwz      r29, 0x44(r1)
-	lwz      r28, 0x40(r1)
-	mtlr     r0
-	addi     r1, r1, 0x50
-	blr
-	*/
+		JGeometry::TVec2f vec(0.0f, 0.0f);
+		JGeometry::TBox2f box(vec.x, vec.y, vec.x + w, vec.y + h);
+		graf->fillBox(box);
+	}
 }
+
+ObjCourseName::StaticValues ObjCourseName::msVal;
 
 } // namespace newScreen
-
 } // namespace og
-
-/*
- * --INFO--
- * Address:	80317EF8
- * Size:	000028
- */
-void __sinit_ogObjCourseName_cpp(void)
-{
-	/*
-	lfs      f3, lbl_8051D8E8@sda21(r2)
-	lis      r3, msVal__Q32og9newScreen13ObjCourseName@ha
-	lfs      f2, lbl_8051D8D4@sda21(r2)
-	stfsu    f3, msVal__Q32og9newScreen13ObjCourseName@l(r3)
-	lfs      f1, lbl_8051D8EC@sda21(r2)
-	lfs      f0, lbl_8051D8F0@sda21(r2)
-	stfs     f2, 4(r3)
-	stfs     f1, 8(r3)
-	stfs     f0, 0xc(r3)
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80317F20
- * Size:	000008
- */
-@24 @og::newScreen::ObjCourseName::~ObjCourseName(void)
-{
-	/*
-	addi     r3, r3, -24
-	b        __dt__Q32og9newScreen13ObjCourseNameFv
-	*/
-}

@@ -1,4 +1,7 @@
 #include "types.h"
+#include "PSM/BgmTrackMap.h"
+#include "stream.h"
+#include "JSystem/JUtility/JUTException.h"
 
 /*
     Generated from dpostproc
@@ -74,8 +77,15 @@ namespace PSM {
  * Address:	804718D0
  * Size:	0000A8
  */
-BgmTrackMapFile::BgmTrackMapFile(bool)
+BgmTrackMapFile::BgmTrackMapFile(bool flag)
+    : SingletonBase(this)
 {
+	mTrackMaps = nullptr;
+	mMapCount  = 0;
+	_28        = flag;
+	if (flag) {
+		mTrackMaps = new BgmTrackMap[32];
+	}
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -668,304 +678,43 @@ lbl_804720E0:
  * Address:	804720F4
  * Size:	000294
  */
-void BgmTrackMapFile::read(Stream&)
+bool BgmTrackMapFile::read(Stream& stream)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stmw     r26, 8(r1)
-	mr       r27, r3
-	lis      r3, lbl_8049DE78@ha
-	mr       r28, r4
-	addi     r31, r3, lbl_8049DE78@l
-	lbz      r0, 0x28(r27)
-	cmplwi   r0, 1
-	beq      lbl_80472134
-	addi     r3, r31, 0
-	addi     r5, r31, 0x168
-	li       r4, 0xcd
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	P2ASSERTLINE(205, _28 == true);
+	for (mMapCount = 0; mMapCount < 32; mMapCount++) {
+		int currentMapNumber = mMapCount;
+		char* s1             = stream.readString(nullptr, 0);
+		if (strcmp(s1, "endoffile") == 0) {
+			return true;
+		}
+		BgmTrackMap& dest = mTrackMaps[currentMapNumber];
+		strcpy(dest.mFileName, s1);
+		dest.mBasicTrackCount = stream.readByte();
+		JUT_ASSERTLINE(223, dest.mBasicTrackCount < 16, "basic trk over\n(Cur=%d)\n", currentMapNumber);
+		dest.mEventTrackCount = stream.readByte();
+		JUT_ASSERTLINE(226, dest.mEventTrackCount < 16, "event trk over\n(%s)\n(Cur=%d)", currentMapNumber);
+		dest.mOtakaraTrackCount = stream.readByte();
+		JUT_ASSERTLINE(229, dest.mOtakaraTrackCount < 16, "otakara trk over\n(%s)\n(Cur=%d)", currentMapNumber);
+		dest.mKehaiTrackCount = stream.readByte();
+		JUT_ASSERTLINE(232, dest.mKehaiTrackCount < 16, "kehai trk over\n(%s)\n(Cur=%d)", currentMapNumber);
+		dest.mBattleTrackCount = stream.readByte();
+		JUT_ASSERTLINE(235, dest.mBattleTrackCount < 16, "battle trk over\n(%s)\n(Cur=%d)", currentMapNumber);
+		dest.mGroundTrackCount = stream.readByte();
+		JUT_ASSERTLINE(238, dest.mGroundTrackCount < 16, "ground trk over\n(%s)\n(Cur=%d)", currentMapNumber);
+		for (u8 i = 0; i < 16; i++) {
+			u8 byte         = stream.readByte();
+			dest.mPikNum[i] = byte;
+			JUT_ASSERTLINE(242, dest.mPikNum[i] <= 1, "abnormal pik num\n(Cur=%d)\n", currentMapNumber);
+		}
+		for (u8 i = 0; i < 8; i++) {
+			u8 byte          = stream.readByte();
+			dest.mPikMask[i] = byte;
+			JUT_ASSERTLINE(246, dest.mPikMask[i] <= 1, "abnormal pik mask\n(Cur=%d)\n", currentMapNumber);
+		}
+	}
 
-lbl_80472134:
-	li       r0, 0
-	stw      r0, 0x24(r27)
-	b        lbl_80472350
-
-lbl_80472140:
-	mr       r3, r28
-	li       r4, 0
-	li       r5, 0
-	bl       readString__6StreamFPci
-	addi     r4, r31, 0x24
-	mr       r29, r3
-	bl       strcmp
-	cmpwi    r3, 0
-	bne      lbl_8047216C
-	li       r3, 1
-	b        lbl_80472374
-
-lbl_8047216C:
-	mulli    r0, r30, 0x3e
-	lwz      r3, 0x20(r27)
-	mr       r4, r29
-	add      r29, r3, r0
-	mr       r3, r29
-	bl       strcpy
-	mr       r3, r28
-	bl       readByte__6StreamFv
-	stb      r3, 0x20(r29)
-	lbz      r0, 0x20(r29)
-	cmplwi   r0, 0x10
-	blt      lbl_804721B4
-	mr       r6, r30
-	addi     r3, r31, 0
-	addi     r5, r31, 0x184
-	li       r4, 0xdf
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_804721B4:
-	mr       r3, r28
-	bl       readByte__6StreamFv
-	stb      r3, 0x21(r29)
-	lbz      r0, 0x21(r29)
-	cmplwi   r0, 0x10
-	blt      lbl_804721E4
-	mr       r6, r30
-	addi     r3, r31, 0
-	addi     r5, r31, 0x1a0
-	li       r4, 0xe2
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_804721E4:
-	mr       r3, r28
-	bl       readByte__6StreamFv
-	stb      r3, 0x22(r29)
-	lbz      r0, 0x22(r29)
-	cmplwi   r0, 0x10
-	blt      lbl_80472214
-	mr       r6, r30
-	addi     r3, r31, 0
-	addi     r5, r31, 0x1bc
-	li       r4, 0xe5
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_80472214:
-	mr       r3, r28
-	bl       readByte__6StreamFv
-	stb      r3, 0x23(r29)
-	lbz      r0, 0x23(r29)
-	cmplwi   r0, 0x10
-	blt      lbl_80472244
-	mr       r6, r30
-	addi     r3, r31, 0
-	addi     r5, r31, 0x1d8
-	li       r4, 0xe8
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_80472244:
-	mr       r3, r28
-	bl       readByte__6StreamFv
-	stb      r3, 0x24(r29)
-	lbz      r0, 0x24(r29)
-	cmplwi   r0, 0x10
-	blt      lbl_80472274
-	mr       r6, r30
-	addi     r3, r31, 0
-	addi     r5, r31, 0x1f4
-	li       r4, 0xeb
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_80472274:
-	mr       r3, r28
-	bl       readByte__6StreamFv
-	stb      r3, 0x25(r29)
-	lbz      r0, 0x25(r29)
-	cmplwi   r0, 0x10
-	blt      lbl_804722A4
-	mr       r6, r30
-	addi     r3, r31, 0
-	addi     r5, r31, 0x210
-	li       r4, 0xee
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_804722A4:
-	li       r26, 0
-	b        lbl_804722E8
-
-lbl_804722AC:
-	mr       r3, r28
-	bl       readByte__6StreamFv
-	clrlwi   r4, r26, 0x18
-	addi     r0, r4, 0x26
-	stbx     r3, r29, r0
-	lbzx     r0, r29, r0
-	cmplwi   r0, 1
-	ble      lbl_804722E4
-	mr       r6, r30
-	addi     r3, r31, 0
-	addi     r5, r31, 0x22c
-	li       r4, 0xf2
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_804722E4:
-	addi     r26, r26, 1
-
-lbl_804722E8:
-	clrlwi   r0, r26, 0x18
-	cmplwi   r0, 0x10
-	blt      lbl_804722AC
-	li       r26, 0
-	b        lbl_80472338
-
-lbl_804722FC:
-	mr       r3, r28
-	bl       readByte__6StreamFv
-	clrlwi   r4, r26, 0x18
-	addi     r0, r4, 0x36
-	stbx     r3, r29, r0
-	lbzx     r0, r29, r0
-	cmplwi   r0, 1
-	ble      lbl_80472334
-	mr       r6, r30
-	addi     r3, r31, 0
-	addi     r5, r31, 0x248
-	li       r4, 0xf6
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_80472334:
-	addi     r26, r26, 1
-
-lbl_80472338:
-	clrlwi   r0, r26, 0x18
-	cmplwi   r0, 8
-	blt      lbl_804722FC
-	lwz      r3, 0x24(r27)
-	addi     r0, r3, 1
-	stw      r0, 0x24(r27)
-
-lbl_80472350:
-	lwz      r30, 0x24(r27)
-	cmpwi    r30, 0x20
-	blt      lbl_80472140
-	addi     r3, r31, 0
-	addi     r5, r31, 0x264
-	li       r4, 0xfa
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-	li       r3, 0
-
-lbl_80472374:
-	lmw      r26, 8(r1)
-	lwz      r0, 0x24(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	JUT_PANICLINE(250, "file num over\n");
+	return false;
 }
 
-/*
- * --INFO--
- * Address:	80472388
- * Size:	000110
- */
-BgmTrackMap::BgmTrackMap()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	li       r6, 0
-	stw      r0, 0x14(r1)
-	li       r0, 0
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	stb      r0, 0x20(r3)
-	stb      r0, 0x21(r3)
-	stb      r0, 0x22(r3)
-	stb      r0, 0x23(r3)
-	stb      r0, 0x24(r3)
-	stb      r0, 0x25(r3)
-	b        lbl_80472444
-
-lbl_804723C0:
-	clrlwi   r3, r6, 0x18
-	addi     r0, r6, 1
-	addi     r4, r3, 0x26
-	li       r5, 0
-	clrlwi   r3, r0, 0x18
-	stbx     r5, r31, r4
-	addi     r4, r3, 0x26
-	addi     r0, r6, 2
-	clrlwi   r3, r0, 0x18
-	stbx     r5, r31, r4
-	addi     r4, r3, 0x26
-	addi     r0, r6, 3
-	clrlwi   r3, r0, 0x18
-	stbx     r5, r31, r4
-	addi     r4, r3, 0x26
-	addi     r0, r6, 4
-	clrlwi   r3, r0, 0x18
-	stbx     r5, r31, r4
-	addi     r4, r3, 0x26
-	addi     r0, r6, 5
-	clrlwi   r3, r0, 0x18
-	stbx     r5, r31, r4
-	addi     r4, r3, 0x26
-	addi     r0, r6, 6
-	clrlwi   r3, r0, 0x18
-	stbx     r5, r31, r4
-	addi     r0, r6, 7
-	addi     r6, r6, 8
-	addi     r4, r3, 0x26
-	clrlwi   r3, r0, 0x18
-	stbx     r5, r31, r4
-	addi     r0, r3, 0x26
-	stbx     r5, r31, r0
-
-lbl_80472444:
-	clrlwi   r0, r6, 0x18
-	cmplwi   r0, 0x10
-	blt      lbl_804723C0
-	li       r0, 0
-	mr       r3, r31
-	stb      r0, 0x36(r31)
-	addi     r4, r2, lbl_80520DB0@sda21
-	stb      r0, 0x37(r31)
-	stb      r0, 0x38(r31)
-	stb      r0, 0x39(r31)
-	stb      r0, 0x3a(r31)
-	stb      r0, 0x3b(r31)
-	stb      r0, 0x3c(r31)
-	stb      r0, 0x3d(r31)
-	bl       strcpy
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80472498
- * Size:	000008
- */
-BgmTrackMapFile::@28 @~BgmTrackMapFile()
-{
-	/*
-	addi     r3, r3, -28
-	b        __dt__Q23PSM15BgmTrackMapFileFv
-	*/
-}
 } // namespace PSM

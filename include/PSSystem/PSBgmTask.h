@@ -3,10 +3,10 @@
 
 #include "Dolphin/os.h"
 #include "JSystem/JSupport/JSUList.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "PSSystem/BankRandPrm.h"
 #include "PSSystem/MutexList.h"
-#include "JSystem/JAS/JASTrack.h"
+#include "JSystem/JAudio/JAS/JASTrack.h"
 #include "PSSystem/PSTaskBase.h"
 
 namespace PSSystem {
@@ -26,17 +26,17 @@ struct FlagWaitTask : public TaskBase {
 struct IdMaskTask : public TaskBase {
 	inline IdMaskTask()
 	    : TaskBase()
-	    , m_noteMask(0)
+	    , mNoteMask(0)
 	{
 	}
 
 	int task(JASTrack& track)
 	{
-		track.setNoteMask(m_noteMask);
+		track.setNoteMask(mNoteMask);
 		return -1;
 	}
 
-	u8 m_noteMask; // _1C
+	u8 mNoteMask; // _1C
 };
 
 struct MuteTask : public TaskBase {
@@ -82,27 +82,27 @@ struct ModParamWithTableTask : public TaskBase {
 	{
 	}
 
-	virtual int task(JASTrack&);                 // _08
-	virtual float getTgtWithTable(u8)       = 0; // _0C
-	virtual u8 getTableIdxNum()             = 0; // _10
-	virtual int tableTask(JASTrack&, float) = 0; // _14
+	virtual int task(JASTrack&);               // _08
+	virtual f32 getTgtWithTable(u8)       = 0; // _0C
+	virtual u8 getTableIdxNum()           = 0; // _10
+	virtual int tableTask(JASTrack&, f32) = 0; // _14
 
-	float _1C;
-	float _20;
-	float _24;
+	f32 _1C;
+	f32 _20;
+	f32 _24;
 };
 
 struct TriangleTableModTask : public ModParamWithTableTask {
 
-	virtual float getTgtWithTable(u8);           // _0C
-	virtual u8 getTableIdxNum();                 // _10
-	virtual int tableTask(JASTrack&, float) = 0; // _14
+	virtual f32 getTgtWithTable(u8);           // _0C
+	virtual u8 getTableIdxNum();               // _10
+	virtual int tableTask(JASTrack&, f32) = 0; // _14
 
-	static const float sTable[40];
+	static const f32 sTable[40];
 };
 
 struct PitchModTask : public TriangleTableModTask {
-	virtual int tableTask(JASTrack&, float); // _14
+	virtual int tableTask(JASTrack&, f32); // _14
 };
 
 struct ModParamWithFade : public TaskBase {
@@ -116,15 +116,15 @@ struct ModParamWithFade : public TaskBase {
 	{
 	}
 
-	virtual int task(JASTrack&);                 // _08
-	virtual float getPreParam(JASTrack&)    = 0; // _0C
-	virtual void timeTask(JASTrack&, float) = 0; // _10
+	virtual int task(JASTrack&);               // _08
+	virtual f32 getPreParam(JASTrack&)    = 0; // _0C
+	virtual void timeTask(JASTrack&, f32) = 0; // _10
 
-	u32 _1C;   // _1C
-	float _20; // _20
-	float _24; // _24
-	u32 _28;   // _28
-	float _2C; // _2C
+	u32 _1C; // _1C
+	f32 _20; // _20
+	f32 _24; // _24
+	u32 _28; // _28
+	f32 _2C; // _2C
 };
 
 struct BankRandTask : public ModParamWithFade {
@@ -134,8 +134,8 @@ struct BankRandTask : public ModParamWithFade {
 		P2ASSERTLINE(351, BankRandPrm::sInstance != nullptr);
 	}
 
-	virtual float getPreParam(JASTrack&);    // _0C (weak)
-	virtual void timeTask(JASTrack&, float); // _10 (weak)
+	virtual f32 getPreParam(JASTrack&);    // _0C (weak)
+	virtual void timeTask(JASTrack&, f32); // _10 (weak)
 };
 
 struct OuterParamTask : public ModParamWithFade {
@@ -145,8 +145,8 @@ struct OuterParamTask : public ModParamWithFade {
 	{
 	}
 
-	virtual float getPreParam(JASTrack&);    // _0C
-	virtual void timeTask(JASTrack&, float); // _10
+	virtual f32 getPreParam(JASTrack&);    // _0C
+	virtual void timeTask(JASTrack&, f32); // _10
 
 	int _30; // _30
 };
@@ -154,110 +154,110 @@ struct OuterParamTask : public ModParamWithFade {
 struct TaskEntry_BankRandTask : public TaskEntry {
 	inline TaskEntry_BankRandTask()
 	    : TaskEntry()
-	    , m_bankRandTask1()
-	    , m_flagWaitTask()
-	    , m_bankRandTask2()
+	    , mBankRandTask1()
+	    , mFlagWaitTask()
+	    , mBankRandTask2()
 	{
 	}
 
-	BankRandTask m_bankRandTask1; // _38
-	FlagWaitTask m_flagWaitTask;  // _68
-	BankRandTask m_bankRandTask2; // _88
+	BankRandTask mBankRandTask1; // _38
+	FlagWaitTask mFlagWaitTask;  // _68
+	BankRandTask mBankRandTask2; // _88
 };
 
 struct TaskEntry_IdMask : public TaskEntry {
 	void makeEntry(u8);
 
-	IdMaskTask m_idMaskTask; // _38
+	IdMaskTask mIdMaskTask; // _38
 };
 
 struct TaskEntry_MuteOnVolume : public TaskEntry {
 	inline TaskEntry_MuteOnVolume()
 	    : TaskEntry()
-	    , m_outerParamTask(1)
-	    , m_muteTask()
+	    , mOuterParamTask(1)
+	    , mMuteTask()
 	{
 	}
 
 	void makeEntry(u32);
 
-	OuterParamTask m_outerParamTask; // _38
-	MuteTask m_muteTask;             // _6C
+	OuterParamTask mOuterParamTask; // _38
+	MuteTask mMuteTask;             // _6C
 };
 
 struct TaskEntry_MuteVolume : public TaskEntry {
 	inline TaskEntry_MuteVolume()
 	    : TaskEntry()
-	    , m_muteTask1()
-	    , m_outerParamTask1(1)
-	    , m_flagWaitTask()
-	    , m_outerParamTask2(1)
-	    , m_muteTask2()
+	    , mMuteTask1()
+	    , mOuterParamTask1(1)
+	    , mFlagWaitTask()
+	    , mOuterParamTask2(1)
+	    , mMuteTask2()
 	{
 	}
 
-	void makeEntry(float, u32);
+	void makeEntry(f32, u32);
 
-	MuteTask m_muteTask1;             // _38
-	OuterParamTask m_outerParamTask1; // _58
-	FlagWaitTask m_flagWaitTask;      // _8C
-	OuterParamTask m_outerParamTask2; // _AC
-	MuteTask m_muteTask2;             // _E0
+	MuteTask mMuteTask1;             // _38
+	OuterParamTask mOuterParamTask1; // _58
+	FlagWaitTask mFlagWaitTask;      // _8C
+	OuterParamTask mOuterParamTask2; // _AC
+	MuteTask mMuteTask2;             // _E0
 };
 
 struct TaskEntry_OuterParam : public TaskEntry {
 	inline TaskEntry_OuterParam(int p1)
 	    : TaskEntry()
-	    , m_outerParamTask(p1)
+	    , mOuterParamTask(p1)
 	{
 	}
 
-	void makeEntry(float, u32);
+	void makeEntry(f32, u32);
 
-	OuterParamTask m_outerParamTask; // _38
+	OuterParamTask mOuterParamTask; // _38
 };
 
 struct TaskEntry_PitMod : public TaskEntry {
-	void makeEntry(float, float, u32);
+	void makeEntry(f32, f32, u32);
 
-	PitchModTask m_pitModTask;     // _38
-	SimpleWaitTask m_waitTask;     // _60
-	PitchResetTask m_pitResetTask; // _84
+	PitchModTask mPitModTask;     // _38
+	SimpleWaitTask mWaitTask;     // _60
+	PitchResetTask mPitResetTask; // _84
 };
 
 struct TaskEntry_Tempo : public TaskEntry {
 	inline TaskEntry_Tempo()
 	    : TaskEntry()
-	    , m_outerParamTask1(0x40)
-	    , m_flagWaitTask()
-	    , m_outerParamTask2(0x40)
+	    , mOuterParamTask1(0x40)
+	    , mFlagWaitTask()
+	    , mOuterParamTask2(0x40)
 	{
 	}
 
-	void makeEntry(float, u32);
+	void makeEntry(f32, u32);
 
-	OuterParamTask m_outerParamTask1; // _38
-	FlagWaitTask m_flagWaitTask;      // _6C
-	OuterParamTask m_outerParamTask2; // _8C
+	OuterParamTask mOuterParamTask1; // _38
+	FlagWaitTask mFlagWaitTask;      // _6C
+	OuterParamTask mOuterParamTask2; // _8C
 };
 
 struct TaskEntry_Wait_Volume : public TaskEntry {
 	inline TaskEntry_Wait_Volume()
 	    : TaskEntry()
-	    , m_muteTask1()
-	    , m_outerParamTask1(1)
-	    , m_outerParamTask2(1)
-	    , m_muteTask2()
+	    , mMuteTask1()
+	    , mOuterParamTask1(1)
+	    , mOuterParamTask2(1)
+	    , mMuteTask2()
 	{
 	}
 
-	void makeEntry(float, u32);
+	void makeEntry(f32, u32);
 
-	MuteTask m_muteTask1;             // _38
-	OuterParamTask m_outerParamTask1; // _58
-	FlagWaitTask m_flagWaitTask;      // _8C
-	OuterParamTask m_outerParamTask2; // _AC
-	MuteTask m_muteTask2;             // _E0
+	MuteTask mMuteTask1;             // _38
+	OuterParamTask mOuterParamTask1; // _58
+	FlagWaitTask mFlagWaitTask;      // _8C
+	OuterParamTask mOuterParamTask2; // _AC
+	MuteTask mMuteTask2;             // _E0
 };
 
 struct TaskEntryMgr : MutexList<TaskEntry> {
@@ -276,7 +276,7 @@ struct TaskEntryMgr : MutexList<TaskEntry> {
 };
 
 struct TaskChecker {
-	OSMutexObject _00;
+	OSMutex _00;
 	u8 _18;
 };
 

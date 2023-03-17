@@ -7,16 +7,26 @@
 
 namespace efx {
 struct TEnemyApsmoke : public TBase {
-	virtual bool create(Arg*); // _08
-	virtual void forceKill();  // _0C (weak)
-	virtual void fade();       // _10 (weak)
+	virtual bool create(Arg*);   // _08
+	virtual void forceKill() { } // _0C (weak)
+	virtual void fade() { }      // _10 (weak)
 };
 
 struct TEnemyApsmokeS : public TSimple1 {
+	TEnemyApsmokeS()
+	    : TSimple1(PID_EnemyApSmokeS)
+	{
+	}
+
 	virtual bool create(Arg*); // _08
 };
 
 struct TEnemyApsmokeM : public TSimple1 {
+	TEnemyApsmokeM()
+	    : TSimple1(PID_EnemyApSmokeM)
+	{
+	}
+
 	virtual bool create(Arg*); // _08
 };
 

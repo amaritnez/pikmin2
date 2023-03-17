@@ -4,100 +4,83 @@
 #include "types.h"
 
 namespace Game {
-template <typename T> struct StateMachine;
+template <typename T>
+struct StateMachine;
 
+// if it gets used, it's a derived struct.
 struct StateArg {
-	float _00; // _00 - EarthquakeState::init requires this to be a float - could be a union or bitflag?
-	short _04; // _04
 };
 
-template <typename T> struct FSMState {
+template <typename T>
+struct FSMState {
 	inline FSMState(int id)
-	    : m_id(id)
-	    , m_stateMachine(nullptr) {};
-	virtual void init(T*, StateArg*);         // _00
-	virtual void exec(T*);                    // _04
-	virtual void cleanup(T*);                 // _08
-	virtual void resume(T*);                  // _0C
-	virtual void restart(T*);                 // _10
-	virtual void transit(T*, int, StateArg*); // _14
-
-	// VTBL _00
-	int m_id;                        // _04
-	StateMachine<T>* m_stateMachine; // _08
-};
-
-template <typename T> struct StateMachine {
-	inline StateMachine()
-	    : m_currentID(-1)
+	    : mId(id)
+	    , mStateMachine(nullptr)
 	{
 	}
-	// virtual void init(T*)                    = 0; // _00
-	// virtual void start(T*, int, StateArg*)    = 0; // _04
-	// virtual void exec(T*)                    = 0; // _08
-	// virtual void transit(T*, int, StateArg*) = 0; // _0C
-	virtual void init(T*);                    // _00
-	virtual void start(T*, int, StateArg*);   // _04
-	virtual void exec(T*);                    // _08
-	virtual void transit(T*, int, StateArg*); // _0C
+
+	virtual void init(T*, StateArg*) { }                          // _08
+	virtual void exec(T*) { }                                     // _0C
+	virtual void cleanup(T*) { }                                  // _10
+	virtual void resume(T*) { }                                   // _14
+	virtual void restart(T*) { }                                  // _18
+	virtual void transit(T* obj, int stateID, StateArg* stateArg) // _1C
+	{
+		mStateMachine->transit(obj, stateID, stateArg);
+	}
+
+	// _00 VTBL
+	int mId;                        // _04
+	StateMachine<T>* mStateMachine; // _08
+};
+
+template <typename T>
+struct StateMachine {
+	inline StateMachine()
+	    : mCurrentID(-1)
+	{
+	}
+
+	virtual void init(T*);                    // _08
+	virtual void start(T*, int, StateArg*);   // _0C
+	virtual void exec(T*);                    // _10
+	virtual void transit(T*, int, StateArg*); // _14
 
 	// #pragma dont_inline on
 	void create(int limit);
 	// {
-	// 	m_limit          = limit;
-	// 	m_count          = 0;
-	// 	m_states         = new FSMState<T>*[m_limit];
-	// 	m_indexToIDArray = new int[m_limit];
-	// 	m_idToIndexArray = new int[m_limit];
+	// 	mLimit          = limit;
+	// 	mCount          = 0;
+	// 	mStates         = new FSMState<T>*[mLimit];
+	// 	mIndexToIDArray = new int[mLimit];
+	// 	mIdToIndexArray = new int[mLimit];
 	// }
 
 	void registerState(FSMState<T>* state);
 	// {
-	// 	if (m_limit <= m_count) {
+	// 	if (mLimit <= mCount) {
 	// 		return;
 	// 	}
-	// 	m_states[m_count] = state;
-	// 	if (!(-1 < state->m_id && state->m_id < m_limit)) {
+	// 	mStates[mCount] = state;
+	// 	if (!(-1 < state->mId && state->mId < mLimit)) {
 	// 		return;
 	// 	}
-	// 	state->m_stateMachine = this;
-	// 	m_indexToIDArray[m_count] = state->m_id;
-	// 	m_idToIndexArray[state->m_id] = m_count;
-	// 	m_count++;
+	// 	state->mStateMachine = this;
+	// 	mIndexToIDArray[mCount] = state->mId;
+	// 	mIdToIndexArray[state->mId] = mCount;
+	// 	mCount++;
 	// }
 	// #pragma dont_inline reset
 
-	// VTBL _00
-	FSMState<T>** m_states; // _04
+	int getCurrID(T*);
 
-	// Count of registered states.
-	int m_count; // _08
-
-	// Maximum number of states that can be registered.
-	int m_limit; // _0C
-
-	// Array of state IDs, indexed by their index in m_states.
-	int* m_indexToIDArray; // _10
-
-	// Array of state indices in m_states, indexed by their state ID.
-	int* m_idToIndexArray; // _14
-
-	// ID of current (active) state.
-	int m_currentID; // _18
+	// _00	= VTBL
+	FSMState<T>** mStates; // _04
+	int mCount;            // _08, count of registered states
+	int mLimit;            // _0C, max states that can be registered
+	int* mIndexToIDArray;  // _10, state ID array, indexed by index in mStates
+	int* mIdToIndexArray;  // _14, state indices array, indexed by state ID
+	int mCurrentID;        // _18, ID of current/active state
 };
 } // namespace Game
-
-#define SPECIALIZED_STATE_MACHINE_DECL(T)         \
-	template <> struct StateMachine<T> {          \
-		virtual void init(T*);                    \
-		virtual void start(T*, int, StateArg*);   \
-		virtual void exec(T*);                    \
-		virtual void transit(T*, int, StateArg*); \
-                                                  \
-		void create(int);                         \
-		void registerState(FSMState<T>*);         \
-	}
-
-// template <> void Game::FSMState<void>::transit(void* obj, int id, StateArg* arg) { m_stateMachine->transit(obj, id, arg); }
-
 #endif

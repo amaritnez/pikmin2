@@ -1,45 +1,8 @@
 #include "JSystem/J3D/J3DDrawBuffer.h"
 #include "JSystem/J3D/J3DSys.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "Sys/DrawBuffers.h"
 #include "types.h"
-
-/*
-    Generated from dpostproc
-
-    .section .rodata  # 0x804732E0 - 0x8049E220
-    .global lbl_8049BAD8
-    lbl_8049BAD8:
-        .4byte 0x73797344
-        .4byte 0x72617742
-        .4byte 0x75666665
-        .4byte 0x722E6370
-        .4byte 0x70000000
-    .global lbl_8049BAEC
-    lbl_8049BAEC:
-        .asciz "P2Assert"
-        .skip 3
-    .global lbl_8049BAF8
-    lbl_8049BAF8:
-        .4byte 0x44726177
-        .4byte 0x42756666
-        .4byte 0x65720000
-        .4byte 0x00000000
-
-    .section .data, "wa"  # 0x8049E220 - 0x804EFC20
-    .global __vt__Q23Sys11DrawBuffers
-    __vt__Q23Sys11DrawBuffers:
-        .4byte 0
-        .4byte 0
-        .4byte __dt__Q23Sys11DrawBuffersFv
-        .4byte getChildCount__5CNodeFv
-    .global __vt__Q23Sys10DrawBuffer
-    __vt__Q23Sys10DrawBuffer:
-        .4byte 0
-        .4byte 0
-        .4byte __dt__Q23Sys10DrawBufferFv
-        .4byte getChildCount__5CNodeFv
-*/
 
 namespace Sys {
 
@@ -49,14 +12,10 @@ namespace Sys {
  * Size:	00005C
  */
 DrawBuffer::DrawBuffer()
-    : CNode()
 {
-	_18.byteView[0] = 0;
-	_18.byteView[1] = 0;
-	_18.byteView[0] = 0;
-	_18.byteView[1] = 0;
-	_1C             = nullptr;
-	_20             = -1;
+	mFlags.clear();
+	mBuffer = nullptr;
+	mIndex  = -1;
 }
 
 /*
@@ -74,15 +33,15 @@ DrawBuffer::~DrawBuffer() { }
  */
 void DrawBuffer::create(Sys::DrawBuffer::CreateArg& arg)
 {
-	u32 bufferSize = arg._00;
-	_18.typeView |= arg._04;
-	m_name = arg.m_name;
-	P2ASSERTLINE(42, _1C == nullptr);
-	_1C      = new J3DDrawBuffer(bufferSize);
-	_1C->_0C = arg._0C;
-	_1C->_08 = arg._10;
-	_28      = _1C->_08;
-	_24      = _1C->_0C;
+	u32 bufferSize = arg.mSize;
+	setFlag(arg.mFlags.typeView);
+	mName = arg.mName;
+	P2ASSERTLINE(42, mBuffer == nullptr);
+	mBuffer            = new J3DDrawBuffer(bufferSize);
+	mBuffer->mSortType = arg.mSortType;
+	mBuffer->mDrawType = arg.mDrawType;
+	mDrawType          = mBuffer->mDrawType;
+	mSortType          = mBuffer->mSortType;
 }
 
 /*
@@ -93,14 +52,14 @@ void DrawBuffer::create(Sys::DrawBuffer::CreateArg& arg)
  */
 void DrawBuffer::draw()
 {
-	P2ASSERTLINE(57, _1C != nullptr);
-	if ((_18.typeView & 1) != 0) {
-		j3dSys._50 = 4;
+	P2ASSERTLINE(57, mBuffer != nullptr);
+	if (isFlag(DRAWBUFF_Unk1)) {
+		j3dSys.mDrawMode = J3DSys::SYSDRAW_Unk4;
 	} else {
-		j3dSys._50 = 3;
+		j3dSys.mDrawMode = J3DSys::SYSDRAW_Unk3;
 	}
 
-	_1C->draw();
+	mBuffer->draw();
 }
 
 /*
@@ -110,8 +69,8 @@ void DrawBuffer::draw()
  */
 void DrawBuffer::frameInit()
 {
-	P2ASSERTLINE(69, _1C != nullptr);
-	_1C->frameInit();
+	P2ASSERTLINE(69, mBuffer != nullptr);
+	mBuffer->frameInit();
 }
 
 /*
@@ -120,10 +79,9 @@ void DrawBuffer::frameInit()
  * Size:	000054
  */
 DrawBuffers::DrawBuffers()
-    : CNode()
 {
-	m_buffers = nullptr;
-	m_count   = 0;
+	mBuffers = nullptr;
+	mCount   = 0;
 	setName("DrawBuffer");
 }
 
@@ -142,10 +100,10 @@ DrawBuffers::~DrawBuffers() { }
  */
 void DrawBuffers::allocate(int count)
 {
-	m_buffers = new DrawBuffer[count];
-	m_count   = count;
-	for (int i = 0; i < m_count; i++) {
-		get(i)->_20 = i;
+	mBuffers = new DrawBuffer[count];
+	mCount   = count;
+	for (int i = 0; i < mCount; i++) {
+		get(i)->mIndex = i;
 	}
 }
 
@@ -157,11 +115,11 @@ void DrawBuffers::allocate(int count)
 DrawBuffer* DrawBuffers::get(int index)
 {
 	bool check = false;
-	if (m_buffers != nullptr && 0 <= index && index < m_count) {
+	if (mBuffers != nullptr && 0 <= index && index < mCount) {
 		check = true;
 	}
 	P2ASSERTLINE(148, check);
-	return &m_buffers[index];
+	return &mBuffers[index];
 }
 
 /*
@@ -171,7 +129,7 @@ DrawBuffer* DrawBuffers::get(int index)
  */
 void DrawBuffers::frameInitAll()
 {
-	for (int i = 0; i < m_count; i++) {
+	for (int i = 0; i < mCount; i++) {
 		get(i)->frameInit();
 	}
 }

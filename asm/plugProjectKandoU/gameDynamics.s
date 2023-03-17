@@ -1,124 +1,149 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-lbl_8047C648:
+.obj lbl_8047C648, local
 	.asciz "Dynamics"
+.endobj lbl_8047C648
 .balign 4
-lbl_8047C654: #Shift-JIS
+.obj lbl_8047C654, local # Shift-JIS
 	.4byte 0x90568374
 	.4byte 0x838A834E
 	.4byte 0x83568387
 	.4byte 0x83930000
+.endobj lbl_8047C654
 .balign 4
-lbl_8047C664:
+.obj lbl_8047C664, local
 	.asciz "Sta-Parm"
+.endobj lbl_8047C664
 .balign 4
-lbl_8047C670:
+.obj lbl_8047C670, local
 	.asciz "micro collision"
+.endobj lbl_8047C670
 .balign 4
-lbl_8047C680: #Shift-JIS
+.obj lbl_8047C680, local # Shift-JIS
 	.4byte 0x5265736F
 	.4byte 0x6C76658E
 	.4byte 0x9E82CC96
 	.4byte 0x808E4300
+.endobj lbl_8047C680
 .balign 4
-lbl_8047C690:
+.obj lbl_8047C690, local
 	.asciz "elasticity"
+.endobj lbl_8047C690
 .balign 4
-lbl_8047C69C: #Shift-JIS
+.obj lbl_8047C69C, local # Shift-JIS
 	.4byte 0x96808E43
 	.4byte 0x3A74616E
 	.4byte 0x76656C00
+.endobj lbl_8047C69C
 .balign 4
-lbl_8047C6A8: #Shift-JIS
+.obj lbl_8047C6A8, local # Shift-JIS
 	.4byte 0x8CC592E8
 	.4byte 0x96808E43
 	.4byte 0x00000000
+.endobj lbl_8047C6A8
 .balign 4
-lbl_8047C6B4: #Shift-JIS
+.obj lbl_8047C6B4, local # Shift-JIS
 	.4byte 0x8CC592E8
 	.4byte 0x96808E43
 	.4byte 0x926C0000
+.endobj lbl_8047C6B4
 .balign 4
-lbl_8047C6C0: #Shift-JIS
+.obj lbl_8047C6C0, local # Shift-JIS
 	.4byte 0x89F1935D
 	.4byte 0x89658BBF
 	.4byte 0x82C882B5
 	.4byte 0x82C982B7
 	.4byte 0x82E90000
+.endobj lbl_8047C6C0
 .balign 4
-lbl_8047C6D4: #Shift-JIS
+.obj lbl_8047C6D4, local # Shift-JIS
 	.4byte 0x89F1935D
 	.4byte 0x8382815B
 	.4byte 0x83818393
 	.4byte 0x83672044
 	.4byte 0x616D7000
+.endobj lbl_8047C6D4
 
 .section .data, "wa"  # 0x8049E220 - 0x804EFC20
 .balign 8
-.global __vt__13DynamicsParms
-__vt__13DynamicsParms:
+.obj __vt__13DynamicsParms, global
 	.4byte 0
 	.4byte 0
 	.4byte 0
 	.4byte 0
 	.4byte "@12@__dt__13DynamicsParmsFv"
 	.4byte __dt__13DynamicsParmsFv
-.global "__vt__7Parm<b>"
-"__vt__7Parm<b>":
+.endobj __vt__13DynamicsParms
+.obj "__vt__7Parm<b>", weak
 	.4byte 0
 	.4byte 0
 	.4byte "size__7Parm<b>Fv"
 	.4byte "write__7Parm<b>FR6Stream"
 	.4byte "read__7Parm<b>FR6Stream"
+.endobj "__vt__7Parm<b>"
 
 .section .sbss # 0x80514D80 - 0x80516360
 .balign 8
-.global mInstance__13DynamicsParms
-mInstance__13DynamicsParms:
+.obj mInstance__13DynamicsParms, global
 	.skip 4
+.endobj mInstance__13DynamicsParms
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_80518238:
+.obj lbl_80518238, local
 	.float 140.0
-lbl_8051823C:
+.endobj lbl_80518238
+.obj lbl_8051823C, local
 	.float 0.0
-lbl_80518240:
+.endobj lbl_8051823C
+.obj lbl_80518240, local
 	.float 5000.0
+.endobj lbl_80518240
 .balign 4
-lbl_80518244:
+.obj lbl_80518244, local
 	.asciz "Static"
+.endobj lbl_80518244
 .balign 4
-lbl_8051824C:
+.obj lbl_8051824C, local
 	.float 10.0
-lbl_80518250:
+.endobj lbl_8051824C
+.obj lbl_80518250, local
 	.float 0.015
-lbl_80518254:
+.endobj lbl_80518250
+.obj lbl_80518254, local
 	.float 0.3
-lbl_80518258:
+.endobj lbl_80518254
+.obj lbl_80518258, local
 	.float 1.0
+.endobj lbl_80518258
 .balign 4
-lbl_8051825C: #Shift-JIS
+.obj lbl_8051825C, local # Shift-JIS
 	.4byte 0x96808E43
-	.4byte 0x00000000
+	.byte 0
+.endobj lbl_8051825C
 .balign 4
-lbl_80518264:
+.obj lbl_80518264, local
 	.float 100.0
-lbl_80518268:
+.endobj lbl_80518264
+.obj lbl_80518268, local
 	.float 10000.0
-lbl_8051826C:
+.endobj lbl_80518268
+.obj lbl_8051826C, local
 	.float 0.05
-lbl_80518270:
+.endobj lbl_8051826C
+.obj lbl_80518270, local
 	.float 0.5
-lbl_80518274:
+.endobj lbl_80518270
+.obj lbl_80518274, local
 	.float 1000.0
-lbl_80518278:
+.endobj lbl_80518274
+.obj lbl_80518278, local
 	.float 1120.0
+.endobj lbl_80518278
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__13DynamicsParmsFv
-__ct__13DynamicsParmsFv:
+.fn __ct__13DynamicsParmsFv, global
 /* 80139C60 00136BA0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80139C64 00136BA4  7C 08 02 A6 */	mflr r0
 /* 80139C68 00136BA8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -128,10 +153,10 @@ __ct__13DynamicsParmsFv:
 /* 80139C78 00136BB8  3B E4 C6 48 */	addi r31, r4, lbl_8047C648@l
 /* 80139C7C 00136BBC  93 C1 00 08 */	stw r30, 8(r1)
 /* 80139C80 00136BC0  7C 7E 1B 78 */	mr r30, r3
-/* 80139C84 00136BC4  41 82 00 0C */	beq lbl_80139C90
+/* 80139C84 00136BC4  41 82 00 0C */	beq .L_80139C90
 /* 80139C88 00136BC8  38 1E 01 C0 */	addi r0, r30, 0x1c0
 /* 80139C8C 00136BCC  90 1E 00 00 */	stw r0, 0(r30)
-lbl_80139C90:
+.L_80139C90:
 /* 80139C90 00136BD0  38 60 00 00 */	li r3, 0
 /* 80139C94 00136BD4  38 1F 00 00 */	addi r0, r31, 0
 /* 80139C98 00136BD8  90 7E 00 04 */	stw r3, 4(r30)
@@ -325,9 +350,9 @@ lbl_80139C90:
 /* 80139F88 00136EC8  7C 08 03 A6 */	mtlr r0
 /* 80139F8C 00136ECC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80139F90 00136ED0  4E 80 00 20 */	blr 
+.endfn __ct__13DynamicsParmsFv
 
-.global __dt__13DynamicsParmsFv
-__dt__13DynamicsParmsFv:
+.fn __dt__13DynamicsParmsFv, weak
 /* 80139F94 00136ED4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80139F98 00136ED8  7C 08 02 A6 */	mflr r0
 /* 80139F9C 00136EDC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -335,7 +360,7 @@ __dt__13DynamicsParmsFv:
 /* 80139FA4 00136EE4  7C 9F 23 78 */	mr r31, r4
 /* 80139FA8 00136EE8  93 C1 00 08 */	stw r30, 8(r1)
 /* 80139FAC 00136EEC  7C 7E 1B 79 */	or. r30, r3, r3
-/* 80139FB0 00136EF0  41 82 00 3C */	beq lbl_80139FEC
+/* 80139FB0 00136EF0  41 82 00 3C */	beq .L_80139FEC
 /* 80139FB4 00136EF4  3C 60 80 4B */	lis r3, __vt__13DynamicsParms@ha
 /* 80139FB8 00136EF8  38 00 00 00 */	li r0, 0
 /* 80139FBC 00136EFC  38 83 00 68 */	addi r4, r3, __vt__13DynamicsParms@l
@@ -347,10 +372,10 @@ __dt__13DynamicsParmsFv:
 /* 80139FD4 00136F14  90 0D 92 68 */	stw r0, mInstance__13DynamicsParms@sda21(r13)
 /* 80139FD8 00136F18  4B EE 30 5D */	bl __dt__11JKRDisposerFv
 /* 80139FDC 00136F1C  7F E0 07 35 */	extsh. r0, r31
-/* 80139FE0 00136F20  40 81 00 0C */	ble lbl_80139FEC
+/* 80139FE0 00136F20  40 81 00 0C */	ble .L_80139FEC
 /* 80139FE4 00136F24  7F C3 F3 78 */	mr r3, r30
 /* 80139FE8 00136F28  4B EE A0 CD */	bl __dl__FPv
-lbl_80139FEC:
+.L_80139FEC:
 /* 80139FEC 00136F2C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80139FF0 00136F30  7F C3 F3 78 */	mr r3, r30
 /* 80139FF4 00136F34  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -358,32 +383,32 @@ lbl_80139FEC:
 /* 80139FFC 00136F3C  7C 08 03 A6 */	mtlr r0
 /* 8013A000 00136F40  38 21 00 10 */	addi r1, r1, 0x10
 /* 8013A004 00136F44  4E 80 00 20 */	blr 
+.endfn __dt__13DynamicsParmsFv
 
-.global globalInstance__13DynamicsParmsFv
-globalInstance__13DynamicsParmsFv:
+.fn globalInstance__13DynamicsParmsFv, global
 /* 8013A008 00136F48  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8013A00C 00136F4C  7C 08 02 A6 */	mflr r0
 /* 8013A010 00136F50  90 01 00 14 */	stw r0, 0x14(r1)
 /* 8013A014 00136F54  80 0D 92 68 */	lwz r0, mInstance__13DynamicsParms@sda21(r13)
 /* 8013A018 00136F58  28 00 00 00 */	cmplwi r0, 0
-/* 8013A01C 00136F5C  40 82 00 24 */	bne lbl_8013A040
+/* 8013A01C 00136F5C  40 82 00 24 */	bne .L_8013A040
 /* 8013A020 00136F60  38 60 01 C4 */	li r3, 0x1c4
 /* 8013A024 00136F64  4B EE 9E 81 */	bl __nw__FUl
 /* 8013A028 00136F68  7C 60 1B 79 */	or. r0, r3, r3
-/* 8013A02C 00136F6C  41 82 00 10 */	beq lbl_8013A03C
+/* 8013A02C 00136F6C  41 82 00 10 */	beq .L_8013A03C
 /* 8013A030 00136F70  38 80 00 01 */	li r4, 1
 /* 8013A034 00136F74  4B FF FC 2D */	bl __ct__13DynamicsParmsFv
 /* 8013A038 00136F78  7C 60 1B 78 */	mr r0, r3
-lbl_8013A03C:
+.L_8013A03C:
 /* 8013A03C 00136F7C  90 0D 92 68 */	stw r0, mInstance__13DynamicsParms@sda21(r13)
-lbl_8013A040:
+.L_8013A040:
 /* 8013A040 00136F80  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8013A044 00136F84  7C 08 03 A6 */	mtlr r0
 /* 8013A048 00136F88  38 21 00 10 */	addi r1, r1, 0x10
 /* 8013A04C 00136F8C  4E 80 00 20 */	blr 
+.endfn globalInstance__13DynamicsParmsFv
 
-.global __ct__Q24Game5RigidFv
-__ct__Q24Game5RigidFv:
+.fn __ct__Q24Game5RigidFv, global
 /* 8013A050 00136F90  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8013A054 00136F94  7C 08 02 A6 */	mflr r0
 /* 8013A058 00136F98  3C 80 80 14 */	lis r4, __ct__Q24Game11RigidConfigFv@ha
@@ -405,9 +430,9 @@ __ct__Q24Game5RigidFv:
 /* 8013A098 00136FD8  7C 08 03 A6 */	mtlr r0
 /* 8013A09C 00136FDC  38 21 00 10 */	addi r1, r1, 0x10
 /* 8013A0A0 00136FE0  4E 80 00 20 */	blr 
+.endfn __ct__Q24Game5RigidFv
 
-.global __ct__Q24Game11RigidConfigFv
-__ct__Q24Game11RigidConfigFv:
+.fn __ct__Q24Game11RigidConfigFv, weak
 /* 8013A0A4 00136FE4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8013A0A8 00136FE8  7C 08 02 A6 */	mflr r0
 /* 8013A0AC 00136FEC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -421,9 +446,9 @@ __ct__Q24Game11RigidConfigFv:
 /* 8013A0CC 0013700C  7C 08 03 A6 */	mtlr r0
 /* 8013A0D0 00137010  38 21 00 10 */	addi r1, r1, 0x10
 /* 8013A0D4 00137014  4E 80 00 20 */	blr 
+.endfn __ct__Q24Game11RigidConfigFv
 
-.global "initPosition__Q24Game5RigidFR10Vector3<f>R10Vector3<f>"
-"initPosition__Q24Game5RigidFR10Vector3<f>R10Vector3<f>":
+.fn "initPosition__Q24Game5RigidFR10Vector3<f>R10Vector3<f>", global
 /* 8013A0D8 00137018  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8013A0DC 0013701C  7C 08 02 A6 */	mflr r0
 /* 8013A0E0 00137020  90 01 00 24 */	stw r0, 0x24(r1)
@@ -459,9 +484,9 @@ __ct__Q24Game11RigidConfigFv:
 /* 8013A158 00137098  7C 08 03 A6 */	mtlr r0
 /* 8013A15C 0013709C  38 21 00 20 */	addi r1, r1, 0x20
 /* 8013A160 001370A0  4E 80 00 20 */	blr 
+.endfn "initPosition__Q24Game5RigidFR10Vector3<f>R10Vector3<f>"
 
-.global "initPositionIndex__Q24Game5RigidFR10Vector3<f>iR10Vector3<f>"
-"initPositionIndex__Q24Game5RigidFR10Vector3<f>iR10Vector3<f>":
+.fn "initPositionIndex__Q24Game5RigidFR10Vector3<f>iR10Vector3<f>", global
 /* 8013A164 001370A4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8013A168 001370A8  7C 08 02 A6 */	mflr r0
 /* 8013A16C 001370AC  1C A5 00 88 */	mulli r5, r5, 0x88
@@ -497,9 +522,9 @@ __ct__Q24Game11RigidConfigFv:
 /* 8013A1E4 00137124  7C 08 03 A6 */	mtlr r0
 /* 8013A1E8 00137128  38 21 00 10 */	addi r1, r1, 0x10
 /* 8013A1EC 0013712C  4E 80 00 20 */	blr 
+.endfn "initPositionIndex__Q24Game5RigidFR10Vector3<f>iR10Vector3<f>"
 
-.global updateMatrix__Q24Game5RigidFi
-updateMatrix__Q24Game5RigidFi:
+.fn updateMatrix__Q24Game5RigidFi, global
 /* 8013A1F0 00137130  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8013A1F4 00137134  7C 08 02 A6 */	mflr r0
 /* 8013A1F8 00137138  1C 84 00 88 */	mulli r4, r4, 0x88
@@ -514,9 +539,9 @@ updateMatrix__Q24Game5RigidFi:
 /* 8013A21C 0013715C  7C 08 03 A6 */	mtlr r0
 /* 8013A220 00137160  38 21 00 10 */	addi r1, r1, 0x10
 /* 8013A224 00137164  4E 80 00 20 */	blr 
+.endfn updateMatrix__Q24Game5RigidFi
 
-.global computeForces__Q24Game5RigidFi
-computeForces__Q24Game5RigidFi:
+.fn computeForces__Q24Game5RigidFi, global
 /* 8013A228 00137168  1C 84 00 88 */	mulli r4, r4, 0x88
 /* 8013A22C 0013716C  C0 02 9E DC */	lfs f0, lbl_8051823C@sda21(r2)
 /* 8013A230 00137170  38 84 00 34 */	addi r4, r4, 0x34
@@ -544,9 +569,9 @@ computeForces__Q24Game5RigidFi:
 /* 8013A288 001371C8  D0 24 00 34 */	stfs f1, 0x34(r4)
 /* 8013A28C 001371CC  D0 04 00 38 */	stfs f0, 0x38(r4)
 /* 8013A290 001371D0  4E 80 00 20 */	blr 
+.endfn computeForces__Q24Game5RigidFi
 
-.global "getYDegree__FR4QuatR10Vector3<f>"
-"getYDegree__FR4QuatR10Vector3<f>":
+.fn "getYDegree__FR4QuatR10Vector3<f>", local
 /* 8013A294 001371D4  94 21 FF 40 */	stwu r1, -0xc0(r1)
 /* 8013A298 001371D8  7C 08 02 A6 */	mflr r0
 /* 8013A29C 001371DC  C0 22 9E DC */	lfs f1, lbl_8051823C@sda21(r2)
@@ -701,9 +726,9 @@ computeForces__Q24Game5RigidFi:
 /* 8013A4F0 00137430  7C 08 03 A6 */	mtlr r0
 /* 8013A4F4 00137434  38 21 00 C0 */	addi r1, r1, 0xc0
 /* 8013A4F8 00137438  4E 80 00 20 */	blr 
+.endfn "getYDegree__FR4QuatR10Vector3<f>"
 
-.global integrate__Q24Game5RigidFfi
-integrate__Q24Game5RigidFfi:
+.fn integrate__Q24Game5RigidFfi, global
 /* 8013A4FC 0013743C  94 21 FD C0 */	stwu r1, -0x240(r1)
 /* 8013A500 00137440  7C 08 02 A6 */	mflr r0
 /* 8013A504 00137444  90 01 02 44 */	stw r0, 0x244(r1)
@@ -876,7 +901,7 @@ integrate__Q24Game5RigidFfi:
 /* 8013A7A0 001376E0  D0 01 01 6C */	stfs f0, 0x16c(r1)
 /* 8013A7A4 001376E4  88 1E 01 75 */	lbz r0, 0x175(r30)
 /* 8013A7A8 001376E8  54 00 07 FF */	clrlwi. r0, r0, 0x1f
-/* 8013A7AC 001376EC  41 82 02 8C */	beq lbl_8013AA38
+/* 8013A7AC 001376EC  41 82 02 8C */	beq .L_8013AA38
 /* 8013A7B0 001376F0  38 61 01 40 */	addi r3, r1, 0x140
 /* 8013A7B4 001376F4  48 2D 7C 15 */	bl __ct__4QuatFv
 /* 8013A7B8 001376F8  C0 02 9F 10 */	lfs f0, lbl_80518270@sda21(r2)
@@ -953,9 +978,9 @@ integrate__Q24Game5RigidFfi:
 /* 8013A8D4 00137814  C0 03 0A A8 */	lfs f0, 0xaa8(r3)
 /* 8013A8D8 00137818  C3 A3 08 00 */	lfs f29, 0x800(r3)
 /* 8013A8DC 0013781C  FC 1E 00 40 */	fcmpo cr0, f30, f0
-/* 8013A8E0 00137820  40 80 00 E0 */	bge lbl_8013A9C0
+/* 8013A8E0 00137820  40 80 00 E0 */	bge .L_8013A9C0
 /* 8013A8E4 00137824  FC 1F F0 40 */	fcmpo cr0, f31, f30
-/* 8013A8E8 00137828  40 80 00 B4 */	bge lbl_8013A99C
+/* 8013A8E8 00137828  40 80 00 B4 */	bge .L_8013A99C
 /* 8013A8EC 0013782C  C0 01 01 28 */	lfs f0, 0x128(r1)
 /* 8013A8F0 00137830  38 7F 00 58 */	addi r3, r31, 0x58
 /* 8013A8F4 00137834  C0 22 9E DC */	lfs f1, lbl_8051823C@sda21(r2)
@@ -990,7 +1015,7 @@ integrate__Q24Game5RigidFfi:
 /* 8013A968 001378A8  D0 1F 00 24 */	stfs f0, 0x24(r31)
 /* 8013A96C 001378AC  D0 3F 00 28 */	stfs f1, 0x28(r31)
 /* 8013A970 001378B0  D0 5F 00 2C */	stfs f2, 0x2c(r31)
-/* 8013A974 001378B4  41 80 01 B8 */	blt lbl_8013AB2C
+/* 8013A974 001378B4  41 80 01 B8 */	blt .L_8013AB2C
 /* 8013A978 001378B8  C0 01 01 30 */	lfs f0, 0x130(r1)
 /* 8013A97C 001378BC  D0 1F 00 48 */	stfs f0, 0x48(r31)
 /* 8013A980 001378C0  C0 01 01 34 */	lfs f0, 0x134(r1)
@@ -999,8 +1024,8 @@ integrate__Q24Game5RigidFfi:
 /* 8013A98C 001378CC  D0 1F 00 50 */	stfs f0, 0x50(r31)
 /* 8013A990 001378D0  C0 01 01 3C */	lfs f0, 0x13c(r1)
 /* 8013A994 001378D4  D0 1F 00 54 */	stfs f0, 0x54(r31)
-/* 8013A998 001378D8  48 00 01 94 */	b lbl_8013AB2C
-lbl_8013A99C:
+/* 8013A998 001378D8  48 00 01 94 */	b .L_8013AB2C
+.L_8013A99C:
 /* 8013A99C 001378DC  C0 01 01 30 */	lfs f0, 0x130(r1)
 /* 8013A9A0 001378E0  D0 1F 00 48 */	stfs f0, 0x48(r31)
 /* 8013A9A4 001378E4  C0 01 01 34 */	lfs f0, 0x134(r1)
@@ -1009,8 +1034,8 @@ lbl_8013A99C:
 /* 8013A9B0 001378F0  D0 1F 00 50 */	stfs f0, 0x50(r31)
 /* 8013A9B4 001378F4  C0 01 01 3C */	lfs f0, 0x13c(r1)
 /* 8013A9B8 001378F8  D0 1F 00 54 */	stfs f0, 0x54(r31)
-/* 8013A9BC 001378FC  48 00 01 70 */	b lbl_8013AB2C
-lbl_8013A9C0:
+/* 8013A9BC 001378FC  48 00 01 70 */	b .L_8013AB2C
+.L_8013A9C0:
 /* 8013A9C0 00137900  38 61 00 30 */	addi r3, r1, 0x30
 /* 8013A9C4 00137904  48 2D 7A 05 */	bl __ct__4QuatFv
 /* 8013A9C8 00137908  C0 3F 00 48 */	lfs f1, 0x48(r31)
@@ -1040,8 +1065,8 @@ lbl_8013A9C0:
 /* 8013AA28 00137968  D0 1F 00 50 */	stfs f0, 0x50(r31)
 /* 8013AA2C 0013796C  C0 01 00 C8 */	lfs f0, 0xc8(r1)
 /* 8013AA30 00137970  D0 1F 00 54 */	stfs f0, 0x54(r31)
-/* 8013AA34 00137974  48 00 00 F8 */	b lbl_8013AB2C
-lbl_8013AA38:
+/* 8013AA34 00137974  48 00 00 F8 */	b .L_8013AB2C
+.L_8013AA38:
 /* 8013AA38 00137978  38 61 01 08 */	addi r3, r1, 0x108
 /* 8013AA3C 0013797C  48 2D 79 8D */	bl __ct__4QuatFv
 /* 8013AA40 00137980  C0 02 9F 10 */	lfs f0, lbl_80518270@sda21(r2)
@@ -1103,7 +1128,7 @@ lbl_8013AA38:
 /* 8013AB20 00137A60  D0 1F 00 50 */	stfs f0, 0x50(r31)
 /* 8013AB24 00137A64  C0 01 00 A8 */	lfs f0, 0xa8(r1)
 /* 8013AB28 00137A68  D0 1F 00 54 */	stfs f0, 0x54(r31)
-lbl_8013AB2C:
+.L_8013AB2C:
 /* 8013AB2C 00137A6C  38 7F 00 48 */	addi r3, r31, 0x48
 /* 8013AB30 00137A70  48 2D 7D 1D */	bl normalise__4QuatFv
 /* 8013AB34 00137A74  7F E4 FB 78 */	mr r4, r31
@@ -1122,9 +1147,9 @@ lbl_8013AB2C:
 /* 8013AB68 00137AA8  7C 08 03 A6 */	mtlr r0
 /* 8013AB6C 00137AAC  38 21 02 40 */	addi r1, r1, 0x240
 /* 8013AB70 00137AB0  4E 80 00 20 */	blr 
+.endfn integrate__Q24Game5RigidFfi
 
-.global "resolveCollision__Q24Game5RigidFiR10Vector3<f>R10Vector3<f>f"
-"resolveCollision__Q24Game5RigidFiR10Vector3<f>R10Vector3<f>f":
+.fn "resolveCollision__Q24Game5RigidFiR10Vector3<f>R10Vector3<f>f", global
 /* 8013AB74 00137AB4  94 21 FF 70 */	stwu r1, -0x90(r1)
 /* 8013AB78 00137AB8  7C 08 02 A6 */	mflr r0
 /* 8013AB7C 00137ABC  90 01 00 94 */	stw r0, 0x94(r1)
@@ -1194,18 +1219,18 @@ lbl_8013AB2C:
 /* 8013AC7C 00137BBC  EC 66 19 7A */	fmadds f3, f6, f5, f3
 /* 8013AC80 00137BC0  EC 68 19 FA */	fmadds f3, f8, f7, f3
 /* 8013AC84 00137BC4  FC 03 00 40 */	fcmpo cr0, f3, f0
-/* 8013AC88 00137BC8  40 80 00 0C */	bge lbl_8013AC94
+/* 8013AC88 00137BC8  40 80 00 0C */	bge .L_8013AC94
 /* 8013AC8C 00137BCC  38 60 00 00 */	li r3, 0
-/* 8013AC90 00137BD0  48 00 01 A0 */	b lbl_8013AE30
-lbl_8013AC94:
+/* 8013AC90 00137BD0  48 00 01 A0 */	b .L_8013AE30
+.L_8013AC94:
 /* 8013AC94 00137BD4  FC 00 1A 10 */	fabs f0, f3
 /* 8013AC98 00137BD8  FC 00 00 18 */	frsp f0, f0
 /* 8013AC9C 00137BDC  FC 00 10 40 */	fcmpo cr0, f0, f2
 /* 8013ACA0 00137BE0  4C 40 13 82 */	cror 2, 0, 2
-/* 8013ACA4 00137BE4  40 82 00 0C */	bne lbl_8013ACB0
+/* 8013ACA4 00137BE4  40 82 00 0C */	bne .L_8013ACB0
 /* 8013ACA8 00137BE8  C0 22 9E F8 */	lfs f1, lbl_80518258@sda21(r2)
 /* 8013ACAC 00137BEC  FC 60 10 90 */	fmr f3, f2
-lbl_8013ACB0:
+.L_8013ACB0:
 /* 8013ACB0 00137BF0  C3 7D 00 00 */	lfs f27, 0(r29)
 /* 8013ACB4 00137BF4  38 7F 00 58 */	addi r3, r31, 0x58
 /* 8013ACB8 00137BF8  C0 02 9E F8 */	lfs f0, lbl_80518258@sda21(r2)
@@ -1302,7 +1327,7 @@ lbl_8013ACB0:
 /* 8013AE24 00137D64  D0 1F 00 24 */	stfs f0, 0x24(r31)
 /* 8013AE28 00137D68  D0 3F 00 28 */	stfs f1, 0x28(r31)
 /* 8013AE2C 00137D6C  D0 5F 00 2C */	stfs f2, 0x2c(r31)
-lbl_8013AE30:
+.L_8013AE30:
 /* 8013AE30 00137D70  E3 E1 00 88 */	psq_l f31, 136(r1), 0, qr0
 /* 8013AE34 00137D74  CB E1 00 80 */	lfd f31, 0x80(r1)
 /* 8013AE38 00137D78  E3 C1 00 78 */	psq_l f30, 120(r1), 0, qr0
@@ -1320,13 +1345,14 @@ lbl_8013AE30:
 /* 8013AE68 00137DA8  7C 08 03 A6 */	mtlr r0
 /* 8013AE6C 00137DAC  38 21 00 90 */	addi r1, r1, 0x90
 /* 8013AE70 00137DB0  4E 80 00 20 */	blr 
+.endfn "resolveCollision__Q24Game5RigidFiR10Vector3<f>R10Vector3<f>f"
 
-.global "size__7Parm<b>Fv"
-"size__7Parm<b>Fv":
+.fn "size__7Parm<b>Fv", weak
 /* 8013AE74 00137DB4  38 60 00 01 */	li r3, 1
 /* 8013AE78 00137DB8  4E 80 00 20 */	blr 
+.endfn "size__7Parm<b>Fv"
 
-.global "@12@__dt__13DynamicsParmsFv"
-"@12@__dt__13DynamicsParmsFv":
+.fn "@12@__dt__13DynamicsParmsFv", weak
 /* 8013AE7C 00137DBC  38 63 FF F4 */	addi r3, r3, -12
 /* 8013AE80 00137DC0  4B FF F1 14 */	b __dt__13DynamicsParmsFv
+.endfn "@12@__dt__13DynamicsParmsFv"

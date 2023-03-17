@@ -1,7 +1,7 @@
 #include "ebi/E2DGraph.h"
 #include "ebi/Utility.h"
 #include "JSystem/J2D/J2DPane.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "P2DScreen.h"
 #include "types.h"
 
@@ -888,7 +888,7 @@ void EUTDrawWindow(J2DGrafContext&, long, long, long, long)
  * Address:	........
  * Size:	000004
  */
-void E2DDebugWindow::draw(void)
+void E2DDebugWindow::draw()
 {
 	// UNUSED FUNCTION
 }

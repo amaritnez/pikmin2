@@ -7,13 +7,14 @@
 namespace ebi {
 namespace Screen {
 struct TNintendoLogo : public TScreenBase {
-	virtual void doSetArchive(JKRArchive*);             // _1C
-	virtual bool doUpdateStateWait();                   // _34
-	virtual void doDraw();                              // _3C
-	virtual char* getName() { return "TNintendoLogo"; } // _40
+	virtual void doSetArchive(JKRArchive*);             // _24
+	virtual bool doUpdateStateWait();                   // _3C
+	virtual void doDraw();                              // _44
+	virtual char* getName() { return "TNintendoLogo"; } // _48 (weak)
 
-	// _00 VTBL
-	P2DScreen::Mgr_tuning* m_mgrTuning; // _0C
+	// _00     = VTBL
+	// _00-_08 = TScreenBase
+	P2DScreen::Mgr_tuning* mMgrTuning; // _0C
 };
 } // namespace Screen
 } // namespace ebi

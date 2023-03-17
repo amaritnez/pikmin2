@@ -1,7 +1,11 @@
 #ifndef _JSYSTEM_J3D_J3DMATERIAL_H
 #define _JSYSTEM_J3D_J3DMATERIAL_H
 
+#include "JSystem/J3D/J3DTevBlock.h"
+#include "JSystem/J3D/J3DMaterialAnm.h"
 #include "JSystem/J3D/J3DTypes.h"
+#include "JSystem/J3D/J3DTexture.h"
+#include "JSystem/J3D/J3DTexGenBlock.h"
 #include "types.h"
 
 struct J3DAnmColor;
@@ -14,99 +18,175 @@ struct J3DJoint;
 struct J3DMaterialAnm;
 struct J3DPEBlock;
 struct J3DShape;
-struct J3DTevBlock;
-struct J3DTevColorAnm;
 struct J3DTexGenBlock;
 struct J3DTexMtxAnm;
 struct J3DTexture;
 struct JUTNameTab;
 
+static inline void J3DFifoWriteCPCmd(u8 cmd, u32 param)
+{
+	GXWGFifo.u8  = GX_CMD_LOAD_CP_REG;
+	GXWGFifo.u8  = cmd;
+	GXWGFifo.u32 = param;
+}
+
+static inline void J3DFifoWriteXFCmd(u16 cmd, u16 len)
+{
+	GXWGFifo.u8  = GX_CMD_LOAD_XF_REG;
+	GXWGFifo.u16 = (len - 1);
+	GXWGFifo.u16 = cmd;
+}
+
+struct J3DCurrentMtxInfo {
+	u32 mMtxIdxRegA; // _00
+	u32 mMtxIdxRegB; // _04
+};
+
+struct J3DCurrentMtx : public J3DCurrentMtxInfo {
+	J3DCurrentMtx()
+	{
+		mMtxIdxRegA = 0x3CF3CF00;
+		mMtxIdxRegB = 0x00FC3FC3;
+	}
+
+	u32 getMtxIdxRegA() const { return mMtxIdxRegA; }
+	u32 getMtxIdxRegB() const { return mMtxIdxRegB; }
+
+	inline void load() const
+	{
+		J3DFifoWriteCPCmd(0x30, getMtxIdxRegA()); // CP_MATINDEX_A
+		J3DFifoWriteCPCmd(0x40, getMtxIdxRegB()); // CP_MATINDEX_B
+		J3DFifoWriteXFCmd(0x1018, 2);
+		GXWGFifo.u32 = getMtxIdxRegA();
+		GXWGFifo.u32 = getMtxIdxRegB();
+	}
+
+	// _00-_08 = J3DCurrentMtxInfo
+};
+
 /**
  * @size{0x4C}
  */
 struct J3DMaterial {
-	J3DMaterial();
+	inline J3DMaterial() { initialize(); }
+
 	~J3DMaterial();
 
-	virtual void calc(const float (*)[4]);           // _00
-	virtual void calcDiffTexMtx(const float (*)[4]); // _04
-	virtual void makeDisplayList();                  // _08
-	virtual void makeSharedDisplayList();            // _0C
-	virtual void load();                             // _10
-	virtual void loadSharedDL();                     // _14
-	virtual void patch();                            // _18
-	virtual void diff(u32);                          // _1C
-	virtual void reset();                            // _20
-	virtual void change();                           // _24
+	virtual void calc(const Mtx);           // _08
+	virtual void calcDiffTexMtx(const Mtx); // _0C
+	virtual void makeDisplayList();         // _10
+	virtual void makeSharedDisplayList();   // _14
+	virtual void load();                    // _18
+	virtual void loadSharedDL();            // _1C
+	virtual void patch();                   // _20
+	virtual void diff(u32);                 // _24
+	virtual void reset();                   // _28
+	virtual void change();                  // _2C
 
 	void calcCurrentMtx();
-	u32 calcSizePEBlock(J3DModelLoaderFlags, u32);
-	u32 calcSizeTevBlock(int);
-	u32 calcSizeTexGenBlock(J3DModelLoaderFlags);
+	static u32 calcSizeColorBlock(u32);
+	static u32 calcSizeIndBlock(int);
+	static u32 calcSizePEBlock(J3DModelLoaderFlags, u32);
+	static u32 calcSizeTexGenBlock(u32);
+	static u32 calcSizeTevBlock(int);
 	u32 countDLSize();
-	J3DColorBlock* createColorBlock(u32);
-	J3DIndBlock* createIndBlock(int);
-	J3DPEBlock* createPEBlock(u32, u32);
-	J3DTevBlock* createTevBlock(int);
-	J3DTexGenBlock* createTexGenBlock(u32);
+	static J3DColorBlock* createColorBlock(u32);
+	static J3DIndBlock* createIndBlock(int);
+	static J3DPEBlock* createPEBlock(u32, u32);
+	static J3DTevBlock* createTevBlock(int);
+	static J3DTexGenBlock* createTexGenBlock(u32);
 	void initialize();
-	int newSharedDisplayList(u32);
-	int newSingleSharedDisplayList(u32);
+	J3DErrType newSharedDisplayList(u32);
+	J3DErrType newSingleSharedDisplayList(u32);
 	void setCurrentMtx();
 
+	J3DMaterial* getNext() const { return mNext; }
+	J3DShape* getShape() const { return mShape; }
+	J3DTevBlock* getTevBlock() const { return mTevBlock; }
+	J3DColorBlock* getColorBlock() const { return mColorBlock; }
+	J3DTexGenBlock* getTexGenBlock() const { return mTexGenBlock; }
+	J3DDisplayListObj* getSharedDisplayListObj() const { return mSharedDLObj; }
+	J3DShape* getShape() { return mShape; }
+	J3DJoint* getJoint() { return mJoint; }
+	J3DMaterialAnm* getMaterialAnm() const
+	{
+		if ((u32)mAnm < 0xC0000000) {
+			return mAnm;
+		} else {
+			return nullptr;
+		}
+	}
+	J3DNBTScale* getNBTScale() const { return mTexGenBlock->getNBTScale(); }
+	u32 getTexNo(u32 idx) const { return mTevBlock->getTexNo(idx); }
+
+	void setTevColor(u32 i, const J3DGXColorS10* i_color) { mTevBlock->setTevColor(i, i_color); }
+	void setTevKColor(u32 i, const J3DGXColor* i_color) { mTevBlock->setTevKColor(i, i_color); }
+	void setMaterialAnm(J3DMaterialAnm* i_anm) { mAnm = i_anm; }
+
 	// VTBL _00
-	J3DMaterial* _04;              // _04
-	J3DShape* m_shape;             // _08
-	J3DJoint* m_joint;             // _0C
-	u32 _10;                       // _10
-	short _14;                     // _14
-	u32 _18;                       // _18
-	u8 _1C[4];                     // _1C
-	J3DDisplayListObj* _20;        // _20
-	J3DColorBlock* m_colorBlock;   // _24
-	J3DTexGenBlock* m_texGenBlock; // _28
-	J3DTevBlock* m_tevBlock;       // _2C
-	J3DIndBlock* m_indBlock;       // _30
-	J3DPEBlock* m_peBlock;         // _34
-	J3DMaterial* _38;              // _38
-	J3DMaterialAnm* m_anm;         // _3C
-	u32 _40;                       // _40
-	u32 _44;                       // _44
-	J3DDisplayListObj* _48;        // _48
+	J3DMaterial* mNext;              // _04
+	J3DShape* mShape;                // _08
+	J3DJoint* mJoint;                // _0C
+	u32 mMaterialMode;               // _10
+	u16 mIndex;                      // _14
+	u32 mInvalid;                    // _18
+	u8 _1C[4];                       // _1C
+	u32 mDiffFlag;                   // _20
+	J3DColorBlock* mColorBlock;      // _24
+	J3DTexGenBlock* mTexGenBlock;    // _28
+	J3DTevBlock* mTevBlock;          // _2C
+	J3DIndBlock* mIndBlock;          // _30
+	J3DPEBlock* mPeBlock;            // _34
+	J3DMaterial* mOrigMaterial;      // _38
+	J3DMaterialAnm* mAnm;            // _3C
+	J3DCurrentMtx mCurrentMtx;       // _40
+	J3DDisplayListObj* mSharedDLObj; // _48
 };
 
 /**
- * m_*Block are all the *Null variants of their respective types.
+ * m*Block are all the *Null variants of their respective types.
  * @size{0x4C}
  */
 struct J3DLockedMaterial : public J3DMaterial {
-	virtual void calc(const float (*)[4]); // _00
-	virtual void makeDisplayList();        // _08
-	virtual void makeSharedDisplayList();  // _0C
-	virtual void load();                   // _10
-	virtual void loadSharedDL();           // _14
-	virtual void patch();                  // _18
-	virtual void diff(u32);                // _1C
-	virtual void reset();                  // _20
-	virtual void change();                 // _24
+	inline J3DLockedMaterial()
+	    : J3DMaterial()
+	{
+		initialize();
+	}
+
+	virtual void calc(const f32 (*)[4]);  // _08
+	virtual void makeDisplayList();       // _10
+	virtual void makeSharedDisplayList(); // _14
+	virtual void load();                  // _18
+	virtual void loadSharedDL();          // _1C
+	virtual void patch();                 // _20
+	virtual void diff(u32);               // _24
+	virtual void reset();                 // _28
+	virtual void change();                // _2C
 
 	void initialize();
+
+	// _00     = VTBL
+	// _00-_4C = J3DMaterial
 };
 
 /**
- * m_texGenBlock and m_tevBlock are the *Patched variants of their respective
+ * mTexGenBlock and mTevBlock are the *Patched variants of their respective
  * types.
  * @size{0x4C}
  */
 struct J3DPatchedMaterial : public J3DMaterial {
-	virtual void makeDisplayList();       // _08
-	virtual void makeSharedDisplayList(); // _0C
-	virtual void load();                  // _10
-	virtual void loadSharedDL();          // _14
-	virtual void reset();                 // _20
-	virtual void change();                // _24
+	virtual void makeDisplayList();       // _10
+	virtual void makeSharedDisplayList(); // _14
+	virtual void load();                  // _18
+	virtual void loadSharedDL();          // _1C
+	virtual void reset();                 // _28
+	virtual void change();                // _2C
 
 	void initialize();
+
+	// _00     = VTBL
+	// _00-_4C = J3DMaterial
 };
 
 /**
@@ -115,31 +195,36 @@ struct J3DPatchedMaterial : public J3DMaterial {
 struct J3DMaterialTable {
 	J3DMaterialTable();
 
-	virtual ~J3DMaterialTable(); // _00
-
-	// virtual void _04(); // _04
+	virtual ~J3DMaterialTable(); // _08
 
 	void clear();
 
-	void allocTexMtxAnimator(J3DAnmTextureSRTKey*, J3DTexMtxAnm**);
+	J3DErrType allocTexMtxAnimator(J3DAnmTextureSRTKey*, J3DTexMtxAnm**);
 	void entryTexMtxAnimator(J3DAnmTextureSRTKey*);
 	void removeTexMtxAnimator(J3DAnmTextureSRTKey*);
 
-	void allocTevRegAnimator(J3DAnmTevRegKey*, J3DTevColorAnm**);
+	J3DErrType allocTevRegAnimator(J3DAnmTevRegKey*, J3DTevColorAnm**, J3DTevKColorAnm**);
 	void entryTevRegAnimator(J3DAnmTevRegKey*);
 	void removeTevRegAnimator(J3DAnmTevRegKey*);
 
 	void entryMatColorAnimator(J3DAnmColor*);
 
+	J3DMaterial* getMaterialNodePointer(u16 idx) const { return mMaterials[idx]; }
+	J3DTexture* getTexture() const { return mTextures; }
+	JUTNameTab* getTextureName() const { return mTextureNames; }
+	JUTNameTab* getMaterialName() const { return mMaterialNames; }
+	u16 getMaterialNum() const { return mMaterialNum; }
+	bool isLocked() const { return _1C == 1; }
+
 	// VTBL _00
-	u16 m_count1;               // _04
-	u16 m_count2;               // _06
-	J3DMaterial** m_materials1; // _08
-	JUTNameTab* _0C;            // _0C
-	J3DMaterial* m_materials2;  // _10
-	J3DTexture* m_texture;      // _14
-	JUTNameTab* _18;            // _18
-	u16 _1C;                    // _1C
+	u16 mMaterialNum;              // _04
+	u16 mUniqueMaterialNum;        // _06
+	J3DMaterial** mMaterials;      // _08
+	JUTNameTab* mMaterialNames;    // _0C
+	J3DMaterial* mUniqueMaterials; // _10
+	J3DTexture* mTextures;         // _14
+	JUTNameTab* mTextureNames;     // _18
+	u16 _1C;                       // _1C
 };
 
 #endif

@@ -2,25 +2,32 @@
 #define _GAME_CELLPYRAMID_H
 
 #include "types.h"
-#include "Game/TPositionObject.h"
 #include "Sys/Sphere.h"
 #include "SweepPrune.h"
 #include "IDelegate.h"
 #include "Graphics.h"
 #include "Rect.h"
 #include "Vector2.h"
+#include "Vector3.h"
 #include "BoundBox.h"
+#include "Condition.h"
 
 namespace Game {
 struct Cell;
 struct CellObject;
 struct CellPyramid;
 
+struct TPositionObject {
+	virtual Vector3f getPosition() = 0; // _08
+
+	// VTBL _00
+};
+
 struct CollNode {
 	CollNode();
 
-	CellObject* m_cellObject; // _00
-	float _04;                // _04
+	CellObject* mCellObject; // _00
+	f32 _04;                 // _04
 };
 
 struct CollisionBuffer {
@@ -29,33 +36,44 @@ struct CollisionBuffer {
 	void init(CellObject*, CollNode*, int);
 	void alloc(CellObject*, int);
 	void clear();
-	void insert(CellObject*, float);
-	void pikiInsertPiki(CellObject*, float);
-	void pikiInsertOther(CellObject*, float);
-	void insertSort(CellObject*, float);
+	void insert(CellObject*, f32);
+	void pikiInsertPiki(CellObject*, f32);
+	void pikiInsertOther(CellObject*, f32);
+	void insertSort(CellObject*, f32);
 	int findIndex(CellObject*);
 
-	int m_nodeCount;          // _00 /* total node count? */
-	int m_usedNodeCount;      // _04 /* used node count? */
-	CollNode* m_collNodes;    // _08
-	CellObject* m_cellObject; // _0C
+	int mNodeCount;          // _00
+	int mUsedNodeCount;      // _04
+	CollNode* mCollNodes;    // _08
+	CellObject* mCellObject; // _0C
 };
 
 // TODO: Ensure this is aligned.
 struct CellLeg {
 	CellLeg()
 	{
-		m_prev   = nullptr;
-		m_next   = nullptr;
-		m_object = nullptr;
-		m_cell   = nullptr;
+		mPrev   = nullptr;
+		mNext   = nullptr;
+		mObject = nullptr;
+		mCell   = nullptr;
 	}
 
-	CellLeg* m_next;      // _00
-	CellLeg* m_prev;      // _04
-	Cell* m_cell;         // _08
-	CellObject* m_object; // _0C
-	u8 m_flags;           // _10
+	inline bool findLeg(CellLeg* leg)
+	{
+		CellLeg* currLeg = this;
+		for (currLeg; currLeg; currLeg = currLeg->mNext) {
+			if (currLeg == leg) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	CellLeg* mNext;      // _00
+	CellLeg* mPrev;      // _04
+	Cell* mCell;         // _08
+	CellObject* mObject; // _0C
+	u8 mFlags;           // _10
 };
 
 struct Cell {
@@ -92,39 +110,46 @@ struct Cell {
 	static CellPyramid* sCurrCellMgr;
 };
 
-struct CellObject : public TPositionObject {
+struct CellObject : public TPositionObject, public SweepPrune::Object {
 	inline CellObject()
 	{
-		m_cellLegs[0].m_flags  = 1;
-		m_cellLegs[1].m_flags  = 0;
-		m_cellLegs[2].m_flags  = 0;
-		m_cellLegs[3].m_flags  = 0;
-		m_cellLegs[0].m_object = this;
-		m_cellLegs[1].m_object = this;
-		m_cellLegs[2].m_object = this;
-		m_cellLegs[3].m_object = this;
-		m_passID               = 0;
+		mCellLegs[0].mFlags  = 1;
+		mCellLegs[1].mFlags  = 0;
+		mCellLegs[2].mFlags  = 0;
+		mCellLegs[3].mFlags  = 0;
+		mCellLegs[0].mObject = this;
+		mCellLegs[1].mObject = this;
+		mCellLegs[2].mObject = this;
+		mCellLegs[3].mObject = this;
+		mPassID              = 0;
 	}
-	//	virtual Vector3f checkPosition() 				= 0;	// _08
+	//	virtual Vector3f getPosition() 				= 0;	// _08
 	virtual void checkCollision(CellObject*) { }        // _0C (weak)
 	virtual void getBoundingSphere(Sys::Sphere&) = 0;   // _10
 	virtual bool collisionUpdatable()            = 0;   // _14
 	virtual bool isPiki() { return false; }             // _18 (weak)
 	virtual bool isNavi() { return false; }             // _1C (weak)
 	virtual bool deferPikiCollision() { return false; } // _20 (weak)
-	virtual char* getTypeName();                        // _24
-	virtual u16 getObjType();                           // _28
+	virtual char* getTypeName() = 0;                    // _24
+	virtual u16 getObjType()    = 0;                    // _28
 
 	void exitCell();
-	float calcCollisionDistance(CellObject*);
+	f32 calcCollisionDistance(CellObject*);
 	void updateCollisionBuffer(CellObject*);
 	void resolveUsingBuffer();
 
+	inline void checkAllCollision()
+	{
+		for (int i = 0; i < mCollisionBuffer.mUsedNodeCount; i++) {
+			checkCollision(mCollisionBuffer.mCollNodes[i].mCellObject);
+		}
+	}
+
 	// _00 		= VTABLE
-	// _04-_54 	= m_sweepPruneObject
-	CellLeg m_cellLegs[4];             // _54
-	u32 m_passID;                      // _A4
-	CollisionBuffer m_collisionBuffer; // _A8
+	// _04-_54 	= mSweepPruneObject
+	CellLeg mCellLegs[4];             // _54
+	u32 mPassID;                      // _A4
+	CollisionBuffer mCollisionBuffer; // _A8
 };
 
 // Size: 0x38
@@ -136,16 +161,16 @@ struct CellLayer {
 	void createBottom(int, int);
 	Cell* operator()(int, int);
 	void pileup(CellLayer&);
-	void drawCell(Graphics&, Vector3f&, int, int, float) const;
+	void drawCell(Graphics&, Vector3f&, int, int, f32) const;
 	void assertExtent(Recti&) const;
 	void checkPoint(Vector2i&) const;
 
-	u16 m_sizeX;   // _00
-	u16 m_sizeY;   // _02
-	short _04;     // _04
-	u16 _06;       // _06
-	Cell* m_cells; // _08
-	Cell m_cell;   // _0C // maybe this is a Cell?
+	u16 mSizeX;   // _00
+	u16 mSizeY;   // _02
+	u16 _04;      // _04
+	u16 _06;      // _06
+	Cell* mCells; // _08
+	Cell mCell;   // _0C // maybe this is a Cell?
 };
 
 struct CellPyramid : public SweepPrune::World {
@@ -159,45 +184,52 @@ struct CellPyramid : public SweepPrune::World {
 	void calcExtent(Sys::Sphere&, int&, Recti&);
 	void entry(CellObject*, Sys::Sphere&);
 	void entry(CellObject*, Sys::Sphere&, int&, Recti&);
-	void create(BoundBox2d&, float);
+	void create(BoundBox2d&, f32);
 	void drawCell(Graphics&, Sys::Sphere&);
 	int getPikiCount(int, Recti&);
-	void drawCell(Graphics&, int, Recti&, float) const;
+	void drawCell(Graphics&, int, Recti&, f32) const;
 	void drawCell(Graphics&, int);
 	void drawCell(Graphics&);
 	void dumpCount(int&, int&);
 
-	int m_memoryUsageMaybe; // _28
-	int m_layerCount;       // _2C
-	CellLayer* m_layers;    // _30
-	float _34;              // _34
-	float _38;              // _38
-	float _3C;              // _3C
-	float _40;              // _40
+	int mMemoryUsageMaybe; // _28
+	int mLayerCount;       // _2C
+	CellLayer* mLayers;    // _30
+	f32 _34;               // _34
+	f32 _38;               // _38
+	f32 _3C;               // _3C
+	f32 _40;               // _40
 	/*
 	 * Incremented at the start of every resolve/search pass.
 	 * Passed on to CellObjects to prevent evaluating multiple times per pass.
 	 */
-	u32 m_passID; // _44
+	u32 mPassID; // _44
 
 	static char* sCellBugName;
-	static s32 sCellBugID;
+	static int sCellBugID;
 	static u8 sOptResolveColl;
 	static u8 sSpeedUpResolveColl;
 	static bool disableAICulling;
+};
+
+// fabricated
+struct CellIteratorCondition {
+	virtual bool satisfy(CellObject* obj) { return true; } // _08
 };
 
 struct CellIteratorArg {
 	CellIteratorArg();
 	CellIteratorArg(Sys::Sphere& sphere);
 
-	Sys::Sphere m_sphere;   // _00
-	u32 _10;                // _10
-	u32 _14;                // _14
-	CellPyramid* m_cellMgr; // _18
-	u8 _1C;                 // _1C
-	u8 _1D;                 // _1D
+	Sys::Sphere mSphere;               // _00
+	CellIteratorCondition* mCondition; // _10, this is a ptr to something with a vtable, and 0x8 of vtable returns a bool ._.
+	int _14;                           // _14
+	CellPyramid* mCellMgr;             // _18
+	u8 _1C;                            // _1C
+	u8 _1D;                            // _1D
 };
+
+#define CI_LOOP(it) for (it.first(); !it.isDone(); it.next())
 
 struct CellIterator {
 	CellIterator(CellIteratorArg&);
@@ -206,27 +238,29 @@ struct CellIterator {
 	void dump();
 	bool find();
 	void first();
-	void getCellObject();
+	CellObject* getCellObject();
 	bool isDone();
 	bool next();
 	CellObject* operator*();
-	void satisfy();
-	void step();
+	bool satisfy();
+	bool step();
 
-	CellLeg* _00;          // _00
-	u32 _04;               // _04
-	u32 _08;               // _08
-	u32 _0C;               // _0C
-	u32 _10;               // _10
-	u32 _14;               // _14
-	u32 _18;               // _18
-	u32 _1C;               // _1C
-	u32 m_passID;          // _20
-	CellIteratorArg m_arg; // _24
+	CellLeg* _00;         // _00
+	int _04;              // _04
+	int _08;              // _08
+	int _0C;              // _0C
+	int _10;              // _10
+	int _14;              // _14
+	int _18;              // _18
+	int _1C;              // _1C
+	u32 mPassID;          // _20
+	CellIteratorArg mArg; // _24
+	u32 _44;              // _44
 };
 
 extern CellPyramid* cellMgr;
 extern CellPyramid* platCellMgr;
+extern CellPyramid* mapRoomCellMgr;
 } // namespace Game
 
 #endif

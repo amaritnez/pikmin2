@@ -12,13 +12,13 @@ struct DeathCounter {
 	 * @fabricated
 	 */
 	enum CauseOfDeath {
-		COD_Unknown1 = 0,
-		COD_Unknown2,
-		COD_Unknown3,
+		COD_Battle = 0,
+		COD_Sunset,
+		COD_Fire,
 		COD_Water,
-		COD_Unknown4,
-		COD_Unknown5,
-		COD_Unknown6,
+		COD_Electricity,
+		COD_Explosion,
+		COD_Poison,
 		COD_All,                  // All causes combined
 		COD_SourceCount = COD_All // Count of individual causes
 	};
@@ -30,8 +30,8 @@ struct DeathCounter {
 	void read(Stream&);
 	void write(Stream&);
 
-	int m_counts[COD_SourceCount + 1]; // _00
-	int m_total;                       // _20
+	int mCounts[COD_SourceCount + 1]; // _00
+	int mTotal;                       // _20
 };
 struct DeathMgr {
 	inline DeathMgr();

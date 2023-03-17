@@ -4,49 +4,50 @@
 #include "JSystem/J2D/J2DPane.h"
 #include "types.h"
 #include "CNode.h"
+#include "Vector2.h"
 
 struct Graphics;
 
 namespace P2DScreen {
 struct Node : public CNode {
 	Node()
-	    : CNode()
+	    : mPane(nullptr)
 	{
-		_18 = nullptr;
 	}
 
-	virtual ~Node() { }                            // _00
-	virtual void update();                         // _08
-	virtual void draw(Graphics&, J2DGrafContext&); // _0C
-	virtual void doInit();                         // _10
+	virtual ~Node() { }                               // _08 (weak)
+	virtual void update() { }                         // _10 (weak)
+	virtual void draw(Graphics&, J2DGrafContext&) { } // _14 (weak)
+	virtual void doInit() { }                         // _18 (weak)
 
-	J2DPane* _18; // _18
+	// _00     = VTBL
+	// _00-_18 = CNode
+	J2DPane* mPane; // _18
 };
 
 struct CallBackNode : public Node {
-	/**
-	 * @reifiedAddress{80309DB0}
-	 * @reifiedFile{plugProjectOgawaU/ogCallBackMessage.cpp}
-	 */
-	CallBackNode()
-	    : Node()
-	{
-	}
-	virtual ~CallBackNode(); // _00
-	virtual void update();   // _08
+	CallBackNode() { }
+
+	virtual ~CallBackNode() { } // _08 (weak)
+	virtual void update() { }   // _10 (weak)
+
+	// _00     = VTBL
+	// _00-_1C = Node
 };
 
 // Size: 0x138
 struct Mgr : public J2DScreen {
 	Mgr();
 
-	virtual ~Mgr() { }                             // _00
-	virtual void update();                         // _28
-	virtual void draw(Graphics&, J2DGrafContext&); // _94
+	virtual ~Mgr() { }                             // _08 (weak)
+	virtual void update();                         // _30
+	virtual void draw(Graphics&, J2DGrafContext&); // _9C
 
 	J2DPane* addCallBack(u64, Node*);
 	void addCallBackPane(J2DPane*, Node*);
 
+	// _00      = VTBL
+	// _00-_118 = J2DScreen
 	Node _118;  // _118
 	u8 _134[4]; // _134
 };
@@ -55,13 +56,46 @@ struct Mgr : public J2DScreen {
 struct Mgr_tuning : public Mgr {
 	Mgr_tuning();
 
-	virtual ~Mgr_tuning() { }                      // _00
-	virtual void draw(Graphics&, J2DGrafContext&); // _94
+	virtual ~Mgr_tuning() { }                      // _08 (weak)
+	virtual void draw(Graphics&, J2DGrafContext&); // _9C
 
-	float m_widthMaybe;  // _138
-	float m_heightMaybe; // _13C
-	float m_someX;       // _140
-	float m_someY;       // _144
+	static const f32 mstTuningScaleX;
+	static const f32 mstTuningScaleY;
+	static const f32 mstTuningTransX;
+	static const f32 mstTuningTransY;
+
+	inline void setXY(f32 x, f32 y)
+	{
+		mSomeX = x + mstTuningTransX;
+		mSomeY = y + mstTuningTransY;
+	}
+
+	inline void scaleScreen(f32 scale)
+	{
+		mScreenScaleX = scale * mstTuningScaleX;
+		mScreenScaleY = scale * mstTuningScaleY;
+	}
+
+	inline void setBlendInfo(J2DBlend info, u64* tags)
+	{
+		J2DBlend blend = info;
+		while (true) {
+			if (!*tags) {
+				return;
+			}
+			J2DPictureEx* pane = static_cast<J2DPictureEx*>(search(*(tags++)));
+			if (pane) {
+				pane->getMaterial()->mPeBlock.mBlendInfo.set(blend);
+			}
+		}
+	}
+
+	// _00      = VTBL
+	// _00-_138 = Mgr
+	f32 mScreenScaleX; // _138
+	f32 mScreenScaleY; // _13C
+	f32 mSomeX;        // _140
+	f32 mSomeY;        // _144
 };
 } // namespace P2DScreen
 

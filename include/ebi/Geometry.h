@@ -7,10 +7,10 @@
 
 namespace ebi {
 struct EGEBox2f : JGeometry::TBox2f {
-	bool isIn(Vector2f&, float);
+	bool isIn(Vector2f&, f32);
 	bool isOut(Vector2f&);
-	bool isOut(Vector2f&, float);
-	void in(Vector2f*, float);
+	bool isOut(Vector2f&, f32);
+	void in(Vector2f*, f32);
 
 	// Unused/inlined:
 	bool isIn(Vector2f&);
@@ -19,11 +19,11 @@ struct EGEBox2f : JGeometry::TBox2f {
 
 struct EGECircle2f {
 	bool isOut(Vector2f&);
-	void in(Vector2f*);
-	void out(Vector2f*);
+	bool in(Vector2f*);
+	bool out(Vector2f*);
 
-	Vector2f m_center; // _00
-	float m_radius;    // _08
+	Vector2f mCenter; // _00
+	f32 mRadius;      // _08
 };
 } // namespace ebi
 

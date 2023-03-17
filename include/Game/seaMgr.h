@@ -1,7 +1,7 @@
 #ifndef _GAME_SEAMGR_H
 #define _GAME_SEAMGR_H
 
-#include "Game/AABBWaterBox.h"
+#include "Game/WaterBox.h"
 #include "ObjectMgr.h"
 #include "types.h"
 
@@ -9,7 +9,7 @@ namespace Game {
 struct SeaMgr : public NodeObjectMgr<WaterBox> {
 	SeaMgr();
 
-	virtual ~SeaMgr(); // _00 of vtable 1
+	virtual ~SeaMgr(); // _08 (weak)
 
 	void addSeaMgr(SeaMgr*, Matrixf&);
 	void addWaterBox(WaterBox*);
@@ -21,9 +21,9 @@ struct SeaMgr : public NodeObjectMgr<WaterBox> {
 	// Unused/inlined:
 	void directDraw(Graphics&);
 
-	int _3C;                            // _3C
-	J3DModelData** m_modelData;         // _40
-	Sys::MatTexAnimation* m_animations; // _44
+	int _3C;                           // _3C
+	J3DModelData** mModelData;         // _40
+	Sys::MatTexAnimation* mAnimations; // _44
 };
 } // namespace Game
 

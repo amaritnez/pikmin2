@@ -1,16 +1,17 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-lbl_8049B880:
+.obj lbl_8049B880, local
 	.asciz "messageObj.h"
+.endobj lbl_8049B880
 .balign 4
-lbl_8049B890:
+.obj lbl_8049B890, local
 	.asciz "P2Assert"
+.endobj lbl_8049B890
 
 .section .data, "wa"	# 0x8049E220 - 0x804EFC20
 .balign 8
-.global __vt__Q35P2JME7Caption8TControl
-__vt__Q35P2JME7Caption8TControl:
+.obj __vt__Q35P2JME7Caption8TControl, global
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q35P2JME7Caption8TControlFv
@@ -29,8 +30,8 @@ __vt__Q35P2JME7Caption8TControl:
 	.4byte createResourceContainer__Q25P2JME8TControlFv
 	.4byte createSequenceProcessor__Q35P2JME7Caption8TControlFv
 	.4byte createRenderingProcessor__Q35P2JME7Caption8TControlFv
-.global __vt__Q35P2JME7Caption18TSequenceProcessor
-__vt__Q35P2JME7Caption18TSequenceProcessor:
+.endobj __vt__Q35P2JME7Caption8TControl
+.obj __vt__Q35P2JME7Caption18TSequenceProcessor, weak
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q35P2JME7Caption18TSequenceProcessorFv
@@ -61,8 +62,8 @@ __vt__Q35P2JME7Caption18TSequenceProcessor:
 	.4byte doCharacterSEEnd__Q35P2JME7Caption18TSequenceProcessorFv
 	.4byte doFastForwardSE__Q35P2JME6Window18TSequenceProcessorFv
 	.4byte reset__Q25P2JME18TSequenceProcessorFv
-.global __vt__Q35P2JME7Caption19TRenderingProcessor
-__vt__Q35P2JME7Caption19TRenderingProcessor:
+.endobj __vt__Q35P2JME7Caption18TSequenceProcessor
+.obj __vt__Q35P2JME7Caption19TRenderingProcessor, global
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q35P2JME7Caption19TRenderingProcessorFv
@@ -99,47 +100,57 @@ __vt__Q35P2JME7Caption19TRenderingProcessor:
 	.4byte doDrawCommon__Q35P2JME7Caption19TRenderingProcessorFffP7MatrixfP7Matrixf
 	.4byte "makeMatrix__Q35P2JME6Window19TRenderingProcessorFP7MatrixfPQ35P2JME6Window8DrawInfof10Vector3<f>"
 	.4byte doGetDrawInfo__Q35P2JME7Caption19TRenderingProcessorFPQ35P2JME6Window8DrawInfo
+.endobj __vt__Q35P2JME7Caption19TRenderingProcessor
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_80520B30:
+.obj lbl_80520B30, local
 	.float 1.0
-lbl_80520B34:
+.endobj lbl_80520B30
+.obj lbl_80520B34, local
 	.float 0.26666668
-lbl_80520B38:
+.endobj lbl_80520B34
+.obj lbl_80520B38, local
 	.float 255.0
-lbl_80520B3C:
+.endobj lbl_80520B38
+.obj lbl_80520B3C, local
 	.float 0.0
-lbl_80520B40:
+.endobj lbl_80520B3C
+.obj lbl_80520B40, local
 	.float 10.0
-lbl_80520B44:
+.endobj lbl_80520B40
+.obj lbl_80520B44, local
 	.float 5.0
-lbl_80520B48:
+.endobj lbl_80520B44
+.obj lbl_80520B48, local
 	.float 0.5
-lbl_80520B4C:
+.endobj lbl_80520B48
+.obj lbl_80520B4C, local
 	.float 3.0
-lbl_80520B50:
+.endobj lbl_80520B4C
+.obj lbl_80520B50, local
 	.float 200.0
+.endobj lbl_80520B50
 .balign 8
-lbl_80520B58:
-	.4byte 0x43300000
-	.4byte 0x00000000
+.obj lbl_80520B58, local
+	.8byte 0x4330000000000000
+.endobj lbl_80520B58
 .balign 8
-lbl_80520B60:
-	.4byte 0x43300000
-	.4byte 0x80000000
-lbl_80520B68:
+.obj lbl_80520B60, local
+	.8byte 0x4330000080000000
+.endobj lbl_80520B60
+.obj lbl_80520B68, local
 	.float 290.0
+.endobj lbl_80520B68
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global doGetDrawInfo__Q35P2JME7Caption19TRenderingProcessorFPQ35P2JME6Window8DrawInfo
-doGetDrawInfo__Q35P2JME7Caption19TRenderingProcessorFPQ35P2JME6Window8DrawInfo:
+.fn doGetDrawInfo__Q35P2JME7Caption19TRenderingProcessorFPQ35P2JME6Window8DrawInfo, global
 /* 80450FC0 0044DF00  C0 02 27 D4 */	lfs f0, lbl_80520B34@sda21(r2)
 /* 80450FC4 0044DF04  D0 04 00 20 */	stfs f0, 0x20(r4)
 /* 80450FC8 0044DF08  4E 80 00 20 */	blr 
+.endfn doGetDrawInfo__Q35P2JME7Caption19TRenderingProcessorFPQ35P2JME6Window8DrawInfo
 
-.global doDrawCommon__Q35P2JME7Caption19TRenderingProcessorFffP7MatrixfP7Matrixf
-doDrawCommon__Q35P2JME7Caption19TRenderingProcessorFffP7MatrixfP7Matrixf:
+.fn doDrawCommon__Q35P2JME7Caption19TRenderingProcessorFffP7MatrixfP7Matrixf, global
 /* 80450FCC 0044DF0C  94 21 FF 60 */	stwu r1, -0xa0(r1)
 /* 80450FD0 0044DF10  7C 08 02 A6 */	mflr r0
 /* 80450FD4 0044DF14  90 01 00 A4 */	stw r0, 0xa4(r1)
@@ -165,7 +176,7 @@ doDrawCommon__Q35P2JME7Caption19TRenderingProcessorFffP7MatrixfP7Matrixf:
 /* 80451024 0044DF64  38 7C 01 10 */	addi r3, r28, 0x110
 /* 80451028 0044DF68  4B FE E2 11 */	bl searchDrawInfo__Q35P2JME6Window11DrawInfoMgrFi
 /* 8045102C 0044DF6C  7C 7F 1B 79 */	or. r31, r3, r3
-/* 80451030 0044DF70  40 82 00 30 */	bne lbl_80451060
+/* 80451030 0044DF70  40 82 00 30 */	bne .L_80451060
 /* 80451034 0044DF74  80 9C 00 40 */	lwz r4, 0x40(r28)
 /* 80451038 0044DF78  38 7C 01 10 */	addi r3, r28, 0x110
 /* 8045103C 0044DF7C  4B FE E2 2D */	bl getDrawInfo__Q35P2JME6Window11DrawInfoMgrFi
@@ -177,9 +188,9 @@ doDrawCommon__Q35P2JME7Caption19TRenderingProcessorFffP7MatrixfP7Matrixf:
 /* 80451054 0044DF94  81 8C 00 8C */	lwz r12, 0x8c(r12)
 /* 80451058 0044DF98  7D 89 03 A6 */	mtctr r12
 /* 8045105C 0044DF9C  4E 80 04 21 */	bctrl 
-lbl_80451060:
+.L_80451060:
 /* 80451060 0044DFA0  28 1F 00 00 */	cmplwi r31, 0
-/* 80451064 0044DFA4  41 82 00 34 */	beq lbl_80451098
+/* 80451064 0044DFA4  41 82 00 34 */	beq .L_80451098
 /* 80451068 0044DFA8  C0 02 27 DC */	lfs f0, lbl_80520B3C@sda21(r2)
 /* 8045106C 0044DFAC  38 61 00 20 */	addi r3, r1, 0x20
 /* 80451070 0044DFB0  D3 A1 00 14 */	stfs f29, 0x14(r1)
@@ -191,8 +202,8 @@ lbl_80451060:
 /* 80451088 0044DFC8  C0 1F 00 20 */	lfs f0, 0x20(r31)
 /* 8045108C 0044DFCC  EC 01 00 24 */	fdivs f0, f1, f0
 /* 80451090 0044DFD0  EF FF 00 32 */	fmuls f31, f31, f0
-/* 80451094 0044DFD4  48 00 00 20 */	b lbl_804510B4
-lbl_80451098:
+/* 80451094 0044DFD4  48 00 00 20 */	b .L_804510B4
+.L_80451098:
 /* 80451098 0044DFD8  C0 02 27 DC */	lfs f0, lbl_80520B3C@sda21(r2)
 /* 8045109C 0044DFDC  38 61 00 20 */	addi r3, r1, 0x20
 /* 804510A0 0044DFE0  D3 A1 00 08 */	stfs f29, 8(r1)
@@ -200,9 +211,9 @@ lbl_80451098:
 /* 804510A8 0044DFE8  D3 C1 00 0C */	stfs f30, 0xc(r1)
 /* 804510AC 0044DFEC  D0 01 00 10 */	stfs f0, 0x10(r1)
 /* 804510B0 0044DFF0  4B FD 77 91 */	bl "makeT__7MatrixfFR10Vector3<f>"
-lbl_804510B4:
+.L_804510B4:
 /* 804510B4 0044DFF4  28 1E 00 00 */	cmplwi r30, 0
-/* 804510B8 0044DFF8  41 82 00 50 */	beq lbl_80451108
+/* 804510B8 0044DFF8  41 82 00 50 */	beq .L_80451108
 /* 804510BC 0044DFFC  7F C4 F3 78 */	mr r4, r30
 /* 804510C0 0044E000  38 61 00 20 */	addi r3, r1, 0x20
 /* 804510C4 0044E004  4B C9 92 09 */	bl PSMTXCopy
@@ -222,7 +233,7 @@ lbl_804510B4:
 /* 804510FC 0044E03C  7F C4 F3 78 */	mr r4, r30
 /* 80451100 0044E040  7F C5 F3 78 */	mr r5, r30
 /* 80451104 0044E044  4B C9 91 FD */	bl PSMTXConcat
-lbl_80451108:
+.L_80451108:
 /* 80451108 0044E048  38 81 00 20 */	addi r4, r1, 0x20
 /* 8045110C 0044E04C  80 7C 00 44 */	lwz r3, 0x44(r28)
 /* 80451110 0044E050  7C 85 23 78 */	mr r5, r4
@@ -232,27 +243,27 @@ lbl_80451108:
 /* 80451120 0044E060  7C 85 23 78 */	mr r5, r4
 /* 80451124 0044E064  4B C9 91 DD */	bl PSMTXConcat
 /* 80451128 0044E068  28 1D 00 00 */	cmplwi r29, 0
-/* 8045112C 0044E06C  41 82 00 14 */	beq lbl_80451140
+/* 8045112C 0044E06C  41 82 00 14 */	beq .L_80451140
 /* 80451130 0044E070  7F A4 EB 78 */	mr r4, r29
 /* 80451134 0044E074  38 61 00 20 */	addi r3, r1, 0x20
 /* 80451138 0044E078  4B C9 91 95 */	bl PSMTXCopy
-/* 8045113C 0044E07C  48 00 00 10 */	b lbl_8045114C
-lbl_80451140:
+/* 8045113C 0044E07C  48 00 00 10 */	b .L_8045114C
+.L_80451140:
 /* 80451140 0044E080  38 61 00 20 */	addi r3, r1, 0x20
 /* 80451144 0044E084  38 80 00 00 */	li r4, 0
 /* 80451148 0044E088  4B C9 84 31 */	bl GXLoadPosMtxImm
-lbl_8045114C:
+.L_8045114C:
 /* 8045114C 0044E08C  C0 02 27 DC */	lfs f0, lbl_80520B3C@sda21(r2)
 /* 80451150 0044E090  FC 1F 00 40 */	fcmpo cr0, f31, f0
 /* 80451154 0044E094  4C 41 13 82 */	cror 2, 1, 2
-/* 80451158 0044E098  40 82 00 10 */	bne lbl_80451168
+/* 80451158 0044E098  40 82 00 10 */	bne .L_80451168
 /* 8045115C 0044E09C  C0 02 27 E8 */	lfs f0, lbl_80520B48@sda21(r2)
 /* 80451160 0044E0A0  EC 00 F8 2A */	fadds f0, f0, f31
-/* 80451164 0044E0A4  48 00 00 0C */	b lbl_80451170
-lbl_80451168:
+/* 80451164 0044E0A4  48 00 00 0C */	b .L_80451170
+.L_80451168:
 /* 80451168 0044E0A8  C0 02 27 E8 */	lfs f0, lbl_80520B48@sda21(r2)
 /* 8045116C 0044E0AC  EC 1F 00 28 */	fsubs f0, f31, f0
-lbl_80451170:
+.L_80451170:
 /* 80451170 0044E0B0  FC 00 00 1E */	fctiwz f0, f0
 /* 80451174 0044E0B4  D8 01 00 50 */	stfd f0, 0x50(r1)
 /* 80451178 0044E0B8  80 01 00 54 */	lwz r0, 0x54(r1)
@@ -271,9 +282,9 @@ lbl_80451170:
 /* 804511AC 0044E0EC  7C 08 03 A6 */	mtlr r0
 /* 804511B0 0044E0F0  38 21 00 A0 */	addi r1, r1, 0xa0
 /* 804511B4 0044E0F4  4E 80 00 20 */	blr 
+.endfn doDrawCommon__Q35P2JME7Caption19TRenderingProcessorFffP7MatrixfP7Matrixf
 
-.global __ct__Q35P2JME7Caption8TControlFv
-__ct__Q35P2JME7Caption8TControlFv:
+.fn __ct__Q35P2JME7Caption8TControlFv, global
 /* 804511B8 0044E0F8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804511BC 0044E0FC  7C 08 02 A6 */	mflr r0
 /* 804511C0 0044E100  90 01 00 14 */	stw r0, 0x14(r1)
@@ -295,9 +306,9 @@ __ct__Q35P2JME7Caption8TControlFv:
 /* 80451200 0044E140  7C 08 03 A6 */	mtlr r0
 /* 80451204 0044E144  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451208 0044E148  4E 80 00 20 */	blr 
+.endfn __ct__Q35P2JME7Caption8TControlFv
 
-.global onInit__Q35P2JME7Caption8TControlFv
-onInit__Q35P2JME7Caption8TControlFv:
+.fn onInit__Q35P2JME7Caption8TControlFv, global
 /* 8045120C 0044E14C  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80451210 0044E150  7C 08 02 A6 */	mflr r0
 /* 80451214 0044E154  90 01 00 24 */	stw r0, 0x24(r1)
@@ -305,14 +316,14 @@ onInit__Q35P2JME7Caption8TControlFv:
 /* 8045121C 0044E15C  7C 7F 1B 78 */	mr r31, r3
 /* 80451220 0044E160  80 8D 9B D8 */	lwz r4, gP2JMEMgr@sda21(r13)
 /* 80451224 0044E164  28 04 00 00 */	cmplwi r4, 0
-/* 80451228 0044E168  41 82 00 1C */	beq lbl_80451244
+/* 80451228 0044E168  41 82 00 1C */	beq .L_80451244
 /* 8045122C 0044E16C  80 84 00 18 */	lwz r4, 0x18(r4)
 /* 80451230 0044E170  4B FE 78 9D */	bl setFont__Q25P2JME8TControlFP7JUTFont
 /* 80451234 0044E174  80 8D 9B D8 */	lwz r4, gP2JMEMgr@sda21(r13)
 /* 80451238 0044E178  7F E3 FB 78 */	mr r3, r31
 /* 8045123C 0044E17C  80 84 00 18 */	lwz r4, 0x18(r4)
 /* 80451240 0044E180  4B FE 78 F9 */	bl setRubyFont__Q25P2JME8TControlFP7JUTFont
-lbl_80451244:
+.L_80451244:
 /* 80451244 0044E184  7F E3 FB 78 */	mr r3, r31
 /* 80451248 0044E188  38 80 01 00 */	li r4, 0x100
 /* 8045124C 0044E18C  4B FE EE F1 */	bl initRenderingProcessor__Q35P2JME6Window8TControlFUl
@@ -357,9 +368,9 @@ lbl_80451244:
 /* 804512E8 0044E228  7C 08 03 A6 */	mtlr r0
 /* 804512EC 0044E22C  38 21 00 20 */	addi r1, r1, 0x20
 /* 804512F0 0044E230  4E 80 00 20 */	blr 
+.endfn onInit__Q35P2JME7Caption8TControlFv
 
-.global reset__Q35P2JME7Caption8TControlFv
-reset__Q35P2JME7Caption8TControlFv:
+.fn reset__Q35P2JME7Caption8TControlFv, global
 /* 804512F4 0044E234  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804512F8 0044E238  7C 08 02 A6 */	mflr r0
 /* 804512FC 0044E23C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -373,9 +384,9 @@ reset__Q35P2JME7Caption8TControlFv:
 /* 8045131C 0044E25C  7C 08 03 A6 */	mtlr r0
 /* 80451320 0044E260  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451324 0044E264  4E 80 00 20 */	blr 
+.endfn reset__Q35P2JME7Caption8TControlFv
 
-.global updateSetFrame__Q35P2JME7Caption8TControlFl
-updateSetFrame__Q35P2JME7Caption8TControlFl:
+.fn updateSetFrame__Q35P2JME7Caption8TControlFl, global
 /* 80451328 0044E268  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8045132C 0044E26C  7C 08 02 A6 */	mflr r0
 /* 80451330 0044E270  90 01 00 24 */	stw r0, 0x24(r1)
@@ -386,39 +397,39 @@ updateSetFrame__Q35P2JME7Caption8TControlFl:
 /* 80451344 0044E284  80 03 00 5C */	lwz r0, 0x5c(r3)
 /* 80451348 0044E288  38 60 00 00 */	li r3, 0
 /* 8045134C 0044E28C  2C 00 00 00 */	cmpwi r0, 0
-/* 80451350 0044E290  40 82 00 2C */	bne lbl_8045137C
+/* 80451350 0044E290  40 82 00 2C */	bne .L_8045137C
 /* 80451354 0044E294  80 1E 00 60 */	lwz r0, 0x60(r30)
 /* 80451358 0044E298  7C 1F 00 00 */	cmpw r31, r0
-/* 8045135C 0044E29C  41 80 00 20 */	blt lbl_8045137C
+/* 8045135C 0044E29C  41 80 00 20 */	blt .L_8045137C
 /* 80451360 0044E2A0  80 9E 00 64 */	lwz r4, 0x64(r30)
 /* 80451364 0044E2A4  80 1E 00 68 */	lwz r0, 0x68(r30)
 /* 80451368 0044E2A8  7C 04 02 14 */	add r0, r4, r0
 /* 8045136C 0044E2AC  7C 1F 00 00 */	cmpw r31, r0
-/* 80451370 0044E2B0  41 81 00 0C */	bgt lbl_8045137C
+/* 80451370 0044E2B0  41 81 00 0C */	bgt .L_8045137C
 /* 80451374 0044E2B4  38 00 00 01 */	li r0, 1
 /* 80451378 0044E2B8  90 1E 00 5C */	stw r0, 0x5c(r30)
-lbl_8045137C:
+.L_8045137C:
 /* 8045137C 0044E2BC  80 1E 00 5C */	lwz r0, 0x5c(r30)
 /* 80451380 0044E2C0  2C 00 00 00 */	cmpwi r0, 0
-/* 80451384 0044E2C4  41 82 00 B4 */	beq lbl_80451438
+/* 80451384 0044E2C4  41 82 00 B4 */	beq .L_80451438
 /* 80451388 0044E2C8  80 1E 00 60 */	lwz r0, 0x60(r30)
 /* 8045138C 0044E2CC  7C 1F 00 00 */	cmpw r31, r0
-/* 80451390 0044E2D0  41 80 00 18 */	blt lbl_804513A8
+/* 80451390 0044E2D0  41 80 00 18 */	blt .L_804513A8
 /* 80451394 0044E2D4  80 9E 00 64 */	lwz r4, 0x64(r30)
 /* 80451398 0044E2D8  80 1E 00 68 */	lwz r0, 0x68(r30)
 /* 8045139C 0044E2DC  7C 04 02 14 */	add r0, r4, r0
 /* 804513A0 0044E2E0  7C 1F 00 00 */	cmpw r31, r0
-/* 804513A4 0044E2E4  40 81 00 10 */	ble lbl_804513B4
-lbl_804513A8:
+/* 804513A4 0044E2E4  40 81 00 10 */	ble .L_804513B4
+.L_804513A8:
 /* 804513A8 0044E2E8  38 00 00 00 */	li r0, 0
 /* 804513AC 0044E2EC  90 1E 00 5C */	stw r0, 0x5c(r30)
-/* 804513B0 0044E2F0  48 00 00 88 */	b lbl_80451438
-lbl_804513B4:
+/* 804513B0 0044E2F0  48 00 00 88 */	b .L_80451438
+.L_804513B4:
 /* 804513B4 0044E2F4  7F C3 F3 78 */	mr r3, r30
 /* 804513B8 0044E2F8  4B FE 7A 95 */	bl update__Q25P2JME8TControlFv
 /* 804513BC 0044E2FC  80 1E 00 64 */	lwz r0, 0x64(r30)
 /* 804513C0 0044E300  7C 1F 00 00 */	cmpw r31, r0
-/* 804513C4 0044E304  40 81 00 60 */	ble lbl_80451424
+/* 804513C4 0044E304  40 81 00 60 */	ble .L_80451424
 /* 804513C8 0044E308  38 00 00 02 */	li r0, 2
 /* 804513CC 0044E30C  3C A0 43 30 */	lis r5, 0x4330
 /* 804513D0 0044E310  90 1E 00 5C */	stw r0, 0x5c(r30)
@@ -441,23 +452,23 @@ lbl_804513B4:
 /* 80451414 0044E354  EC 01 00 24 */	fdivs f0, f1, f0
 /* 80451418 0044E358  EC 03 00 28 */	fsubs f0, f3, f0
 /* 8045141C 0044E35C  D0 04 01 44 */	stfs f0, 0x144(r4)
-/* 80451420 0044E360  48 00 00 18 */	b lbl_80451438
-lbl_80451424:
+/* 80451420 0044E360  48 00 00 18 */	b .L_80451438
+.L_80451424:
 /* 80451424 0044E364  C0 02 27 D0 */	lfs f0, lbl_80520B30@sda21(r2)
 /* 80451428 0044E368  38 00 00 01 */	li r0, 1
 /* 8045142C 0044E36C  80 9E 00 40 */	lwz r4, 0x40(r30)
 /* 80451430 0044E370  D0 04 01 44 */	stfs f0, 0x144(r4)
 /* 80451434 0044E374  90 1E 00 5C */	stw r0, 0x5c(r30)
-lbl_80451438:
+.L_80451438:
 /* 80451438 0044E378  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 8045143C 0044E37C  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 80451440 0044E380  83 C1 00 18 */	lwz r30, 0x18(r1)
 /* 80451444 0044E384  7C 08 03 A6 */	mtlr r0
 /* 80451448 0044E388  38 21 00 20 */	addi r1, r1, 0x20
 /* 8045144C 0044E38C  4E 80 00 20 */	blr 
+.endfn updateSetFrame__Q35P2JME7Caption8TControlFl
 
-.global draw__Q35P2JME7Caption8TControlFR8Graphics
-draw__Q35P2JME7Caption8TControlFR8Graphics:
+.fn draw__Q35P2JME7Caption8TControlFR8Graphics, global
 /* 80451450 0044E390  94 21 FF B0 */	stwu r1, -0x50(r1)
 /* 80451454 0044E394  7C 08 02 A6 */	mflr r0
 /* 80451458 0044E398  90 01 00 54 */	stw r0, 0x54(r1)
@@ -467,7 +478,7 @@ draw__Q35P2JME7Caption8TControlFR8Graphics:
 /* 80451468 0044E3A8  7C 7E 1B 78 */	mr r30, r3
 /* 8045146C 0044E3AC  80 03 00 5C */	lwz r0, 0x5c(r3)
 /* 80451470 0044E3B0  2C 00 00 00 */	cmpwi r0, 0
-/* 80451474 0044E3B4  41 82 00 48 */	beq lbl_804514BC
+/* 80451474 0044E3B4  41 82 00 48 */	beq .L_804514BC
 /* 80451478 0044E3B8  C0 22 27 DC */	lfs f1, lbl_80520B3C@sda21(r2)
 /* 8045147C 0044E3BC  38 61 00 14 */	addi r3, r1, 0x14
 /* 80451480 0044E3C0  C0 02 28 08 */	lfs f0, lbl_80520B68@sda21(r2)
@@ -485,16 +496,16 @@ draw__Q35P2JME7Caption8TControlFR8Graphics:
 /* 804514B0 0044E3F0  38 81 00 14 */	addi r4, r1, 0x14
 /* 804514B4 0044E3F4  38 BF 02 10 */	addi r5, r31, 0x210
 /* 804514B8 0044E3F8  4B FE 7A 45 */	bl draw__Q25P2JME8TControlFPA4_fPA4_f
-lbl_804514BC:
+.L_804514BC:
 /* 804514BC 0044E3FC  80 01 00 54 */	lwz r0, 0x54(r1)
 /* 804514C0 0044E400  83 E1 00 4C */	lwz r31, 0x4c(r1)
 /* 804514C4 0044E404  83 C1 00 48 */	lwz r30, 0x48(r1)
 /* 804514C8 0044E408  7C 08 03 A6 */	mtlr r0
 /* 804514CC 0044E40C  38 21 00 50 */	addi r1, r1, 0x50
 /* 804514D0 0044E410  4E 80 00 20 */	blr 
+.endfn draw__Q35P2JME7Caption8TControlFR8Graphics
 
-.global start__Q35P2JME7Caption8TControlFPcll
-start__Q35P2JME7Caption8TControlFPcll:
+.fn start__Q35P2JME7Caption8TControlFPcll, global
 /* 804514D4 0044E414  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804514D8 0044E418  7C 08 02 A6 */	mflr r0
 /* 804514DC 0044E41C  90 01 00 24 */	stw r0, 0x24(r1)
@@ -517,9 +528,9 @@ start__Q35P2JME7Caption8TControlFPcll:
 /* 80451520 0044E460  7C 08 03 A6 */	mtlr r0
 /* 80451524 0044E464  38 21 00 20 */	addi r1, r1, 0x20
 /* 80451528 0044E468  4E 80 00 20 */	blr 
+.endfn start__Q35P2JME7Caption8TControlFPcll
 
-.global createSequenceProcessor__Q35P2JME7Caption8TControlFv
-createSequenceProcessor__Q35P2JME7Caption8TControlFv:
+.fn createSequenceProcessor__Q35P2JME7Caption8TControlFv, weak
 /* 8045152C 0044E46C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451530 0044E470  7C 08 02 A6 */	mflr r0
 /* 80451534 0044E474  90 01 00 14 */	stw r0, 0x14(r1)
@@ -529,10 +540,10 @@ createSequenceProcessor__Q35P2JME7Caption8TControlFv:
 /* 80451544 0044E484  38 60 00 70 */	li r3, 0x70
 /* 80451548 0044E488  4B BD 29 5D */	bl __nw__FUl
 /* 8045154C 0044E48C  7C 7F 1B 79 */	or. r31, r3, r3
-/* 80451550 0044E490  41 82 00 48 */	beq lbl_80451598
+/* 80451550 0044E490  41 82 00 48 */	beq .L_80451598
 /* 80451554 0044E494  80 1E 00 38 */	lwz r0, 0x38(r30)
 /* 80451558 0044E498  28 00 00 00 */	cmplwi r0, 0
-/* 8045155C 0044E49C  40 82 00 20 */	bne lbl_8045157C
+/* 8045155C 0044E49C  40 82 00 20 */	bne .L_8045157C
 /* 80451560 0044E4A0  3C 60 80 4A */	lis r3, lbl_8049B880@ha
 /* 80451564 0044E4A4  3C A0 80 4A */	lis r5, lbl_8049B890@ha
 /* 80451568 0044E4A8  38 63 B8 80 */	addi r3, r3, lbl_8049B880@l
@@ -540,7 +551,7 @@ createSequenceProcessor__Q35P2JME7Caption8TControlFv:
 /* 80451570 0044E4B0  38 A5 B8 90 */	addi r5, r5, lbl_8049B890@l
 /* 80451574 0044E4B4  4C C6 31 82 */	crclr 6
 /* 80451578 0044E4B8  4B BD 90 C9 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8045157C:
+.L_8045157C:
 /* 8045157C 0044E4BC  80 9E 00 38 */	lwz r4, 0x38(r30)
 /* 80451580 0044E4C0  7F E3 FB 78 */	mr r3, r31
 /* 80451584 0044E4C4  7F C5 F3 78 */	mr r5, r30
@@ -548,7 +559,7 @@ lbl_8045157C:
 /* 8045158C 0044E4CC  3C 60 80 4F */	lis r3, __vt__Q35P2JME7Caption18TSequenceProcessor@ha
 /* 80451590 0044E4D0  38 03 D5 78 */	addi r0, r3, __vt__Q35P2JME7Caption18TSequenceProcessor@l
 /* 80451594 0044E4D4  90 1F 00 00 */	stw r0, 0(r31)
-lbl_80451598:
+.L_80451598:
 /* 80451598 0044E4D8  93 FE 00 3C */	stw r31, 0x3c(r30)
 /* 8045159C 0044E4DC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 804515A0 0044E4E0  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -556,9 +567,9 @@ lbl_80451598:
 /* 804515A8 0044E4E8  7C 08 03 A6 */	mtlr r0
 /* 804515AC 0044E4EC  38 21 00 10 */	addi r1, r1, 0x10
 /* 804515B0 0044E4F0  4E 80 00 20 */	blr 
+.endfn createSequenceProcessor__Q35P2JME7Caption8TControlFv
 
-.global createRenderingProcessor__Q35P2JME7Caption8TControlFv
-createRenderingProcessor__Q35P2JME7Caption8TControlFv:
+.fn createRenderingProcessor__Q35P2JME7Caption8TControlFv, weak
 /* 804515B4 0044E4F4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804515B8 0044E4F8  7C 08 02 A6 */	mflr r0
 /* 804515BC 0044E4FC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -568,10 +579,10 @@ createRenderingProcessor__Q35P2JME7Caption8TControlFv:
 /* 804515CC 0044E50C  38 60 01 48 */	li r3, 0x148
 /* 804515D0 0044E510  4B BD 28 D5 */	bl __nw__FUl
 /* 804515D4 0044E514  7C 7F 1B 79 */	or. r31, r3, r3
-/* 804515D8 0044E518  41 82 00 4C */	beq lbl_80451624
+/* 804515D8 0044E518  41 82 00 4C */	beq .L_80451624
 /* 804515DC 0044E51C  80 1E 00 38 */	lwz r0, 0x38(r30)
 /* 804515E0 0044E520  28 00 00 00 */	cmplwi r0, 0
-/* 804515E4 0044E524  40 82 00 20 */	bne lbl_80451604
+/* 804515E4 0044E524  40 82 00 20 */	bne .L_80451604
 /* 804515E8 0044E528  3C 60 80 4A */	lis r3, lbl_8049B880@ha
 /* 804515EC 0044E52C  3C A0 80 4A */	lis r5, lbl_8049B890@ha
 /* 804515F0 0044E530  38 63 B8 80 */	addi r3, r3, lbl_8049B880@l
@@ -579,7 +590,7 @@ createRenderingProcessor__Q35P2JME7Caption8TControlFv:
 /* 804515F8 0044E538  38 A5 B8 90 */	addi r5, r5, lbl_8049B890@l
 /* 804515FC 0044E53C  4C C6 31 82 */	crclr 6
 /* 80451600 0044E540  4B BD 90 41 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80451604:
+.L_80451604:
 /* 80451604 0044E544  80 9E 00 38 */	lwz r4, 0x38(r30)
 /* 80451608 0044E548  7F E3 FB 78 */	mr r3, r31
 /* 8045160C 0044E54C  4B FE DE F1 */	bl __ct__Q35P2JME6Window19TRenderingProcessorFPQ28JMessage10TReference
@@ -588,7 +599,7 @@ lbl_80451604:
 /* 80451618 0044E558  38 03 D5 F0 */	addi r0, r3, __vt__Q35P2JME7Caption19TRenderingProcessor@l
 /* 8045161C 0044E55C  90 1F 00 00 */	stw r0, 0(r31)
 /* 80451620 0044E560  D0 1F 01 44 */	stfs f0, 0x144(r31)
-lbl_80451624:
+.L_80451624:
 /* 80451624 0044E564  93 FE 00 40 */	stw r31, 0x40(r30)
 /* 80451628 0044E568  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8045162C 0044E56C  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -596,9 +607,9 @@ lbl_80451624:
 /* 80451634 0044E574  7C 08 03 A6 */	mtlr r0
 /* 80451638 0044E578  38 21 00 10 */	addi r1, r1, 0x10
 /* 8045163C 0044E57C  4E 80 00 20 */	blr 
+.endfn createRenderingProcessor__Q35P2JME7Caption8TControlFv
 
-.global __dt__Q35P2JME7Caption18TSequenceProcessorFv
-__dt__Q35P2JME7Caption18TSequenceProcessorFv:
+.fn __dt__Q35P2JME7Caption18TSequenceProcessorFv, weak
 /* 80451640 0044E580  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451644 0044E584  7C 08 02 A6 */	mflr r0
 /* 80451648 0044E588  90 01 00 14 */	stw r0, 0x14(r1)
@@ -606,26 +617,26 @@ __dt__Q35P2JME7Caption18TSequenceProcessorFv:
 /* 80451650 0044E590  7C 9F 23 78 */	mr r31, r4
 /* 80451654 0044E594  93 C1 00 08 */	stw r30, 8(r1)
 /* 80451658 0044E598  7C 7E 1B 79 */	or. r30, r3, r3
-/* 8045165C 0044E59C  41 82 00 48 */	beq lbl_804516A4
+/* 8045165C 0044E59C  41 82 00 48 */	beq .L_804516A4
 /* 80451660 0044E5A0  3C 80 80 4F */	lis r4, __vt__Q35P2JME7Caption18TSequenceProcessor@ha
 /* 80451664 0044E5A4  38 04 D5 78 */	addi r0, r4, __vt__Q35P2JME7Caption18TSequenceProcessor@l
 /* 80451668 0044E5A8  90 1E 00 00 */	stw r0, 0(r30)
-/* 8045166C 0044E5AC  41 82 00 28 */	beq lbl_80451694
+/* 8045166C 0044E5AC  41 82 00 28 */	beq .L_80451694
 /* 80451670 0044E5B0  3C 80 80 4F */	lis r4, __vt__Q35P2JME6Window18TSequenceProcessor@ha
 /* 80451674 0044E5B4  38 04 CD 34 */	addi r0, r4, __vt__Q35P2JME6Window18TSequenceProcessor@l
 /* 80451678 0044E5B8  90 1E 00 00 */	stw r0, 0(r30)
-/* 8045167C 0044E5BC  41 82 00 18 */	beq lbl_80451694
+/* 8045167C 0044E5BC  41 82 00 18 */	beq .L_80451694
 /* 80451680 0044E5C0  3C A0 80 4F */	lis r5, __vt__Q25P2JME18TSequenceProcessor@ha
 /* 80451684 0044E5C4  38 80 00 00 */	li r4, 0
 /* 80451688 0044E5C8  38 05 C8 F8 */	addi r0, r5, __vt__Q25P2JME18TSequenceProcessor@l
 /* 8045168C 0044E5CC  90 1E 00 00 */	stw r0, 0(r30)
 /* 80451690 0044E5D0  4B BB 61 99 */	bl __dt__Q28JMessage18TSequenceProcessorFv
-lbl_80451694:
+.L_80451694:
 /* 80451694 0044E5D4  7F E0 07 35 */	extsh. r0, r31
-/* 80451698 0044E5D8  40 81 00 0C */	ble lbl_804516A4
+/* 80451698 0044E5D8  40 81 00 0C */	ble .L_804516A4
 /* 8045169C 0044E5DC  7F C3 F3 78 */	mr r3, r30
 /* 804516A0 0044E5E0  4B BD 2A 15 */	bl __dl__FPv
-lbl_804516A4:
+.L_804516A4:
 /* 804516A4 0044E5E4  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 804516A8 0044E5E8  7F C3 F3 78 */	mr r3, r30
 /* 804516AC 0044E5EC  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -633,30 +644,30 @@ lbl_804516A4:
 /* 804516B4 0044E5F4  7C 08 03 A6 */	mtlr r0
 /* 804516B8 0044E5F8  38 21 00 10 */	addi r1, r1, 0x10
 /* 804516BC 0044E5FC  4E 80 00 20 */	blr 
+.endfn __dt__Q35P2JME7Caption18TSequenceProcessorFv
 
-.global do_isReady__Q35P2JME7Caption18TSequenceProcessorFv
-do_isReady__Q35P2JME7Caption18TSequenceProcessorFv: # weak function
+.fn do_isReady__Q35P2JME7Caption18TSequenceProcessorFv, weak
 /* 804516C0 0044E600  38 60 00 01 */	li r3, 1
 /* 804516C4 0044E604  4E 80 00 20 */	blr 
+.endfn do_isReady__Q35P2JME7Caption18TSequenceProcessorFv
 
-.global doResetAbtnWaitSE__Q35P2JME7Caption18TSequenceProcessorFv
-doResetAbtnWaitSE__Q35P2JME7Caption18TSequenceProcessorFv:
+.fn doResetAbtnWaitSE__Q35P2JME7Caption18TSequenceProcessorFv, weak
 /* 804516C8 0044E608  4E 80 00 20 */	blr 
+.endfn doResetAbtnWaitSE__Q35P2JME7Caption18TSequenceProcessorFv
 
-.global doCharacterSE__Q35P2JME7Caption18TSequenceProcessorFi
-doCharacterSE__Q35P2JME7Caption18TSequenceProcessorFi:
+.fn doCharacterSE__Q35P2JME7Caption18TSequenceProcessorFi, weak
 /* 804516CC 0044E60C  4E 80 00 20 */	blr 
+.endfn doCharacterSE__Q35P2JME7Caption18TSequenceProcessorFi
 
-.global doCharacterSEStart__Q35P2JME7Caption18TSequenceProcessorFv
-doCharacterSEStart__Q35P2JME7Caption18TSequenceProcessorFv:
+.fn doCharacterSEStart__Q35P2JME7Caption18TSequenceProcessorFv, weak
 /* 804516D0 0044E610  4E 80 00 20 */	blr 
+.endfn doCharacterSEStart__Q35P2JME7Caption18TSequenceProcessorFv
 
-.global doCharacterSEEnd__Q35P2JME7Caption18TSequenceProcessorFv
-doCharacterSEEnd__Q35P2JME7Caption18TSequenceProcessorFv:
+.fn doCharacterSEEnd__Q35P2JME7Caption18TSequenceProcessorFv, weak
 /* 804516D4 0044E614  4E 80 00 20 */	blr 
+.endfn doCharacterSEEnd__Q35P2JME7Caption18TSequenceProcessorFv
 
-.global __dt__Q35P2JME7Caption19TRenderingProcessorFv
-__dt__Q35P2JME7Caption19TRenderingProcessorFv: # weak function
+.fn __dt__Q35P2JME7Caption19TRenderingProcessorFv, weak
 /* 804516D8 0044E618  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804516DC 0044E61C  7C 08 02 A6 */	mflr r0
 /* 804516E0 0044E620  90 01 00 14 */	stw r0, 0x14(r1)
@@ -664,41 +675,41 @@ __dt__Q35P2JME7Caption19TRenderingProcessorFv: # weak function
 /* 804516E8 0044E628  7C 9F 23 78 */	mr r31, r4
 /* 804516EC 0044E62C  93 C1 00 08 */	stw r30, 8(r1)
 /* 804516F0 0044E630  7C 7E 1B 79 */	or. r30, r3, r3
-/* 804516F4 0044E634  41 82 00 80 */	beq lbl_80451774
+/* 804516F4 0044E634  41 82 00 80 */	beq .L_80451774
 /* 804516F8 0044E638  3C 60 80 4F */	lis r3, __vt__Q35P2JME7Caption19TRenderingProcessor@ha
 /* 804516FC 0044E63C  38 03 D5 F0 */	addi r0, r3, __vt__Q35P2JME7Caption19TRenderingProcessor@l
 /* 80451700 0044E640  90 1E 00 00 */	stw r0, 0(r30)
-/* 80451704 0044E644  41 82 00 60 */	beq lbl_80451764
+/* 80451704 0044E644  41 82 00 60 */	beq .L_80451764
 /* 80451708 0044E648  3C 60 80 4F */	lis r3, __vt__Q35P2JME6Window19TRenderingProcessor@ha
 /* 8045170C 0044E64C  34 1E 01 10 */	addic. r0, r30, 0x110
 /* 80451710 0044E650  38 03 CC A4 */	addi r0, r3, __vt__Q35P2JME6Window19TRenderingProcessor@l
 /* 80451714 0044E654  90 1E 00 00 */	stw r0, 0(r30)
-/* 80451718 0044E658  41 82 00 1C */	beq lbl_80451734
+/* 80451718 0044E658  41 82 00 1C */	beq .L_80451734
 /* 8045171C 0044E65C  38 7E 01 28 */	addi r3, r30, 0x128
 /* 80451720 0044E660  38 80 FF FF */	li r4, -1
 /* 80451724 0044E664  4B FB FE 65 */	bl __dt__5CNodeFv
 /* 80451728 0044E668  38 7E 01 10 */	addi r3, r30, 0x110
 /* 8045172C 0044E66C  38 80 FF FF */	li r4, -1
 /* 80451730 0044E670  4B FB FE 59 */	bl __dt__5CNodeFv
-lbl_80451734:
+.L_80451734:
 /* 80451734 0044E674  28 1E 00 00 */	cmplwi r30, 0
-/* 80451738 0044E678  41 82 00 2C */	beq lbl_80451764
+/* 80451738 0044E678  41 82 00 2C */	beq .L_80451764
 /* 8045173C 0044E67C  3C 60 80 4F */	lis r3, __vt__Q25P2JME19TRenderingProcessor@ha
 /* 80451740 0044E680  38 03 CA B0 */	addi r0, r3, __vt__Q25P2JME19TRenderingProcessor@l
 /* 80451744 0044E684  90 1E 00 00 */	stw r0, 0(r30)
-/* 80451748 0044E688  41 82 00 1C */	beq lbl_80451764
+/* 80451748 0044E688  41 82 00 1C */	beq .L_80451764
 /* 8045174C 0044E68C  3C 80 80 4F */	lis r4, __vt__Q25P2JME23TRenderingProcessorBase@ha
 /* 80451750 0044E690  7F C3 F3 78 */	mr r3, r30
 /* 80451754 0044E694  38 04 CB 34 */	addi r0, r4, __vt__Q25P2JME23TRenderingProcessorBase@l
 /* 80451758 0044E698  38 80 00 00 */	li r4, 0
 /* 8045175C 0044E69C  90 1E 00 00 */	stw r0, 0(r30)
 /* 80451760 0044E6A0  4B BB 69 9D */	bl __dt__Q28JMessage19TRenderingProcessorFv
-lbl_80451764:
+.L_80451764:
 /* 80451764 0044E6A4  7F E0 07 35 */	extsh. r0, r31
-/* 80451768 0044E6A8  40 81 00 0C */	ble lbl_80451774
+/* 80451768 0044E6A8  40 81 00 0C */	ble .L_80451774
 /* 8045176C 0044E6AC  7F C3 F3 78 */	mr r3, r30
 /* 80451770 0044E6B0  4B BD 29 45 */	bl __dl__FPv
-lbl_80451774:
+.L_80451774:
 /* 80451774 0044E6B4  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80451778 0044E6B8  7F C3 F3 78 */	mr r3, r30
 /* 8045177C 0044E6BC  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -706,3 +717,4 @@ lbl_80451774:
 /* 80451784 0044E6C4  7C 08 03 A6 */	mtlr r0
 /* 80451788 0044E6C8  38 21 00 10 */	addi r1, r1, 0x10
 /* 8045178C 0044E6CC  4E 80 00 20 */	blr 
+.endfn __dt__Q35P2JME7Caption19TRenderingProcessorFv

@@ -4,30 +4,38 @@
 #include "Game/pelletConfig.h"
 
 namespace Game {
-struct PelletList {
-	enum cKind {
-		NUMBER_PELLET = 0,
-		CARCASS,
-		FRUIT,
-		OTAKARA,
-		ITEM,
-		SIZE,
-	};
-
-	struct Mgr {
-		static PelletConfigList* getConfigList(cKind);
-		static int getCount(cKind);
-
-		static PelletConfig* getConfigAndKind(char* config, cKind& kind);
-
-		inline Mgr() { } // TODO: figure out contents
-		virtual ~Mgr();
-
-		PelletConfigList* m_configList; // _04
-
-		static Mgr* mInstance;
-	};
+namespace PelletList {
+enum cKind {
+	NUMBER_PELLET = 0,
+	CARCASS       = 1,
+	FRUIT         = 2,
+	OTAKARA       = 3,
+	ITEM          = 4,
+	SIZE, // 5
 };
+
+struct Mgr {
+	Mgr();
+
+	virtual ~Mgr(); // _08
+
+	void loadResource();
+
+	static int getOffsetFromDictionaryNo(int);
+	static PelletConfigList* getConfigList(cKind);
+	static int getCount(cKind);
+	static PelletConfig* getConfigAndKind(char* config, cKind& kind);
+	static PelletConfig* getConfigFromDictionaryNo(int);
+	static int getDictionaryNum();
+	static void globalInstance();
+
+	static Mgr* mInstance;
+
+	// _00 = VTBL
+	PelletConfigList* mConfigList; // _04
+};
+
+} // namespace PelletList
 } // namespace Game
 
 #endif

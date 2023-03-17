@@ -4,21 +4,28 @@
 #include "types.h"
 #include "CNode.h"
 #include "Vector3.h"
-#include "JSystem/JUT/JUTTexture.h"
+#include "JSystem/JUtility/JUTTexture.h"
 
 namespace Game {
+
+/**
+ * @size{0x18}
+ */
 struct ObjectLayoutNode : public CNode {
-	virtual ~ObjectLayoutNode() { }                   // _08 (weak)
-	virtual int getObjectId()   = 0;                  // _10
-	virtual u32 getObjectType() = 0;                  // _14
-	virtual int getBirthCount() = 0;                  // _18
-	virtual float getDirection() { return 0.0f; }     // _1C (weak)
-	virtual int getBirthDoorIndex() { return -1; }    // _20 (weak)
-	virtual void getBirthPosition(float&, float&) { } // _24 (weak)
-	virtual u32 getExtraCode() { return 0; }          // _28 (weak)
-	virtual bool isFixedBattery() { return false; }   // _2C (weak)
+	virtual ~ObjectLayoutNode() { }                 // _08 (weak)
+	virtual int getObjectId()   = 0;                // _10
+	virtual u32 getObjectType() = 0;                // _14
+	virtual int getBirthCount() = 0;                // _18
+	virtual f32 getDirection() { return 0.0f; }     // _1C (weak)
+	virtual int getBirthDoorIndex() { return -1; }  // _20 (weak)
+	virtual void getBirthPosition(f32&, f32&) { }   // _24 (weak)
+	virtual u32 getExtraCode() { return 0; }        // _28 (weak)
+	virtual bool isFixedBattery() { return false; } // _2C (weak)
 };
 
+/**
+ * @size{0x4}
+ */
 struct ObjectLayoutInfo {
 	ObjectLayoutInfo() { }
 
@@ -32,6 +39,11 @@ struct DoorNode;
 struct BaseGen;
 struct AdjustNode;
 struct MapUnits;
+struct MapNode;
+
+/**
+ * @size{0x18}
+ */
 struct UnitInfo {
 	UnitInfo(MapUnits* mapUnits);
 
@@ -45,19 +57,19 @@ struct UnitInfo {
 	int getUnitRotation();
 	DoorNode* getDoorNode(int doorNum);
 	BaseGen* getBaseGen();
-	void draw(float, float, float, float);
+	void draw(f32, f32, f32, f32);
 
-	DoorNode* m_doorNode;     // _00
-	AdjustNode* m_doorCounts; // _04
-	MapUnits* m_mapUnits;     // _08
-	int m_unitRotation;       // _0C
-	int m_unitSizeX;          // _10
-	int m_unitSizeY;          // _14
+	DoorNode* mDoorNode;     // _00
+	AdjustNode* mDoorCounts; // _04
+	MapUnits* mMapUnits;     // _08
+	int mUnitRotation;       // _0C
+	int mUnitSizeX;          // _10
+	int mUnitSizeY;          // _14
 };
 
-struct BaseGen;
-struct MapNode;
-
+/**
+ * @size{0x8}
+ */
 struct ObjectLayout : public ObjectLayoutInfo {
 	ObjectLayout(MapNode*);
 
@@ -67,7 +79,7 @@ struct ObjectLayout : public ObjectLayoutInfo {
 	void setNode(int, Game::ObjectLayoutNode*);
 
 	// _00, VTBL
-	ObjectLayoutNode** m_nodeList; // _04
+	ObjectLayoutNode** mNodeList; // _04
 };
 } // namespace Cave
 } // namespace Game

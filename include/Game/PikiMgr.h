@@ -8,9 +8,9 @@
 #include "MonoObjectMgr.h"
 
 #include "Game/Piki.h"
+#include "Game/PikiParms.h"
 
 struct J3DModelData;
-struct PikiParms;
 struct UpdateMgr;
 struct JKRArchive;
 
@@ -21,23 +21,22 @@ struct ModelMgr;
 namespace Game {
 struct PikiContainer;
 
-struct PikiMgr : public MonoObjectMgr<Game::Piki> {
+struct PikiMgr : public MonoObjectMgr<Piki> {
 	PikiMgr();
 
 	// vtable 1
-	virtual ~PikiMgr(); // _00
-
+	virtual ~PikiMgr(); // _08 (weak)
 	// vtable 2
-	virtual void doAnimation();           // _30
-	virtual void doEntry();               // _34
-	virtual Piki* birth();                // _48
-	virtual void resetMgr();              // _4C
-	virtual void onAlloc();               // _54
-	virtual void doSimpleDraw(Viewport*); // _58
-	virtual u32 getMatrixLoadType();      // _5C
-	virtual void getMgrName();            // _60
-	virtual void loadResources();         // _64
-	virtual void loadResources(int);      // _68
+	virtual void doAnimation();           // _64 (weak)
+	virtual void doEntry();               // _68 (weak)
+	virtual Piki* birth();                // _7C
+	virtual void resetMgr();              // _80 (weak)
+	virtual void onAlloc();               // _88
+	virtual void doSimpleDraw(Viewport*); // _8C (weak)
+	virtual u32 getMatrixLoadType();      // _90 (weak)
+	virtual char* getMgrName();           // _94 (weak)
+	virtual void loadResources();         // _98 (weak)
+	virtual void loadResources(int);      // _9C
 
 	void init();
 	void setupPiki(Piki*);
@@ -55,7 +54,7 @@ struct PikiMgr : public MonoObjectMgr<Game::Piki> {
 	void clearStorePikmins();
 	void saveStorePikmins(Condition<Piki>*);
 	void getStorePikmin(int, int);
-	void moveAllPikmins(Vector3f&, float, Condition<Piki>*);
+	void moveAllPikmins(Vector3f&, f32, Condition<Piki>*);
 	void forceEnterPikmins(u8);
 	void killDayEndPikmins(PikiContainer&);
 	void killAllPikmins();
@@ -64,26 +63,29 @@ struct PikiMgr : public MonoObjectMgr<Game::Piki> {
 	void saveFormationPikmins(PikiContainer&);
 	void saveAllPikmins(PikiContainer&);
 
-	s32 m_dopedPikis;               // _30
-	s32* m_storedPikis;             // _34
-	u8 m_flags[4];                  // _38
-	J3DModelData* m_bluPikiModel;   // _3C, blue
-	J3DModelData* m_redPikiModel;   // _40, red
-	J3DModelData* m_yelPikiModel;   // _44, yellow
-	J3DModelData* m_prpPikiModel;   // _48, purple
-	J3DModelData* m_wtePikiModel;   // _4C, white
-	J3DModelData* m_blbPikiModel;   // _50, bulbmin
-	J3DModelData* m_crtPikiModel;   // _54, carrot
-	J3DModelData* m_leafModel;      // _58
-	J3DModelData* m_budModel;       // _5C
-	J3DModelData* m_flowerModel;    // _60
-	J3DModelData* m_redBudModel;    // _64
-	J3DModelData* m_redFlowerModel; // _68
-	PikiParms* m_parms;             // _6C
-	SysShape::ModelMgr* m_modelMgr; // _70
-	UpdateMgr* m_updateMgr;         // _74
-	UpdateMgr* m_updateMgr2;        // _78, unsure of type
-	JKRArchive* m_modelArchive;     // _7C
+	static int mBirthMode;
+	static bool throwPikiDebug;
+
+	s32 mDopedPikis;               // _30
+	s32* mStoredPikis;             // _34
+	u8 mFlags[2];                  // _38
+	J3DModelData* mBluPikiModel;   // _3C, blue
+	J3DModelData* mRedPikiModel;   // _40, red
+	J3DModelData* mYelPikiModel;   // _44, yellow
+	J3DModelData* mPrpPikiModel;   // _48, purple
+	J3DModelData* mWtePikiModel;   // _4C, white
+	J3DModelData* mBlbPikiModel;   // _50, bulbmin
+	J3DModelData* mCrtPikiModel;   // _54, carrot
+	J3DModelData* mLeafModel;      // _58
+	J3DModelData* mBudModel;       // _5C
+	J3DModelData* mFlowerModel;    // _60
+	J3DModelData* mRedBudModel;    // _64
+	J3DModelData* mRedFlowerModel; // _68
+	PikiParms* mParms;             // _6C
+	SysShape::ModelMgr* mModelMgr; // _70
+	UpdateMgr* mUpdateMgr;         // _74
+	UpdateMgr* mUpdateMgr2;        // _78, unsure of type
+	JKRArchive* mModelArchive;     // _7C
 };
 
 extern PikiMgr* pikiMgr;

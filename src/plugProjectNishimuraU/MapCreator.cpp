@@ -18,7 +18,7 @@ void RoomMapMgr::nishimuraCreateRandomMap(MapUnitInterface* muiArray, int p2, Ca
                                           Cave::EditMapUnit* unit)
 {
 	bool isVersusHiba = false;
-	if (gameSystem && gameSystem->m_mode == GSM_VERSUS_MODE && gGameConfig.m_parms.m_vsHiba.m_data) {
+	if (gameSystem && gameSystem->isVersusMode() && gGameConfig.mParms.mVsHiba.mData) {
 		isVersusHiba = true;
 	}
 
@@ -38,7 +38,7 @@ void RoomMapMgr::nishimuraCreateRandomMap(MapUnitInterface* muiArray, int p2, Ca
  * Address:	8024C6D4
  * Size:	00011C
  */
-void RoomMapMgr::nishimuraPlaceRooms(void)
+void RoomMapMgr::nishimuraPlaceRooms()
 {
 	const int numRooms = Cave::randMapMgr->getNumRooms();
 	allocRooms(numRooms);
@@ -59,9 +59,9 @@ void RoomMapMgr::nishimuraPlaceRooms(void)
 		Vector3f startPos(0.0f, 0.0f, 0.0f);
 		Cave::randMapMgr->getStartPosition(startPos, i);
 
-		m_startPositions[i].x = startPos.x;
-		m_startPositions[i].y = startPos.y;
-		m_startPositions[i].z = startPos.z;
+		mStartPositions[i].x = startPos.x;
+		mStartPositions[i].y = startPos.y;
+		mStartPositions[i].z = startPos.z;
 	}
 }
 
@@ -70,7 +70,7 @@ void RoomMapMgr::nishimuraPlaceRooms(void)
  * Address:	8024C7F0
  * Size:	000088
  */
-void RoomMapMgr::nishimuraSetTexture(void)
+void RoomMapMgr::nishimuraSetTexture()
 {
 	const int numRooms = Cave::randMapMgr->getNumRooms();
 	for (int i = 0; i < numRooms; i++) {

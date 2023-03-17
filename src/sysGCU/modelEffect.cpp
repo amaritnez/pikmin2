@@ -1,4 +1,5 @@
 #include "types.h"
+#include "ParticleMgr.h"
 
 /*
     Generated from dpostproc
@@ -221,7 +222,7 @@ void ParticleMgr::getModelEffectData(unsigned long long)
  * Address:	8043D638
  * Size:	00011C
  */
-void ParticleMgr::createModelEffect(ModelEffectCreateArg*)
+ModelEffect* ParticleMgr::createModelEffect(ModelEffectCreateArg*)
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -475,7 +476,7 @@ void ModelEffect::getLODCylinder(Sys::Cylinder&) { }
  * Address:	8043D900
  * Size:	000008
  */
-u32 ModelEffect::useCylinderLOD() { return 0x0; }
+bool ModelEffect::useCylinderLOD() { return false; }
 
 /*
  * --INFO--
@@ -697,7 +698,7 @@ void ParticleMgr::doViewCalc()
  * Address:	8043DAF0
  * Size:	000028
  */
-void __sinit_modelEffect_cpp(void)
+void __sinit_modelEffect_cpp()
 {
 	/*
 	lis      r4, __float_nan@ha

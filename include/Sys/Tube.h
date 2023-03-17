@@ -7,22 +7,28 @@ namespace Sys {
 struct Sphere;
 struct Tube {
 	inline Tube() {};
-	Tube(Vector3f&, Vector3f&, float, float); // weak
+	Tube(Vector3f& pos1, Vector3f& pos2, f32 rad1, f32 rad2)
+	    : mStartPos(pos1)
+	    , mEndPos(pos2)
+	    , mStartRadius(rad1)
+	    , mEndRadius(rad2)
+	{
+	}
 
 	void getAxisVector(Vector3f&);
-	bool collide(Sphere&, Vector3f&, float&);
-	float getPosRatio(const Vector3f&);
-	Vector3f setPos(float);
+	bool collide(Sphere&, Vector3f&, f32&);
+	f32 getPosRatio(const Vector3f&);
+	Vector3f setPos(f32);
 
 	// Unused/inlined:
-	void getYRatio(float);
-	void getRatioRadius(float);
-	void getPosGradient(Vector3f&, float, Vector3f&, Vector3f&);
+	void getYRatio(f32);
+	void getRatioRadius(f32);
+	void getPosGradient(Vector3f&, f32, Vector3f&, Vector3f&);
 
-	Vector3f m_startPos; // _00 - position of start of tube
-	Vector3f m_endPos;   // _0C - position of end of tube
-	float m_startRadius; // _18 - radius of tube at start
-	float m_endRadius;   // _1C - radius of tube at end
+	Vector3f mStartPos; // _00 - position of start of tube
+	Vector3f mEndPos;   // _0C - position of end of tube
+	f32 mStartRadius;   // _18 - radius of tube at start
+	f32 mEndRadius;     // _1C - radius of tube at end
 };
 } // namespace Sys
 

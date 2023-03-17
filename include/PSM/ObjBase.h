@@ -1,7 +1,7 @@
 #ifndef _PSM_OBJBASE_H
 #define _PSM_OBJBASE_H
 
-#include "JSystem/JKR/JKRDisposer.h"
+#include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JSupport/JSUList.h"
 
 namespace PSM {
@@ -30,14 +30,16 @@ enum CreatureCastType {
 #pragma enumalwaysint reset
 
 struct ObjBase : public JSUPtrLink, public JKRDisposer {
-	// vtable 1 (JSUPtrLink, empty)
-	// vtable 2 (JKRDisposer + self?)
-	// thunk to dtor // _00
-	virtual ~ObjBase();                         // _04
-	virtual void frameEnd_onPlaySe()       = 0; // _08
-	virtual CreatureCastType getCastType() = 0; // _0C
+	// VTBL 1 (JKRDisposer, dtor-only)
+	// VTBL 2 (self)
+	virtual ~ObjBase();                         // _14
+	virtual void frameEnd_onPlaySe()       = 0; // _18
+	virtual CreatureCastType getCastType() = 0; // _1C
 
-	// _00 VTBL
+	// _10     = VTBL 1
+	// _28     = VTBL 2
+	// _00-_10 = JSUPtrLink
+	// _10-_28 = JKRDisposer
 };
 } // namespace PSM
 

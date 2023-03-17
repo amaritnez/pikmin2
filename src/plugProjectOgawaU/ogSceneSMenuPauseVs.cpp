@@ -1,12 +1,8 @@
-#include "Screen/Enums.h"
-#include "og/Screen/DispMemberSMenuPauseVS.h"
-#include "og/newScreen/ObjSMenuPauseVS.h"
-#include "og/newScreen/SMenuPauseVS.h"
-#include "types.h"
+#include "og/Screen/DispMember.h"
+#include "og/newScreen/SMenu.h"
 #include "nans.h"
 
 namespace og {
-
 namespace newScreen {
 
 /*
@@ -14,20 +10,7 @@ namespace newScreen {
  * Address:	80329CFC
  * Size:	00003C
  */
-SMenuPauseVS::SMenuPauseVS()
-    : SceneBase()
-{
-}
-
-/*
- * --INFO--
- * Address:	........
- * Size:	000074
- */
-SMenuPauseVS::~SMenuPauseVS(void)
-{
-	// UNUSED FUNCTION
-}
+SMenuPauseVS::SMenuPauseVS() { }
 
 /*
  * --INFO--
@@ -43,8 +26,7 @@ void SMenuPauseVS::doUserCallBackFunc(Resource::MgrCommand*) { }
  */
 void SMenuPauseVS::doCreateObj(JKRArchive* archive)
 {
-	ObjSMenuPauseVS* obj = new ObjSMenuPauseVS("SMenuPauseVS screen");
-	registObj(obj, archive);
+	registObj(new ObjSMenuPauseVS("SMenuPauseVS screen"), archive);
 	setColorBG(0, 0, 0, 180);
 }
 
@@ -55,13 +37,13 @@ void SMenuPauseVS::doCreateObj(JKRArchive* archive)
  */
 int SMenuPauseVS::doGetFinishState()
 {
-	Screen::DispMemberBase* dispAll = reinterpret_cast<Screen::DispMemberBase*>(m_dispMemberBuffer);
+	Screen::DispMemberBase* dispAll = mDispMember;
 	int state                       = 0;
 	if (dispAll->isID(OWNER_OGA, MEMBER_START_MENU_ALL)) {
 		Screen::DispMemberSMenuPauseVS* dispVs
 		    = (Screen::DispMemberSMenuPauseVS*)dispAll->getSubMember(OWNER_OGA, MEMBER_START_MENU_PAUSE_VS);
-		if (dispVs != nullptr) {
-			state = dispVs->_08;
+		if (dispVs) {
+			state = dispVs->mState;
 		}
 	}
 	return state;
@@ -72,7 +54,7 @@ int SMenuPauseVS::doGetFinishState()
  * Address:	80329E3C
  * Size:	000004
  */
-void SMenuPauseVS::doUpdateActive(void) { }
+void SMenuPauseVS::doUpdateActive() { }
 
 /*
  * --INFO--
@@ -98,41 +80,5 @@ bool SMenuPauseVS::doConfirmSetScene(::Screen::SetSceneArg& arg)
  */
 void SMenuPauseVS::doSetBackupScene(::Screen::SetSceneArg& arg) { arg._09 = false; }
 
-/*
- * --INFO--
- * Address:	80329EB4
- * Size:	00000C
- */
-const char* SMenuPauseVS::getResName() const { return "res_s_menu_pause_VS.szs"; }
-
-/*
- * --INFO--
- * Address:	80329EC0
- * Size:	000008
- */
-SceneType SMenuPauseVS::getSceneType(void) { return SCENE_PAUSE_MENU_VS; }
-
-/*
- * --INFO--
- * Address:	80329EC8
- * Size:	00000C
- */
-ScreenOwnerID SMenuPauseVS::getOwnerID(void) { return OWNER_OGA; }
-
-/*
- * --INFO--
- * Address:	80329ED4
- * Size:	000014
- */
-ScreenMemberID SMenuPauseVS::getMemberID() { return MEMBER_START_MENU_PAUSE_VS; }
-
-/*
- * --INFO--
- * Address:	80329EE8
- * Size:	000008
- */
-bool SMenuPauseVS::isUseBackupSceneInfo(void) { return true; }
-
 } // namespace newScreen
-
 } // namespace og

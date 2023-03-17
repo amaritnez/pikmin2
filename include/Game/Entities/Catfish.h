@@ -5,37 +5,57 @@
 #include "Game/EnemyMgrBase.h"
 #include "Game/Entities/KochappyBase.h"
 
+/**
+ * --Header for Water Dumple (Catfish)--
+ */
+
 namespace Game {
 namespace Catfish {
 struct Obj : public KochappyBase::Obj {
 	Obj();
 
-	virtual void onInit(CreatureInitArg*);                                                      // _28
-	virtual void inWaterCallback(WaterBox*) { }                                                 // _7C
-	virtual void outWaterCallback() { }                                                         // _80
-	virtual void getShadowParam(ShadowParam&);                                                  // _12C
-	virtual ~Obj();                                                                             // _1B4
-	virtual void changeMaterial() { }                                                           // _1F8
-	virtual void initMouthSlots();                                                              // _224
-	virtual EnemyTypeID::EEnemyTypeID getEnemyTypeID() { return EnemyTypeID::EnemyID_Catfish; } // _250
-	virtual bool pressCallBack(Creature*, float, CollPart*);                                    // _274
-	virtual bool hipdropCallBack(Creature*, float, CollPart*);                                  // _27C
-	virtual void resetEnemyNonStone();                                                          // _2F8
-	virtual void setEnemyNonStone() { setEvent(0, EB_22); }                                     // _2FC
+	//////////////// VTABLE
+	// weak function generation in Catfish.cpp requires this ordering
+	virtual void changeMaterial() { }                   // _200 (weak)
+	virtual void onInit(CreatureInitArg* settings);     // _30
+	virtual void inWaterCallback(WaterBox*) { }         // _84 (weak)
+	virtual void outWaterCallback() { }                 // _88 (weak)
+	virtual void getShadowParam(ShadowParam& settings); // _134
+	virtual ~Obj() { }                                  // _1BC (weak)
+	virtual void initMouthSlots();                      // _22C
+	virtual EnemyTypeID::EEnemyTypeID getEnemyTypeID()  // _258 (weak)
+	{
+		return EnemyTypeID::EnemyID_Catfish;
+	}
+	virtual bool pressCallBack(Creature*, f32, CollPart*);                   // _27C
+	virtual bool hipdropCallBack(Creature*, f32, CollPart*);                 // _284
+	virtual void resetEnemyNonStone();                                       // _300
+	virtual void setEnemyNonStone() { enableEvent(0, EB_IsEnemyNotBitter); } // _304 (weak)
+	//////////////// VTABLE END
 
 	void createDownEffect();
 
-	// _00 VTBL
+	// _00 		= VTBL
+	// _00-_2D8	= KochappyBase
 };
 
 struct Mgr : public EnemyMgrBase {
-	virtual ~Mgr();                                     // _50
-	virtual void createObj(int);                        // _98
-	virtual EnemyBase* getEnemy(int);                   // _9C
-	virtual void doAlloc();                             // _A0
-	virtual EnemyTypeID::EEnemyTypeID getEnemyTypeID(); // _A4
+	Mgr(int objLimit, u8 modelType);
 
-	// _00 VTBL
+	//////////////// VTABLE
+	// virtual ~Mgr() { }                                 // _58 (weak)
+	virtual void createObj(int);                       // _A0
+	virtual EnemyBase* getEnemy(int idx);              // _A4
+	virtual void doAlloc();                            // _A8
+	virtual EnemyTypeID::EEnemyTypeID getEnemyTypeID() // _AC (weak)
+	{
+		return EnemyTypeID::EnemyID_Catfish;
+	}
+	//////////////// VTABLE END
+
+	// _00 		= VTBL
+	// _00-_44	= EnemyMgrBase
+	Obj* mObj; // _44, array of Objs
 };
 } // namespace Catfish
 } // namespace Game

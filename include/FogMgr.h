@@ -8,8 +8,9 @@
 struct Graphics;
 
 struct FogMgr : public CNode {
-	~FogMgr();
 	FogMgr();
+
+	virtual ~FogMgr(); // _08 (weak)
 
 	void off(Graphics&);
 	void set(Graphics&);
@@ -17,10 +18,12 @@ struct FogMgr : public CNode {
 	void getColor(Color4&);
 	void setColor(Color4&);
 
-	GXFogType m_type; // _18
-	float m_nearZ;    // _1C
-	float m_farZ;     // _20
-	u_color m_color;  // _24
+	// _00 		= VTBL
+	// _00-_18  = CNode
+	GXFogType mType; // _18
+	f32 mNearZ;      // _1C
+	f32 mFarZ;       // _20
+	u_color mColor;  // _24
 };
 
 #endif

@@ -1,96 +1,108 @@
-#include "BitFlag.h"
-#include "CollInfo.h"
-#include "Dolphin/math.h"
-#include "Dolphin/rand.h"
+// Enemies
 #include "Game/generalEnemyMgr.h"
-#include "efx/Arg.h"
+#include "Game/EnemyAnimKeyEvent.h"
+#include "Game/EnemyBase.h"
+
+// Particle FX
+#include "efx/TEnemyDownSmoke.h"
+#include "efx/TEnemyDownWat.h"
 #include "efx/TEnemyApsmoke.h"
 #include "efx/TEnemyBomb.h"
 #include "efx/TEnemyDead.h"
-#include "efx/TEnemyDownSmoke.h"
-#include "efx/TEnemyDownWat.h"
 #include "efx/TEnemyPoison.h"
-#include "Game/AABBWaterBox.h"
-#include "Game/AIConstants.h"
-#include "Game/BaseItem.h"
-#include "Game/BaseHIOParms.h"
+
+// Gameplay
+#include "Game/Entities/PelletNumber.h"
+#include "Game/Entities/ItemHoney.h"
 #include "Game/Cave/RandMapMgr.h"
-#include "Game/cellPyramid.h"
-#include "Game/EnemyAnimatorBase.h"
-#include "Game/EnemyAnimKeyEvent.h"
-#include "Game/EnemyBase.h"
-#include "Game/enemyInfo.h"
-#include "Game/EnemyParmsBase.h"
-#include "Game/EnemyStateMachine.h"
-#include "Game/EnemyStone.h"
-#include "Game/gamePlayData.h"
-#include "Game/GameSystem.h"
-#include "Game/Interaction.h"
-#include "Game/ItemHoney.h"
-#include "Game/MapMgr.h"
-#include "Game/MoviePlayer.h"
-#include "Game/pelletMgr.h"
-#include "Game/Piki.h"
-#include "Game/shadowMgr.h"
-#include "Game/TekiStat.h"
 #include "Game/WalkSmokeEffect.h"
-#include "JSystem/JMath.h"
-#include "JSystem/J3D/J3DJoint.h"
-#include "JSystem/J3D/J3DModel.h"
+#include "Game/PlatInstance.h"
+#include "Game/gamePlayData.h"
+#include "Game/MoviePlayer.h"
+#include "Game/AIConstants.h"
 #include "LifeGaugeMgr.h"
-#include "Matrix3f.h"
-#include "ObjectTypes.h"
+#include "Game/MapMgr.h"
+#include "Radar.h"
+
+// Audio
 #include "PS.h"
 #include "PSM/CreatureAnime.h"
+#include "PSM/BossBgmFader.h"
+#include "PSM/BgmTrackMap.h"
+#include "PSM/CreaturePrm.h"
 #include "PSM/EnemyBase.h"
 #include "PSM/EnemyBoss.h"
+#include "PSM/ObjCalc.h"
+#include "PSM/ObjMgr.h"
+#include "PSSystem/SingletonBase.h"
+#include "PSSystem/PSSystemIF.h"
+#include "PSSystem/PSStream.h"
 #include "PSGame/Global.h"
-#include "Sys/Sphere.h"
-#include "SysShape/AnimInfo.h"
-#include "SysShape/AnimMgr.h"
-#include "SysShape/Model.h"
-#include "SysShape/Joint.h"
-#include "System.h"
-#include "Radar.h"
-#include "types.h"
-#include "Vector3.h"
+
+// Utility
+#include "Dolphin/rand.h"
+
+#include "nans.h"
+
+JKRArchive* Game::gParmArc;
+PSGame::BASARC* PSSystem::ArcMgr<PSGame::BASARC>::sInstance;
+PSM::BossBgmFader::Mgr* PSSystem::SingletonBase<PSM::BossBgmFader::Mgr>::sInstance;
+PSM::ObjCalcBase* PSSystem::SingletonBase<PSM::ObjCalcBase>::sInstance;
+PSM::CreaturePrm* PSSystem::SingletonBase<PSM::CreaturePrm>::sInstance;
+PSM::ObjMgr* PSSystem::SingletonBase<PSM::ObjMgr>::sInstance;
+PSM::BgmTrackMapFile* PSSystem::SingletonBase<PSM::BgmTrackMapFile>::sInstance;
+PSGame::SoundTable::CategoryMgr* PSSystem::SingletonBase<PSGame::SoundTable::CategoryMgr>::sInstance;
+PSGame::SeMgr* PSSystem::SingletonBase<PSGame::SeMgr>::sInstance;
+PSSystem::SeqDataList* PSSystem::SingletonBase<PSSystem::SeqDataList>::sInstance;
+PSSystem::StreamDataList* PSSystem::SingletonBase<PSSystem::StreamDataList>::sInstance;
 
 namespace Game {
+
+static const int _UNUSED[3] = { 0, 0, 0 };
+/*
+ * Unused. Just here to make the rodata line up.
+ * --INFO--
+ * Address: ........
+ * Size:  0000e4
+ */
+static void _Print(char* format, ...) { OSReport(format, "enemyBase"); }
+
 namespace EnemyBaseFSM {
 /*
  * --INFO--
  * Address:	800FF26C
  * Size:	0000F8
  */
-void State::animation(Game::EnemyBase* enemy)
+void State::animation(EnemyBase* enemy)
 {
-	if (enemy->isEvent(0, EB_29)) {
-		GeneralEnemyMgr::mTotalCount++;
+	if (!enemy->isEvent(0, EB_IsAlive)) {
+		return;
+	}
 
-		bool fxExists = enemy->isCullingOff();
+	GeneralEnemyMgr::mTotalCount++;
+	bool fxExists = enemy->isCullingOff();
 
-		enemy->updateCell();
-		enemy->updateLOD(enemy->m_lodParm);
+	enemy->updateCell();
+	enemy->updateLOD(enemy->mLodParm);
 
-		if (enemy->isCullingOff()) {
-			if (enemy->isEvent(0, EB_16)) {
-				enemy->doAnimationCullingOff();
-			} else {
-				enemy->doAnimationCullingOn();
-			}
-
-			if (!fxExists) {
-				enemy->createEffects();
-			}
-
-			return;
+	if (enemy->isCullingOff()) {
+		if (enemy->isEvent(0, EB_IsAnimating)) {
+			enemy->doAnimationCullingOff();
+		} else {
+			enemy->doAnimationCullingOn();
 		}
 
-		GeneralEnemyMgr::mCullCount++;
-		enemy->doAnimationCullingOn();
-		if (fxExists == true) {
-			enemy->fadeEffects();
+		if (!fxExists) {
+			enemy->createEffects();
 		}
+
+		return;
+	}
+
+	GeneralEnemyMgr::mCullCount++;
+	enemy->doAnimationCullingOn();
+	if (fxExists == true) {
+		enemy->fadeEffects();
 	}
 }
 
@@ -101,27 +113,31 @@ void State::animation(Game::EnemyBase* enemy)
  */
 bool BirthTypeDropState::isFinishableWaitingBirthTypeDrop(EnemyBase* enemy)
 {
-	Sys::Sphere sphere(enemy->m_position, static_cast<EnemyParmsBase*>(enemy->m_parms)->m_general.m_privateRadius.m_value);
+	Sys::Sphere sphere(enemy->mPosition, static_cast<EnemyParmsBase*>(enemy->mParms)->mGeneral.mPrivateRadius.mValue);
 	bool result = false;
 
-	CellIteratorArg cellIteratorArg(sphere);
-	CellIterator cellIterator(cellIteratorArg);
-	cellIterator.first();
-	while (cellIterator.isDone() == false) {
-		Creature* cell = (Creature*)*cellIterator;
-		if (cell->isAlive()) {
-			if (cell->isNavi() || (cell->isPiki() && static_cast<Piki*>(cell)->isPikmin())) {
-				float privateRadius = static_cast<EnemyParmsBase*>(enemy->m_parms)->m_general.m_privateRadius.m_value;
-				Vector2f delta;
-				enemy->getSeparation(cell, delta);
+	CellIteratorArg ciArg(sphere);
+	CellIterator it(ciArg);
+	CI_LOOP(it)
+	{
+		Creature* cell = static_cast<Creature*>(*it);
+		if (!cell->isAlive()) {
+			continue;
+		}
 
-				if ((SQUARE(delta.x) + SQUARE(delta.y)) < SQUARE(privateRadius)) {
-					result = true;
-				}
+		// Is creature Pikmin or Navi?
+		if (cell->isNavi() || (cell->isPiki() && static_cast<Piki*>(cell)->isPikmin())) {
+			f32 privateRadius = static_cast<EnemyParmsBase*>(enemy->mParms)->mGeneral.mPrivateRadius.mValue;
+			Vector2f delta;
+			enemy->getDistanceTo(cell, delta);
+
+			// Is creature within private radius?
+			if (IS_WITHIN_CIRCLE(delta.x, delta.y, privateRadius)) {
+				result = true;
 			}
 		}
-		cellIterator.next();
 	}
+
 	return result;
 }
 
@@ -130,20 +146,22 @@ bool BirthTypeDropState::isFinishableWaitingBirthTypeDrop(EnemyBase* enemy)
  * Address:	800FF550
  * Size:	0001A8
  */
-void BirthTypeDropState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
+void BirthTypeDropState::init(EnemyBase* enemy, StateArg* arg)
 {
-	if (Game::mapMgr != nullptr) {
-		enemy->m_position.y              = mapMgr->getMinY(enemy->m_position) + 300.0f;
+	if (mapMgr) {
+		enemy->mPosition.y = mapMgr->getMinY(enemy->mPosition) + 300.0f;
+
 		EnemyTypeID::EEnemyTypeID typeID = enemy->getEnemyTypeID();
-		if (typeID != EnemyTypeID::EnemyID_BluePom && typeID != EnemyTypeID::EnemyID_RedPom && typeID != EnemyTypeID::EnemyID_YellowPom
-		    && typeID != EnemyTypeID::EnemyID_BlackPom && typeID != EnemyTypeID::EnemyID_WhitePom
-		    && typeID != EnemyTypeID::EnemyID_RandPom) {
-			float theta = randFloat() * TAU;
-			enemy->m_position.x += pikmin2_sinf(theta) * 50.0f;
-			enemy->m_position.z += pikmin2_cosf(theta) * 50.0f;
+		if (typeID != EnemyTypeID::EnemyID_BluePom && typeID != EnemyTypeID::EnemyID_RedPom        //
+		    && typeID != EnemyTypeID::EnemyID_YellowPom && typeID != EnemyTypeID::EnemyID_BlackPom //
+		    && typeID != EnemyTypeID::EnemyID_WhitePom && typeID != EnemyTypeID::EnemyID_RandPom) {
+			f32 theta = randFloat() * TAU;
+			enemy->mPosition.x += pikmin2_sinf(theta) * 50.0f;
+			enemy->mPosition.z += pikmin2_cosf(theta) * 50.0f;
 		}
 	}
-	enemy->setPosition(enemy->m_position, false);
+
+	enemy->setPosition(enemy->mPosition, false);
 	enemy->updateCell();
 	enemy->startWaitingBirthTypeDrop();
 }
@@ -153,7 +171,7 @@ void BirthTypeDropState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
  * Address:	800FF6F8
  * Size:	00006C
  */
-void BirthTypeDropState::update(Game::EnemyBase* enemy)
+void BirthTypeDropState::update(EnemyBase* enemy)
 {
 	if (isFinishableWaitingBirthTypeDrop(enemy)) {
 		transit(enemy, EBS_Appear, nullptr);
@@ -165,7 +183,7 @@ void BirthTypeDropState::update(Game::EnemyBase* enemy)
  * Address:	800FF764
  * Size:	000030
  */
-void BirthTypeDropState::cleanup(Game::EnemyBase* enemy) { enemy->finishWaitingBirthTypeDrop(); }
+void BirthTypeDropState::cleanup(EnemyBase* enemy) { enemy->finishWaitingBirthTypeDrop(); }
 
 /*
  * --INFO--
@@ -174,25 +192,27 @@ void BirthTypeDropState::cleanup(Game::EnemyBase* enemy) { enemy->finishWaitingB
  */
 bool BirthTypeDropPikminState::isFinishableWaitingBirthTypeDrop(EnemyBase* enemy)
 {
-	Sys::Sphere sphere(enemy->m_position, static_cast<EnemyParmsBase*>(enemy->m_parms)->m_general.m_privateRadius.m_value);
+	Sys::Sphere sphere(enemy->mPosition, static_cast<EnemyParmsBase*>(enemy->mParms)->mGeneral.mPrivateRadius.mValue);
 	bool result = false;
 
-	CellIteratorArg cellIteratorArg(sphere);
-	CellIterator cellIterator(cellIteratorArg);
-	cellIterator.first();
-	while (cellIterator.isDone() == false) {
-		Creature* cell = (Creature*)(*cellIterator);
-		if (cell->isAlive() && cell->isPiki() && static_cast<Piki*>(cell)->isPikmin()) {
-			float privateRadius = static_cast<EnemyParmsBase*>(enemy->m_parms)->m_general.m_privateRadius.m_value;
-			Vector2f delta;
-			enemy->getSeparation(cell, delta);
+	CellIteratorArg ciArg(sphere);
+	CellIterator it(ciArg);
+	CI_LOOP(it)
+	{
+		Creature* cell = static_cast<Creature*>(*it);
 
-			if ((SQUARE(delta.x) + SQUARE(delta.y)) < SQUARE(privateRadius)) {
+		if (cell->isAlive() && cell->isPiki() && static_cast<Piki*>(cell)->isPikmin()) {
+			f32 privateRadius = static_cast<EnemyParmsBase*>(enemy->mParms)->mGeneral.mPrivateRadius.mValue;
+
+			Vector2f delta;
+			enemy->getDistanceTo(cell, delta);
+
+			if (IS_WITHIN_CIRCLE(delta.x, delta.y, privateRadius)) {
 				result = true;
 			}
 		}
-		cellIterator.next();
 	}
+
 	return result;
 }
 
@@ -203,26 +223,26 @@ bool BirthTypeDropPikminState::isFinishableWaitingBirthTypeDrop(EnemyBase* enemy
  */
 bool BirthTypeDropOlimarState::isFinishableWaitingBirthTypeDrop(EnemyBase* enemy)
 {
-
-	Sys::Sphere sphere(enemy->m_position, static_cast<EnemyParmsBase*>(enemy->m_parms)->m_general.m_privateRadius.m_value);
+	Sys::Sphere sphere(enemy->mPosition, static_cast<EnemyParmsBase*>(enemy->mParms)->mGeneral.mPrivateRadius.mValue);
 	bool result = false;
 
-	CellIteratorArg cellIteratorArg(sphere);
-	CellIterator cellIterator(cellIteratorArg);
-	cellIterator.first();
-	while (cellIterator.isDone() == 0) {
-		Creature* cell = (Creature*)(*cellIterator);
-		if (cell->isAlive() && cell->isNavi()) {
-			float privateRadius = static_cast<EnemyParmsBase*>(enemy->m_parms)->m_general.m_privateRadius.m_value;
-			Vector2f delta;
-			enemy->getSeparation(cell, delta);
+	CellIteratorArg ciArg(sphere);
+	CellIterator it(ciArg);
+	CI_LOOP(it)
+	{
+		Creature* cell = static_cast<Creature*>(*it);
 
-			if ((SQUARE(delta.x) + SQUARE(delta.y)) < SQUARE(privateRadius)) {
+		if (cell->isAlive() && cell->isNavi()) {
+			f32 privateRadius = static_cast<EnemyParmsBase*>(enemy->mParms)->mGeneral.mPrivateRadius.mValue;
+			Vector2f delta;
+			enemy->getDistanceTo(cell, delta);
+
+			if (IS_WITHIN_CIRCLE(delta.x, delta.y, privateRadius)) {
 				result = true;
 			}
 		}
-		cellIterator.next();
 	}
+
 	return result;
 }
 
@@ -231,27 +251,28 @@ bool BirthTypeDropOlimarState::isFinishableWaitingBirthTypeDrop(EnemyBase* enemy
  * Address:	800FFB00
  * Size:	00018C
  */
-bool BirthTypeDropTreasureState::isFinishableWaitingBirthTypeDrop(Game::EnemyBase* enemy)
+bool BirthTypeDropTreasureState::isFinishableWaitingBirthTypeDrop(EnemyBase* enemy)
 {
 	bool result = false;
-	PelletIterator pelletIterator;
 
-	pelletIterator.first();
-	while (!pelletIterator.isDone()) {
-		Pellet* cell = (Pellet*)(*pelletIterator);
+	PelletIterator it;
+	CI_LOOP(it)
+	{
+		Pellet* cell = static_cast<Pellet*>(*it);
+
 		if (cell->isAlive() && cell->isCarried()) {
-			Vector3f pos        = cell->getPosition(); // why this
-			float privateRadius = static_cast<EnemyParmsBase*>(enemy->m_parms)->m_general.m_privateRadius.m_value;
+			Vector3f pos      = cell->getPosition();
+			f32 privateRadius = static_cast<EnemyParmsBase*>(enemy->mParms)->mGeneral.mPrivateRadius.mValue;
+
 			Vector2f delta;
+			enemy->getDistanceTo(cell, delta);
 
-			enemy->getSeparation(cell, delta);
-
-			if ((SQUARE(delta.x) + SQUARE(delta.y)) < SQUARE(privateRadius)) {
+			if (IS_WITHIN_CIRCLE(delta.x, delta.y, privateRadius)) {
 				result = true;
 			}
 		}
-		pelletIterator.next();
 	}
+
 	return result;
 }
 
@@ -260,35 +281,32 @@ bool BirthTypeDropTreasureState::isFinishableWaitingBirthTypeDrop(Game::EnemyBas
  * Address:	800FFCA8
  * Size:	000008
  */
-bool BirthTypeDropEarthquakeState::isFinishableWaitingBirthTypeDrop(Game::EnemyBase*) { return false; }
+bool BirthTypeDropEarthquakeState::isFinishableWaitingBirthTypeDrop(EnemyBase*) { return false; }
 
 /*
  * --INFO--
  * Address:	800FFCB0
  * Size:	000024
  */
-void AppearState::entry(Game::EnemyBase* enemy) { enemy->doEntryLiving(); }
+void AppearState::entry(EnemyBase* enemy) { enemy->doEntryLiving(); }
 
 /*
  * --INFO--
  * Address:	800FFCD4
  * Size:	0000FC
  */
-void AppearState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
+void AppearState::init(EnemyBase* enemy, StateArg* arg)
 {
 	efx::TEnemyApsmoke effect; // this is "Appear Smoke"
-	// for context, the term "effects" refer to particle effects
-	float mod                    = enemy->m_scaleModifier;
-	EnemyTypeID::EEnemyTypeID id = enemy->getEnemyTypeID();
-	Vector3f position;
-	const Vector3f& result = enemy->getPosition();
-	__memcpy(&position, &result, sizeof(Vector3f));
 
-	efx::ArgEnemyType effectArg(position, id, mod);
+	f32 mod                      = enemy->mScaleModifier;
+	EnemyTypeID::EEnemyTypeID id = enemy->getEnemyTypeID();
+
+	efx::ArgEnemyType effectArg(enemy->getPosition(), id, mod);
 	effect.create(&effectArg);
 
-	enemy->m_scale      = 0.0f;
-	enemy->m_scaleTimer = 0.0f;
+	enemy->mScale         = 0.0f;
+	enemy->mStunAnimTimer = 0.0f;
 }
 
 /*
@@ -296,23 +314,23 @@ void AppearState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
  * Address:	800FFDEC
  * Size:	000130
  */
-void AppearState::update(Game::EnemyBase* enemy)
+void AppearState::update(EnemyBase* enemy)
 {
-	enemy->m_scaleTimer += 2.0f * sys->m_secondsPerFrame;
-	if (enemy->m_scaleTimer > 1.0f) {
+	enemy->mStunAnimTimer += 2.0f * sys->mDeltaTime;
+	if (enemy->mStunAnimTimer > 1.0f) {
 		transit(enemy, EBS_Living, 0);
 		return;
 	}
 
-	enemy->m_scale.x = 2.0f * enemy->m_scaleTimer;
-	if (enemy->m_scale.x > 1.0f) {
-		enemy->m_scale.x = 1.0f;
+	enemy->mScale.x = 2.0f * enemy->mStunAnimTimer;
+	if (enemy->mScale.x > 1.0f) {
+		enemy->mScale.x = 1.0f;
 	}
 
-	enemy->m_scale.x += 0.2f * pikmin2_sinf(TAU * enemy->m_scaleTimer);
-	float newScale   = enemy->m_scale.x;
-	enemy->m_scale.z = newScale;
-	enemy->m_scale.y = newScale;
+	enemy->mScale.x += 0.2f * pikmin2_sinf(TAU * enemy->mStunAnimTimer);
+	f32 newScale    = enemy->mScale.x;
+	enemy->mScale.z = newScale;
+	enemy->mScale.y = newScale;
 
 	enemy->doUpdate();
 	enemy->doUpdateCommon();
@@ -323,10 +341,10 @@ void AppearState::update(Game::EnemyBase* enemy)
  * Address:	800FFF1C
  * Size:	00001C
  */
-void AppearState::cleanup(Game::EnemyBase* enemy)
+void AppearState::cleanup(EnemyBase* enemy)
 {
-	enemy->m_scale      = 1.0f;
-	enemy->m_scaleTimer = 0.0f;
+	enemy->mScale         = 1.0f;
+	enemy->mStunAnimTimer = 0.0f;
 }
 
 /*
@@ -334,22 +352,22 @@ void AppearState::cleanup(Game::EnemyBase* enemy)
  * Address:	800FFF38
  * Size:	00010C
  */
-void EnemyBaseFSM::LivingState::simulation(Game::EnemyBase* enemy, float constraint)
+void EnemyBaseFSM::LivingState::simulation(EnemyBase* enemy, f32 constraint)
 {
-	if ((enemy->isEvent(0, EB_HardConstraint)) || isLiving(enemy) && !(enemy->isEvent(1, EB2_1)) && !(enemy->isEvent(1, EB2_5))) {
-
+	// If enemy is constraint OR alive AND is not earthquake AND is not being dropped
+	if (enemy->isEvent(0, EB_IsHardConstraint)
+	    || isConstrained(enemy) && !enemy->isEvent(1, EB2_IsEarthquake) && !enemy->isEvent(1, EB2_IsDropping)) {
 		if (enemy->isCullingOff()) {
 			enemy->doSimulationConstraint(constraint);
 		}
-
 	} else if (enemy->isCullingOff()) {
 		enemy->collisionMapAndPlat(constraint);
 		enemy->updateWaterBox();
 	}
 
 	Creature::CheckHellArg hellArg;
-	hellArg._00 = false;
-	if (enemy->checkHell(hellArg) == 2) {
+	hellArg.mIsKillPiki = false;
+	if (enemy->checkHell(hellArg) == CREATURE_HELL_DEATH) {
 		enemy->getCreatureName();
 		enemy->getCreatureID();
 		enemy->gotoHell();
@@ -361,12 +379,13 @@ void EnemyBaseFSM::LivingState::simulation(Game::EnemyBase* enemy, float constra
  * Address:	80100084
  * Size:	000040
  */
-void LivingState::entry(Game::EnemyBase* enemy)
+void LivingState::entry(EnemyBase* enemy)
 {
-	if (enemy->m_pellet) {
+	if (enemy->mPellet) {
 		enemy->doEntryCarcass();
 		return;
 	}
+
 	enemy->doEntryLiving();
 }
 
@@ -375,16 +394,16 @@ void LivingState::entry(Game::EnemyBase* enemy)
  * Address:	801000C4
  * Size:	000030
  */
-void LivingState::updateCullingOff(Game::EnemyBase* enemy) { enemy->doUpdate(); }
+void LivingState::updateCullingOff(EnemyBase* enemy) { enemy->doUpdate(); }
 
 /*
  * --INFO--
  * Address:	801000F4
  * Size:	000030
  */
-void LivingState::updateAlways(Game::EnemyBase* enemy)
+void LivingState::updateAlways(EnemyBase* enemy)
 {
-	if (enemy->isEvent(0, EB_21)) {
+	if (enemy->isEvent(0, EB_ToEnableBitter)) {
 		enemy->startStoneState();
 	}
 }
@@ -394,34 +413,42 @@ void LivingState::updateAlways(Game::EnemyBase* enemy)
  * Address:	80100124
  * Size:	0001BC
  */
-void LivingState::update(Game::EnemyBase* enemy)
+void LivingState::update(EnemyBase* enemy)
 {
-	sys->m_timers->_start("e-upd-do", 1);
-	enemy->resetEvent(0, EB_17);
-	enemy->resetEvent(0, EB_18);
-	enemy->m_soundObj->exec();
-	if (enemy->m_pellet) {
+	sys->mTimers->_start("e-upd-do", 1);
+
+	enemy->disableEvent(0, EB_IsNavi0Attacked);
+	enemy->disableEvent(0, EB_IsNavi1Attacked);
+
+	enemy->mSoundObj->exec();
+
+	if (enemy->mPellet) {
 		enemy->doUpdateCarcass();
 	} else {
 		if (enemy->isCullingOff()) {
 			updateCullingOff(enemy);
 			enemy->doUpdateCommon();
 		}
+
 		updateAlways(enemy);
-		if (!(enemy->m_health <= 0.0f) && (enemy->isAlive())) {
+
+		if (!(enemy->isDead()) && (enemy->isAlive())) {
 			enemy->lifeRecover();
 			enemy->injure();
 		}
-		if (enemy->_2AC > 0.0f) {
-			enemy->_2A8 += sys->m_secondsPerFrame;
-			if (enemy->_2A8 > enemy->_2AC) {
-				enemy->addDamage(enemy->m_maxHealth, 1.0f);
-				enemy->resetEvent(0, EB_Cullable);
-				enemy->resetEvent(0, EB_Flying);
+
+		if (enemy->mExistDuration > 0.0f) {
+			enemy->mExistTimer += sys->mDeltaTime;
+
+			if (enemy->mExistTimer > enemy->mExistDuration) {
+				enemy->addDamage(enemy->mMaxHealth, 1.0f);
+				enemy->disableEvent(0, EB_IsCullable);
+				enemy->disableEvent(0, EB_IsDamageAnimAllowed);
 			}
 		}
 	}
-	sys->m_timers->_stop("e-upd-do");
+
+	sys->mTimers->_stop("e-upd-do");
 }
 
 /*
@@ -429,9 +456,9 @@ void LivingState::update(Game::EnemyBase* enemy)
  * Address:	801002E0
  * Size:	000048
  */
-void EnemyBaseFSM::FitState::updateCullingOff(Game::EnemyBase* enemy)
+void EnemyBaseFSM::FitState::updateCullingOff(EnemyBase* enemy)
 {
-	if (enemy->m_health <= 0.0f) {
+	if (enemy->isDead()) {
 		transit(enemy, EBS_Living, 0);
 	}
 }
@@ -441,29 +468,25 @@ void EnemyBaseFSM::FitState::updateCullingOff(Game::EnemyBase* enemy)
  * Address:	80100328
  * Size:	000150
  */
-// WIP: https://decomp.me/scratch/adCWV
-void EnemyBaseFSM::FitState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
+void EnemyBaseFSM::FitState::init(EnemyBase* enemy, StateArg* arg)
 {
 	enemy->doUpdate();
-	enemy->m_eventBuffer.m_flags[0].typeView = enemy->m_events.m_flags[0].typeView;
-	enemy->m_eventBuffer.m_flags[1].typeView = enemy->m_events.m_flags[1].typeView;
-	enemy->setEvent(1, EB2_2);
-	enemy->stopMotion();
-	enemy->setEvent(0, EB_Constraint);
+	enemy->backupEvents();
 
-	enemy->m_velocity2 = 0.0f;
-	enemy->m_velocity  = 0.0f;
+	enemy->enableEvent(1, EB2_IsStunned);
+	enemy->stopMotion();
+	enemy->enableEvent(0, EB_Constraint);
+
+	enemy->mTargetVelocity  = 0.0f;
+	enemy->mCurrentVelocity = 0.0f;
 	enemy->doStartEarthquakeFitState();
 
-	m_enemyPiyo.m_position       = enemy->getFitEffectPos();
-	float scale                  = enemy->m_scaleModifier;
+	mEnemyPiyo.mPosition         = enemy->getFitEffectPos();
+	f32 scale                    = enemy->mScaleModifier;
 	EnemyTypeID::EEnemyTypeID id = enemy->getEnemyTypeID();
 
-	Vector3f position;
-	__memcpy(&position, &enemy->m_position, sizeof(Vector3f));
-
-	efx::ArgEnemyType effectArg(position, id, scale);
-	m_enemyPiyo.create(&effectArg);
+	efx::ArgEnemyType effectArg(enemy->mPosition, id, scale);
+	mEnemyPiyo.create(&effectArg);
 }
 
 /*
@@ -471,14 +494,14 @@ void EnemyBaseFSM::FitState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
  * Address:	80100478
  * Size:	000080
  */
-void FitState::cleanup(Game::EnemyBase* enemy)
+void FitState::cleanup(EnemyBase* enemy)
 {
-	enemy->m_events.m_flags[0] = enemy->m_eventBuffer.m_flags[0];
-	enemy->m_events.m_flags[1] = enemy->m_eventBuffer.m_flags[1];
-	enemy->resetEvent(1, EB2_2);
+	enemy->restoreEvents();
+
+	enemy->disableEvent(1, EB2_IsStunned);
 	enemy->startMotion();
 	enemy->doFinishEarthquakeFitState();
-	m_enemyPiyo.fade();
+	mEnemyPiyo.fade();
 }
 
 /*
@@ -486,26 +509,27 @@ void FitState::cleanup(Game::EnemyBase* enemy)
  * Address:	801004F8
  * Size:	000204
  */
-void FitState::updateAlways(Game::EnemyBase* enemy)
+void FitState::updateAlways(EnemyBase* enemy)
 {
-	enemy->m_scaleTimer += sys->m_secondsPerFrame;
-	if ((enemy->m_scaleTimer > ((EnemyParmsBase*)enemy->m_parms)->m_general.m_purplePikminStunTime.m_value) || (enemy->isEvent(0, EB_21))
-	    || (((enemy->m_health <= 0.0f)))) {
-		enemy->m_scaleTimer = 0.0f;
+	enemy->mStunAnimTimer += sys->mDeltaTime;
+	if (enemy->mStunAnimTimer > enemy->getParms().mPurplePikiStunDuration.mValue || enemy->isEvent(0, EB_ToEnableBitter)
+	    || enemy->isDead()) {
+		enemy->mStunAnimTimer = 0.0f;
 		transit(enemy, EBS_Living, 0);
 	} else {
-		float sinStun
-		    = 4.0f * pikmin2_sinf((PI * enemy->m_scaleTimer) / ((EnemyParmsBase*)enemy->m_parms)->m_general.m_purplePikminStunTime.m_value);
+		f32 sinStun = 4.0f * pikmin2_sinf((PI * enemy->mStunAnimTimer) / enemy->getParms().mPurplePikiStunDuration.mValue);
 		if (sinStun > 1.0f) {
 			sinStun = 1.0f;
 		}
-		float theta = (TAU * enemy->m_scaleTimer) / 0.25f;
 
-		enemy->_1A4.m_matrix[2][0] = sinStun * (0.017453294f * pikmin2_sinf(theta));
-		enemy->_1A4.m_matrix[2][1] = 0.0f;
-		enemy->_1A4.m_matrix[2][2] = sinStun * (0.017453294f * pikmin2_cosf(theta));
+		f32 theta = (TAU * enemy->mStunAnimTimer) / 0.25f;
+
+		enemy->mStunAnimRotation.x = sinStun * ((PI * DEG2RAD) * pikmin2_sinf(theta));
+		enemy->mStunAnimRotation.y = 0.0f;
+		enemy->mStunAnimRotation.z = sinStun * ((PI * DEG2RAD) * pikmin2_cosf(theta));
 	}
-	m_enemyPiyo.m_position = enemy->getFitEffectPos();
+
+	mEnemyPiyo.mPosition = enemy->getFitEffectPos();
 }
 
 /*
@@ -513,13 +537,15 @@ void FitState::updateAlways(Game::EnemyBase* enemy)
  * Address:	801006FC
  * Size:	000088
  */
-void EarthquakeState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
+void EarthquakeState::init(EnemyBase* enemy, StateArg* arg)
 {
 	enemy->doUpdate();
-	enemy->setEvent(1, EB2_1);
+	enemy->enableEvent(1, EB2_IsEarthquake);
 	enemy->stopMotion();
-	enemy->doStartEarthquakeState(arg->_00);
-	this->_10 = 0;
+
+	EarthquakeStateArg* eqArg = static_cast<EarthquakeStateArg*>(arg);
+	enemy->doStartEarthquakeState(eqArg->mBounceFactor);
+	mEarthquakeStepTimer = 0;
 }
 
 /*
@@ -527,9 +553,9 @@ void EarthquakeState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
  * Address:	80100784
  * Size:	000050
  */
-void EarthquakeState::cleanup(Game::EnemyBase* enemy)
+void EarthquakeState::cleanup(EnemyBase* enemy)
 {
-	enemy->resetEvent(1, EB2_1);
+	enemy->disableEvent(1, EB2_IsEarthquake);
 	enemy->startMotion();
 	enemy->doFinishEarthquakeState();
 }
@@ -539,18 +565,18 @@ void EarthquakeState::cleanup(Game::EnemyBase* enemy)
  * Address:	801007D4
  * Size:	000158
  */
-void EarthquakeState::updateCullingOff(Game::EnemyBase* enemy)
+void EarthquakeState::updateCullingOff(EnemyBase* enemy)
 {
-	if ((enemy->m_health <= 0.0f) && (enemy->_0C8)) {
+	if (enemy->isDead() && enemy->mBounceTriangle) {
 		transit(enemy, EBS_Living, 0);
 		return;
 	}
 
-	if ((++_10 > 3) && (enemy->_0C8)) {
-		float randChance = randFloat();
-		if ((enemy->m_scaleTimer > 0.0f)
-		    || ((randChance < ((EnemyParmsBase*)enemy->m_parms)->m_general.m_purplePikminStunChance.m_value) && !(enemy->isEvent(0, EB_21))
-		        && !(enemy->isEvent(0, EB_22)))) {
+	if (++mEarthquakeStepTimer > 3 && enemy->mBounceTriangle) {
+		f32 randChance = randFloat();
+		if (enemy->mStunAnimTimer > 0.0f
+		    || (randChance < enemy->getParms().mPurplePikiStunChance.mValue && !enemy->isEvent(0, EB_ToEnableBitter)
+		        && !enemy->isEvent(0, EB_IsEnemyNotBitter))) {
 			transit(enemy, EBS_Fit, 0);
 		} else {
 			transit(enemy, EBS_Living, 0);
@@ -558,7 +584,7 @@ void EarthquakeState::updateCullingOff(Game::EnemyBase* enemy)
 	}
 
 	if (enemy->isFlying()) {
-		enemy->resetEvent(0, EB_3);
+		enemy->disableEvent(0, EB_IsFlying);
 	}
 }
 
@@ -567,10 +593,10 @@ void EarthquakeState::updateCullingOff(Game::EnemyBase* enemy)
  * Address:	80100938
  * Size:	000064
  */
-void StoneState::bounceProcedure(Game::EnemyBase* enemy, Sys::Triangle* triangle)
+void StoneState::bounceProcedure(EnemyBase* enemy, Sys::Triangle* triangle)
 {
-	enemy->setEvent(0, EB_Constraint);
-	enemy->createBounceEffect(enemy->m_position, enemy->getDownSmokeScale());
+	enemy->enableEvent(0, EB_Constraint);
+	enemy->createBounceEffect(enemy->mPosition, enemy->getDownSmokeScale());
 	enemy->addDamage(0.0f, 1.0f);
 }
 
@@ -579,30 +605,30 @@ void StoneState::bounceProcedure(Game::EnemyBase* enemy, Sys::Triangle* triangle
  * Address:	8010099C
  * Size:	000100
  */
-void StoneState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
+void StoneState::init(EnemyBase* enemy, StateArg* arg)
 {
-	if (enemy->isEvent(0, EB_21)) {
-		enemy->resetEvent(0, EB_21);
+	if (enemy->isEvent(0, EB_ToEnableBitter)) {
+		enemy->disableEvent(0, EB_ToEnableBitter);
 	} else {
 		enemy->doUpdate();
 	}
 
-	enemy->m_eventBuffer.m_flags[0] = enemy->m_events.m_flags[0];
-	enemy->m_eventBuffer.m_flags[1] = enemy->m_events.m_flags[1];
-	enemy->setEvent(0, EB_Bittered);
-	enemy->hide();
-	enemy->m_stoneTimer = 0.0f;
-	enemy->stopMotion();
-	enemy->m_velocity = 0.0f;
+	enemy->backupEvents();
 
-	if (enemy->_0C8) {
-		enemy->setEvent(0, EB_Constraint);
+	enemy->enableEvent(0, EB_IsBittered);
+	enemy->hide();
+	enemy->mBitterTimer = 0.0f;
+	enemy->stopMotion();
+	enemy->mCurrentVelocity = 0.0f;
+
+	if (enemy->mBounceTriangle) {
+		enemy->enableEvent(0, EB_Constraint);
 	} else {
-		enemy->setEvent(0, EB_Constraint);
+		enemy->enableEvent(0, EB_Constraint);
 	}
 
-	if (enemy->m_emotion == EMOTE_Excitement && PSGetDirectedMainBgm()) {
-		enemy->m_soundObj->battleOff();
+	if (enemy->mSfxEmotion == EMOTE_Excitement && PSGetDirectedMainBgm()) {
+		enemy->mSoundObj->battleOff();
 	}
 
 	enemy->doStartStoneState();
@@ -613,21 +639,21 @@ void StoneState::init(Game::EnemyBase* enemy, Game::StateArg* arg)
  * Address:	80100A9C
  * Size:	0000CC
  */
-void StoneState::cleanup(Game::EnemyBase* enemy)
+void StoneState::cleanup(EnemyBase* enemy)
 {
-	P2ASSERTLINE(1024, enemy->isEvent(0, EB_Bittered));
+	P2ASSERTLINE(1024, enemy->isEvent(0, EB_IsBittered));
 
-	enemy->m_events.m_flags[0] = enemy->m_eventBuffer.m_flags[0];
-	enemy->m_events.m_flags[1] = enemy->m_eventBuffer.m_flags[1];
-	resetEvent(0, EB_21);
-	resetEvent(0, EB_Bittered);
+	enemy->restoreEvents();
+
+	enemy->disableEvent(0, EB_ToEnableBitter);
+	enemy->disableEvent(0, EB_IsBittered);
 
 	enemy->show();
 	enemy->startMotion();
 	enemy->doFinishStoneState();
 
-	if ((enemy->m_emotion == EMOTE_Excitement) && PSGetDirectedMainBgm()) {
-		enemy->m_soundObj->battleOn();
+	if ((enemy->mSfxEmotion == EMOTE_Excitement) && PSGetDirectedMainBgm()) {
+		enemy->mSoundObj->battleOn();
 	}
 }
 
@@ -636,25 +662,25 @@ void StoneState::cleanup(Game::EnemyBase* enemy)
  * Address:	80100B68
  * Size:	000118
  */
-void StoneState::updateAlways(Game::EnemyBase* enemy)
+void StoneState::updateAlways(EnemyBase* enemy)
 {
-	enemy->m_enemyStoneObj->update();
-	enemy->m_stoneTimer += sys->m_secondsPerFrame;
+	enemy->mEnemyStoneObj->update();
+	enemy->mBitterTimer += sys->mDeltaTime;
 
-	if (enemy->m_enemyStoneObj->_50 & 4) {
-		if (enemy->_0C8 == nullptr) {
+	if (enemy->mEnemyStoneObj->isFlag(EnemyStone::STONE_HasViewedDemo)) {
+		if (!enemy->mBounceTriangle) {
 			enemy->constraintOff();
-			enemy->resetEvent(0, EB_3);
+			enemy->disableEvent(0, EB_IsFlying);
 		}
-		// why.
-		float comp = (enemy->m_stoneTimer > ((EnemyParmsBase*)enemy->m_parms)->m_general.m_stoneDuration.m_value);
-		if (comp) {
-			if (enemy->m_enemyStoneObj->_50 & 8) {
-				if ((enemy->m_enemyStoneObj->_50 & 0x10) && enemy->isAlive()) {
-					transit(enemy, EBS_Living, 0);
+
+		f32 isBitterFinish = (enemy->mBitterTimer > enemy->getParms().mBitterDuration.mValue);
+		if (isBitterFinish) {
+			if (enemy->mEnemyStoneObj->isFlag(EnemyStone::STONE_Shake)) {
+				if (enemy->mEnemyStoneObj->isFlag(EnemyStone::STONE_Break) && enemy->isAlive()) {
+					transit(enemy, EBS_Living, nullptr);
 				}
 			} else {
-				enemy->m_enemyStoneObj->shake();
+				enemy->mEnemyStoneObj->shake();
 			}
 		}
 	}
@@ -665,10 +691,10 @@ void StoneState::updateAlways(Game::EnemyBase* enemy)
  * Address:	80100C80
  * Size:	000074
  */
-void StoneState::updateCullingOff(Game::EnemyBase* enemy)
+void StoneState::updateCullingOff(EnemyBase* enemy)
 {
-	if (enemy->isAlive() && enemy->isStopMotion() && (enemy->m_health <= 0.0f)) {
-		enemy->kill((Game::CreatureKillArg*)nullptr);
+	if (enemy->isAlive() && enemy->isStopMotion() && enemy->isDead()) {
+		enemy->kill((CreatureKillArg*)nullptr);
 	}
 }
 
@@ -677,9 +703,9 @@ void StoneState::updateCullingOff(Game::EnemyBase* enemy)
  * Address:	80100CF4
  * Size:	000484
  */
-void StateMachine::init(Game::EnemyBase* enemy)
+void StateMachine::init(EnemyBase* enemy)
 {
-	create(10);
+	create(EBS_Count);
 
 	registerState(new BirthTypeDropState(EBS_Drop));
 	registerState(new BirthTypeDropPikminState);
@@ -699,21 +725,21 @@ void StateMachine::init(Game::EnemyBase* enemy)
  * Address:	80101304
  * Size:	000030
  */
-void StateMachine::update(EnemyBase* enemy) { m_state->update(enemy); }
+void StateMachine::update(EnemyBase* enemy) { mState->update(enemy); }
 
 /*
  * --INFO--
  * Address:	80101338
  * Size:	000030
  */
-void StateMachine::entry(EnemyBase* enemy) { m_state->entry(enemy); }
+void StateMachine::entry(EnemyBase* enemy) { mState->entry(enemy); }
 
 /*
  * --INFO--
  * Address:	8010136C
  * Size:	000030
  */
-void StateMachine::simulation(EnemyBase* enemy, float constraint) { m_state->simulation(enemy, constraint); }
+void StateMachine::simulation(EnemyBase* enemy, f32 constraint) { mState->simulation(enemy, constraint); }
 } // namespace EnemyBaseFSM
 
 /*
@@ -721,82 +747,84 @@ void StateMachine::simulation(EnemyBase* enemy, float constraint) { m_state->sim
  * Address:	801013A0
  * Size:	000370
  */
-Game::EnemyBase::EnemyBase()
+EnemyBase::EnemyBase()
     : Creature()
     , SysShape::MotionListener()
     , PelletView()
-    , m_position(0.0f, 0.0f, 0.0f)
-    , _1A4()
-    , m_events()
-    , _1E8()
-    , m_emotion(EMOTE_Caution)
-    , m_enemyIndexForType(0xFF)
+    , mPosition(Vector3f(0.0f))
+    , mRotation(Vector3f(0.0f))
+    , mDamageAnimRotation(Vector3f(0.0f))
+    , mStunAnimRotation(Vector3f(0.0f))
+    , mEvents()
+    , mEventBuffer()
+    , mSfxEmotion(EMOTE_Caution)
+    , mCreatureID(0xFF)
     , _1F2(0xFF)
-    , m_stickPikminCount(0)
-    , m_scaleTimer(0.0f)
-    , m_friction(0.0f)
-    , m_stoneTimer(0.0f)
-    , m_collEvent()
-    , m_commonEffectOffset(0.0f, 0.0f, 0.0f)
-    , m_enemyStoneObj(nullptr)
-    , m_pelletDropCode(0)
-    , m_heldPellet(nullptr)
-    , m_pelletInfo()
-    , m_lodParm()
-    , m_waterBox(nullptr)
-    , _288(0)
-    , m_soundObj(nullptr)
-    , m_effectNodeHamonRoot()
-    , _2A8(0.0f)
-    , _2AC(0.0f)
-    , m_dropGroup(0)
-    , m_currentLifecycleState(nullptr)
-    , m_lifecycleFSM(nullptr)
+    , mStuckPikminCount(0)
+    , mStunAnimTimer(0.0f)
+    , mFriction(0.0f)
+    , mBitterTimer(0.0f)
+    , mCollEvent()
+    , mEffectOffset(0.0f, 0.0f, 0.0f)
+    , mEnemyStoneObj(nullptr)
+    , mPelletDropCode(0)
+    , mHeldPellet(nullptr)
+    , mPelletInfo()
+    , mLodParm()
+    , mWaterBox(nullptr)
+    , mWallTriangle(0)
+    , mSoundObj(nullptr)
+    , mHamonEffectRoot()
+    , mExistTimer(0.0f)
+    , mExistDuration(0.0f)
+    , mDropGroup(0)
+    , mCurrentLifecycleState(nullptr)
+    , mLifecycleFSM(nullptr)
 {
 	for (int i = 0; i < 4; i++) {
-		m_flags.byteView[i] = 0;
+		mFlags.byteView[i] = 0;
 	}
 
-	m_objectTypeID  = OBJTYPE_Teki;
-	m_scaleModifier = 1.0f;
-	m_collisionBuffer.alloc(this, 8);
-	m_animator       = nullptr;
-	m_animKeyEvent   = new EnemyAnimKeyEvent;
-	_210             = 0.0f;
-	m_targetCreature = nullptr;
-	_0C8             = 0;
-	m_lifecycleFSM   = new EnemyBaseFSM::StateMachine();
-	m_lifecycleFSM->init(this);
+	mObjectTypeID  = OBJTYPE_Teki;
+	mScaleModifier = 1.0f;
+	mCollisionBuffer.alloc(this, 8);
+	mAnimator        = nullptr;
+	mCurAnim         = new EnemyAnimKeyEvent;
+	mDamageAnimTimer = 0.0f;
+	mTargetCreature  = nullptr;
+	mBounceTriangle  = nullptr;
+	mLifecycleFSM    = new EnemyBaseFSM::StateMachine();
+	mLifecycleFSM->init(this);
 	clearStick();
-	m_animKeyEvent->m_running = 0;
-	m_instantDamage           = 0.0f;
-	resetEvent(0, EB_Damage);
-	m_toFlick    = 0.0f;
-	m_stoneTimer = 0.0f;
+	mCurAnim->mIsPlaying = 0;
+	mInstantDamage       = 0.0f;
+	disableEvent(0, EB_IsTakingDamage);
+	mToFlick     = 0.0f;
+	mBitterTimer = 0.0f;
 
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 4; j++) {
-			m_events.m_flags[i].byteView[j] = 0;
+			mEvents.mFlags[i].byteView[j] = 0;
 		}
 	}
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 4; j++) {
-			m_eventBuffer.m_flags[i].byteView[j] = 0;
+			mEventBuffer.mFlags[i].byteView[j] = 0;
 		}
 	}
 
-	if (Game::shadowMgr != nullptr) {
-		Game::shadowMgr->createShadow(this);
+	if (shadowMgr) {
+		shadowMgr->createShadow(this);
 	}
 
-	if (lifeGaugeMgr != nullptr) {
+	if (lifeGaugeMgr) {
 		lifeGaugeMgr->createLifeGauge(this);
 	}
 
-	m_effectNodeHamonRoot.m_child  = nullptr;
-	m_effectNodeHamonRoot.m_parent = nullptr;
-	m_effectNodeHamonRoot.m_prev   = nullptr;
-	m_effectNodeHamonRoot.m_next   = nullptr;
+	mHamonEffectRoot.mChild  = nullptr;
+	mHamonEffectRoot.mParent = nullptr;
+	mHamonEffectRoot.mPrev   = nullptr;
+	mHamonEffectRoot.mNext   = nullptr;
 }
 
 /*
@@ -806,7 +834,7 @@ Game::EnemyBase::EnemyBase()
  */
 void EnemyBase::constructor()
 {
-	m_soundObj = createPSEnemyBase();
+	mSoundObj = createPSEnemyBase();
 	createInstanceEfxHamon();
 }
 
@@ -818,11 +846,10 @@ void EnemyBase::constructor()
 inline void EnemyBase::createEffects()
 {
 	EnemyEffectNodeHamon* next;
-	EnemyEffectNodeHamon* hamon = (EnemyEffectNodeHamon*)m_effectNodeHamonRoot.m_child;
-	while (hamon) {
-		next = (EnemyEffectNodeHamon*)hamon->m_next;
+
+	for (EnemyEffectNodeHamon* hamon = (EnemyEffectNodeHamon*)mHamonEffectRoot.mChild; hamon; hamon = next) {
+		next = (EnemyEffectNodeHamon*)hamon->mNext;
 		hamon->create(this);
-		hamon = next;
 	}
 }
 
@@ -834,11 +861,10 @@ inline void EnemyBase::createEffects()
 inline void EnemyBase::fadeEffects()
 {
 	EnemyEffectNodeHamon* next;
-	EnemyEffectNodeHamon* hamon = (EnemyEffectNodeHamon*)m_effectNodeHamonRoot.m_child;
-	while (hamon) {
-		next = (EnemyEffectNodeHamon*)hamon->m_next;
+
+	for (EnemyEffectNodeHamon* hamon = (EnemyEffectNodeHamon*)mHamonEffectRoot.mChild; hamon; hamon = next) {
+		next = (EnemyEffectNodeHamon*)hamon->mNext;
 		hamon->fade(this);
-		hamon = next;
 	}
 }
 
@@ -849,8 +875,8 @@ inline void EnemyBase::fadeEffects()
  */
 void EnemyBase::createInstanceEfxHamon()
 {
-	m_effectNodeHamon = new EnemyEffectNodeHamon;
-	m_effectNodeHamonRoot.add(m_effectNodeHamon);
+	mEffectNodeHamon = new EnemyEffectNodeHamon;
+	mHamonEffectRoot.add(mEffectNodeHamon);
 }
 
 /*
@@ -860,8 +886,8 @@ void EnemyBase::createInstanceEfxHamon()
  */
 void EnemyBase::updateEfxHamon()
 {
-	if (m_effectNodeHamon) {
-		m_effectNodeHamon->update(this);
+	if (mEffectNodeHamon) {
+		mEffectNodeHamon->update(this);
 	}
 }
 
@@ -872,8 +898,8 @@ void EnemyBase::updateEfxHamon()
  */
 void EnemyBase::createEfxHamon()
 {
-	if (m_effectNodeHamon) {
-		m_effectNodeHamon->create(this);
+	if (mEffectNodeHamon) {
+		mEffectNodeHamon->create(this);
 	}
 }
 
@@ -884,8 +910,8 @@ void EnemyBase::createEfxHamon()
  */
 void EnemyBase::fadeEfxHamon()
 {
-	if (m_effectNodeHamon) {
-		m_effectNodeHamon->fade(this);
+	if (mEffectNodeHamon) {
+		mEffectNodeHamon->fade(this);
 	}
 }
 
@@ -896,9 +922,9 @@ void EnemyBase::fadeEfxHamon()
  */
 void EnemyBase::setEmotionCaution()
 {
-	m_emotion = EMOTE_Caution;
-	if (PSGetDirectedMainBgm() != nullptr) {
-		m_soundObj->battleOff();
+	mSfxEmotion = EMOTE_Caution;
+	if (PSGetDirectedMainBgm()) {
+		mSoundObj->battleOff();
 	}
 }
 
@@ -909,8 +935,8 @@ void EnemyBase::setEmotionCaution()
  */
 void EnemyBase::setEmotionExcitement()
 {
-	m_emotion = EMOTE_Excitement;
-	m_soundObj->battleOn();
+	mSfxEmotion = EMOTE_Excitement;
+	mSoundObj->battleOn();
 }
 
 /*
@@ -920,9 +946,9 @@ void EnemyBase::setEmotionExcitement()
  */
 void EnemyBase::setEmotionNone()
 {
-	m_emotion = EMOTE_None;
-	if (PSGetDirectedMainBgm() != nullptr) {
-		m_soundObj->battleOff();
+	mSfxEmotion = EMOTE_None;
+	if (PSGetDirectedMainBgm()) {
+		mSoundObj->battleOff();
 	}
 }
 
@@ -931,30 +957,27 @@ void EnemyBase::setEmotionNone()
  * Address:	80101A58
  * Size:	000104
  */
-void EnemyBase::onInit(Game::CreatureInitArg* arg)
+void EnemyBase::onInit(CreatureInitArg* arg)
 {
 	clearStick();
-	m_animKeyEvent->m_running = false;
-	m_instantDamage           = 0.0f;
-	resetEvent(0, EB_Damage);
-	m_toFlick    = 0.0f;
-	m_stoneTimer = 0.0f;
+	mCurAnim->mIsPlaying = false;
+	mInstantDamage       = 0.0f;
+	disableEvent(0, EB_IsTakingDamage);
+	mToFlick     = 0.0f;
+	mBitterTimer = 0.0f;
 
-	m_events.m_flags[0].clear();
-	m_events.m_flags[1].clear();
-	m_eventBuffer.m_flags[0].clear();
-	m_eventBuffer.m_flags[1].clear();
+	resetEvents();
 
-	setEvent(0, EB_29);
-	setEvent(0, EB_Flying);
-	setEvent(0, EB_DropMassSet);
-	setEvent(0, EB_Cullable);
-	setEvent(0, EB_LeaveCarcass);
-	setEvent(0, EB_9);
-	setEvent(0, EB_LifegaugeVisible);
-	m_waterBox = nullptr;
-	setEvent(0, EB_13);
-	setEvent(0, EB_16);
+	enableEvent(0, EB_IsAlive);
+	enableEvent(0, EB_IsDamageAnimAllowed);
+	enableEvent(0, EB_IsFlickEnabled);
+	enableEvent(0, EB_IsCullable);
+	enableEvent(0, EB_ToLeaveCarcass);
+	enableEvent(0, EB_IsDeathEffectEnabled);
+	enableEvent(0, EB_LifegaugeVisible);
+	mWaterBox = nullptr;
+	enableEvent(0, EB_IsPlatformCollsAllowed);
+	enableEvent(0, EB_IsAnimating);
 }
 
 /*
@@ -962,61 +985,62 @@ void EnemyBase::onInit(Game::CreatureInitArg* arg)
  * Address:	80101B5C
  * Size:	000218
  */
-void EnemyBase::onInitPost(Game::CreatureInitArg* arg)
+void EnemyBase::onInitPost(CreatureInitArg* arg)
 {
-	switch (m_dropGroup) {
-	case 0:
-		m_lifecycleFSM->start(this, EnemyBaseFSM::EBS_Living, nullptr);
+	switch (mDropGroup) {
+	case EDG_None:
+		mLifecycleFSM->start(this, EnemyBaseFSM::EBS_Living, nullptr);
 		break;
-	case 1:
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-		if (isEvent(0, EB_HardConstraint)) {
-			m_lifecycleFSM->start(this, EnemyBaseFSM::EBS_Living, nullptr);
+	case EDG_Normal:
+	case EDG_Pikmin:
+	case EDG_Navi:
+	case EDG_Treasure:
+	case EDG_Earthquake:
+		if (isEvent(0, EB_IsHardConstraint)) {
+			mLifecycleFSM->start(this, EnemyBaseFSM::EBS_Living, nullptr);
 		} else {
-			switch (m_dropGroup) {
-			case 1:
-				m_lifecycleFSM->start(this, EnemyBaseFSM::EBS_Drop, nullptr);
+			switch (mDropGroup) {
+			case EDG_Normal:
+				mLifecycleFSM->start(this, EnemyBaseFSM::EBS_Drop, nullptr);
 				break;
-			case 2:
-				m_lifecycleFSM->start(this, EnemyBaseFSM::EBS_DropPikmin, nullptr);
+			case EDG_Pikmin:
+				mLifecycleFSM->start(this, EnemyBaseFSM::EBS_DropPikmin, nullptr);
 				break;
-			case 3:
-				m_lifecycleFSM->start(this, EnemyBaseFSM::EBS_DropOlimar, nullptr);
+			case EDG_Navi:
+				mLifecycleFSM->start(this, EnemyBaseFSM::EBS_DropOlimar, nullptr);
 				break;
-			case 4:
-				m_lifecycleFSM->start(this, EnemyBaseFSM::EBS_DropTreasure, nullptr);
+			case EDG_Treasure:
+				mLifecycleFSM->start(this, EnemyBaseFSM::EBS_DropTreasure, nullptr);
 				break;
-			case 5:
-				m_lifecycleFSM->start(this, EnemyBaseFSM::EBS_DropEarthquake, nullptr);
+			case EDG_Earthquake:
+				mLifecycleFSM->start(this, EnemyBaseFSM::EBS_DropEarthquake, nullptr);
 				break;
 			default:
-				JUT_PANICLINE(1483, "Unknown birth type:%d", m_dropGroup);
+				JUT_PANICLINE(1483, "Unknown birth type:%d", mDropGroup);
 				break;
 			}
 		}
 		break;
 	default:
-		JUT_PANICLINE(1490, "Unknown birth type:%d", m_dropGroup);
+		JUT_PANICLINE(1490, "Unknown birth type:%d", mDropGroup);
 		break;
 	}
 
-	if (gameSystem->m_mode == GSM_PIKLOPEDIA) {
+	if (gameSystem->mMode == GSM_PIKLOPEDIA) {
 		doAnimationCullingOff();
 
 		Sys::Sphere waterSphere;
 		getWaterSphere(&waterSphere);
 
 		WaterBox* waterBox = nullptr;
-		if (mapMgr != nullptr) {
+		if (mapMgr) {
 			waterBox = mapMgr->findWater(waterSphere);
 		}
-		if (waterBox != nullptr) {
-			m_waterBox = waterBox;
+
+		if (waterBox) {
+			mWaterBox = waterBox;
 		} else {
-			m_waterBox = nullptr;
+			mWaterBox = nullptr;
 		}
 	}
 }
@@ -1026,22 +1050,37 @@ void EnemyBase::onInitPost(Game::CreatureInitArg* arg)
  * Address:	80101D74
  * Size:	0000A0
  */
-void EnemyBase::setOtakaraCode(Game::PelletMgr::OtakaraItemCode& itemCode)
+void EnemyBase::setOtakaraCode(PelletMgr::OtakaraItemCode& itemCode)
 {
-	m_pelletDropCode.m_value = itemCode.m_value;
-	if (!m_pelletDropCode.isNull()) {
-		short dropCode = m_pelletDropCode.m_value;
-		int dropShift  = dropCode >> 8;
+	mPelletDropCode.mValue = itemCode;
+	if (!mPelletDropCode.isNull()) {
+		s16 dropCode  = mPelletDropCode;
+		u32 dropShift = dropCode >> 8;
+
 		if ((u8)dropShift == 4) {
 			Radar::Mgr::entry(this, Radar::MAP_UPGRADE, 0);
 			return;
 		}
+
 		if (playData->isPelletEverGot(dropShift, dropCode)) {
 			Radar::Mgr::entry(this, Radar::MAP_TREASURE, 0);
 			return;
 		}
+
 		Radar::Mgr::entry(this, Radar::MAP_SWALLOWED_TREASURE, 0);
 	}
+}
+
+void EnemyBase::forceKillEffects()
+{
+	if (mHeldPellet != nullptr) {
+		InteractMattuan interactMatt(this, 2.5f);
+
+		mHeldPellet->stimulate(interactMatt);
+		mHeldPellet = nullptr;
+	}
+
+	mSoundObj->setKilled();
 }
 
 /*
@@ -1051,11 +1090,33 @@ void EnemyBase::setOtakaraCode(Game::PelletMgr::OtakaraItemCode& itemCode)
  */
 void EnemyBase::setCarcassArg(PelletViewArg& carcassArg)
 {
-	Vector3f pos           = getPosition();
-	carcassArg.m_enemyName = EnemyInfoFunc::getEnemyName(getEnemyTypeID(), 0xFFFF);
-	carcassArg.m_position  = pos;
-	carcassArg.m_matrix    = &m_mainMatrix;
-	carcassArg.m_enemy     = this;
+	Vector3f pos          = getPosition();
+	carcassArg.mEnemyName = EnemyInfoFunc::getEnemyName(getEnemyTypeID(), 0xFFFF);
+	carcassArg.mPosition  = pos;
+	carcassArg.mMatrix    = &mObjMatrix;
+	carcassArg.mEnemy     = this;
+}
+
+void EnemyBase::becomeCarcass()
+{
+	if (lifeGaugeMgr != nullptr) {
+		lifeGaugeMgr->inactiveLifeGauge(this);
+	}
+
+	if (shadowMgr != nullptr) {
+		shadowMgr->delShadow(this);
+	}
+
+	fadeEffects();
+
+	mSfxEmotion = EMOTE_None;
+
+	if (PSGetDirectedMainBgm()) {
+		mSoundObj->battleOff();
+	}
+
+	mSoundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
+	mMgr->kill(this);
 }
 
 /*
@@ -1072,766 +1133,153 @@ bool EnemyBase::doBecomeCarcass() { return true; }
  */
 void EnemyBase::doUpdateCarcass() { }
 
+void EnemyBase::deathMethod()
+{
+	forceKillEffects();
+	becomeCarcass();
+}
+
 /*
  * --INFO--
  * Address:	80101EE8
  * Size:	0009EC
  */
-// WIP: https://decomp.me/scratch/vSUKZ
-void EnemyBase::onKill(Game::CreatureKillArg*)
+void EnemyBase::onKill(CreatureKillArg* inputArg)
 {
-	/*
-	.loc_0x0:
-	  stwu      r1, -0x150(r1)
-	  mflr      r0
-	  stw       r0, 0x154(r1)
-	  stfd      f31, 0x140(r1)
-	  psq_st    f31,0x148(r1),0,0
-	  stfd      f30, 0x130(r1)
-	  psq_st    f30,0x138(r1),0,0
-	  stfd      f29, 0x120(r1)
-	  psq_st    f29,0x128(r1),0,0
-	  stfd      f28, 0x110(r1)
-	  psq_st    f28,0x118(r1),0,0
-	  stmw      r25, 0xF4(r1)
-	  lwz       r12, 0x0(r3)
-	  mr        r31, r3
-	  mr        r25, r4
-	  lwz       r12, 0x1A8(r12)
-	  mtctr     r12
-	  bctrl
-	  mr        r3, r31
-	  lwz       r12, 0x0(r31)
-	  lwz       r12, 0x1AC(r12)
-	  mtctr     r12
-	  bctrl
-	  cmplwi    r25, 0
-	  li        r28, 0
-	  beq-      .loc_0x94
-	  mr        r3, r25
-	  lwz       r12, 0x0(r25)
-	  lwz       r12, 0x8(r12)
-	  mtctr     r12
-	  bctrl
-	  lis       r4, 0x8048
-	  subi      r4, r4, 0x5A14
-	  bl        -0x378AC
-	  cmpwi     r3, 0
-	  bne-      .loc_0x94
-	  mr        r28, r25
+	getCreatureName();
+	getCreatureID();
 
-	.loc_0x94:
-	  mr        r3, r31
-	  bl        0x9D4A4
-	  cmplwi    r28, 0
-	  beq-      .loc_0xB0
-	  lwz       r0, 0x4(r28)
-	  rlwinm.   r0,r0,0,3,3
-	  bne-      .loc_0x188
+	CreatureKillArg* killArg = nullptr;
+	if (inputArg && strcmp(inputArg->getName(), "EnemyKillArg") == 0) {
+		killArg = inputArg;
+	}
 
-	.loc_0xB0:
-	  lwz       r0, 0x1E0(r31)
-	  rlwinm.   r0,r0,0,23,23
-	  beq-      .loc_0x188
-	  mr        r3, r31
-	  addi      r4, r1, 0x80
-	  lwz       r12, 0x0(r31)
-	  lwz       r12, 0x204(r12)
-	  mtctr     r12
-	  bctrl
-	  mr        r3, r31
-	  lfs       f28, 0x1F8(r31)
-	  lwz       r12, 0x0(r31)
-	  lwz       r12, 0x258(r12)
-	  mtctr     r12
-	  bctrl
-	  lwz       r7, 0x80(r1)
-	  lis       r4, 0x804B
-	  lwz       r6, 0x84(r1)
-	  subi      r0, r4, 0x5808
-	  lwz       r5, 0x88(r1)
-	  lis       r4, 0x804B
-	  stw       r7, 0x4C(r1)
-	  lis       r7, 0x804E
-	  subi      r9, r4, 0x5814
-	  lis       r8, 0x804B
-	  stw       r6, 0x50(r1)
-	  lis       r4, 0x804F
-	  lfs       f2, 0x4C(r1)
-	  li        r6, 0x52
-	  stw       r5, 0x54(r1)
-	  li        r5, 0
-	  lfs       f1, 0x50(r1)
-	  addi      r7, r7, 0x6A78
-	  stw       r0, 0x74(r1)
-	  subi      r8, r8, 0x5820
-	  lfs       f0, 0x54(r1)
-	  subi      r0, r4, 0x79A0
-	  stw       r9, 0x8C(r1)
-	  addi      r4, r1, 0x8C
-	  stw       r7, 0x74(r1)
-	  stw       r3, 0x9C(r1)
-	  addi      r3, r1, 0x74
-	  stfs      f2, 0x90(r1)
-	  stfs      f1, 0x94(r1)
-	  stfs      f0, 0x98(r1)
-	  stw       r8, 0x8C(r1)
-	  stfs      f28, 0xA0(r1)
-	  sth       r6, 0x78(r1)
-	  stw       r5, 0x7C(r1)
-	  stw       r0, 0x74(r1)
-	  bl        0x2C604C
-	  lfs       f1, -0x6BB0(r2)
-	  mr        r3, r31
-	  bl        0x36C210
+	endStick();
 
-	.loc_0x188:
-	  cmplwi    r28, 0
-	  beq-      .loc_0x19C
-	  lwz       r0, 0x4(r28)
-	  rlwinm.   r0,r0,0,1,1
-	  bne-      .loc_0x8A4
+	if ((!killArg || (killArg->_04 & 0x10000000) == FALSE) && isEvent(0, EB_IsDeathEffectEnabled)) {
+		Vector3f effectPos;
+		getCommonEffectPos(effectPos);
+		f32 scaleMod                      = mScaleModifier;
+		EnemyTypeID::EEnemyTypeID enemyID = getEnemyTypeID();
 
-	.loc_0x19C:
-	  lwz       r3, 0x1E0(r31)
-	  rlwinm.   r0,r3,0,22,22
-	  beq-      .loc_0x574
-	  lwz       r3, 0x24C(r31)
-	  bl        0x28058
-	  mr        r3, r31
-	  bl        0x3684
-	  lwz       r0, 0x1E0(r31)
-	  mr        r3, r31
-	  rlwinm    r0,r0,0,23,21
-	  stw       r0, 0x1E0(r31)
-	  bl        0x56BC
-	  lwz       r0, -0x6BB0(r13)
-	  cmplwi    r0, 0
-	  beq-      .loc_0x470
-	  mr        r3, r31
-	  lwz       r12, 0x0(r31)
-	  lwz       r12, 0x258(r12)
-	  mtctr     r12
-	  bctrl
-	  lis       r4, 0x1
-	  subi      r4, r4, 0x1
-	  bl        0x2119C
-	  lbz       r0, 0x30(r3)
-	  extsb     r0, r0
-	  cmpwi     r0, 0x3
-	  beq-      .loc_0x24C
-	  bge-      .loc_0x21C
-	  cmpwi     r0, 0
-	  beq-      .loc_0x234
-	  bge-      .loc_0x240
-	  b         .loc_0x270
+		efx::ArgEnemyType efxArg(effectPos, enemyID, scaleMod);
+		efx::TEnemyDead efxDead;
 
-	.loc_0x21C:
-	  cmpwi     r0, 0x8
-	  beq-      .loc_0x264
-	  bge-      .loc_0x270
-	  cmpwi     r0, 0x6
-	  bge-      .loc_0x258
-	  b         .loc_0x270
+		efxDead.create((efx::Arg*)&efxArg);
+		PSStartEnemyGhostSE(this, 0.0f);
+	}
 
-	.loc_0x234:
-	  lfs       f28, -0x6B58(r2)
-	  li        r27, 0x1
-	  b         .loc_0x278
+	if (!killArg || (killArg->_04 & 0x40000000) == FALSE) {
+		if (isEvent(0, EB_IsBittered)) {
+			mEnemyStoneObj->dead();
+			deathProcedure();
+			disableEvent(0, EB_IsBittered);
+			constraintOff();
+			if (ItemHoney::mgr) {
+				s8 bitterDrop = (s8)EnemyInfoFunc::getEnemyInfo(getEnemyTypeID(), 0xFFFF)->mBitterDrops;
+				f32 scaledChance, dropChance;
+				int dropRolls;
 
-	.loc_0x240:
-	  lfs       f28, -0x6B54(r2)
-	  li        r27, 0x1
-	  b         .loc_0x278
+				switch (bitterDrop) {
+				case BDT_Weak:
+					dropChance = 0.99f;
+					dropRolls  = 1;
+					break;
+				case BDT_Normal:
+				case BDT_Strong:
+					dropChance = 0.9f;
+					dropRolls  = 1;
+					break;
+				case BDT_Triple:
+					dropChance = 0.9f;
+					dropRolls  = 3;
+					break;
+				case BDT_MiniBoss:
+				case BDT_Boss:
+					dropChance = 0.85f;
+					dropRolls  = 5;
+					break;
+				case BDT_FinalBoss:
+					dropChance = 0.0f;
+					dropRolls  = 10;
+					break;
+				default:
+					dropChance = 1.0f;
+					dropRolls  = 0;
+					break;
+				}
 
-	.loc_0x24C:
-	  lfs       f28, -0x6B54(r2)
-	  li        r27, 0x3
-	  b         .loc_0x278
+				scaledChance = (0.5f * (1.0f - dropChance)) + dropChance;
 
-	.loc_0x258:
-	  lfs       f28, -0x6B50(r2)
-	  li        r27, 0x5
-	  b         .loc_0x278
+				for (int i = 0; i < dropRolls; i++) {
+					f32 randRoll = randFloat();
 
-	.loc_0x264:
-	  lfs       f28, -0x6BB0(r2)
-	  li        r27, 0xA
-	  b         .loc_0x278
+					u8 honeyKind;
+					if (randRoll < dropChance) {
+						honeyKind = HONEY_Y;
+					} else if (randRoll < scaledChance) {
+						honeyKind = HONEY_R;
+					} else {
+						honeyKind = HONEY_B;
+					}
 
-	.loc_0x270:
-	  lfs       f28, -0x6B9C(r2)
-	  li        r27, 0
+					Sys::Sphere ball;
+					getBoundingSphere(ball);
 
-	.loc_0x278:
-	  lfs       f0, -0x6B9C(r2)
-	  lis       r4, 0x804B
-	  lis       r3, 0x804B
-	  lfs       f1, -0x6B4C(r2)
-	  fsubs     f0, f0, f28
-	  lfd       f30, -0x6BA8(r2)
-	  lfs       f31, -0x6BC4(r2)
-	  subi      r29, r4, 0x5D0C
-	  subi      r30, r3, 0x5D18
-	  li        r26, 0
-	  fmadds    f29, f1, f0, f28
-	  lis       r28, 0x4330
-	  b         .loc_0x468
+					ItemHoney::InitArg honeyArg(honeyKind, 0);
+					ItemHoney::Item* drop = static_cast<ItemHoney::Item*>(ItemHoney::mgr->birth());
 
-	.loc_0x2AC:
-	  bl        -0x38BF4
-	  xoris     r0, r3, 0x8000
-	  stw       r28, 0xC8(r1)
-	  stw       r0, 0xCC(r1)
-	  lfd       f0, 0xC8(r1)
-	  fsubs     f0, f0, f30
-	  fdivs     f0, f0, f31
-	  fcmpo     cr0, f0, f28
-	  bge-      .loc_0x2D8
-	  li        r25, 0
-	  b         .loc_0x2EC
+					if (drop != nullptr) {
+						drop->init((CreatureInitArg*)&honeyArg);
+						drop->setPosition(ball.mPosition, false);
+						f32 theta    = TAU * randFloat();
+						f32 scale    = 1.0f + ((f32)dropRolls / 10.0f);
+						f32 cosTheta = scale * (50.0f * pikmin2_cosf(theta));
+						f32 sinTheta = scale * (50.0f * pikmin2_sinf(theta));
 
-	.loc_0x2D8:
-	  fcmpo     cr0, f0, f29
-	  bge-      .loc_0x2E8
-	  li        r25, 0x1
-	  b         .loc_0x2EC
+						Vector3f dropVelocity; // sp58
+						dropVelocity.x = sinTheta;
+						dropVelocity.y = 250.0f * scale;
+						dropVelocity.z = cosTheta;
 
-	.loc_0x2E8:
-	  li        r25, 0x2
+						drop->setVelocity(dropVelocity);
+					}
+				}
+			}
+			forceKillEffects();
+			becomeCarcass();
 
-	.loc_0x2EC:
-	  mr        r3, r31
-	  addi      r4, r1, 0x64
-	  lwz       r12, 0x0(r31)
-	  lwz       r12, 0x10(r12)
-	  mtctr     r12
-	  bctrl
-	  stw       r29, 0x8(r1)
-	  li        r0, 0
-	  lwz       r3, -0x6BB0(r13)
-	  stw       r30, 0x8(r1)
-	  stb       r25, 0xC(r1)
-	  stb       r0, 0xD(r1)
-	  lwz       r12, 0x0(r3)
-	  lwz       r12, 0xA4(r12)
-	  mtctr     r12
-	  bctrl
-	  mr.       r25, r3
-	  beq-      .loc_0x464
-	  addi      r4, r1, 0x8
-	  bl        0x38DA8
-	  mr        r3, r25
-	  addi      r4, r1, 0x64
-	  li        r5, 0
-	  bl        0x38F78
-	  bl        -0x38C94
-	  lis       r4, 0x4330
-	  xoris     r0, r3, 0x8000
-	  stw       r0, 0xCC(r1)
-	  xoris     r0, r27, 0x8000
-	  lfd       f5, -0x6BA8(r2)
-	  stw       r4, 0xC8(r1)
-	  lfs       f0, -0x6BC4(r2)
-	  lfd       f1, 0xC8(r1)
-	  stw       r0, 0xD4(r1)
-	  fsubs     f3, f1, f5
-	  lfs       f1, -0x6B48(r2)
-	  stw       r4, 0xD0(r1)
-	  lfs       f4, -0x6BC0(r2)
-	  lfd       f2, 0xD0(r1)
-	  fdivs     f6, f3, f0
-	  lfs       f3, -0x6B9C(r2)
-	  lfs       f0, -0x6BB0(r2)
-	  fmuls     f6, f4, f6
-	  fsubs     f2, f2, f5
-	  fmr       f4, f6
-	  fdivs     f1, f2, f1
-	  fcmpo     cr0, f6, f0
-	  fadds     f5, f3, f1
-	  bge-      .loc_0x3B4
-	  fneg      f4, f6
+		} else if (mExistDuration == 0.0f && isEvent(0, EB_ToLeaveCarcass) && (!killArg || !(killArg->_04 & 0x20000000))) {
+			if (!mPellet) {
+				PelletViewArg pvArg;
+				setCarcassArg(pvArg);
+				if (!becomePellet(&pvArg)) {
+					deathMethod();
+				} else {
+					lifeGaugeMgr->inactiveLifeGauge(this);
+					mSfxEmotion = 0;
+					if (PSGetDirectedMainBgm()) {
+						mSoundObj->battleOff();
+					}
+					doBecomeCarcass();
+				}
+			}
+			forceKillEffects();
+		} else {
+			forceKillEffects();
+			becomeCarcass();
+		}
 
-	.loc_0x3B4:
-	  lfs       f2, -0x6BB4(r2)
-	  lis       r3, 0x8050
-	  lfs       f0, -0x6BB0(r2)
-	  addi      r4, r3, 0x71A0
-	  fmuls     f1, f4, f2
-	  lfs       f3, -0x6BBC(r2)
-	  fcmpo     cr0, f6, f0
-	  fctiwz    f0, f1
-	  stfd      f0, 0xD8(r1)
-	  lwz       r0, 0xDC(r1)
-	  rlwinm    r0,r0,3,18,28
-	  add       r3, r4, r0
-	  lfs       f0, 0x4(r3)
-	  fmuls     f0, f3, f0
-	  fmuls     f4, f5, f0
-	  bge-      .loc_0x418
-	  lfs       f0, -0x6BB8(r2)
-	  fmuls     f0, f6, f0
-	  fctiwz    f0, f0
-	  stfd      f0, 0xE0(r1)
-	  lwz       r0, 0xE4(r1)
-	  rlwinm    r0,r0,3,18,28
-	  lfsx      f0, r4, r0
-	  fneg      f0, f0
-	  b         .loc_0x430
+		setZukanVisible(true);
+		return;
+	}
 
-	.loc_0x418:
-	  fmuls     f0, f6, f2
-	  fctiwz    f0, f0
-	  stfd      f0, 0xE8(r1)
-	  lwz       r0, 0xEC(r1)
-	  rlwinm    r0,r0,3,18,28
-	  lfsx      f0, r4, r0
+	if (isEvent(0, EB_IsBittered)) {
+		mEnemyStoneObj->dead();
+	}
 
-	.loc_0x430:
-	  fmuls     f1, f3, f0
-	  lfs       f0, -0x6B44(r2)
-	  stfs      f4, 0x60(r1)
-	  mr        r3, r25
-	  fmuls     f0, f0, f5
-	  addi      r4, r1, 0x58
-	  fmuls     f1, f5, f1
-	  stfs      f0, 0x5C(r1)
-	  stfs      f1, 0x58(r1)
-	  lwz       r12, 0x0(r25)
-	  lwz       r12, 0x68(r12)
-	  mtctr     r12
-	  bctrl
-
-	.loc_0x464:
-	  addi      r26, r26, 0x1
-
-	.loc_0x468:
-	  cmpw      r26, r27
-	  blt+      .loc_0x2AC
-
-	.loc_0x470:
-	  lwz       r3, 0x254(r31)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x4BC
-	  lis       r4, 0x804B
-	  lfs       f0, -0x6B5C(r2)
-	  subi      r0, r4, 0x5D00
-	  stw       r31, 0x44(r1)
-	  lis       r4, 0x804B
-	  stw       r0, 0x40(r1)
-	  addi      r0, r4, 0x22C0
-	  addi      r4, r1, 0x40
-	  stw       r0, 0x40(r1)
-	  stfs      f0, 0x48(r1)
-	  lwz       r12, 0x0(r3)
-	  lwz       r12, 0x1A4(r12)
-	  mtctr     r12
-	  bctrl
-	  li        r0, 0
-	  stw       r0, 0x254(r31)
-
-	.loc_0x4BC:
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC8(r12)
-	  mtctr     r12
-	  bctrl
-	  lwz       r3, -0x6DF8(r13)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x4E4
-	  mr        r4, r31
-	  bl        0x187B0
-
-	.loc_0x4E4:
-	  lwz       r3, -0x6980(r13)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x4F8
-	  mr        r4, r31
-	  bl        0x13F914
-
-	.loc_0x4F8:
-	  lwz       r3, 0x2A0(r31)
-	  b         .loc_0x51C
-
-	.loc_0x500:
-	  lwz       r12, 0x0(r3)
-	  mr        r4, r31
-	  lwz       r25, 0x4(r3)
-	  lwz       r12, 0x14(r12)
-	  mtctr     r12
-	  bctrl
-	  mr        r3, r25
-
-	.loc_0x51C:
-	  cmplwi    r3, 0
-	  bne+      .loc_0x500
-	  li        r0, 0
-	  stb       r0, 0x1F0(r31)
-	  bl        0x235894
-	  cmplwi    r3, 0
-	  beq-      .loc_0x54C
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC4(r12)
-	  mtctr     r12
-	  bctrl
-
-	.loc_0x54C:
-	  lfs       f1, -0x6BB0(r2)
-	  li        r4, 0
-	  lwz       r3, 0x28C(r31)
-	  li        r5, 0x1
-	  fmr       f2, f1
-	  bl        0x35B998
-	  lwz       r3, 0x180(r31)
-	  mr        r4, r31
-	  bl        0x2D100
-	  b         .loc_0x894
-
-	.loc_0x574:
-	  lfs       f1, -0x6BB0(r2)
-	  lfs       f0, 0x2AC(r31)
-	  fcmpu     cr0, f1, f0
-	  bne-      .loc_0x794
-	  rlwinm.   r0,r3,0,24,24
-	  beq-      .loc_0x794
-	  cmplwi    r28, 0
-	  beq-      .loc_0x5A0
-	  lwz       r0, 0x4(r28)
-	  rlwinm.   r0,r0,0,2,2
-	  bne-      .loc_0x794
-
-	.loc_0x5A0:
-	  lwz       r3, 0x17C(r31)
-	  lwz       r0, 0x4(r3)
-	  cmplwi    r0, 0
-	  bne-      .loc_0x730
-	  addi      r3, r1, 0xA4
-	  bl        0x636B0
-	  mr        r3, r31
-	  addi      r4, r1, 0xA4
-	  lwz       r12, 0x0(r31)
-	  lwz       r12, 0x2C8(r12)
-	  mtctr     r12
-	  bctrl
-	  lwz       r3, 0x17C(r31)
-	  addi      r4, r1, 0xA4
-	  bl        0x636C0
-	  cmplwi    r3, 0
-	  bne-      .loc_0x6E8
-	  lwz       r3, 0x254(r31)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x630
-	  lis       r4, 0x804B
-	  lfs       f0, -0x6B5C(r2)
-	  subi      r0, r4, 0x5D00
-	  stw       r31, 0x14(r1)
-	  lis       r4, 0x804B
-	  stw       r0, 0x10(r1)
-	  addi      r0, r4, 0x22C0
-	  addi      r4, r1, 0x10
-	  stw       r0, 0x10(r1)
-	  stfs      f0, 0x18(r1)
-	  lwz       r12, 0x0(r3)
-	  lwz       r12, 0x1A4(r12)
-	  mtctr     r12
-	  bctrl
-	  li        r0, 0
-	  stw       r0, 0x254(r31)
-
-	.loc_0x630:
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC8(r12)
-	  mtctr     r12
-	  bctrl
-	  lwz       r3, -0x6DF8(r13)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x658
-	  mr        r4, r31
-	  bl        0x1863C
-
-	.loc_0x658:
-	  lwz       r3, -0x6980(r13)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x66C
-	  mr        r4, r31
-	  bl        0x13F7A0
-
-	.loc_0x66C:
-	  lwz       r3, 0x2A0(r31)
-	  b         .loc_0x690
-
-	.loc_0x674:
-	  lwz       r12, 0x0(r3)
-	  mr        r4, r31
-	  lwz       r25, 0x4(r3)
-	  lwz       r12, 0x14(r12)
-	  mtctr     r12
-	  bctrl
-	  mr        r3, r25
-
-	.loc_0x690:
-	  cmplwi    r3, 0
-	  bne+      .loc_0x674
-	  li        r0, 0
-	  stb       r0, 0x1F0(r31)
-	  bl        0x235720
-	  cmplwi    r3, 0
-	  beq-      .loc_0x6C0
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC4(r12)
-	  mtctr     r12
-	  bctrl
-
-	.loc_0x6C0:
-	  lfs       f1, -0x6BB0(r2)
-	  li        r4, 0
-	  lwz       r3, 0x28C(r31)
-	  li        r5, 0x1
-	  fmr       f2, f1
-	  bl        0x35B824
-	  lwz       r3, 0x180(r31)
-	  mr        r4, r31
-	  bl        0x2CF8C
-	  b         .loc_0x730
-
-	.loc_0x6E8:
-	  lwz       r3, -0x6DF8(r13)
-	  mr        r4, r31
-	  bl        0x185A0
-	  li        r0, 0
-	  stb       r0, 0x1F0(r31)
-	  bl        0x2356C4
-	  cmplwi    r3, 0
-	  beq-      .loc_0x71C
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC4(r12)
-	  mtctr     r12
-	  bctrl
-
-	.loc_0x71C:
-	  mr        r3, r31
-	  lwz       r12, 0x0(r31)
-	  lwz       r12, 0x2D0(r12)
-	  mtctr     r12
-	  bctrl
-
-	.loc_0x730:
-	  lwz       r3, 0x254(r31)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x77C
-	  lis       r4, 0x804B
-	  lfs       f0, -0x6B5C(r2)
-	  subi      r0, r4, 0x5D00
-	  stw       r31, 0x38(r1)
-	  lis       r4, 0x804B
-	  stw       r0, 0x34(r1)
-	  addi      r0, r4, 0x22C0
-	  addi      r4, r1, 0x34
-	  stw       r0, 0x34(r1)
-	  stfs      f0, 0x3C(r1)
-	  lwz       r12, 0x0(r3)
-	  lwz       r12, 0x1A4(r12)
-	  mtctr     r12
-	  bctrl
-	  li        r0, 0
-	  stw       r0, 0x254(r31)
-
-	.loc_0x77C:
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC8(r12)
-	  mtctr     r12
-	  bctrl
-	  b         .loc_0x894
-
-	.loc_0x794:
-	  lwz       r3, 0x254(r31)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x7E0
-	  lis       r4, 0x804B
-	  lfs       f0, -0x6B5C(r2)
-	  subi      r0, r4, 0x5D00
-	  stw       r31, 0x2C(r1)
-	  lis       r4, 0x804B
-	  stw       r0, 0x28(r1)
-	  addi      r0, r4, 0x22C0
-	  addi      r4, r1, 0x28
-	  stw       r0, 0x28(r1)
-	  stfs      f0, 0x30(r1)
-	  lwz       r12, 0x0(r3)
-	  lwz       r12, 0x1A4(r12)
-	  mtctr     r12
-	  bctrl
-	  li        r0, 0
-	  stw       r0, 0x254(r31)
-
-	.loc_0x7E0:
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC8(r12)
-	  mtctr     r12
-	  bctrl
-	  lwz       r3, -0x6DF8(r13)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x808
-	  mr        r4, r31
-	  bl        0x1848C
-
-	.loc_0x808:
-	  lwz       r3, -0x6980(r13)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x81C
-	  mr        r4, r31
-	  bl        0x13F5F0
-
-	.loc_0x81C:
-	  lwz       r3, 0x2A0(r31)
-	  b         .loc_0x840
-
-	.loc_0x824:
-	  lwz       r12, 0x0(r3)
-	  mr        r4, r31
-	  lwz       r25, 0x4(r3)
-	  lwz       r12, 0x14(r12)
-	  mtctr     r12
-	  bctrl
-	  mr        r3, r25
-
-	.loc_0x840:
-	  cmplwi    r3, 0
-	  bne+      .loc_0x824
-	  li        r0, 0
-	  stb       r0, 0x1F0(r31)
-	  bl        0x235570
-	  cmplwi    r3, 0
-	  beq-      .loc_0x870
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC4(r12)
-	  mtctr     r12
-	  bctrl
-
-	.loc_0x870:
-	  lfs       f1, -0x6BB0(r2)
-	  li        r4, 0
-	  lwz       r3, 0x28C(r31)
-	  li        r5, 0x1
-	  fmr       f2, f1
-	  bl        0x35B674
-	  lwz       r3, 0x180(r31)
-	  mr        r4, r31
-	  bl        0x2CDDC
-
-	.loc_0x894:
-	  mr        r3, r31
-	  li        r4, 0x1
-	  bl        0x19C
-	  b         .loc_0x9B8
-
-	.loc_0x8A4:
-	  lwz       r0, 0x1E0(r31)
-	  rlwinm.   r0,r0,0,22,22
-	  beq-      .loc_0x8B8
-	  lwz       r3, 0x24C(r31)
-	  bl        0x27950
-
-	.loc_0x8B8:
-	  lwz       r3, 0x254(r31)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x904
-	  lis       r4, 0x804B
-	  lfs       f0, -0x6B5C(r2)
-	  subi      r0, r4, 0x5D00
-	  stw       r31, 0x20(r1)
-	  lis       r4, 0x804B
-	  stw       r0, 0x1C(r1)
-	  addi      r0, r4, 0x22C0
-	  addi      r4, r1, 0x1C
-	  stw       r0, 0x1C(r1)
-	  stfs      f0, 0x24(r1)
-	  lwz       r12, 0x0(r3)
-	  lwz       r12, 0x1A4(r12)
-	  mtctr     r12
-	  bctrl
-	  li        r0, 0
-	  stw       r0, 0x254(r31)
-
-	.loc_0x904:
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC8(r12)
-	  mtctr     r12
-	  bctrl
-	  lwz       r3, -0x6DF8(r13)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x92C
-	  mr        r4, r31
-	  bl        0x18368
-
-	.loc_0x92C:
-	  lwz       r3, -0x6980(r13)
-	  cmplwi    r3, 0
-	  beq-      .loc_0x940
-	  mr        r4, r31
-	  bl        0x13F4CC
-
-	.loc_0x940:
-	  lwz       r3, 0x2A0(r31)
-	  b         .loc_0x964
-
-	.loc_0x948:
-	  lwz       r12, 0x0(r3)
-	  mr        r4, r31
-	  lwz       r25, 0x4(r3)
-	  lwz       r12, 0x14(r12)
-	  mtctr     r12
-	  bctrl
-	  mr        r3, r25
-
-	.loc_0x964:
-	  cmplwi    r3, 0
-	  bne+      .loc_0x948
-	  li        r0, 0
-	  stb       r0, 0x1F0(r31)
-	  bl        0x23544C
-	  cmplwi    r3, 0
-	  beq-      .loc_0x994
-	  lwz       r3, 0x28C(r31)
-	  lwz       r12, 0x28(r3)
-	  lwz       r12, 0xC4(r12)
-	  mtctr     r12
-	  bctrl
-
-	.loc_0x994:
-	  lfs       f1, -0x6BB0(r2)
-	  li        r4, 0
-	  lwz       r3, 0x28C(r31)
-	  li        r5, 0x1
-	  fmr       f2, f1
-	  bl        0x35B550
-	  lwz       r3, 0x180(r31)
-	  mr        r4, r31
-	  bl        0x2CCB8
-
-	.loc_0x9B8:
-	  psq_l     f31,0x148(r1),0,0
-	  lfd       f31, 0x140(r1)
-	  psq_l     f30,0x138(r1),0,0
-	  lfd       f30, 0x130(r1)
-	  psq_l     f29,0x128(r1),0,0
-	  lfd       f29, 0x120(r1)
-	  psq_l     f28,0x118(r1),0,0
-	  lfd       f28, 0x110(r1)
-	  lmw       r25, 0xF4(r1)
-	  lwz       r0, 0x154(r1)
-	  mtlr      r0
-	  addi      r1, r1, 0x150
-	  blr
-	*/
+	forceKillEffects();
+	becomeCarcass();
 }
 
 /*
@@ -1839,19 +1287,22 @@ void EnemyBase::onKill(Game::CreatureKillArg*)
  * Address:	80102920
  * Size:	0000E0
  */
-void EnemyBase::setZukanVisible(bool arg)
+void EnemyBase::setZukanVisible(bool updateStats)
 {
-	if (m_inPiklopedia) {
-		if (!(gameSystem->_3C & 0x10)) {
-			EnemyInfo* enemyInfo = EnemyInfoFunc::getEnemyInfo(getEnemyTypeID(), 0xFFFF);
-			if (!(enemyInfo->m_flags & 0x200)) {
-				TekiStat::Info* tekiInfo = playData->m_tekiStatMgr.getTekiInfo(getEnemyTypeID());
-				P2ASSERTLINE(1859, tekiInfo != nullptr);
-				if (arg) {
-					tekiInfo->incKilled();
-				} else {
-					tekiInfo->m_state |= TEKISTAT_STATE_UPDATED;
-				}
+	if (!mInPiklopedia) {
+		return;
+	}
+
+	if ((gameSystem->mFlags & GAMESYS_Unk5) == FALSE) {
+		EnemyInfo* enemyInfo = EnemyInfoFunc::getEnemyInfo(getEnemyTypeID(), 0xFFFF);
+		if ((enemyInfo->mFlags & 0x200) == FALSE) {
+			TekiStat::Info* tekiInfo = playData->mTekiStatMgr.getTekiInfo(getEnemyTypeID());
+			P2ASSERTLINE(1859, tekiInfo);
+
+			if (updateStats) {
+				tekiInfo->incKilled();
+			} else {
+				SET_FLAG(tekiInfo->mState, TEKISTAT_STATE_UPDATED);
 			}
 		}
 	}
@@ -1862,44 +1313,49 @@ void EnemyBase::setZukanVisible(bool arg)
  * Address:	80102A00
  * Size:	000160
  */
-void EnemyBase::birth(Vector3f& pos, float faceDir)
+void EnemyBase::birth(Vector3f& pos, f32 faceDir)
 {
-	setEvent(0, EB_29);
-	m_inPiklopedia = true;
+	enableEvent(0, EB_IsAlive);
+
+	mInPiklopedia = true;
+
 	setPosition(pos, false);
-	m_homePosition.x    = pos.x;
-	m_homePosition.y    = pos.y;
-	m_homePosition.z    = pos.z;
-	_1A4.m_matrix[0][0] = 0.0f;
-	_1A4.m_matrix[0][1] = 0.0f;
-	_1A4.m_matrix[0][2] = 0.0f;
-	m_velocity.x        = 0.0f;
-	m_velocity.y        = 0.0f;
-	m_velocity.z        = 0.0f;
-	m_velocity2.x       = 0.0f;
-	m_velocity2.y       = 0.0f;
-	m_velocity2.z       = 0.0f;
-	m_targetCreature    = nullptr;
-	m_faceDir           = faceDir;
-	_1A4.m_matrix[0][1] = m_faceDir;
-	_0C8                = nullptr;
-	m_stickPikminCount  = 0;
-	m_heldPellet        = nullptr;
-	m_model->m_j3dModel->calc();
-	m_collTree->update();
+	mHomePosition = pos;
+
+	mRotation        = Vector3f(0.0f);
+	mCurrentVelocity = Vector3f(0.0f);
+	mTargetVelocity  = Vector3f(0.0f);
+
+	mTargetCreature = nullptr;
+
+	mFaceDir    = faceDir;
+	mRotation.y = mFaceDir;
+
+	mBounceTriangle   = nullptr;
+	mStuckPikminCount = 0;
+	mHeldPellet       = nullptr;
+
+	mModel->mJ3dModel->calc();
+	mCollTree->update();
 	updateSpheres();
 	resetCollEvent();
+
 	_1F2 = 0xFF;
 	setParameters();
+
 	shadowMgr->addShadow(this);
-	if (lifeGaugeMgr != nullptr) {
+
+	if (lifeGaugeMgr) {
 		lifeGaugeMgr->activeLifeGauge(this, 1.0f);
 	}
-	m_model->hide();
-	m_emotion    = EMOTE_Caution;
-	_2AC         = 0.0f;
-	_2A8         = 0.0f;
-	m_scaleTimer = 0.0f;
+
+	mModel->hide();
+
+	mSfxEmotion = EMOTE_Caution;
+
+	mExistDuration = 0.0f;
+	mExistTimer    = 0.0f;
+	mStunAnimTimer = 0.0f;
 }
 
 /*
@@ -1909,8 +1365,8 @@ void EnemyBase::birth(Vector3f& pos, float faceDir)
  */
 void EnemyBase::updateTrMatrix()
 {
-	Vector3f rot = _1A4.getRow(0) + _1A4.getRow(1) + _1A4.getRow(2);
-	m_mainMatrix.makeTR(m_position, rot);
+	Vector3f rot = mRotation + mDamageAnimRotation + mStunAnimRotation;
+	mObjMatrix.makeTR(mPosition, rot);
 }
 
 /*
@@ -1920,14 +1376,15 @@ void EnemyBase::updateTrMatrix()
  */
 void EnemyBase::setParameters()
 {
-	m_health    = static_cast<EnemyParmsBase*>(m_parms)->m_general.m_health.m_value;
-	m_maxHealth = static_cast<EnemyParmsBase*>(m_parms)->m_general.m_health.m_value;
-	_118        = static_cast<EnemyParmsBase*>(m_parms)->m_general.m_fp05.m_value;
-	m_friction  = _118;
+	mHealth    = getParms().mHealth.mValue;
+	mMaxHealth = getParms().mHealth.mValue;
+	mMass      = getParms().mMass.mValue;
+	mFriction  = mMass;
+
 	Sys::Sphere sphere;
-	m_collTree->m_part->getSphere(sphere);
-	m_boundingSphere.m_radius = sphere.m_radius;
-	m_lodRange.m_radius       = static_cast<EnemyParmsBase*>(m_parms)->m_general.m_offCameraRadius.m_value;
+	mCollTree->mPart->getSphere(sphere);
+	mBoundingSphere.mRadius = sphere.mRadius;
+	mCurLodSphere.mRadius   = getParms().mOffCameraRadius.mValue;
 }
 
 /*
@@ -1935,7 +1392,7 @@ void EnemyBase::setParameters()
  * Address:	80102C50
  * Size:	000034
  */
-void EnemyBase::update() { static_cast<EnemyBaseFSM::StateMachine*>(m_lifecycleFSM)->update(this); }
+void EnemyBase::update() { static_cast<EnemyBaseFSM::StateMachine*>(mLifecycleFSM)->update(this); }
 
 /*
  * --INFO--
@@ -1944,28 +1401,31 @@ void EnemyBase::update() { static_cast<EnemyBaseFSM::StateMachine*>(m_lifecycleF
  */
 bool EnemyBase::isFinishableWaitingBirthTypeDrop()
 {
-	Sys::Sphere sphere(m_position, static_cast<EnemyParmsBase*>(m_parms)->m_general.m_privateRadius.m_value);
+	Sys::Sphere sphere(mPosition, static_cast<EnemyParmsBase*>(mParms)->mGeneral.mPrivateRadius.mValue);
 	bool result = false;
 
-	CellIteratorArg cellIteratorArg(sphere);
-	CellIterator cellIterator(cellIteratorArg);
-	cellIterator.first();
-	while (cellIterator.isDone() == false) {
-		Creature* cell = (Creature*)*cellIterator;
-		if (cell->isAlive()) {
-			if (cell->isNavi() || (cell->isPiki() && static_cast<Piki*>(cell)->isPikmin())) {
-				float privateRadius = static_cast<EnemyParmsBase*>(m_parms)->m_general.m_privateRadius.m_value;
+	CellIteratorArg ciArg(sphere);
+	CellIterator it(ciArg);
+	CI_LOOP(it)
+	{
+		Creature* cell = static_cast<Creature*>(*it);
+		if (!cell->isAlive()) {
+			continue;
+		}
 
-				Vector2f delta;
-				getSeparation(cell, delta);
+		// Is creature Pikmin or Navi?
+		if (cell->isNavi() || (cell->isPiki() && static_cast<Piki*>(cell)->isPikmin())) {
+			f32 privateRadius = static_cast<EnemyParmsBase*>(mParms)->mGeneral.mPrivateRadius.mValue;
+			Vector2f delta;
+			getDistanceTo(cell, delta);
 
-				if ((SQUARE(delta.x) + SQUARE(delta.y)) < SQUARE(privateRadius)) {
-					result = true;
-				}
+			// Is creature within private radius?
+			if (IS_WITHIN_CIRCLE(delta.x, delta.y, privateRadius)) {
+				result = true;
 			}
 		}
-		cellIterator.next();
 	}
+
 	return result;
 }
 
@@ -1976,15 +1436,17 @@ bool EnemyBase::isFinishableWaitingBirthTypeDrop()
  */
 void EnemyBase::startStoneState()
 {
-	if (!(isEvent(0, EB_BitterImmune)) && !((isEvent(0, EB_Bittered)))) {
-		if (isEvent(0, EB_22)) {
-			setEvent(0, EB_21);
+	// If not bittered and is vulnerable
+	if (isEvent(0, EB_IsImmuneBitter) == false && isEvent(0, EB_IsBittered) == false) {
+		if (isEvent(0, EB_IsEnemyNotBitter)) {
+			enableEvent(0, EB_ToEnableBitter);
 			return;
 		}
-		if (m_enemyStoneObj->start()) {
-			m_lifecycleFSM->transit(this, EnemyBaseFSM::EBS_Stone, 0);
+
+		if (mEnemyStoneObj->start()) {
+			mLifecycleFSM->transit(this, EnemyBaseFSM::EBS_Stone, 0);
 		} else {
-			setEvent(0, EB_21);
+			enableEvent(0, EB_ToEnableBitter);
 		}
 	}
 }
@@ -1996,9 +1458,9 @@ void EnemyBase::startStoneState()
  */
 void EnemyBase::doStartStoneState()
 {
-	m_velocity2.x = 0.0f;
-	m_velocity2.y = 0.0f;
-	m_velocity2.z = 0.0f;
+	mTargetVelocity.x = 0.0f;
+	mTargetVelocity.y = 0.0f;
+	mTargetVelocity.z = 0.0f;
 }
 
 /*
@@ -2007,6 +1469,14 @@ void EnemyBase::doStartStoneState()
  * Size:	000004
  */
 void EnemyBase::doFinishStoneState() { }
+
+void EnemyBase::updateEffects()
+{
+	WalkSmokeEffect::Mgr* smokeMgr = getWalkSmokeEffectMgr();
+	if (smokeMgr) {
+		smokeMgr->update(this);
+	}
+}
 
 /*
  * --INFO--
@@ -2018,11 +1488,8 @@ void EnemyBase::doUpdateCommon()
 	scaleDamageAnim();
 	resetCollEvent();
 
-	if ((m_lod.m_flags & AILOD::FLAG_NEED_SHADOW) && isAlive()) {
-		WalkSmokeEffect::Mgr* smokeMgr = getWalkSmokeEffectMgr();
-		if (smokeMgr != nullptr) {
-			smokeMgr->update(this);
-		}
+	if ((mLod.mFlags & AILOD_FLAG_NEED_SHADOW) && isAlive()) {
+		updateEffects();
 	}
 }
 
@@ -2031,7 +1498,7 @@ void EnemyBase::doUpdateCommon()
  * Address:	80102F94
  * Size:	000034
  */
-void EnemyBase::doAnimation() { static_cast<EnemyBaseFSM::StateMachine*>(m_lifecycleFSM)->animation(this); }
+void EnemyBase::doAnimation() { static_cast<EnemyBaseFSM::StateMachine*>(mLifecycleFSM)->animation(this); }
 
 /*
  * --INFO--
@@ -2040,13 +1507,13 @@ void EnemyBase::doAnimation() { static_cast<EnemyBaseFSM::StateMachine*>(m_lifec
  */
 void EnemyBase::doAnimationUpdateAnimator()
 {
-	m_animator->animate(m_animator->m_animSpeed * sys->m_secondsPerFrame);
+	mAnimator->animate(mAnimator->mSpeed * sys->mDeltaTime);
 
-	SysShape::Animator* animator = &m_animator->getAnimator();
-	SysShape::Model* model       = m_model;
-	J3DMtxCalc* calc             = animator->getCalc();
+	SysShape::Animator* animator = &mAnimator->getAnimator();
+	SysShape::Model* model       = mModel;
+	J3DMtxCalc* calc             = static_cast<SysShape::BaseAnimator*>(animator)->getCalc();
 
-	model->m_j3dModel->m_modelData->m_jointTree.m_joints[0]->m_mtxCalc = static_cast<J3DMtxCalcAnmBase*>(calc);
+	model->mJ3dModel->mModelData->mJointTree.mJoints[0]->mMtxCalc = static_cast<J3DMtxCalcAnmBase*>(calc);
 }
 
 /*
@@ -2056,38 +1523,36 @@ void EnemyBase::doAnimationUpdateAnimator()
  */
 void EnemyBase::doAnimationCullingOff()
 {
-	m_animKeyEvent->m_running = false;
+	mCurAnim->mIsPlaying = false;
 	doAnimationUpdateAnimator();
 
-	if (m_pellet != nullptr) {
-		viewMakeMatrix(m_mainMatrix);
+	if (mPellet) {
+		viewMakeMatrix(mObjMatrix);
 		Matrixf mtx;
-		PSMTXScale(mtx.m_matrix.mtxView, m_scale.x, m_scale.y, m_scale.z);
-		PSMTXConcat(m_mainMatrix.m_matrix.mtxView, mtx.m_matrix.mtxView, m_mainMatrix.m_matrix.mtxView);
+		PSMTXScale(mtx.mMatrix.mtxView, mScale.x, mScale.y, mScale.z);
+		PSMTXConcat(mObjMatrix.mMatrix.mtxView, mtx.mMatrix.mtxView, mObjMatrix.mMatrix.mtxView);
 
 		Vector3f pos;
-		pos.x = m_mainMatrix.m_matrix.structView.tx;
-		pos.y = m_mainMatrix.m_matrix.structView.ty;
-		pos.z = m_mainMatrix.m_matrix.structView.tz;
+		pos.x = mObjMatrix.mMatrix.structView.tx;
+		pos.y = mObjMatrix.mMatrix.structView.ty;
+		pos.z = mObjMatrix.mMatrix.structView.tz;
 		onSetPosition(pos);
 		onSetPositionPost(pos);
+	} else if (isStickTo()) {
+		doAnimationStick();
 	} else {
-		if (isStickTo()) {
-			doAnimationStick();
-		} else {
-			Vector3f rot = _1A4.getRow(0) + _1A4.getRow(1) + _1A4.getRow(2);
-			m_mainMatrix.makeSRT(m_scale, rot, m_position);
-		}
+		Vector3f rot = mRotation + mDamageAnimRotation + mStunAnimRotation;
+		mObjMatrix.makeSRT(mScale, rot, mPosition);
 	}
 
-	sys->m_timers->_start("e-calc", true);
-	PSMTXCopy(m_mainMatrix.m_matrix.mtxView, m_model->m_j3dModel->_24);
-	m_model->m_j3dModel->calc();
-	sys->m_timers->_stop("e-calc");
-	m_collTree->update();
+	sys->mTimers->_start("e-calc", true);
+	PSMTXCopy(mObjMatrix.mMatrix.mtxView, mModel->mJ3dModel->mPosMtx);
+	mModel->mJ3dModel->calc();
+	sys->mTimers->_stop("e-calc");
+	mCollTree->update();
 
-	if (m_animator->getAnimator().m_flags & 1) {
-		static_cast<PSM::CreatureAnime*>(m_soundObj)->setAnime(nullptr, 1, 0.0f, 0.0f);
+	if (mAnimator->getAnimator().mFlags & 1) {
+		static_cast<PSM::CreatureAnime*>(mSoundObj)->setAnime(nullptr, 1, 0.0f, 0.0f);
 	}
 }
 
@@ -2098,8 +1563,8 @@ void EnemyBase::doAnimationCullingOff()
  */
 void EnemyBase::doAnimationStick()
 {
-	Vector3f rot = _1A4.getRow(0) + _1A4.getRow(1) + _1A4.getRow(2);
-	m_mainMatrix.makeSRT(m_scale, rot, m_position);
+	Vector3f rot = mRotation + mDamageAnimRotation + mStunAnimRotation;
+	mObjMatrix.makeSRT(mScale, rot, mPosition);
 }
 
 /*
@@ -2107,7 +1572,7 @@ void EnemyBase::doAnimationStick()
  * Address:
  * Size:	000020
  */
-void EnemyBase::doAnimationCullingOn() { m_model->m_j3dModel->m_modelData->m_jointTree.m_joints[0]->m_mtxCalc = 0; }
+void EnemyBase::doAnimationCullingOn() { mModel->mJ3dModel->mModelData->mJointTree.mJoints[0]->mMtxCalc = nullptr; }
 
 /*
  * --INFO--
@@ -2116,14 +1581,14 @@ void EnemyBase::doAnimationCullingOn() { m_model->m_j3dModel->m_modelData->m_joi
  */
 void EnemyBase::show()
 {
-	if (isEvent(0, EB_Bittered)) {
-		if (m_enemyStoneObj->_50 & 2) {
-			m_model->hide();
+	if (isEvent(0, EB_IsBittered)) {
+		if (mEnemyStoneObj->isFlag(EnemyStone::STONE_Fit)) {
+			mModel->hide();
 		} else {
-			m_model->show();
+			mModel->show();
 		}
 	} else {
-		m_model->show();
+		mModel->show();
 	}
 }
 
@@ -2134,10 +1599,10 @@ void EnemyBase::show()
  */
 void EnemyBase::hide()
 {
-	if ((isEvent(0, EB_Bittered))) {
-		m_model->hide();
+	if (isEvent(0, EB_IsBittered)) {
+		mModel->hide();
 	} else {
-		m_model->hide();
+		mModel->hide();
 	}
 }
 
@@ -2148,15 +1613,15 @@ void EnemyBase::hide()
  */
 void EnemyBase::doEntryCarcass()
 {
-	if (m_lod.m_flags & AILOD::FLAG_NEED_SHADOW) {
+	if (mLod.mFlags & AILOD_FLAG_NEED_SHADOW) {
 		show();
 		changeMaterial();
 	} else {
 		hide();
 	}
 
-	if (!(isEvent(0, EB_31))) {
-		m_model->m_j3dModel->entry();
+	if (!(isEvent(0, EB_IsModelHidden))) {
+		mModel->mJ3dModel->entry();
 	}
 }
 
@@ -2167,7 +1632,7 @@ void EnemyBase::doEntryCarcass()
  */
 void EnemyBase::doEntryLiving()
 {
-	if (m_lod.m_flags & AILOD::FLAG_NEED_SHADOW) {
+	if (mLod.mFlags & AILOD_FLAG_NEED_SHADOW) {
 		show();
 		changeMaterial();
 	} else {
@@ -2179,8 +1644,8 @@ void EnemyBase::doEntryLiving()
 		hide();
 	}
 
-	if (!(isEvent(0, EB_31))) {
-		m_model->m_j3dModel->entry();
+	if (!(isEvent(0, EB_IsModelHidden))) {
+		mModel->mJ3dModel->entry();
 	}
 }
 
@@ -2189,14 +1654,14 @@ void EnemyBase::doEntryLiving()
  * Address:	8010364C
  * Size:	000034
  */
-void EnemyBase::doEntry() { m_lifecycleFSM->entry(this); }
+void EnemyBase::doEntry() { mLifecycleFSM->entry(this); }
 
 /*
  * --INFO--
  * Address:	80103680
  * Size:	000028
  */
-void EnemyBase::doSetView(int viewNo) { m_model->setCurrentViewNo((u16)viewNo); }
+void EnemyBase::doSetView(int viewNo) { mModel->setCurrentViewNo((u16)viewNo); }
 
 /*
  * --INFO--
@@ -2205,11 +1670,12 @@ void EnemyBase::doSetView(int viewNo) { m_model->setCurrentViewNo((u16)viewNo); 
  */
 bool EnemyBase::isCullingOff()
 {
-	if (m_pellet != nullptr) {
+	if (mPellet) {
 		return true;
 	}
-	return ((!(isEvent(0, EB_Cullable))) || (m_lod.m_flags & AILOD::FLAG_NEED_SHADOW) || (m_lod.m_flags & AILOD::FLAG_UNKNOWN4)
-	        || (isEvent(1, EB2_5)));
+
+	return !isEvent(0, EB_IsCullable) || mLod.mFlags & AILOD_FLAG_NEED_SHADOW || mLod.mFlags & AILOD_FLAG_UNKNOWN4
+	    || isEvent(1, EB2_IsDropping);
 }
 
 /*
@@ -2220,7 +1686,7 @@ bool EnemyBase::isCullingOff()
 void EnemyBase::doViewCalc()
 {
 	if (isCullingOff()) {
-		m_model->viewCalc();
+		mModel->viewCalc();
 	}
 }
 
@@ -2229,22 +1695,23 @@ void EnemyBase::doViewCalc()
  * Address:	80103774
  * Size:	0000AC
  */
-void EnemyBase::doSimulationGround(float constraint)
+void EnemyBase::doSimulationGround(f32 accelRate)
 {
-	Vector3f groundDiff;
-	groundDiff.x  = m_velocity2.x;
-	groundDiff.y  = m_velocity.y;
-	groundDiff.z  = m_velocity2.z;
-	Vector3f diff = groundDiff - m_velocity;
+	Vector3f velocity;
+	velocity.x = mTargetVelocity.x;
+	velocity.y = mCurrentVelocity.y;
+	velocity.z = mTargetVelocity.z;
 
-	diff       = diff * getSimulationScale(constraint);
-	m_velocity = m_velocity + diff;
+	Vector3f accel   = velocity - mCurrentVelocity;
+	accel            = accel * getAccelerationScale(accelRate);
+	mCurrentVelocity = mCurrentVelocity + accel;
 
-	if (checkSecondary()) {
-		m_velocity.y = -((3.0f * (constraint * _aiConstants->m_gravity.m_data)) - m_velocity.y);
+	if (isDropping()) {
+		mCurrentVelocity.y = -((3.0f * (accelRate * _aiConstants->mGravity.mData)) - mCurrentVelocity.y);
 		return;
 	}
-	m_velocity.y = -((constraint * _aiConstants->m_gravity.m_data) - m_velocity.y);
+
+	mCurrentVelocity.y = -((accelRate * _aiConstants->mGravity.mData) - mCurrentVelocity.y);
 }
 
 /*
@@ -2252,11 +1719,11 @@ void EnemyBase::doSimulationGround(float constraint)
  * Address:	80103820
  * Size:	000058
  */
-void EnemyBase::doSimulationFlying(float constraint)
+void EnemyBase::doSimulationFlying(f32 accelRate)
 {
-	Vector3f diff = m_velocity2 - m_velocity;
-	diff          = diff * getSimulationScale(constraint);
-	m_velocity    = m_velocity + diff;
+	Vector3f accel   = mTargetVelocity - mCurrentVelocity;
+	accel            = accel * getAccelerationScale(accelRate);
+	mCurrentVelocity = mCurrentVelocity + accel;
 }
 
 /*
@@ -2264,11 +1731,11 @@ void EnemyBase::doSimulationFlying(float constraint)
  * Address:	80103878
  * Size:	000058
  */
-void EnemyBase::doSimulationStick(float)
+void EnemyBase::doSimulationStick(f32 accelRate)
 {
-	Vector3f diff = m_velocity2 - m_velocity;
-	diff          = diff * getSimulationScale(constraint);
-	m_velocity    = m_velocity + diff;
+	Vector3f accel   = mTargetVelocity - mCurrentVelocity;
+	accel            = accel * getAccelerationScale(accelRate);
+	mCurrentVelocity = mCurrentVelocity + accel;
 }
 
 /*
@@ -2279,16 +1746,10 @@ void EnemyBase::doSimulationStick(float)
 inline void EnemyBase::updateSpheres()
 {
 	Sys::Sphere sphere;
-	m_collTree->m_part->getSphere(sphere);
+	mCollTree->mPart->getSphere(sphere);
 
-	m_boundingSphere.m_position.x = sphere.m_position.x;
-	m_boundingSphere.m_position.y = sphere.m_position.y;
-	m_boundingSphere.m_position.z = sphere.m_position.z;
-	m_boundingSphere.m_radius     = sphere.m_radius;
-
-	m_lodRange.m_position.x = m_boundingSphere.m_position.x;
-	m_lodRange.m_position.y = m_boundingSphere.m_position.y;
-	m_lodRange.m_position.z = m_boundingSphere.m_position.z;
+	mBoundingSphere         = sphere;
+	mCurLodSphere.mPosition = mBoundingSphere.mPosition;
 }
 
 /*
@@ -2296,12 +1757,11 @@ inline void EnemyBase::updateSpheres()
  * Address:	80103940
  * Size:	0000B8
  */
-void EnemyBase::createDropEffect(const Vector3f& position, float scale)
+void EnemyBase::createDropEffect(const Vector3f& position, f32 scale)
 {
 	efx::Arg enemyArg(position);
-	efx::TEnemyDownSmoke downSmoke(0x53, 1.0f);
-
-	downSmoke._0C = scale;
+	efx::TEnemyDownSmoke downSmoke;
+	downSmoke.mScale = scale;
 	downSmoke.create(&enemyArg);
 
 	PSStartEnemyDownSmokeSE(this, scale);
@@ -2312,20 +1772,17 @@ void EnemyBase::createDropEffect(const Vector3f& position, float scale)
  * Address:	801039F8
  * Size:	000158
  */
-void EnemyBase::createSplashDownEffect(const Vector3f& position, float scale)
+void EnemyBase::createSplashDownEffect(const Vector3f& position, f32 scale)
 {
 	Vector3f effectPosition;
-	if (m_waterBox != nullptr) {
-		effectPosition = Vector3f(position.x, *m_waterBox->getSeaHeightPtr(), position.z);
+	if (mWaterBox) {
+		effectPosition = Vector3f(position.x, *mWaterBox->getSeaHeightPtr(), position.z);
 	} else {
 		effectPosition = position;
 	}
 
-	Vector3f pos;
-	__memcpy(&pos, &effectPosition, sizeof(Vector3f));
-
-	efx::ArgScale scaleArg(pos, scale);
-	efx::TEnemyDownWat waterEffects(0x54, 0x55, 0x56);
+	efx::ArgScale scaleArg(effectPosition, scale);
+	efx::TEnemyDownWat waterEffects;
 
 	waterEffects.create(&scaleArg);
 	PSStartEnemyDownWatSE(this, scale);
@@ -2336,9 +1793,9 @@ void EnemyBase::createSplashDownEffect(const Vector3f& position, float scale)
  * Address:	80103B50
  * Size:	0001DC
  */
-void EnemyBase::createBounceEffect(const Vector3f& position, float scale)
+void EnemyBase::createBounceEffect(const Vector3f& position, f32 scale)
 {
-	if (m_waterBox != nullptr) {
+	if (mWaterBox) {
 		createSplashDownEffect(position, scale);
 	} else {
 		createDropEffect(position, scale);
@@ -2352,9 +1809,9 @@ void EnemyBase::createBounceEffect(const Vector3f& position, float scale)
  */
 void EnemyBase::outWaterCallback()
 {
-	float downSmokeScale = getDownSmokeScale();
+	f32 downSmokeScale = getDownSmokeScale();
 	if (downSmokeScale > 0.0f) {
-		createSplashDownEffect(m_position, downSmokeScale);
+		createSplashDownEffect(mPosition, downSmokeScale);
 	}
 }
 
@@ -2363,11 +1820,11 @@ void EnemyBase::outWaterCallback()
  * Address:	80103E94
  * Size:	000168
  */
-void EnemyBase::inWaterCallback(Game::WaterBox* water)
+void EnemyBase::inWaterCallback(WaterBox* water)
 {
-	float downSmokeScale = getDownSmokeScale();
+	f32 downSmokeScale = getDownSmokeScale();
 	if (downSmokeScale > 0.0f) {
-		createSplashDownEffect(m_position, downSmokeScale);
+		createSplashDownEffect(mPosition, downSmokeScale);
 	}
 }
 
@@ -2376,2713 +1833,1565 @@ void EnemyBase::inWaterCallback(Game::WaterBox* water)
  * Address:	80103FFC
  * Size:	00028C
  */
-// WIP: https://decomp.me/scratch/kkYEd
-// single regswap lmao
-void EnemyBase::finishDropping(bool)
+void EnemyBase::finishDropping(bool latchToMap)
 {
-	if (isEvent(1, EB2_5)) {
-		addDamage(0.0f, 1.0f);
-		setEvent(0, EB_20);
-		Sys::Sphere ball;
-		getBoundingSphere(ball);        // sp4C
-		Vector3f pos = ball.m_position; // sp40
-
-		if (heightCheck) {
-			if (mapMgr != nullptr) {
-				pos.y = mapMgr->getMinY(pos);
-			}
-		}
-
-		float downSmokeScale = getDownSmokeScale();
-
-		if (m_waterBox != nullptr) {
-			createSplashDownEffect(pos, downSmokeScale);
-		} else {
-			createDropEffect(pos, downSmokeScale);
-		}
-
-		resetEvent(1, EB2_5);
-		m_velocity = 0.0f;
-		/*
-		.loc_0x0:
-		    stwu      r1, -0xB0(r1)
-		    mflr      r0
-		    stw       r0, 0xB4(r1)
-		    stfd      f31, 0xA0(r1)
-		    psq_st    f31,0xA8(r1),0,0
-		    stfd      f30, 0x90(r1)
-		    psq_st    f30,0x98(r1),0,0
-		    stw       r31, 0x8C(r1)
-		    stw       r30, 0x88(r1)
-		    lwz       r0, 0x1E4(r3)
-		    mr        r31, r3
-		    mr        r30, r4
-		    rlwinm.   r0,r0,0,27,27
-		    beq-      .loc_0x264
-		    lfs       f1, -0x6BB0(r2)
-		    lfs       f2, -0x6B9C(r2)
-		    bl        0x1FF0
-		    lwz       r0, 0x1E0(r31)
-		    mr        r3, r31
-		    addi      r4, r1, 0x4C
-		    oris      r0, r0, 0x8
-		    stw       r0, 0x1E0(r31)
-		    lwz       r12, 0x0(r31)
-		    lwz       r12, 0x10(r12)
-		    mtctr     r12
-		    bctrl
-		    lfs       f2, 0x4C(r1)
-		    rlwinm.   r0,r30,0,24,31
-		    lfs       f1, 0x50(r1)
-		    lfs       f0, 0x54(r1)
-		    stfs      f2, 0x40(r1)
-		    stfs      f1, 0x44(r1)
-		    stfs      f0, 0x48(r1)
-		    beq-      .loc_0xAC
-		    lwz       r3, -0x6CF8(r13)
-		    cmplwi    r3, 0
-		    beq-      .loc_0xAC
-		    lwz       r12, 0x4(r3)
-		    addi      r4, r1, 0x40
-		    lwz       r12, 0x28(r12)
-		    mtctr     r12
-		    bctrl
-		    stfs      f1, 0x44(r1)
-
-		.loc_0xAC:
-		    mr        r3, r31
-		    lwz       r12, 0x0(r31)
-		    lwz       r12, 0x2EC(r12)
-		    mtctr     r12
-		    bctrl
-		    lwz       r3, 0x280(r31)
-		    fmr       f31, f1
-		    cmplwi    r3, 0
-		    beq-      .loc_0x1CC
-		    beq-      .loc_0x100
-		    lwz       r12, 0x0(r3)
-		    lfs       f30, 0x48(r1)
-		    lwz       r12, 0x14(r12)
-		    mtctr     r12
-		    bctrl
-		    lfs       f1, 0x0(r3)
-		    lfs       f0, 0x40(r1)
-		    stfs      f1, 0x2C(r1)
-		    stfs      f0, 0x28(r1)
-		    stfs      f30, 0x30(r1)
-		    b         .loc_0x118
-
-		.loc_0x100:
-		    lfs       f2, 0x40(r1)
-		    lfs       f1, 0x44(r1)
-		    lfs       f0, 0x48(r1)
-		    stfs      f2, 0x28(r1)
-		    stfs      f1, 0x2C(r1)
-		    stfs      f0, 0x30(r1)
-
-		.loc_0x118:
-		    lwz       r4, 0x28(r1)
-		    lis       r3, 0x804B
-		    lwz       r7, 0x2C(r1)
-		    subi      r0, r3, 0x5808
-		    lwz       r6, 0x30(r1)
-		    lis       r3, 0x804B
-		    stw       r4, 0x34(r1)
-		    lis       r4, 0x804E
-		    subi      r11, r3, 0x5814
-		    lis       r10, 0x804B
-		    li        r5, 0
-		    stw       r7, 0x38(r1)
-		    lfs       f2, 0x34(r1)
-		    lis       r3, 0x804F
-		    stw       r6, 0x3C(r1)
-		    li        r8, 0x54
-		    lfs       f1, 0x38(r1)
-		    li        r7, 0x55
-		    lfs       f0, 0x3C(r1)
-		    li        r6, 0x56
-		    stw       r0, 0x70(r1)
-		    addi      r9, r4, 0x6A50
-		    subi      r10, r10, 0x5D24
-		    subi      r0, r3, 0x7A04
-		    stw       r11, 0x5C(r1)
-		    addi      r3, r1, 0x70
-		    addi      r4, r1, 0x5C
-		    stw       r9, 0x70(r1)
-		    stfs      f2, 0x60(r1)
-		    stfs      f1, 0x64(r1)
-		    stfs      f0, 0x68(r1)
-		    stw       r10, 0x5C(r1)
-		    stfs      f31, 0x6C(r1)
-		    sth       r8, 0x74(r1)
-		    sth       r7, 0x76(r1)
-		    sth       r6, 0x78(r1)
-		    stw       r5, 0x7C(r1)
-		    stw       r5, 0x80(r1)
-		    stw       r5, 0x84(r1)
-		    stw       r0, 0x70(r1)
-		    bl        0x2C4618
-		    fmr       f1, f31
-		    mr        r3, r31
-		    bl        0x36A680
-		    b         .loc_0x248
-
-		.loc_0x1CC:
-		    lis       r3, 0x804B
-		    lfs       f0, -0x6B9C(r2)
-		    subi      r0, r3, 0x5808
-		    lis       r3, 0x804E
-		    stw       r0, 0x18(r1)
-		    addi      r0, r3, 0x6A78
-		    lfs       f2, 0x40(r1)
-		    lis       r4, 0x804B
-		    stfs      f0, 0x24(r1)
-		    lis       r3, 0x804F
-		    lfs       f1, 0x44(r1)
-		    subi      r4, r4, 0x5814
-		    lfs       f0, 0x48(r1)
-		    li        r6, 0x53
-		    li        r5, 0
-		    stw       r0, 0x18(r1)
-		    subi      r0, r3, 0x79F0
-		    addi      r3, r1, 0x18
-		    stw       r4, 0x8(r1)
-		    addi      r4, r1, 0x8
-		    stfs      f2, 0xC(r1)
-		    stfs      f1, 0x10(r1)
-		    stfs      f0, 0x14(r1)
-		    sth       r6, 0x1C(r1)
-		    stw       r5, 0x20(r1)
-		    stw       r0, 0x18(r1)
-		    stfs      f31, 0x24(r1)
-		    bl        0x2C4530
-		    fmr       f1, f31
-		    mr        r3, r31
-		    bl        0x36A450
-
-		.loc_0x248:
-		    lwz       r0, 0x1E4(r31)
-		    lfs       f0, -0x6BB0(r2)
-		    rlwinm    r0,r0,0,28,26
-		    stw       r0, 0x1E4(r31)
-		    stfs      f0, 0x1C8(r31)
-		    stfs      f0, 0x1CC(r31)
-		    stfs      f0, 0x1D0(r31)
-
-		.loc_0x264:
-		    psq_l     f31,0xA8(r1),0,0
-		    lfd       f31, 0xA0(r1)
-		    psq_l     f30,0x98(r1),0,0
-		    lfd       f30, 0x90(r1)
-		    lwz       r31, 0x8C(r1)
-		    lwz       r0, 0xB4(r1)
-		    lwz       r30, 0x88(r1)
-		    mtlr      r0
-		    addi      r1, r1, 0xB0
-		    blr
-		*/
+	if (!isEvent(1, EB2_IsDropping)) {
+		return;
 	}
 
-	/*
-	 * --INFO--
-	 * Address:	80104288
-	 * Size:	000080
-	 */
-	void EnemyBase::bounceProcedure(Sys::Triangle * triangle)
-	{
-		bounceCallback(triangle);
-		resetEvent(0, EB_30);
+	addDamage(0.0f, 1.0f);
+	enableEvent(0, EB_SquashOnDamageAnimation);
 
-		finishDropping(true);
-		resetDroppingMassZero();
+	Sys::Sphere ball;
+	getBoundingSphere(ball);
+	Vector3f pos = ball.mPosition;
 
-		m_lifecycleFSM->bounceProcedure(this, triangle);
+	if (latchToMap && mapMgr) {
+		pos.y = mapMgr->getMinY(pos);
 	}
 
-	/*
-	 * --INFO--
-	 * Address:	80104340
-	 * Size:	0006D4
-	 */
-	// WIP: https://decomp.me/scratch/YsXWy
-	void EnemyBase::collisionMapAndPlat(float)
-	{
-		/*
-		.loc_0x0:
-		    stwu      r1, -0x180(r1)
-		    mflr      r0
-		    stw       r0, 0x184(r1)
-		    stfd      f31, 0x170(r1)
-		    psq_st    f31,0x178(r1),0,0
-		    stfd      f30, 0x160(r1)
-		    psq_st    f30,0x168(r1),0,0
-		    stfd      f29, 0x150(r1)
-		    psq_st    f29,0x158(r1),0,0
-		    stfd      f28, 0x140(r1)
-		    psq_st    f28,0x148(r1),0,0
-		    stfd      f27, 0x130(r1)
-		    psq_st    f27,0x138(r1),0,0
-		    stw       r31, 0x12C(r1)
-		    mr        r31, r3
-		    fmr       f30, f1
-		    bl        0x9B1F4
-		    rlwinm.   r0,r3,0,24,31
-		    bne-      .loc_0x54C
-		    lwz       r0, 0x1E0(r31)
-		    rlwinm.   r0,r0,0,29,29
-		    bne-      .loc_0x74
-		    mr        r3, r31
-		    fmr       f1, f30
-		    lwz       r12, 0x0(r31)
-		    lwz       r12, 0x1F4(r12)
-		    mtctr     r12
-		    bctrl
-		    b         .loc_0x98
-
-		.loc_0x74:
-		    mr        r3, r31
-		    fmr       f1, f30
-		    lwz       r12, 0x0(r31)
-		    lwz       r12, 0x1F8(r12)
-		    mtctr     r12
-		    bctrl
-		    lwz       r0, 0x1E0(r31)
-		    rlwinm    r0,r0,0,3,1
-		    stw       r0, 0x1E0(r31)
-
-		.loc_0x98:
-		    mr        r4, r31
-		    lwz       r5, 0xC0(r31)
-		    lwz       r12, 0x0(r31)
-		    addi      r3, r1, 0x34
-		    lfs       f31, 0x1A4(r5)
-		    lwz       r12, 0x8(r12)
-		    mtctr     r12
-		    bctrl
-		    mr        r4, r31
-		    addi      r3, r1, 0x28
-		    lwz       r12, 0x0(r31)
-		    lfs       f29, 0x34(r1)
-		    lwz       r12, 0x224(r12)
-		    lfs       f28, 0x38(r1)
-		    lfs       f27, 0x3C(r1)
-		    mtctr     r12
-		    bctrl
-		    lfs       f0, 0x28(r1)
-		    li        r3, 0
-		    stfs      f0, 0x240(r31)
-		    lfs       f0, 0x2C(r1)
-		    stfs      f0, 0x244(r31)
-		    lfs       f0, 0x30(r1)
-		    stfs      f0, 0x248(r31)
-		    lfs       f0, 0x244(r31)
-		    lfs       f1, 0x240(r31)
-		    fadds     f28, f28, f0
-		    lfs       f0, 0x248(r31)
-		    fadds     f29, f29, f1
-		    fadds     f27, f27, f0
-		    stfs      f31, 0x64(r1)
-		    fadds     f28, f28, f31
-		    stfs      f29, 0x58(r1)
-		    stfs      f28, 0x5C(r1)
-		    stfs      f27, 0x60(r1)
-		    lwz       r4, 0x1E4(r31)
-		    rlwinm.   r0,r4,0,31,31
-		    bne-      .loc_0x138
-		    rlwinm.   r0,r4,0,27,27
-		    beq-      .loc_0x13C
-
-		.loc_0x138:
-		    li        r3, 0x1
-
-		.loc_0x13C:
-		    rlwinm.   r0,r3,0,24,31
-		    beq-      .loc_0x14C
-		    lfs       f8, -0x6BB0(r2)
-		    b         .loc_0x154
-
-		.loc_0x14C:
-		    lwz       r3, 0xC0(r31)
-		    lfs       f8, 0x4C(r3)
-
-		.loc_0x154:
-		    lfs       f6, -0x6BB0(r2)
-		    lis       r3, 0x8050
-		    addi      r3, r3, 0x71A0
-		    li        r5, 0
-		    stfs      f6, 0x120(r31)
-		    addi      r7, r1, 0x58
-		    lfs       f0, -0x6B34(r2)
-		    addi      r6, r1, 0x4C
-		    lfs       f4, 0x1D0(r31)
-		    li        r0, -0x1
-		    lfs       f3, 0x124(r31)
-		    fmr       f1, f30
-		    lfs       f5, 0x1CC(r31)
-		    addi      r4, r1, 0x68
-		    lfs       f2, 0x120(r31)
-		    fadds     f7, f4, f3
-		    lfs       f4, 0x1C8(r31)
-		    lfs       f3, 0x11C(r31)
-		    fadds     f5, f5, f2
-		    lfs       f2, 0x800(r3)
-		    fadds     f3, f4, f3
-		    stw       r5, 0x7C(r1)
-		    lwz       r3, -0x6CF8(r13)
-		    stfs      f5, 0x50(r1)
-		    stfs      f3, 0x4C(r1)
-		    stfs      f7, 0x54(r1)
-		    stw       r7, 0x68(r1)
-		    stw       r6, 0x6C(r1)
-		    stfs      f8, 0x70(r1)
-		    stfs      f6, 0x74(r1)
-		    stw       r5, 0x78(r1)
-		    stw       r5, 0xAC(r1)
-		    stb       r5, 0xDC(r1)
-		    stb       r5, 0x81(r1)
-		    stb       r5, 0x80(r1)
-		    stw       r5, 0xB0(r1)
-		    stb       r5, 0xF8(r1)
-		    stw       r5, 0xFC(r1)
-		    stfs      f2, 0x94(r1)
-		    stfs      f0, 0x98(r1)
-		    stw       r0, 0x100(r1)
-		    stw       r5, 0xB4(r1)
-		    stb       r5, 0x82(r1)
-		    stw       r31, 0x7C(r1)
-		    lwz       r12, 0x4(r3)
-		    lwz       r12, 0x24(r12)
-		    mtctr     r12
-		    bctrl
-		    lfs       f0, 0x4C(r1)
-		    lfs       f1, -0x6BB0(r2)
-		    stfs      f0, 0x1C8(r31)
-		    lfs       f0, 0x50(r1)
-		    stfs      f0, 0x1CC(r31)
-		    lfs       f0, 0x54(r1)
-		    stfs      f0, 0x1D0(r31)
-		    lfs       f3, 0x1C8(r31)
-		    lfs       f2, 0x1CC(r31)
-		    fmuls     f0, f3, f3
-		    lfs       f4, 0x1D0(r31)
-		    fmuls     f2, f2, f2
-		    fmuls     f4, f4, f4
-		    fadds     f0, f0, f2
-		    fadds     f0, f4, f0
-		    fcmpo     cr0, f0, f1
-		    ble-      .loc_0x274
-		    fmadds    f0, f3, f3, f2
-		    fadds     f4, f4, f0
-		    fcmpo     cr0, f4, f1
-		    ble-      .loc_0x278
-		    fsqrte    f0, f4
-		    fmuls     f4, f0, f4
-		    b         .loc_0x278
-
-		.loc_0x274:
-		    fmr       f4, f1
-
-		.loc_0x278:
-		    lfs       f0, -0x6BB0(r2)
-		    fcmpo     cr0, f4, f0
-		    ble-      .loc_0x2B4
-		    lfs       f1, -0x6B9C(r2)
-		    lfs       f0, 0x1C8(r31)
-		    fdivs     f1, f1, f4
-		    fmuls     f0, f0, f1
-		    stfs      f0, 0x1C8(r31)
-		    lfs       f0, 0x1CC(r31)
-		    fmuls     f0, f0, f1
-		    stfs      f0, 0x1CC(r31)
-		    lfs       f0, 0x1D0(r31)
-		    fmuls     f0, f0, f1
-		    stfs      f0, 0x1D0(r31)
-		    b         .loc_0x2B8
-
-		.loc_0x2B4:
-		    fmr       f4, f0
-
-		.loc_0x2B8:
-		    lfs       f2, 0x11C(r31)
-		    lfs       f1, 0x120(r31)
-		    fmuls     f0, f2, f2
-		    lfs       f3, 0x124(r31)
-		    fmuls     f5, f1, f1
-		    lfs       f1, -0x6BB0(r2)
-		    fmuls     f3, f3, f3
-		    fadds     f0, f0, f5
-		    fadds     f0, f3, f0
-		    fcmpo     cr0, f0, f1
-		    ble-      .loc_0x300
-		    fmadds    f0, f2, f2, f5
-		    fadds     f0, f3, f0
-		    fcmpo     cr0, f0, f1
-		    ble-      .loc_0x304
-		    fsqrte    f1, f0
-		    fmuls     f0, f1, f0
-		    b         .loc_0x304
-
-		.loc_0x300:
-		    fmr       f0, f1
-
-		.loc_0x304:
-		    fcmpo     cr0, f4, f0
-		    ble-      .loc_0x348
-		    fsubs     f4, f4, f0
-		    lfs       f0, 0x1C8(r31)
-		    lfs       f2, 0x1CC(r31)
-		    lfs       f3, 0x1D0(r31)
-		    fmuls     f1, f0, f4
-		    lfs       f0, -0x6BB0(r2)
-		    fmuls     f2, f2, f4
-		    fmuls     f3, f3, f4
-		    stfs      f1, 0x1C8(r31)
-		    stfs      f2, 0x1CC(r31)
-		    stfs      f3, 0x1D0(r31)
-		    stfs      f0, 0x11C(r31)
-		    stfs      f0, 0x120(r31)
-		    stfs      f0, 0x124(r31)
-		    b         .loc_0x37C
-
-		.loc_0x348:
-		    lfs       f0, 0x1C8(r31)
-		    lfs       f2, 0x1CC(r31)
-		    fmuls     f1, f0, f4
-		    lfs       f3, 0x1D0(r31)
-		    fmuls     f2, f2, f4
-		    lfs       f0, -0x6BB0(r2)
-		    fmuls     f3, f3, f4
-		    stfs      f1, 0x1C8(r31)
-		    stfs      f2, 0x1CC(r31)
-		    stfs      f3, 0x1D0(r31)
-		    stfs      f0, 0x11C(r31)
-		    stfs      f0, 0x120(r31)
-		    stfs      f0, 0x124(r31)
-
-		.loc_0x37C:
-		    lwz       r0, 0xC8(r31)
-		    cmplwi    r0, 0
-		    bne-      .loc_0x39C
-		    lwz       r4, 0xAC(r1)
-		    cmplwi    r4, 0
-		    beq-      .loc_0x39C
-		    mr        r3, r31
-		    bl        -0x450
-
-		.loc_0x39C:
-		    lwz       r0, 0xAC(r1)
-		    stw       r0, 0xC8(r31)
-		    lfs       f0, 0xB8(r1)
-		    stfs      f0, 0xCC(r31)
-		    lfs       f0, 0xBC(r1)
-		    stfs      f0, 0xD0(r31)
-		    lfs       f0, 0xC0(r1)
-		    stfs      f0, 0xD4(r31)
-		    lwz       r0, 0x288(r31)
-		    cmplwi    r0, 0
-		    bne-      .loc_0x3EC
-		    lwz       r0, 0xB0(r1)
-		    cmplwi    r0, 0
-		    beq-      .loc_0x3EC
-		    mr        r3, r31
-		    addi      r4, r1, 0x68
-		    lwz       r12, 0x0(r31)
-		    lwz       r12, 0x2E8(r12)
-		    mtctr     r12
-		    bctrl
-
-		.loc_0x3EC:
-		    lwz       r0, 0xB0(r1)
-		    stw       r0, 0x288(r31)
-		    lwz       r3, -0x6BE0(r13)
-		    cmplwi    r3, 0
-		    beq-      .loc_0x498
-		    lwz       r0, 0x1E0(r31)
-		    rlwinm.   r0,r0,0,19,19
-		    beq-      .loc_0x498
-		    addi      r0, r31, 0x1C8
-		    fmr       f1, f30
-		    stw       r0, 0x6C(r1)
-		    addi      r4, r1, 0x68
-		    bl        0xC145C
-		    lwz       r0, 0xC8(r31)
-		    cmplwi    r0, 0
-		    bne-      .loc_0x460
-		    lwz       r4, 0xAC(r1)
-		    cmplwi    r4, 0
-		    beq-      .loc_0x440
-		    mr        r3, r31
-		    bl        -0x4F4
-
-		.loc_0x440:
-		    lwz       r0, 0xAC(r1)
-		    stw       r0, 0xC8(r31)
-		    lfs       f0, 0xB8(r1)
-		    stfs      f0, 0xCC(r31)
-		    lfs       f0, 0xBC(r1)
-		    stfs      f0, 0xD0(r31)
-		    lfs       f0, 0xC0(r1)
-		    stfs      f0, 0xD4(r31)
-
-		.loc_0x460:
-		    lwz       r0, 0x288(r31)
-		    cmplwi    r0, 0
-		    bne-      .loc_0x490
-		    lwz       r0, 0xB0(r1)
-		    cmplwi    r0, 0
-		    beq-      .loc_0x490
-		    mr        r3, r31
-		    addi      r4, r1, 0x68
-		    lwz       r12, 0x0(r31)
-		    lwz       r12, 0x2E8(r12)
-		    mtctr     r12
-		    bctrl
-
-		.loc_0x490:
-		    lwz       r0, 0xB0(r1)
-		    stw       r0, 0x288(r31)
-
-		.loc_0x498:
-		    lwz       r3, -0x6CF8(r13)
-		    lwz       r12, 0x4(r3)
-		    lwz       r12, 0x8(r12)
-		    mtctr     r12
-		    bctrl
-		    rlwinm.   r0,r3,0,24,31
-		    beq-      .loc_0x4CC
-		    lwz       r3, -0x6CF8(r13)
-		    addi      r4, r1, 0x58
-		    lwz       r12, 0x4(r3)
-		    lwz       r12, 0xC(r12)
-		    mtctr     r12
-		    bctrl
-
-		.loc_0x4CC:
-		    lfs       f1, 0x58(r1)
-		    addi      r4, r1, 0x18
-		    lfs       f0, 0x240(r31)
-		    fsubs     f0, f1, f0
-		    stfs      f0, 0x18C(r31)
-		    lfs       f1, 0x5C(r1)
-		    lfs       f0, 0x244(r31)
-		    fsubs     f0, f1, f0
-		    fsubs     f0, f0, f31
-		    stfs      f0, 0x190(r31)
-		    lfs       f1, 0x60(r1)
-		    lfs       f0, 0x248(r31)
-		    fsubs     f0, f1, f0
-		    stfs      f0, 0x194(r31)
-		    lwz       r3, 0x114(r31)
-		    lwz       r3, 0x0(r3)
-		    bl        0x339B0
-		    lfs       f0, 0x18(r1)
-		    stfs      f0, 0x220(r31)
-		    lfs       f0, 0x1C(r1)
-		    stfs      f0, 0x224(r31)
-		    lfs       f0, 0x20(r1)
-		    stfs      f0, 0x228(r31)
-		    lfs       f0, 0x24(r1)
-		    stfs      f0, 0x22C(r31)
-		    lfs       f0, 0x220(r31)
-		    stfs      f0, 0x270(r31)
-		    lfs       f0, 0x224(r31)
-		    stfs      f0, 0x274(r31)
-		    lfs       f0, 0x228(r31)
-		    stfs      f0, 0x278(r31)
-		    b         .loc_0x698
-
-		.loc_0x54C:
-		    lfs       f0, -0x6BB0(r2)
-		    mr        r3, r31
-		    fmr       f1, f30
-		    stfs      f0, 0x11C(r31)
-		    stfs      f0, 0x120(r31)
-		    stfs      f0, 0x124(r31)
-		    lwz       r12, 0x0(r31)
-		    lwz       r12, 0x1FC(r12)
-		    mtctr     r12
-		    bctrl
-		    lfs       f2, 0x18C(r31)
-		    lfs       f1, 0x1C8(r31)
-		    lfs       f0, -0x6BB0(r2)
-		    fadds     f1, f2, f1
-		    stfs      f1, 0x18C(r31)
-		    lfs       f2, 0x190(r31)
-		    lfs       f1, 0x1CC(r31)
-		    fadds     f1, f2, f1
-		    stfs      f1, 0x190(r31)
-		    lfs       f2, 0x194(r31)
-		    lfs       f1, 0x1D0(r31)
-		    fadds     f1, f2, f1
-		    stfs      f1, 0x194(r31)
-		    lfs       f4, 0x1FC(r31)
-		    fmr       f1, f4
-		    fcmpo     cr0, f4, f0
-		    bge-      .loc_0x5BC
-		    fneg      f1, f4
-
-		.loc_0x5BC:
-		    lfs       f2, -0x6BB4(r2)
-		    lis       r3, 0x8050
-		    lfs       f0, -0x6BB0(r2)
-		    addi      r4, r3, 0x71A0
-		    fmuls     f1, f1, f2
-		    fcmpo     cr0, f4, f0
-		    fctiwz    f0, f1
-		    stfd      f0, 0x108(r1)
-		    lwz       r0, 0x10C(r1)
-		    rlwinm    r0,r0,3,18,28
-		    add       r3, r4, r0
-		    lfs       f3, 0x4(r3)
-		    bge-      .loc_0x614
-		    lfs       f0, -0x6BB8(r2)
-		    fmuls     f0, f4, f0
-		    fctiwz    f0, f0
-		    stfd      f0, 0x110(r1)
-		    lwz       r0, 0x114(r1)
-		    rlwinm    r0,r0,3,18,28
-		    lfsx      f0, r4, r0
-		    fneg      f1, f0
-		    b         .loc_0x62C
-
-		.loc_0x614:
-		    fmuls     f0, f4, f2
-		    fctiwz    f0, f0
-		    stfd      f0, 0x118(r1)
-		    lwz       r0, 0x11C(r1)
-		    rlwinm    r0,r0,3,18,28
-		    lfsx      f1, r4, r0
-
-		.loc_0x62C:
-		    lfs       f0, -0x6BB0(r2)
-		    mr        r3, r31
-		    stfs      f1, 0x40(r1)
-		    addi      r4, r1, 0x40
-		    stfs      f0, 0x44(r1)
-		    stfs      f3, 0x48(r1)
-		    bl        0x9AC64
-		    lwz       r3, 0x114(r31)
-		    addi      r4, r1, 0x8
-		    lwz       r3, 0x0(r3)
-		    bl        0x33868
-		    lfs       f0, 0x8(r1)
-		    mr        r3, r31
-		    stfs      f0, 0x220(r31)
-		    lfs       f0, 0xC(r1)
-		    stfs      f0, 0x224(r31)
-		    lfs       f0, 0x10(r1)
-		    stfs      f0, 0x228(r31)
-		    lfs       f0, 0x14(r1)
-		    stfs      f0, 0x22C(r31)
-		    lfs       f0, 0x220(r31)
-		    stfs      f0, 0x270(r31)
-		    lfs       f0, 0x224(r31)
-		    stfs      f0, 0x274(r31)
-		    lfs       f0, 0x228(r31)
-		    stfs      f0, 0x278(r31)
-		    bl        0x37394
-
-		.loc_0x698:
-		    psq_l     f31,0x178(r1),0,0
-		    lfd       f31, 0x170(r1)
-		    psq_l     f30,0x168(r1),0,0
-		    lfd       f30, 0x160(r1)
-		    psq_l     f29,0x158(r1),0,0
-		    lfd       f29, 0x150(r1)
-		    psq_l     f28,0x148(r1),0,0
-		    lfd       f28, 0x140(r1)
-		    psq_l     f27,0x138(r1),0,0
-		    lfd       f27, 0x130(r1)
-		    lwz       r0, 0x184(r1)
-		    lwz       r31, 0x12C(r1)
-		    mtlr      r0
-		    addi      r1, r1, 0x180
-		    blr
-		*/
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80104A38
-	 * Size:	000020
-	 */
-	void EnemyBase::doSimulationCarcass(float _) { updateWaterBox(); }
-
-	/*
-	 * --INFO--
-	 * Address:	80104A58
-	 * Size:	000034
-	 */
-	void EnemyBase::doSimulation(float arg) { static_cast<EnemyBaseFSM::StateMachine*>(m_lifecycleFSM)->simulation(this, arg); }
-
-	/*
-	 * --INFO--
-	 * Address:	80104A8C
-	 * Size:	0000D8
-	 */
-	void EnemyBase::doSimulationConstraint(float arg)
-	{
-		if (!(isEvent(0, EB_HardConstraint))) {
-			if (_11C.x != 0.0f || _11C.z != 0.0f) {
-				setEvent(0, EB_30);
-			} else if (_0C8 != nullptr) {
-				resetEvent(0, EB_30);
-			}
-			if (isEvent(0, EB_30)) {
-				collisionMapAndPlat(arg);
-			}
-		}
-
-		updateSpheres();
-		updateWaterBox();
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80104B64
-	 * Size:	000070
-	 */
-	void EnemyBase::gotoHell()
-	{
-		if (isEvent(0, EB_29)) {
-			throwupItem();
-			EnemyKillArg killArg(0x70000000);
-			kill(&killArg);
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80104BD4
-	 * Size:	000030
-	 */
-	void EnemyBase::setAnimMgr(SysShape::AnimMgr * mgr) { m_animator->setAnimMgr(mgr); }
-
-	/*
-	 * --INFO--
-	 * Address:	80104C04
-	 * Size:	0001B4
-	 */
-	void EnemyBase::setPSEnemyBaseAnime()
-	{
-		if (isEvent(0, EB_PS1)) {
-			int idx                      = getCurrAnimIndex();
-			SysShape::Animator anim      = m_animator->getAnimator(0);
-			SysShape::AnimInfo* info     = static_cast<SysShape::AnimInfo*>(anim.m_animMgr->m_animInfo.m_child)->getInfoByID(idx);
-			JAIAnimeFrameSoundData* file = info->m_basFile;
-
-			if (file != nullptr) {
-				SysShape::KeyEvent* event1 = info->getAnimKeyByType(0);
-				SysShape::KeyEvent* event2 = info->getAnimKeyByType(1);
-
-				if (event1 != nullptr && event2 != nullptr) {
-					float val1 = (float)event1->m_frame;
-					float val2 = (float)event2->m_frame;
-					m_soundObj->setAnime((JAIAnimeSoundData*)file, 1, val1, val2);
-					return;
-				}
-
-				m_soundObj->setAnime((JAIAnimeSoundData*)file, 1, 0.0f, 0.0f);
-				return;
-			}
-
-			m_soundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
-			return;
-		}
-
-		if (isEvent(0, EB_PS2)) {
-			m_soundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
-			return;
-		}
-
-		if (isEvent(0, EB_PS3)) {
-			m_soundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
-			return;
-		}
-
-		m_soundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80104DB8
-	 * Size:	0001F0
-	 */
-	void EnemyBase::startBlend(int p1, int p2, SysShape::BlendFunction* blendFunc, float p3, SysShape::MotionListener* inputListener)
-	{
-		SysShape::MotionListener* listener = inputListener;
-		if (listener == nullptr) {
-			listener = static_cast<SysShape::MotionListener*>(this);
-		}
-
-		static_cast<EnemyBlendAnimatorBase*>(m_animator)->startBlend(p1, p2, blendFunc, p3, listener);
-
-		resetEvent(0, EB_PS1 + EB_PS2 + EB_PS3 + EB_PS4);
-		setEvent(0, EB_PS3);
-
-		if (isEvent(0, EB_PS1)) {
-			int idx                      = getCurrAnimIndex();
-			SysShape::Animator anim      = m_animator->getAnimator(0);
-			SysShape::AnimInfo* info     = static_cast<SysShape::AnimInfo*>(anim.m_animMgr->m_animInfo.m_child)->getInfoByID(idx);
-			JAIAnimeFrameSoundData* file = info->m_basFile;
-
-			if (file != nullptr) {
-				SysShape::KeyEvent* event1 = info->getAnimKeyByType(0);
-				SysShape::KeyEvent* event2 = info->getAnimKeyByType(1);
-
-				if (event1 != nullptr && event2 != nullptr) {
-					float val1 = (float)event1->m_frame;
-					float val2 = (float)event2->m_frame;
-					m_soundObj->setAnime((JAIAnimeSoundData*)file, 1, val1, val2);
-					return;
-				}
-
-				m_soundObj->setAnime((JAIAnimeSoundData*)file, 1, 0.0f, 0.0f);
-				return;
-			}
-
-			m_soundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
-			return;
-		}
-
-		if (isEvent(0, EB_PS2)) {
-			m_soundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
-			return;
-		}
-
-		if (isEvent(0, EB_PS3)) {
-			m_soundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
-			return;
-		}
-
-		m_soundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80104FA8
-	 * Size:	000050
-	 */
-	void EnemyBase::endBlend()
-	{
-		if (m_animator->getTypeID() == 'blnd') {
-			static_cast<EnemyBlendAnimatorBase*>(m_animator)->endBlend();
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105004
-	 * Size:	000224
-	 */
-	void EnemyBase::startMotion(int p1, SysShape::MotionListener* inputListener)
-	{
-		SysShape::MotionListener* listener;
-		if (!(listener = inputListener)) {
-			inputListener = static_cast<SysShape::MotionListener*>(this);
-		}
-
-		EnemyAnimatorBase* animator = m_animator;
-		animator->m_flags.typeView &= ~0x3;
-		animator->m_progress = 1.0f;
-
-		(animator->getAnimator(0)).startAnim(p1, inputListener);
-
-		resetEvent(0, EB_PS1 + EB_PS2 + EB_PS3 + EB_PS4);
-		setEvent(0, EB_PS1);
-
-		if (isEvent(0, EB_PS1)) {
-			int idx                      = getCurrAnimIndex();
-			SysShape::Animator anim      = m_animator->getAnimator(0);
-			SysShape::AnimInfo* info     = static_cast<SysShape::AnimInfo*>(anim.m_animMgr->m_animInfo.m_child)->getInfoByID(idx);
-			JAIAnimeFrameSoundData* file = info->m_basFile;
-
-			if (file != nullptr) {
-				SysShape::KeyEvent* event1 = info->getAnimKeyByType(0);
-				SysShape::KeyEvent* event2 = info->getAnimKeyByType(1);
-
-				if (event1 != nullptr && event2 != nullptr) {
-					float val1 = (float)event1->m_frame;
-					float val2 = (float)event2->m_frame;
-					m_soundObj->setAnime((JAIAnimeSoundData*)file, 1, val1, val2);
-					return;
-				}
-
-				m_soundObj->setAnime((JAIAnimeSoundData*)file, 1, 0.0f, 0.0f);
-				return;
-			}
-
-			m_soundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
-			return;
-		}
-
-		if (isEvent(0, EB_PS2)) {
-			m_soundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
-			return;
-		}
-
-		if (isEvent(0, EB_PS3)) {
-			m_soundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
-			return;
-		}
-
-		m_soundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105228
-	 * Size:	000044
-	 */
-	void EnemyBase::setMotionFrame(float frame) { m_animator->getAnimator().setCurrFrame(frame); }
-
-	/*
-	 * --INFO--
-	 * Address:	8010526C
-	 * Size:	000034
-	 */
-	float EnemyBase::getMotionFrame() { return m_animator->getAnimator().m_timer; }
-
-	/*
-	 * --INFO--
-	 * Address:	801052A0
-	 * Size:	000040
-	 */
-	void EnemyBase::finishMotion() { m_animator->getAnimator(0).m_flags |= 2; }
-
-	/*
-	 * --INFO--
-	 * Address:	801052E0
-	 * Size:	000020
-	 */
-	void EnemyBase::onKeyEvent(const SysShape::KeyEvent& event)
-	{
-		EnemyAnimKeyEvent* animKeyEvent = m_animKeyEvent;
-		animKeyEvent->m_frame           = event.m_frame;
-		animKeyEvent->m_type            = event.m_type;
-		animKeyEvent->m_running         = true;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105300
-	 * Size:	000080
-	 */
-	bool EnemyBase::stimulate(Game::Interaction & interaction)
-	{
-		bool b = false;
-		if (interaction.actCommon(this)) {
-			b = interaction.actEnemy(this);
-		}
-		return b;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105390
-	 * Size:	000030
-	 */
-	void EnemyBase::lifeRecover()
-	{
-		m_health += m_maxHealth * static_cast<EnemyParmsBase*>(m_parms)->m_general.m_regenerationRate.m_value;
-		if (m_health > m_maxHealth) {
-			m_health = m_maxHealth;
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801053C0
-	 * Size:	00033C
-	 */
-	void EnemyBase::scaleDamageAnim()
-	{
-		/*
-		.loc_0x0:
-		    stwu      r1, -0x50(r1)
-		    mflr      r0
-		    stw       r0, 0x54(r1)
-		    stfd      f31, 0x40(r1)
-		    psq_st    f31,0x48(r1),0,0
-		    stfd      f30, 0x30(r1)
-		    psq_st    f30,0x38(r1),0,0
-		    stw       r31, 0x2C(r1)
-		    lwz       r4, 0x1E0(r3)
-		    mr        r31, r3
-		    rlwinm.   r0,r4,0,28,28
-		    bne-      .loc_0x40
-		    lfs       f1, -0x6BB0(r2)
-		    lfs       f0, 0x210(r31)
-		    fcmpu     cr0, f1, f0
-		    beq-      .loc_0x318
-
-		.loc_0x40:
-		    lfs       f0, -0x6BB0(r2)
-		    lfs       f1, 0x210(r31)
-		    fcmpu     cr0, f0, f1
-		    bne-      .loc_0x6C
-		    rlwinm.   r0,r4,0,30,30
-		    beq-      .loc_0x318
-		    lwz       r3, -0x6514(r13)
-		    lfs       f0, 0x54(r3)
-		    fadds     f0, f1, f0
-		    stfs      f0, 0x210(r31)
-		    b         .loc_0x318
-
-		.loc_0x6C:
-		    lwz       r3, 0xC0(r31)
-		    rlwinm.   r0,r4,0,12,12
-		    fmr       f31, f0
-		    lfs       f3, 0x294(r3)
-		    beq-      .loc_0x88
-		    lfs       f30, -0x6B5C(r2)
-		    b         .loc_0x8C
-
-		.loc_0x88:
-		    lfs       f30, -0x6B9C(r2)
-
-		.loc_0x8C:
-		    rlwinm.   r0,r4,0,17,17
-		    beq-      .loc_0xB0
-		    lwz       r3, -0x6514(r13)
-		    lfs       f2, -0x6B4C(r2)
-		    lfs       f1, 0x54(r3)
-		    lfs       f0, 0x210(r31)
-		    fmadds    f0, f2, f1, f0
-		    stfs      f0, 0x210(r31)
-		    b         .loc_0xC4
-
-		.loc_0xB0:
-		    lwz       r3, -0x6514(r13)
-		    lfs       f1, 0x210(r31)
-		    lfs       f0, 0x54(r3)
-		    fadds     f0, f1, f0
-		    stfs      f0, 0x210(r31)
-
-		.loc_0xC4:
-		    lwz       r0, 0x1E0(r31)
-		    rlwinm.   r0,r0,0,22,22
-		    beq-      .loc_0x204
-		    lfs       f0, 0x210(r31)
-		    fcmpo     cr0, f0, f3
-		    ble-      .loc_0xE8
-		    mr        r3, r31
-		    bl        .loc_0x33C
-		    b         .loc_0xF4
-
-		.loc_0xE8:
-		    fdivs     f0, f0, f3
-		    lfs       f1, -0x6B9C(r2)
-		    fsubs     f31, f1, f0
-
-		.loc_0xF4:
-		    lfs       f1, -0x6BC0(r2)
-		    lfs       f0, -0x6BB0(r2)
-		    fmuls     f1, f1, f31
-		    fcmpo     cr0, f1, f0
-		    bge-      .loc_0x134
-		    lfs       f0, -0x6BB8(r2)
-		    lis       r3, 0x8050
-		    addi      r3, r3, 0x71A0
-		    fmuls     f0, f1, f0
-		    fctiwz    f0, f0
-		    stfd      f0, 0x8(r1)
-		    lwz       r0, 0xC(r1)
-		    rlwinm    r0,r0,3,18,28
-		    lfsx      f0, r3, r0
-		    fneg      f4, f0
-		    b         .loc_0x158
-
-		.loc_0x134:
-		    lfs       f0, -0x6BB4(r2)
-		    lis       r3, 0x8050
-		    addi      r3, r3, 0x71A0
-		    fmuls     f0, f1, f0
-		    fctiwz    f0, f0
-		    stfd      f0, 0x10(r1)
-		    lwz       r0, 0x14(r1)
-		    rlwinm    r0,r0,3,18,28
-		    lfsx      f4, r3, r0
-
-		.loc_0x158:
-		    lfs       f1, -0x6B30(r2)
-		    lfs       f0, -0x6BA0(r2)
-		    fmuls     f3, f1, f30
-		    lfs       f1, -0x6BC0(r2)
-		    fmuls     f0, f0, f31
-		    lfs       f2, -0x6BB0(r2)
-		    fmuls     f3, f3, f4
-		    fmuls     f1, f1, f0
-		    fmuls     f0, f31, f3
-		    fcmpo     cr0, f1, f2
-		    stfs      f0, 0x1B0(r31)
-		    stfs      f2, 0x1B4(r31)
-		    bge-      .loc_0x1B8
-		    lfs       f0, -0x6BB8(r2)
-		    lis       r3, 0x8050
-		    addi      r3, r3, 0x71A0
-		    fmuls     f0, f1, f0
-		    fctiwz    f0, f0
-		    stfd      f0, 0x18(r1)
-		    lwz       r0, 0x1C(r1)
-		    rlwinm    r0,r0,3,18,28
-		    lfsx      f0, r3, r0
-		    fneg      f1, f0
-		    b         .loc_0x1DC
-
-		.loc_0x1B8:
-		    lfs       f0, -0x6BB4(r2)
-		    lis       r3, 0x8050
-		    addi      r3, r3, 0x71A0
-		    fmuls     f0, f1, f0
-		    fctiwz    f0, f0
-		    stfd      f0, 0x20(r1)
-		    lwz       r0, 0x24(r1)
-		    rlwinm    r0,r0,3,18,28
-		    lfsx      f1, r3, r0
-
-		.loc_0x1DC:
-		    lfs       f0, -0x6B2C(r2)
-		    fmuls     f0, f0, f30
-		    fmuls     f0, f0, f1
-		    fmuls     f0, f31, f0
-		    stfs      f0, 0x1B8(r31)
-		    lfs       f0, 0x1F8(r31)
-		    stfs      f0, 0x170(r31)
-		    stfs      f0, 0x16C(r31)
-		    stfs      f0, 0x168(r31)
-		    b         .loc_0x318
-
-		.loc_0x204:
-		    lfs       f0, 0x210(r31)
-		    fcmpo     cr0, f0, f3
-		    ble-      .loc_0x21C
-		    mr        r3, r31
-		    bl        .loc_0x33C
-		    b         .loc_0x290
-
-		.loc_0x21C:
-		    fdivs     f2, f0, f3
-		    lfs       f1, -0x6BC0(r2)
-		    lfs       f0, -0x6BB0(r2)
-		    fmuls     f1, f1, f2
-		    fcmpo     cr0, f1, f0
-		    bge-      .loc_0x260
-		    lfs       f0, -0x6BB8(r2)
-		    lis       r3, 0x8050
-		    addi      r3, r3, 0x71A0
-		    fmuls     f0, f1, f0
-		    fctiwz    f0, f0
-		    stfd      f0, 0x20(r1)
-		    lwz       r0, 0x24(r1)
-		    rlwinm    r0,r0,3,18,28
-		    lfsx      f0, r3, r0
-		    fneg      f1, f0
-		    b         .loc_0x284
-
-		.loc_0x260:
-		    lfs       f0, -0x6BB4(r2)
-		    lis       r3, 0x8050
-		    addi      r3, r3, 0x71A0
-		    fmuls     f0, f1, f0
-		    fctiwz    f0, f0
-		    stfd      f0, 0x18(r1)
-		    lwz       r0, 0x1C(r1)
-		    rlwinm    r0,r0,3,18,28
-		    lfsx      f1, r3, r0
-
-		.loc_0x284:
-		    lfs       f0, -0x6B9C(r2)
-		    fsubs     f0, f0, f2
-		    fmuls     f31, f0, f1
-
-		.loc_0x290:
-		    lwz       r4, 0x1E0(r31)
-		    rlwinm.   r0,r4,0,17,17
-		    beq-      .loc_0x2A4
-		    lfs       f0, -0x6BA0(r2)
-		    fmuls     f31, f31, f0
-
-		.loc_0x2A4:
-		    lwz       r3, 0xC0(r31)
-		    rlwinm.   r0,r4,0,12,12
-		    lfs       f0, 0x244(r3)
-		    fmuls     f0, f30, f0
-		    fmuls     f2, f31, f0
-		    beq-      .loc_0x2EC
-		    lfs       f0, 0x1F8(r31)
-		    fadds     f0, f0, f2
-		    stfs      f0, 0x168(r31)
-		    lwz       r3, 0xC0(r31)
-		    lfs       f0, 0x1F8(r31)
-		    lfs       f1, 0x26C(r3)
-		    fnmsubs   f0, f31, f1, f0
-		    stfs      f0, 0x16C(r31)
-		    lfs       f0, 0x1F8(r31)
-		    fadds     f0, f0, f2
-		    stfs      f0, 0x170(r31)
-		    b         .loc_0x318
-
-		.loc_0x2EC:
-		    lfs       f0, 0x1F8(r31)
-		    fsubs     f0, f0, f2
-		    stfs      f0, 0x168(r31)
-		    lwz       r3, 0xC0(r31)
-		    lfs       f0, 0x1F8(r31)
-		    lfs       f1, 0x26C(r3)
-		    fmadds    f0, f31, f1, f0
-		    stfs      f0, 0x16C(r31)
-		    lfs       f0, 0x1F8(r31)
-		    fsubs     f0, f0, f2
-		    stfs      f0, 0x170(r31)
-
-		.loc_0x318:
-		    psq_l     f31,0x48(r1),0,0
-		    lfd       f31, 0x40(r1)
-		    psq_l     f30,0x38(r1),0,0
-		    lfd       f30, 0x30(r1)
-		    lwz       r0, 0x54(r1)
-		    lwz       r31, 0x2C(r1)
-		    mtlr      r0
-		    addi      r1, r1, 0x50
-		    blr
-
-		.loc_0x33C:
-		*/
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801056FC
-	 * Size:	000024
-	 */
-	void EnemyBase::finishScaleDamageAnim()
-	{
-		_210 = 0.0f;
-		resetEvent(0, EB_15);
-		resetEvent(0, EB_20);
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105720
-	 * Size:	0000F8
-	 */
-	void EnemyBase::deathProcedure()
-	{
-		resetEvent(0, EB_Flying);
-		setAlive(false);
-
-		if (isEvent(0, EB_Bittered)) {
-			throwupItem();
-		} else {
-			throwupItemInDeathProcedure();
-		}
-		startMotion();
-
-		if (isEvent(0, EB_9)) {
-			createDeadBombEffect();
-			PSStartEnemyFatalHitSE(this, 0.0f);
-		}
-
-		PSM::EnemyBase* soundObj = m_soundObj;
-		if ((soundObj->getCastType() == PSM::CCT_EnemyMidBoss) || (soundObj->getCastType() == PSM::CCT_EnemyBigBoss)) {
-			static_cast<PSM::EnemyBoss*>(soundObj)->onDeathMotionTop();
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105874
-	 * Size:	0000D8
-	 */
-	void EnemyBase::createDeadBombEffect()
-	{
-		/*
-		.loc_0x0:
-		    stwu      r1, -0x60(r1)
-		    mflr      r0
-		    stw       r0, 0x64(r1)
-		    stfd      f31, 0x50(r1)
-		    psq_st    f31,0x58(r1),0,0
-		    stw       r31, 0x4C(r1)
-		    lwz       r12, 0x0(r3)
-		    mr        r31, r3
-		    addi      r4, r1, 0x18
-		    lwz       r12, 0x204(r12)
-		    mtctr     r12
-		    bctrl
-		    mr        r3, r31
-		    lfs       f31, 0x1F8(r31)
-		    lwz       r12, 0x0(r31)
-		    lwz       r12, 0x258(r12)
-		    mtctr     r12
-		    bctrl
-		    lwz       r6, 0x18(r1)
-		    lis       r5, 0x804B
-		    lwz       r0, 0x1C(r1)
-		    lis       r4, 0x804B
-		    lwz       r8, 0x20(r1)
-		    subi      r7, r5, 0x5814
-		    stw       r6, 0xC(r1)
-		    subi      r5, r4, 0x5808
-		    lis       r6, 0x804B
-		    lis       r4, 0x804F
-		    stw       r0, 0x10(r1)
-		    subi      r6, r6, 0x5820
-		    lfs       f2, 0xC(r1)
-		    subi      r0, r4, 0x7A2C
-		    stw       r8, 0x14(r1)
-		    addi      r4, r1, 0x24
-		    lfs       f1, 0x10(r1)
-		    stw       r7, 0x24(r1)
-		    lfs       f0, 0x14(r1)
-		    stw       r5, 0x8(r1)
-		    stw       r3, 0x34(r1)
-		    addi      r3, r1, 0x8
-		    stfs      f2, 0x28(r1)
-		    stfs      f1, 0x2C(r1)
-		    stfs      f0, 0x30(r1)
-		    stw       r6, 0x24(r1)
-		    stfs      f31, 0x38(r1)
-		    stw       r0, 0x8(r1)
-		    bl        0x2C3458
-		    psq_l     f31,0x58(r1),0,0
-		    lwz       r0, 0x64(r1)
-		    lfd       f31, 0x50(r1)
-		    lwz       r31, 0x4C(r1)
-		    mtlr      r0
-		    addi      r1, r1, 0x60
-		    blr
-		*/
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	8010594C
-	 * Size:	000054
-	 */
-	void EnemyBase::getThrowupItemPosition(Vector3f * throwupItemPosition)
-	{
-		Sys::Sphere sphere;
-		getBoundingSphere(sphere);
-		*throwupItemPosition = sphere.m_position;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801059A0
-	 * Size:	000018
-	 */
-	void EnemyBase::getThrowupItemVelocity(Vector3f * throwupItemVelocity)
-	{
-		throwupItemVelocity->x = 0.0f;
-		throwupItemVelocity->y = 200.0f;
-		throwupItemVelocity->z = 0.0f;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801059B8
-	 * Size:	0004B0
-	 */
-	void EnemyBase::throwupItem()
-	{
-		Vector3f throwupPosition;
-		getThrowupItemPosition(&throwupPosition);
-
-		PelletInitArg pelletInitArg;
-
-		if (pelletMgr->makePelletInitArg(pelletInitArg, m_pelletDropCode)) {
-			pelletInitArg._14            = 2;
-			EnemyTypeID::EEnemyTypeID id = getEnemyTypeID();
-
-			if ((id == EnemyTypeID::EnemyID_Queen || id == EnemyTypeID::EnemyID_SnakeCrow || id == EnemyTypeID::EnemyID_KingChappy
-			     || id == EnemyTypeID::EnemyID_Damagumo || id == EnemyTypeID::EnemyID_OoPanModoki || id == EnemyTypeID::EnemyID_Houdai
-			     || id == EnemyTypeID::EnemyID_UmiMushiBlind || id == EnemyTypeID::EnemyID_BlackMan || id == EnemyTypeID::EnemyID_DangoMushi
-			     || id == EnemyTypeID::EnemyID_BigFoot || id == EnemyTypeID::EnemyID_SnakeWhole || id == EnemyTypeID::EnemyID_UmiMushi
-			     || id == EnemyTypeID::EnemyID_BigTreasure)
-			    && gameSystem != nullptr && gameSystem->m_mode == GSM_STORY_MODE && gameSystem->m_isInCaveMaybe
-			    && Cave::randMapMgr != nullptr && Cave::randMapMgr->isLastFloor()) {
-				pelletInitArg._1D = true;
-			}
-
-			if (Pellet::sFromTekiEnable) {
-				pelletInitArg._1F = true;
-			}
-
-			m_heldPellet = pelletMgr->birth(&pelletInitArg);
-
-			if (m_heldPellet != nullptr) {
-				InteractMattuan mattuan = InteractMattuan(this, 8.0f);
-				m_heldPellet->stimulate(mattuan);
-
-				Vector3f throwupVelocity;
-				getThrowupItemVelocity(&throwupVelocity);
-
-				m_heldPellet->setPosition(throwupPosition, false);
-				m_heldPellet->setVelocity(throwupVelocity);
-				m_heldPellet->createKiraEffect(throwupPosition);
-
-				Radar::Mgr::exit(this);
-				m_soundObj->startSound(PSSE_EN_ENEMY_LOOSE_ITEM, 0);
-			}
-		}
-
-		if (randFloat() < m_pelletInfo.m_spawnThreshold) {
-			float range = (m_pelletInfo.m_maxPellets - m_pelletInfo.m_minPellets) * randFloat();
-			float roundRange;
-			if (range >= 0.0f) {
-				roundRange = range + 0.5f;
-			} else {
-				roundRange = range - 0.5f;
-			}
-			int additionalPellets = m_pelletInfo.m_minPellets + (int)roundRange;
-
-			float velocity = 0.0f;
-			switch (m_pelletInfo.m_size) {
-			case 1:
-				velocity = 150.0f;
-				break;
-			case 5:
-				velocity = 200.0f;
-				break;
-			case 10:
-				velocity = 250.0f;
-				break;
-			case 20:
-				velocity = 250.0f;
-				break;
-			}
-
-			for (int i = 0; i < additionalPellets; i++) {
-				u8 pelletColor = m_pelletInfo.m_color;
-				if (pelletColor == 3) {
-					pelletColor = randFloat() * 3.0f;
-				}
-
-				PelletNumberInitArg numberInitArg(m_pelletInfo.m_size, pelletColor);
-				numberInitArg._14 = 2;
-				Pellet* pellet    = pelletMgr->birth(&numberInitArg);
-
-				if (pellet != nullptr) {
-					Vector3f throwupVelocity = Vector3f(velocity * (randFloat() - 0.5f), velocity, velocity * (randFloat() - 0.5f));
-					pellet->setPosition(throwupPosition, false);
-					pellet->setVelocity(throwupVelocity);
-					pellet->createKiraEffect(throwupPosition);
-				}
-			}
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105E6C
-	 * Size:	000004
-	 */
-	void EnemyBase::doDebugDraw(Graphics&) { }
-
-	/*
-	 * --INFO--
-	 * Address:	80105E70
-	 * Size:	000080
-	 */
-	void EnemyBase::getLifeGaugeParam(Game::LifeGaugeParam & param)
-	{
-		if ((Game::moviePlayer) && (moviePlayer->m_flags & MoviePlayer::IS_ACTIVE)) {
-			param._14 = false;
-		} else {
-			param._14 = ((isEvent(0, EB_LifegaugeVisible)) && (m_lod.m_flags & AILOD::FLAG_NEED_SHADOW));
-		}
-		if (param._14) {
-			doGetLifeGaugeParam(param);
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105EF0
-	 * Size:	000040
-	 */
-	void EnemyBase::doGetLifeGaugeParam(Game::LifeGaugeParam & param)
-	{
-		float y                  = m_position.y + static_cast<EnemyParmsBase*>(m_parms)->m_general.m_lifeMeterHeight.m_value;
-		float z                  = m_position.z;
-		float x                  = m_position.x;
-		param.m_position         = Vector3f(x, y, z);
-		param.m_healthPercentage = m_health / m_maxHealth;
-		param._10                = 10.0f;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105F30
-	 * Size:	000050
-	 */
-	void EnemyBase::onStickStart(Game::Creature * other)
-	{
-		if (other->isPiki()) {
-			m_stickPikminCount++;
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105F80
-	 * Size:	000050
-	 */
-	void EnemyBase::onStickEnd(Game::Creature * other)
-	{
-		if (other->isPiki()) {
-			m_stickPikminCount--;
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80105FD0
-	 * Size:	00005C
-	 */
-	bool EnemyBase::injure()
-	{
-		if (isEvent(0, EB_Damage)) {
-			if (!(isEvent(0, EB_Vulnerable))) {
-				m_health -= m_instantDamage;
-				if (m_health < 0.0f) {
-					m_health = 0.0f;
-				}
-			}
-			m_instantDamage = 0.0f;
-			resetEvent(0, EB_Damage);
-			return true;
-		}
-		return false;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	8010602C
-	 * Size:	000040
-	 */
-	void EnemyBase::addDamage(float p1, float p2)
-	{
-		if (isEvent(0, EB_Vulnerable)) {
-			return;
-		}
-		m_instantDamage += p1;
-		if (isEvent(0, EB_DropMassSet)) {
-			m_toFlick += p2;
-		}
-		setEvent(0, EB_Damage);
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	8010606C
-	 * Size:	000048
-	 */
-	bool EnemyBase::damageCallBack(Game::Creature * sourceCreature, float damage, CollPart* p3)
-	{
-		if (!(isEvent(0, EB_Vulnerable))) {
-			m_instantDamage += damage;
-			if (isEvent(0, EB_DropMassSet)) {
-				m_toFlick += 1.0f;
-			}
-			setEvent(0, EB_Damage);
-		}
-		return true;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801060B4
-	 * Size:	000008
-	 */
-	bool EnemyBase::pressCallBack(Game::Creature*, float, CollPart*) { return false; }
-
-	/*
-	 * --INFO--
-	 * Address:	801060BC
-	 * Size:	000008
-	 */
-	bool EnemyBase::flyCollisionCallBack(Game::Creature*, float, CollPart*) { return false; }
-
-	/*
-	 * --INFO--
-	 * Address:	801060C4
-	 * Size:	000248
-	 */
-	// WIP: https://decomp.me/scratch/q8OtK - needs correct createSplashDownEffect inline
-	bool EnemyBase::hipdropCallBack(Game::Creature * sourceCreature, float damage, CollPart* p3)
-	{
-		float purpleDamage = static_cast<EnemyParmsBase*>(m_parms)->m_general.m_purplePikminHipDropDamage();
-
-		if (!(isEvent(0, EB_Vulnerable))) {
-			m_instantDamage += purpleDamage;
-			if (isEvent(0, EB_DropMassSet)) {
-				m_toFlick += 1.0f;
-			}
-			setEvent(0, EB_Damage);
-		}
-
-		setEvent(0, EB_20);
-		if (_0C8 != 0) {
-			createSplashDownEffect(m_position, getDownSmokeScale());
-			createDropEffect(m_position, getDownSmokeScale());
-		}
-		return false;
-		/*
-		.loc_0x0:
-		    stwu      r1, -0xA0(r1)
-		    mflr      r0
-		    stw       r0, 0xA4(r1)
-		    stfd      f31, 0x90(r1)
-		    psq_st    f31,0x98(r1),0,0
-		    stfd      f30, 0x80(r1)
-		    psq_st    f30,0x88(r1),0,0
-		    stw       r31, 0x7C(r1)
-		    lwz       r0, 0x1E0(r3)
-		    mr        r31, r3
-		    lwz       r3, 0xC0(r3)
-		    rlwinm.   r0,r0,0,31,31
-		    lfs       f1, 0x67C(r3)
-		    bne-      .loc_0x6C
-		    lfs       f0, 0x208(r31)
-		    fadds     f0, f0, f1
-		    stfs      f0, 0x208(r31)
-		    lwz       r0, 0x1E0(r31)
-		    rlwinm.   r0,r0,0,26,26
-		    beq-      .loc_0x60
-		    lfs       f1, 0x20C(r31)
-		    lfs       f0, -0x6B9C(r2)
-		    fadds     f0, f1, f0
-		    stfs      f0, 0x20C(r31)
-
-		.loc_0x60:
-		    lwz       r0, 0x1E0(r31)
-		    ori       r0, r0, 0x2
-		    stw       r0, 0x1E0(r31)
-
-		.loc_0x6C:
-		    lwz       r0, 0x1E0(r31)
-		    oris      r0, r0, 0x8
-		    stw       r0, 0x1E0(r31)
-		    lwz       r0, 0xC8(r31)
-		    cmplwi    r0, 0
-		    beq-      .loc_0x220
-		    mr        r3, r31
-		    lwz       r12, 0x0(r31)
-		    lwz       r12, 0x2EC(r12)
-		    mtctr     r12
-		    bctrl
-		    lwz       r3, 0x280(r31)
-		    fmr       f31, f1
-		    cmplwi    r3, 0
-		    beq-      .loc_0x1A4
-		    beq-      .loc_0xD8
-		    lwz       r12, 0x0(r3)
-		    lfs       f30, 0x194(r31)
-		    lwz       r12, 0x14(r12)
-		    mtctr     r12
-		    bctrl
-		    lfs       f1, 0x0(r3)
-		    lfs       f0, 0x18C(r31)
-		    stfs      f1, 0x2C(r1)
-		    stfs      f0, 0x28(r1)
-		    stfs      f30, 0x30(r1)
-		    b         .loc_0xF0
-
-		.loc_0xD8:
-		    lfs       f2, 0x18C(r31)
-		    lfs       f1, 0x190(r31)
-		    lfs       f0, 0x194(r31)
-		    stfs      f2, 0x28(r1)
-		    stfs      f1, 0x2C(r1)
-		    stfs      f0, 0x30(r1)
-
-		.loc_0xF0:
-		    lwz       r4, 0x28(r1)
-		    lis       r3, 0x804B
-		    lwz       r7, 0x2C(r1)
-		    subi      r0, r3, 0x5808
-		    lwz       r6, 0x30(r1)
-		    lis       r3, 0x804B
-		    stw       r4, 0x34(r1)
-		    lis       r4, 0x804E
-		    subi      r11, r3, 0x5814
-		    lis       r10, 0x804B
-		    li        r5, 0
-		    stw       r7, 0x38(r1)
-		    lfs       f2, 0x34(r1)
-		    lis       r3, 0x804F
-		    stw       r6, 0x3C(r1)
-		    li        r8, 0x54
-		    lfs       f1, 0x38(r1)
-		    li        r7, 0x55
-		    lfs       f0, 0x3C(r1)
-		    li        r6, 0x56
-		    stw       r0, 0x54(r1)
-		    addi      r9, r4, 0x6A50
-		    subi      r10, r10, 0x5D24
-		    subi      r0, r3, 0x7A04
-		    stw       r11, 0x40(r1)
-		    addi      r3, r1, 0x54
-		    addi      r4, r1, 0x40
-		    stw       r9, 0x54(r1)
-		    stfs      f2, 0x44(r1)
-		    stfs      f1, 0x48(r1)
-		    stfs      f0, 0x4C(r1)
-		    stw       r10, 0x40(r1)
-		    stfs      f31, 0x50(r1)
-		    sth       r8, 0x58(r1)
-		    sth       r7, 0x5A(r1)
-		    sth       r6, 0x5C(r1)
-		    stw       r5, 0x60(r1)
-		    stw       r5, 0x64(r1)
-		    stw       r5, 0x68(r1)
-		    stw       r0, 0x54(r1)
-		    bl        0x2C2578
-		    fmr       f1, f31
-		    mr        r3, r31
-		    bl        0x3685E0
-		    b         .loc_0x220
-
-		.loc_0x1A4:
-		    lis       r3, 0x804B
-		    lis       r5, 0x804B
-		    subi      r0, r3, 0x5814
-		    lis       r4, 0x804E
-		    stw       r0, 0x8(r1)
-		    lis       r3, 0x804F
-		    subi      r8, r5, 0x5808
-		    lfs       f0, -0x6B9C(r2)
-		    lfs       f1, 0x18C(r31)
-		    addi      r7, r4, 0x6A78
-		    subi      r0, r3, 0x79F0
-		    li        r6, 0x53
-		    stfs      f1, 0xC(r1)
-		    li        r5, 0
-		    addi      r3, r1, 0x18
-		    addi      r4, r1, 0x8
-		    lfs       f1, 0x190(r31)
-		    stfs      f1, 0x10(r1)
-		    lfs       f1, 0x194(r31)
-		    stw       r8, 0x18(r1)
-		    stw       r7, 0x18(r1)
-		    stfs      f0, 0x24(r1)
-		    stfs      f1, 0x14(r1)
-		    sth       r6, 0x1C(r1)
-		    stw       r5, 0x20(r1)
-		    stw       r0, 0x18(r1)
-		    stfs      f31, 0x24(r1)
-		    bl        0x2C2490
-		    fmr       f1, f31
-		    mr        r3, r31
-		    bl        0x3683B0
-
-		.loc_0x220:
-		    li        r3, 0
-		    psq_l     f31,0x98(r1),0,0
-		    lfd       f31, 0x90(r1)
-		    psq_l     f30,0x88(r1),0,0
-		    lfd       f30, 0x80(r1)
-		    lwz       r0, 0xA4(r1)
-		    lwz       r31, 0x7C(r1)
-		    mtlr      r0
-		    addi      r1, r1, 0xA0
-		    blr
-		*/
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	8010630C
-	 * Size:	000008
-	 */
-	bool EnemyBase::dropCallBack(Game::Creature*) { return false; }
-
-	/*
-	 * --INFO--
-	 * Address:	80106314
-	 * Size:	000040
-	 */
-	bool EnemyBase::isBeforeAppearState() { return m_lifecycleFSM->getCurrID(this) < 5; }
-
-	/*
-	 * --INFO--
-	 * Address:	80106354
-	 * Size:	000070
-	 */
-	bool EnemyBase::checkBirthTypeDropEarthquake()
-	{
-		bool b = false;
-		if (m_lifecycleFSM->getCurrID(this) == 4) {
-			m_lifecycleFSM->transit(this, 5, nullptr);
-			b = true;
-		}
-		return b;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801063C4
-	 * Size:	0000EC
-	 */
-	bool EnemyBase::earthquakeCallBack(Game::Creature * creature, float p1)
-	{
-		if (_0C8 && !(m_health <= 0.0f) && !isFlying() && isAlive()) {
-			if (!(isEvent(0, EB_HardConstraint)) && !(isEvent(0, EB_Bittered))) {
-				if (((isEvent(0, EB_22)) || (isEvent(0, EB_BitterImmune))) == false) {
-					StateArg transitArg;
-					transitArg._00 = p1;
-					m_lifecycleFSM->transit(this, EnemyBaseFSM::EBS_Earthquake, &transitArg);
-				}
-			}
-		}
-		return false;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801064B0
-	 * Size:	000108
-	 */
-	bool EnemyBase::dopeCallBack(Game::Creature*, int)
-	{
-		/*
-		.loc_0x0:
-		    stwu      r1, -0x20(r1)
-		    mflr      r0
-		    stw       r0, 0x24(r1)
-		    stw       r31, 0x1C(r1)
-		    mr        r31, r5
-		    stw       r30, 0x18(r1)
-		    mr        r30, r4
-		    stw       r29, 0x14(r1)
-		    mr        r29, r3
-		    lwz       r12, 0x0(r3)
-		    lwz       r12, 0xA8(r12)
-		    mtctr     r12
-		    bctrl
-		    rlwinm.   r0,r3,0,24,31
-		    beq-      .loc_0xE8
-		    lfs       f1, 0x200(r29)
-		    lfs       f0, -0x6BB0(r2)
-		    fcmpo     cr0, f1, f0
-		    cror      2, 0, 0x2
-		    beq-      .loc_0xE8
-		    mr        r3, r29
-		    mr        r4, r30
-		    lwz       r12, 0x0(r29)
-		    mr        r5, r31
-		    lwz       r12, 0x2A0(r12)
-		    mtctr     r12
-		    bctrl
-		    rlwinm.   r0,r3,0,24,31
-		    beq-      .loc_0xE8
-		    cmpwi     r31, 0x1
-		    beq-      .loc_0x80
-		    b         .loc_0xE8
-
-		.loc_0x80:
-		    lwz       r3, 0x1E0(r29)
-		    rlwinm.   r0,r3,0,9,9
-		    bne-      .loc_0xE8
-		    rlwinm.   r0,r3,0,22,22
-		    bne-      .loc_0xE8
-		    rlwinm.   r0,r3,0,10,10
-		    beq-      .loc_0xA8
-		    oris      r0, r3, 0x10
-		    stw       r0, 0x1E0(r29)
-		    b         .loc_0xE8
-
-		.loc_0xA8:
-		    lwz       r3, 0x24C(r29)
-		    bl        0x2367C
-		    rlwinm.   r0,r3,0,24,31
-		    beq-      .loc_0xDC
-		    lwz       r3, 0x2B8(r29)
-		    mr        r4, r29
-		    li        r5, 0x7
-		    li        r6, 0
-		    lwz       r12, 0x0(r3)
-		    lwz       r12, 0x14(r12)
-		    mtctr     r12
-		    bctrl
-		    b         .loc_0xE8
-
-		.loc_0xDC:
-		    lwz       r0, 0x1E0(r29)
-		    oris      r0, r0, 0x10
-		    stw       r0, 0x1E0(r29)
-
-		.loc_0xE8:
-		    lwz       r0, 0x24(r1)
-		    li        r3, 0
-		    lwz       r31, 0x1C(r1)
-		    lwz       r30, 0x18(r1)
-		    lwz       r29, 0x14(r1)
-		    mtlr      r0
-		    addi      r1, r1, 0x20
-		    blr
-		*/
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801065C0
-	 * Size:	000008
-	 */
-	bool EnemyBase::farmCallBack(Game::Creature*, float) { return false; }
-
-	/*
-	 * --INFO--
-	 * Address:	801065C8
-	 * Size:	000048
-	 */
-	bool EnemyBase::bombCallBack(Game::Creature * creature, Vector3f & vec, float damage)
-	{
-		if (!(isEvent(0, EB_Vulnerable))) {
-			m_instantDamage += damage;
-
-			if (isEvent(0, EB_DropMassSet)) {
-				m_toFlick += 1.0f;
-			}
-
-			setEvent(0, EB_Damage);
-		}
-
-		return true;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80106610
-	 * Size:	000054
-	 */
-	void EnemyBase::collisionCallback(Game::CollEvent & coll)
-	{
-		finishDropping(false);
-		setCollEvent(coll);
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80106664
-	 * Size:	000028
-	 */
-	void EnemyBase::setCollEvent(Game::CollEvent & event)
-	{
-		m_collEvent.m_collidingCreature = event.m_collidingCreature;
-		m_collEvent._04                 = event._04;
-		m_collEvent.m_hitPart           = event.m_hitPart;
-		setEvent(0, EB_Collision);
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	8010668C
-	 * Size:	000010
-	 */
-	void EnemyBase::resetCollEvent() { resetEvent(0, EB_Collision); }
-
-	/*
-	 * --INFO--
-	 * Address:	8010669C
-	 * Size:	000004
-	 */
-	void EnemyBase::changeMaterial() { }
-
-	/*
-	 * --INFO--
-	 * Address:	801066A0
-	 * Size:	000008
-	 */
-	SysShape::Model* EnemyBase::viewGetShape() { return m_model; }
-
-	/*
-	 * --INFO--
-	 * Address:	801066A8
-	 * Size:	000020
-	 */
-	void EnemyBase::viewStartCarryMotion() { startMotion(); }
-
-	/*
-	 * --INFO--
-	 * Address:	801066C8
-	 * Size:	000040
-	 */
-	void EnemyBase::viewStartPreCarryMotion()
-	{
-		startCarcassMotion();
-		stopMotion();
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	8010691C
-	 * Size:	000130
-	 */
-	void EnemyBase::viewOnPelletKilled()
-	{
-		if (m_heldPellet != nullptr) {
-			InteractMattuan mattuan = InteractMattuan(this, 2.5f);
-			m_heldPellet->stimulate(mattuan);
-			m_heldPellet = nullptr;
-		}
-
-		m_soundObj->setKilled();
-
-		if (lifeGaugeMgr != nullptr) {
-			lifeGaugeMgr->inactiveLifeGauge(this);
-		}
-		if (shadowMgr != nullptr) {
-			shadowMgr->delShadow(this);
-		}
-
-		fadeEffects();
-		m_emotion = EMOTE_None;
-
-		if (PSGetDirectedMainBgm()) {
-			m_soundObj->battleOff();
-		}
-
-		static_cast<PSM::CreatureAnime*>(m_soundObj)->setAnime(nullptr, 1, 0.0f, 0.0f);
-		m_mgr->kill(this);
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80106A4C
-	 * Size:	00002C
-	 */
-	void EnemyBase::view_start_carrymotion() { startCarcassMotion(); }
-
-	/*
-	 * --INFO--
-	 * Address:	80106A78
-	 * Size:	000040
-	 */
-	void EnemyBase::view_finish_carrymotion() { m_animator->getAnimator(0).m_flags |= 2; }
-
-	/*
-	 * --INFO--
-	 * Address:	80106AB8
-	 * Size:	0000A8
-	 */
-	void EnemyBase::getCommonEffectPos(Vector3f & commonEffectPos)
-	{
-		commonEffectPos = getPosition();
-		commonEffectPos.x += m_commonEffectOffset.x;
-		commonEffectPos.y += m_commonEffectOffset.y;
-		commonEffectPos.z += m_commonEffectOffset.z;
-		commonEffectPos.y += static_cast<EnemyParmsBase*>(m_parms)->m_general.m_fp01.m_value;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80106B60
-	 * Size:	000040
-	 */
-	inline void EnemyBase::getWaterSphere(Sys::Sphere * sphere)
-	{
-		sphere->m_position.x = m_position.x + m_commonEffectOffset.x;
-		sphere->m_position.y = m_position.y + m_commonEffectOffset.y;
-		sphere->m_position.z = m_position.z + m_commonEffectOffset.z;
-		sphere->m_radius     = static_cast<EnemyParmsBase*>(m_parms)->m_general.m_fp01.m_value;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80106BA0
-	 * Size:	000148
-	 */
-	void EnemyBase::updateWaterBox()
-	{
-		Sys::Sphere waterSphere;
-		getWaterSphere(&waterSphere);
-
-		if (m_waterBox != nullptr) {
-			if (!m_waterBox->inWater(waterSphere)) {
-				if (mapMgr != nullptr) {
-					m_waterBox = mapMgr->findWater(waterSphere);
-				}
-				if (m_waterBox == nullptr) {
-					m_waterBox = nullptr;
-					outWaterCallback();
-					fadeEfxHamon();
-				}
-			}
-			updateEfxHamon();
-		} else {
-			WaterBox* waterBox = nullptr;
-			if (mapMgr != nullptr) {
-				waterBox = mapMgr->findWater(waterSphere);
-			}
-			if (waterBox != nullptr) {
-				m_waterBox = waterBox;
-				inWaterCallback(waterBox);
-				createEfxHamon();
-			}
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80106CF0
-	 * Size:	00027C
-	 */
-	PSM::EnemyBase* EnemyBase::createPSEnemyBase()
-	{
-		PSM::EnemyBase* base = nullptr;
-
-		if (getEnemyTypeID() == EnemyTypeID::EnemyID_KumaChappy || getEnemyTypeID() == EnemyTypeID::EnemyID_FireChappy) {
-			base = new PSM::Enemy_SpecialChappy(this, 4);
-			return base;
-		} else {
-			EnemyInfo* info = EnemyInfoFunc::getEnemyInfo(getEnemyTypeID(), 0xFFFF);
-
-			switch (info->m_bitterDrops) {
-			case BDT_Weak:
-				base = new PSM::EnemyHekoi(this, 2);
-				break;
-			case BDT_Normal:
-				base = new PSM::EnemyBase(this, 3);
-				break;
-			case BDT_Strong:
-				base = new PSM::EnemyBig(this, 4);
-				break;
-			case BDT_Triple:
-				JUT_PANICLINE(4392, "abolished type\n");
-				break;
-			case BDT_Empty:
-				base = new PSM::EnemyMidBoss(this);
-				break;
-			case BDT_Boss:
-				base = new PSM::EnemyBigBoss(this);
-				break;
-			case BDT_FinalBoss:
-				base = new PSM::EnemyNotAggressive(this, 2);
-				break;
-			}
-		}
-		return base;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107204
-	 * Size:	00001C
-	 */
-	void EnemyBase::startMotion()
-	{
-		EnemyAnimatorBase* animator = m_animator;
-		animator->m_flags.typeView &= ~0x3;
-		animator->m_progress = 1.0f;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107220
-	 * Size:	000058
-	 */
-	float EnemyBase::getMotionFrameMax() { return m_animator->getAnimator().m_animInfo->m_anm->m_time; }
-
-	/*
-	 * --INFO--
-	 * Address:	80107278
-	 * Size:	000068
-	 */
-	float EnemyBase::getFirstKeyFrame()
-	{
-		SysShape::Animator animator = m_animator->getAnimator();
-		CNode* node                 = animator.m_animInfo->m_keyEvent.m_child;
-		if (node != nullptr) {
-			return (s32) static_cast<SysShape::KeyEvent*>(node)->m_frame;
-		}
-		return 0.0f;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801072E0
-	 * Size:	000020
-	 */
-	void EnemyBase::stopMotion()
-	{
-		EnemyAnimatorBase* animator = m_animator;
-		animator->m_flags.typeView &= ~0x4;
-		animator->m_flags.typeView |= 1;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107300
-	 * Size:	000038
-	 */
-	bool EnemyBase::isFinishMotion() { return m_animator->getAnimator().m_flags >> 1 & 1; }
-
-	/*
-	 * --INFO--
-	 * Address:	80107338
-	 * Size:	000010
-	 */
-	bool EnemyBase::isStopMotion() { return m_animator->m_flags.typeView & 1; }
-
-	/*
-	 * --INFO--
-	 * Address:	80107348
-	 * Size:	000048
-	 */
-	int EnemyBase::getCurrAnimIndex()
-	{
-		SysShape::Animator animator = m_animator->getAnimator();
-		if (animator.m_animInfo != nullptr) {
-			return animator.m_animInfo->m_id;
-		}
-		return -1;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107390
-	 * Size:	00000C
-	 */
-	void EnemyBase::setAnimSpeed(float speed) { m_animator->m_animSpeed = speed; }
-
-	/*
-	 * --INFO--
-	 * Address:	8010739C
-	 * Size:	000030
-	 */
-	void EnemyBase::resetAnimSpeed() { m_animator->resetAnimSpeed(); }
-
-	/*
-	 * --INFO--
-	 * Address:	801073D8
-	 * Size:	000014
-	 */
-	JAInter::Object* EnemyBase::getJAIObject() { return static_cast<JAInter::Object*>(m_soundObj); }
-
-	/*
-	 * --INFO--
-	 * Address:	801073EC
-	 * Size:	000008
-	 */
-	PSM::Creature* EnemyBase::getPSCreature() { return static_cast<PSM::Creature*>(m_soundObj); }
-
-	/*
-	 * --INFO--
-	 * Address:	801073F4
-	 * Size:	00001C
-	 */
-	int EnemyBase::getStateID()
-	{
-		if (m_currentLifecycleState != nullptr) {
-			return m_currentLifecycleState->m_stateID;
-		}
-		return -1;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107410
-	 * Size:	0000AC
-	 */
-	bool EnemyBase::needShadow()
-	{
-		if (moviePlayer != nullptr && moviePlayer->m_flags & 1) {
-			bool needShadow = false;
-			if (isMovieActor() || m_mgr->isAlwaysMovieActor()) {
-				needShadow = true;
-			}
-			return needShadow;
-		} else {
-			bool needShadow = false;
-			if (m_lod.m_flags & AILOD::FLAG_NEED_SHADOW && !(isEvent(0, EB_31))) {
-				needShadow = true;
-			}
-			return needShadow;
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801074D0
-	 * Size:	000234
-	 */
-	// WIP: https://decomp.me/scratch/fauDT
-	bool EnemyBase::eatWhitePikminCallBack(Game::Creature*, float)
-	{
-		/*
-		.loc_0x0:
-		    stwu      r1, -0xB0(r1)
-		    mflr      r0
-		    stw       r0, 0xB4(r1)
-		    stmw      r27, 0x9C(r1)
-		    mr        r29, r3
-		    lwz       r0, 0x1E0(r3)
-		    rlwinm.   r0,r0,0,31,31
-		    bne-      .loc_0x54
-		    lfs       f0, 0x208(r29)
-		    fadds     f0, f0, f1
-		    stfs      f0, 0x208(r29)
-		    lwz       r0, 0x1E0(r29)
-		    rlwinm.   r0,r0,0,26,26
-		    beq-      .loc_0x48
-		    lfs       f1, 0x20C(r29)
-		    lfs       f0, -0x6BB0(r2)
-		    fadds     f0, f1, f0
-		    stfs      f0, 0x20C(r29)
-
-		.loc_0x48:
-		    lwz       r0, 0x1E0(r29)
-		    ori       r0, r0, 0x2
-		    stw       r0, 0x1E0(r29)
-
-		.loc_0x54:
-		    lwz       r3, 0x1E0(r29)
-		    rlwinm.   r0,r3,0,17,17
-		    bne-      .loc_0x21C
-		    ori       r0, r3, 0x4000
-		    lis       r3, 0x804B
-		    stw       r0, 0x1E0(r29)
-		    subi      r28, r3, 0x5E2C
-		    li        r30, 0
-		    li        r31, 0
-		    lwz       r3, -0x6514(r13)
-		    lfs       f0, 0x54(r3)
-		    stfs      f0, 0x210(r29)
-		    b         .loc_0x1EC
-
-		.loc_0x88:
-		    addi      r3, r1, 0x50
-		    li        r4, 0
-		    bl        0x21F20
-		    lwz       r4, 0x24C(r29)
-		    lwz       r3, 0x174(r29)
-		    lwz       r4, 0x18(r4)
-		    lwz       r0, 0x4(r4)
-		    add       r27, r0, r31
-		    lwz       r4, 0x0(r27)
-		    bl        0x337A68
-		    bl        0x322320
-		    stw       r3, 0x94(r1)
-		    addi      r3, r1, 0x50
-		    addi      r4, r1, 0x30
-		    addi      r5, r1, 0x8
-		    stw       r27, 0x90(r1)
-		    bl        0x22134
-		    rlwinm.   r0,r3,0,24,31
-		    beq-      .loc_0x1D4
-		    lwz       r7, 0x30(r1)
-		    lis       r4, 0x804B
-		    lwz       r6, 0x34(r1)
-		    lis       r3, 0x804B
-		    lwz       r5, 0x38(r1)
-		    subi      r4, r4, 0x5814
-		    lfs       f0, 0x1F8(r29)
-		    subi      r0, r3, 0x5D24
-		    lfs       f1, 0x8(r1)
-		    stw       r7, 0xC(r1)
-		    fmuls     f3, f1, f0
-		    lwz       r3, 0x90(r1)
-		    stw       r6, 0x10(r1)
-		    lfs       f2, 0xC(r1)
-		    stw       r5, 0x14(r1)
-		    lfs       f1, 0x10(r1)
-		    stw       r4, 0x3C(r1)
-		    lfs       f0, 0x14(r1)
-		    stfs      f3, 0x8(r1)
-		    stfs      f2, 0x40(r1)
-		    stfs      f1, 0x44(r1)
-		    stfs      f0, 0x48(r1)
-		    stw       r0, 0x3C(r1)
-		    stfs      f3, 0x4C(r1)
-		    lwz       r0, 0x4(r3)
-		    cmpwi     r0, 0x1
-		    beq-      .loc_0x194
-		    bge-      .loc_0x1D4
-		    cmpwi     r0, 0
-		    bge-      .loc_0x150
-		    b         .loc_0x1D4
-
-		.loc_0x150:
-		    lis       r3, 0x804B
-		    lis       r4, 0x804E
-		    subi      r0, r3, 0x5808
-		    lis       r3, 0x804F
-		    stw       r0, 0x24(r1)
-		    addi      r0, r4, 0x6A78
-		    li        r6, 0x22E
-		    li        r5, 0
-		    stw       r0, 0x24(r1)
-		    subi      r0, r3, 0x7914
-		    addi      r3, r1, 0x24
-		    addi      r4, r1, 0x3C
-		    sth       r6, 0x28(r1)
-		    stw       r5, 0x2C(r1)
-		    stw       r0, 0x24(r1)
-		    bl        0x2C044C
-		    b         .loc_0x1D4
-
-		.loc_0x194:
-		    lis       r3, 0x804B
-		    lis       r4, 0x804E
-		    subi      r0, r3, 0x5808
-		    lis       r3, 0x804F
-		    stw       r0, 0x18(r1)
-		    addi      r0, r4, 0x6A78
-		    li        r6, 0x22F
-		    li        r5, 0
-		    stw       r0, 0x18(r1)
-		    subi      r0, r3, 0x7928
-		    addi      r3, r1, 0x18
-		    addi      r4, r1, 0x3C
-		    sth       r6, 0x1C(r1)
-		    stw       r5, 0x20(r1)
-		    stw       r0, 0x18(r1)
-		    bl        0x2C04E4
-
-		.loc_0x1D4:
-		    stw       r28, 0x50(r1)
-		    addi      r3, r1, 0x50
-		    li        r4, 0
-		    bl        0x309ED8
-		    addi      r31, r31, 0x38
-		    addi      r30, r30, 0x1
-
-		.loc_0x1EC:
-		    lwz       r3, 0x24C(r29)
-		    lwz       r3, 0x18(r3)
-		    lbz       r0, 0x0(r3)
-		    cmpw      r30, r0
-		    blt+      .loc_0x88
-		    lwz       r3, 0x28C(r29)
-		    li        r4, 0x5807
-		    li        r5, 0
-		    lwz       r12, 0x28(r3)
-		    lwz       r12, 0x88(r12)
-		    mtctr     r12
-		    bctrl
-
-		.loc_0x21C:
-		    lmw       r27, 0x9C(r1)
-		    li        r3, 0x1
-		    lwz       r0, 0xB4(r1)
-		    mtlr      r0
-		    addi      r1, r1, 0xB0
-		    blr
-		*/
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107764
-	 * Size:	000008
-	 */
-	float EnemyBase::getDownSmokeScale() { return 0.0f; }
-
-	/*
-	 * --INFO--
-	 * Address:	8010776C
-	 * Size:	000010
-	 */
-	void EnemyBase::constraintOff() { resetEvent(0, EB_Constraint); }
-
-	/*
-	 * --INFO--
-	 * Address:	8010777C
-	 * Size:	000018
-	 */
-	void EnemyBase::hardConstraintOn()
-	{
-		setEvent(0, EB_HardConstraint);
-		_118 = 0.0f;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107794
-	 * Size:	000028
-	 */
-	void EnemyBase::hardConstraintOff()
-	{
-		resetEvent(0, EB_HardConstraint);
-		_118   = m_friction;
-		_11C.x = 0.0f;
-		_11C.y = 0.0f;
-		_11C.z = 0.0f;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801077BC
-	 * Size:	000084
-	 */
-	void EnemyBase::startMovie()
-	{
-		if (m_lifecycleFSM->getCurrID(this) >= 5) {
-			fadeEffects();
-			doStartMovie();
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107844
-	 * Size:	000084
-	 */
-	void EnemyBase::endMovie()
-	{
-		if (m_lifecycleFSM->getCurrID(this) >= 5) {
-			createEffects();
-			doEndMovie();
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	801078C8
-	 * Size:	000004
-	 */
-	// WEAK - in header
-	// void EnemyBase::doEndMovie() { }
-
-	/*
-	 * --INFO--
-	 * Address:	801078CC
-	 * Size:	000094
-	 */
-	void EnemyBase::doStartEarthquakeState(float param_1)
-	{
-		m_velocity2.x = 0.0f;
-		m_velocity2.y = 0.0f;
-		m_velocity2.z = 0.0f;
-
-		m_velocity.x = 0.0f;
-		m_velocity.y = 0.0f;
-		m_velocity.z = 0.0f;
-
-		m_velocity.y = (param_1 * 200.0f + randFloat() * 100.0f);
-	};
-
-	/*
-	 * --INFO--
-	 * Address:	80107960
-	 * Size:	000004
-	 */
-	void EnemyBase::doFinishEarthquakeState() { }
-
-	/*
-	 * --INFO--
-	 * Address:	80107964
-	 * Size:	000004
-	 */
-	void EnemyBase::doStartEarthquakeFitState() { }
-
-	/*
-	 * --INFO--
-	 * Address:	80107968
-	 * Size:	000004
-	 */
-	void EnemyBase::doFinishEarthquakeFitState() { }
-
-	/*
-	 * --INFO--
-	 * Address:	8010796C
-	 * Size:	00002C
-	 */
-	void EnemyBase::startWaitingBirthTypeDrop() { doStartWaitingBirthTypeDrop(); }
-
-	/*
-	 * --INFO--
-	 * Address:	80107998
-	 * Size:	000004
-	 */
-	void EnemyBase::doStartWaitingBirthTypeDrop() { }
-
-	/*
-	 * --INFO--
-	 * Address:	8010799C
-	 * Size:	00002C
-	 */
-	void EnemyBase::finishWaitingBirthTypeDrop() { doFinishWaitingBirthTypeDrop(); }
-
-	/*
-	 * --INFO--
-	 * Address:	801079C8
-	 * Size:	000064
-	 */
-	void EnemyBase::doFinishWaitingBirthTypeDrop()
-	{
-		if (!isFlying()) {
-			setEvent(1, EB2_5);
-			setDroppingMassZero();
-			m_scale.x = 1.0f;
-			m_scale.y = 1.0f;
-			m_scale.z = 1.0f;
-		}
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107A2C
-	 * Size:	00003C
-	 */
-	bool EnemyBase::isBirthTypeDropGroup()
-	{
-		return (m_dropGroup == 1 || m_dropGroup == 2 || m_dropGroup == 3 || m_dropGroup == 4 || m_dropGroup == 5);
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107A68
-	 * Size:	000008
-	 */
-	Vector3f* EnemyBase::getFitEffectPos() { return &m_boundingSphere.m_position; }
-
-	/*
-	 * --INFO--
-	 * Address:	80107A70
-	 * Size:	000018
-	 */
-	void EnemyBase::setDroppingMassZero()
-	{
-		setEvent(1, EB2_DroppingMassZero);
-		_118 = 0.0f;
-	}
-
-	/*
-	 * --INFO--
-	 * Address:	80107A88
-	 * Size:	000018
-	 */
-	void EnemyBase::resetDroppingMassZero()
-	{
-		resetEvent(1, EB2_DroppingMassZero);
-		_118 = m_friction;
-	}
-} // namespace Game
+	createBounceEffect(pos, getDownSmokeScale());
+
+	disableEvent(1, EB2_IsDropping);
+	mCurrentVelocity = 0.0f;
+}
 
 /*
  * --INFO--
- * Address:	80108218
+ * Address:	80104288
+ * Size:	000080
+ */
+void EnemyBase::bounceProcedure(Sys::Triangle* triangle)
+{
+	bounceCallback(triangle);
+	disableEvent(0, EB_ShouldCheckCollision);
+
+	finishDropping(true);
+	resetDroppingMassZero();
+
+	mLifecycleFSM->bounceProcedure(this, triangle);
+}
+
+/*
+ * --INFO--
+ * Address:	80104340
+ * Size:	0006D4
+ */
+void EnemyBase::collisionMapAndPlat(f32 timeStep)
+{
+	// If isn't stuck
+	if (!isStickTo()) {
+		// Apply simulation for ground or flying enemies
+		if (!(isEvent(0, EB_IsFlying))) {
+			doSimulationGround(timeStep);
+		} else {
+			doSimulationFlying(timeStep);
+
+			// If we're flying, we don't need to check collision for floor and other objects
+			disableEvent(0, EB_ShouldCheckCollision);
+		}
+
+		f32 yOffsetFromMap = getParms().mHeightOffsetFromFloor.mValue;
+
+		Vector3f pos  = getPosition();
+		mEffectOffset = getOffsetForMapCollision();
+
+		Sys::Sphere collSphere;
+		pos += mEffectOffset;
+		pos.y += yOffsetFromMap;
+		collSphere.mPosition = pos;
+		collSphere.mRadius   = yOffsetFromMap;
+
+		f32 bounceAmount = isDropping() ? 0.0f : static_cast<CreatureProperty*>(mParms)->mProps.mWallReflection.mValue;
+
+		mAcceleration.y = 0.0f;
+
+		Vector3f totalVel = mCurrentVelocity + mAcceleration;
+
+		// Check where our wanted movement will reach us
+		MoveInfo moveInfo(&collSphere, &totalVel, bounceAmount);
+		moveInfo.mInfoOrigin = (BaseItem*)this;
+		mapMgr->traceMove(moveInfo, timeStep);
+
+		mCurrentVelocity = totalVel;
+
+		// Apply acceleration by converting the velocity to a direction,
+		// clamping it, and then setting the velocity again
+
+		f32 curVelSpeed = mCurrentVelocity.normalise();
+		f32 accelSpeed  = mAcceleration.length();
+
+		if (curVelSpeed > accelSpeed) {
+			curVelSpeed -= accelSpeed;
+			mCurrentVelocity *= curVelSpeed;
+			mAcceleration = 0.0f;
+		} else {
+			mCurrentVelocity *= curVelSpeed;
+			mAcceleration = 0.0f;
+		}
+
+		// Apply bounce triangle logic
+		if (!mBounceTriangle && moveInfo.mBounceTriangle) {
+			bounceProcedure(moveInfo.mBounceTriangle);
+		}
+
+		mBounceTriangle    = moveInfo.mBounceTriangle;
+		mCollisionPosition = moveInfo.mPosition;
+
+		// Apply wall triangle logic
+		if (!mWallTriangle && moveInfo.mWallTriangle) {
+			wallCallback(moveInfo);
+		}
+
+		mWallTriangle = moveInfo.mWallTriangle;
+
+		// Handles platform collisions for bouncing and walls
+		if (platMgr && isEvent(0, EB_IsPlatformCollsAllowed)) {
+			moveInfo.mVelocity = &mCurrentVelocity;
+			platMgr->traceMove(moveInfo, timeStep);
+
+			if (!mBounceTriangle) {
+				if (moveInfo.mBounceTriangle) {
+					bounceProcedure(moveInfo.mBounceTriangle);
+				}
+
+				mBounceTriangle    = moveInfo.mBounceTriangle;
+				mCollisionPosition = moveInfo.mPosition;
+			}
+
+			if (!mWallTriangle && moveInfo.mWallTriangle) {
+				wallCallback(moveInfo);
+			}
+
+			mWallTriangle = moveInfo.mWallTriangle;
+		}
+
+		if (mapMgr->hasHiddenCollision()) {
+			mapMgr->constraintBoundBox(collSphere);
+		}
+
+		// Now move to
+		mPosition.x = collSphere.mPosition.x - mEffectOffset.x;
+		mPosition.y = collSphere.mPosition.y - mEffectOffset.y - yOffsetFromMap;
+		mPosition.z = collSphere.mPosition.z - mEffectOffset.z;
+
+		updateSpheres();
+		return;
+	}
+
+	// Is stuck or has something
+	// NOTE: what does isStuckTo mean?
+	mAcceleration = 0.0f;
+
+	doSimulationStick(timeStep);
+
+	mPosition += mCurrentVelocity;
+
+	Vector3f stick(pikmin2_sinf(mFaceDir), 0.0f, pikmin2_cosf(mFaceDir));
+	updateStick(stick);
+	updateSpheres();
+	updateCell();
+}
+
+/*
+ * --INFO--
+ * Address:	80104A38
+ * Size:	000020
+ */
+void EnemyBase::doSimulationCarcass(f32 _) { updateWaterBox(); }
+
+/*
+ * --INFO--
+ * Address:	80104A58
+ * Size:	000034
+ */
+void EnemyBase::doSimulation(f32 arg) { static_cast<EnemyBaseFSM::StateMachine*>(mLifecycleFSM)->simulation(this, arg); }
+
+/*
+ * --INFO--
+ * Address:	80104A8C
+ * Size:	0000D8
+ */
+void EnemyBase::doSimulationConstraint(f32 timeStep)
+{
+	if (!(isEvent(0, EB_IsHardConstraint))) {
+		// If we're moving somewhere, enable checking collision
+		if (mAcceleration.x != 0.0f || mAcceleration.z != 0.0f) {
+			enableEvent(0, EB_ShouldCheckCollision);
+		} else if (mBounceTriangle) {
+			// If we've just bounce off a triangle, disable collision
+			disableEvent(0, EB_ShouldCheckCollision);
+		}
+
+		if (isEvent(0, EB_ShouldCheckCollision)) {
+			collisionMapAndPlat(timeStep);
+		}
+	}
+
+	updateSpheres();
+	updateWaterBox();
+}
+
+/*
+ * --INFO--
+ * Address:	80104B64
+ * Size:	000070
+ */
+void EnemyBase::gotoHell()
+{
+	// Don't kill if dead
+	if (!isEvent(0, EB_IsAlive)) {
+		return;
+	}
+
+	throwupItem();
+	EnemyKillArg killArg(0x70000000);
+	kill(&killArg);
+}
+
+/*
+ * --INFO--
+ * Address:	80104BD4
+ * Size:	000030
+ */
+void EnemyBase::setAnimMgr(SysShape::AnimMgr* mgr) { mAnimator->setAnimMgr(mgr); }
+
+/*
+ * --INFO--
+ * Address:	80104C04
+ * Size:	0001B4
+ */
+void EnemyBase::setPSEnemyBaseAnime()
+{
+	if (isEvent(0, EB_PS1)) {
+		int idx = getCurrAnimIndex();
+
+		SysShape::AnimInfo* info = static_cast<SysShape::AnimInfo*>(mAnimator->getAnimator(0).mAnimMgr->mAnimInfo.mChild)->getInfoByID(idx);
+
+		JAIAnimeFrameSoundData* file = info->mBasFile;
+		if (file) {
+			SysShape::KeyEvent* event1 = info->getAnimKeyByType(0);
+			SysShape::KeyEvent* event2 = info->getAnimKeyByType(1);
+
+			if (event1 && event2) {
+				f32 val1 = (f32)event1->mFrame;
+				f32 val2 = (f32)event2->mFrame;
+				mSoundObj->setAnime((JAIAnimeSoundData*)file, 1, val1, val2);
+				return;
+			}
+
+			mSoundObj->setAnime((JAIAnimeSoundData*)file, 1, 0.0f, 0.0f);
+			return;
+		}
+
+		mSoundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
+		return;
+	}
+
+	if (isEvent(0, EB_PS2)) {
+		mSoundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
+		return;
+	}
+
+	if (isEvent(0, EB_PS3)) {
+		mSoundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
+		return;
+	}
+
+	mSoundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
+}
+
+/*
+ * --INFO--
+ * Address:	80104DB8
+ * Size:	0001F0
+ */
+void EnemyBase::startBlend(int start, int end, SysShape::BlendFunction* blendFunc, f32 framerate, SysShape::MotionListener* inputListener)
+{
+	SysShape::MotionListener* listener = inputListener;
+	if (!listener) {
+		listener = static_cast<SysShape::MotionListener*>(this);
+	}
+
+	static_cast<EnemyBlendAnimatorBase*>(mAnimator)->startBlend(start, end, blendFunc, framerate, listener);
+
+	disableEvent(0, EB_PS1 + EB_PS2 + EB_PS3 + EB_PS4);
+	enableEvent(0, EB_PS3);
+
+	if (isEvent(0, EB_PS1)) {
+		int idx                  = getCurrAnimIndex();
+		SysShape::AnimInfo* info = static_cast<SysShape::AnimInfo*>(mAnimator->getAnimator(0).mAnimMgr->mAnimInfo.mChild)->getInfoByID(idx);
+		JAIAnimeFrameSoundData* file = info->mBasFile;
+
+		if (file) {
+			SysShape::KeyEvent* event1 = info->getAnimKeyByType(0);
+			SysShape::KeyEvent* event2 = info->getAnimKeyByType(1);
+
+			if (event1 && event2) {
+				f32 val1 = (f32)event1->mFrame;
+				f32 val2 = (f32)event2->mFrame;
+				mSoundObj->setAnime((JAIAnimeSoundData*)file, 1, val1, val2);
+				return;
+			}
+
+			mSoundObj->setAnime((JAIAnimeSoundData*)file, 1, 0.0f, 0.0f);
+			return;
+		}
+
+		mSoundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
+		return;
+	}
+
+	if (isEvent(0, EB_PS2)) {
+		mSoundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
+		return;
+	}
+
+	if (isEvent(0, EB_PS3)) {
+		mSoundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
+		return;
+	}
+
+	mSoundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
+}
+
+/*
+ * --INFO--
+ * Address:	80104FA8
+ * Size:	000050
+ */
+void EnemyBase::endBlend()
+{
+	if (mAnimator->getTypeID() == 'blnd') {
+		static_cast<EnemyBlendAnimatorBase*>(mAnimator)->endBlend();
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	80105004
+ * Size:	000224
+ */
+void EnemyBase::startMotion(int p1, SysShape::MotionListener* inputListener)
+{
+	SysShape::MotionListener* listener;
+	if (!(listener = inputListener)) {
+		inputListener = static_cast<SysShape::MotionListener*>(this);
+	}
+
+	EnemyAnimatorBase* animator = mAnimator;
+	animator->mFlags.typeView &= ~(EANIM_FLAG_STOPPED | EANIM_FLAG_FINISHED);
+	animator->mNormalizedTime = 1.0f;
+
+	animator->getAnimator(0).startAnim(p1, inputListener);
+
+	disableEvent(0, EB_PS1 + EB_PS2 + EB_PS3 + EB_PS4);
+	enableEvent(0, EB_PS1);
+
+	if (isEvent(0, EB_PS1)) {
+		int idx                  = getCurrAnimIndex();
+		SysShape::AnimInfo* info = static_cast<SysShape::AnimInfo*>(mAnimator->getAnimator(0).mAnimMgr->mAnimInfo.mChild)->getInfoByID(idx);
+		JAIAnimeFrameSoundData* file = info->mBasFile;
+
+		if (file) {
+			SysShape::KeyEvent* event1 = info->getAnimKeyByType(0);
+			SysShape::KeyEvent* event2 = info->getAnimKeyByType(1);
+
+			if (event1 && event2) {
+				f32 val1 = (f32)event1->mFrame;
+				f32 val2 = (f32)event2->mFrame;
+				mSoundObj->setAnime((JAIAnimeSoundData*)file, 1, val1, val2);
+				return;
+			}
+
+			mSoundObj->setAnime((JAIAnimeSoundData*)file, 1, 0.0f, 0.0f);
+			return;
+		}
+
+		mSoundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
+		return;
+	}
+
+	if (isEvent(0, EB_PS2)) {
+		mSoundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
+		return;
+	}
+
+	if (isEvent(0, EB_PS3)) {
+		mSoundObj->setAnime((JAIAnimeSoundData*)-1, 1, 0.0f, 0.0f);
+		return;
+	}
+
+	mSoundObj->setAnime(nullptr, 1, 0.0f, 0.0f);
+}
+
+/*
+ * --INFO--
+ * Address:	80105228
+ * Size:	000044
+ */
+void EnemyBase::setMotionFrame(f32 frame) { mAnimator->getAnimator().setCurrFrame(frame); }
+
+/*
+ * --INFO--
+ * Address:	8010526C
+ * Size:	000034
+ */
+f32 EnemyBase::getMotionFrame() { return mAnimator->getAnimator().mTimer; }
+
+/*
+ * --INFO--
+ * Address:	801052A0
+ * Size:	000040
+ */
+void EnemyBase::finishMotion() { SET_FLAG(mAnimator->getAnimator(0).mFlags, EANIM_FLAG_FINISHED); }
+
+/*
+ * --INFO--
+ * Address:	801052E0
+ * Size:	000020
+ */
+void EnemyBase::onKeyEvent(const SysShape::KeyEvent& event)
+{
+	EnemyAnimKeyEvent* animKeyEvent = mCurAnim;
+	animKeyEvent->mFrame            = event.mFrame;
+	animKeyEvent->mType             = event.mType;
+	animKeyEvent->mIsPlaying        = true;
+}
+
+/*
+ * --INFO--
+ * Address:	80105300
+ * Size:	000080
+ */
+bool EnemyBase::stimulate(Interaction& interaction)
+{
+	bool success = false;
+
+	if (interaction.actCommon(this)) {
+		success = interaction.actEnemy(this);
+	}
+
+	return success;
+}
+
+/*
+ * --INFO--
+ * Address:	80105390
+ * Size:	000030
+ */
+void EnemyBase::lifeRecover()
+{
+	mHealth += mMaxHealth * getParms().mRegenerationRate.mValue;
+	if (mHealth > mMaxHealth) {
+		mHealth = mMaxHealth;
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	801053C0
+ * Size:	00033C
+ */
+void EnemyBase::scaleDamageAnim()
+{
+	if (!isEvent(0, EB_IsDamageAnimAllowed) && mDamageAnimTimer == 0.0f) {
+		return;
+	}
+
+	if (mDamageAnimTimer == 0.0f) {
+		if (isEvent(0, EB_IsTakingDamage)) {
+			mDamageAnimTimer += sys->mDeltaTime;
+		}
+
+		return;
+	}
+
+	f32 horizontalModifier = 0.0f;
+	f32 scaleDuration      = getParms().mDamageScaleDuration.mValue;
+
+	f32 factor;
+	if (isEvent(0, EB_SquashOnDamageAnimation)) {
+		factor = 2.5f;
+	} else {
+		factor = 1.0f;
+	}
+
+	if (isEvent(0, EB_HasEatenWhitePikmin)) {
+		mDamageAnimTimer += 0.5f * sys->mDeltaTime;
+	} else {
+		mDamageAnimTimer += sys->mDeltaTime;
+	}
+
+	if (isEvent(0, EB_IsBittered)) {
+		if (mDamageAnimTimer > scaleDuration) {
+			finishScaleDamageAnim();
+		} else {
+			horizontalModifier = 1.0f - getDamageAnimFrac(scaleDuration);
+		}
+
+		f32 xWobbleAmt        = (TAU * DEG2RAD) * factor * scaledSin(horizontalModifier);
+		mDamageAnimRotation.x = horizontalModifier * xWobbleAmt;
+
+		mDamageAnimRotation.y = 0.0f;
+
+		f32 zWobbleAmt        = altSin(2.0f * horizontalModifier * TAU) * ((TAU / 144.0f) * factor);
+		mDamageAnimRotation.z = horizontalModifier * zWobbleAmt;
+
+		f32 scaleVal = mScaleModifier;
+		mScale.z     = scaleVal;
+		mScale.y     = scaleVal;
+		mScale.x     = scaleVal;
+		return;
+	}
+
+	if (mDamageAnimTimer > scaleDuration) {
+		finishScaleDamageAnim();
+	} else {
+		f32 s              = scaledSin(getDamageAnimFrac(scaleDuration));
+		f32 t              = 1.0f - getDamageAnimFrac(scaleDuration);
+		horizontalModifier = t * s;
+	}
+
+	if (isEvent(0, EB_HasEatenWhitePikmin)) {
+		horizontalModifier *= 2.0f;
+	}
+
+	f32 xzScale = horizontalModifier * (factor * getParms().mHorizontalDamageScale.mValue);
+	if (isEvent(0, EB_SquashOnDamageAnimation)) {
+		mScale.x = mScaleModifier + xzScale;
+		mScale.y = -((horizontalModifier * getParms().mVerticalDamageScale.mValue) - mScaleModifier);
+		mScale.z = mScaleModifier + xzScale;
+		return;
+	}
+
+	mScale.x = mScaleModifier - xzScale;
+	mScale.y = (horizontalModifier * getParms().mVerticalDamageScale.mValue) + mScaleModifier;
+	mScale.z = mScaleModifier - xzScale;
+}
+
+/*
+ * --INFO--
+ * Address:	801056FC
+ * Size:	000024
+ */
+void EnemyBase::finishScaleDamageAnim()
+{
+	mDamageAnimTimer = 0.0f;
+	disableEvent(0, EB_HasEatenWhitePikmin);
+	disableEvent(0, EB_SquashOnDamageAnimation);
+}
+
+/*
+ * --INFO--
+ * Address:	80105720
+ * Size:	0000F8
+ */
+void EnemyBase::deathProcedure()
+{
+	disableEvent(0, EB_IsDamageAnimAllowed);
+	setAlive(false);
+
+	if (isEvent(0, EB_IsBittered)) {
+		throwupItem();
+	} else {
+		throwupItemInDeathProcedure();
+	}
+
+	startMotion();
+
+	if (isEvent(0, EB_IsDeathEffectEnabled)) {
+		createDeadBombEffect();
+		PSStartEnemyFatalHitSE(this, 0.0f);
+	}
+
+	PSM::EnemyBase* soundObj = mSoundObj;
+	if ((soundObj->getCastType() == PSM::CCT_EnemyMidBoss) || (soundObj->getCastType() == PSM::CCT_EnemyBigBoss)) {
+		static_cast<PSM::EnemyBoss*>(soundObj)->onDeathMotionTop();
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	80105874
+ * Size:	0000D8
+ */
+void EnemyBase::createDeadBombEffect()
+{
+	Vector3f effectPos;
+	getCommonEffectPos(effectPos);
+
+	f32 scale                    = mScaleModifier;
+	EnemyTypeID::EEnemyTypeID id = getEnemyTypeID();
+
+	efx::ArgEnemyType effectArg(effectPos, id, scale);
+	efx::TEnemyBomb bombEffect;
+	bombEffect.create(&effectArg);
+}
+
+/*
+ * --INFO--
+ * Address:	8010594C
+ * Size:	000054
+ */
+void EnemyBase::getThrowupItemPosition(Vector3f* throwupItemPosition)
+{
+	Sys::Sphere sphere;
+	getBoundingSphere(sphere);
+	*throwupItemPosition = sphere.mPosition;
+}
+
+/*
+ * --INFO--
+ * Address:	801059A0
+ * Size:	000018
+ */
+void EnemyBase::getThrowupItemVelocity(Vector3f* throwupItemVelocity) { *throwupItemVelocity = Vector3f(0.0f, 200.0f, 0.0f); }
+
+/*
+ * --INFO--
+ * Address:	801059B8
+ * Size:	0004B0
+ */
+void EnemyBase::throwupItem()
+{
+	Vector3f throwupPosition;
+	getThrowupItemPosition(&throwupPosition);
+
+	PelletInitArg pelletInitArg;
+
+	if (pelletMgr->makePelletInitArg(pelletInitArg, mPelletDropCode)) {
+		pelletInitArg.mState         = 2;
+		EnemyTypeID::EEnemyTypeID id = getEnemyTypeID();
+
+		// For bosses in the final floor of a cave in story mode,
+		// should the treasure they emit have their carry weight
+		// adapted to the squads amount?
+		// (Allows squads that have been annihilated to recover treasures)
+		if (IS_ENEMY_BOSS(id) && gameSystem && gameSystem->mMode == GSM_STORY_MODE && gameSystem->mIsInCave && Cave::randMapMgr
+		    && Cave::randMapMgr->isLastFloor()) {
+			pelletInitArg.mAdjustWeightForSquad = true;
+		}
+
+		if (Pellet::sFromTekiEnable) {
+			pelletInitArg.mFromEnemy = true;
+		}
+
+		mHeldPellet = pelletMgr->birth(&pelletInitArg);
+
+		if (mHeldPellet) {
+			InteractMattuan mattuan = InteractMattuan(this, 8.0f);
+			mHeldPellet->stimulate(mattuan);
+
+			Vector3f throwupVelocity;
+			getThrowupItemVelocity(&throwupVelocity);
+
+			mHeldPellet->setPosition(throwupPosition, false);
+			mHeldPellet->setVelocity(throwupVelocity);
+			mHeldPellet->createKiraEffect(throwupPosition);
+
+			Radar::Mgr::exit(this);
+			mSoundObj->startSound(PSSE_EN_ENEMY_LOOSE_ITEM, 0);
+		}
+	}
+
+	if (!(randFloat() < mPelletInfo.mSpawnChance)) {
+		return;
+	}
+
+	f32 range = (mPelletInfo.mMaxPellets - mPelletInfo.mMinPellets) * randFloat();
+
+	f32 roundRange;
+	if (range >= 0.0f) {
+		roundRange = range + 0.5f;
+	} else {
+		roundRange = range - 0.5f;
+	}
+
+	int pelletAmount = mPelletInfo.mMinPellets + (int)roundRange;
+
+	f32 velocity = 0.0f;
+	switch (mPelletInfo.mSize) {
+	case PELLET_NUMBER_ONE:
+		velocity = 150.0f;
+		break;
+	case PELLET_NUMBER_FIVE:
+		velocity = 200.0f;
+		break;
+	case PELLET_NUMBER_TEN:
+		velocity = 250.0f;
+		break;
+	case PELLET_NUMBER_TWENTY:
+		velocity = 250.0f;
+		break;
+	}
+
+	for (int i = 0; i < pelletAmount; i++) {
+		u8 pelletColor = mPelletInfo.mColor;
+		if (pelletColor == PELCOLOR_RANDOM) {
+			pelletColor = randFloat() * 3.0f;
+		}
+
+		PelletNumberInitArg numberInitArg(mPelletInfo.mSize, pelletColor);
+		numberInitArg.mState = 2;
+
+		Pellet* pellet = pelletMgr->birth(&numberInitArg);
+		if (pellet) {
+			Vector3f throwupVelocity = Vector3f(velocity * (randFloat() - 0.5f), velocity, velocity * (randFloat() - 0.5f));
+			pellet->setPosition(throwupPosition, false);
+			pellet->setVelocity(throwupVelocity);
+			pellet->createKiraEffect(throwupPosition);
+		}
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	80105E6C
+ * Size:	000004
+ */
+void EnemyBase::doDebugDraw(Graphics&) { }
+
+/*
+ * --INFO--
+ * Address:	80105E70
+ * Size:	000080
+ */
+void EnemyBase::getLifeGaugeParam(LifeGaugeParam& param)
+{
+	if (moviePlayer && moviePlayer->mFlags & MoviePlayer::IS_ACTIVE) {
+		param.mIsGaugeShown = false;
+	} else {
+		param.mIsGaugeShown = isEvent(0, EB_LifegaugeVisible) && mLod.mFlags & AILOD_FLAG_NEED_SHADOW;
+	}
+
+	if (param.mIsGaugeShown) {
+		doGetLifeGaugeParam(param);
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	80105EF0
+ * Size:	000040
+ */
+void EnemyBase::doGetLifeGaugeParam(LifeGaugeParam& param)
+{
+	f32 heightOffset = mPosition.y + getParms().mLifeMeterHeight.mValue;
+	f32 z            = mPosition.z;
+	f32 x            = mPosition.x;
+
+	param.mPosition            = Vector3f(x, heightOffset, z);
+	param.mCurHealthPercentage = mHealth / mMaxHealth;
+	param.mRadius              = 10.0f;
+}
+
+/*
+ * --INFO--
+ * Address:	80105F30
+ * Size:	000050
+ */
+void EnemyBase::onStickStart(Creature* other)
+{
+	if (other->isPiki()) {
+		mStuckPikminCount++;
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	80105F80
+ * Size:	000050
+ */
+void EnemyBase::onStickEnd(Creature* other)
+{
+	if (other->isPiki()) {
+		mStuckPikminCount--;
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	80105FD0
+ * Size:	00005C
+ */
+bool EnemyBase::injure()
+{
+	if (isEvent(0, EB_IsTakingDamage)) {
+		if (isEvent(0, EB_IsVulnerable) == false) {
+			mHealth -= mInstantDamage;
+
+			if (mHealth < 0.0f) {
+				mHealth = 0.0f;
+			}
+		}
+
+		mInstantDamage = 0.0f;
+		disableEvent(0, EB_IsTakingDamage);
+		return true;
+	}
+
+	return false;
+}
+
+/*
+ * --INFO--
+ * Address:	8010602C
+ * Size:	000040
+ */
+void EnemyBase::addDamage(f32 damageAmt, f32 flickSpeed)
+{
+	if (isEvent(0, EB_IsVulnerable)) {
+		return;
+	}
+
+	mInstantDamage += damageAmt;
+	if (isEvent(0, EB_IsFlickEnabled)) {
+		mToFlick += flickSpeed;
+	}
+
+	enableEvent(0, EB_IsTakingDamage);
+}
+
+/*
+ * --INFO--
+ * Address:	8010606C
+ * Size:	000048
+ */
+bool EnemyBase::damageCallBack(Creature* sourceCreature, f32 damage, CollPart* p3)
+{
+	if (isEvent(0, EB_IsVulnerable) == false) {
+		mInstantDamage += damage;
+
+		if (isEvent(0, EB_IsFlickEnabled)) {
+			mToFlick += 1.0f;
+		}
+
+		enableEvent(0, EB_IsTakingDamage);
+	}
+
+	return true;
+}
+
+/*
+ * --INFO--
+ * Address:	801060B4
+ * Size:	000008
+ */
+bool EnemyBase::pressCallBack(Creature*, f32, CollPart*) { return false; }
+
+/*
+ * --INFO--
+ * Address:	801060BC
+ * Size:	000008
+ */
+bool EnemyBase::flyCollisionCallBack(Creature*, f32, CollPart*) { return false; }
+
+/*
+ * --INFO--
+ * Address:	801060C4
+ * Size:	000248
+ */
+bool EnemyBase::hipdropCallBack(Creature* sourceCreature, f32 damage, CollPart* p3)
+{
+	f32 purpleDamage = getParms().mPurplePikiStunDamage;
+
+	if (isEvent(0, EB_IsVulnerable) == false) {
+		mInstantDamage += purpleDamage;
+
+		if (isEvent(0, EB_IsFlickEnabled)) {
+			mToFlick += 1.0f;
+		}
+
+		enableEvent(0, EB_IsTakingDamage);
+	}
+
+	enableEvent(0, EB_SquashOnDamageAnimation);
+
+	if (mBounceTriangle) {
+		createBounceEffect(mPosition, getDownSmokeScale());
+	}
+
+	return false;
+}
+
+/*
+ * --INFO--
+ * Address:	8010630C
+ * Size:	000008
+ */
+bool EnemyBase::dropCallBack(Creature*) { return false; }
+
+/*
+ * --INFO--
+ * Address:	80106314
+ * Size:	000040
+ */
+bool EnemyBase::isBeforeAppearState() { return mLifecycleFSM->getCurrID(this) < EnemyBaseFSM::EBS_Appear; }
+
+/*
+ * --INFO--
+ * Address:	80106354
+ * Size:	000070
+ */
+bool EnemyBase::checkBirthTypeDropEarthquake()
+{
+	bool hasAppeared = false;
+
+	if (mLifecycleFSM->getCurrID(this) == EnemyBaseFSM::EBS_DropEarthquake) {
+		mLifecycleFSM->transit(this, EnemyBaseFSM::EBS_Appear, nullptr);
+		hasAppeared = true;
+	}
+
+	return hasAppeared;
+}
+
+/*
+ * --INFO--
+ * Address:	801063C4
+ * Size:	0000EC
+ */
+bool EnemyBase::earthquakeCallBack(Creature* creature, f32 bounceFactor)
+{
+	if (mBounceTriangle && !isDead() && !isFlying() && isAlive() && !isEvent(0, EB_IsHardConstraint) && !isEvent(0, EB_IsBittered)) {
+		if (((isEvent(0, EB_IsEnemyNotBitter)) || (isEvent(0, EB_IsImmuneBitter))) == false) {
+			EarthquakeStateArg eqArg;
+			eqArg.mBounceFactor = bounceFactor;
+			mLifecycleFSM->transit(this, EnemyBaseFSM::EBS_Earthquake, &eqArg);
+		}
+	}
+
+	return false;
+}
+
+/*
+ * --INFO--
+ * Address:	801064B0
+ * Size:	000108
+ */
+bool EnemyBase::dopeCallBack(Creature* creature, int sprayType)
+{
+	if (isAlive() && !isDead() && doDopeCallBack(creature, sprayType)) {
+		switch (sprayType) {
+		case SPRAY_TYPE_BITTER:
+			if (!isEvent(0, EB_IsImmuneBitter) && !isEvent(0, EB_IsBittered)) {
+				if (isEvent(0, EB_IsEnemyNotBitter)) {
+					enableEvent(0, EB_ToEnableBitter);
+				} else if (mEnemyStoneObj->start()) {
+					mLifecycleFSM->transit(this, EnemyBaseFSM::EBS_Stone, 0);
+				} else {
+					enableEvent(0, EB_ToEnableBitter);
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+/*
+ * --INFO--
+ * Address:	801065C0
+ * Size:	000008
+ */
+bool EnemyBase::farmCallBack(Creature*, f32 power) { return false; }
+
+/*
+ * --INFO--
+ * Address:	801065C8
+ * Size:	000048
+ */
+bool EnemyBase::bombCallBack(Creature* creature, Vector3f& vec, f32 damage)
+{
+	if (!(isEvent(0, EB_IsVulnerable))) {
+		mInstantDamage += damage;
+
+		if (isEvent(0, EB_IsFlickEnabled)) {
+			mToFlick += 1.0f;
+		}
+
+		enableEvent(0, EB_IsTakingDamage);
+	}
+
+	return true;
+}
+
+/*
+ * --INFO--
+ * Address:	80106610
+ * Size:	000054
+ */
+void EnemyBase::collisionCallback(CollEvent& coll)
+{
+	finishDropping(false);
+	setCollEvent(coll);
+}
+
+/*
+ * --INFO--
+ * Address:	80106664
  * Size:	000028
  */
-void __sinit_enemyBase_cpp(void)
+void EnemyBase::setCollEvent(CollEvent& event)
 {
-	/*
-	.loc_0x0:
-	  lis       r4, 0x8051
-	  li        r0, -0x1
-	  lfs       f0, 0x48B0(r4)
-	  lis       r3, 0x804B
-	  stw       r0, -0x6E60(r13)
-	  stfsu     f0, -0x5EB0(r3)
-	  stfs      f0, -0x6E5C(r13)
-	  stfs      f0, 0x4(r3)
-	  stfs      f0, 0x8(r3)
-	  blr
-	*/
+	mCollEvent = event;
+	enableEvent(0, EB_HasCollisionOccurred);
 }
+
+/*
+ * --INFO--
+ * Address:	8010668C
+ * Size:	000010
+ */
+void EnemyBase::resetCollEvent() { disableEvent(0, EB_HasCollisionOccurred); }
+
+/*
+ * --INFO--
+ * Address:	8010669C
+ * Size:	000004
+ */
+void EnemyBase::changeMaterial() { }
+
+/*
+ * --INFO--
+ * Address:	801066A0
+ * Size:	000008
+ */
+SysShape::Model* EnemyBase::viewGetShape() { return mModel; }
+
+/*
+ * --INFO--
+ * Address:	801066A8
+ * Size:	000020
+ */
+void EnemyBase::viewStartCarryMotion() { startMotion(); }
+
+/*
+ * --INFO--
+ * Address:	801066C8
+ * Size:	000040
+ */
+void EnemyBase::viewStartPreCarryMotion()
+{
+	startCarcassMotion();
+	stopMotion();
+}
+
+/*
+ * --INFO--
+ * Address:	8010691C
+ * Size:	000130
+ */
+void EnemyBase::viewOnPelletKilled()
+{
+	if (mHeldPellet) {
+		InteractMattuan mattuan = InteractMattuan(this, 2.5f);
+		mHeldPellet->stimulate(mattuan);
+		mHeldPellet = nullptr;
+	}
+
+	mSoundObj->setKilled();
+
+	if (lifeGaugeMgr) {
+		lifeGaugeMgr->inactiveLifeGauge(this);
+	}
+	if (shadowMgr) {
+		shadowMgr->delShadow(this);
+	}
+
+	fadeEffects();
+	mSfxEmotion = EMOTE_None;
+
+	if (PSGetDirectedMainBgm()) {
+		mSoundObj->battleOff();
+	}
+
+	static_cast<PSM::CreatureAnime*>(mSoundObj)->setAnime(nullptr, 1, 0.0f, 0.0f);
+	mMgr->kill(this);
+}
+
+/*
+ * --INFO--
+ * Address:	80106A4C
+ * Size:	00002C
+ */
+void EnemyBase::view_start_carrymotion() { startCarcassMotion(); }
+
+/*
+ * --INFO--
+ * Address:	80106A78
+ * Size:	000040
+ */
+void EnemyBase::view_finish_carrymotion() { mAnimator->getAnimator(0).mFlags |= 2; }
+
+/*
+ * --INFO--
+ * Address:	80106AB8
+ * Size:	0000A8
+ */
+void EnemyBase::getCommonEffectPos(Vector3f& commonEffectPos)
+{
+	commonEffectPos = getPosition();
+	commonEffectPos.x += mEffectOffset.x;
+	commonEffectPos.y += mEffectOffset.y;
+	commonEffectPos.z += mEffectOffset.z;
+	commonEffectPos.y += getParms().mHeightOffsetFromFloor.mValue;
+}
+
+/*
+ * --INFO--
+ * Address:	80106B60
+ * Size:	000040
+ */
+inline void EnemyBase::getWaterSphere(Sys::Sphere* sphere)
+{
+	sphere->mPosition.x = mPosition.x + mEffectOffset.x;
+	sphere->mPosition.y = mPosition.y + mEffectOffset.y;
+	sphere->mPosition.z = mPosition.z + mEffectOffset.z;
+	sphere->mRadius     = getParms().mHeightOffsetFromFloor.mValue;
+}
+
+/*
+ * --INFO--
+ * Address:	80106BA0
+ * Size:	000148
+ */
+void EnemyBase::updateWaterBox()
+{
+	Sys::Sphere waterSphere;
+	getWaterSphere(&waterSphere);
+
+	if (mWaterBox) {
+		if (!mWaterBox->inWater(waterSphere)) {
+			if (mapMgr) {
+				mWaterBox = mapMgr->findWater(waterSphere);
+			}
+
+			if (!mWaterBox) {
+				mWaterBox = nullptr;
+				outWaterCallback();
+				fadeEfxHamon();
+			}
+		}
+
+		updateEfxHamon();
+		return;
+	}
+
+	// Not in water box
+	WaterBox* waterBox = nullptr;
+	if (mapMgr) {
+		waterBox = mapMgr->findWater(waterSphere);
+	}
+
+	if (waterBox) {
+		mWaterBox = waterBox;
+		inWaterCallback(waterBox);
+		createEfxHamon();
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	80106CF0
+ * Size:	00027C
+ */
+PSM::EnemyBase* EnemyBase::createPSEnemyBase()
+{
+	PSM::EnemyBase* base = nullptr;
+
+	if (getEnemyTypeID() == EnemyTypeID::EnemyID_KumaChappy || getEnemyTypeID() == EnemyTypeID::EnemyID_FireChappy) {
+		base = new PSM::Enemy_SpecialChappy(this, 4);
+		return base;
+	}
+
+	EnemyInfo* info = EnemyInfoFunc::getEnemyInfo(getEnemyTypeID(), 0xFFFF);
+
+	switch (info->mBitterDrops) {
+	case BDT_Weak:
+		base = new PSM::EnemyHekoi(this, 2);
+		break;
+	case BDT_Normal:
+		base = new PSM::EnemyBase(this, 3);
+		break;
+	case BDT_Strong:
+		base = new PSM::EnemyBig(this, 4);
+		break;
+	case BDT_Triple:
+	case BDT_MiniBoss:
+		JUT_PANICLINE(4392, "abolished type\n");
+		break;
+	case BDT_Boss:
+		base = new PSM::EnemyMidBoss(this);
+		break;
+	case BDT_FinalBoss:
+		base = new PSM::EnemyBigBoss(this);
+		break;
+	case BDT_Empty:
+		base = new PSM::EnemyNotAggressive(this, 2);
+		break;
+	}
+
+	return base;
+}
+
+/*
+ * --INFO--
+ * Address:	80107204
+ * Size:	00001C
+ */
+void EnemyBase::startMotion()
+{
+	EnemyAnimatorBase* animator = mAnimator;
+	RESET_FLAG(animator->mFlags.typeView, EANIM_FLAG_STOPPED | EANIM_FLAG_FINISHED);
+	animator->mNormalizedTime = 1.0f;
+}
+
+/*
+ * --INFO--
+ * Address:	80107220
+ * Size:	000058
+ */
+f32 EnemyBase::getMotionFrameMax() { return mAnimator->getAnimator().mAnimInfo->mAnm->mMaxFrame; }
+
+/*
+ * --INFO--
+ * Address:	80107278
+ * Size:	000068
+ */
+f32 EnemyBase::getFirstKeyFrame()
+{
+	SysShape::KeyEvent* firstKeyFrame = static_cast<SysShape::KeyEvent*>(mAnimator->getAnimator().mAnimInfo->mKeyEvent.mChild);
+	if (firstKeyFrame) {
+		return firstKeyFrame->mFrame;
+	}
+
+	return 0.0f;
+}
+
+/*
+ * --INFO--
+ * Address:	801072E0
+ * Size:	000020
+ */
+void EnemyBase::stopMotion()
+{
+	EnemyAnimatorBase* animator = mAnimator;
+	RESET_FLAG(animator->mFlags.typeView, EANIM_FLAG_PLAYING);
+	SET_FLAG(animator->mFlags.typeView, EANIM_FLAG_STOPPED);
+}
+
+/*
+ * --INFO--
+ * Address:	80107300
+ * Size:	000038
+ */
+bool EnemyBase::isFinishMotion() { return mAnimator->getAnimator().mFlags >> 1 & 1; }
+
+/*
+ * --INFO--
+ * Address:	80107338
+ * Size:	000010
+ */
+bool EnemyBase::isStopMotion() { return mAnimator->mFlags.typeView & EANIM_FLAG_STOPPED; }
+
+/*
+ * --INFO--
+ * Address:	80107348
+ * Size:	000048
+ */
+int EnemyBase::getCurrAnimIndex()
+{
+	SysShape::AnimInfo* animInfo = mAnimator->getAnimator().mAnimInfo;
+	if (animInfo) {
+		return animInfo->mId;
+	}
+
+	return -1;
+}
+
+/*
+ * --INFO--
+ * Address:	80107390
+ * Size:	00000C
+ */
+void EnemyBase::setAnimSpeed(f32 speed) { mAnimator->mSpeed = speed; }
+
+/*
+ * --INFO--
+ * Address:	8010739C
+ * Size:	000030
+ */
+void EnemyBase::resetAnimSpeed() { mAnimator->resetAnimSpeed(); }
+
+/*
+ * --INFO--
+ * Address:	801073D8
+ * Size:	000014
+ */
+JAInter::Object* EnemyBase::getJAIObject() { return static_cast<JAInter::Object*>(mSoundObj); }
+
+/*
+ * --INFO--
+ * Address:	801073EC
+ * Size:	000008
+ */
+PSM::Creature* EnemyBase::getPSCreature() { return static_cast<PSM::Creature*>(mSoundObj); }
+
+/*
+ * --INFO--
+ * Address:	801073F4
+ * Size:	00001C
+ */
+int EnemyBase::getStateID()
+{
+	if (mCurrentLifecycleState) {
+		return mCurrentLifecycleState->mStateID;
+	}
+
+	return -1;
+}
+
+/*
+ * --INFO--
+ * Address:	80107410
+ * Size:	0000AC
+ */
+bool EnemyBase::needShadow()
+{
+	// If cutscene is playing, and enemy is within it, we need a shadow
+	if (moviePlayer && moviePlayer->mFlags & MoviePlayer::IS_ACTIVE) {
+		return isMovieActor() || mMgr->isAlwaysMovieActor();
+	}
+
+	// If enemy needs shadow or the model isn't hidden, then we need a shadow
+	return mLod.mFlags & AILOD_FLAG_NEED_SHADOW && isEvent(0, EB_IsModelHidden) == false;
+}
+
+/*
+ * --INFO--
+ * Address:	801074D0
+ * Size:	000234
+ */
+bool EnemyBase::eatWhitePikminCallBack(Creature* creature, f32 damage)
+{
+	addDamage(damage, 0.0f);
+
+	if (!(isEvent(0, EB_HasEatenWhitePikmin))) {
+		enableEvent(0, EB_HasEatenWhitePikmin);
+
+		mDamageAnimTimer = sys->mDeltaTime;
+
+		for (int i = 0; i < mEnemyStoneObj->mInfo->mLength; i++) {
+			EnemyStone::DrawInfo drawInfo(false);
+			EnemyStone::ObjInfo* objInfo = &mEnemyStoneObj->mInfo->mObjList[i];
+
+			SysShape::Joint* joint = mModel->getJoint(objInfo->mName);
+
+			drawInfo.mMatrix  = joint->getWorldMatrix();
+			drawInfo.mObjInfo = objInfo;
+
+			Vector3f effectPosition;
+			f32 scale;
+			if (drawInfo.getPosAndScale(&effectPosition, &scale)) {
+				scale *= mScaleModifier;
+
+				efx::ArgScale arg(effectPosition, scale);
+				switch (drawInfo.mObjInfo->mSize) {
+				case ENEMYSTONE_FX_SIZE_LARGE:
+					efx::TEnemyPoisonL poisonL;
+					poisonL.create(&arg);
+					break;
+				case ENEMYSTONE_FX_SIZE_SMALL:
+					efx::TEnemyPoisonS poisonS;
+					poisonS.create(&arg);
+					break;
+				}
+			}
+		}
+
+		mSoundObj->startSound(PSSE_EN_POISON_DAMAGE, false);
+	}
+	return true;
+}
+
+/*
+ * --INFO--
+ * Address:	80107764
+ * Size:	000008
+ */
+f32 EnemyBase::getDownSmokeScale() { return 0.0f; }
+
+/*
+ * --INFO--
+ * Address:	8010776C
+ * Size:	000010
+ */
+void EnemyBase::constraintOff() { disableEvent(0, EB_Constraint); }
+
+/*
+ * --INFO--
+ * Address:	8010777C
+ * Size:	000018
+ */
+void EnemyBase::hardConstraintOn()
+{
+	enableEvent(0, EB_IsHardConstraint);
+	mMass = 0.0f;
+}
+
+/*
+ * --INFO--
+ * Address:	80107794
+ * Size:	000028
+ */
+void EnemyBase::hardConstraintOff()
+{
+	disableEvent(0, EB_IsHardConstraint);
+	mMass         = mFriction;
+	mAcceleration = Vector3f(0.0f);
+}
+
+/*
+ * --INFO--
+ * Address:	801077BC
+ * Size:	000084
+ */
+void EnemyBase::startMovie()
+{
+	if (mLifecycleFSM->getCurrID(this) >= EnemyBaseFSM::EBS_Appear) {
+		fadeEffects();
+		doStartMovie();
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	80107844
+ * Size:	000084
+ */
+void EnemyBase::endMovie()
+{
+	if (mLifecycleFSM->getCurrID(this) >= EnemyBaseFSM::EBS_Appear) {
+		createEffects();
+		doEndMovie();
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	801078C8
+ * Size:	000004
+ */
+// WEAK - in header
+// void EnemyBase::doEndMovie() { }
+
+/*
+ * --INFO--
+ * Address:	801078CC
+ * Size:	000094
+ */
+void EnemyBase::doStartEarthquakeState(f32 yVelocityScale)
+{
+	mTargetVelocity  = Vector3f(0.0f);
+	mCurrentVelocity = Vector3f(0.0f);
+
+	mCurrentVelocity.y = yVelocityScale * 200.0f + randFloat() * 100.0f;
+};
+
+/*
+ * --INFO--
+ * Address:	80107960
+ * Size:	000004
+ */
+void EnemyBase::doFinishEarthquakeState() { }
+
+/*
+ * --INFO--
+ * Address:	80107964
+ * Size:	000004
+ */
+void EnemyBase::doStartEarthquakeFitState() { }
+
+/*
+ * --INFO--
+ * Address:	80107968
+ * Size:	000004
+ */
+void EnemyBase::doFinishEarthquakeFitState() { }
+
+/*
+ * --INFO--
+ * Address:	8010796C
+ * Size:	00002C
+ */
+void EnemyBase::startWaitingBirthTypeDrop() { doStartWaitingBirthTypeDrop(); }
+
+/*
+ * --INFO--
+ * Address:	80107998
+ * Size:	000004
+ */
+void EnemyBase::doStartWaitingBirthTypeDrop() { }
+
+/*
+ * --INFO--
+ * Address:	8010799C
+ * Size:	00002C
+ */
+void EnemyBase::finishWaitingBirthTypeDrop() { doFinishWaitingBirthTypeDrop(); }
+
+/*
+ * --INFO--
+ * Address:	801079C8
+ * Size:	000064
+ */
+void EnemyBase::doFinishWaitingBirthTypeDrop()
+{
+	if (!isFlying()) {
+		enableEvent(1, EB2_IsDropping);
+		setDroppingMassZero();
+		mScale = Vector3f(1.0f);
+	}
+}
+
+/*
+ * --INFO--
+ * Address:	80107A2C
+ * Size:	00003C
+ */
+bool EnemyBase::isBirthTypeDropGroup()
+{
+	return (mDropGroup == EDG_Normal || mDropGroup == EDG_Pikmin || mDropGroup == EDG_Navi || mDropGroup == EDG_Treasure
+	        || mDropGroup == EDG_Earthquake);
+}
+
+/*
+ * --INFO--
+ * Address:	80107A68
+ * Size:	000008
+ */
+Vector3f* EnemyBase::getFitEffectPos() { return &mBoundingSphere.mPosition; }
+
+/*
+ * --INFO--
+ * Address:	80107A70
+ * Size:	000018
+ */
+void EnemyBase::setDroppingMassZero()
+{
+	enableEvent(1, EB2_IsDroppingMassZero);
+	mMass = 0.0f;
+}
+
+/*
+ * --INFO--
+ * Address:	80107A88
+ * Size:	000018
+ */
+void EnemyBase::resetDroppingMassZero()
+{
+	disableEvent(1, EB2_IsDroppingMassZero);
+	mMass = mFriction;
+}
+} // namespace Game

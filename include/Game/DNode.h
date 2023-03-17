@@ -2,14 +2,14 @@
 #define _GAME_DNODE_H
 
 #include "types.h"
-#include "JSystem/JKR/JKRDisposer.h"
+#include "JSystem/JKernel/JKRDisposer.h"
 
 namespace Game {
 struct DNode : public JKRDisposer {
 	DNode();
 
-	virtual ~DNode();            // _00
-	virtual int getChildCount(); // _04
+	virtual ~DNode();            // _08 (weak)
+	virtual int getChildCount(); // _0C
 
 	void add(DNode*);
 	void del();
@@ -20,11 +20,13 @@ struct DNode : public JKRDisposer {
 	unknown concat(DNode*);
 	DNode* getChildAt(int);
 
-	DNode* m_next;      // _18
-	DNode* m_prev;      // _1C
-	DNode* m_parent;    // _20
-	DNode* m_child;     // _24
-	const char* m_name; // _28
+	// _00     = VTBL
+	// _00-_18 = JKRDisposer
+	DNode* mNext;      // _18
+	DNode* mPrev;      // _1C
+	DNode* mParent;    // _20
+	DNode* mChild;     // _24
+	const char* mName; // _28
 };
 } // namespace Game
 

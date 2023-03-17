@@ -6,22 +6,48 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
-    container: devkitpro/devkitppc:latest
-    env:
-      WINEPREFIX: ${{github.workspace}}/.wine
+    container: ghcr.io/projectpiki/build:main
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [usa, usa.demo]
     steps:
-    - name: Install devkitPro
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Git config
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+    - name: Build
       run: |
-        sudo dpkg --add-architecture i386
-        sudo apt-get update
-        sudo apt-get -y install build-essential wine32
-        sudo chown $(whoami) "$GITHUB_WORKSPACE"
-    - uses: actions/checkout@v3
-    - name: Download compilers
+        python configure.py --map --version ${{matrix.version}} --compilers /compilers/GC
+        ninja
+    - name: Upload progress
+      if: github.ref == 'refs/heads/main'
+      continue-on-error: true
+      env:
+        PROGRESS_API_KEY: ${{secrets.PROGRESS_API_KEY}}
       run: |
-        curl -L https://cdn.discordapp.com/attachments/727918646525165659/917185027656286218/GC_WII_COMPILERS.zip \
-          | bsdtar -xvf- -C tools --exclude Wii
-        mv tools/GC tools/mwcc_compiler
-    - name: make
-      run: MAPGENFLAG=1 UPDATE_README=0 make -j$(nproc)
+        python tools/upload-progress.py -b https://progress.deco.mp/ -p pikmin2 -v ${{matrix.version}} \
+          build/pikmin2.${{matrix.version}}/main.dol.progress
+    - name: Upload map
+      uses: actions/upload-artifact@v3
+      with:
+        name: pikmin2UP-${{matrix.version}}.MAP
+        path: build/*/pikmin2UP.MAP
+
+  build_make:
+    name: Build (legacy)
+    runs-on: ubuntu-latest
+    container: ghcr.io/projectpiki/build:main
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [usa, usa.demo]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Git config
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+    - name: Build
+      run: make -j$(nproc) MAPGENFLAG=1 VERSION=${{matrix.version}} COMPILERS=/compilers/GC

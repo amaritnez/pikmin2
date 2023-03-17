@@ -1,4 +1,3 @@
-.vscode
 *.dat
 *.exe
 *.dll
@@ -26,12 +25,15 @@
 include/*.s
 
 build/
-tools/mwcc_compiler/
+tools/mwcc_compiler/*    
+!tools/mwcc_compiler/.gitkeep
+!aoi.exe
 decomp/
 errors.txt
 output.asm
 Debug/
 .vs/
+.vscode/*.log
 
 ctx.c
 out-ok.txt
@@ -40,3 +42,9 @@ out.txt
 sheet.py
 sheet.csv
 sheet.tsv
+*.lnk
+*.log
+build.ninja
+__pycache__
+.ninja_deps
+.ninja_log

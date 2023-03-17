@@ -1,4 +1,11 @@
-#include "types.h"
+#include "og/newScreen/Vs.h"
+#include "og/newScreen/Challenge.h"
+#include "efx2d/Arg.h"
+#include "efx2d/T2DSprayset.h"
+#include "efx2d/T2DSensor.h"
+#include "og/Sound.h"
+#include "System.h"
+#include "trig.h"
 
 /*
     Generated from dpostproc
@@ -201,7 +208,6 @@
 */
 
 namespace og {
-
 namespace newScreen {
 
 /*
@@ -209,8 +215,76 @@ namespace newScreen {
  * Address:	80325A40
  * Size:	00015C
  */
-ObjVs::ObjVs(char const*)
+ObjVs::ObjVs(char const* name)
 {
+	mFadeLevel = 0.0f;
+	mScale     = 0.0f;
+	mName      = name;
+	mDisp      = nullptr;
+	mBloGroup  = nullptr;
+
+	mPane_bedama1P[0]    = nullptr;
+	mPane_nodama1P[0]    = nullptr;
+	mPane_bedama2P[0]    = nullptr;
+	mPane_nodama2P[0]    = nullptr;
+	mScaleMgrP1_1[0]     = nullptr;
+	mScaleMgrP2_1[0]     = nullptr;
+	mScaleMgrP1_2[0]     = nullptr;
+	mScaleMgrP2_2[0]     = nullptr;
+	mBedamaGotFlagsP1[0] = false;
+	mBedamaGotFlagsP2[0] = false;
+
+	mPane_bedama1P[1]    = nullptr;
+	mPane_nodama1P[1]    = nullptr;
+	mPane_bedama2P[1]    = nullptr;
+	mPane_nodama2P[1]    = nullptr;
+	mScaleMgrP1_1[1]     = nullptr;
+	mScaleMgrP2_1[1]     = nullptr;
+	mScaleMgrP1_2[1]     = nullptr;
+	mScaleMgrP2_2[1]     = nullptr;
+	mBedamaGotFlagsP1[1] = false;
+	mBedamaGotFlagsP2[1] = false;
+
+	mPane_bedama1P[2]    = nullptr;
+	mPane_nodama1P[2]    = nullptr;
+	mPane_bedama2P[2]    = nullptr;
+	mPane_nodama2P[2]    = nullptr;
+	mScaleMgrP1_1[2]     = nullptr;
+	mScaleMgrP2_1[2]     = nullptr;
+	mScaleMgrP1_2[2]     = nullptr;
+	mScaleMgrP2_2[2]     = nullptr;
+	mBedamaGotFlagsP1[2] = false;
+	mBedamaGotFlagsP2[2] = false;
+
+	mPane_bedama1P[3]    = nullptr;
+	mPane_nodama1P[3]    = nullptr;
+	mPane_bedama2P[3]    = nullptr;
+	mPane_nodama2P[3]    = nullptr;
+	mScaleMgrP1_1[3]     = nullptr;
+	mScaleMgrP2_1[3]     = nullptr;
+	mScaleMgrP1_2[3]     = nullptr;
+	mScaleMgrP2_2[3]     = nullptr;
+	mBedamaGotFlagsP1[3] = false;
+	mBedamaGotFlagsP2[3] = false;
+
+	mFinishTimer      = 4.01667f;
+	mDoneState        = 0;
+	mHasAllBedamaP1   = false;
+	mHasAllBedamaP2   = false;
+	mFirstBedamaGetP1 = false;
+	mFirstBedamaGetP2 = false;
+	mBedamaGetTimer   = 0.05f;
+	mScreenIcons      = nullptr;
+	mSetBedamaFlag    = true;
+	mPaneObake1P      = nullptr;
+	mPaneObake2P      = nullptr;
+	mAlphaObakeP1     = 0.0f;
+	mAlphaObakeP2     = 0.0f;
+	mObakeEnabledP1   = false;
+	mObakeEnabledP2   = false;
+	mObakeMovePos     = 0.0f;
+	mPlayWinSound     = false;
+
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -307,7 +381,7 @@ ObjVs::ObjVs(char const*)
  * Address:	80325B9C
  * Size:	0000AC
  */
-ObjVs::~ObjVs(void)
+ObjVs::~ObjVs()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -365,8 +439,78 @@ lbl_80325C2C:
  * Address:	80325C48
  * Size:	000800
  */
-void ObjVs::doCreate(JKRArchive*)
+void ObjVs::doCreate(JKRArchive* arc)
 {
+	mScreenP1 = new ScreenSet;
+	mScreenP2 = new ScreenSet;
+
+	og::Screen::DispMemberVs* disp = static_cast<og::Screen::DispMemberVs*>(getDispMember());
+	if (disp->isID(OWNER_OGA, MEMBER_VS)) {
+		mDisp = disp;
+	} else {
+		if (disp->isID(OWNER_OGA, MEMBER_DUMMY)) {
+			mDisp = new og::Screen::DispMemberVs;
+		} else {
+			JUT_PANICLINE(246, "ERR! in ObjVS CreateŽ¸”sI\n");
+		}
+	}
+
+	mBloGroup = new og::Screen::BloGroup(2);
+	mBloGroup->addBlo("challenge_1P.blo", mScreenP1->mScreen, 0x1040000, arc);
+	mBloGroup->addBlo("challenge_2P.blo", mScreenP2->mScreen, 0x1040000, arc);
+	mScreenP1->init(&mDisp->mOlimarData, arc, &mDisp->mRedPikminCount);
+	mScreenP2->init(&mDisp->mLouieData, arc, &mDisp->mBluePikminCount);
+
+	P2DScreen::Mgr_tuning* bdamaScreen = new P2DScreen::Mgr_tuning;
+	bdamaScreen->set("b_dama.blo", 0x1040000, arc);
+
+	P2DScreen::Mgr_tuning* scrn1 = mScreenP1->mScreen;
+	P2DScreen::Mgr_tuning* scrn2 = mScreenP2->mScreen;
+
+	J2DPictureEx* paneBdamaR = static_cast<J2DPictureEx*>(bdamaScreen->search('Pb_red'));
+	J2DPictureEx* paneBdamaY = static_cast<J2DPictureEx*>(bdamaScreen->search('Pb_yello'));
+	J2DPictureEx* paneBdamaB = static_cast<J2DPictureEx*>(bdamaScreen->search('Pb_blue'));
+	J2DPictureEx* panePcup   = static_cast<J2DPictureEx*>(bdamaScreen->search('Pcup'));
+
+	J2DPane* root = scrn1->search('ROOT');
+	u32 xoffs     = 0;
+	for (int i = 0; i < 4; i++) {
+		mPane_bedama1P[i]
+		    = og::Screen::CopyPictureToPane(paneBdamaY, root, msVal.mMarbleBaseXOffs + xoffs, msVal.mMarbleP1YOffs, 'bd1P_000' + i);
+		mPane_nodama1P[i]
+		    = og::Screen::CopyPictureToPane(panePcup, root, msVal.mMarbleBaseXOffs + xoffs, msVal.mMarbleP1YOffs, 'nd1P_000' + i);
+		mPane_windama1P[i]
+		    = og::Screen::CopyPictureToPane(paneBdamaB, root, msVal.mMarbleBaseXOffs + xoffs, msVal.mMarbleP1YOffs, 'wd1P_000' + i);
+		mScaleMgrP1_1[i] = new og::Screen::ScaleMgr;
+		mScaleMgrP1_2[i] = new og::Screen::ScaleMgr;
+		xoffs += 40;
+		mPane_windama1P[i]->hide();
+	}
+
+	J2DPane* root2 = scrn2->search('ROOT');
+	xoffs          = 0;
+	for (int i = 0; i < 4; i++) {
+		mPane_bedama2P[i]
+		    = og::Screen::CopyPictureToPane(paneBdamaY, root2, msVal.mMarbleBaseXOffs + xoffs, msVal.mMarbleP2YOffs, 'bd2P_000' + i);
+		mPane_nodama2P[i]
+		    = og::Screen::CopyPictureToPane(panePcup, root2, msVal.mMarbleBaseXOffs + xoffs, msVal.mMarbleP2YOffs, 'nd2P_000' + i);
+		mPane_windama2P[i]
+		    = og::Screen::CopyPictureToPane(paneBdamaB, root2, msVal.mMarbleBaseXOffs + xoffs, msVal.mMarbleP2YOffs, 'wd2P_000' + i);
+		mScaleMgrP2_1[i] = new og::Screen::ScaleMgr;
+		mScaleMgrP2_2[i] = new og::Screen::ScaleMgr;
+		xoffs += 40;
+		mPane_windama2P[i]->hide();
+	}
+
+	mScreenIcons = new P2DScreen::Mgr_tuning;
+	mScreenIcons->set("obake_icon.blo", 0x1040000, arc);
+
+	J2DPictureEx* paneObake = static_cast<J2DPictureEx*>(mScreenIcons->search('obake'));
+	mPaneObake1P            = og::Screen::CopyPictureToPane(paneObake, root, msVal.mRouletteXOffs, msVal.mRouletteP1YOffs, 'obake1P');
+	mPaneObake2P            = og::Screen::CopyPictureToPane(paneObake, root, msVal.mRouletteXOffs, msVal.mRouletteP2YOffs, 'obake2P');
+	mPaneObake1P->setAlpha(mAlphaObakeP1 * 255.0f);
+	mPaneObake2P->setAlpha(mAlphaObakeP2 * 255.0f);
+	setOnOffBdama(false);
 	/*
 	stwu     r1, -0x80(r1)
 	mflr     r0
@@ -936,7 +1080,7 @@ void ObjVs::isCompBdama(int)
  * Address:	........
  * Size:	000138
  */
-void ObjVs::startGetBdama(J2DPane*)
+bool ObjVs::startGetBdama(J2DPane* pane)
 {
 	// UNUSED FUNCTION
 }
@@ -976,8 +1120,175 @@ void ObjVs::startBdamaWinBlue(J2DPane*)
  * Address:	80326448
  * Size:	000A28
  */
-void ObjVs::setOnOffBdama(bool)
+void ObjVs::setOnOffBdama(bool doEfx)
 {
+	bool p1win = false;
+	bool p2win = false;
+
+	for (int i = 0; i < 4; i++) {
+		f32 scale1 = mScaleMgrP1_1[i]->calc();
+		f32 scale2 = mScaleMgrP2_1[i]->calc();
+		f32 scale3 = mScaleMgrP1_2[i]->calc();
+		f32 scale4 = mScaleMgrP2_2[i]->calc();
+
+		mPane_windama1P[i]->updateScale(scale3);
+		mPane_windama2P[i]->updateScale(scale4);
+
+		if (mDisp->mFlags[0] && mDisp->mMarbleCountP1 == i && mBedamaGetTimer > 0.0f) {
+			mBedamaGetTimer -= sys->mDeltaTime;
+			if (mBedamaGetTimer <= 0.0f) {
+				mPane_windama1P[i]->show();
+				if (!mFirstBedamaGetP1) {
+					mFirstBedamaGetP1 = true;
+					if (doEfx) {
+						Vector2f pos;
+						og::Screen::calcGlbCenter(mPane_windama1P[i], &pos);
+
+						efx2d::ArgScaleColorColor arg(&pos, 1.0f, 0x2020ffff, 0x5787ffff);
+						efx2d::T2DSprayset_forVS efx;
+						efx.create(&arg);
+						ogSound->setBdamaGet();
+						mDoneState = 1;
+						mScaleMgrP1_2[i]->up();
+						p1win = true;
+					}
+				}
+			}
+		}
+
+		if (mDisp->mFlags[1] && mDisp->mMarbleCountP2 == i && mBedamaGetTimer > 0.0f) {
+			mBedamaGetTimer -= sys->mDeltaTime;
+			if (mBedamaGetTimer <= 0.0f) {
+				mPane_windama2P[i]->show();
+				if (!mFirstBedamaGetP2) {
+					mFirstBedamaGetP2 = true;
+					if (doEfx) {
+						Vector2f pos;
+						og::Screen::calcGlbCenter(mPane_windama2P[i], &pos);
+
+						efx2d::ArgScaleColorColor arg(&pos, 1.0f, 0xff0000ff, 0xff8787ff);
+						efx2d::T2DSprayset_forVS efx;
+						efx.create(&arg);
+						ogSound->setBdamaGet();
+						mDoneState = 1;
+						mScaleMgrP2_2[i]->up();
+						p2win = true;
+					}
+				}
+			}
+		}
+
+		if (!mFirstBedamaGetP1 && !mFirstBedamaGetP2) {
+			if (mDisp->mMarbleCountP1 > i) {
+				mPane_nodama1P[i]->hide();
+				mPane_bedama1P[i]->show();
+				mPane_bedama1P[i]->updateScale(scale1);
+				if (!mBedamaGotFlagsP1[i]) {
+					if (i == 3) {
+						mDoneState = 1;
+					}
+					mHasAllBedamaP1 = (i == 3);
+					if (doEfx) {
+						if (mDoneState != 1) {
+							ogSound->setBdamaGet();
+							Vector2f pos;
+							og::Screen::calcGlbCenter(mPane_bedama1P[i], &pos);
+
+							efx2d::ArgScaleColorColor arg(&pos, 1.0f, 0xcfcf00ff, 0xe7e757ff);
+							efx2d::T2DSprayset_forVS efx;
+							efx.create(&arg);
+						}
+						mScaleMgrP1_1[i]->up();
+					}
+				}
+				mBedamaGotFlagsP1[i] = true;
+			} else {
+				mPane_bedama1P[i]->hide();
+				mPane_nodama1P[i]->show();
+				mPane_nodama1P[i]->updateScale(scale1);
+				mBedamaGotFlagsP1[i] = false;
+			}
+
+			if (mDisp->mMarbleCountP2 > i) {
+				mPane_nodama2P[i]->hide();
+				mPane_bedama2P[i]->show();
+				mPane_bedama2P[i]->updateScale(scale1);
+				if (!mBedamaGotFlagsP2[i]) {
+					if (i == 3) {
+						mDoneState = 1;
+					}
+					mHasAllBedamaP2 = (i == 3);
+					if (doEfx) {
+						if (mDoneState != 1) {
+							ogSound->setBdamaGet();
+							Vector2f pos;
+							og::Screen::calcGlbCenter(mPane_bedama2P[i], &pos);
+
+							efx2d::ArgScaleColorColor arg(&pos, 1.0f, 0xcfcf00ff, 0xe7e757ff);
+							efx2d::T2DSprayset_forVS efx;
+							efx.create(&arg);
+						}
+						mScaleMgrP2_1[i]->up();
+					}
+				}
+				mBedamaGotFlagsP2[i] = true;
+			} else {
+				mPane_bedama2P[i]->hide();
+				mPane_nodama2P[i]->show();
+				mPane_nodama2P[i]->updateScale(scale2);
+				mBedamaGotFlagsP2[i] = false;
+			}
+		}
+	}
+
+	if (mHasAllBedamaP1 && mBedamaGetTimer > 0.0f) {
+		mBedamaGetTimer -= sys->mDeltaTime;
+		if (mBedamaGetTimer < 0.0f && doEfx) {
+			ogSound->setBdamaGet();
+			f32 scale = 0.6f;
+			for (int i = 0; i < 4; i++) {
+				mScaleMgrP1_1[i]->up();
+				Vector2f pos;
+				og::Screen::calcGlbCenter(mPane_bedama1P[i], &pos);
+
+				efx2d::ArgScale arg(&pos, scale);
+				efx2d::T2DSensorGet_forVS efx;
+				efx.create(&arg);
+				p1win = true;
+			}
+		}
+	}
+
+	if (mHasAllBedamaP2 && mBedamaGetTimer > 0.0f) {
+		mBedamaGetTimer -= sys->mDeltaTime;
+		if (mBedamaGetTimer < 0.0f && doEfx) {
+			ogSound->setBdamaGet();
+			f32 scale = 0.6f;
+			for (int i = 0; i < 4; i++) {
+				mScaleMgrP2_1[i]->up();
+				Vector2f pos;
+				og::Screen::calcGlbCenter(mPane_bedama2P[i], &pos);
+
+				efx2d::ArgScale arg(&pos, scale);
+				efx2d::T2DSensorGet_forVS efx;
+				efx.create(&arg);
+				p2win = true;
+			}
+		}
+	}
+
+	if (!mPlayWinSound) {
+		if (p1win && p2win) {
+			mPlayWinSound = true;
+			ogSound->setVsDraw();
+		} else if (p1win) {
+			mPlayWinSound = true;
+			ogSound->setVsWin1P();
+		} else if (p2win) {
+			mPlayWinSound = true;
+			ogSound->setVsWin2P();
+		}
+	}
 	/*
 	stwu     r1, -0x1f0(r1)
 	mflr     r0
@@ -1677,8 +1988,34 @@ lbl_80326E3C:
  * Address:	80326E70
  * Size:	0002B8
  */
-void ObjVs::ScreenSet::init(og::Screen::DataNavi*, JKRArchive*, unsigned long*)
+void ObjVs::ScreenSet::init(og::Screen::DataNavi* data, JKRArchive* arc, u32* pikis)
 {
+	og::Screen::CallBack_CatchPiki* cpiki = new og::Screen::CallBack_CatchPiki;
+	cpiki->init(mScreen, 'piki', &data->mNextThrowPiki, arc);
+	mScreen->addCallBack('piki', cpiki);
+
+	og::Screen::setCallBack_CounterRV(mScreen, 'c_mr', 'c_ml', 'c_ml', &data->mFollowPikis, 3, 2, 1, arc);
+
+	og::Screen::CallBack_CounterRV* counter = og::Screen::setCallBack_CounterRV(mScreen, 'c_lr', 'c_ll', 'c_ll', pikis, 3, 2, 1, arc);
+	counter->mScaleUpSoundID                = PSSE_SY_PIKI_INCREMENT;
+	counter->mScaleDownSoundID              = PSSE_SY_PIKI_DECREMENT;
+
+	counter = og::Screen::setCallBack_CounterRV(mScreen, 'dr_r', 'dr_l', 'dr_l', &data->mDope1Count, 3, 2, 1, arc);
+	counter->setCenteringMode(og::Screen::CallBack_CounterRV::ECM_Unknown1);
+	mScreen->search('dr_c')->hide();
+
+	counter = og::Screen::setCallBack_CounterRV(mScreen, 'dy_r', 'dy_l', 'dy_l', &data->mDope0Count, 3, 2, 1, arc);
+	counter->setCenteringMode(og::Screen::CallBack_CounterRV::ECM_Unknown1);
+	mScreen->search('dy_c')->hide();
+
+	mPaneToyo01 = og::Screen::TagSearch(mScreen, 'toyo_01');
+	mPaneToyo00 = og::Screen::TagSearch(mScreen, 'toyo_00');
+	mDoping->init(mPaneToyo01, mPaneToyo00, mScaleMgr1, mScaleMgr2);
+	mLifeGauge->init(mScreen, data, og::Screen::CallBack_LifeGauge::LIFEGAUGE_OLIMAR);
+	mScreen->addCallBack('back', mLifeGauge);
+	mLifeGauge->setOffset(msVal.mLifeGaugeXOffs, msVal.mLifeGaugeYOffs);
+	og::Screen::setCallBack_DrawAfter(mScreen, 'mete');
+
 	/*
 	.loc_0x0:
 	  stwu      r1, -0x40(r1)
@@ -1865,9 +2202,23 @@ void ObjVs::ScreenSet::init(og::Screen::DataNavi*, JKRArchive*, unsigned long*)
  * Address:	........
  * Size:	0000EC
  */
-void ObjVs::ScreenSet::update(og::Screen::DataNavi&)
+void ObjVs::ScreenSet::update(og::Screen::DataNavi& data)
 {
-	// UNUSED FUNCTION
+	f32 scale1 = mScaleMgr1->calc();
+	f32 scale2 = mScaleMgr2->calc();
+	if (mPaneToyo01)
+		mPaneToyo01->updateScale(scale1);
+	if (mPaneToyo00)
+		mPaneToyo00->updateScale(scale2);
+
+	og::Screen::DopingCheck* dope = mDoping;
+	dope->mNaviLifeRatio          = data.mNaviLifeRatio;
+	dope->mFollowPiki             = data.mFollowPikis;
+	dope->mNextThrowPiki          = data.mNextThrowPiki;
+	dope->mSpicySprayCount        = data.mDope1Count;
+	dope->mBitterSprayCount       = data.mDope0Count;
+	dope->mActiveNaviID           = data.mActiveNaviID;
+	dope->update();
 }
 
 /*
@@ -1875,8 +2226,92 @@ void ObjVs::ScreenSet::update(og::Screen::DataNavi&)
  * Address:	80327128
  * Size:	00056C
  */
-void ObjVs::checkObake(void)
+void ObjVs::checkObake()
 {
+	if (mObakeEnabledP1) {
+		mAlphaObakeP1 += sys->mDeltaTime;
+		if (mAlphaObakeP1 > 1.0f)
+			mAlphaObakeP1 = 1.0f;
+
+		if (mDisp->mGhostIconTimerP1 <= 0.0f) {
+			mObakeEnabledP1 = false;
+		}
+	} else {
+		mAlphaObakeP1 -= sys->mDeltaTime;
+		if (mAlphaObakeP1 < 0.0f)
+			mAlphaObakeP1 = 0.0f;
+
+		if (mDisp->mFlags[2]) {
+			mObakeEnabledP1 = true;
+		}
+	}
+
+	if (mObakeEnabledP2) {
+		mAlphaObakeP2 += sys->mDeltaTime;
+		if (mAlphaObakeP2 > 1.0f)
+			mAlphaObakeP2 = 1.0f;
+
+		if (mDisp->mGhostIconTimerP2 <= 0.0f) {
+			mObakeEnabledP2 = false;
+		}
+	} else {
+		mAlphaObakeP2 -= sys->mDeltaTime;
+		if (mAlphaObakeP2 < 0.0f)
+			mAlphaObakeP2 = 0.0f;
+
+		if (mDisp->mFlags[3]) {
+			mObakeEnabledP2 = true;
+		}
+	}
+
+	f32 calc = mObakeMovePos * 2.0f;
+	calc     = (pikmin2_sinf(calc) + 1.0f) * 0.5f;
+
+	f32 mod1 = 1.0f;
+	f32 mod2 = 1.0f;
+	f32 angle1, angle2;
+	if (!mObakeEnabledP1) {
+		angle1 = 0.0f;
+	} else {
+		f32 temp = mDisp->mGhostIconTimerP1;
+		angle1   = 1.0f;
+		if (temp < 10.0f) {
+			angle1 = temp / 10.0f;
+			mod1   = calc * 0.6f + 0.4f;
+		}
+	}
+
+	if (!mObakeEnabledP2) {
+		angle2 = 0.0f;
+	} else {
+		f32 temp = mDisp->mGhostIconTimerP2;
+		angle2   = 1.0f;
+		if (temp < 10.0f) {
+			angle2 = temp / 10.0f;
+			mod2   = calc * 0.6f + 0.4f;
+		}
+	}
+
+	mPaneObake1P->setAlpha(mAlphaObakeP1 * 255.0f * mod1);
+	mPaneObake2P->setAlpha(mAlphaObakeP2 * 255.0f * mod2);
+
+	mObakeMovePos += sys->mDeltaTime * TAU;
+	if (mObakeMovePos > TAU) {
+		mObakeMovePos -= TAU;
+	}
+	f32 sin = pikmin2_sinf(mObakeMovePos);
+	f32 cos = pikmin2_cosf(mObakeMovePos);
+	mPaneObake1P->rotate(angle1 * sin * 20.0f);
+	mPaneObake2P->rotate(angle2 * cos * 20.0f);
+
+	mPaneObake1P->setOffset(msVal.mRouletteXOffs + (pikmin2_sinf(mObakeMovePos) * angle1) * msVal._2C,
+	                        msVal.mRouletteP1YOffs + (pikmin2_cosf(mObakeMovePos) * angle1) * msVal._30);
+	mPaneObake2P->setOffset(msVal.mRouletteXOffs + (pikmin2_sinf(mObakeMovePos) * angle2) * msVal._2C,
+	                        msVal.mRouletteP2YOffs + (pikmin2_cosf(mObakeMovePos) * angle2) * msVal._30);
+
+	mPaneObake1P->updateScale(msVal.mRouletteScale);
+	mPaneObake2P->updateScale(msVal.mRouletteScale);
+
 	/*
 	stwu     r1, -0xa0(r1)
 	mflr     r0
@@ -2277,8 +2712,29 @@ lbl_803275A4:
  * Address:	80327694
  * Size:	0002AC
  */
-void ObjVs::doUpdateCommon(void)
+void ObjVs::doUpdateCommon()
 {
+	f32 scale = mScale * PI;
+	if (scale < 0.0f)
+		scale = -scale;
+
+	scale = pikmin2_sinf(scale);
+	setOnOffBdama(mSetBedamaFlag);
+	checkObake();
+	if (mDoneState == 1) {
+		if (mFinishTimer <= 0.0f)
+			mDoneState = 2;
+		else
+			mFinishTimer -= sys->mDeltaTime;
+	}
+	mDisp->mDoneState = mDoneState;
+	mScreenP1->update(mDisp->mOlimarData);
+	mScreenP2->update(mDisp->mLouieData);
+
+	mScreenP1->mScreen->setXY(0.0f, scale * -300.0f);
+	mScreenP2->mScreen->setXY(0.0f, scale * 300.0f);
+	mBloGroup->update();
+
 	/*
 	stwu     r1, -0x50(r1)
 	mflr     r0
@@ -2475,8 +2931,13 @@ lbl_8032788C:
  * Address:	80327940
  * Size:	000044
  */
-void ObjVs::doUpdate(void)
+bool ObjVs::doUpdate()
 {
+	doUpdateCommon();
+	if (mSetBedamaFlag) {
+		mSetBedamaFlag = false;
+	}
+	return false;
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -2505,8 +2966,24 @@ lbl_8032796C:
  * Address:	80327984
  * Size:	000130
  */
-void ObjVs::doDraw(Graphics&)
+void ObjVs::doDraw(Graphics& gfx)
 {
+	J2DPerspGraph* graf = &gfx.mPerspGraph;
+	graf->setPort();
+
+	JUtility::TColor color1 = ObjChallenge2P::msVal._20;
+	int test                = (f32)color1.a * mScale;
+	color1.a                = test;
+	graf->setColor(color1);
+
+	JGeometry::TBox2f box;
+	box.i   = JGeometry::TVec2f(ObjChallenge2P::msVal._08, ObjChallenge2P::msVal._0C);
+	box.f.x = box.i.x + ObjChallenge2P::msVal._10;
+	box.f.y = box.i.y + ObjChallenge2P::msVal._14;
+
+	graf->fillBox(box);
+
+	mBloGroup->draw(graf);
 	/*
 	stwu     r1, -0x60(r1)
 	mflr     r0
@@ -2593,8 +3070,11 @@ void ObjVs::doDraw(Graphics&)
  * Address:	80327AB4
  * Size:	000014
  */
-void ObjVs::doStart(Screen::StartSceneArg const*)
+bool ObjVs::doStart(::Screen::StartSceneArg const*)
 {
+	mFadeLevel = 0.0f;
+	mScale     = 0.0f;
+	return true;
 	/*
 	lfs      f0, lbl_8051DD98@sda21(r2)
 	stfs     f0, 0x4c(r3)
@@ -2609,8 +3089,10 @@ void ObjVs::doStart(Screen::StartSceneArg const*)
  * Address:	80327AC8
  * Size:	000010
  */
-void ObjVs::doEnd(Screen::EndSceneArg const*)
+bool ObjVs::doEnd(::Screen::EndSceneArg const*)
 {
+	mFadeLevel = 0.0f;
+	return true;
 	/*
 	lfs      f0, lbl_8051DD98@sda21(r2)
 	stfs     f0, 0x4c(r3)
@@ -2624,15 +3106,16 @@ void ObjVs::doEnd(Screen::EndSceneArg const*)
  * Address:	80327AD8
  * Size:	000004
  */
-void ObjVs::doUpdateFadeinFinish(void) { }
+void ObjVs::doUpdateFadeinFinish() { }
 
 /*
  * --INFO--
  * Address:	80327ADC
  * Size:	00000C
  */
-void ObjVs::doUpdateFinish(void)
+void ObjVs::doUpdateFinish()
 {
+	mFadeLevel = 0.0f;
 	/*
 	lfs      f0, lbl_8051DD98@sda21(r2)
 	stfs     f0, 0x4c(r3)
@@ -2645,15 +3128,25 @@ void ObjVs::doUpdateFinish(void)
  * Address:	80327AE8
  * Size:	000004
  */
-void ObjVs::doUpdateFadeoutFinish(void) { }
+void ObjVs::doUpdateFadeoutFinish() { }
 
 /*
  * --INFO--
  * Address:	80327AEC
  * Size:	000074
  */
-void ObjVs::doUpdateFadein(void)
+bool ObjVs::doUpdateFadein()
 {
+	bool check = false;
+	mFadeLevel += sys->mDeltaTime;
+
+	if (mFadeLevel > msVal.mFadeInRate) {
+		mFadeLevel = msVal.mFadeInRate;
+		check      = true;
+	}
+	mScale = mFadeLevel / msVal.mFadeInRate;
+	doUpdateCommon();
+	return check;
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -2694,8 +3187,17 @@ lbl_80327B30:
  * Address:	80327B60
  * Size:	00007C
  */
-void ObjVs::doUpdateFadeout(void)
+bool ObjVs::doUpdateFadeout()
 {
+	bool check = false;
+	mFadeLevel += sys->mDeltaTime;
+	if (mFadeLevel > msVal.mFadeOutRate) {
+		mFadeLevel = msVal.mFadeOutRate;
+		check      = true;
+	}
+	mScale = 1.0f - mFadeLevel / msVal.mFadeOutRate;
+	doUpdateCommon();
+	return check;
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -2734,7 +3236,6 @@ lbl_80327BA8:
 }
 
 } // namespace newScreen
-
 } // namespace og
 
 /*
@@ -2742,21 +3243,22 @@ lbl_80327BA8:
  * Address:	80327BDC
  * Size:	00000C
  */
-void efx2d::ArgScale::getName(void)
-{
-	/*
-	lis      r3, lbl_8048F3D4@ha
-	addi     r3, r3, lbl_8048F3D4@l
-	blr
-	*/
-}
+
+// const char* efx2d::ArgScale::getName()
+//{
+/*
+lis      r3, lbl_8048F3D4@ha
+addi     r3, r3, lbl_8048F3D4@l
+blr
+*/
+//}
 
 /*
  * --INFO--
  * Address:	80327BE8
  * Size:	00006C
  */
-void __sinit_ogObjVs_cpp(void)
+void __sinit_ogObjVs_cpp()
 {
 	/*
 	lfs      f11, lbl_8051DDB8@sda21(r2)
@@ -2794,10 +3296,10 @@ void __sinit_ogObjVs_cpp(void)
  * Address:	80327C54
  * Size:	000008
  */
-@24 @og::newScreen::ObjVs::~ObjVs(void)
-{
-	/*
-	addi     r3, r3, -24
-	b        __dt__Q32og9newScreen5ObjVsFv
-	*/
-}
+//@24 @og::newScreen::ObjVs::~ObjVs()
+//{
+/*
+addi     r3, r3, -24
+b        __dt__Q32og9newScreen5ObjVsFv
+*/
+//}

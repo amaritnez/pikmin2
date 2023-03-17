@@ -1,6 +1,6 @@
 #include "Dolphin/os.h"
-#include "JSystem/JAS/JASTrack.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JAudio/JAS/JASTrack.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "PSSystem/PSTaskBase.h"
 #include "types.h"
 #include "PSSystem/PSBgmTask.h"
@@ -114,8 +114,8 @@ void TaskEntry::removeAll()
  */
 bool TaskEntryMgr::isUnderTask_byDirector(PSSystem::DirectorBase* director)
 {
-	for (JSULink<TaskEntry>* entry = getHead(); entry != nullptr; entry = entry->getNext()) {
-		if (entry->getValue()->_24 == director) {
+	for (JSULink<TaskEntry>* entry = getFirst(); entry != nullptr; entry = entry->getNext()) {
+		if (entry->getObject()->_24 == director) {
 			return true;
 		}
 	}
@@ -130,23 +130,25 @@ bool TaskEntryMgr::isUnderTask_byDirector(PSSystem::DirectorBase* director)
 void TaskEntryMgr::update()
 {
 	// TODO: Fix access to task->_18 once the type of it is determined.
-	// TODO: Given the "result" pattern, there's likely an inline here on TaskEntry, which returns bool. stackTask, perhaps?
-	// TODO: There's likely one or more inlines within that inline, that return int (or more accurately, some sort of Status)
+	// TODO: Given the "result" pattern, there's likely an inline here on TaskEntry, which returns bool. stackTask,
+	// perhaps?
+	// TODO: There's likely one or more inlines within that inline, that return int (or more accurately, some sort of
+	// Status)
 	P2ASSERTLINE(197, _24 != nullptr);
 	bool result;
-	OSLockMutex(&m_mutex);
-	if (getHead() != nullptr) {
-		TaskEntry* entry = getHead()->getValue();
+	OSLockMutex(&mMutex);
+	if (getFirst()) {
+		TaskEntry* entry = getFirst()->getObject();
 		JASTrack* track  = _24;
-		OSLockMutex(&entry->m_mutex);
-		JSULink<TaskBase>* taskLink = entry->getHead();
+		OSLockMutex(&entry->mMutex);
+		JSULink<TaskBase>* taskLink = entry->getFirst();
 		if (taskLink == nullptr) {
-			OSUnlockMutex(&entry->m_mutex);
+			OSUnlockMutex(&entry->mMutex);
 			result     = false;
 			entry->_24 = nullptr;
 		} else {
-			while (taskLink != nullptr) {
-				TaskBase* task = taskLink->getValue();
+			while (taskLink) {
+				TaskBase* task = taskLink->getObject();
 				u32 i          = 0xFFFFFFF0;
 				if (task->_18 != nullptr && task->_18->getList() == nullptr) {
 					i = 0xFFFFFFFF;
@@ -162,14 +164,14 @@ void TaskEntryMgr::update()
 				}
 				taskLink = (task->_15 != 0) ? taskLink->getNext() : nullptr;
 			}
-			OSUnlockMutex(&entry->m_mutex);
+			OSUnlockMutex(&entry->mMutex);
 			result = true;
 		}
 		if (!result) {
-			remove(getHead());
+			remove(getFirst());
 		}
 	}
-	OSUnlockMutex(&m_mutex);
+	OSUnlockMutex(&mMutex);
 	/*
 	stwu     r1, -0x20(r1)
 	mflr     r0
@@ -286,7 +288,7 @@ void TaskEntryMgr::appendEntry(PSSystem::TaskEntry* entry, PSSystem::DirectorBas
 	// TODO: append_Lock should not be inlined.
 	P2ASSERTLINE(220, entry != nullptr);
 	entry->_24 = nullptr;
-	if (director != nullptr) {
+	if (director) {
 		entry->setDirector(director);
 	}
 	append_Lock(&entry->_28);
@@ -349,16 +351,16 @@ lbl_8033E468:
 void TaskEntryMgr::removeEntry(PSSystem::TaskEntry* entry)
 {
 	// TODO: remove_Lock should not be inlined.
-	if (entry != nullptr) {
+	if (entry) {
 		remove_Lock(&entry->_28);
-		OSLockMutex(&entry->m_mutex);
-		JSULink<TaskBase>* taskLink = entry->getHead();
-		while (taskLink != nullptr) {
+		OSLockMutex(&entry->mMutex);
+		JSULink<TaskBase>* taskLink = entry->getFirst();
+		while (taskLink) {
 			JSULink<TaskBase>* nextLink = taskLink->getNext();
 			entry->remove(taskLink);
 			taskLink = nextLink;
 		}
-		OSUnlockMutex(&entry->m_mutex);
+		OSUnlockMutex(&entry->mMutex);
 		entry->_24 = nullptr;
 	}
 	/*

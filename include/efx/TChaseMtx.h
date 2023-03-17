@@ -7,77 +7,119 @@
 
 namespace efx {
 struct TChaseMtx : public TSync {
-	/**
-	 * @reifiedAddress{803B0548}
-	 * @reifiedFile{plugProjectEbisawaU/efxBase.cpp}
-	 */
 	TChaseMtx()
 	    : TSync()
 	{
 	}
 
-	// vtable 2
-	virtual void doExecuteEmitterOperation(JPABaseEmitter*); // _14
-	virtual ~TChaseMtx();                                    // _2C (thunk at _00)
+	inline TChaseMtx(u16 effectID, Matrixf* mtx) // probably
+	    : TSync()
+	    , mMtx(mtx)
+	{
+		mEffectID = effectID;
+	}
 
-	Matrixf* m_mtx;
+	virtual void doExecuteEmitterOperation(JPABaseEmitter*); // _38
+	virtual ~TChaseMtx() { }                                 // _48 (weak)
+
+	// _00		= VTBL
+	// _00-_10	= TSync
+	Matrixf* mMtx; // _10
 };
 
 struct TChaseMtx2 : public TSyncGroup2<TChaseMtx> {
-	TChaseMtx2(float (*)[4], unsigned short, unsigned short);
-	void setMtxptr(float (*)[4]);
+	TChaseMtx2(Mtx, u16, u16);
+
+	void setMtxptr(Mtx);
+
+	// _00		= VTBL
+	// _00-_2C	= TSyncGroup2<TChaseMtx>
 };
 
 struct TChaseMtx3 : public TSyncGroup3<TChaseMtx> {
-	TChaseMtx3(float (*)[4], unsigned short, unsigned short, unsigned short);
-	void setMtxptr(float (*)[4]);
+	TChaseMtx3(Mtx, u16, u16, u16);
+
+	void setMtxptr(Mtx);
+
+	// _00		= VTBL
+	// _00-_40	= TSyncGroup3<TChaseMtx>
 };
 
 struct TChaseMtx4 : public TSyncGroup4<TChaseMtx> {
-	TChaseMtx4(float (*)[4], unsigned short, unsigned short, unsigned short, unsigned short);
-	void setMtxptr(float (*)[4]);
+	TChaseMtx4(Mtx, u16, u16, u16, u16);
+
+	void setMtxptr(Mtx);
+
+	// _00		= VTBL
+	// _00-_54	= TSyncGroup4<TChaseMtx>
 };
 
 struct TChaseMtx5 : public TSyncGroup5<TChaseMtx> {
-	TChaseMtx5(float (*)[4], unsigned short, unsigned short, unsigned short, unsigned short, unsigned short);
-	void setMtxptr(float (*)[4]);
+	// unused struct?
+	TChaseMtx5(Mtx, u16, u16, u16, u16, u16);
+
+	void setMtxptr(Mtx);
+
+	// _00		= VTBL
+	// _00-_68	= TSyncGroup5<TChaseMtx>
 };
 
 struct TChaseMtx6 : public TSyncGroup6<TChaseMtx> {
-	TChaseMtx6(float (*)[4], unsigned short, unsigned short, unsigned short, unsigned short, unsigned short, unsigned short);
-	void setMtxptr(float (*)[4]);
+	TChaseMtx6(Mtx, u16, u16, u16, u16, u16, u16);
+
+	void setMtxptr(Mtx);
+
+	// _00		= VTBL
+	// _00-_7C	= TSyncGroup6<TChaseMtx>
 };
 
 struct TChaseMtxT : public TSync {
-	/**
-	 * @reifiedAddress{803B08A8}
-	 * @reifiedFile{plugProjectEbisawaU/efxBase.cpp}
-	 */
 	TChaseMtxT()
 	    : TSync()
 	{
 	}
 
-	// vtable 2
-	virtual void doExecuteEmitterOperation(JPABaseEmitter*); // _14
-	virtual ~TChaseMtxT();                                   // _2C (thunk at _00)
+	inline TChaseMtxT(u16 effectID) // probably
+	    : TSync()
+	    , mMtx(nullptr)
+	{
+		mEffectID = effectID;
+	}
 
-	Matrixf* m_mtx;
+	virtual void doExecuteEmitterOperation(JPABaseEmitter*); // _38
+	virtual ~TChaseMtxT() { }                                // _48 (weak)
+
+	// _00		= VTBL
+	// _00-_10	= TSync
+	Matrixf* mMtx; // _10
 };
 
 struct TChaseMtxT2 : public TSyncGroup2<TChaseMtxT> {
-	TChaseMtxT2(float (*)[4], unsigned short, unsigned short);
-	void setMtxptr(float (*)[4]);
+	TChaseMtxT2(Mtx, u16, u16);
+
+	void setMtxptr(Mtx);
+
+	// _00		= VTBL
+	// _00-_2C	= TSyncGroup2<TChaseMtx>
 };
 
 struct TChaseMtxT3 : public TSyncGroup3<TChaseMtxT> {
-	TChaseMtxT3(float (*)[4], unsigned short, unsigned short, unsigned short);
-	void setMtxptr(float (*)[4]);
+	// unused struct?
+	TChaseMtxT3(Mtx, u16, u16, u16);
+
+	void setMtxptr(Mtx);
+
+	// _00		= VTBL
+	// _00-_40	= TSyncGroup3<TChaseMtx>
 };
 
 struct TChaseMtxT4 : public TSyncGroup4<TChaseMtxT> {
-	TChaseMtxT4(float (*)[4], unsigned short, unsigned short, unsigned short, unsigned short);
-	void setMtxptr(float (*)[4]);
+	TChaseMtxT4(Mtx, u16, u16, u16, u16);
+
+	void setMtxptr(Mtx);
+
+	// _00		= VTBL
+	// _00-_54	= TSyncGroup4<TChaseMtx>
 };
 
 } // namespace efx

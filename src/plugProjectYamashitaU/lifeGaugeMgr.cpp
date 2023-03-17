@@ -130,7 +130,7 @@ void LifeGauge::update(float p1)
 	}
 	u32 uVar3 = (int)fullnessMaybe % 256;
 	if (_08 != uVar3) {
-		fullnessMaybe = sys->m_secondsPerFrame * 150.0f * FABS((float)(uVar3 - _08) / (float)_09);
+		fullnessMaybe = sys->mDeltaTime * 150.0f * FABS((float)(uVar3 - _08) / (float)_09);
 		if (fullnessMaybe < 0.4f) {
 			fullnessMaybe = 0.4f;
 		}
@@ -1680,7 +1680,7 @@ lbl_8011AF88:
  * Address:	8011AFA8
  * Size:	000028
  */
-void __sinit_lifeGaugeMgr_cpp(void)
+void __sinit_lifeGaugeMgr_cpp()
 {
 	/*
 	lis      r4, __float_nan@ha

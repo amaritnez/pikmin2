@@ -13,102 +13,124 @@
 namespace ebi {
 struct E2DCallBack_Base : public P2DScreen::CallBackNode {
 	inline E2DCallBack_Base()
-	    : _1C(1)
+	    : mIsEnabled(1)
 	{
 	}
-	virtual ~E2DCallBack_Base();                      // _00
-	virtual void update();                            // _08
-	virtual void draw(Graphics&, J2DGrafContext&);    // _0C
-	virtual void do_update();                         // _14
-	virtual void do_draw(Graphics&, J2DGrafContext&); // _18
+	virtual ~E2DCallBack_Base();                      // _08 (weak)
+	virtual void update();                            // _10 (weak)
+	virtual void draw(Graphics&, J2DGrafContext&);    // _14 (weak)
+	virtual void do_update();                         // _1C (weak)
+	virtual void do_draw(Graphics&, J2DGrafContext&); // _20 (weak)
 
-	u8 _1C; // _1C
+	bool mIsEnabled; // _1C
 };
 
 // Size: 0x3C
 struct E2DCallBack_AnmBase : public E2DCallBack_Base {
 	E2DCallBack_AnmBase();
 
-	virtual ~E2DCallBack_AnmBase(); // _00
-	virtual void do_update();       // _14
+	virtual ~E2DCallBack_AnmBase(); // _08 (weak)
+	virtual void do_update();       // _1C
 
-	void disconnect();
-	float getPlayFinRate();
-	bool isFinish();
 	void loadAnm(char*, JKRArchive*, long, long);
-	void play(float, J3DAnmAttr, bool);
-	void playBack(float, bool);
+	void play(f32, J3DAnmAttr, bool);
+	void playBack(f32, bool);
+	void stop();
+	void setStartFrame();
 	void setEndFrame();
 	void setRandFrame();
-	void setStartFrame();
-	void stop();
+	f32 getPlayFinRate();
+	bool isFinish();
 
-	J3DFrameCtrl m_frameCtrl; // _20
-	J2DAnmBase* m_anm;        // _34
-	bool m_isFinish;          // _38
+	J3DFrameCtrl mFrameCtrl; // _20
+	J2DAnmBase* mAnim;       // _34
+	bool mIsFinished;        // _38
 };
 
 struct E2DCallBack_BlinkAlpha : public E2DCallBack_Base {
-	virtual ~E2DCallBack_BlinkAlpha(); // _00
-	virtual void do_update();          // _14
+	virtual ~E2DCallBack_BlinkAlpha(); // _08 (weak)
+	virtual void do_update();          // _1C
 
 	// TODO: _20 through _29 and BlinkFontColor's _40 through _49 are
 	// suspiciously similar in usage....
-	float _20; // _20
-	float _24; // _24
-	u8 _28;    // _28
-	u8 _29;    // _29
-	u32 : 0;   // set alignment to next 4-byte boundary
-	u8 _2C;    // _2C
-	u8 _2D;    // _2D
+	f32 _20; // _20
+	f32 _24; // _24
+	u8 _28;  // _28
+	u8 _29;  // _29
+	u32 : 0; // set alignment to next 4-byte boundary
+	u8 _2C;  // _2C
+	u8 _2D;  // _2D
 };
 
 // Size: 0x4C
 struct E2DCallBack_BlinkFontColor : public E2DCallBack_Base {
 	E2DCallBack_BlinkFontColor();
 
-	virtual ~E2DCallBack_BlinkFontColor(); // _00
-	virtual void do_update();              // _14
+	virtual ~E2DCallBack_BlinkFontColor(); // _08 (weak)
+	virtual void do_update();              // _1C
 
 	void set(J2DTextBox*, J2DTextBox*);
-	void set(E2DFullFontColor&, E2DFullFontColor&);
+	void set(ebi::E2DFullFontColor&, ebi::E2DFullFontColor&);
 
-	E2DFullFontColor _20[2]; // _20
-	float _40;               // _40
-	float _44;               // _44
-	u8 _48;                  // _48
-	u8 _49;                  // _49
+	inline void setColors(int i, J2DTextBox* pane)
+	{
+		mFonts[i].mCol1.set(pane->mCharColor);
+		mFonts[i].mCol2.set(pane->mGradientColor);
+		mFonts[i].mWhite = pane->getWhite();
+		mFonts[i].mBlack = pane->getBlack();
+	}
+
+	// needs tweaking
+	inline void setPaneColors()
+	{
+		mIsEnabled       = false;
+		J2DTextBox* pane = static_cast<J2DTextBox*>(mPane);
+		if (pane) {
+			pane->mCharColor.set(mFonts[0].mCol1);
+			pane->mGradientColor.set(mFonts[0].mCol2);
+			JUtility::TColor white = mFonts[0].mWhite;
+			pane->setWhite(white);
+			JUtility::TColor black = mFonts[0].mBlack;
+			pane->setBlack(black);
+		}
+	}
+
+	E2DFullFontColor mFonts[2]; // _20
+	f32 _40;                    // _40
+	f32 mSpeed;                 // _44
+	u8 _48;                     // _48
+	u8 _49;                     // _49
 };
 
 struct E2DCallBack_CalcAnimation : public E2DCallBack_Base {
 	E2DCallBack_CalcAnimation();
 
-	virtual ~E2DCallBack_CalcAnimation(); // _00
-	virtual void do_update();             // _14
+	virtual ~E2DCallBack_CalcAnimation(); // _08 (weak)
+	virtual void do_update();             // _1C (weak)
 };
 
 // Size: 0x40
 struct E2DCallBack_Purupuru : public E2DCallBack_Base {
 	E2DCallBack_Purupuru();
 
-	virtual ~E2DCallBack_Purupuru(); // _00
-	virtual void do_update();        // _14
+	virtual ~E2DCallBack_Purupuru(); // _08 (weak)
+	virtual void do_update();        // _1C
 
-	og::Screen::ScaleMgr m_scaleMgr; // _20
-	// TODO: Rename to `m_scale`
-	float _3C; // _3C
+	og::Screen::ScaleMgr mScaleMgr; // _20
+	// TODO: Rename to `mScale`
+	f32 _3C; // _3C
 };
 
 struct E2DCallBack_WindowCursor : public E2DCallBack_Base {
-	virtual ~E2DCallBack_WindowCursor(); // _00
-	virtual void do_update();            // _14
+	virtual ~E2DCallBack_WindowCursor(); // _08 (weak)
+	virtual void do_update();            // _1C
 
 	JGeometry::TBox2f _20;    // _20
 	JGeometry::TBox2f _30;    // _30
 	u32 _40;                  // _40
 	u32 _44;                  // _44
 	og::Screen::ScaleMgr _48; // _48
-	float _64;                // _64
+	f32 _64;                  // _64
 	J2DPane* _68;             // _68
 };
 } // namespace ebi

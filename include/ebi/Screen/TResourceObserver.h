@@ -3,11 +3,16 @@
 
 namespace ebi {
 namespace Screen {
-struct TResourceObserver {
-	virtual ~TResourceObserver(); // _00
-	virtual void _04() = 0;       // _04
 
-	// _00 VTBL
+struct TMemoryCard;
+
+struct TResourceObserver : public JKRDisposer {
+	TResourceObserver(TMemoryCard*);
+	virtual ~TResourceObserver(); // _08
+
+	// _00 = VTBL
+	// _00-_18 = JKRDisposer
+	TMemoryCard* mOwner; // _18
 };
 } // namespace Screen
 } // namespace ebi

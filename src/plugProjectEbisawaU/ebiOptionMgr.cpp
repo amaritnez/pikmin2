@@ -2,7 +2,7 @@
 #include "ebi/Option.h"
 #include "ebi/E2DCallBack.h"
 #include "Graphics.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "PSSystem/PSSystemIF.h"
 #include "Screen/Game2DMgr.h"
 #include "SoundID.h"
@@ -580,9 +580,9 @@ void Option::FSMState::do_exec(ebi::Option::TMgr*) { }
  */
 void Option::FSMState_ScreenOpen::do_init(ebi::Option::TMgr* obj, Game::StateArg* arg)
 {
-	obj->m_optionScreen._0C8.loadRam();
-	obj->m_optionScreen._0DC.loadRam();
-	obj->m_optionScreen.openScreen(nullptr);
+	obj->mOptionScreen._0C8.loadRam();
+	obj->mOptionScreen._0DC.loadRam();
+	obj->mOptionScreen.openScreen(nullptr);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -614,7 +614,7 @@ void Option::FSMState_ScreenOpen::do_init(ebi::Option::TMgr* obj, Game::StateArg
  */
 void Option::FSMState_ScreenOpen::do_exec(ebi::Option::TMgr* obj)
 {
-	if (!obj->m_optionScreen.isWaitScreen()) {
+	if (!obj->mOptionScreen.isWaitScreen()) {
 		transit(obj, ScreenWait, nullptr);
 	}
 	/*
@@ -657,7 +657,7 @@ lbl_803CECCC:
  * Size:	000030
  */
 // void transit__Q24Game28FSMState<ebi::Option::TMgr>
-// FPQ33ebi6Option4TMgriPQ24Game8StateArg(void)
+// FPQ33ebi6Option4TMgriPQ24Game8StateArg()
 // template<> void Game::FSMState<ebi::Option::TMgr>::transit(ebi::Option::TMgr
 // *, int, StateArg *)
 // {
@@ -686,7 +686,7 @@ namespace ebi {
  */
 void Option::FSMState_ScreenWait::do_init(ebi::Option::TMgr* obj, Game::StateArg* arg)
 {
-	obj->m_optionScreen._010 = 1;
+	obj->mOptionScreen._010 = 1;
 	/*
 	li       r0, 1
 	stb      r0, 0x10(r4)
@@ -812,7 +812,7 @@ lbl_803CEE48:
 void Option::FSMState_ScreenClose::do_init(ebi::Option::TMgr* obj, Game::StateArg* arg)
 {
 	obj->_F20 = 1;
-	obj->m_optionScreen.closeScreen(nullptr);
+	obj->mOptionScreen.closeScreen(nullptr);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -839,7 +839,7 @@ void Option::FSMState_ScreenClose::do_init(ebi::Option::TMgr* obj, Game::StateAr
  */
 void Option::FSMState_ScreenClose::do_exec(ebi::Option::TMgr* obj)
 {
-	if (obj->m_optionScreen.isFinishScreen()) {
+	if (obj->mOptionScreen.isFinishScreen()) {
 		obj->goEnd_();
 	}
 	/*
@@ -874,7 +874,7 @@ lbl_803CEED8:
  */
 void Option::FSMState_WaitCloseForNoCard::do_init(ebi::Option::TMgr* obj, Game::StateArg* arg)
 {
-	u32 v1 = __cvt_fp2unsigned(1.0f / sys->m_secondsPerFrame);
+	u32 v1 = __cvt_fp2unsigned(1.0f / sys->mSecondsPerFrame);
 	_10    = v1;
 	_14    = v1;
 	/*
@@ -961,7 +961,7 @@ lbl_803CEF9C:
  */
 void Option::FSMState_WorldMapInfoWindow::do_init(ebi::Option::TMgr* obj, Game::StateArg* arg)
 {
-	::Screen::gGame2DMgr->m_screenMgr->reset();
+	::Screen::gGame2DMgr->mScreenMgr->reset();
 	og::Screen::DispMemberWorldMapInfoWin0 disp;
 	::Screen::gGame2DMgr->open_WorldMapInfoWin0(disp);
 	/*
@@ -1027,7 +1027,7 @@ void Option::FSMState_WorldMapInfoWindow::do_exec(ebi::Option::TMgr* obj)
 		transit(obj, ScreenWait, nullptr);
 		break;
 	case 1:
-		obj->m_optionScreen._0DC.saveRam();
+		obj->mOptionScreen._0DC.saveRam();
 		transit(obj, ScreenClose, nullptr);
 		break;
 	default:
@@ -1237,8 +1237,8 @@ lbl_803CF29C:
  */
 void Option::FSMState_SaveMgr::do_init(ebi::Option::TMgr* obj, Game::StateArg* arg)
 {
-	obj->m_optionScreen._010 = 0;
-	obj->m_saveMgr->start();
+	obj->mOptionScreen._010 = 0;
+	obj->mSaveMgr->start();
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -1261,8 +1261,8 @@ void Option::FSMState_SaveMgr::do_init(ebi::Option::TMgr* obj, Game::StateArg* a
  */
 void Option::FSMState_SaveMgr::do_exec(ebi::Option::TMgr* obj)
 {
-	if (obj->m_saveMgr->isFinish()) {
-		switch (obj->m_saveMgr->_474) {
+	if (obj->mSaveMgr->isFinish()) {
+		switch (obj->mSaveMgr->_474) {
 		case 0:
 			transit(obj, ScreenClose, nullptr);
 			break;
@@ -1362,18 +1362,18 @@ lbl_803CF3CC:
  * Address:	803CF3E4
  * Size:	0000C0
  */
-Option::TMgr::TMgr(void)
-    : m_optionScreen()
+Option::TMgr::TMgr()
+    : mOptionScreen()
     , _F20(0)
-    , m_stateMachine()
+    , mStateMachine()
 {
-	m_stateMachine.init(this);
-	m_stateMachine.start(this, Standby, nullptr);
-	m_saveMgr                 = ebi::Save::TMgr::createInstance();
-	m_saveMgr->_470           = 1;
-	m_saveMgr->_478           = 1;
-	m_saveMgr->m_isAutosaveOn = true;
-	m_saveMgr->_47A           = 0;
+	mStateMachine.init(this);
+	mStateMachine.start(this, Standby, nullptr);
+	mSaveMgr                = ebi::Save::TMgr::createInstance();
+	mSaveMgr->_470          = 1;
+	mSaveMgr->_478          = 1;
+	mSaveMgr->mIsAutosaveOn = true;
+	mSaveMgr->_47A          = 0;
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -1433,8 +1433,9 @@ Option::TMgr::TMgr(void)
  * Size:	000034
  */
 // void start__Q24Game32StateMachine<ebi::Option::TMgr>
-// FPQ33ebi6Option4TMgriPQ24Game8StateArg(void)
-template <> void Game::StateMachine<ebi::Option::TMgr>::start(ebi::Option::TMgr* obj, int id, StateArg* arg)
+// FPQ33ebi6Option4TMgriPQ24Game8StateArg()
+template <>
+void Game::StateMachine<ebi::Option::TMgr>::start(ebi::Option::TMgr* obj, int id, StateArg* arg)
 {
 	obj->_F28 = 0;
 	transit(obj, id, arg);
@@ -1464,7 +1465,7 @@ namespace Screen {
  * Address:	803CF4D8
  * Size:	00030C
  */
-TOption::~TOption(void)
+TOption::~TOption()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -1687,7 +1688,7 @@ blr
  * Address:	803CF7E4
  * Size:	000090
  */
-E2DCallBack_Purupuru::~E2DCallBack_Purupuru(void)
+E2DCallBack_Purupuru::~E2DCallBack_Purupuru()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -1738,10 +1739,10 @@ blr
  * Address:	803CF874
  * Size:	00043C
  */
-Screen::TOption::TOption(void)
+Screen::TOption::TOption()
     : TScreenBase()
     , _010(1)
-    , m_padInterfaces()
+    , mPadInterfaces()
     , _0C8()
     , _0DC()
     , _0F0(0)
@@ -2036,7 +2037,7 @@ blr
  * Address:	803CFCB0
  * Size:	000090
  */
-E2DCallBack_WindowCursor::~E2DCallBack_WindowCursor(void)
+E2DCallBack_WindowCursor::~E2DCallBack_WindowCursor()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -2134,7 +2135,7 @@ blr
  * Address:	803CFDCC
  * Size:	000090
  */
-E2DCallBack_BlinkAlpha::~E2DCallBack_BlinkAlpha(void)
+E2DCallBack_BlinkAlpha::~E2DCallBack_BlinkAlpha()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -2185,7 +2186,7 @@ blr
  * Address:	803CFE5C
  * Size:	000090
  */
-E2DCallBack_BlinkFontColor::~E2DCallBack_BlinkFontColor(void)
+E2DCallBack_BlinkFontColor::~E2DCallBack_BlinkFontColor()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -2236,11 +2237,11 @@ blr
  * Address:	803CFEEC
  * Size:	000018
  */
-E2DFullFontColor::E2DFullFontColor(void)
+E2DFullFontColor::E2DFullFontColor()
     : _00(0xFFFFFFFF)
     , _04(0xFFFFFFFF)
-    , m_white(0xFFFFFFFF)
-    , m_black(0xFFFFFFFF)
+    , mWhite(0xFFFFFFFF)
+    , mBlack(0xFFFFFFFF)
 {
 	/*
 li       r0, -1
@@ -2257,7 +2258,7 @@ blr
  * Address:	803CFF04
  * Size:	000090
  */
-E2DCallBack_CalcAnimation::~E2DCallBack_CalcAnimation(void)
+E2DCallBack_CalcAnimation::~E2DCallBack_CalcAnimation()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -2308,7 +2309,7 @@ blr
  * Address:	803CFF94
  * Size:	0000AC
  */
-E2DCallBack_AnmBase::~E2DCallBack_AnmBase(void)
+E2DCallBack_AnmBase::~E2DCallBack_AnmBase()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -2368,7 +2369,7 @@ blr
  * Address:	803D0040
  * Size:	000080
  */
-E2DCallBack_Base::~E2DCallBack_Base(void)
+E2DCallBack_Base::~E2DCallBack_Base()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -2415,14 +2416,14 @@ blr
  * Address:	803D00C0
  * Size:	000088
  */
-void Option::TMgr::loadResource(void)
+void Option::TMgr::loadResource()
 {
 	sys->heapStatusStart("Option::TMgr::loadResource", nullptr);
-	m_optionScreen.loadResource();
+	mOptionScreen.loadResource();
 	sys->heapStatusEnd("Option::TMgr::loadResource");
-	m_saveMgr->m_saveMenu->loadResource();
-	m_saveMgr->m_memoryCard->loadResource(JKRHeap::sCurrentHeap);
-	sys->m_cardMgr->loadResource(JKRHeap::sCurrentHeap);
+	mSaveMgr->mSaveMenu->loadResource();
+	mSaveMgr->mMemoryCard->loadResource(JKRHeap::sCurrentHeap);
+	sys->mCardMgr->loadResource(JKRHeap::sCurrentHeap);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -2468,12 +2469,12 @@ void Option::TMgr::loadResource(void)
  */
 void Option::TMgr::setController(Controller* controller)
 {
-	m_controller = controller;
-	m_optionScreen.setController(controller);
+	mController = controller;
+	mOptionScreen.setController(controller);
 	// TODO: Did Save::TMgr have an inlined setController?
-	m_saveMgr->m_controller               = controller;
-	m_saveMgr->m_saveMenu->m_controller   = controller;
-	m_saveMgr->m_memoryCard->m_controller = controller;
+	mSaveMgr->mController              = controller;
+	mSaveMgr->mSaveMenu->mController   = controller;
+	mSaveMgr->mMemoryCard->mController = controller;
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -2502,9 +2503,9 @@ void Option::TMgr::setController(Controller* controller)
  * Address:	803D0194
  * Size:	00003C
  */
-void Option::TMgr::start(void)
+void Option::TMgr::start()
 {
-	m_stateMachine.transit(this, LoadOption, nullptr);
+	mStateMachine.transit(this, LoadOption, nullptr);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -2529,12 +2530,12 @@ void Option::TMgr::start(void)
  * Address:	........
  * Size:	000064
  */
-void Option::TMgr::forceQuit(void)
+void Option::TMgr::forceQuit()
 {
 	// UNUSED FUNCTION
-	m_optionScreen.killScreen();
-	m_saveMgr->forceQuit();
-	::Screen::gGame2DMgr->m_screenMgr->reset();
+	mOptionScreen.killScreen();
+	mSaveMgr->forceQuit();
+	::Screen::gGame2DMgr->mScreenMgr->reset();
 }
 
 /*
@@ -2542,7 +2543,7 @@ void Option::TMgr::forceQuit(void)
  * Address:	803D01D0
  * Size:	000028
  */
-bool Option::TMgr::isFinish(void)
+bool Option::TMgr::isFinish()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2563,9 +2564,9 @@ bool Option::TMgr::isFinish(void)
  * Address:	803D01F8
  * Size:	00007C
  */
-void Option::TMgr::goEnd_(void)
+void Option::TMgr::goEnd_()
 {
-	m_stateMachine.transit(this, Standby, nullptr);
+	mStateMachine.transit(this, Standby, nullptr);
 	forceQuit();
 	/*
 	stwu     r1, -0x10(r1)
@@ -2607,14 +2608,14 @@ void Option::TMgr::goEnd_(void)
  * Address:	803D0274
  * Size:	000094
  */
-void Option::TMgr::update(void)
+void Option::TMgr::update()
 {
 	_F20 = 0;
-	m_stateMachine.exec(this);
+	mStateMachine.exec(this);
 	if (getStateID()) {
-		sys->m_cardMgr->update();
-		m_optionScreen.update();
-		m_saveMgr->update();
+		sys->mCardMgr->update();
+		mOptionScreen.update();
+		mSaveMgr->update();
 	}
 	::Screen::gGame2DMgr->update();
 	/*
@@ -2665,15 +2666,15 @@ lbl_803D02EC:
  * Address:	803D0308
  * Size:	000090
  */
-void Option::TMgr::draw(void)
+void Option::TMgr::draw()
 {
 	if (getStateID()) {
-		sys->m_gfx->m_perspGraph.setPort();
-		m_optionScreen.draw();
-		sys->m_gfx->m_perspGraph.setPort();
-		m_saveMgr->draw();
+		sys->mGfx->mPerspGraph.setPort();
+		mOptionScreen.draw();
+		sys->mGfx->mPerspGraph.setPort();
+		mSaveMgr->draw();
 	}
-	::Screen::gGame2DMgr->draw(*sys->m_gfx);
+	::Screen::gGame2DMgr->draw(*sys->mGfx);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -2721,7 +2722,7 @@ lbl_803D0374:
  * Address:	........
  * Size:	000024
  */
-void Option::TMgr::showInfo(void)
+void Option::TMgr::showInfo()
 {
 	// UNUSED FUNCTION
 }
@@ -2731,7 +2732,7 @@ void Option::TMgr::showInfo(void)
  * Address:	803D0398
  * Size:	000058
  */
-int Option::TMgr::getStateID(void)
+int Option::TMgr::getStateID()
 {
 	P2ASSERTLINE(430, _F28 != 0);
 	return _F28;
@@ -2768,7 +2769,7 @@ lbl_803D03D4:
  * Address:	803D03F0
  * Size:	000050
  */
-void E2DCallBack_CalcAnimation::do_update(void)
+void E2DCallBack_CalcAnimation::do_update()
 {
 	if (_18->getTypeID() == 8) {
 		static_cast<J2DScreen*>(_18)->animation();
@@ -2804,9 +2805,9 @@ lbl_803D042C:
  * Address:	803D0440
  * Size:	000038
  */
-void E2DCallBack_Base::update(void)
+void E2DCallBack_Base::update()
 {
-	if (_1C) {
+	if (mIsEnabled) {
 		do_update();
 	}
 	/*
@@ -2834,7 +2835,7 @@ lbl_803D0468:
  * Address:	803D0478
  * Size:	000004
  */
-void E2DCallBack_Base::do_update(void) { }
+void E2DCallBack_Base::do_update() { }
 
 /*
  * --INFO--
@@ -2843,7 +2844,7 @@ void E2DCallBack_Base::do_update(void) { }
  */
 void E2DCallBack_Base::draw(Graphics& gfx, J2DGrafContext& context)
 {
-	if (_1C) {
+	if (mIsEnabled) {
 		do_draw(gfx, context);
 	}
 	/*
@@ -2880,44 +2881,59 @@ void E2DCallBack_Base::do_draw(Graphics&, J2DGrafContext&) { }
  * Size:	000004
  */
 // void init__Q24Game28FSMState<ebi::Option::TMgr>
-// FPQ33ebi6Option4TMgrPQ24Game8StateArg(void)
-template <> void Game::FSMState<ebi::Option::TMgr>::init(ebi::Option::TMgr*, StateArg* arg) { }
+// FPQ33ebi6Option4TMgrPQ24Game8StateArg()
+template <>
+void Game::FSMState<ebi::Option::TMgr>::init(ebi::Option::TMgr*, StateArg* arg)
+{
+}
 
 /*
  * --INFO--
  * Address:	803D04BC
  * Size:	000004
  */
-// void exec__Q24Game28FSMState<ebi::Option::TMgr> FPQ33ebi6Option4TMgr(void) {
+// void exec__Q24Game28FSMState<ebi::Option::TMgr> FPQ33ebi6Option4TMgr() {
 // }
-template <> void Game::FSMState<ebi::Option::TMgr>::exec(ebi::Option::TMgr*) { }
+template <>
+void Game::FSMState<ebi::Option::TMgr>::exec(ebi::Option::TMgr*)
+{
+}
 
 /*
  * --INFO--
  * Address:	803D04C0
  * Size:	000004
  */
-// void cleanup__Q24Game28FSMState<ebi::Option::TMgr> FPQ33ebi6Option4TMgr(void)
+// void cleanup__Q24Game28FSMState<ebi::Option::TMgr> FPQ33ebi6Option4TMgr()
 // {}
-template <> void Game::FSMState<ebi::Option::TMgr>::cleanup(ebi::Option::TMgr*) { }
+template <>
+void Game::FSMState<ebi::Option::TMgr>::cleanup(ebi::Option::TMgr*)
+{
+}
 
 /*
  * --INFO--
  * Address:	803D04C4
  * Size:	000004
  */
-// void resume__Q24Game28FSMState<ebi::Option::TMgr> FPQ33ebi6Option4TMgr(void)
+// void resume__Q24Game28FSMState<ebi::Option::TMgr> FPQ33ebi6Option4TMgr()
 // { }
-template <> void Game::FSMState<ebi::Option::TMgr>::resume(ebi::Option::TMgr*) { }
+template <>
+void Game::FSMState<ebi::Option::TMgr>::resume(ebi::Option::TMgr*)
+{
+}
 
 /*
  * --INFO--
  * Address:	803D04C8
  * Size:	000004
  */
-// void restart__Q24Game28FSMState<ebi::Option::TMgr> FPQ33ebi6Option4TMgr(void)
+// void restart__Q24Game28FSMState<ebi::Option::TMgr> FPQ33ebi6Option4TMgr()
 // {}
-template <> void Game::FSMState<ebi::Option::TMgr>::restart(ebi::Option::TMgr*) { }
+template <>
+void Game::FSMState<ebi::Option::TMgr>::restart(ebi::Option::TMgr*)
+{
+}
 
 /*
  * --INFO--
@@ -2925,8 +2941,11 @@ template <> void Game::FSMState<ebi::Option::TMgr>::restart(ebi::Option::TMgr*) 
  * Size:	000004
  */
 // void init__Q24Game32StateMachine<ebi::Option::TMgr>
-// FPQ33ebi6Option4TMgr(void)
-template <> void Game::StateMachine<ebi::Option::TMgr>::init(ebi::Option::TMgr*) { }
+// FPQ33ebi6Option4TMgr()
+template <>
+void Game::StateMachine<ebi::Option::TMgr>::init(ebi::Option::TMgr*)
+{
+}
 
 /*
  * --INFO--
@@ -2934,8 +2953,9 @@ template <> void Game::StateMachine<ebi::Option::TMgr>::init(ebi::Option::TMgr*)
  * Size:	000038
  */
 // void exec__Q24Game32StateMachine<ebi::Option::TMgr>
-// FPQ33ebi6Option4TMgr(void)
-template <> void Game::StateMachine<ebi::Option::TMgr>::exec(ebi::Option::TMgr* obj)
+// FPQ33ebi6Option4TMgr()
+template <>
+void Game::StateMachine<ebi::Option::TMgr>::exec(ebi::Option::TMgr* obj)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2964,7 +2984,7 @@ lbl_803D04F8:
  * Address:	803D0508
  * Size:	000064
  */
-// void create__Q24Game32StateMachine<ebi::Option::TMgr> Fi(void)
+// void create__Q24Game32StateMachine<ebi::Option::TMgr> Fi()
 // template <> void Game::StateMachine<ebi::Option::TMgr>::create(int)
 // {
 /*
@@ -3002,8 +3022,9 @@ blr
  * Size:	00009C
  */
 // void transit__Q24Game32StateMachine<ebi::Option::TMgr>
-// FPQ33ebi6Option4TMgriPQ24Game8StateArg(void)
-template <> void Game::StateMachine<ebi::Option::TMgr>::transit(ebi::Option::TMgr*, int, Game::StateArg* arg)
+// FPQ33ebi6Option4TMgriPQ24Game8StateArg()
+template <>
+void Game::StateMachine<ebi::Option::TMgr>::transit(ebi::Option::TMgr*, int, Game::StateArg* arg)
 {
 	/*
 	.loc_0x0:
@@ -3063,7 +3084,7 @@ template <> void Game::StateMachine<ebi::Option::TMgr>::transit(ebi::Option::TMg
  * Size:	000084
  */
 // void registerState__Q24Game32StateMachine<ebi::Option::TMgr>
-// FPQ24Game28FSMState<ebi::Option::TMgr>(void)
+// FPQ24Game28FSMState<ebi::Option::TMgr>()
 // template <> void
 // Game::StateMachine<ebi::Option::TMgr>::registerState(Game::FSMState<ebi::Option::TMgr>*);
 // {

@@ -25,107 +25,93 @@ struct Plant;
 struct Farm : public CNode {
 	Farm();
 
-	virtual ~Farm(); // _00
+	virtual ~Farm(); // _08 (weak)
 
-	void loadResource(unsigned long, void*);
+	void loadResource(u32, void*);
 	void update();
 	void doAnimation();
 	void doEntry();
-	void doSetView(unsigned long);
+	void doSetView(u32);
 	void doViewCalc();
-	Obstacle* addObstacle(Game::Creature*, float, float);
-	Obstacle* createNewObstacle(Game::Creature*, float, float);
-	Plant* addPlant(Game::Creature*);
-	Plant* createNewPlant(Game::Creature*);
+	Obstacle* addObstacle(Creature*, f32, f32);
+	Obstacle* createNewObstacle(Creature*, f32, f32);
+	Plant* addPlant(Creature*);
+	Plant* createNewPlant(Creature*);
 	void updateObjectRelation(bool);
 	void doDebugDraw(Graphics&);
 	void initAllObjectNodes();
 
-	Vector3f m_position;             // _18
-	J3DModelData* m_modelData;       // _24
-	SysShape::Model* m_model;        // _28
-	FieldVtxColorMgr* m_vtxColorMgr; // _2C
-	CNode m_obstacleRootNode;        // _30
-	CNode m_plantRootNode;           // _48
+	Vector3f mPosition;             // _18
+	J3DModelData* mModelData;       // _24
+	SysShape::Model* mModel;        // _28
+	FieldVtxColorMgr* mVtxColorMgr; // _2C
+	CNode mObstacleRootNode;        // _30
+	CNode mPlantRootNode;           // _48
 };
 
 /**
  * @size{0x24}
  */
 struct Obstacle : public CNode {
-	Obstacle(Farm* farm, FieldVtxColorMgr* vtxColorMgr, Game::Creature* creature, float p2, float p3) // unused/inlined
-	    : CNode("")
-	    , m_farm(farm)
-	{
-		Vector3f position = creature->getPosition();
-		m_creature        = creature;
-		m_vtxColorControl = vtxColorMgr->createNewControl(position, p2, p3);
-	}
+	Obstacle(Farm* farm, FieldVtxColorMgr* vtxColorMgr, Game::Creature* creature, f32 p2, f32 p3);
 
-	virtual ~Obstacle(); // _00
+	virtual ~Obstacle(); // _08 (weak)
 
-	void setPower(float);
+	void setPower(f32);
 
 	// Unused/inlined:
 	void doDebugDraw(Graphics&);
 
-	Farm* m_farm;                            // _18
-	Game::Creature* m_creature;              // _1C
-	FieldVtxColorControl* m_vtxColorControl; // _20
+	Farm* mFarm;                            // _18
+	Creature* mCreature;                    // _1C
+	FieldVtxColorControl* mVtxColorControl; // _20
 };
 
 /**
  * @size{0x20}
  */
 struct Plant : public CNode {
-	Plant(Game::Creature* creature)
-	    : CNode("")
-	    , m_creature(creature)
-	    , _1C()
-	{
-	}
+	Plant(Game::Creature* creature);
 
-	virtual ~Plant(); // _00
+	virtual ~Plant(); // _08 (weak)
 
 	// Unused/inlined:
 	void sendInteraction();
 	void doDebugDraw(Graphics&);
 
-	Game::Creature* m_creature; // _18
-	unknown _1C;                // _1C
+	Creature* mCreature; // _18
+	int _1C;             // _1C
 };
 
 struct FarmMgr : public GenericObjectMgr, public CNode {
-	FarmMgr(unsigned long);
+	FarmMgr(u32);
 
 	// vtable 1 (GenericObjectMgr)
-	virtual void doAnimation();           // _00
-	virtual void doEntry();               // _04
-	virtual void doSetView(int);          // _08
-	virtual void doViewCalc();            // _0C
-	virtual void doSimulation(float);     // _10
-	virtual void doDirectDraw(Graphics&); // _14
-
+	virtual void doAnimation();                 // _08
+	virtual void doEntry();                     // _0C
+	virtual void doSetView(int viewportNumber); // _10
+	virtual void doViewCalc();                  // _14
+	virtual void doSimulation(f32);             // _18
+	virtual void doDirectDraw(Graphics& gfx);   // _1C
 	// vtable 2 (CNode+self)
-	virtual void doDebugDraw(Graphics&); // _08
-	virtual ~FarmMgr();                  // _0C (thunked at _00)
-	virtual void _48() = 0;              // _10
+	virtual void doDebugDraw(Graphics&); // _48
+	virtual ~FarmMgr();                  // _4C (thunked at _40)
 
 	void setupSound();
 	void addFarmBmd(void*);
 	Farm* createNewFarm(void*);
-	Obstacle* addObstacle(Game::Creature*, float, float);
-	Plant* addPlant(Game::Creature*);
+	Obstacle* addObstacle(Creature*, f32, f32);
+	Plant* addPlant(Creature*);
 	void initAllFarmObjectNodes();
 
 	// Unused/inlined:
 	inline Farm* getNearestFarm(Vector3f&);
 
-	u32 _1C;                                 // _1C
-	CNode m_farmsRootNode;                   // _20
-	PSM::DirectorUpdator* m_directorUpdator; // _38
-	u8 _3C;                                  // _3C
-	u8 _3D;                                  // _3D
+	u32 _1C;                                // _1C
+	CNode mFarmsRootNode;                   // _20
+	PSM::DirectorUpdator* mDirectorUpdator; // _38
+	u8 _3C;                                 // _3C
+	u8 _3D;                                 // _3D
 };
 
 extern FarmMgr* farmMgr;

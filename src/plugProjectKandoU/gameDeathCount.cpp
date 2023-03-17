@@ -2,79 +2,18 @@
 #include "Game/DeathMgr.h"
 #include "Game/GameSystem.h"
 #include "Game/Piki.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "types.h"
 
-/*
-    Generated from dpostproc
-
-    .section .ctors, "wa"  # 0x80472F00 - 0x804732C0
-    .4byte __sinit_gameDeathCount_cpp
-
-    .section .rodata  # 0x804732E0 - 0x8049E220
-    .global lbl_804838F0
-    lbl_804838F0:
-        .4byte 0x42697274
-        .4byte 0x68436F75
-        .4byte 0x746E6572
-        .4byte 0x00000000
-    .global lbl_80483900
-    lbl_80483900:
-        .4byte 0x67616D65
-        .4byte 0x44656174
-        .4byte 0x68436F75
-        .4byte 0x6E742E63
-        .4byte 0x70700000
-    .global lbl_80483914
-    lbl_80483914:
-        .asciz "P2Assert"
-        .skip 3
-    .global lbl_80483920
-    lbl_80483920:
-        .4byte 0x44656174
-        .4byte 0x68436F75
-        .4byte 0x746E6572
-        .4byte 0x00000000
-
-    .section .bss  # 0x804EFC20 - 0x8051467C
-    .global mToday__Q24Game8BirthMgr
-    mToday__Q24Game8BirthMgr:
-        .skip 0xC0
-    .global mCave__Q24Game8BirthMgr
-    mCave__Q24Game8BirthMgr:
-        .skip 0x1C
-    .global mTotal__Q24Game8BirthMgr
-    mTotal__Q24Game8BirthMgr:
-        .skip 0x1C
-    .global mToday__Q24Game8DeathMgr
-    mToday__Q24Game8DeathMgr:
-        .skip 0x24
-    .global mCave__Q24Game8DeathMgr
-    mCave__Q24Game8DeathMgr:
-        .skip 0x24
-    .global mTotal__Q24Game8DeathMgr
-    mTotal__Q24Game8DeathMgr:
-        .skip 0x24
-
-    .section .sbss # 0x80514D80 - 0x80516360
-    .global mSoundDeathCount__Q24Game8DeathMgr
-    mSoundDeathCount__Q24Game8DeathMgr:
-        .skip 0x8
-
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .global lbl_8051A368
-    lbl_8051A368:
-        .4byte 0x0D0A0000
-        .4byte 0x00000000
-*/
-
 // sinit
-// Game::BirthMgr::bleh Game::BirthMgr::mToday;
-// Game::BirthCounter Game::BirthMgr::mCave;
-// Game::BirthCounter Game::BirthMgr::mTotal;
-// Game::DeathCounter Game::DeathMgr::mToday;
-// Game::DeathCounter Game::DeathMgr::mCave;
-// Game::DeathCounter Game::DeathMgr::mTotal;
+Game::BirthCounter Game::BirthMgr::mToday;
+Game::BirthCounter Game::BirthMgr::mCave;
+Game::BirthCounter Game::BirthMgr::mTotal;
+Game::DeathCounter Game::DeathMgr::mToday;
+Game::DeathCounter Game::DeathMgr::mCave;
+Game::DeathCounter Game::DeathMgr::mTotal;
+
+int Game::DeathMgr::mSoundDeathCount;
 
 namespace Game {
 
@@ -83,7 +22,7 @@ namespace Game {
  * Address:	........
  * Size:	000030
  */
-// BirthCounter::BirthCounter(void)
+// BirthCounter::BirthCounter()
 // {
 // 	// UNUSED FUNCTION
 // 	reset();
@@ -94,13 +33,13 @@ namespace Game {
  * Address:	........
  * Size:	000024
  */
-void BirthCounter::reset(void)
+void BirthCounter::reset()
 {
 	// UNUSED FUNCTION
 	for (int i = 0; i < PikiColorCount - 1; i++) {
-		m_counts[i] = 0;
+		mCounts[i] = 0;
 	}
-	m_total = 0;
+	mTotal = 0;
 }
 
 /*
@@ -112,14 +51,14 @@ int& BirthCounter::operator()(int pikiColor)
 {
 	// UNUSED FUNCTION
 	if (pikiColor == LastStoredPikiColor + 1) {
-		int& v  = m_total;
-		m_total = 0;
+		int& v = mTotal;
+		mTotal = 0;
 		for (int i = 0; i <= LastStoredPikiColor; i++) {
-			m_total += m_counts[i];
+			mTotal += mCounts[i];
 		}
 		return v;
 	} else {
-		return m_counts[pikiColor];
+		return mCounts[pikiColor];
 	}
 }
 
@@ -132,7 +71,7 @@ void BirthCounter::read(Stream& input)
 {
 	// UNUSED FUNCTION
 	for (int i = 0; i < PikiColorCount - 1; i++) {
-		m_counts[i] = input.readInt();
+		mCounts[i] = input.readInt();
 	}
 }
 
@@ -146,8 +85,8 @@ void BirthCounter::write(Stream& output)
 	// UNUSED FUNCTION
 	output.textBeginGroup("BirthCoutner");
 	for (int i = 0; i < PikiColorCount - 1; i++) {
-		output.textWriteTab(output.m_tabCount);
-		output.writeInt(m_counts[i]);
+		output.textWriteTab(output.mTabCount);
+		output.writeInt(mCounts[i]);
 		output.textWriteText("\r\n");
 	}
 	output.textEndGroup();
@@ -158,7 +97,7 @@ void BirthCounter::write(Stream& output)
  * Address:	........
  * Size:	000030
  */
-BirthMgr::BirthMgr(void)
+BirthMgr::BirthMgr()
 {
 	// UNUSED FUNCTION
 }
@@ -168,9 +107,9 @@ BirthMgr::BirthMgr(void)
  * Address:	8022F9FC
  * Size:	000068
  */
-void BirthMgr::clear(void)
+void BirthMgr::clear()
 {
-	mToday.counter.reset();
+	mToday.reset();
 	mCave.reset();
 	mTotal.reset();
 }
@@ -184,7 +123,7 @@ void BirthMgr::clear(void)
 void BirthMgr::inc(int pikiColor)
 {
 	if (0 <= pikiColor && pikiColor <= LastStoredPikiColor) {
-		if (gameSystem->m_isInCaveMaybe) {
+		if (gameSystem->mIsInCave) {
 			inc_cave(pikiColor);
 		} else {
 			inc_today(pikiColor);
@@ -201,7 +140,7 @@ void BirthMgr::inc(int pikiColor)
 void BirthMgr::dec(int pikiColor)
 {
 	if (0 <= pikiColor && pikiColor <= LastStoredPikiColor) {
-		if (gameSystem->m_isInCaveMaybe) {
+		if (gameSystem->mIsInCave) {
 			dec_cave(pikiColor);
 		} else {
 			dec_today(pikiColor);
@@ -216,9 +155,9 @@ void BirthMgr::dec(int pikiColor)
  */
 void BirthMgr::inc_today(int pikiColor)
 {
-	mToday.counter(pikiColor)++;
+	mToday(pikiColor)++;
 	if (pikiColor != LastStoredPikiColor + 1) {
-		mToday.counter(LastStoredPikiColor + 1)++;
+		mToday(LastStoredPikiColor + 1)++;
 	}
 }
 
@@ -242,9 +181,9 @@ void BirthMgr::inc_cave(int pikiColor)
  */
 void BirthMgr::dec_today(int pikiColor)
 {
-	mToday.counter(pikiColor)--;
+	mToday(pikiColor)--;
 	if (pikiColor != LastStoredPikiColor + 1) {
-		mToday.counter(LastStoredPikiColor + 1)--;
+		mToday(LastStoredPikiColor + 1)--;
 	}
 }
 
@@ -266,10 +205,10 @@ void BirthMgr::dec_cave(int pikiColor)
  * Address:	8022FE34
  * Size:	000140
  */
-void BirthMgr::account_cave(void)
+void BirthMgr::account_cave()
 {
 	for (int i = 0; i < 6; i++) {
-		mToday.counter(i) += mCave(i);
+		mToday(i) += mCave(i);
 	}
 	mCave.reset();
 }
@@ -279,19 +218,19 @@ void BirthMgr::account_cave(void)
  * Address:	8022FF74
  * Size:	0002B4
  */
-void BirthMgr::account_today_adjust(void)
+void BirthMgr::account_today_adjust()
 {
 	for (int i = 0; i < 5; i++) {
-		if (mToday.counter(i) < 0) {
-			mTotal(i) += mToday.counter(i);
-			mToday.counter(i) = 0;
+		if (mToday(i) < 0) {
+			mTotal(i) += mToday(i);
+			mToday(i) = 0;
 		}
 	}
 	int a = 0;
 	for (int i = 0; i < 5; i++) {
-		a += mToday.counter(i);
+		a += mToday(i);
 	}
-	mToday.counter(5) = a;
+	mToday(5) = a;
 }
 
 /*
@@ -300,17 +239,17 @@ void BirthMgr::account_today_adjust(void)
  * Size:	000204
  * account_today__Q24Game8BirthMgrFv
  */
-void BirthMgr::account_today(void)
+void BirthMgr::account_today()
 {
 	for (int i = 0; i < 6; i++) {
-		mTotal(i) += mToday.counter(i);
+		mTotal(i) += mToday(i);
 	}
 	int a = 0;
 	for (int i = 0; i < 5; i++) {
 		a += mTotal(i);
 	}
-	mToday.counter(5) = a;
-	mToday.counter.reset();
+	mToday(5) = a;
+	mToday.reset();
 }
 
 /*
@@ -332,7 +271,7 @@ int BirthMgr::get_cave(int pikiColor)
 int BirthMgr::get_today(int pikiColor)
 {
 	// UNUSED FUNCTION
-	return mToday.counter(pikiColor);
+	return mToday(pikiColor);
 }
 
 /*
@@ -351,7 +290,7 @@ int BirthMgr::get_total(int pikiColor) { return mTotal(pikiColor); }
 void BirthMgr::read(Stream& input)
 {
 	mCave.read(input);
-	mToday.counter.read(input);
+	mToday.read(input);
 	mTotal.read(input);
 }
 
@@ -364,7 +303,7 @@ void BirthMgr::read(Stream& input)
 void BirthMgr::write(Stream& output)
 {
 	mCave.write(output);
-	mToday.counter.write(output);
+	mToday.write(output);
 	mTotal.write(output);
 }
 
@@ -388,9 +327,9 @@ void DeathCounter::reset()
 {
 	// UNUSED FUNCTION
 	for (int i = 0; i <= COD_SourceCount; i++) {
-		m_counts[i] = 0;
+		mCounts[i] = 0;
 	}
-	m_total = 0;
+	mTotal = 0;
 }
 
 /*
@@ -402,15 +341,15 @@ int& DeathCounter::operator()(int cod)
 {
 	// UNUSED FUNCTION
 	if (cod == COD_SourceCount) {
-		int& v  = m_total;
-		m_total = 0;
+		int& v = mTotal;
+		mTotal = 0;
 		for (int i = 0; i < COD_SourceCount; i++) {
-			m_total += m_counts[i];
+			mTotal += mCounts[i];
 		}
 		return v;
 	} else {
 		P2ASSERTBOUNDSINCLUSIVELINE(338, 0, cod, COD_SourceCount);
-		return m_counts[cod];
+		return mCounts[cod];
 	}
 }
 
@@ -423,7 +362,7 @@ void DeathCounter::read(Stream& input)
 {
 	// UNUSED FUNCTION
 	for (int i = 0; i < COD_SourceCount + 1; i++) {
-		m_counts[i] = input.readInt();
+		mCounts[i] = input.readInt();
 	}
 }
 
@@ -437,8 +376,8 @@ void DeathCounter::write(Stream& output)
 	// UNUSED FUNCTION
 	output.textBeginGroup("DeathCoutner");
 	for (int i = 0; i < COD_SourceCount + 1; i++) {
-		output.textWriteTab(output.m_tabCount);
-		output.writeInt(m_counts[i]);
+		output.textWriteTab(output.mTabCount);
+		output.writeInt(mCounts[i]);
 		output.textWriteText("\r\n");
 	}
 	output.textEndGroup();
@@ -460,7 +399,7 @@ DeathMgr::DeathMgr()
  * Size:	000084
  * clear__Q24Game8DeathMgrFv
  */
-void DeathMgr::clear(void)
+void DeathMgr::clear()
 {
 	mToday.reset();
 	mCave.reset();
@@ -476,8 +415,8 @@ void DeathMgr::clear(void)
  */
 void DeathMgr::inc(int cod)
 {
-	if (gameSystem == nullptr || (gameSystem->_3C & 0x10) == 0 || cod == DeathCounter::COD_Unknown2 || cod == DeathCounter::COD_All) {
-		if (gameSystem->m_isInCaveMaybe) {
+	if (gameSystem == nullptr || (gameSystem->mFlags & 0x10) == 0 || cod == DeathCounter::COD_Sunset || cod == DeathCounter::COD_All) {
+		if (gameSystem->mIsInCave) {
 			inc_cave(cod);
 		} else {
 			inc_today(cod);
@@ -515,7 +454,7 @@ void DeathMgr::inc_cave(int cod)
  * Size:	0001FC
  * account_cave__Q24Game8DeathMgrFv
  */
-void DeathMgr::account_cave(void)
+void DeathMgr::account_cave()
 {
 	for (int i = 0; i < DeathCounter::COD_SourceCount + 1; i++) {
 		mToday(i) += mCave(i);
@@ -529,7 +468,7 @@ void DeathMgr::account_cave(void)
  * Size:	0001FC
  * account_today__Q24Game8DeathMgrFv
  */
-void DeathMgr::account_today(void)
+void DeathMgr::account_today()
 {
 	for (int i = 0; i < DeathCounter::COD_SourceCount + 1; i++) {
 		mTotal(i) += mToday(i);
@@ -588,70 +527,3 @@ void DeathMgr::write(Stream& output)
 }
 
 } // namespace Game
-
-/*
- * --INFO--
- * Address:	80231214
- * Size:	0000E0
- */
-// void __sinit_gameDeathCount_cpp(void)
-// {
-// 	/*
-// 	li       r0, 0
-// 	lis      r8, mToday__Q24Game8BirthMgr@ha
-// 	stwu     r0, mToday__Q24Game8BirthMgr@l(r8)
-// 	lis      r7, mCave__Q24Game8BirthMgr@ha
-// 	lis      r6, mTotal__Q24Game8BirthMgr@ha
-// 	lis      r5, mToday__Q24Game8DeathMgr@ha
-// 	stwu     r0, mToday__Q24Game8DeathMgr@l(r5)
-// 	lis      r4, mCave__Q24Game8DeathMgr@ha
-// 	lis      r3, mTotal__Q24Game8DeathMgr@ha
-// 	stwu     r0, mCave__Q24Game8DeathMgr@l(r4)
-// 	stwu     r0, mTotal__Q24Game8DeathMgr@l(r3)
-// 	stwu     r0, mCave__Q24Game8BirthMgr@l(r7)
-// 	stwu     r0, mTotal__Q24Game8BirthMgr@l(r6)
-// 	stw      r0, 4(r8)
-// 	stw      r0, 8(r8)
-// 	stw      r0, 0xc(r8)
-// 	stw      r0, 0x10(r8)
-// 	stw      r0, 0x14(r8)
-// 	stw      r0, 0x18(r8)
-// 	stw      r0, 4(r7)
-// 	stw      r0, 8(r7)
-// 	stw      r0, 0xc(r7)
-// 	stw      r0, 0x10(r7)
-// 	stw      r0, 0x14(r7)
-// 	stw      r0, 0x18(r7)
-// 	stw      r0, 4(r6)
-// 	stw      r0, 8(r6)
-// 	stw      r0, 0xc(r6)
-// 	stw      r0, 0x10(r6)
-// 	stw      r0, 0x14(r6)
-// 	stw      r0, 0x18(r6)
-// 	stw      r0, 4(r5)
-// 	stw      r0, 8(r5)
-// 	stw      r0, 0xc(r5)
-// 	stw      r0, 0x10(r5)
-// 	stw      r0, 0x14(r5)
-// 	stw      r0, 0x18(r5)
-// 	stw      r0, 0x1c(r5)
-// 	stw      r0, 0x20(r5)
-// 	stw      r0, 4(r4)
-// 	stw      r0, 8(r4)
-// 	stw      r0, 0xc(r4)
-// 	stw      r0, 0x10(r4)
-// 	stw      r0, 0x14(r4)
-// 	stw      r0, 0x18(r4)
-// 	stw      r0, 0x1c(r4)
-// 	stw      r0, 0x20(r4)
-// 	stw      r0, 4(r3)
-// 	stw      r0, 8(r3)
-// 	stw      r0, 0xc(r3)
-// 	stw      r0, 0x10(r3)
-// 	stw      r0, 0x14(r3)
-// 	stw      r0, 0x18(r3)
-// 	stw      r0, 0x1c(r3)
-// 	stw      r0, 0x20(r3)
-// 	blr
-// 	*/
-// }

@@ -8,16 +8,16 @@ namespace ebi {
  * Address:	803C1A3C
  * Size:	000060
  */
-void EUTPadInterface_countNum::init(Controller* controller, long arg1, long arg2, long* arg3, enumMode mode, float arg5, float arg6)
+void EUTPadInterface_countNum::init(Controller* controller, long arg1, long arg2, long* arg3, enumMode mode, f32 arg5, f32 arg6)
 {
-	m_controller = controller;
+	mController  = controller;
 	_10          = arg1;
 	_14          = arg2;
 	_18          = arg3;
-	m_mode       = mode;
-	_20          = arg5;
-	_24          = arg6;
-	_04          = 0;
+	mMode        = mode;
+	mTimeFactor1 = arg5;
+	mTimeFactor2 = arg6;
+	mCounter     = 0;
 	_08          = 0;
 
 	if (*_18 < arg1) {
@@ -37,99 +37,73 @@ void EUTPadInterface_countNum::init(Controller* controller, long arg1, long arg2
 // TODO: https://decomp.me/scratch/zHh5R
 void EUTPadInterface_countNum::update()
 {
-	if (_04 != 0) {
-		_04 -= 1;
+	if (mCounter) {
+		mCounter--;
 	}
 	_0D = 0;
 
 	bool isForwards;
 	bool isBackwards;
 
-	switch (m_mode) {
-	case MODE_UNKNOWN_0:
-		if ((m_controller->m_buttons.m_buttons.typeView & PRESS_DPAD_LEFT) || (m_controller->m_analogStick.x < -0.5f)) {
-			isForwards = true;
-		}
-		if ((m_controller->m_buttons.m_buttons.typeView & PRESS_DPAD_RIGHT) || (m_controller->m_analogStick.x > 0.5f)) {
-			isBackwards = true;
-		} else {
-			isBackwards = false;
-		}
+	switch (mMode) {
+	case MODE_LEFTRIGHT:
+		isForwards  = (mController->getButton() & Controller::PRESS_DPAD_LEFT) || (mController->mMStick.mXPos < -0.5f);
+		isBackwards = (mController->getButton() & Controller::PRESS_DPAD_RIGHT) || (mController->mMStick.mXPos > 0.5f);
 		break;
-	case MODE_UNKNOWN_1:
-		if ((m_controller->m_buttons.m_buttons.typeView & PRESS_DPAD_RIGHT) || (m_controller->m_analogStick.x > 0.5f)) {
-			isForwards = true;
-		}
-		if ((m_controller->m_buttons.m_buttons.typeView & PRESS_DPAD_RIGHT) || (m_controller->m_analogStick.x < -0.5f)) {
-			isBackwards = true;
-		} else {
-			isBackwards = false;
-		}
+	case MODE_RIGHTLEFT:
+		isForwards  = (mController->getButton() & Controller::PRESS_DPAD_RIGHT) || (mController->mMStick.mXPos > 0.5f);
+		isBackwards = (mController->getButton() & Controller::PRESS_DPAD_RIGHT) || (mController->mMStick.mXPos < -0.5f);
 		break;
-	case MODE_UNKNOWN_2:
-		if ((m_controller->m_buttons.m_buttons.typeView & PRESS_DPAD_UP) || (m_controller->m_analogStick.z > 0.5f)) {
-			isForwards = true;
-		}
-		if ((m_controller->m_buttons.m_buttons.typeView & PRESS_DPAD_DOWN) || (m_controller->m_analogStick.z < -0.5f)) {
-			isBackwards = true;
-		} else {
-			isBackwards = false;
-		}
+	case MODE_UPDOWN:
+		isForwards  = (mController->getButton() & Controller::PRESS_DPAD_UP) || (mController->mMStick.mYPos > 0.5f);
+		isBackwards = (mController->getButton() & Controller::PRESS_DPAD_DOWN) || (mController->mMStick.mYPos < -0.5f);
 		break;
-	case MODE_UNKNOWN_3:
-		if ((m_controller->m_buttons.m_buttons.typeView & PRESS_DPAD_DOWN) || (m_controller->m_analogStick.z < -0.5f)) {
-			isForwards = true;
-		}
-		if ((m_controller->m_buttons.m_buttons.typeView & PRESS_DPAD_UP) || (m_controller->m_analogStick.z > 0.5f)) {
-			isBackwards = true;
-		} else {
-			isBackwards = false;
-		}
-		break;
-	default:
+	case MODE_DOWNUP:
+		isForwards  = (mController->getButton() & Controller::PRESS_DPAD_DOWN) || (mController->mMStick.mYPos < -0.5f);
+		isBackwards = (mController->getButton() & Controller::PRESS_DPAD_UP) || (mController->mMStick.mYPos > 0.5f);
 		break;
 	}
 
 	if (isForwards) {
-		if (_04 == 0) {
+		if (!mCounter) {
 			if (*_18 < _14) {
 				_1C = *_18;
 				*_18 += 1;
 				_0D = 1;
-				if (_0C == 0) {
-					_0C           = 1;
-					f32 temp_r3_3 = (_20 / sys->m_secondsPerFrame);
-					_04           = temp_r3_3;
-					_08           = temp_r3_3;
+				if (!mIsChanging) {
+					mIsChanging = true;
+					f32 time    = (mTimeFactor1 / sys->mDeltaTime);
+					mCounter    = time;
+					_08         = time;
 					return;
 				}
-				f32 temp_r3_4 = (_24 / sys->m_secondsPerFrame);
-				_04           = temp_r3_4;
-				_08           = temp_r3_4;
+				f32 time = (mTimeFactor2 / sys->mDeltaTime);
+				mCounter = time;
+				_08      = time;
 			}
 		}
 	} else if (isBackwards) {
-		if (_04 == 0) {
+		if (mCounter == 0) {
 			if (*_18 > _10) {
 				_1C = *_18;
 				*_18 -= 1;
 				_0D = 1;
-				if (_0C == 0) {
-					_0C           = 1;
-					f32 temp_r3_6 = (_20 / sys->m_secondsPerFrame);
-					_04           = temp_r3_6;
-					_08           = temp_r3_6;
+				if (!mIsChanging) {
+					mIsChanging = true;
+					f32 time    = (mTimeFactor1 / sys->mDeltaTime);
+					mCounter    = time;
+					_08         = time;
 					return;
 				}
-				f32 temp_r3_7 = (_24 / sys->m_secondsPerFrame);
-				_04           = temp_r3_7;
-				_08           = temp_r3_7;
+				f32 time = (mTimeFactor2 / sys->mDeltaTime);
+				mCounter = time;
+				_08      = time;
 			}
 		}
 	} else {
-		_0C = 0;
-		_04 = 0;
-		_08 = 0;
+		mIsChanging = false;
+		mCounter    = 0;
+		_08         = 0;
 	}
 }
 
@@ -138,12 +112,12 @@ void EUTPadInterface_countNum::update()
  * Address:	803C1DA0
  * Size:	000114
  */
-void EUTColor_complement(JUtility::TColor& color1, JUtility::TColor& color2, float f1, float f2, JUtility::TColor* color3)
+void EUTColor_complement(JUtility::TColor& color1, JUtility::TColor& color2, f32 f1, f32 f2, JUtility::TColor* color3)
 {
-	color3->asGXColor.r = f1 * color1.asGXColor.r + f2 * color2.asGXColor.r;
-	color3->asGXColor.g = f1 * color1.asGXColor.g + f2 * color2.asGXColor.g;
-	color3->asGXColor.b = f1 * color1.asGXColor.b + f2 * color2.asGXColor.b;
-	color3->asGXColor.a = f1 * color1.asGXColor.a + f2 * color2.asGXColor.a;
+	color3->r = f1 * color1.r + f2 * color2.r;
+	color3->g = f1 * color1.g + f2 * color2.g;
+	color3->b = f1 * color1.b + f2 * color2.b;
+	color3->a = f1 * color1.a + f2 * color2.a;
 }
 
 /*

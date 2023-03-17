@@ -1,8 +1,12 @@
+#include "Dolphin/os.h"
+#include "Dolphin/stl.h"
+#include "JSystem/J3D/J3DDrawMtxData.h"
+#include "JSystem/J3D/J3DTypes.h"
+#include "JSystem/J3D/J3DVertexBuffer.h"
+#include "JSystem/J3D/J3DVertexData.h"
+#include "JSystem/J3D/J3DSys.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
-
-/*
-    Generated from dpostproc
-*/
 
 /*
  * --INFO--
@@ -11,34 +15,24 @@
  */
 J3DVertexData::J3DVertexData()
 {
-	/*
-	li       r4, 0
-	li       r0, 4
-	stw      r4, 0(r3)
-	stw      r4, 4(r3)
-	stw      r4, 8(r3)
-	stw      r4, 0xc(r3)
-	stw      r4, 0x10(r3)
-	stw      r4, 0x14(r3)
-	stw      r4, 0x18(r3)
-	stw      r4, 0x1c(r3)
-	stw      r4, 0x20(r3)
-	stw      r4, 0x24(r3)
-	stw      r4, 0x28(r3)
-	stw      r4, 0x2c(r3)
-	stw      r4, 0x30(r3)
-	stw      r4, 0x34(r3)
-	stw      r4, 0x38(r3)
-	stw      r4, 0x3c(r3)
-	stw      r4, 0x40(r3)
-	stw      r4, 0x44(r3)
-	stw      r4, 0x48(r3)
-	stb      r4, 0x4c(r3)
-	stw      r0, 0x50(r3)
-	stb      r4, 0x54(r3)
-	stw      r0, 0x58(r3)
-	blr
-	*/
+	mVtxNum         = 0;
+	mNormNum        = 0;
+	mColorNum       = 0;
+	mTexCoordNum    = 0;
+	mPacketNum      = 0;
+	mVtxAttrFmtList = nullptr;
+	mVtxPos         = nullptr;
+	mVtxNorm        = nullptr;
+	mVtxNBT         = nullptr;
+	mVtxColor[0]    = nullptr;
+	mVtxColor[1]    = nullptr;
+	for (int i = 0; i < 8; i++) {
+		mVtxTexCoord[i] = nullptr;
+	}
+	mVtxPosFrac = 0;
+	mVtxPosType = GX_F32;
+	mVtxNrmFrac = 0;
+	mVtxNrmType = GX_F32;
 }
 
 /*
@@ -46,34 +40,25 @@ J3DVertexData::J3DVertexData()
  * Address:	8005EBE8
  * Size:	000060
  */
-void J3DVertexBuffer::setVertexData(J3DVertexData*)
+void J3DVertexBuffer::setVertexData(J3DVertexData* data)
 {
-	/*
-	stw      r4, 0(r3)
-	li       r5, 0
-	lwz      r0, 0x18(r4)
-	stw      r0, 4(r3)
-	lwz      r0, 0x1c(r4)
-	stw      r0, 0xc(r3)
-	lwz      r0, 0x24(r4)
-	stw      r0, 0x14(r3)
-	stw      r5, 8(r3)
-	stw      r5, 0x10(r3)
-	stw      r5, 0x18(r3)
-	lwz      r0, 0x18(r4)
-	stw      r0, 0x1c(r3)
-	lwz      r0, 0x1c(r4)
-	stw      r0, 0x24(r3)
-	stw      r5, 0x20(r3)
-	stw      r5, 0x28(r3)
-	lwz      r0, 4(r3)
-	stw      r0, 0x2c(r3)
-	lwz      r0, 0xc(r3)
-	stw      r0, 0x30(r3)
-	lwz      r0, 0x14(r3)
-	stw      r0, 0x34(r3)
-	blr
-	*/
+	mVtxData     = data;
+	mVtxPos[0]   = data->mVtxPos;
+	mVtxNorm[0]  = data->mVtxNorm;
+	mVtxColor[0] = data->mVtxColor[0];
+
+	mVtxPos[1]   = nullptr;
+	mVtxNorm[1]  = nullptr;
+	mVtxColor[1] = nullptr;
+
+	mTransformedVtxPos[0]  = data->mVtxPos;
+	mTransformedVtxNorm[0] = data->mVtxNorm;
+	mTransformedVtxPos[1]  = nullptr;
+	mTransformedVtxNorm[1] = nullptr;
+
+	mCurrentVtxPos   = mVtxPos[0];
+	mCurrentVtxNorm  = mVtxNorm[0];
+	mCurrentVtxColor = mVtxColor[0];
 }
 
 /*
@@ -83,30 +68,27 @@ void J3DVertexBuffer::setVertexData(J3DVertexData*)
  */
 void J3DVertexBuffer::init()
 {
-	/*
-	li       r0, 0
-	stw      r0, 0(r3)
-	stw      r0, 8(r3)
-	stw      r0, 4(r3)
-	stw      r0, 0x10(r3)
-	stw      r0, 0xc(r3)
-	stw      r0, 0x18(r3)
-	stw      r0, 0x14(r3)
-	stw      r0, 0x20(r3)
-	stw      r0, 0x1c(r3)
-	stw      r0, 0x28(r3)
-	stw      r0, 0x24(r3)
-	stw      r0, 0x2c(r3)
-	stw      r0, 0x30(r3)
-	stw      r0, 0x34(r3)
-	lwz      r0, 4(r3)
-	stw      r0, 0x2c(r3)
-	lwz      r0, 0xc(r3)
-	stw      r0, 0x30(r3)
-	lwz      r0, 0x14(r3)
-	stw      r0, 0x34(r3)
-	blr
-	*/
+	mVtxData = nullptr;
+
+	mVtxPos[1]   = nullptr;
+	mVtxPos[0]   = nullptr;
+	mVtxNorm[1]  = nullptr;
+	mVtxNorm[0]  = nullptr;
+	mVtxColor[1] = nullptr;
+	mVtxColor[0] = nullptr;
+
+	mTransformedVtxPos[1]  = nullptr;
+	mTransformedVtxPos[0]  = nullptr;
+	mTransformedVtxNorm[1] = nullptr;
+	mTransformedVtxNorm[0] = nullptr;
+
+	mCurrentVtxPos   = nullptr;
+	mCurrentVtxNorm  = nullptr;
+	mCurrentVtxColor = nullptr;
+
+	mCurrentVtxPos   = mVtxPos[0];
+	mCurrentVtxNorm  = mVtxNorm[0];
+	mCurrentVtxColor = mVtxColor[0];
 }
 
 /*
@@ -114,28 +96,7 @@ void J3DVertexBuffer::init()
  * Address:	8005ECA0
  * Size:	00003C
  */
-J3DVertexBuffer::~J3DVertexBuffer()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_8005ECC4
-	extsh.   r0, r4
-	ble      lbl_8005ECC4
-	bl       __dl__FPv
-
-lbl_8005ECC4:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+J3DVertexBuffer::~J3DVertexBuffer() { }
 
 /*
  * --INFO--
@@ -144,17 +105,9 @@ lbl_8005ECC4:
  */
 void J3DVertexBuffer::setArray() const
 {
-	/*
-	lis      r4, j3dSys@ha
-	lwz      r6, 0x2c(r3)
-	addi     r5, r4, j3dSys@l
-	lwz      r4, 0x30(r3)
-	lwz      r0, 0x34(r3)
-	stw      r6, 0x10c(r5)
-	stw      r4, 0x110(r5)
-	stw      r0, 0x114(r5)
-	blr
-	*/
+	j3dSys.mVtxPos   = mCurrentVtxPos;
+	j3dSys.mVtxNorm  = mCurrentVtxNorm;
+	j3dSys.mVtxColor = mCurrentVtxColor;
 }
 
 /*
@@ -162,98 +115,26 @@ void J3DVertexBuffer::setArray() const
  * Address:	8005ED00
  * Size:	000128
  */
-void J3DVertexBuffer::copyVtxColorArray(J3DDeformAttachFlag)
+void J3DVertexBuffer::copyVtxColorArray(J3DDeformAttachFlag flag)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	mr       r31, r3
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	lwz      r0, 0x14(r3)
-	cmplwi   r0, 0
-	beq      lbl_8005ED34
-	lwz      r0, 0x18(r31)
-	cmplwi   r0, 0
-	bne      lbl_8005EE0C
-
-lbl_8005ED34:
-	clrlwi.  r0, r4, 0x1f
-	beq      lbl_8005EDB0
-	li       r29, 0
-	mr       r30, r31
-
-lbl_8005ED44:
-	cmpwi    r29, 0
-	beq      lbl_8005ED58
-	lwz      r0, 0x14(r30)
-	cmplwi   r0, 0
-	bne      lbl_8005ED9C
-
-lbl_8005ED58:
-	lwz      r3, 0(r31)
-	li       r4, 0x20
-	lwz      r0, 8(r3)
-	slwi     r3, r0, 2
-	bl       __nwa__FUli
-	stw      r3, 0x14(r30)
-	lwz      r4, 0(r31)
-	lwz      r3, 0x14(r30)
-	lwz      r0, 8(r4)
-	lwz      r4, 0x24(r4)
-	slwi     r5, r0, 2
-	bl       memcpy
-	lwz      r4, 0(r31)
-	lwz      r3, 0x14(r30)
-	lwz      r0, 8(r4)
-	slwi     r4, r0, 2
-	bl       DCStoreRange
-
-lbl_8005ED9C:
-	addi     r29, r29, 1
-	addi     r30, r30, 4
-	cmpwi    r29, 2
-	blt      lbl_8005ED44
-	b        lbl_8005EE0C
-
-lbl_8005EDB0:
-	lwz      r3, 0(r31)
-	lwz      r0, 0x24(r3)
-	stw      r0, 0x14(r31)
-	lwz      r0, 0x18(r31)
-	cmplwi   r0, 0
-	bne      lbl_8005EDE0
-	lwz      r3, 0(r31)
-	li       r4, 0x20
-	lwz      r0, 8(r3)
-	slwi     r3, r0, 2
-	bl       __nwa__FUli
-	stw      r3, 0x18(r31)
-
-lbl_8005EDE0:
-	lwz      r4, 0(r31)
-	lwz      r3, 0x18(r31)
-	lwz      r0, 8(r4)
-	lwz      r4, 0x24(r4)
-	slwi     r5, r0, 2
-	bl       memcpy
-	lwz      r4, 0(r31)
-	lwz      r3, 0x18(r31)
-	lwz      r0, 8(r4)
-	slwi     r4, r0, 2
-	bl       DCStoreRange
-
-lbl_8005EE0C:
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	if (!mVtxColor[0] || !mVtxColor[1]) {
+		if (flag & DeformAttach_1) {
+			for (int i = 0; i < 2; i++) {
+				if (i == 0 || !mVtxColor[i]) {
+					mVtxColor[i] = new (0x20) GXColor[mVtxData->mColorNum];
+					memcpy(mVtxColor[i], mVtxData->mVtxColor[0], mVtxData->mColorNum << 2);
+					DCStoreRange(mVtxColor[i], mVtxData->mColorNum << 2);
+				}
+			}
+		} else {
+			mVtxColor[0] = mVtxData->mVtxColor[0];
+			if (!mVtxColor[1]) {
+				mVtxColor[1] = new (0x20) GXColor[mVtxData->mColorNum];
+			}
+			memcpy(mVtxColor[1], mVtxData->mVtxColor[0], mVtxData->mColorNum << 2);
+			DCStoreRange(mVtxColor[1], mVtxData->mColorNum << 2);
+		}
+	}
 }
 
 /*
@@ -262,14 +143,10 @@ lbl_8005EE0C:
  * Size:	000014
  */
 J3DDrawMtxData::J3DDrawMtxData()
+    : mCount(0)
+    , mDrawMtxFlag(nullptr)
+    , mDrawMtxIdx(nullptr)
 {
-	/*
-	li       r0, 0
-	sth      r0, 0(r3)
-	stw      r0, 4(r3)
-	stw      r0, 8(r3)
-	blr
-	*/
 }
 
 /*
@@ -277,25 +154,4 @@ J3DDrawMtxData::J3DDrawMtxData()
  * Address:	8005EE3C
  * Size:	00003C
  */
-J3DDrawMtxData::~J3DDrawMtxData()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_8005EE60
-	extsh.   r0, r4
-	ble      lbl_8005EE60
-	bl       __dl__FPv
-
-lbl_8005EE60:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+J3DDrawMtxData::~J3DDrawMtxData() { }

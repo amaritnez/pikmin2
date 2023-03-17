@@ -1,11 +1,12 @@
 #include "ebi/E2DGraph.h"
 #include "ebi/Screen/TTMBack.h"
 #include "ebi/Screen/TNintendoLogo.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
+#include "JSystem/J2D/J2DGrafContext.h"
+#include "Graphics.h"
 #include "System.h"
 
 namespace ebi {
-
 namespace Screen {
 
 /*
@@ -17,11 +18,11 @@ void TTMBack::doSetArchive(JKRArchive* archive)
 {
 	sys->heapStatusStart("TScreenTMBack::setArchive", nullptr);
 
-	m_mgrTuning = new P2DScreen::Mgr_tuning();
-	m_mgrTuning->set("tm_back.blo", 0x01100000, archive); /* TODO: Obviously flags and not a hex literal. */
+	mMgrTuning = new P2DScreen::Mgr_tuning();
+	mMgrTuning->set("tm_back.blo", 0x01100000, archive); /* TODO: Obviously flags and not a hex literal. */
 
-	E2DPane_setTreeInfluencedAlpha(m_mgrTuning, true);
-	m_mgrTuning->setAlpha(0);
+	E2DPane_setTreeInfluencedAlpha(mMgrTuning, true);
+	mMgrTuning->setAlpha(0);
 
 	sys->heapStatusEnd("TScreenTMBack::setArchive");
 }
@@ -31,10 +32,10 @@ void TTMBack::doSetArchive(JKRArchive* archive)
  * Address:	803E9D14
  * Size:	000070
  */
-void TTMBack::doOpenScreen(ebi::Screen::ArgOpenTMBack* arg)
+void TTMBack::doOpenScreen(ArgOpen* arg)
 {
 	P2ASSERTLINE(33, arg != nullptr);
-	u32 duration = (u32)(arg->_04 / sys->m_secondsPerFrame);
+	u32 duration = (u32)(static_cast<ArgOpenTMBack*>(arg)->_04 / sys->mDeltaTime);
 	_10          = duration;
 	_14          = duration;
 }
@@ -44,9 +45,9 @@ void TTMBack::doOpenScreen(ebi::Screen::ArgOpenTMBack* arg)
  * Address:	803E9D84
  * Size:	000044
  */
-void TTMBack::doCloseScreen(ebi::Screen::ArgClose* arg)
+void TTMBack::doCloseScreen(ArgClose* arg)
 {
-	u32 duration = (u32)(0.5f / sys->m_secondsPerFrame);
+	u32 duration = (u32)(0.5f / sys->mDeltaTime);
 	_10          = duration;
 	_14          = duration;
 }
@@ -69,8 +70,8 @@ bool TTMBack::doUpdateStateOpen()
 		factor = 0.0f;
 	}
 
-	m_mgrTuning->setAlpha(128.0f * (1.0f - factor));
-	m_mgrTuning->update();
+	mMgrTuning->setAlpha(128.0f * (1.0f - factor));
+	mMgrTuning->update();
 
 	if (_10 == 0) {
 		return true;
@@ -85,7 +86,7 @@ bool TTMBack::doUpdateStateOpen()
  */
 bool TTMBack::doUpdateStateWait()
 {
-	m_mgrTuning->update();
+	mMgrTuning->update();
 	return false;
 }
 
@@ -107,8 +108,8 @@ bool TTMBack::doUpdateStateClose()
 		factor = 0.0f;
 	}
 
-	m_mgrTuning->setAlpha(128.0f * factor);
-	m_mgrTuning->update();
+	mMgrTuning->setAlpha(128.0f * factor);
+	mMgrTuning->update();
 
 	if (_10 == 0) {
 		return true;
@@ -123,37 +124,12 @@ bool TTMBack::doUpdateStateClose()
  */
 void TTMBack::doDraw()
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-stw      r30, 0x18(r1)
-stw      r29, 0x14(r1)
-mr       r29, r3
-lwz      r4, sys@sda21(r13)
-lwz      r31, 0x24(r4)
-addi     r30, r31, 0x190
-lwz      r12, 0(r30)
-mr       r3, r30
-lwz      r12, 0x14(r12)
-mtctr    r12
-bctrl
-lwz      r3, 0xc(r29)
-mr       r4, r31
-mr       r5, r30
-lwz      r12, 0(r3)
-lwz      r12, 0x9c(r12)
-mtctr    r12
-bctrl
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+	Graphics* gfx = sys->mGfx;
+
+	J2DPerspGraph* context = &gfx->mPerspGraph;
+	context->setPort();
+
+	mMgrTuning->draw(*gfx, *context);
 }
 
 /*
@@ -165,8 +141,8 @@ void TNintendoLogo::doSetArchive(JKRArchive* archive)
 {
 	sys->heapStatusStart("TScreenNintendoLogo::setArchive", nullptr);
 
-	m_mgrTuning = new P2DScreen::Mgr_tuning();
-	m_mgrTuning->set("tm_2003nintendo.blo", 0x01100000, archive); /* TODO: Obviously flags and not a hex literal. */
+	mMgrTuning = new P2DScreen::Mgr_tuning();
+	mMgrTuning->set("tm_2003nintendo.blo", 0x01100000, archive); /* TODO: Obviously flags and not a hex literal. */
 
 	sys->heapStatusEnd("TScreenNintendoLogo::setArchive");
 }
@@ -178,7 +154,7 @@ void TNintendoLogo::doSetArchive(JKRArchive* archive)
  */
 bool TNintendoLogo::doUpdateStateWait()
 {
-	m_mgrTuning->update();
+	mMgrTuning->update();
 	return false;
 }
 
@@ -189,37 +165,12 @@ bool TNintendoLogo::doUpdateStateWait()
  */
 void TNintendoLogo::doDraw()
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-stw      r30, 0x18(r1)
-stw      r29, 0x14(r1)
-mr       r29, r3
-lwz      r4, sys@sda21(r13)
-lwz      r31, 0x24(r4)
-addi     r30, r31, 0x190
-lwz      r12, 0(r30)
-mr       r3, r30
-lwz      r12, 0x14(r12)
-mtctr    r12
-bctrl
-lwz      r3, 0xc(r29)
-mr       r4, r31
-mr       r5, r30
-lwz      r12, 0(r3)
-lwz      r12, 0x9c(r12)
-mtctr    r12
-bctrl
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-lwz      r29, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+	Graphics* gfx = sys->mGfx;
+
+	J2DPerspGraph* context = &gfx->mPerspGraph;
+	context->setPort();
+
+	mMgrTuning->draw(*gfx, *context);
 }
 } // namespace Screen
 } // namespace ebi

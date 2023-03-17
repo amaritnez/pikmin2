@@ -1,7 +1,7 @@
 #include "Dolphin/rand.h"
 #include "Dolphin/string.h"
 
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
 
 #include "Game/Navi.h"
 #include "Game/Piki.h"
@@ -11,19 +11,19 @@
 
 #include "PikiAI.h"
 
-// TODO: Matching but MotionListener VTBL generates, when that's fixed. Link it.
+namespace PikiAI {
 
 /*
  * --INFO--
  * Address:	8019FF38
  * Size:	0000D0
  */
-PikiAI::ActFree::ActFree(Game::Piki* parent)
-    : Action(parent)
-    , m_actGather(new ActGather(parent))
-    , m_actBore(new ActBore(parent))
+ActFree::ActFree(Game::Piki* p)
+    : Action(p)
+    , mGather(new ActGather(p))
+    , mBore(new ActBore(p))
 {
-	m_info = "Free";
+	mName = "Free";
 }
 
 /*
@@ -31,41 +31,40 @@ PikiAI::ActFree::ActFree(Game::Piki* parent)
  * Address:	801A0008
  * Size:	000190
  */
-void PikiAI::ActFree::init(PikiAI::ActionArg* arg)
+void ActFree::init(ActionArg* settings)
 {
-	m_parent->m_navi = nullptr;
-	m_parent->m_soundObj->becomeFree();
+	mParent->mNavi = nullptr;
+	mParent->mSoundObj->becomeFree();
 
-	PikiAI::ActFreeArg* freeArg = (PikiAI::ActFreeArg*)arg;
+	ActFreeArg* freeArg = static_cast<ActFreeArg*>(settings);
 
-	m_state = PIKIAI_FREE_DEFAULT;
+	mState = PIKIAI_FREE_DEFAULT;
 	if (freeArg) {
-		char* name     = arg->getName();
-		bool isFreeArg = strcmp("ActFreeArg", name) == 0;
-		P2ASSERTLINE(119, !isFreeArg);
+		bool isFreeArg = strcmp("ActFreeArg", settings->getName()) == 0;
+		P2ASSERTLINE(119, isFreeArg);
 
-		freeArg = (PikiAI::ActFreeArg*)arg;
-		if (freeArg->_04) {
-			m_state = PIKIAI_FREE_GATHER;
+		freeArg = static_cast<ActFreeArg*>(settings);
+		if (freeArg->mToGather) {
+			mState = PIKIAI_FREE_GATHER;
 		}
 	}
 
-	switch (m_state) {
+	switch (mState) {
 	case PIKIAI_FREE_GATHER:
 		GatherActionArg gatherArg(freeArg);
-		m_actGather->init(&gatherArg);
+		mGather->init(&gatherArg);
 		break;
 	default:
-		m_parent->startMotion(31, 31, 0, 0);
-		m_parent->m_velocity = Vector3f(0, 0, 0);
+		mParent->startMotion(31, 31, nullptr, nullptr);
+		mParent->mVelocity = Vector3f(0.0f);
 		break;
 	}
 
-	m_parent->setPastel(true);
-	m_parent->setFreeLightEffect(true);
-	m_parent->attachRadar(true);
+	mParent->setPastel(true);
+	mParent->setFreeLightEffect(true);
+	mParent->attachRadar(true);
 
-	m_delayTimer = 0;
+	mDelayTimer = 0;
 }
 
 /*
@@ -73,54 +72,54 @@ void PikiAI::ActFree::init(PikiAI::ActionArg* arg)
  * Address:	801A0198
  * Size:	0001D0
  */
-s32 PikiAI::ActFree::exec(void)
+int ActFree::exec()
 {
-	switch (m_state) {
+	switch (mState) {
 	case PIKIAI_FREE_GATHER: {
 		// If we finished the gather state
-		if (m_actGather->exec() == 0) {
-			m_state = PIKIAI_FREE_DEFAULT;
+		if (mGather->exec() == 0) {
+			mState = PIKIAI_FREE_DEFAULT;
 
 			// Wait for a bit of time to cool off
 			u16 frameDelay = 30 * randFloat();
-			m_delayTimer   = frameDelay + 150;
+			mDelayTimer    = frameDelay + 150;
 		}
 		break;
 	}
 
 	case PIKIAI_FREE_BORE: {
-		s32 status = m_actBore->exec();
+		int status = mBore->exec();
 
 		// Let's try invoke the AI, and finish the boredom if we succeed
-		Game::Piki::InvokeAIFreeArg invokeArg(0, 0);
-		invokeArg._01 = 1;
-		if (m_parent->invokeAIFree(invokeArg)) {
-			m_actBore->finish();
+		Game::Piki::InvokeAIFreeArg settings(0, 0);
+		settings._01 = 1;
+		if (mParent->invokeAIFree(settings)) {
+			mBore->finish();
 		}
 
 		// Assuming we finished or failed being bored, we'll be free again
 		if (status == 0 || status == 2) {
-			m_state      = PIKIAI_FREE_DEFAULT;
-			m_delayTimer = 90;
+			mState      = PIKIAI_FREE_DEFAULT;
+			mDelayTimer = 90;
 		}
 		break;
 	}
 
 	default: {
 		// We aren't moving anywhere anymore
-		m_parent->m_velocity = Vector3f(0, 0, 0);
+		mParent->mVelocity = Vector3f(0.0f);
 
-		Game::Piki::InvokeAIFreeArg invokeArg(0, 0);
-		if (m_parent->invokeAIFree(invokeArg)) {
+		Game::Piki::InvokeAIFreeArg settings(0, 0);
+		if (mParent->invokeAIFree(settings)) {
 			return 0;
 		}
 
 		// If the delay timer is done we have a 50/50 chance of starting a boredom state
-		if (m_delayTimer) {
-			m_delayTimer--;
+		if (mDelayTimer) {
+			mDelayTimer--;
 		} else if (randFloat() > 0.5f) {
-			m_actBore->init(nullptr);
-			m_state = PIKIAI_FREE_BORE;
+			mBore->init(nullptr);
+			mState = PIKIAI_FREE_BORE;
 		}
 
 		break;
@@ -135,11 +134,11 @@ s32 PikiAI::ActFree::exec(void)
  * Address:	801A0368
  * Size:	00004C
  */
-void PikiAI::ActFree::cleanup(void)
+void ActFree::cleanup()
 {
-	m_parent->setFreeLightEffect(false);
-	m_parent->attachRadar(false);
-	m_parent->m_soundObj->becomeNotFree();
+	mParent->setFreeLightEffect(false);
+	mParent->attachRadar(false);
+	mParent->mSoundObj->becomeNotFree();
 }
 
 /*
@@ -147,26 +146,26 @@ void PikiAI::ActFree::cleanup(void)
  * Address:	801A03B4
  * Size:	000004
  */
-void PikiAI::ActFree::onKeyEvent(SysShape::KeyEvent const&) { }
+void ActFree::onKeyEvent(SysShape::KeyEvent const&) { }
 
 /*
  * --INFO--
  * Address:	801A03B8
  * Size:	0000EC
  */
-void PikiAI::ActFree::collisionCallback(Game::Piki* piki, Game::CollEvent& event)
+void ActFree::collisionCallback(Game::Piki* p, Game::CollEvent& event)
 {
-	if (!event.m_collidingCreature->isNavi()) {
+	if (!event.mCollidingCreature->isNavi()) {
 		return;
 	}
 
-	Game::Navi* navi = (Game::Navi*)event.m_collidingCreature;
+	Game::Navi* navi = static_cast<Game::Navi*>(event.mCollidingCreature);
 	if (!navi->isAlive()) {
 		return;
 	}
 
 	// If the Navi who touched us isn't being used right now (by controller)
-	if (!navi->m_padinput) {
+	if (!navi->mController1) {
 		return;
 	}
 
@@ -176,30 +175,23 @@ void PikiAI::ActFree::collisionCallback(Game::Piki* piki, Game::CollEvent& event
 	}
 
 	// Assuming the Navi touched us, rumble and call to squad (eventually)
-	Game::rumbleMgr->startRumble(2, navi->m_naviIndex.m_shortView);
-	Game::InteractFue fue(event.m_collidingCreature, 0, 1);
-	piki->stimulate(fue);
+	Game::rumbleMgr->startRumble(2, navi->mNaviIndex);
+	Game::InteractFue fue(event.mCollidingCreature, 0, 1);
+	p->stimulate(fue);
 }
-
-const char str_LINK[] = "ActionArg";
 
 /*
  * --INFO--
  * Address:	801A04A4
  * Size:	00000C
  */
-char* PikiAI::GatherActionArg::getName() { return "GatherActionArg"; }
+char* GatherActionArg::getName() { return "GatherActionArg"; }
 
 /*
  * --INFO--
  * Address:	801A04B0
  * Size:	000008
  */
-u32 PikiAI::ActFree::getNextAIType() { return PIKIAI_FREE_BORE; }
+u32 ActFree::getNextAIType() { return PIKIAI_FREE_BORE; }
 
-/*
- * --INFO--
- * Address:	801A04B8
- * Size:	000014
- */
-// void @32 @4 @PikiAI::ActFree::onKeyEvent(SysShape::KeyEvent const&)
+} // namespace PikiAI

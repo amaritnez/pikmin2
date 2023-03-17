@@ -5,13 +5,12 @@ lbl_constructor:
 
 .section .data, "wa"  # 0x8049E220 - 0x804EFC20
 .balign 8
-.global lbl_804E2908
-lbl_804E2908:
-	.4byte 0x00000000
-	.4byte 0x00000000
-	.4byte 0x00000000
-.global __vt__Q34Game6Jigumo10StateSMiss
-__vt__Q34Game6Jigumo10StateSMiss:
+.obj govNAN___Q24Game5P2JST, local
+	.float 0.0
+	.float 0.0
+	.float 0.0
+.endobj govNAN___Q24Game5P2JST
+.obj __vt__Q34Game6Jigumo10StateSMiss, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -21,8 +20,8 @@ __vt__Q34Game6Jigumo10StateSMiss:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo12StateSAttack
-__vt__Q34Game6Jigumo12StateSAttack:
+.endobj __vt__Q34Game6Jigumo10StateSMiss
+.obj __vt__Q34Game6Jigumo12StateSAttack, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -32,8 +31,8 @@ __vt__Q34Game6Jigumo12StateSAttack:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo11StateSearch
-__vt__Q34Game6Jigumo11StateSearch:
+.endobj __vt__Q34Game6Jigumo12StateSAttack
+.obj __vt__Q34Game6Jigumo11StateSearch, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -43,8 +42,8 @@ __vt__Q34Game6Jigumo11StateSearch:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo8StateEat
-__vt__Q34Game6Jigumo8StateEat:
+.endobj __vt__Q34Game6Jigumo11StateSearch
+.obj __vt__Q34Game6Jigumo8StateEat, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -54,8 +53,8 @@ __vt__Q34Game6Jigumo8StateEat:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo10StateFlick
-__vt__Q34Game6Jigumo10StateFlick:
+.endobj __vt__Q34Game6Jigumo8StateEat
+.obj __vt__Q34Game6Jigumo10StateFlick, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -65,8 +64,8 @@ __vt__Q34Game6Jigumo10StateFlick:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo10StateCarry
-__vt__Q34Game6Jigumo10StateCarry:
+.endobj __vt__Q34Game6Jigumo10StateFlick
+.obj __vt__Q34Game6Jigumo10StateCarry, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -76,8 +75,8 @@ __vt__Q34Game6Jigumo10StateCarry:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo11StateReturn
-__vt__Q34Game6Jigumo11StateReturn:
+.endobj __vt__Q34Game6Jigumo10StateCarry
+.obj __vt__Q34Game6Jigumo11StateReturn, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -87,8 +86,8 @@ __vt__Q34Game6Jigumo11StateReturn:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo9StateMiss
-__vt__Q34Game6Jigumo9StateMiss:
+.endobj __vt__Q34Game6Jigumo11StateReturn
+.obj __vt__Q34Game6Jigumo9StateMiss, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -98,13 +97,13 @@ __vt__Q34Game6Jigumo9StateMiss:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo24ConditionHeightCheckPiki
-__vt__Q34Game6Jigumo24ConditionHeightCheckPiki:
+.endobj __vt__Q34Game6Jigumo9StateMiss
+.obj __vt__Q34Game6Jigumo24ConditionHeightCheckPiki, weak
 	.4byte 0
 	.4byte 0
 	.4byte satisfy__Q34Game6Jigumo24ConditionHeightCheckPikiFPQ24Game4Piki
-.global __vt__Q34Game6Jigumo11StateAttack
-__vt__Q34Game6Jigumo11StateAttack:
+.endobj __vt__Q34Game6Jigumo24ConditionHeightCheckPiki
+.obj __vt__Q34Game6Jigumo11StateAttack, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -114,8 +113,8 @@ __vt__Q34Game6Jigumo11StateAttack:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo9StateDead
-__vt__Q34Game6Jigumo9StateDead:
+.endobj __vt__Q34Game6Jigumo11StateAttack
+.obj __vt__Q34Game6Jigumo9StateDead, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -125,8 +124,8 @@ __vt__Q34Game6Jigumo9StateDead:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo9StateHide
-__vt__Q34Game6Jigumo9StateHide:
+.endobj __vt__Q34Game6Jigumo9StateDead
+.obj __vt__Q34Game6Jigumo9StateHide, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -136,8 +135,8 @@ __vt__Q34Game6Jigumo9StateHide:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo11StateAppear
-__vt__Q34Game6Jigumo11StateAppear:
+.endobj __vt__Q34Game6Jigumo9StateHide
+.obj __vt__Q34Game6Jigumo11StateAppear, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -147,8 +146,8 @@ __vt__Q34Game6Jigumo11StateAppear:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo9StateWait
-__vt__Q34Game6Jigumo9StateWait:
+.endobj __vt__Q34Game6Jigumo11StateAppear
+.obj __vt__Q34Game6Jigumo9StateWait, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -158,8 +157,8 @@ __vt__Q34Game6Jigumo9StateWait:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo5State
-__vt__Q34Game6Jigumo5State:
+.endobj __vt__Q34Game6Jigumo9StateWait
+.obj __vt__Q34Game6Jigumo5State, weak
 	.4byte 0
 	.4byte 0
 	.4byte init__Q24Game13EnemyFSMStateFPQ24Game9EnemyBasePQ24Game8StateArg
@@ -169,8 +168,8 @@ __vt__Q34Game6Jigumo5State:
 	.4byte restart__Q24Game13EnemyFSMStateFPQ24Game9EnemyBase
 	.4byte transit__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseiPQ24Game8StateArg
 	.4byte doDirectDraw__Q24Game13EnemyFSMStateFPQ24Game9EnemyBaseR8Graphics
-.global __vt__Q34Game6Jigumo3FSM
-__vt__Q34Game6Jigumo3FSM:
+.endobj __vt__Q34Game6Jigumo5State
+.obj __vt__Q34Game6Jigumo3FSM, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game6Jigumo3FSMFPQ24Game9EnemyBase
@@ -180,131 +179,138 @@ __vt__Q34Game6Jigumo3FSM:
 	.4byte doDirectDraw__Q24Game17EnemyStateMachineFPQ24Game9EnemyBaseR8Graphics
 	.4byte getCurrState__Q24Game17EnemyStateMachineFPQ24Game9EnemyBase
 	.4byte setCurrState__Q24Game17EnemyStateMachineFPQ24Game9EnemyBasePQ24Game13EnemyFSMState
-	.4byte 0
+.endobj __vt__Q34Game6Jigumo3FSM
 
 .section .sbss # 0x80514D80 - 0x80516360
 .balign 8
-.global lbl_80515F58
-lbl_80515F58:
+.obj gu32NAN___Q24Game5P2JST, local
 	.skip 0x4
-.global lbl_80515F5C
-lbl_80515F5C:
+.endobj gu32NAN___Q24Game5P2JST
+.obj gfNAN___Q24Game5P2JST, local
 	.skip 0x4
+.endobj gfNAN___Q24Game5P2JST
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-.global lbl_8051E870
-lbl_8051E870:
-	.4byte 0x77616974
-	.4byte 0x00000000
-.global lbl_8051E878
-lbl_8051E878:
-	.4byte 0x61707065
-	.4byte 0x61720000
-.global lbl_8051E880
-lbl_8051E880:
-	.4byte 0x00000000
-.global lbl_8051E884
-lbl_8051E884:
+.obj lbl_8051E870, local
+	.asciz "wait"
+.endobj lbl_8051E870
+.balign 4
+.obj lbl_8051E878, local
+	.asciz "appear"
+.endobj lbl_8051E878
+.balign 4
+.obj lbl_8051E880, local
+	.float 0.0
+.endobj lbl_8051E880
+.obj lbl_8051E884, local
 	.float 1.0
-.global lbl_8051E888
-lbl_8051E888:
-	.4byte 0x40A00000
-.global lbl_8051E88C
-lbl_8051E88C:
-	.4byte 0x43B40000
-.global lbl_8051E890
-lbl_8051E890:
-	.4byte 0x40C90FDB
-.global lbl_8051E894
-lbl_8051E894:
-	.4byte 0x3F07AE14
-.global lbl_8051E898
-lbl_8051E898:
-	.4byte 0x68696465
-	.4byte 0x00000000
-.global lbl_8051E8A0
-lbl_8051E8A0:
-	.4byte 0xC47A0000
-.global lbl_8051E8A4
-lbl_8051E8A4:
+.endobj lbl_8051E884
+.obj lbl_8051E888, local
+	.float 5.0
+.endobj lbl_8051E888
+.obj lbl_8051E88C, local
+	.float 360.0
+.endobj lbl_8051E88C
+.obj lbl_8051E890, local # tau
+	.float 6.2831855
+.endobj lbl_8051E890
+.obj lbl_8051E894, local
+	.float 0.53
+.endobj lbl_8051E894
+.balign 4
+.obj lbl_8051E898, local
+	.asciz "hide"
+.endobj lbl_8051E898
+.balign 4
+.obj lbl_8051E8A0, local
+	.float -1000.0
+.endobj lbl_8051E8A0
+.obj lbl_8051E8A4, local
 	.float 0.05
-.global lbl_8051E8A8
-lbl_8051E8A8:
-	.4byte 0x40490FDB
-.global lbl_8051E8AC
-lbl_8051E8AC:
-	.4byte 0x64656164
-	.4byte 0x00000000
-.global lbl_8051E8B4
-lbl_8051E8B4:
-	.4byte 0x61747461
-	.4byte 0x636B0000
-.global lbl_8051E8BC
-lbl_8051E8BC:
-	.4byte 0x3BB60B61
-.global lbl_8051E8C0
-lbl_8051E8C0:
-	.4byte 0x41C80000
-.global lbl_8051E8C4
-lbl_8051E8C4:
-	.4byte 0x41200000
-.global lbl_8051E8C8
-lbl_8051E8C8:
-	.4byte 0x42C80000
-.global lbl_8051E8CC
-lbl_8051E8CC:
-	.4byte 0x6D697373
-	.4byte 0x00000000
-.global lbl_8051E8D4
-lbl_8051E8D4:
-	.4byte 0x72657475
-	.4byte 0x726E0000
-.global lbl_8051E8DC
-lbl_8051E8DC:
-	.4byte 0x41A00000
-.global lbl_8051E8E0
-lbl_8051E8E0:
-	.4byte 0x63617272
-	.4byte 0x79000000
-.global lbl_8051E8E8
-lbl_8051E8E8:
-	.4byte 0x3F8CCCCD
-.global lbl_8051E8EC
-lbl_8051E8EC:
-	.4byte 0x666C6963
-	.4byte 0x6B000000
-.global lbl_8051E8F4
-lbl_8051E8F4:
-	.4byte 0x65617400
-.global lbl_8051E8F8
-lbl_8051E8F8:
+.endobj lbl_8051E8A4
+.obj lbl_8051E8A8, local # pi
+	.float 3.1415927
+.endobj lbl_8051E8A8
+.balign 4
+.obj lbl_8051E8AC, local
+	.asciz "dead"
+.endobj lbl_8051E8AC
+.balign 4
+.obj lbl_8051E8B4, local
+	.asciz "attack"
+.endobj lbl_8051E8B4
+.balign 4
+.obj lbl_8051E8BC, local
+	.float 0.0055555557
+.endobj lbl_8051E8BC
+.obj lbl_8051E8C0, local
+	.float 25.0
+.endobj lbl_8051E8C0
+.obj lbl_8051E8C4, local
+	.float 10.0
+.endobj lbl_8051E8C4
+.obj lbl_8051E8C8, local
+	.float 100.0
+.endobj lbl_8051E8C8
+.balign 4
+.obj lbl_8051E8CC, local
+	.asciz "miss"
+.endobj lbl_8051E8CC
+.balign 4
+.obj lbl_8051E8D4, local
+	.asciz "return"
+.endobj lbl_8051E8D4
+.balign 4
+.obj lbl_8051E8DC, local
+	.float 20.0
+.endobj lbl_8051E8DC
+.balign 4
+.obj lbl_8051E8E0, local
+	.asciz "carry"
+.endobj lbl_8051E8E0
+.balign 4
+.obj lbl_8051E8E8, local
+	.float 1.1
+.endobj lbl_8051E8E8
+.balign 4
+.obj lbl_8051E8EC, local
+	.asciz "flick"
+.endobj lbl_8051E8EC
+.balign 4
+.obj lbl_8051E8F4, local
+	.asciz "eat"
+.endobj lbl_8051E8F4
+.balign 4
+.obj lbl_8051E8F8, local
 	.float 0.1
-.global lbl_8051E8FC
-lbl_8051E8FC:
-	.4byte 0x43960000
-.global lbl_8051E900
-lbl_8051E900:
-	.4byte 0x73656172
-	.4byte 0x63680000
-.global lbl_8051E908
-lbl_8051E908:
-	.4byte 0x3C23D70A
-.global lbl_8051E90C
-lbl_8051E90C:
-	.4byte 0x73617474
-	.4byte 0x61636B00
-.global lbl_8051E914
-lbl_8051E914:
-	.4byte 0x42480000
-.global lbl_8051E918
-lbl_8051E918:
-	.4byte 0x736D6973
-	.4byte 0x73000000
+.endobj lbl_8051E8F8
+.obj lbl_8051E8FC, local
+	.float 300.0
+.endobj lbl_8051E8FC
+.balign 4
+.obj lbl_8051E900, local
+	.asciz "search"
+.endobj lbl_8051E900
+.balign 4
+.obj lbl_8051E908, local
+	.float 0.01
+.endobj lbl_8051E908
+.balign 4
+.obj lbl_8051E90C, local
+	.asciz "sattack"
+.endobj lbl_8051E90C
+.balign 4
+.obj lbl_8051E914, local
+	.float 50.0
+.endobj lbl_8051E914
+.balign 4
+.obj lbl_8051E918, local
+	.asciz "smiss"
+.endobj lbl_8051E918
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global init__Q34Game6Jigumo3FSMFPQ24Game9EnemyBase
-init__Q34Game6Jigumo3FSMFPQ24Game9EnemyBase:
+.fn init__Q34Game6Jigumo3FSMFPQ24Game9EnemyBase, global
 /* 80365FF4 00362F34  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80365FF8 00362F38  7C 08 02 A6 */	mflr r0
 /* 80365FFC 00362F3C  38 80 00 0D */	li r4, 0xd
@@ -315,131 +321,131 @@ init__Q34Game6Jigumo3FSMFPQ24Game9EnemyBase:
 /* 80366010 00362F50  38 60 00 10 */	li r3, 0x10
 /* 80366014 00362F54  4B CB DE 91 */	bl __nw__FUl
 /* 80366018 00362F58  7C 64 1B 79 */	or. r4, r3, r3
-/* 8036601C 00362F5C  41 82 00 10 */	beq lbl_8036602C
+/* 8036601C 00362F5C  41 82 00 10 */	beq .L_8036602C
 /* 80366020 00362F60  38 80 00 00 */	li r4, 0
 /* 80366024 00362F64  48 00 01 D5 */	bl __ct__Q34Game6Jigumo9StateWaitFi
 /* 80366028 00362F68  7C 64 1B 78 */	mr r4, r3
-lbl_8036602C:
+.L_8036602C:
 /* 8036602C 00362F6C  7F E3 FB 78 */	mr r3, r31
 /* 80366030 00362F70  4B DC A8 D9 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 80366034 00362F74  38 60 00 14 */	li r3, 0x14
 /* 80366038 00362F78  4B CB DE 6D */	bl __nw__FUl
 /* 8036603C 00362F7C  7C 64 1B 79 */	or. r4, r3, r3
-/* 80366040 00362F80  41 82 00 10 */	beq lbl_80366050
+/* 80366040 00362F80  41 82 00 10 */	beq .L_80366050
 /* 80366044 00362F84  38 80 00 01 */	li r4, 1
 /* 80366048 00362F88  48 00 03 4D */	bl __ct__Q34Game6Jigumo11StateAppearFi
 /* 8036604C 00362F8C  7C 64 1B 78 */	mr r4, r3
-lbl_80366050:
+.L_80366050:
 /* 80366050 00362F90  7F E3 FB 78 */	mr r3, r31
 /* 80366054 00362F94  4B DC A8 B5 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 80366058 00362F98  38 60 00 10 */	li r3, 0x10
 /* 8036605C 00362F9C  4B CB DE 49 */	bl __nw__FUl
 /* 80366060 00362FA0  7C 64 1B 79 */	or. r4, r3, r3
-/* 80366064 00362FA4  41 82 00 10 */	beq lbl_80366074
+/* 80366064 00362FA4  41 82 00 10 */	beq .L_80366074
 /* 80366068 00362FA8  38 80 00 02 */	li r4, 2
 /* 8036606C 00362FAC  48 00 07 C1 */	bl __ct__Q34Game6Jigumo9StateHideFi
 /* 80366070 00362FB0  7C 64 1B 78 */	mr r4, r3
-lbl_80366074:
+.L_80366074:
 /* 80366074 00362FB4  7F E3 FB 78 */	mr r3, r31
 /* 80366078 00362FB8  4B DC A8 91 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 8036607C 00362FBC  38 60 00 10 */	li r3, 0x10
 /* 80366080 00362FC0  4B CB DE 25 */	bl __nw__FUl
 /* 80366084 00362FC4  7C 64 1B 79 */	or. r4, r3, r3
-/* 80366088 00362FC8  41 82 00 10 */	beq lbl_80366098
+/* 80366088 00362FC8  41 82 00 10 */	beq .L_80366098
 /* 8036608C 00362FCC  38 80 00 03 */	li r4, 3
 /* 80366090 00362FD0  48 00 0A 71 */	bl __ct__Q34Game6Jigumo9StateDeadFi
 /* 80366094 00362FD4  7C 64 1B 78 */	mr r4, r3
-lbl_80366098:
+.L_80366098:
 /* 80366098 00362FD8  7F E3 FB 78 */	mr r3, r31
 /* 8036609C 00362FDC  4B DC A8 6D */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 803660A0 00362FE0  38 60 00 14 */	li r3, 0x14
 /* 803660A4 00362FE4  4B CB DE 01 */	bl __nw__FUl
 /* 803660A8 00362FE8  7C 64 1B 79 */	or. r4, r3, r3
-/* 803660AC 00362FEC  41 82 00 10 */	beq lbl_803660BC
+/* 803660AC 00362FEC  41 82 00 10 */	beq .L_803660BC
 /* 803660B0 00362FF0  38 80 00 04 */	li r4, 4
 /* 803660B4 00362FF4  48 00 0B A5 */	bl __ct__Q34Game6Jigumo11StateAttackFi
 /* 803660B8 00362FF8  7C 64 1B 78 */	mr r4, r3
-lbl_803660BC:
+.L_803660BC:
 /* 803660BC 00362FFC  7F E3 FB 78 */	mr r3, r31
 /* 803660C0 00363000  4B DC A8 49 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 803660C4 00363004  38 60 00 14 */	li r3, 0x14
 /* 803660C8 00363008  4B CB DD DD */	bl __nw__FUl
 /* 803660CC 0036300C  7C 64 1B 79 */	or. r4, r3, r3
-/* 803660D0 00363010  41 82 00 10 */	beq lbl_803660E0
+/* 803660D0 00363010  41 82 00 10 */	beq .L_803660E0
 /* 803660D4 00363014  38 80 00 05 */	li r4, 5
 /* 803660D8 00363018  48 00 11 55 */	bl __ct__Q34Game6Jigumo9StateMissFi
 /* 803660DC 0036301C  7C 64 1B 78 */	mr r4, r3
-lbl_803660E0:
+.L_803660E0:
 /* 803660E0 00363020  7F E3 FB 78 */	mr r3, r31
 /* 803660E4 00363024  4B DC A8 25 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 803660E8 00363028  38 60 00 10 */	li r3, 0x10
 /* 803660EC 0036302C  4B CB DD B9 */	bl __nw__FUl
 /* 803660F0 00363030  7C 64 1B 79 */	or. r4, r3, r3
-/* 803660F4 00363034  41 82 00 10 */	beq lbl_80366104
+/* 803660F4 00363034  41 82 00 10 */	beq .L_80366104
 /* 803660F8 00363038  38 80 00 06 */	li r4, 6
 /* 803660FC 0036303C  48 00 13 B9 */	bl __ct__Q34Game6Jigumo11StateReturnFi
 /* 80366100 00363040  7C 64 1B 78 */	mr r4, r3
-lbl_80366104:
+.L_80366104:
 /* 80366104 00363044  7F E3 FB 78 */	mr r3, r31
 /* 80366108 00363048  4B DC A8 01 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 8036610C 0036304C  38 60 00 10 */	li r3, 0x10
 /* 80366110 00363050  4B CB DD 95 */	bl __nw__FUl
 /* 80366114 00363054  7C 64 1B 79 */	or. r4, r3, r3
-/* 80366118 00363058  41 82 00 10 */	beq lbl_80366128
+/* 80366118 00363058  41 82 00 10 */	beq .L_80366128
 /* 8036611C 0036305C  38 80 00 07 */	li r4, 7
 /* 80366120 00363060  48 00 15 B1 */	bl __ct__Q34Game6Jigumo10StateCarryFi
 /* 80366124 00363064  7C 64 1B 78 */	mr r4, r3
-lbl_80366128:
+.L_80366128:
 /* 80366128 00363068  7F E3 FB 78 */	mr r3, r31
 /* 8036612C 0036306C  4B DC A7 DD */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 80366130 00363070  38 60 00 10 */	li r3, 0x10
 /* 80366134 00363074  4B CB DD 71 */	bl __nw__FUl
 /* 80366138 00363078  7C 64 1B 79 */	or. r4, r3, r3
-/* 8036613C 0036307C  41 82 00 10 */	beq lbl_8036614C
+/* 8036613C 0036307C  41 82 00 10 */	beq .L_8036614C
 /* 80366140 00363080  38 80 00 08 */	li r4, 8
 /* 80366144 00363084  48 00 17 C5 */	bl __ct__Q34Game6Jigumo10StateFlickFi
 /* 80366148 00363088  7C 64 1B 78 */	mr r4, r3
-lbl_8036614C:
+.L_8036614C:
 /* 8036614C 0036308C  7F E3 FB 78 */	mr r3, r31
 /* 80366150 00363090  4B DC A7 B9 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 80366154 00363094  38 60 00 10 */	li r3, 0x10
 /* 80366158 00363098  4B CB DD 4D */	bl __nw__FUl
 /* 8036615C 0036309C  7C 64 1B 79 */	or. r4, r3, r3
-/* 80366160 003630A0  41 82 00 10 */	beq lbl_80366170
+/* 80366160 003630A0  41 82 00 10 */	beq .L_80366170
 /* 80366164 003630A4  38 80 00 09 */	li r4, 9
 /* 80366168 003630A8  48 00 19 A5 */	bl __ct__Q34Game6Jigumo8StateEatFi
 /* 8036616C 003630AC  7C 64 1B 78 */	mr r4, r3
-lbl_80366170:
+.L_80366170:
 /* 80366170 003630B0  7F E3 FB 78 */	mr r3, r31
 /* 80366174 003630B4  4B DC A7 95 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 80366178 003630B8  38 60 00 14 */	li r3, 0x14
 /* 8036617C 003630BC  4B CB DD 29 */	bl __nw__FUl
 /* 80366180 003630C0  7C 64 1B 79 */	or. r4, r3, r3
-/* 80366184 003630C4  41 82 00 10 */	beq lbl_80366194
+/* 80366184 003630C4  41 82 00 10 */	beq .L_80366194
 /* 80366188 003630C8  38 80 00 0A */	li r4, 0xa
 /* 8036618C 003630CC  48 00 1B 35 */	bl __ct__Q34Game6Jigumo11StateSearchFi
 /* 80366190 003630D0  7C 64 1B 78 */	mr r4, r3
-lbl_80366194:
+.L_80366194:
 /* 80366194 003630D4  7F E3 FB 78 */	mr r3, r31
 /* 80366198 003630D8  4B DC A7 71 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 8036619C 003630DC  38 60 00 14 */	li r3, 0x14
 /* 803661A0 003630E0  4B CB DD 05 */	bl __nw__FUl
 /* 803661A4 003630E4  7C 64 1B 79 */	or. r4, r3, r3
-/* 803661A8 003630E8  41 82 00 10 */	beq lbl_803661B8
+/* 803661A8 003630E8  41 82 00 10 */	beq .L_803661B8
 /* 803661AC 003630EC  38 80 00 0B */	li r4, 0xb
 /* 803661B0 003630F0  48 00 21 E9 */	bl __ct__Q34Game6Jigumo12StateSAttackFi
 /* 803661B4 003630F4  7C 64 1B 78 */	mr r4, r3
-lbl_803661B8:
+.L_803661B8:
 /* 803661B8 003630F8  7F E3 FB 78 */	mr r3, r31
 /* 803661BC 003630FC  4B DC A7 4D */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 803661C0 00363100  38 60 00 10 */	li r3, 0x10
 /* 803661C4 00363104  4B CB DC E1 */	bl __nw__FUl
 /* 803661C8 00363108  7C 64 1B 79 */	or. r4, r3, r3
-/* 803661CC 0036310C  41 82 00 10 */	beq lbl_803661DC
+/* 803661CC 0036310C  41 82 00 10 */	beq .L_803661DC
 /* 803661D0 00363110  38 80 00 0C */	li r4, 0xc
 /* 803661D4 00363114  48 00 24 B5 */	bl __ct__Q34Game6Jigumo10StateSMissFi
 /* 803661D8 00363118  7C 64 1B 78 */	mr r4, r3
-lbl_803661DC:
+.L_803661DC:
 /* 803661DC 0036311C  7F E3 FB 78 */	mr r3, r31
 /* 803661E0 00363120  4B DC A7 29 */	bl registerState__Q24Game17EnemyStateMachineFPQ24Game13EnemyFSMState
 /* 803661E4 00363124  80 01 00 14 */	lwz r0, 0x14(r1)
@@ -447,9 +453,9 @@ lbl_803661DC:
 /* 803661EC 0036312C  7C 08 03 A6 */	mtlr r0
 /* 803661F0 00363130  38 21 00 10 */	addi r1, r1, 0x10
 /* 803661F4 00363134  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo3FSMFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo9StateWaitFi
-__ct__Q34Game6Jigumo9StateWaitFi:
+.fn __ct__Q34Game6Jigumo9StateWaitFi, global
 /* 803661F8 00363138  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 803661FC 0036313C  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 80366200 00363140  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -465,9 +471,9 @@ __ct__Q34Game6Jigumo9StateWaitFi:
 /* 80366228 00363168  90 A3 00 00 */	stw r5, 0(r3)
 /* 8036622C 0036316C  90 03 00 0C */	stw r0, 0xc(r3)
 /* 80366230 00363170  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo9StateWaitFi
 
-.global init__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 80366234 00363174  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80366238 00363178  7C 08 02 A6 */	mflr r0
 /* 8036623C 0036317C  38 A0 00 00 */	li r5, 0
@@ -492,9 +498,9 @@ init__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80366288 003631C8  7C 08 03 A6 */	mtlr r0
 /* 8036628C 003631CC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80366290 003631D0  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBase, global
 /* 80366294 003631D4  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 80366298 003631D8  7C 08 02 A6 */	mflr r0
 /* 8036629C 003631DC  90 01 00 34 */	stw r0, 0x34(r1)
@@ -505,14 +511,14 @@ exec__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBase:
 /* 803662B0 003631F0  7C 7D 1B 78 */	mr r29, r3
 /* 803662B4 003631F4  80 04 02 D4 */	lwz r0, 0x2d4(r4)
 /* 803662B8 003631F8  2C 00 00 00 */	cmpwi r0, 0
-/* 803662BC 003631FC  40 80 00 80 */	bge lbl_8036633C
+/* 803662BC 003631FC  40 80 00 80 */	bge .L_8036633C
 /* 803662C0 00363200  80 9E 00 C0 */	lwz r4, 0xc0(r30)
 /* 803662C4 00363204  7F C3 F3 78 */	mr r3, r30
 /* 803662C8 00363208  C0 24 04 24 */	lfs f1, 0x424(r4)
 /* 803662CC 0036320C  C0 44 03 D4 */	lfs f2, 0x3d4(r4)
 /* 803662D0 00363210  48 00 57 C5 */	bl getNearestPikiOrNavi__Q34Game6Jigumo3ObjFff
 /* 803662D4 00363214  7C 7F 1B 79 */	or. r31, r3, r3
-/* 803662D8 00363218  41 82 00 4C */	beq lbl_80366324
+/* 803662D8 00363218  41 82 00 4C */	beq .L_80366324
 /* 803662DC 0036321C  93 FE 02 30 */	stw r31, 0x230(r30)
 /* 803662E0 00363220  7F C3 F3 78 */	mr r3, r30
 /* 803662E4 00363224  4B D9 EF BD */	bl finishMotion__Q24Game9EnemyBaseFv
@@ -530,22 +536,22 @@ exec__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBase:
 /* 80366314 00363254  D0 3E 02 CC */	stfs f1, 0x2cc(r30)
 /* 80366318 00363258  D0 5E 02 D0 */	stfs f2, 0x2d0(r30)
 /* 8036631C 0036325C  90 1E 02 D4 */	stw r0, 0x2d4(r30)
-/* 80366320 00363260  48 00 00 1C */	b lbl_8036633C
-lbl_80366324:
+/* 80366320 00363260  48 00 00 1C */	b .L_8036633C
+.L_80366324:
 /* 80366324 00363264  7F C3 F3 78 */	mr r3, r30
 /* 80366328 00363268  4B D9 EF 79 */	bl finishMotion__Q24Game9EnemyBaseFv
 /* 8036632C 0036326C  38 60 00 01 */	li r3, 1
 /* 80366330 00363270  38 00 00 02 */	li r0, 2
 /* 80366334 00363274  98 7E 02 E8 */	stb r3, 0x2e8(r30)
 /* 80366338 00363278  90 1E 02 D4 */	stw r0, 0x2d4(r30)
-lbl_8036633C:
+.L_8036633C:
 /* 8036633C 0036327C  80 7E 01 88 */	lwz r3, 0x188(r30)
 /* 80366340 00363280  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 80366344 00363284  28 00 00 00 */	cmplwi r0, 0
-/* 80366348 00363288  41 82 00 30 */	beq lbl_80366378
+/* 80366348 00363288  41 82 00 30 */	beq .L_80366378
 /* 8036634C 0036328C  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 80366350 00363290  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 80366354 00363294  40 82 00 24 */	bne lbl_80366378
+/* 80366354 00363294  40 82 00 24 */	bne .L_80366378
 /* 80366358 00363298  7F A3 EB 78 */	mr r3, r29
 /* 8036635C 0036329C  7F C4 F3 78 */	mr r4, r30
 /* 80366360 003632A0  81 9D 00 00 */	lwz r12, 0(r29)
@@ -554,7 +560,7 @@ lbl_8036633C:
 /* 8036636C 003632AC  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80366370 003632B0  7D 89 03 A6 */	mtctr r12
 /* 80366374 003632B4  4E 80 04 21 */	bctrl 
-lbl_80366378:
+.L_80366378:
 /* 80366378 003632B8  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 8036637C 003632BC  83 E1 00 2C */	lwz r31, 0x2c(r1)
 /* 80366380 003632C0  83 C1 00 28 */	lwz r30, 0x28(r1)
@@ -562,9 +568,9 @@ lbl_80366378:
 /* 80366388 003632C8  7C 08 03 A6 */	mtlr r0
 /* 8036638C 003632CC  38 21 00 30 */	addi r1, r1, 0x30
 /* 80366390 003632D0  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo9StateWaitFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo11StateAppearFi
-__ct__Q34Game6Jigumo11StateAppearFi:
+.fn __ct__Q34Game6Jigumo11StateAppearFi, global
 /* 80366394 003632D4  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 80366398 003632D8  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 8036639C 003632DC  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -580,9 +586,9 @@ __ct__Q34Game6Jigumo11StateAppearFi:
 /* 803663C4 00363304  90 A3 00 00 */	stw r5, 0(r3)
 /* 803663C8 00363308  90 03 00 0C */	stw r0, 0xc(r3)
 /* 803663CC 0036330C  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo11StateAppearFi
 
-.global init__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 803663D0 00363310  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803663D4 00363314  7C 08 02 A6 */	mflr r0
 /* 803663D8 00363318  38 A0 00 00 */	li r5, 0
@@ -644,7 +650,7 @@ init__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 803664B8 003633F8  98 1F 03 84 */	stb r0, 0x384(r31)
 /* 803664BC 003633FC  C0 5F 02 00 */	lfs f2, 0x200(r31)
 /* 803664C0 00363400  FC 02 00 40 */	fcmpo cr0, f2, f0
-/* 803664C4 00363404  40 80 00 24 */	bge lbl_803664E8
+/* 803664C4 00363404  40 80 00 24 */	bge .L_803664E8
 /* 803664C8 00363408  C0 22 05 28 */	lfs f1, lbl_8051E888@sda21(r2)
 /* 803664CC 0036340C  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 803664D0 00363410  EC 22 08 2A */	fadds f1, f2, f1
@@ -653,7 +659,7 @@ init__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 803664DC 0036341C  80 1F 01 E0 */	lwz r0, 0x1e0(r31)
 /* 803664E0 00363420  54 00 07 FA */	rlwinm r0, r0, 0, 0x1f, 0x1d
 /* 803664E4 00363424  90 1F 01 E0 */	stw r0, 0x1e0(r31)
-lbl_803664E8:
+.L_803664E8:
 /* 803664E8 00363428  38 00 00 00 */	li r0, 0
 /* 803664EC 0036342C  90 1E 00 10 */	stw r0, 0x10(r30)
 /* 803664F0 00363430  80 01 00 14 */	lwz r0, 0x14(r1)
@@ -662,9 +668,9 @@ lbl_803664E8:
 /* 803664FC 0036343C  7C 08 03 A6 */	mtlr r0
 /* 80366500 00363440  38 21 00 10 */	addi r1, r1, 0x10
 /* 80366504 00363444  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBase, global
 /* 80366508 00363448  94 21 FF 80 */	stwu r1, -0x80(r1)
 /* 8036650C 0036344C  7C 08 02 A6 */	mflr r0
 /* 80366510 00363450  90 01 00 84 */	stw r0, 0x84(r1)
@@ -681,11 +687,11 @@ exec__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBase:
 /* 8036653C 0036347C  80 9E 00 10 */	lwz r4, 0x10(r30)
 /* 80366540 00363480  80 03 08 E4 */	lwz r0, 0x8e4(r3)
 /* 80366544 00363484  7C 04 00 00 */	cmpw r4, r0
-/* 80366548 00363488  40 81 02 C4 */	ble lbl_8036680C
+/* 80366548 00363488  40 81 02 C4 */	ble .L_8036680C
 /* 8036654C 0036348C  7F E3 FB 78 */	mr r3, r31
 /* 80366550 00363490  4B DA 0D E9 */	bl isStopMotion__Q24Game9EnemyBaseFv
 /* 80366554 00363494  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80366558 00363498  41 82 01 CC */	beq lbl_80366724
+/* 80366558 00363498  41 82 01 CC */	beq .L_80366724
 /* 8036655C 0036349C  80 BF 00 C0 */	lwz r5, 0xc0(r31)
 /* 80366560 003634A0  7F E3 FB 78 */	mr r3, r31
 /* 80366564 003634A4  38 80 00 00 */	li r4, 0
@@ -693,23 +699,23 @@ exec__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBase:
 /* 8036656C 003634AC  FC 20 F8 90 */	fmr f1, f31
 /* 80366570 003634B0  4B DA E5 51 */	bl "isThereOlimar__Q24Game9EnemyFuncFPQ24Game8CreaturefP23Condition<Q24Game4Navi>"
 /* 80366574 003634B4  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80366578 003634B8  41 82 00 0C */	beq lbl_80366584
+/* 80366578 003634B8  41 82 00 0C */	beq .L_80366584
 /* 8036657C 003634BC  38 00 00 01 */	li r0, 1
-/* 80366580 003634C0  48 00 00 28 */	b lbl_803665A8
-lbl_80366584:
+/* 80366580 003634C0  48 00 00 28 */	b .L_803665A8
+.L_80366584:
 /* 80366584 003634C4  FC 20 F8 90 */	fmr f1, f31
 /* 80366588 003634C8  7F E3 FB 78 */	mr r3, r31
 /* 8036658C 003634CC  38 80 00 00 */	li r4, 0
 /* 80366590 003634D0  4B DA E1 A5 */	bl "isTherePikmin__Q24Game9EnemyFuncFPQ24Game8CreaturefP23Condition<Q24Game4Piki>"
 /* 80366594 003634D4  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80366598 003634D8  41 82 00 0C */	beq lbl_803665A4
+/* 80366598 003634D8  41 82 00 0C */	beq .L_803665A4
 /* 8036659C 003634DC  38 00 00 01 */	li r0, 1
-/* 803665A0 003634E0  48 00 00 08 */	b lbl_803665A8
-lbl_803665A4:
+/* 803665A0 003634E0  48 00 00 08 */	b .L_803665A8
+.L_803665A4:
 /* 803665A4 003634E4  38 00 00 00 */	li r0, 0
-lbl_803665A8:
+.L_803665A8:
 /* 803665A8 003634E8  54 00 06 3F */	clrlwi. r0, r0, 0x18
-/* 803665AC 003634EC  41 82 02 60 */	beq lbl_8036680C
+/* 803665AC 003634EC  41 82 02 60 */	beq .L_8036680C
 /* 803665B0 003634F0  7F E3 FB 78 */	mr r3, r31
 /* 803665B4 003634F4  4B DA 0C 51 */	bl startMotion__Q24Game9EnemyBaseFv
 /* 803665B8 003634F8  7F E4 FB 78 */	mr r4, r31
@@ -735,7 +741,7 @@ lbl_803665A8:
 /* 80366608 00363548  48 00 54 8D */	bl getNearestPikiOrNavi__Q34Game6Jigumo3ObjFff
 /* 8036660C 0036354C  28 03 00 00 */	cmplwi r3, 0
 /* 80366610 00363550  90 7F 02 30 */	stw r3, 0x230(r31)
-/* 80366614 00363554  41 82 01 F8 */	beq lbl_8036680C
+/* 80366614 00363554  41 82 01 F8 */	beq .L_8036680C
 /* 80366618 00363558  7C 64 1B 78 */	mr r4, r3
 /* 8036661C 0036355C  38 61 00 20 */	addi r3, r1, 0x20
 /* 80366620 00363560  81 84 00 00 */	lwz r12, 0(r4)
@@ -783,15 +789,15 @@ lbl_803665A8:
 /* 803666C8 00363608  FC 00 FA 10 */	fabs f0, f31
 /* 803666CC 0036360C  FC 00 00 18 */	frsp f0, f0
 /* 803666D0 00363610  FC 00 10 40 */	fcmpo cr0, f0, f2
-/* 803666D4 00363614  40 81 00 1C */	ble lbl_803666F0
+/* 803666D4 00363614  40 81 00 1C */	ble .L_803666F0
 /* 803666D8 00363618  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 803666DC 0036361C  FC 1F 00 40 */	fcmpo cr0, f31, f0
-/* 803666E0 00363620  40 81 00 0C */	ble lbl_803666EC
+/* 803666E0 00363620  40 81 00 0C */	ble .L_803666EC
 /* 803666E4 00363624  FF E0 10 90 */	fmr f31, f2
-/* 803666E8 00363628  48 00 00 08 */	b lbl_803666F0
-lbl_803666EC:
+/* 803666E8 00363628  48 00 00 08 */	b .L_803666F0
+.L_803666EC:
 /* 803666EC 0036362C  FF E0 10 50 */	fneg f31, f2
-lbl_803666F0:
+.L_803666F0:
 /* 803666F0 00363630  7F E3 FB 78 */	mr r3, r31
 /* 803666F4 00363634  81 9F 00 00 */	lwz r12, 0(r31)
 /* 803666F8 00363638  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -804,25 +810,25 @@ lbl_803666F0:
 /* 80366714 00363654  D0 1F 01 A8 */	stfs f0, 0x1a8(r31)
 /* 80366718 00363658  C0 1F 01 FC */	lfs f0, 0x1fc(r31)
 /* 8036671C 0036365C  D0 1F 02 EC */	stfs f0, 0x2ec(r31)
-/* 80366720 00363660  48 00 00 EC */	b lbl_8036680C
-lbl_80366724:
+/* 80366720 00363660  48 00 00 EC */	b .L_8036680C
+.L_80366724:
 /* 80366724 00363664  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 80366728 00363668  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 8036672C 0036366C  28 00 00 00 */	cmplwi r0, 0
-/* 80366730 00363670  41 82 00 DC */	beq lbl_8036680C
+/* 80366730 00363670  41 82 00 DC */	beq .L_8036680C
 /* 80366734 00363674  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 80366738 00363678  28 00 00 02 */	cmplwi r0, 2
-/* 8036673C 0036367C  40 82 00 7C */	bne lbl_803667B8
+/* 8036673C 0036367C  40 82 00 7C */	bne .L_803667B8
 /* 80366740 00363680  80 1F 02 80 */	lwz r0, 0x280(r31)
 /* 80366744 00363684  28 00 00 00 */	cmplwi r0, 0
-/* 80366748 00363688  41 82 00 1C */	beq lbl_80366764
+/* 80366748 00363688  41 82 00 1C */	beq .L_80366764
 /* 8036674C 0036368C  7F E3 FB 78 */	mr r3, r31
 /* 80366750 00363690  81 9F 00 00 */	lwz r12, 0(r31)
 /* 80366754 00363694  81 8C 02 50 */	lwz r12, 0x250(r12)
 /* 80366758 00363698  7D 89 03 A6 */	mtctr r12
 /* 8036675C 0036369C  4E 80 04 21 */	bctrl 
-/* 80366760 003636A0  48 00 00 4C */	b lbl_803667AC
-lbl_80366764:
+/* 80366760 003636A0  48 00 00 4C */	b .L_803667AC
+.L_80366764:
 /* 80366764 003636A4  7F E4 FB 78 */	mr r4, r31
 /* 80366768 003636A8  38 61 00 38 */	addi r3, r1, 0x38
 /* 8036676C 003636AC  81 9F 00 00 */	lwz r12, 0(r31)
@@ -841,15 +847,15 @@ lbl_80366764:
 /* 803667A0 003636E0  C0 1F 01 F8 */	lfs f0, 0x1f8(r31)
 /* 803667A4 003636E4  EC 21 00 32 */	fmuls f1, f1, f0
 /* 803667A8 003636E8  4B D9 D1 99 */	bl "createDropEffect__Q24Game9EnemyBaseFRC10Vector3<f>f"
-lbl_803667AC:
+.L_803667AC:
 /* 803667AC 003636EC  80 1F 01 E0 */	lwz r0, 0x1e0(r31)
 /* 803667B0 003636F0  54 00 02 90 */	rlwinm r0, r0, 0, 0xa, 8
 /* 803667B4 003636F4  90 1F 01 E0 */	stw r0, 0x1e0(r31)
-lbl_803667B8:
+.L_803667B8:
 /* 803667B8 003636F8  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 803667BC 003636FC  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 803667C0 00363700  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 803667C4 00363704  40 82 00 48 */	bne lbl_8036680C
+/* 803667C4 00363704  40 82 00 48 */	bne .L_8036680C
 /* 803667C8 00363708  7F C3 F3 78 */	mr r3, r30
 /* 803667CC 0036370C  7F E4 FB 78 */	mr r4, r31
 /* 803667D0 00363710  81 9E 00 00 */	lwz r12, 0(r30)
@@ -867,7 +873,7 @@ lbl_803667B8:
 /* 80366800 00363740  80 1F 01 E0 */	lwz r0, 0x1e0(r31)
 /* 80366804 00363744  60 00 08 00 */	ori r0, r0, 0x800
 /* 80366808 00363748  90 1F 01 E0 */	stw r0, 0x1e0(r31)
-lbl_8036680C:
+.L_8036680C:
 /* 8036680C 0036374C  E3 E1 00 78 */	psq_l f31, 120(r1), 0, qr0
 /* 80366810 00363750  80 01 00 84 */	lwz r0, 0x84(r1)
 /* 80366814 00363754  CB E1 00 70 */	lfd f31, 0x70(r1)
@@ -876,9 +882,9 @@ lbl_8036680C:
 /* 80366820 00363760  7C 08 03 A6 */	mtlr r0
 /* 80366824 00363764  38 21 00 80 */	addi r1, r1, 0x80
 /* 80366828 00363768  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo11StateAppearFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo9StateHideFi
-__ct__Q34Game6Jigumo9StateHideFi:
+.fn __ct__Q34Game6Jigumo9StateHideFi, global
 /* 8036682C 0036376C  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 80366830 00363770  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 80366834 00363774  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -894,9 +900,9 @@ __ct__Q34Game6Jigumo9StateHideFi:
 /* 8036685C 0036379C  90 A3 00 00 */	stw r5, 0(r3)
 /* 80366860 003637A0  90 03 00 0C */	stw r0, 0xc(r3)
 /* 80366864 003637A4  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo9StateHideFi
 
-.global init__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 80366868 003637A8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8036686C 003637AC  7C 08 02 A6 */	mflr r0
 /* 80366870 003637B0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -904,18 +910,18 @@ init__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80366878 003637B8  7C 9F 23 78 */	mr r31, r4
 /* 8036687C 003637BC  88 04 02 E8 */	lbz r0, 0x2e8(r4)
 /* 80366880 003637C0  28 00 00 00 */	cmplwi r0, 0
-/* 80366884 003637C4  41 82 00 18 */	beq lbl_8036689C
+/* 80366884 003637C4  41 82 00 18 */	beq .L_8036689C
 /* 80366888 003637C8  7F E3 FB 78 */	mr r3, r31
 /* 8036688C 003637CC  38 80 00 07 */	li r4, 7
 /* 80366890 003637D0  38 A0 00 00 */	li r5, 0
 /* 80366894 003637D4  4B D9 E7 71 */	bl startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-/* 80366898 003637D8  48 00 00 14 */	b lbl_803668AC
-lbl_8036689C:
+/* 80366898 003637D8  48 00 00 14 */	b .L_803668AC
+.L_8036689C:
 /* 8036689C 003637DC  7F E3 FB 78 */	mr r3, r31
 /* 803668A0 003637E0  38 80 00 08 */	li r4, 8
 /* 803668A4 003637E4  38 A0 00 00 */	li r5, 0
 /* 803668A8 003637E8  4B D9 E7 5D */	bl startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-lbl_803668AC:
+.L_803668AC:
 /* 803668AC 003637EC  C0 3F 01 8C */	lfs f1, 0x18c(r31)
 /* 803668B0 003637F0  7F E3 FB 78 */	mr r3, r31
 /* 803668B4 003637F4  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
@@ -973,9 +979,9 @@ lbl_803668AC:
 /* 80366984 003638C4  7C 08 03 A6 */	mtlr r0
 /* 80366988 003638C8  38 21 00 10 */	addi r1, r1, 0x10
 /* 8036698C 003638CC  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBase, global
 /* 80366990 003638D0  94 21 FF C0 */	stwu r1, -0x40(r1)
 /* 80366994 003638D4  7C 08 02 A6 */	mflr r0
 /* 80366998 003638D8  90 01 00 44 */	stw r0, 0x44(r1)
@@ -985,21 +991,21 @@ exec__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBase:
 /* 803669A8 003638E8  7C 7E 1B 78 */	mr r30, r3
 /* 803669AC 003638EC  88 04 02 E8 */	lbz r0, 0x2e8(r4)
 /* 803669B0 003638F0  28 00 00 00 */	cmplwi r0, 0
-/* 803669B4 003638F4  40 82 00 1C */	bne lbl_803669D0
+/* 803669B4 003638F4  40 82 00 1C */	bne .L_803669D0
 /* 803669B8 003638F8  7F E3 FB 78 */	mr r3, r31
 /* 803669BC 003638FC  4B D9 E8 B1 */	bl getMotionFrame__Q24Game9EnemyBaseFv
 /* 803669C0 00363900  C0 02 05 44 */	lfs f0, lbl_8051E8A4@sda21(r2)
 /* 803669C4 00363904  7F E3 FB 78 */	mr r3, r31
 /* 803669C8 00363908  EC 20 00 72 */	fmuls f1, f0, f1
 /* 803669CC 0036390C  48 00 4F 7D */	bl revisionAnimPos__Q34Game6Jigumo3ObjFf
-lbl_803669D0:
+.L_803669D0:
 /* 803669D0 00363910  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 803669D4 00363914  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 803669D8 00363918  28 00 00 00 */	cmplwi r0, 0
-/* 803669DC 0036391C  41 82 01 0C */	beq lbl_80366AE8
+/* 803669DC 0036391C  41 82 01 0C */	beq .L_80366AE8
 /* 803669E0 00363920  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 803669E4 00363924  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 803669E8 00363928  40 82 01 00 */	bne lbl_80366AE8
+/* 803669E8 00363928  40 82 01 00 */	bne .L_80366AE8
 /* 803669EC 0036392C  80 1F 01 E0 */	lwz r0, 0x1e0(r31)
 /* 803669F0 00363930  7F E3 FB 78 */	mr r3, r31
 /* 803669F4 00363934  60 00 00 40 */	ori r0, r0, 0x40
@@ -1010,7 +1016,7 @@ lbl_803669D0:
 /* 80366A08 00363948  4E 80 04 21 */	bctrl 
 /* 80366A0C 0036394C  80 1F 02 80 */	lwz r0, 0x280(r31)
 /* 80366A10 00363950  28 00 00 00 */	cmplwi r0, 0
-/* 80366A14 00363954  41 82 00 80 */	beq lbl_80366A94
+/* 80366A14 00363954  41 82 00 80 */	beq .L_80366A94
 /* 80366A18 00363958  3C 60 80 4B */	lis r3, __vt__Q23efx5TBase@ha
 /* 80366A1C 0036395C  3C 80 80 4E */	lis r4, __vt__Q23efx8TSimple1@ha
 /* 80366A20 00363960  38 03 A7 F8 */	addi r0, r3, __vt__Q23efx5TBase@l
@@ -1042,7 +1048,7 @@ lbl_803669D0:
 /* 80366A88 003639C8  D0 21 00 1C */	stfs f1, 0x1c(r1)
 /* 80366A8C 003639CC  D0 01 00 20 */	stfs f0, 0x20(r1)
 /* 80366A90 003639D0  48 04 84 F5 */	bl create__Q23efx8TSimple1FPQ23efx3Arg
-lbl_80366A94:
+.L_80366A94:
 /* 80366A94 003639D4  C0 22 05 48 */	lfs f1, lbl_8051E8A8@sda21(r2)
 /* 80366A98 003639D8  C0 1F 01 FC */	lfs f0, 0x1fc(r31)
 /* 80366A9C 003639DC  EC 21 00 2A */	fadds f1, f1, f0
@@ -1064,16 +1070,16 @@ lbl_80366A94:
 /* 80366ADC 00363A1C  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80366AE0 00363A20  7D 89 03 A6 */	mtctr r12
 /* 80366AE4 00363A24  4E 80 04 21 */	bctrl 
-lbl_80366AE8:
+.L_80366AE8:
 /* 80366AE8 00363A28  80 01 00 44 */	lwz r0, 0x44(r1)
 /* 80366AEC 00363A2C  83 E1 00 3C */	lwz r31, 0x3c(r1)
 /* 80366AF0 00363A30  83 C1 00 38 */	lwz r30, 0x38(r1)
 /* 80366AF4 00363A34  7C 08 03 A6 */	mtlr r0
 /* 80366AF8 00363A38  38 21 00 40 */	addi r1, r1, 0x40
 /* 80366AFC 00363A3C  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo9StateHideFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo9StateDeadFi
-__ct__Q34Game6Jigumo9StateDeadFi:
+.fn __ct__Q34Game6Jigumo9StateDeadFi, global
 /* 80366B00 00363A40  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 80366B04 00363A44  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 80366B08 00363A48  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -1089,9 +1095,9 @@ __ct__Q34Game6Jigumo9StateDeadFi:
 /* 80366B30 00363A70  90 A3 00 00 */	stw r5, 0(r3)
 /* 80366B34 00363A74  90 03 00 0C */	stw r0, 0xc(r3)
 /* 80366B38 00363A78  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo9StateDeadFi
 
-.global init__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 80366B3C 00363A7C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80366B40 00363A80  7C 08 02 A6 */	mflr r0
 /* 80366B44 00363A84  38 A0 00 00 */	li r5, 0
@@ -1115,9 +1121,9 @@ init__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80366B8C 00363ACC  7C 08 03 A6 */	mtlr r0
 /* 80366B90 00363AD0  38 21 00 10 */	addi r1, r1, 0x10
 /* 80366B94 00363AD4  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBase, global
 /* 80366B98 00363AD8  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 80366B9C 00363ADC  7C 08 02 A6 */	mflr r0
 /* 80366BA0 00363AE0  90 01 00 34 */	stw r0, 0x34(r1)
@@ -1126,10 +1132,10 @@ exec__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBase:
 /* 80366BAC 00363AEC  80 64 01 88 */	lwz r3, 0x188(r4)
 /* 80366BB0 00363AF0  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 80366BB4 00363AF4  28 00 00 00 */	cmplwi r0, 0
-/* 80366BB8 00363AF8  41 82 00 8C */	beq lbl_80366C44
+/* 80366BB8 00363AF8  41 82 00 8C */	beq .L_80366C44
 /* 80366BBC 00363AFC  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 80366BC0 00363B00  28 00 00 02 */	cmplwi r0, 2
-/* 80366BC4 00363B04  40 82 00 64 */	bne lbl_80366C28
+/* 80366BC4 00363B04  40 82 00 64 */	bne .L_80366C28
 /* 80366BC8 00363B08  7F E3 FB 78 */	mr r3, r31
 /* 80366BCC 00363B0C  48 00 51 BD */	bl boundEffect__Q34Game6Jigumo3ObjFv
 /* 80366BD0 00363B10  7F E4 FB 78 */	mr r4, r31
@@ -1154,23 +1160,23 @@ exec__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBase:
 /* 80366C1C 00363B5C  38 80 00 08 */	li r4, 8
 /* 80366C20 00363B60  38 C0 00 02 */	li r6, 2
 /* 80366C24 00363B64  4B EE CB 5D */	bl "startRumble__Q24Game9RumbleMgrFiR10Vector3<f>i"
-lbl_80366C28:
+.L_80366C28:
 /* 80366C28 00363B68  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 80366C2C 00363B6C  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 80366C30 00363B70  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 80366C34 00363B74  40 82 00 10 */	bne lbl_80366C44
+/* 80366C34 00363B74  40 82 00 10 */	bne .L_80366C44
 /* 80366C38 00363B78  7F E3 FB 78 */	mr r3, r31
 /* 80366C3C 00363B7C  38 80 00 00 */	li r4, 0
 /* 80366C40 00363B80  4B DD 44 B1 */	bl kill__Q24Game8CreatureFPQ24Game15CreatureKillArg
-lbl_80366C44:
+.L_80366C44:
 /* 80366C44 00363B84  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 80366C48 00363B88  83 E1 00 2C */	lwz r31, 0x2c(r1)
 /* 80366C4C 00363B8C  7C 08 03 A6 */	mtlr r0
 /* 80366C50 00363B90  38 21 00 30 */	addi r1, r1, 0x30
 /* 80366C54 00363B94  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo9StateDeadFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo11StateAttackFi
-__ct__Q34Game6Jigumo11StateAttackFi:
+.fn __ct__Q34Game6Jigumo11StateAttackFi, global
 /* 80366C58 00363B98  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 80366C5C 00363B9C  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 80366C60 00363BA0  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -1186,9 +1192,9 @@ __ct__Q34Game6Jigumo11StateAttackFi:
 /* 80366C88 00363BC8  90 A3 00 00 */	stw r5, 0(r3)
 /* 80366C8C 00363BCC  90 03 00 0C */	stw r0, 0xc(r3)
 /* 80366C90 00363BD0  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo11StateAttackFi
 
-.global init__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 80366C94 00363BD4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80366C98 00363BD8  7C 08 02 A6 */	mflr r0
 /* 80366C9C 00363BDC  38 A0 00 00 */	li r5, 0
@@ -1236,9 +1242,9 @@ init__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80366D44 00363C84  7C 08 03 A6 */	mtlr r0
 /* 80366D48 00363C88  38 21 00 10 */	addi r1, r1, 0x10
 /* 80366D4C 00363C8C  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase, global
 /* 80366D50 00363C90  94 21 FF 30 */	stwu r1, -0xd0(r1)
 /* 80366D54 00363C94  7C 08 02 A6 */	mflr r0
 /* 80366D58 00363C98  90 01 00 D4 */	stw r0, 0xd4(r1)
@@ -1255,14 +1261,14 @@ exec__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase:
 /* 80366D84 00363CC4  7C 9F 23 78 */	mr r31, r4
 /* 80366D88 00363CC8  88 03 00 11 */	lbz r0, 0x11(r3)
 /* 80366D8C 00363CCC  28 00 00 00 */	cmplwi r0, 0
-/* 80366D90 00363CD0  41 82 01 64 */	beq lbl_80366EF4
+/* 80366D90 00363CD0  41 82 01 64 */	beq .L_80366EF4
 /* 80366D94 00363CD4  80 9F 00 C0 */	lwz r4, 0xc0(r31)
 /* 80366D98 00363CD8  7F E3 FB 78 */	mr r3, r31
 /* 80366D9C 00363CDC  C0 24 04 9C */	lfs f1, 0x49c(r4)
 /* 80366DA0 00363CE0  C0 44 04 4C */	lfs f2, 0x44c(r4)
 /* 80366DA4 00363CE4  48 00 4C F1 */	bl getNearestPikiOrNavi__Q34Game6Jigumo3ObjFff
 /* 80366DA8 00363CE8  7C 7D 1B 79 */	or. r29, r3, r3
-/* 80366DAC 00363CEC  41 82 01 48 */	beq lbl_80366EF4
+/* 80366DAC 00363CEC  41 82 01 48 */	beq .L_80366EF4
 /* 80366DB0 00363CF0  7F A4 EB 78 */	mr r4, r29
 /* 80366DB4 00363CF4  80 BF 00 C0 */	lwz r5, 0xc0(r31)
 /* 80366DB8 00363CF8  81 9D 00 00 */	lwz r12, 0(r29)
@@ -1315,15 +1321,15 @@ exec__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase:
 /* 80366E74 00363DB4  EC 21 00 32 */	fmuls f1, f1, f0
 /* 80366E78 00363DB8  FC 00 10 18 */	frsp f0, f2
 /* 80366E7C 00363DBC  FC 00 08 40 */	fcmpo cr0, f0, f1
-/* 80366E80 00363DC0  40 81 00 1C */	ble lbl_80366E9C
+/* 80366E80 00363DC0  40 81 00 1C */	ble .L_80366E9C
 /* 80366E84 00363DC4  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 80366E88 00363DC8  FC 1F 00 40 */	fcmpo cr0, f31, f0
-/* 80366E8C 00363DCC  40 81 00 0C */	ble lbl_80366E98
+/* 80366E8C 00363DCC  40 81 00 0C */	ble .L_80366E98
 /* 80366E90 00363DD0  FF E0 08 90 */	fmr f31, f1
-/* 80366E94 00363DD4  48 00 00 08 */	b lbl_80366E9C
-lbl_80366E98:
+/* 80366E94 00363DD4  48 00 00 08 */	b .L_80366E9C
+.L_80366E98:
 /* 80366E98 00363DD8  FF E0 08 50 */	fneg f31, f1
-lbl_80366E9C:
+.L_80366E9C:
 /* 80366E9C 00363DDC  7F E3 FB 78 */	mr r3, r31
 /* 80366EA0 00363DE0  81 9F 00 00 */	lwz r12, 0(r31)
 /* 80366EA4 00363DE4  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -1346,14 +1352,14 @@ lbl_80366E9C:
 /* 80366EE8 00363E28  D0 1F 02 C8 */	stfs f0, 0x2c8(r31)
 /* 80366EEC 00363E2C  D0 3F 02 CC */	stfs f1, 0x2cc(r31)
 /* 80366EF0 00363E30  D0 5F 02 D0 */	stfs f2, 0x2d0(r31)
-lbl_80366EF4:
+.L_80366EF4:
 /* 80366EF4 00363E34  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 80366EF8 00363E38  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 80366EFC 00363E3C  28 00 00 00 */	cmplwi r0, 0
-/* 80366F00 00363E40  41 82 01 2C */	beq lbl_8036702C
+/* 80366F00 00363E40  41 82 01 2C */	beq .L_8036702C
 /* 80366F04 00363E44  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 80366F08 00363E48  28 00 00 02 */	cmplwi r0, 2
-/* 80366F0C 00363E4C  40 82 00 A0 */	bne lbl_80366FAC
+/* 80366F0C 00363E4C  40 82 00 A0 */	bne .L_80366FAC
 /* 80366F10 00363E50  38 00 00 01 */	li r0, 1
 /* 80366F14 00363E54  7F E3 FB 78 */	mr r3, r31
 /* 80366F18 00363E58  98 1E 00 10 */	stb r0, 0x10(r30)
@@ -1376,7 +1382,7 @@ lbl_80366EF4:
 /* 80366F5C 00363E9C  48 00 4B E1 */	bl effectStart__Q34Game6Jigumo3ObjFv
 /* 80366F60 00363EA0  80 1F 02 80 */	lwz r0, 0x280(r31)
 /* 80366F64 00363EA4  28 00 00 00 */	cmplwi r0, 0
-/* 80366F68 00363EA8  41 82 00 24 */	beq lbl_80366F8C
+/* 80366F68 00363EA8  41 82 00 24 */	beq .L_80366F8C
 /* 80366F6C 00363EAC  80 7F 02 8C */	lwz r3, 0x28c(r31)
 /* 80366F70 00363EB0  38 80 58 D2 */	li r4, 0x58d2
 /* 80366F74 00363EB4  38 A0 00 00 */	li r5, 0
@@ -1384,8 +1390,8 @@ lbl_80366EF4:
 /* 80366F7C 00363EBC  81 8C 00 88 */	lwz r12, 0x88(r12)
 /* 80366F80 00363EC0  7D 89 03 A6 */	mtctr r12
 /* 80366F84 00363EC4  4E 80 04 21 */	bctrl 
-/* 80366F88 00363EC8  48 00 00 A4 */	b lbl_8036702C
-lbl_80366F8C:
+/* 80366F88 00363EC8  48 00 00 A4 */	b .L_8036702C
+.L_80366F8C:
 /* 80366F8C 00363ECC  80 7F 02 8C */	lwz r3, 0x28c(r31)
 /* 80366F90 00363ED0  38 80 58 D1 */	li r4, 0x58d1
 /* 80366F94 00363ED4  38 A0 00 00 */	li r5, 0
@@ -1393,10 +1399,10 @@ lbl_80366F8C:
 /* 80366F9C 00363EDC  81 8C 00 88 */	lwz r12, 0x88(r12)
 /* 80366FA0 00363EE0  7D 89 03 A6 */	mtctr r12
 /* 80366FA4 00363EE4  4E 80 04 21 */	bctrl 
-/* 80366FA8 00363EE8  48 00 00 84 */	b lbl_8036702C
-lbl_80366FAC:
+/* 80366FA8 00363EE8  48 00 00 84 */	b .L_8036702C
+.L_80366FAC:
 /* 80366FAC 00363EEC  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 80366FB0 00363EF0  40 82 00 7C */	bne lbl_8036702C
+/* 80366FB0 00363EF0  40 82 00 7C */	bne .L_8036702C
 /* 80366FB4 00363EF4  38 00 00 00 */	li r0, 0
 /* 80366FB8 00363EF8  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 80366FBC 00363EFC  98 1E 00 10 */	stb r0, 0x10(r30)
@@ -1427,10 +1433,10 @@ lbl_80366FAC:
 /* 80367020 00363F60  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80367024 00363F64  7D 89 03 A6 */	mtctr r12
 /* 80367028 00363F68  4E 80 04 21 */	bctrl 
-lbl_8036702C:
+.L_8036702C:
 /* 8036702C 00363F6C  88 1E 00 10 */	lbz r0, 0x10(r30)
 /* 80367030 00363F70  28 00 00 00 */	cmplwi r0, 0
-/* 80367034 00363F74  41 82 01 68 */	beq lbl_8036719C
+/* 80367034 00363F74  41 82 01 68 */	beq .L_8036719C
 /* 80367038 00363F78  80 DF 00 C0 */	lwz r6, 0xc0(r31)
 /* 8036703C 00363F7C  7F E3 FB 78 */	mr r3, r31
 /* 80367040 00363F80  38 80 00 00 */	li r4, 0
@@ -1472,7 +1478,7 @@ lbl_8036702C:
 /* 803670D0 00364010  D0 01 00 80 */	stfs f0, 0x80(r1)
 /* 803670D4 00364014  4B DA CA 61 */	bl "eatPikmin__Q24Game9EnemyFuncFPQ24Game9EnemyBaseP23Condition<Q24Game4Piki>"
 /* 803670D8 00364018  2C 03 00 00 */	cmpwi r3, 0
-/* 803670DC 0036401C  40 81 00 34 */	ble lbl_80367110
+/* 803670DC 0036401C  40 81 00 34 */	ble .L_80367110
 /* 803670E0 00364020  38 00 00 07 */	li r0, 7
 /* 803670E4 00364024  38 80 00 01 */	li r4, 1
 /* 803670E8 00364028  90 1F 02 D4 */	stw r0, 0x2d4(r31)
@@ -1485,7 +1491,7 @@ lbl_8036702C:
 /* 80367104 00364044  D0 1F 01 D4 */	stfs f0, 0x1d4(r31)
 /* 80367108 00364048  D0 1F 01 D8 */	stfs f0, 0x1d8(r31)
 /* 8036710C 0036404C  D0 1F 01 DC */	stfs f0, 0x1dc(r31)
-lbl_80367110:
+.L_80367110:
 /* 80367110 00364050  7F E4 FB 78 */	mr r4, r31
 /* 80367114 00364054  38 61 00 5C */	addi r3, r1, 0x5c
 /* 80367118 00364058  81 9F 00 00 */	lwz r12, 0(r31)
@@ -1512,7 +1518,7 @@ lbl_80367110:
 /* 8036716C 003640AC  EC 24 09 3A */	fmadds f1, f4, f4, f1
 /* 80367170 003640B0  EC 22 08 BA */	fmadds f1, f2, f2, f1
 /* 80367174 003640B4  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 80367178 003640B8  40 80 00 24 */	bge lbl_8036719C
+/* 80367178 003640B8  40 80 00 24 */	bge .L_8036719C
 /* 8036717C 003640BC  38 00 00 00 */	li r0, 0
 /* 80367180 003640C0  7F E3 FB 78 */	mr r3, r31
 /* 80367184 003640C4  98 1E 00 10 */	stb r0, 0x10(r30)
@@ -1521,7 +1527,7 @@ lbl_80367110:
 /* 80367190 003640D0  D0 1F 01 D4 */	stfs f0, 0x1d4(r31)
 /* 80367194 003640D4  D0 1F 01 D8 */	stfs f0, 0x1d8(r31)
 /* 80367198 003640D8  D0 1F 01 DC */	stfs f0, 0x1dc(r31)
-lbl_8036719C:
+.L_8036719C:
 /* 8036719C 003640DC  7F E3 FB 78 */	mr r3, r31
 /* 803671A0 003640E0  48 00 48 81 */	bl velocityControl__Q34Game6Jigumo3ObjFv
 /* 803671A4 003640E4  E3 E1 00 C8 */	psq_l f31, 200(r1), 0, qr0
@@ -1537,9 +1543,9 @@ lbl_8036719C:
 /* 803671CC 0036410C  7C 08 03 A6 */	mtlr r0
 /* 803671D0 00364110  38 21 00 D0 */	addi r1, r1, 0xd0
 /* 803671D4 00364114  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase
 
-.global getGoalPos__Q34Game6Jigumo3ObjFv
-getGoalPos__Q34Game6Jigumo3ObjFv:
+.fn getGoalPos__Q34Game6Jigumo3ObjFv, weak
 /* 803671D8 00364118  C0 04 02 C8 */	lfs f0, 0x2c8(r4)
 /* 803671DC 0036411C  D0 03 00 00 */	stfs f0, 0(r3)
 /* 803671E0 00364120  C0 04 02 CC */	lfs f0, 0x2cc(r4)
@@ -1547,9 +1553,9 @@ getGoalPos__Q34Game6Jigumo3ObjFv:
 /* 803671E8 00364128  C0 04 02 D0 */	lfs f0, 0x2d0(r4)
 /* 803671EC 0036412C  D0 03 00 08 */	stfs f0, 8(r3)
 /* 803671F0 00364130  4E 80 00 20 */	blr 
+.endfn getGoalPos__Q34Game6Jigumo3ObjFv
 
-.global cleanup__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase
-cleanup__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase:
+.fn cleanup__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase, global
 /* 803671F4 00364134  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803671F8 00364138  7C 08 02 A6 */	mflr r0
 /* 803671FC 0036413C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1564,9 +1570,9 @@ cleanup__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase:
 /* 80367220 00364160  7C 08 03 A6 */	mtlr r0
 /* 80367224 00364164  38 21 00 10 */	addi r1, r1, 0x10
 /* 80367228 00364168  4E 80 00 20 */	blr 
+.endfn cleanup__Q34Game6Jigumo11StateAttackFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo9StateMissFi
-__ct__Q34Game6Jigumo9StateMissFi:
+.fn __ct__Q34Game6Jigumo9StateMissFi, global
 /* 8036722C 0036416C  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 80367230 00364170  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 80367234 00364174  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -1582,9 +1588,9 @@ __ct__Q34Game6Jigumo9StateMissFi:
 /* 8036725C 0036419C  90 A3 00 00 */	stw r5, 0(r3)
 /* 80367260 003641A0  90 03 00 0C */	stw r0, 0xc(r3)
 /* 80367264 003641A4  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo9StateMissFi
 
-.global init__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 80367268 003641A8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8036726C 003641AC  7C 08 02 A6 */	mflr r0
 /* 80367270 003641B0  7C 86 23 78 */	mr r6, r4
@@ -1604,9 +1610,9 @@ init__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 803672A8 003641E8  7C 08 03 A6 */	mtlr r0
 /* 803672AC 003641EC  38 21 00 10 */	addi r1, r1, 0x10
 /* 803672B0 003641F0  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBase, global
 /* 803672B4 003641F4  94 21 FF 90 */	stwu r1, -0x70(r1)
 /* 803672B8 003641F8  7C 08 02 A6 */	mflr r0
 /* 803672BC 003641FC  90 01 00 74 */	stw r0, 0x74(r1)
@@ -1625,7 +1631,7 @@ exec__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBase:
 /* 803672F0 00364230  80 A4 00 C0 */	lwz r5, 0xc0(r4)
 /* 803672F4 00364234  88 05 08 FC */	lbz r0, 0x8fc(r5)
 /* 803672F8 00364238  28 00 00 00 */	cmplwi r0, 0
-/* 803672FC 0036423C  41 82 01 4C */	beq lbl_80367448
+/* 803672FC 0036423C  41 82 01 4C */	beq .L_80367448
 /* 80367300 00364240  81 84 00 00 */	lwz r12, 0(r4)
 /* 80367304 00364244  38 61 00 14 */	addi r3, r1, 0x14
 /* 80367308 00364248  81 8C 01 98 */	lwz r12, 0x198(r12)
@@ -1668,15 +1674,15 @@ exec__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBase:
 /* 8036739C 003642DC  FC 00 EA 10 */	fabs f0, f29
 /* 803673A0 003642E0  FC 00 00 18 */	frsp f0, f0
 /* 803673A4 003642E4  FC 00 08 40 */	fcmpo cr0, f0, f1
-/* 803673A8 003642E8  40 81 00 1C */	ble lbl_803673C4
+/* 803673A8 003642E8  40 81 00 1C */	ble .L_803673C4
 /* 803673AC 003642EC  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 803673B0 003642F0  FC 1D 00 40 */	fcmpo cr0, f29, f0
-/* 803673B4 003642F4  40 81 00 0C */	ble lbl_803673C0
+/* 803673B4 003642F4  40 81 00 0C */	ble .L_803673C0
 /* 803673B8 003642F8  FF A0 08 90 */	fmr f29, f1
-/* 803673BC 003642FC  48 00 00 08 */	b lbl_803673C4
-lbl_803673C0:
+/* 803673BC 003642FC  48 00 00 08 */	b .L_803673C4
+.L_803673C0:
 /* 803673C0 00364300  FF A0 08 50 */	fneg f29, f1
-lbl_803673C4:
+.L_803673C4:
 /* 803673C4 00364304  7F E3 FB 78 */	mr r3, r31
 /* 803673C8 00364308  81 9F 00 00 */	lwz r12, 0(r31)
 /* 803673CC 0036430C  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -1691,17 +1697,17 @@ lbl_803673C4:
 /* 803673F0 00364330  FC 20 18 18 */	frsp f1, f3
 /* 803673F4 00364334  D0 5F 01 A8 */	stfs f2, 0x1a8(r31)
 /* 803673F8 00364338  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 803673FC 0036433C  40 80 00 0C */	bge lbl_80367408
+/* 803673FC 0036433C  40 80 00 0C */	bge .L_80367408
 /* 80367400 00364340  7F E3 FB 78 */	mr r3, r31
 /* 80367404 00364344  4B D9 DE 9D */	bl finishMotion__Q24Game9EnemyBaseFv
-lbl_80367408:
+.L_80367408:
 /* 80367408 00364348  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 8036740C 0036434C  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 80367410 00364350  28 00 00 00 */	cmplwi r0, 0
-/* 80367414 00364354  41 82 00 68 */	beq lbl_8036747C
+/* 80367414 00364354  41 82 00 68 */	beq .L_8036747C
 /* 80367418 00364358  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 8036741C 0036435C  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 80367420 00364360  40 82 00 5C */	bne lbl_8036747C
+/* 80367420 00364360  40 82 00 5C */	bne .L_8036747C
 /* 80367424 00364364  7F C3 F3 78 */	mr r3, r30
 /* 80367428 00364368  7F E4 FB 78 */	mr r4, r31
 /* 8036742C 0036436C  81 9E 00 00 */	lwz r12, 0(r30)
@@ -1710,22 +1716,22 @@ lbl_80367408:
 /* 80367438 00364378  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 8036743C 0036437C  7D 89 03 A6 */	mtctr r12
 /* 80367440 00364380  4E 80 04 21 */	bctrl 
-/* 80367444 00364384  48 00 00 38 */	b lbl_8036747C
-lbl_80367448:
+/* 80367444 00364384  48 00 00 38 */	b .L_8036747C
+.L_80367448:
 /* 80367448 00364388  80 BF 01 88 */	lwz r5, 0x188(r31)
 /* 8036744C 0036438C  88 05 00 24 */	lbz r0, 0x24(r5)
 /* 80367450 00364390  28 00 00 00 */	cmplwi r0, 0
-/* 80367454 00364394  41 82 00 28 */	beq lbl_8036747C
+/* 80367454 00364394  41 82 00 28 */	beq .L_8036747C
 /* 80367458 00364398  80 05 00 1C */	lwz r0, 0x1c(r5)
 /* 8036745C 0036439C  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 80367460 003643A0  40 82 00 1C */	bne lbl_8036747C
+/* 80367460 003643A0  40 82 00 1C */	bne .L_8036747C
 /* 80367464 003643A4  81 83 00 00 */	lwz r12, 0(r3)
 /* 80367468 003643A8  38 A0 00 06 */	li r5, 6
 /* 8036746C 003643AC  38 C0 00 00 */	li r6, 0
 /* 80367470 003643B0  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80367474 003643B4  7D 89 03 A6 */	mtctr r12
 /* 80367478 003643B8  4E 80 04 21 */	bctrl 
-lbl_8036747C:
+.L_8036747C:
 /* 8036747C 003643BC  E3 E1 00 68 */	psq_l f31, 104(r1), 0, qr0
 /* 80367480 003643C0  CB E1 00 60 */	lfd f31, 0x60(r1)
 /* 80367484 003643C4  E3 C1 00 58 */	psq_l f30, 88(r1), 0, qr0
@@ -1740,9 +1746,9 @@ lbl_8036747C:
 /* 803674A8 003643E8  7C 08 03 A6 */	mtlr r0
 /* 803674AC 003643EC  38 21 00 70 */	addi r1, r1, 0x70
 /* 803674B0 003643F0  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo9StateMissFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo11StateReturnFi
-__ct__Q34Game6Jigumo11StateReturnFi:
+.fn __ct__Q34Game6Jigumo11StateReturnFi, global
 /* 803674B4 003643F4  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 803674B8 003643F8  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 803674BC 003643FC  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -1758,9 +1764,9 @@ __ct__Q34Game6Jigumo11StateReturnFi:
 /* 803674E4 00364424  90 A3 00 00 */	stw r5, 0(r3)
 /* 803674E8 00364428  90 03 00 0C */	stw r0, 0xc(r3)
 /* 803674EC 0036442C  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo11StateReturnFi
 
-.global init__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 803674F0 00364430  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803674F4 00364434  7C 08 02 A6 */	mflr r0
 /* 803674F8 00364438  38 A0 00 00 */	li r5, 0
@@ -1777,9 +1783,9 @@ init__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80367524 00364464  7C 08 03 A6 */	mtlr r0
 /* 80367528 00364468  38 21 00 10 */	addi r1, r1, 0x10
 /* 8036752C 0036446C  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase, global
 /* 80367530 00364470  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80367534 00364474  7C 08 02 A6 */	mflr r0
 /* 80367538 00364478  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1793,7 +1799,7 @@ exec__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase:
 /* 80367558 00364498  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 8036755C 0036449C  FC 01 00 40 */	fcmpo cr0, f1, f0
 /* 80367560 003644A0  4C 40 13 82 */	cror 2, 0, 2
-/* 80367564 003644A4  40 82 00 28 */	bne lbl_8036758C
+/* 80367564 003644A4  40 82 00 28 */	bne .L_8036758C
 /* 80367568 003644A8  7F C3 F3 78 */	mr r3, r30
 /* 8036756C 003644AC  7F E4 FB 78 */	mr r4, r31
 /* 80367570 003644B0  81 9E 00 00 */	lwz r12, 0(r30)
@@ -1802,13 +1808,13 @@ exec__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase:
 /* 8036757C 003644BC  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80367580 003644C0  7D 89 03 A6 */	mtctr r12
 /* 80367584 003644C4  4E 80 04 21 */	bctrl 
-/* 80367588 003644C8  48 00 01 04 */	b lbl_8036768C
-lbl_8036758C:
+/* 80367588 003644C8  48 00 01 04 */	b .L_8036768C
+.L_8036758C:
 /* 8036758C 003644CC  7F E3 FB 78 */	mr r3, r31
 /* 80367590 003644D0  38 80 00 00 */	li r4, 0
 /* 80367594 003644D4  4B DA D0 C5 */	bl isStartFlick__Q24Game9EnemyFuncFPQ24Game9EnemyBaseb
 /* 80367598 003644D8  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8036759C 003644DC  41 82 00 30 */	beq lbl_803675CC
+/* 8036759C 003644DC  41 82 00 30 */	beq .L_803675CC
 /* 803675A0 003644E0  38 00 00 06 */	li r0, 6
 /* 803675A4 003644E4  7F C3 F3 78 */	mr r3, r30
 /* 803675A8 003644E8  90 1F 02 D4 */	stw r0, 0x2d4(r31)
@@ -1819,8 +1825,8 @@ lbl_8036758C:
 /* 803675BC 003644FC  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 803675C0 00364500  7D 89 03 A6 */	mtctr r12
 /* 803675C4 00364504  4E 80 04 21 */	bctrl 
-/* 803675C8 00364508  48 00 00 34 */	b lbl_803675FC
-lbl_803675CC:
+/* 803675C8 00364508  48 00 00 34 */	b .L_803675FC
+.L_803675CC:
 /* 803675CC 0036450C  7F E3 FB 78 */	mr r3, r31
 /* 803675D0 00364510  48 00 31 AD */	bl getGoalDist__Q34Game6Jigumo3ObjFv
 /* 803675D4 00364514  C0 42 05 7C */	lfs f2, lbl_8051E8DC@sda21(r2)
@@ -1828,19 +1834,19 @@ lbl_803675CC:
 /* 803675DC 0036451C  EC 02 00 32 */	fmuls f0, f2, f0
 /* 803675E0 00364520  EC 00 00 32 */	fmuls f0, f0, f0
 /* 803675E4 00364524  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 803675E8 00364528  40 80 00 14 */	bge lbl_803675FC
+/* 803675E8 00364528  40 80 00 14 */	bge .L_803675FC
 /* 803675EC 0036452C  38 00 00 00 */	li r0, 0
 /* 803675F0 00364530  7F E3 FB 78 */	mr r3, r31
 /* 803675F4 00364534  98 1F 03 85 */	stb r0, 0x385(r31)
 /* 803675F8 00364538  4B D9 DC A9 */	bl finishMotion__Q24Game9EnemyBaseFv
-lbl_803675FC:
+.L_803675FC:
 /* 803675FC 0036453C  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 80367600 00364540  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 80367604 00364544  28 00 00 00 */	cmplwi r0, 0
-/* 80367608 00364548  41 82 00 84 */	beq lbl_8036768C
+/* 80367608 00364548  41 82 00 84 */	beq .L_8036768C
 /* 8036760C 0036454C  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 80367610 00364550  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 80367614 00364554  40 82 00 78 */	bne lbl_8036768C
+/* 80367614 00364554  40 82 00 78 */	bne .L_8036768C
 /* 80367618 00364558  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 8036761C 0036455C  D0 1F 01 C8 */	stfs f0, 0x1c8(r31)
 /* 80367620 00364560  D0 1F 01 CC */	stfs f0, 0x1cc(r31)
@@ -1850,7 +1856,7 @@ lbl_803675FC:
 /* 80367630 00364570  D0 1F 01 DC */	stfs f0, 0x1dc(r31)
 /* 80367634 00364574  80 1F 01 F4 */	lwz r0, 0x1f4(r31)
 /* 80367638 00364578  2C 00 00 00 */	cmpwi r0, 0
-/* 8036763C 0036457C  40 81 00 30 */	ble lbl_8036766C
+/* 8036763C 0036457C  40 81 00 30 */	ble .L_8036766C
 /* 80367640 00364580  7F C3 F3 78 */	mr r3, r30
 /* 80367644 00364584  7F E4 FB 78 */	mr r4, r31
 /* 80367648 00364588  81 9E 00 00 */	lwz r12, 0(r30)
@@ -1861,8 +1867,8 @@ lbl_803675FC:
 /* 8036765C 0036459C  4E 80 04 21 */	bctrl 
 /* 80367660 003645A0  38 00 00 02 */	li r0, 2
 /* 80367664 003645A4  90 1F 02 D4 */	stw r0, 0x2d4(r31)
-/* 80367668 003645A8  48 00 00 24 */	b lbl_8036768C
-lbl_8036766C:
+/* 80367668 003645A8  48 00 00 24 */	b .L_8036768C
+.L_8036766C:
 /* 8036766C 003645AC  7F C3 F3 78 */	mr r3, r30
 /* 80367670 003645B0  7F E4 FB 78 */	mr r4, r31
 /* 80367674 003645B4  81 9E 00 00 */	lwz r12, 0(r30)
@@ -1871,16 +1877,16 @@ lbl_8036766C:
 /* 80367680 003645C0  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80367684 003645C4  7D 89 03 A6 */	mtctr r12
 /* 80367688 003645C8  4E 80 04 21 */	bctrl 
-lbl_8036768C:
+.L_8036768C:
 /* 8036768C 003645CC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80367690 003645D0  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 80367694 003645D4  83 C1 00 08 */	lwz r30, 8(r1)
 /* 80367698 003645D8  7C 08 03 A6 */	mtlr r0
 /* 8036769C 003645DC  38 21 00 10 */	addi r1, r1, 0x10
 /* 803676A0 003645E0  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase
 
-.global cleanup__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase
-cleanup__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase:
+.fn cleanup__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase, global
 /* 803676A4 003645E4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803676A8 003645E8  7C 08 02 A6 */	mflr r0
 /* 803676AC 003645EC  7C 83 23 78 */	mr r3, r4
@@ -1892,9 +1898,9 @@ cleanup__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase:
 /* 803676C4 00364604  7C 08 03 A6 */	mtlr r0
 /* 803676C8 00364608  38 21 00 10 */	addi r1, r1, 0x10
 /* 803676CC 0036460C  4E 80 00 20 */	blr 
+.endfn cleanup__Q34Game6Jigumo11StateReturnFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo10StateCarryFi
-__ct__Q34Game6Jigumo10StateCarryFi:
+.fn __ct__Q34Game6Jigumo10StateCarryFi, global
 /* 803676D0 00364610  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 803676D4 00364614  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 803676D8 00364618  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -1910,9 +1916,9 @@ __ct__Q34Game6Jigumo10StateCarryFi:
 /* 80367700 00364640  90 A3 00 00 */	stw r5, 0(r3)
 /* 80367704 00364644  90 03 00 0C */	stw r0, 0xc(r3)
 /* 80367708 00364648  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo10StateCarryFi
 
-.global init__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 8036770C 0036464C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80367710 00364650  7C 08 02 A6 */	mflr r0
 /* 80367714 00364654  38 A0 00 00 */	li r5, 0
@@ -1929,9 +1935,9 @@ init__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80367740 00364680  7C 08 03 A6 */	mtlr r0
 /* 80367744 00364684  38 21 00 10 */	addi r1, r1, 0x10
 /* 80367748 00364688  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase, global
 /* 8036774C 0036468C  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 80367750 00364690  7C 08 02 A6 */	mflr r0
 /* 80367754 00364694  90 01 00 34 */	stw r0, 0x34(r1)
@@ -1949,7 +1955,7 @@ exec__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase:
 /* 80367784 003646C4  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 80367788 003646C8  FC 01 00 40 */	fcmpo cr0, f1, f0
 /* 8036778C 003646CC  4C 40 13 82 */	cror 2, 0, 2
-/* 80367790 003646D0  40 82 00 28 */	bne lbl_803677B8
+/* 80367790 003646D0  40 82 00 28 */	bne .L_803677B8
 /* 80367794 003646D4  7F C3 F3 78 */	mr r3, r30
 /* 80367798 003646D8  7F E4 FB 78 */	mr r4, r31
 /* 8036779C 003646DC  81 9E 00 00 */	lwz r12, 0(r30)
@@ -1958,13 +1964,13 @@ exec__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase:
 /* 803677A8 003646E8  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 803677AC 003646EC  7D 89 03 A6 */	mtctr r12
 /* 803677B0 003646F0  4E 80 04 21 */	bctrl 
-/* 803677B4 003646F4  48 00 01 00 */	b lbl_803678B4
-lbl_803677B8:
+/* 803677B4 003646F4  48 00 01 00 */	b .L_803678B4
+.L_803677B8:
 /* 803677B8 003646F8  7F E3 FB 78 */	mr r3, r31
 /* 803677BC 003646FC  38 80 00 00 */	li r4, 0
 /* 803677C0 00364700  4B DA CE 99 */	bl isStartFlick__Q24Game9EnemyFuncFPQ24Game9EnemyBaseb
 /* 803677C4 00364704  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 803677C8 00364708  41 82 00 30 */	beq lbl_803677F8
+/* 803677C8 00364708  41 82 00 30 */	beq .L_803677F8
 /* 803677CC 0036470C  38 00 00 07 */	li r0, 7
 /* 803677D0 00364710  7F C3 F3 78 */	mr r3, r30
 /* 803677D4 00364714  90 1F 02 D4 */	stw r0, 0x2d4(r31)
@@ -1975,8 +1981,8 @@ lbl_803677B8:
 /* 803677E8 00364728  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 803677EC 0036472C  7D 89 03 A6 */	mtctr r12
 /* 803677F0 00364730  4E 80 04 21 */	bctrl 
-/* 803677F4 00364734  48 00 00 C0 */	b lbl_803678B4
-lbl_803677F8:
+/* 803677F4 00364734  48 00 00 C0 */	b .L_803678B4
+.L_803677F8:
 /* 803677F8 00364738  7F E3 FB 78 */	mr r3, r31
 /* 803677FC 0036473C  48 00 2F 81 */	bl getGoalDist__Q34Game6Jigumo3ObjFv
 /* 80367800 00364740  C0 62 05 64 */	lfs f3, lbl_8051E8C4@sda21(r2)
@@ -1988,14 +1994,14 @@ lbl_803677F8:
 /* 80367818 00364758  EF DE 07 B2 */	fmuls f30, f30, f30
 /* 8036781C 0036475C  EC 00 07 B2 */	fmuls f0, f0, f30
 /* 80367820 00364760  FC 1F 00 40 */	fcmpo cr0, f31, f0
-/* 80367824 00364764  40 80 00 14 */	bge lbl_80367838
+/* 80367824 00364764  40 80 00 14 */	bge .L_80367838
 /* 80367828 00364768  7F E3 FB 78 */	mr r3, r31
 /* 8036782C 0036476C  4B D9 DA 75 */	bl finishMotion__Q24Game9EnemyBaseFv
 /* 80367830 00364770  38 00 00 00 */	li r0, 0
 /* 80367834 00364774  98 1F 03 85 */	stb r0, 0x385(r31)
-lbl_80367838:
+.L_80367838:
 /* 80367838 00364778  FC 1F F0 40 */	fcmpo cr0, f31, f30
-/* 8036783C 0036477C  40 80 00 78 */	bge lbl_803678B4
+/* 8036783C 0036477C  40 80 00 78 */	bge .L_803678B4
 /* 80367840 00364780  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 80367844 00364784  D0 1F 01 C8 */	stfs f0, 0x1c8(r31)
 /* 80367848 00364788  D0 1F 01 CC */	stfs f0, 0x1cc(r31)
@@ -2005,7 +2011,7 @@ lbl_80367838:
 /* 80367858 00364798  D0 1F 01 DC */	stfs f0, 0x1dc(r31)
 /* 8036785C 0036479C  80 1F 01 F4 */	lwz r0, 0x1f4(r31)
 /* 80367860 003647A0  2C 00 00 01 */	cmpwi r0, 1
-/* 80367864 003647A4  40 81 00 30 */	ble lbl_80367894
+/* 80367864 003647A4  40 81 00 30 */	ble .L_80367894
 /* 80367868 003647A8  7F C3 F3 78 */	mr r3, r30
 /* 8036786C 003647AC  7F E4 FB 78 */	mr r4, r31
 /* 80367870 003647B0  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2016,8 +2022,8 @@ lbl_80367838:
 /* 80367884 003647C4  4E 80 04 21 */	bctrl 
 /* 80367888 003647C8  38 00 00 09 */	li r0, 9
 /* 8036788C 003647CC  90 1F 02 D4 */	stw r0, 0x2d4(r31)
-/* 80367890 003647D0  48 00 00 24 */	b lbl_803678B4
-lbl_80367894:
+/* 80367890 003647D0  48 00 00 24 */	b .L_803678B4
+.L_80367894:
 /* 80367894 003647D4  7F C3 F3 78 */	mr r3, r30
 /* 80367898 003647D8  7F E4 FB 78 */	mr r4, r31
 /* 8036789C 003647DC  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2026,7 +2032,7 @@ lbl_80367894:
 /* 803678A8 003647E8  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 803678AC 003647EC  7D 89 03 A6 */	mtctr r12
 /* 803678B0 003647F0  4E 80 04 21 */	bctrl 
-lbl_803678B4:
+.L_803678B4:
 /* 803678B4 003647F4  E3 E1 00 28 */	psq_l f31, 40(r1), 0, qr0
 /* 803678B8 003647F8  CB E1 00 20 */	lfd f31, 0x20(r1)
 /* 803678BC 003647FC  E3 C1 00 18 */	psq_l f30, 24(r1), 0, qr0
@@ -2037,9 +2043,9 @@ lbl_803678B4:
 /* 803678D0 00364810  7C 08 03 A6 */	mtlr r0
 /* 803678D4 00364814  38 21 00 30 */	addi r1, r1, 0x30
 /* 803678D8 00364818  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase
 
-.global cleanup__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase
-cleanup__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase:
+.fn cleanup__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase, global
 /* 803678DC 0036481C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803678E0 00364820  7C 08 02 A6 */	mflr r0
 /* 803678E4 00364824  7C 83 23 78 */	mr r3, r4
@@ -2051,9 +2057,9 @@ cleanup__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase:
 /* 803678FC 0036483C  7C 08 03 A6 */	mtlr r0
 /* 80367900 00364840  38 21 00 10 */	addi r1, r1, 0x10
 /* 80367904 00364844  4E 80 00 20 */	blr 
+.endfn cleanup__Q34Game6Jigumo10StateCarryFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo10StateFlickFi
-__ct__Q34Game6Jigumo10StateFlickFi:
+.fn __ct__Q34Game6Jigumo10StateFlickFi, global
 /* 80367908 00364848  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 8036790C 0036484C  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 80367910 00364850  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -2069,9 +2075,9 @@ __ct__Q34Game6Jigumo10StateFlickFi:
 /* 80367938 00364878  90 A3 00 00 */	stw r5, 0(r3)
 /* 8036793C 0036487C  90 03 00 0C */	stw r0, 0xc(r3)
 /* 80367940 00364880  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo10StateFlickFi
 
-.global init__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 80367944 00364884  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 80367948 00364888  7C 08 02 A6 */	mflr r0
 /* 8036794C 0036488C  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
@@ -2086,18 +2092,18 @@ init__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80367970 003648B0  D0 04 01 D0 */	stfs f0, 0x1d0(r4)
 /* 80367974 003648B4  88 04 02 E8 */	lbz r0, 0x2e8(r4)
 /* 80367978 003648B8  28 00 00 00 */	cmplwi r0, 0
-/* 8036797C 003648BC  41 82 00 18 */	beq lbl_80367994
+/* 8036797C 003648BC  41 82 00 18 */	beq .L_80367994
 /* 80367980 003648C0  7F E3 FB 78 */	mr r3, r31
 /* 80367984 003648C4  38 80 00 06 */	li r4, 6
 /* 80367988 003648C8  38 A0 00 00 */	li r5, 0
 /* 8036798C 003648CC  4B D9 D6 79 */	bl startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-/* 80367990 003648D0  48 00 00 14 */	b lbl_803679A4
-lbl_80367994:
+/* 80367990 003648D0  48 00 00 14 */	b .L_803679A4
+.L_80367994:
 /* 80367994 003648D4  7F E3 FB 78 */	mr r3, r31
 /* 80367998 003648D8  38 80 00 09 */	li r4, 9
 /* 8036799C 003648DC  38 A0 00 00 */	li r5, 0
 /* 803679A0 003648E0  4B D9 D6 65 */	bl startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-lbl_803679A4:
+.L_803679A4:
 /* 803679A4 003648E4  7F E4 FB 78 */	mr r4, r31
 /* 803679A8 003648E8  38 61 00 08 */	addi r3, r1, 8
 /* 803679AC 003648EC  81 9F 00 00 */	lwz r12, 0(r31)
@@ -2125,9 +2131,9 @@ lbl_803679A4:
 /* 80367A04 00364944  7C 08 03 A6 */	mtlr r0
 /* 80367A08 00364948  38 21 00 30 */	addi r1, r1, 0x30
 /* 80367A0C 0036494C  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBase, global
 /* 80367A10 00364950  94 21 FF C0 */	stwu r1, -0x40(r1)
 /* 80367A14 00364954  7C 08 02 A6 */	mflr r0
 /* 80367A18 00364958  90 01 00 44 */	stw r0, 0x44(r1)
@@ -2142,10 +2148,10 @@ exec__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBase:
 /* 80367A3C 0036497C  80 A4 01 88 */	lwz r5, 0x188(r4)
 /* 80367A40 00364980  88 05 00 24 */	lbz r0, 0x24(r5)
 /* 80367A44 00364984  28 00 00 00 */	cmplwi r0, 0
-/* 80367A48 00364988  41 82 00 98 */	beq lbl_80367AE0
+/* 80367A48 00364988  41 82 00 98 */	beq .L_80367AE0
 /* 80367A4C 0036498C  80 05 00 1C */	lwz r0, 0x1c(r5)
 /* 80367A50 00364990  28 00 00 02 */	cmplwi r0, 2
-/* 80367A54 00364994  40 82 00 58 */	bne lbl_80367AAC
+/* 80367A54 00364994  40 82 00 58 */	bne .L_80367AAC
 /* 80367A58 00364998  80 BF 00 C0 */	lwz r5, 0xc0(r31)
 /* 80367A5C 0036499C  7F E3 FB 78 */	mr r3, r31
 /* 80367A60 003649A0  C0 82 05 40 */	lfs f4, lbl_8051E8A0@sda21(r2)
@@ -2166,23 +2172,23 @@ exec__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBase:
 /* 80367A9C 003649DC  4B DA B6 81 */	bl "flickStickPikmin__Q24Game9EnemyFuncFPQ24Game8CreatureffffP23Condition<Q24Game4Piki>"
 /* 80367AA0 003649E0  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 80367AA4 003649E4  D0 1F 02 0C */	stfs f0, 0x20c(r31)
-/* 80367AA8 003649E8  48 00 00 38 */	b lbl_80367AE0
-lbl_80367AAC:
+/* 80367AA8 003649E8  48 00 00 38 */	b .L_80367AE0
+.L_80367AAC:
 /* 80367AAC 003649EC  28 00 00 03 */	cmplwi r0, 3
-/* 80367AB0 003649F0  40 82 00 10 */	bne lbl_80367AC0
+/* 80367AB0 003649F0  40 82 00 10 */	bne .L_80367AC0
 /* 80367AB4 003649F4  7F E3 FB 78 */	mr r3, r31
 /* 80367AB8 003649F8  48 00 42 D1 */	bl boundEffect__Q34Game6Jigumo3ObjFv
-/* 80367ABC 003649FC  48 00 00 24 */	b lbl_80367AE0
-lbl_80367AC0:
+/* 80367ABC 003649FC  48 00 00 24 */	b .L_80367AE0
+.L_80367AC0:
 /* 80367AC0 00364A00  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 80367AC4 00364A04  40 82 00 1C */	bne lbl_80367AE0
+/* 80367AC4 00364A04  40 82 00 1C */	bne .L_80367AE0
 /* 80367AC8 00364A08  81 83 00 00 */	lwz r12, 0(r3)
 /* 80367ACC 00364A0C  38 C0 00 00 */	li r6, 0
 /* 80367AD0 00364A10  80 BF 02 D4 */	lwz r5, 0x2d4(r31)
 /* 80367AD4 00364A14  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80367AD8 00364A18  7D 89 03 A6 */	mtctr r12
 /* 80367ADC 00364A1C  4E 80 04 21 */	bctrl 
-lbl_80367AE0:
+.L_80367AE0:
 /* 80367AE0 00364A20  E3 E1 00 38 */	psq_l f31, 56(r1), 0, qr0
 /* 80367AE4 00364A24  CB E1 00 30 */	lfd f31, 0x30(r1)
 /* 80367AE8 00364A28  E3 C1 00 28 */	psq_l f30, 40(r1), 0, qr0
@@ -2194,9 +2200,9 @@ lbl_80367AE0:
 /* 80367B00 00364A40  7C 08 03 A6 */	mtlr r0
 /* 80367B04 00364A44  38 21 00 40 */	addi r1, r1, 0x40
 /* 80367B08 00364A48  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo10StateFlickFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo8StateEatFi
-__ct__Q34Game6Jigumo8StateEatFi:
+.fn __ct__Q34Game6Jigumo8StateEatFi, global
 /* 80367B0C 00364A4C  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 80367B10 00364A50  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 80367B14 00364A54  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -2212,9 +2218,9 @@ __ct__Q34Game6Jigumo8StateEatFi:
 /* 80367B3C 00364A7C  90 A3 00 00 */	stw r5, 0(r3)
 /* 80367B40 00364A80  90 03 00 0C */	stw r0, 0xc(r3)
 /* 80367B44 00364A84  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo8StateEatFi
 
-.global init__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 80367B48 00364A88  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80367B4C 00364A8C  7C 08 02 A6 */	mflr r0
 /* 80367B50 00364A90  38 A0 00 00 */	li r5, 0
@@ -2237,9 +2243,9 @@ init__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80367B94 00364AD4  7C 08 03 A6 */	mtlr r0
 /* 80367B98 00364AD8  38 21 00 10 */	addi r1, r1, 0x10
 /* 80367B9C 00364ADC  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBase, global
 /* 80367BA0 00364AE0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80367BA4 00364AE4  7C 08 02 A6 */	mflr r0
 /* 80367BA8 00364AE8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -2256,44 +2262,44 @@ exec__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBase:
 /* 80367BD4 00364B14  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 80367BD8 00364B18  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 80367BDC 00364B1C  28 00 00 00 */	cmplwi r0, 0
-/* 80367BE0 00364B20  41 82 00 C8 */	beq lbl_80367CA8
+/* 80367BE0 00364B20  41 82 00 C8 */	beq .L_80367CA8
 /* 80367BE4 00364B24  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 80367BE8 00364B28  2C 00 00 08 */	cmpwi r0, 8
-/* 80367BEC 00364B2C  41 82 00 4C */	beq lbl_80367C38
-/* 80367BF0 00364B30  40 80 00 18 */	bge lbl_80367C08
+/* 80367BEC 00364B2C  41 82 00 4C */	beq .L_80367C38
+/* 80367BF0 00364B30  40 80 00 18 */	bge .L_80367C08
 /* 80367BF4 00364B34  2C 00 00 07 */	cmpwi r0, 7
-/* 80367BF8 00364B38  40 80 00 34 */	bge lbl_80367C2C
+/* 80367BF8 00364B38  40 80 00 34 */	bge .L_80367C2C
 /* 80367BFC 00364B3C  2C 00 00 02 */	cmpwi r0, 2
-/* 80367C00 00364B40  40 80 00 14 */	bge lbl_80367C14
-/* 80367C04 00364B44  48 00 00 A4 */	b lbl_80367CA8
-lbl_80367C08:
+/* 80367C00 00364B40  40 80 00 14 */	bge .L_80367C14
+/* 80367C04 00364B44  48 00 00 A4 */	b .L_80367CA8
+.L_80367C08:
 /* 80367C08 00364B48  2C 00 03 E8 */	cmpwi r0, 0x3e8
-/* 80367C0C 00364B4C  41 82 00 48 */	beq lbl_80367C54
-/* 80367C10 00364B50  48 00 00 98 */	b lbl_80367CA8
-lbl_80367C14:
+/* 80367C0C 00364B4C  41 82 00 48 */	beq .L_80367C54
+/* 80367C10 00364B50  48 00 00 98 */	b .L_80367CA8
+.L_80367C14:
 /* 80367C14 00364B54  80 1F 02 80 */	lwz r0, 0x280(r31)
 /* 80367C18 00364B58  28 00 00 00 */	cmplwi r0, 0
-/* 80367C1C 00364B5C  41 82 00 8C */	beq lbl_80367CA8
+/* 80367C1C 00364B5C  41 82 00 8C */	beq .L_80367CA8
 /* 80367C20 00364B60  7F E3 FB 78 */	mr r3, r31
 /* 80367C24 00364B64  48 00 41 8D */	bl eatWaterEffect__Q34Game6Jigumo3ObjFv
-/* 80367C28 00364B68  48 00 00 80 */	b lbl_80367CA8
-lbl_80367C2C:
+/* 80367C28 00364B68  48 00 00 80 */	b .L_80367CA8
+.L_80367C2C:
 /* 80367C2C 00364B6C  38 00 00 01 */	li r0, 1
 /* 80367C30 00364B70  98 1F 02 E9 */	stb r0, 0x2e9(r31)
-/* 80367C34 00364B74  48 00 00 74 */	b lbl_80367CA8
-lbl_80367C38:
+/* 80367C34 00364B74  48 00 00 74 */	b .L_80367CA8
+.L_80367C38:
 /* 80367C38 00364B78  C0 22 05 9C */	lfs f1, lbl_8051E8FC@sda21(r2)
 /* 80367C3C 00364B7C  7F E3 FB 78 */	mr r3, r31
 /* 80367C40 00364B80  38 80 00 00 */	li r4, 0
 /* 80367C44 00364B84  4B DA C2 41 */	bl "swallowPikmin__Q24Game9EnemyFuncFPQ24Game8CreaturefP23Condition<Q24Game4Piki>"
 /* 80367C48 00364B88  38 00 00 00 */	li r0, 0
 /* 80367C4C 00364B8C  98 1F 02 E9 */	stb r0, 0x2e9(r31)
-/* 80367C50 00364B90  48 00 00 58 */	b lbl_80367CA8
-lbl_80367C54:
+/* 80367C50 00364B90  48 00 00 58 */	b .L_80367CA8
+.L_80367C54:
 /* 80367C54 00364B94  C0 22 05 20 */	lfs f1, lbl_8051E880@sda21(r2)
 /* 80367C58 00364B98  C0 1F 02 00 */	lfs f0, 0x200(r31)
 /* 80367C5C 00364B9C  FC 01 00 00 */	fcmpu cr0, f1, f0
-/* 80367C60 00364BA0  40 82 00 28 */	bne lbl_80367C88
+/* 80367C60 00364BA0  40 82 00 28 */	bne .L_80367C88
 /* 80367C64 00364BA4  7F C3 F3 78 */	mr r3, r30
 /* 80367C68 00364BA8  7F E4 FB 78 */	mr r4, r31
 /* 80367C6C 00364BAC  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2302,8 +2308,8 @@ lbl_80367C54:
 /* 80367C78 00364BB8  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80367C7C 00364BBC  7D 89 03 A6 */	mtctr r12
 /* 80367C80 00364BC0  4E 80 04 21 */	bctrl 
-/* 80367C84 00364BC4  48 00 00 24 */	b lbl_80367CA8
-lbl_80367C88:
+/* 80367C84 00364BC4  48 00 00 24 */	b .L_80367CA8
+.L_80367C88:
 /* 80367C88 00364BC8  7F C3 F3 78 */	mr r3, r30
 /* 80367C8C 00364BCC  7F E4 FB 78 */	mr r4, r31
 /* 80367C90 00364BD0  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2312,16 +2318,16 @@ lbl_80367C88:
 /* 80367C9C 00364BDC  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80367CA0 00364BE0  7D 89 03 A6 */	mtctr r12
 /* 80367CA4 00364BE4  4E 80 04 21 */	bctrl 
-lbl_80367CA8:
+.L_80367CA8:
 /* 80367CA8 00364BE8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80367CAC 00364BEC  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 80367CB0 00364BF0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 80367CB4 00364BF4  7C 08 03 A6 */	mtlr r0
 /* 80367CB8 00364BF8  38 21 00 10 */	addi r1, r1, 0x10
 /* 80367CBC 00364BFC  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo8StateEatFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo11StateSearchFi
-__ct__Q34Game6Jigumo11StateSearchFi:
+.fn __ct__Q34Game6Jigumo11StateSearchFi, global
 /* 80367CC0 00364C00  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 80367CC4 00364C04  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 80367CC8 00364C08  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -2337,9 +2343,9 @@ __ct__Q34Game6Jigumo11StateSearchFi:
 /* 80367CF0 00364C30  90 A3 00 00 */	stw r5, 0(r3)
 /* 80367CF4 00364C34  90 03 00 0C */	stw r0, 0xc(r3)
 /* 80367CF8 00364C38  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo11StateSearchFi
 
-.global init__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 80367CFC 00364C3C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80367D00 00364C40  7C 08 02 A6 */	mflr r0
 /* 80367D04 00364C44  38 A0 00 00 */	li r5, 0
@@ -2374,9 +2380,9 @@ init__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80367D78 00364CB8  7C 08 03 A6 */	mtlr r0
 /* 80367D7C 00364CBC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80367D80 00364CC0  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBase, global
 /* 80367D84 00364CC4  94 21 FE D0 */	stwu r1, -0x130(r1)
 /* 80367D88 00364CC8  7C 08 02 A6 */	mflr r0
 /* 80367D8C 00364CCC  90 01 01 34 */	stw r0, 0x134(r1)
@@ -2402,7 +2408,7 @@ exec__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBase:
 /* 80367DDC 00364D1C  48 00 3C B9 */	bl getNearestPikiOrNavi__Q34Game6Jigumo3ObjFff
 /* 80367DE0 00364D20  7C 7C 1B 79 */	or. r28, r3, r3
 /* 80367DE4 00364D24  93 9F 02 30 */	stw r28, 0x230(r31)
-/* 80367DE8 00364D28  41 82 02 34 */	beq lbl_8036801C
+/* 80367DE8 00364D28  41 82 02 34 */	beq .L_8036801C
 /* 80367DEC 00364D2C  7F 84 E3 78 */	mr r4, r28
 /* 80367DF0 00364D30  38 61 00 B0 */	addi r3, r1, 0xb0
 /* 80367DF4 00364D34  81 9C 00 00 */	lwz r12, 0(r28)
@@ -2448,7 +2454,7 @@ exec__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBase:
 /* 80367E94 00364DD4  C0 02 05 A8 */	lfs f0, lbl_8051E908@sda21(r2)
 /* 80367E98 00364DD8  FC 20 08 18 */	frsp f1, f1
 /* 80367E9C 00364DDC  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 80367EA0 00364DE0  40 80 00 48 */	bge lbl_80367EE8
+/* 80367EA0 00364DE0  40 80 00 48 */	bge .L_80367EE8
 /* 80367EA4 00364DE4  7F E3 FB 78 */	mr r3, r31
 /* 80367EA8 00364DE8  4B D9 D3 F9 */	bl finishMotion__Q24Game9EnemyBaseFv
 /* 80367EAC 00364DEC  38 00 FF FF */	li r0, -1
@@ -2465,16 +2471,16 @@ exec__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBase:
 /* 80367ED8 00364E18  D0 1F 02 C8 */	stfs f0, 0x2c8(r31)
 /* 80367EDC 00364E1C  D0 3F 02 CC */	stfs f1, 0x2cc(r31)
 /* 80367EE0 00364E20  D0 5F 02 D0 */	stfs f2, 0x2d0(r31)
-/* 80367EE4 00364E24  48 00 03 84 */	b lbl_80368268
-lbl_80367EE8:
+/* 80367EE4 00364E24  48 00 03 84 */	b .L_80368268
+.L_80367EE8:
 /* 80367EE8 00364E28  2C 1D 00 0F */	cmpwi r29, 0xf
-/* 80367EEC 00364E2C  40 82 00 18 */	bne lbl_80367F04
+/* 80367EEC 00364E2C  40 82 00 18 */	bne .L_80367F04
 /* 80367EF0 00364E30  7F E3 FB 78 */	mr r3, r31
 /* 80367EF4 00364E34  4B D9 D3 AD */	bl finishMotion__Q24Game9EnemyBaseFv
 /* 80367EF8 00364E38  38 00 00 0D */	li r0, 0xd
 /* 80367EFC 00364E3C  90 1E 00 10 */	stw r0, 0x10(r30)
-/* 80367F00 00364E40  48 00 03 68 */	b lbl_80368268
-lbl_80367F04:
+/* 80367F00 00364E40  48 00 03 68 */	b .L_80368268
+.L_80367F04:
 /* 80367F04 00364E44  7F 84 E3 78 */	mr r4, r28
 /* 80367F08 00364E48  80 BF 00 C0 */	lwz r5, 0xc0(r31)
 /* 80367F0C 00364E4C  81 9C 00 00 */	lwz r12, 0(r28)
@@ -2527,15 +2533,15 @@ lbl_80367F04:
 /* 80367FC8 00364F08  EC 21 00 32 */	fmuls f1, f1, f0
 /* 80367FCC 00364F0C  FC 00 10 18 */	frsp f0, f2
 /* 80367FD0 00364F10  FC 00 08 40 */	fcmpo cr0, f0, f1
-/* 80367FD4 00364F14  40 81 00 1C */	ble lbl_80367FF0
+/* 80367FD4 00364F14  40 81 00 1C */	ble .L_80367FF0
 /* 80367FD8 00364F18  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 80367FDC 00364F1C  FC 1F 00 40 */	fcmpo cr0, f31, f0
-/* 80367FE0 00364F20  40 81 00 0C */	ble lbl_80367FEC
+/* 80367FE0 00364F20  40 81 00 0C */	ble .L_80367FEC
 /* 80367FE4 00364F24  FF E0 08 90 */	fmr f31, f1
-/* 80367FE8 00364F28  48 00 00 08 */	b lbl_80367FF0
-lbl_80367FEC:
+/* 80367FE8 00364F28  48 00 00 08 */	b .L_80367FF0
+.L_80367FEC:
 /* 80367FEC 00364F2C  FF E0 08 50 */	fneg f31, f1
-lbl_80367FF0:
+.L_80367FF0:
 /* 80367FF0 00364F30  7F E3 FB 78 */	mr r3, r31
 /* 80367FF4 00364F34  81 9F 00 00 */	lwz r12, 0(r31)
 /* 80367FF8 00364F38  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -2546,15 +2552,15 @@ lbl_80367FF0:
 /* 8036800C 00364F4C  D0 3F 01 FC */	stfs f1, 0x1fc(r31)
 /* 80368010 00364F50  C0 1F 01 FC */	lfs f0, 0x1fc(r31)
 /* 80368014 00364F54  D0 1F 01 A8 */	stfs f0, 0x1a8(r31)
-/* 80368018 00364F58  48 00 02 50 */	b lbl_80368268
-lbl_8036801C:
+/* 80368018 00364F58  48 00 02 50 */	b .L_80368268
+.L_8036801C:
 /* 8036801C 00364F5C  80 9F 00 C0 */	lwz r4, 0xc0(r31)
 /* 80368020 00364F60  7F E3 FB 78 */	mr r3, r31
 /* 80368024 00364F64  C0 24 04 24 */	lfs f1, 0x424(r4)
 /* 80368028 00364F68  C0 44 03 D4 */	lfs f2, 0x3d4(r4)
 /* 8036802C 00364F6C  48 00 3A 69 */	bl getNearestPikiOrNavi__Q34Game6Jigumo3ObjFff
 /* 80368030 00364F70  7C 7C 1B 79 */	or. r28, r3, r3
-/* 80368034 00364F74  41 82 02 14 */	beq lbl_80368248
+/* 80368034 00364F74  41 82 02 14 */	beq .L_80368248
 /* 80368038 00364F78  7F 84 E3 78 */	mr r4, r28
 /* 8036803C 00364F7C  38 61 00 80 */	addi r3, r1, 0x80
 /* 80368040 00364F80  81 9C 00 00 */	lwz r12, 0(r28)
@@ -2600,25 +2606,25 @@ lbl_8036801C:
 /* 803680E0 00365020  C0 02 05 98 */	lfs f0, lbl_8051E8F8@sda21(r2)
 /* 803680E4 00365024  FC 20 08 18 */	frsp f1, f1
 /* 803680E8 00365028  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 803680EC 0036502C  40 80 00 20 */	bge lbl_8036810C
+/* 803680EC 0036502C  40 80 00 20 */	bge .L_8036810C
 /* 803680F0 00365030  2C 1D 00 0D */	cmpwi r29, 0xd
-/* 803680F4 00365034  40 82 01 74 */	bne lbl_80368268
+/* 803680F4 00365034  40 82 01 74 */	bne .L_80368268
 /* 803680F8 00365038  38 00 00 0F */	li r0, 0xf
 /* 803680FC 0036503C  7F E3 FB 78 */	mr r3, r31
 /* 80368100 00365040  90 1E 00 10 */	stw r0, 0x10(r30)
 /* 80368104 00365044  4B D9 D1 9D */	bl finishMotion__Q24Game9EnemyBaseFv
-/* 80368108 00365048  48 00 01 60 */	b lbl_80368268
-lbl_8036810C:
+/* 80368108 00365048  48 00 01 60 */	b .L_80368268
+.L_8036810C:
 /* 8036810C 0036504C  7F E3 FB 78 */	mr r3, r31
 /* 80368110 00365050  4B D9 F2 39 */	bl getCurrAnimIndex__Q24Game9EnemyBaseFv
 /* 80368114 00365054  2C 03 00 0F */	cmpwi r3, 0xf
-/* 80368118 00365058  40 82 00 18 */	bne lbl_80368130
+/* 80368118 00365058  40 82 00 18 */	bne .L_80368130
 /* 8036811C 0036505C  38 00 00 0D */	li r0, 0xd
 /* 80368120 00365060  7F E3 FB 78 */	mr r3, r31
 /* 80368124 00365064  90 1E 00 10 */	stw r0, 0x10(r30)
 /* 80368128 00365068  4B D9 D1 79 */	bl finishMotion__Q24Game9EnemyBaseFv
-/* 8036812C 0036506C  48 00 01 3C */	b lbl_80368268
-lbl_80368130:
+/* 8036812C 0036506C  48 00 01 3C */	b .L_80368268
+.L_80368130:
 /* 80368130 00365070  7F 84 E3 78 */	mr r4, r28
 /* 80368134 00365074  80 BF 00 C0 */	lwz r5, 0xc0(r31)
 /* 80368138 00365078  81 9C 00 00 */	lwz r12, 0(r28)
@@ -2671,15 +2677,15 @@ lbl_80368130:
 /* 803681F4 00365134  EC 21 00 32 */	fmuls f1, f1, f0
 /* 803681F8 00365138  FC 00 10 18 */	frsp f0, f2
 /* 803681FC 0036513C  FC 00 08 40 */	fcmpo cr0, f0, f1
-/* 80368200 00365140  40 81 00 1C */	ble lbl_8036821C
+/* 80368200 00365140  40 81 00 1C */	ble .L_8036821C
 /* 80368204 00365144  C0 02 05 20 */	lfs f0, lbl_8051E880@sda21(r2)
 /* 80368208 00365148  FC 1E 00 40 */	fcmpo cr0, f30, f0
-/* 8036820C 0036514C  40 81 00 0C */	ble lbl_80368218
+/* 8036820C 0036514C  40 81 00 0C */	ble .L_80368218
 /* 80368210 00365150  FF C0 08 90 */	fmr f30, f1
-/* 80368214 00365154  48 00 00 08 */	b lbl_8036821C
-lbl_80368218:
+/* 80368214 00365154  48 00 00 08 */	b .L_8036821C
+.L_80368218:
 /* 80368218 00365158  FF C0 08 50 */	fneg f30, f1
-lbl_8036821C:
+.L_8036821C:
 /* 8036821C 0036515C  7F E3 FB 78 */	mr r3, r31
 /* 80368220 00365160  81 9F 00 00 */	lwz r12, 0(r31)
 /* 80368224 00365164  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -2690,8 +2696,8 @@ lbl_8036821C:
 /* 80368238 00365178  D0 3F 01 FC */	stfs f1, 0x1fc(r31)
 /* 8036823C 0036517C  C0 1F 01 FC */	lfs f0, 0x1fc(r31)
 /* 80368240 00365180  D0 1F 01 A8 */	stfs f0, 0x1a8(r31)
-/* 80368244 00365184  48 00 00 24 */	b lbl_80368268
-lbl_80368248:
+/* 80368244 00365184  48 00 00 24 */	b .L_80368268
+.L_80368248:
 /* 80368248 00365188  7F C3 F3 78 */	mr r3, r30
 /* 8036824C 0036518C  7F E4 FB 78 */	mr r4, r31
 /* 80368250 00365190  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2700,17 +2706,17 @@ lbl_80368248:
 /* 8036825C 0036519C  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80368260 003651A0  7D 89 03 A6 */	mtctr r12
 /* 80368264 003651A4  4E 80 04 21 */	bctrl 
-lbl_80368268:
+.L_80368268:
 /* 80368268 003651A8  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 8036826C 003651AC  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 80368270 003651B0  28 00 00 00 */	cmplwi r0, 0
-/* 80368274 003651B4  41 82 00 EC */	beq lbl_80368360
+/* 80368274 003651B4  41 82 00 EC */	beq .L_80368360
 /* 80368278 003651B8  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 8036827C 003651BC  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 80368280 003651C0  40 82 00 E0 */	bne lbl_80368360
+/* 80368280 003651C0  40 82 00 E0 */	bne .L_80368360
 /* 80368284 003651C4  80 9E 00 10 */	lwz r4, 0x10(r30)
 /* 80368288 003651C8  2C 04 00 00 */	cmpwi r4, 0
-/* 8036828C 003651CC  40 80 00 C8 */	bge lbl_80368354
+/* 8036828C 003651CC  40 80 00 C8 */	bge .L_80368354
 /* 80368290 003651D0  7F E4 FB 78 */	mr r4, r31
 /* 80368294 003651D4  38 61 00 D4 */	addi r3, r1, 0xd4
 /* 80368298 003651D8  81 9F 00 00 */	lwz r12, 0(r31)
@@ -2741,7 +2747,7 @@ lbl_80368268:
 /* 803682FC 0036523C  EC 21 00 72 */	fmuls f1, f1, f1
 /* 80368300 00365240  EC 03 00 FA */	fmadds f0, f3, f3, f0
 /* 80368304 00365244  FC 00 08 40 */	fcmpo cr0, f0, f1
-/* 80368308 00365248  40 80 00 28 */	bge lbl_80368330
+/* 80368308 00365248  40 80 00 28 */	bge .L_80368330
 /* 8036830C 0036524C  7F C3 F3 78 */	mr r3, r30
 /* 80368310 00365250  7F E4 FB 78 */	mr r4, r31
 /* 80368314 00365254  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2750,8 +2756,8 @@ lbl_80368268:
 /* 80368320 00365260  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80368324 00365264  7D 89 03 A6 */	mtctr r12
 /* 80368328 00365268  4E 80 04 21 */	bctrl 
-/* 8036832C 0036526C  48 00 00 34 */	b lbl_80368360
-lbl_80368330:
+/* 8036832C 0036526C  48 00 00 34 */	b .L_80368360
+.L_80368330:
 /* 80368330 00365270  7F C3 F3 78 */	mr r3, r30
 /* 80368334 00365274  7F E4 FB 78 */	mr r4, r31
 /* 80368338 00365278  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2760,12 +2766,12 @@ lbl_80368330:
 /* 80368344 00365284  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80368348 00365288  7D 89 03 A6 */	mtctr r12
 /* 8036834C 0036528C  4E 80 04 21 */	bctrl 
-/* 80368350 00365290  48 00 00 10 */	b lbl_80368360
-lbl_80368354:
+/* 80368350 00365290  48 00 00 10 */	b .L_80368360
+.L_80368354:
 /* 80368354 00365294  7F E3 FB 78 */	mr r3, r31
 /* 80368358 00365298  38 A0 00 00 */	li r5, 0
 /* 8036835C 0036529C  4B D9 CC A9 */	bl startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-lbl_80368360:
+.L_80368360:
 /* 80368360 003652A0  E3 E1 01 28 */	psq_l f31, 296(r1), 0, qr0
 /* 80368364 003652A4  CB E1 01 20 */	lfd f31, 0x120(r1)
 /* 80368368 003652A8  E3 C1 01 18 */	psq_l f30, 280(r1), 0, qr0
@@ -2780,9 +2786,9 @@ lbl_80368360:
 /* 8036838C 003652CC  7C 08 03 A6 */	mtlr r0
 /* 80368390 003652D0  38 21 01 30 */	addi r1, r1, 0x130
 /* 80368394 003652D4  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo11StateSearchFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo12StateSAttackFi
-__ct__Q34Game6Jigumo12StateSAttackFi:
+.fn __ct__Q34Game6Jigumo12StateSAttackFi, global
 /* 80368398 003652D8  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 8036839C 003652DC  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 803683A0 003652E0  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -2798,9 +2804,9 @@ __ct__Q34Game6Jigumo12StateSAttackFi:
 /* 803683C8 00365308  90 A3 00 00 */	stw r5, 0(r3)
 /* 803683CC 0036530C  90 03 00 0C */	stw r0, 0xc(r3)
 /* 803683D0 00365310  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo12StateSAttackFi
 
-.global init__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 803683D4 00365314  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803683D8 00365318  7C 08 02 A6 */	mflr r0
 /* 803683DC 0036531C  38 A0 00 00 */	li r5, 0
@@ -2823,9 +2829,9 @@ init__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 80368420 00365360  7C 08 03 A6 */	mtlr r0
 /* 80368424 00365364  38 21 00 10 */	addi r1, r1, 0x10
 /* 80368428 00365368  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase, global
 /* 8036842C 0036536C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80368430 00365370  7C 08 02 A6 */	mflr r0
 /* 80368434 00365374  90 01 00 14 */	stw r0, 0x14(r1)
@@ -2838,7 +2844,7 @@ exec__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase:
 /* 80368450 00365390  80 7F 00 C0 */	lwz r3, 0xc0(r31)
 /* 80368454 00365394  C0 03 09 24 */	lfs f0, 0x924(r3)
 /* 80368458 00365398  FC 00 08 00 */	fcmpu cr0, f0, f1
-/* 8036845C 0036539C  40 82 00 3C */	bne lbl_80368498
+/* 8036845C 0036539C  40 82 00 3C */	bne .L_80368498
 /* 80368460 003653A0  38 00 00 01 */	li r0, 1
 /* 80368464 003653A4  7F E3 FB 78 */	mr r3, r31
 /* 80368468 003653A8  98 1E 00 11 */	stb r0, 0x11(r30)
@@ -2853,18 +2859,18 @@ exec__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase:
 /* 8036848C 003653CC  81 8C 00 AC */	lwz r12, 0xac(r12)
 /* 80368490 003653D0  7D 89 03 A6 */	mtctr r12
 /* 80368494 003653D4  4E 80 04 21 */	bctrl 
-lbl_80368498:
+.L_80368498:
 /* 80368498 003653D8  88 1E 00 11 */	lbz r0, 0x11(r30)
 /* 8036849C 003653DC  28 00 00 00 */	cmplwi r0, 0
-/* 803684A0 003653E0  41 82 00 48 */	beq lbl_803684E8
+/* 803684A0 003653E0  41 82 00 48 */	beq .L_803684E8
 /* 803684A4 003653E4  7F E3 FB 78 */	mr r3, r31
 /* 803684A8 003653E8  38 80 00 00 */	li r4, 0
 /* 803684AC 003653EC  4B DA B6 89 */	bl "eatPikmin__Q24Game9EnemyFuncFPQ24Game9EnemyBaseP23Condition<Q24Game4Piki>"
 /* 803684B0 003653F0  2C 03 00 00 */	cmpwi r3, 0
-/* 803684B4 003653F4  41 82 00 0C */	beq lbl_803684C0
+/* 803684B4 003653F4  41 82 00 0C */	beq .L_803684C0
 /* 803684B8 003653F8  38 00 00 01 */	li r0, 1
 /* 803684BC 003653FC  98 1E 00 10 */	stb r0, 0x10(r30)
-lbl_803684C0:
+.L_803684C0:
 /* 803684C0 00365400  C0 22 05 B4 */	lfs f1, lbl_8051E914@sda21(r2)
 /* 803684C4 00365404  7F E3 FB 78 */	mr r3, r31
 /* 803684C8 00365408  80 DF 00 C0 */	lwz r6, 0xc0(r31)
@@ -2875,32 +2881,32 @@ lbl_803684C0:
 /* 803684DC 0036541C  EC 21 00 32 */	fmuls f1, f1, f0
 /* 803684E0 00365420  C0 66 06 04 */	lfs f3, 0x604(r6)
 /* 803684E4 00365424  4B DA BD 7D */	bl "attackNavi__Q24Game9EnemyFuncFPQ24Game8CreaturefffP8CollPartP23Condition<Q24Game4Navi>"
-lbl_803684E8:
+.L_803684E8:
 /* 803684E8 00365428  80 7F 01 88 */	lwz r3, 0x188(r31)
 /* 803684EC 0036542C  88 03 00 24 */	lbz r0, 0x24(r3)
 /* 803684F0 00365430  28 00 00 00 */	cmplwi r0, 0
-/* 803684F4 00365434  41 82 01 58 */	beq lbl_8036864C
+/* 803684F4 00365434  41 82 01 58 */	beq .L_8036864C
 /* 803684F8 00365438  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 803684FC 0036543C  2C 00 00 09 */	cmpwi r0, 9
-/* 80368500 00365440  41 82 01 04 */	beq lbl_80368604
-/* 80368504 00365444  40 80 00 1C */	bge lbl_80368520
+/* 80368500 00365440  41 82 01 04 */	beq .L_80368604
+/* 80368504 00365444  40 80 00 1C */	bge .L_80368520
 /* 80368508 00365448  2C 00 00 03 */	cmpwi r0, 3
-/* 8036850C 0036544C  41 82 00 78 */	beq lbl_80368584
-/* 80368510 00365450  40 80 00 DC */	bge lbl_803685EC
+/* 8036850C 0036544C  41 82 00 78 */	beq .L_80368584
+/* 80368510 00365450  40 80 00 DC */	bge .L_803685EC
 /* 80368514 00365454  2C 00 00 02 */	cmpwi r0, 2
-/* 80368518 00365458  40 80 00 20 */	bge lbl_80368538
-/* 8036851C 0036545C  48 00 01 30 */	b lbl_8036864C
-lbl_80368520:
+/* 80368518 00365458  40 80 00 20 */	bge .L_80368538
+/* 8036851C 0036545C  48 00 01 30 */	b .L_8036864C
+.L_80368520:
 /* 80368520 00365460  2C 00 03 E8 */	cmpwi r0, 0x3e8
-/* 80368524 00365464  41 82 01 08 */	beq lbl_8036862C
-/* 80368528 00365468  40 80 01 24 */	bge lbl_8036864C
+/* 80368524 00365464  41 82 01 08 */	beq .L_8036862C
+/* 80368528 00365468  40 80 01 24 */	bge .L_8036864C
 /* 8036852C 0036546C  2C 00 00 0B */	cmpwi r0, 0xb
-/* 80368530 00365470  40 80 01 1C */	bge lbl_8036864C
-/* 80368534 00365474  48 00 00 DC */	b lbl_80368610
-lbl_80368538:
+/* 80368530 00365470  40 80 01 1C */	bge .L_8036864C
+/* 80368534 00365474  48 00 00 DC */	b .L_80368610
+.L_80368538:
 /* 80368538 00365478  80 1F 02 80 */	lwz r0, 0x280(r31)
 /* 8036853C 0036547C  28 00 00 00 */	cmplwi r0, 0
-/* 80368540 00365480  41 82 00 24 */	beq lbl_80368564
+/* 80368540 00365480  41 82 00 24 */	beq .L_80368564
 /* 80368544 00365484  80 7F 02 8C */	lwz r3, 0x28c(r31)
 /* 80368548 00365488  38 80 58 D2 */	li r4, 0x58d2
 /* 8036854C 0036548C  38 A0 00 00 */	li r5, 0
@@ -2908,8 +2914,8 @@ lbl_80368538:
 /* 80368554 00365494  81 8C 00 88 */	lwz r12, 0x88(r12)
 /* 80368558 00365498  7D 89 03 A6 */	mtctr r12
 /* 8036855C 0036549C  4E 80 04 21 */	bctrl 
-/* 80368560 003654A0  48 00 00 EC */	b lbl_8036864C
-lbl_80368564:
+/* 80368560 003654A0  48 00 00 EC */	b .L_8036864C
+.L_80368564:
 /* 80368564 003654A4  80 7F 02 8C */	lwz r3, 0x28c(r31)
 /* 80368568 003654A8  38 80 58 D1 */	li r4, 0x58d1
 /* 8036856C 003654AC  38 A0 00 00 */	li r5, 0
@@ -2917,8 +2923,8 @@ lbl_80368564:
 /* 80368574 003654B4  81 8C 00 88 */	lwz r12, 0x88(r12)
 /* 80368578 003654B8  7D 89 03 A6 */	mtctr r12
 /* 8036857C 003654BC  4E 80 04 21 */	bctrl 
-/* 80368580 003654C0  48 00 00 CC */	b lbl_8036864C
-lbl_80368584:
+/* 80368580 003654C0  48 00 00 CC */	b .L_8036864C
+.L_80368584:
 /* 80368584 003654C4  38 00 00 00 */	li r0, 0
 /* 80368588 003654C8  7F E3 FB 78 */	mr r3, r31
 /* 8036858C 003654CC  98 1E 00 11 */	stb r0, 0x11(r30)
@@ -2935,7 +2941,7 @@ lbl_80368584:
 /* 803685B8 003654F8  4E 80 04 21 */	bctrl 
 /* 803685BC 003654FC  88 1E 00 10 */	lbz r0, 0x10(r30)
 /* 803685C0 00365500  28 00 00 00 */	cmplwi r0, 0
-/* 803685C4 00365504  40 82 00 88 */	bne lbl_8036864C
+/* 803685C4 00365504  40 82 00 88 */	bne .L_8036864C
 /* 803685C8 00365508  7F C3 F3 78 */	mr r3, r30
 /* 803685CC 0036550C  7F E4 FB 78 */	mr r4, r31
 /* 803685D0 00365510  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2944,27 +2950,27 @@ lbl_80368584:
 /* 803685DC 0036551C  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 803685E0 00365520  7D 89 03 A6 */	mtctr r12
 /* 803685E4 00365524  4E 80 04 21 */	bctrl 
-/* 803685E8 00365528  48 00 00 64 */	b lbl_8036864C
-lbl_803685EC:
+/* 803685E8 00365528  48 00 00 64 */	b .L_8036864C
+.L_803685EC:
 /* 803685EC 0036552C  80 1F 02 80 */	lwz r0, 0x280(r31)
 /* 803685F0 00365530  28 00 00 00 */	cmplwi r0, 0
-/* 803685F4 00365534  41 82 00 58 */	beq lbl_8036864C
+/* 803685F4 00365534  41 82 00 58 */	beq .L_8036864C
 /* 803685F8 00365538  7F E3 FB 78 */	mr r3, r31
 /* 803685FC 0036553C  48 00 37 B5 */	bl eatWaterEffect__Q34Game6Jigumo3ObjFv
-/* 80368600 00365540  48 00 00 4C */	b lbl_8036864C
-lbl_80368604:
+/* 80368600 00365540  48 00 00 4C */	b .L_8036864C
+.L_80368604:
 /* 80368604 00365544  38 00 00 01 */	li r0, 1
 /* 80368608 00365548  98 1F 02 E9 */	stb r0, 0x2e9(r31)
-/* 8036860C 0036554C  48 00 00 40 */	b lbl_8036864C
-lbl_80368610:
+/* 8036860C 0036554C  48 00 00 40 */	b .L_8036864C
+.L_80368610:
 /* 80368610 00365550  C0 22 05 9C */	lfs f1, lbl_8051E8FC@sda21(r2)
 /* 80368614 00365554  7F E3 FB 78 */	mr r3, r31
 /* 80368618 00365558  38 80 00 00 */	li r4, 0
 /* 8036861C 0036555C  4B DA B8 69 */	bl "swallowPikmin__Q24Game9EnemyFuncFPQ24Game8CreaturefP23Condition<Q24Game4Piki>"
 /* 80368620 00365560  38 00 00 00 */	li r0, 0
 /* 80368624 00365564  98 1F 02 E9 */	stb r0, 0x2e9(r31)
-/* 80368628 00365568  48 00 00 24 */	b lbl_8036864C
-lbl_8036862C:
+/* 80368628 00365568  48 00 00 24 */	b .L_8036864C
+.L_8036862C:
 /* 8036862C 0036556C  7F C3 F3 78 */	mr r3, r30
 /* 80368630 00365570  7F E4 FB 78 */	mr r4, r31
 /* 80368634 00365574  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2973,16 +2979,16 @@ lbl_8036862C:
 /* 80368640 00365580  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80368644 00365584  7D 89 03 A6 */	mtctr r12
 /* 80368648 00365588  4E 80 04 21 */	bctrl 
-lbl_8036864C:
+.L_8036864C:
 /* 8036864C 0036558C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80368650 00365590  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 80368654 00365594  83 C1 00 08 */	lwz r30, 8(r1)
 /* 80368658 00365598  7C 08 03 A6 */	mtlr r0
 /* 8036865C 0036559C  38 21 00 10 */	addi r1, r1, 0x10
 /* 80368660 003655A0  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase
 
-.global cleanup__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase
-cleanup__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase:
+.fn cleanup__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase, global
 /* 80368664 003655A4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80368668 003655A8  7C 08 02 A6 */	mflr r0
 /* 8036866C 003655AC  7C 83 23 78 */	mr r3, r4
@@ -2992,9 +2998,9 @@ cleanup__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase:
 /* 8036867C 003655BC  7C 08 03 A6 */	mtlr r0
 /* 80368680 003655C0  38 21 00 10 */	addi r1, r1, 0x10
 /* 80368684 003655C4  4E 80 00 20 */	blr 
+.endfn cleanup__Q34Game6Jigumo12StateSAttackFPQ24Game9EnemyBase
 
-.global __ct__Q34Game6Jigumo10StateSMissFi
-__ct__Q34Game6Jigumo10StateSMissFi:
+.fn __ct__Q34Game6Jigumo10StateSMissFi, global
 /* 80368688 003655C8  3C A0 80 4B */	lis r5, __vt__Q24Game13EnemyFSMState@ha
 /* 8036868C 003655CC  3C C0 80 4E */	lis r6, __vt__Q34Game6Jigumo5State@ha
 /* 80368690 003655D0  38 05 F9 A4 */	addi r0, r5, __vt__Q24Game13EnemyFSMState@l
@@ -3010,9 +3016,9 @@ __ct__Q34Game6Jigumo10StateSMissFi:
 /* 803686B8 003655F8  90 A3 00 00 */	stw r5, 0(r3)
 /* 803686BC 003655FC  90 03 00 0C */	stw r0, 0xc(r3)
 /* 803686C0 00365600  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game6Jigumo10StateSMissFi
 
-.global init__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBasePQ24Game8StateArg
-init__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBasePQ24Game8StateArg:
+.fn init__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBasePQ24Game8StateArg, global
 /* 803686C4 00365604  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803686C8 00365608  7C 08 02 A6 */	mflr r0
 /* 803686CC 0036560C  7C 83 23 78 */	mr r3, r4
@@ -3024,33 +3030,33 @@ init__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBasePQ24Game8StateArg:
 /* 803686E4 00365624  7C 08 03 A6 */	mtlr r0
 /* 803686E8 00365628  38 21 00 10 */	addi r1, r1, 0x10
 /* 803686EC 0036562C  4E 80 00 20 */	blr 
+.endfn init__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBasePQ24Game8StateArg
 
-.global exec__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBase
-exec__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBase:
+.fn exec__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBase, global
 /* 803686F0 00365630  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803686F4 00365634  7C 08 02 A6 */	mflr r0
 /* 803686F8 00365638  90 01 00 14 */	stw r0, 0x14(r1)
 /* 803686FC 0036563C  80 A4 01 88 */	lwz r5, 0x188(r4)
 /* 80368700 00365640  88 05 00 24 */	lbz r0, 0x24(r5)
 /* 80368704 00365644  28 00 00 00 */	cmplwi r0, 0
-/* 80368708 00365648  41 82 00 28 */	beq lbl_80368730
+/* 80368708 00365648  41 82 00 28 */	beq .L_80368730
 /* 8036870C 0036564C  80 05 00 1C */	lwz r0, 0x1c(r5)
 /* 80368710 00365650  28 00 03 E8 */	cmplwi r0, 0x3e8
-/* 80368714 00365654  40 82 00 1C */	bne lbl_80368730
+/* 80368714 00365654  40 82 00 1C */	bne .L_80368730
 /* 80368718 00365658  81 83 00 00 */	lwz r12, 0(r3)
 /* 8036871C 0036565C  38 A0 00 0A */	li r5, 0xa
 /* 80368720 00365660  38 C0 00 00 */	li r6, 0
 /* 80368724 00365664  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80368728 00365668  7D 89 03 A6 */	mtctr r12
 /* 8036872C 0036566C  4E 80 04 21 */	bctrl 
-lbl_80368730:
+.L_80368730:
 /* 80368730 00365670  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80368734 00365674  7C 08 03 A6 */	mtlr r0
 /* 80368738 00365678  38 21 00 10 */	addi r1, r1, 0x10
 /* 8036873C 0036567C  4E 80 00 20 */	blr 
+.endfn exec__Q34Game6Jigumo10StateSMissFPQ24Game9EnemyBase
 
-.global satisfy__Q34Game6Jigumo24ConditionHeightCheckPikiFPQ24Game4Piki
-satisfy__Q34Game6Jigumo24ConditionHeightCheckPikiFPQ24Game4Piki:
+.fn satisfy__Q34Game6Jigumo24ConditionHeightCheckPikiFPQ24Game4Piki, weak
 /* 80368740 00365680  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 80368744 00365684  7C 08 02 A6 */	mflr r0
 /* 80368748 00365688  90 01 00 34 */	stw r0, 0x34(r1)
@@ -3063,7 +3069,7 @@ satisfy__Q34Game6Jigumo24ConditionHeightCheckPikiFPQ24Game4Piki:
 /* 80368764 003656A4  7F A3 EB 78 */	mr r3, r29
 /* 80368768 003656A8  4B E3 6E 0D */	bl isStickTo__Q24Game8CreatureFv
 /* 8036876C 003656AC  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80368770 003656B0  40 82 00 9C */	bne lbl_8036880C
+/* 80368770 003656B0  40 82 00 9C */	bne .L_8036880C
 /* 80368774 003656B4  7F A3 EB 78 */	mr r3, r29
 /* 80368778 003656B8  83 DC 00 04 */	lwz r30, 4(r28)
 /* 8036877C 003656BC  81 9D 00 00 */	lwz r12, 0(r29)
@@ -3072,18 +3078,18 @@ satisfy__Q34Game6Jigumo24ConditionHeightCheckPikiFPQ24Game4Piki:
 /* 80368788 003656C8  7D 89 03 A6 */	mtctr r12
 /* 8036878C 003656CC  4E 80 04 21 */	bctrl 
 /* 80368790 003656D0  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80368794 003656D4  41 82 00 24 */	beq lbl_803687B8
+/* 80368794 003656D4  41 82 00 24 */	beq .L_803687B8
 /* 80368798 003656D8  80 1D 00 F4 */	lwz r0, 0xf4(r29)
 /* 8036879C 003656DC  7C 00 F0 40 */	cmplw r0, r30
-/* 803687A0 003656E0  41 82 00 18 */	beq lbl_803687B8
+/* 803687A0 003656E0  41 82 00 18 */	beq .L_803687B8
 /* 803687A4 003656E4  7F A3 EB 78 */	mr r3, r29
 /* 803687A8 003656E8  4B E3 6D E1 */	bl isStickToMouth__Q24Game8CreatureFv
 /* 803687AC 003656EC  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 803687B0 003656F0  40 82 00 08 */	bne lbl_803687B8
+/* 803687B0 003656F0  40 82 00 08 */	bne .L_803687B8
 /* 803687B4 003656F4  3B E0 00 01 */	li r31, 1
-lbl_803687B8:
+.L_803687B8:
 /* 803687B8 003656F8  57 E0 06 3F */	clrlwi. r0, r31, 0x18
-/* 803687BC 003656FC  41 82 00 50 */	beq lbl_8036880C
+/* 803687BC 003656FC  41 82 00 50 */	beq .L_8036880C
 /* 803687C0 00365700  7F A4 EB 78 */	mr r4, r29
 /* 803687C4 00365704  38 61 00 08 */	addi r3, r1, 8
 /* 803687C8 00365708  81 9D 00 00 */	lwz r12, 0(r29)
@@ -3093,20 +3099,20 @@ lbl_803687B8:
 /* 803687D8 00365718  C0 21 00 0C */	lfs f1, 0xc(r1)
 /* 803687DC 0036571C  C0 1C 00 0C */	lfs f0, 0xc(r28)
 /* 803687E0 00365720  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 803687E4 00365724  40 81 00 0C */	ble lbl_803687F0
+/* 803687E4 00365724  40 81 00 0C */	ble .L_803687F0
 /* 803687E8 00365728  38 60 00 00 */	li r3, 0
-/* 803687EC 0036572C  48 00 00 24 */	b lbl_80368810
-lbl_803687F0:
+/* 803687EC 0036572C  48 00 00 24 */	b .L_80368810
+.L_803687F0:
 /* 803687F0 00365730  C0 1C 00 08 */	lfs f0, 8(r28)
 /* 803687F4 00365734  FC 01 00 40 */	fcmpo cr0, f1, f0
 /* 803687F8 00365738  7C 00 00 26 */	mfcr r0
 /* 803687FC 0036573C  54 00 0F FE */	srwi r0, r0, 0x1f
 /* 80368800 00365740  7C 00 00 34 */	cntlzw r0, r0
 /* 80368804 00365744  54 03 D9 7E */	srwi r3, r0, 5
-/* 80368808 00365748  48 00 00 08 */	b lbl_80368810
-lbl_8036880C:
+/* 80368808 00365748  48 00 00 08 */	b .L_80368810
+.L_8036880C:
 /* 8036880C 0036574C  38 60 00 00 */	li r3, 0
-lbl_80368810:
+.L_80368810:
 /* 80368810 00365750  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 80368814 00365754  83 E1 00 2C */	lwz r31, 0x2c(r1)
 /* 80368818 00365758  83 C1 00 28 */	lwz r30, 0x28(r1)
@@ -3115,16 +3121,17 @@ lbl_80368810:
 /* 80368824 00365764  7C 08 03 A6 */	mtlr r0
 /* 80368828 00365768  38 21 00 30 */	addi r1, r1, 0x30
 /* 8036882C 0036576C  4E 80 00 20 */	blr 
+.endfn satisfy__Q34Game6Jigumo24ConditionHeightCheckPikiFPQ24Game4Piki
 
-.global __sinit_jigumoState_cpp
-__sinit_jigumoState_cpp:
+.fn __sinit_jigumoState_cpp, local
 /* 80368830 00365770  3C 80 80 51 */	lis r4, __float_nan@ha
 /* 80368834 00365774  38 00 FF FF */	li r0, -1
 /* 80368838 00365778  C0 04 48 B0 */	lfs f0, __float_nan@l(r4)
-/* 8036883C 0036577C  3C 60 80 4E */	lis r3, lbl_804E2908@ha
-/* 80368840 00365780  90 0D 98 D8 */	stw r0, lbl_80515F58@sda21(r13)
-/* 80368844 00365784  D4 03 29 08 */	stfsu f0, lbl_804E2908@l(r3)
-/* 80368848 00365788  D0 0D 98 DC */	stfs f0, lbl_80515F5C@sda21(r13)
+/* 8036883C 0036577C  3C 60 80 4E */	lis r3, govNAN___Q24Game5P2JST@ha
+/* 80368840 00365780  90 0D 98 D8 */	stw r0, gu32NAN___Q24Game5P2JST@sda21(r13)
+/* 80368844 00365784  D4 03 29 08 */	stfsu f0, govNAN___Q24Game5P2JST@l(r3)
+/* 80368848 00365788  D0 0D 98 DC */	stfs f0, gfNAN___Q24Game5P2JST@sda21(r13)
 /* 8036884C 0036578C  D0 03 00 04 */	stfs f0, 4(r3)
 /* 80368850 00365790  D0 03 00 08 */	stfs f0, 8(r3)
 /* 80368854 00365794  4E 80 00 20 */	blr 
+.endfn __sinit_jigumoState_cpp

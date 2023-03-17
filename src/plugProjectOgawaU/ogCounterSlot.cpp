@@ -1,89 +1,12 @@
 #include "og/Screen/callbackNodes.h"
-#include "types.h"
-
-/*
-    Generated from dpostproc
-
-    .section .rodata  # 0x804732E0 - 0x8049E220
-    .global lbl_8048F578
-    lbl_8048F578:
-        .4byte 0x6F67436F
-        .4byte 0x756E7465
-        .4byte 0x72536C6F
-        .4byte 0x742E6370
-        .4byte 0x70000000
-    .global lbl_8048F58C
-    lbl_8048F58C:
-        .4byte 0x736C6F74
-        .4byte 0x5F757020
-        .4byte 0x6F766572
-        .4byte 0x666C6F77
-        .4byte 0x20212028
-        .4byte 0x6B3D2564
-        .4byte 0x290A0000
-
-    .section .data, "wa"  # 0x8049E220 - 0x804EFC20
-    .global __vt__Q32og6Screen20CallBack_CounterSlot
-    __vt__Q32og6Screen20CallBack_CounterSlot:
-        .4byte 0
-        .4byte 0
-        .4byte __dt__Q32og6Screen20CallBack_CounterSlotFv
-        .4byte getChildCount__5CNodeFv
-        .4byte update__Q32og6Screen20CallBack_CounterSlotFv
-        .4byte
-   draw__Q32og6Screen18CallBack_CounterRVFR8GraphicsR14J2DGrafContext .4byte
-   doInit__Q29P2DScreen4NodeFv .4byte
-   init__Q32og6Screen20CallBack_CounterSlotFP9J2DScreenUxUxUxPUlb .4byte
-   show__Q32og6Screen18CallBack_CounterRVFv .4byte
-   hide__Q32og6Screen18CallBack_CounterRVFv .4byte
-   setValue__Q32og6Screen20CallBack_CounterSlotFbb .4byte
-   setValue__Q32og6Screen20CallBack_CounterSlotFv
-
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .global lbl_8051DEC8
-    lbl_8051DEC8:
-        .4byte 0x00000000
-    .global lbl_8051DECC
-    lbl_8051DECC:
-        .float 0.1
-    .global lbl_8051DED0
-    lbl_8051DED0:
-        .4byte 0x40000000
-    .global lbl_8051DED4
-    lbl_8051DED4:
-        .4byte 0x420C0000
-    .global lbl_8051DED8
-    lbl_8051DED8:
-        .float 0.3
-        .4byte 0x00000000
-    .global lbl_8051DEE0
-    lbl_8051DEE0:
-        .4byte 0x40240000
-        .4byte 0x00000000
-    .global lbl_8051DEE8
-    lbl_8051DEE8:
-        .4byte 0x47000000
-    .global lbl_8051DEEC
-    lbl_8051DEEC:
-        .4byte 0x41100000
-    .global lbl_8051DEF0
-    lbl_8051DEF0:
-        .4byte 0x3CCCCCCD
-    .global lbl_8051DEF4
-    lbl_8051DEF4:
-        .float 0.5
-    .global lbl_8051DEF8
-    lbl_8051DEF8:
-        .float 1.0
-        .4byte 0x00000000
-    .global lbl_8051DF00
-    lbl_8051DF00:
-        .4byte 0x43300000
-        .4byte 0x80000000
-*/
+#include "System.h"
+#include "og/Sound.h"
+#include "og/Screen/ogScreen.h"
+#include "Dolphin/rand.h"
+#include "Dolphin/math.h"
+#include "trig.h"
 
 namespace og {
-
 namespace Screen {
 
 /*
@@ -94,7 +17,18 @@ namespace Screen {
 CallBack_CounterSlot::CallBack_CounterSlot(char** p1, u16 p2, u16 p3, JKRArchive* archive)
     : CallBack_CounterRV(p1, p2, p3, archive)
 {
-	// UNUSED FUNCTION
+	_A8             = 0;
+	_A9             = 0;
+	_AA             = 0;
+	_AB             = 0;
+	_AC             = 0;
+	_B0             = 0;
+	mTimer          = 0.0f;
+	mUpdateInterval = 0.1f;
+	mPuyoParm1      = 2.0f;
+	mPuyoParm2      = 35.0f;
+	mPuyoParm3      = 0.3f;
+	_C8             = PSSE_UNSET;
 }
 
 /*
@@ -102,23 +36,9 @@ CallBack_CounterSlot::CallBack_CounterSlot(char** p1, u16 p2, u16 p3, JKRArchive
  * Address:	8032A754
  * Size:	000030
  */
-void CallBack_CounterSlot::init(J2DScreen*, unsigned long long, unsigned long long, unsigned long long, unsigned long*, bool)
+void CallBack_CounterSlot::init(J2DScreen* screen, u64 tag1, u64 tag2, u64 tag3, u32* data, bool flag)
 {
-	/*
-	.loc_0x0:
-	  stwu      r1, -0x10(r1)
-	  mflr      r0
-	  stw       r0, 0x14(r1)
-	  lwz       r11, 0x18(r1)
-	  lbz       r0, 0x1F(r1)
-	  stw       r11, 0x8(r1)
-	  stw       r0, 0xC(r1)
-	  bl        -0x1EE8C
-	  lwz       r0, 0x14(r1)
-	  mtlr      r0
-	  addi      r1, r1, 0x10
-	  blr
-	*/
+	CallBack_CounterRV::init(screen, tag1, tag2, tag3, data, flag);
 }
 
 /*
@@ -126,14 +46,11 @@ void CallBack_CounterSlot::init(J2DScreen*, unsigned long long, unsigned long lo
  * Address:	8032A784
  * Size:	000010
  */
-void CallBack_CounterSlot::setPuyoParam(float, float, float)
+void CallBack_CounterSlot::setPuyoParam(f32 parm1, f32 parm2, f32 parm3)
 {
-	/*
-stfs     f1, 0xbc(r3)
-stfs     f2, 0xc0(r3)
-stfs     f3, 0xc4(r3)
-blr
-	*/
+	mPuyoParm1 = parm1;
+	mPuyoParm2 = parm2;
+	mPuyoParm3 = parm3;
 }
 
 /*
@@ -141,192 +58,45 @@ blr
  * Address:	8032A794
  * Size:	000270
  */
-void CallBack_CounterSlot::update(void)
+void CallBack_CounterSlot::update()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-stw      r30, 8(r1)
-mr       r30, r3
-lhz      r31, 0x2c(r3)
-lhz      r0, 0x2e(r3)
-cmpw     r31, r0
-ble      lbl_8032A7C0
-mr       r31, r0
+	int goal = mCurrCounters;
+	if (goal > mCounterLimit) {
+		goal = mCounterLimit;
+	}
 
-lbl_8032A7C0:
-lbz      r0, 0xa8(r30)
-cmplwi   r0, 0
-beq      lbl_8032A8CC
-lbz      r0, 0xac(r30)
-cmplwi   r0, 0
-bne      lbl_8032A8CC
-li       r6, 0
-li       r7, 0
-mr       r0, r6
-li       r3, 1
-mtctr    r31
-cmpwi    r31, 0
-ble      lbl_8032A830
-
-lbl_8032A7F4:
-lwz      r5, 0x7c(r30)
-lwz      r4, 0xb0(r30)
-lwzx     r5, r5, r6
-cmpw     r7, r4
-lwz      r5, 0(r5)
-bgt      lbl_8032A820
-lbz      r4, 0xa9(r30)
-cmplwi   r4, 0
-beq      lbl_8032A820
-stb      r3, 0xb0(r5)
-b        lbl_8032A824
-
-lbl_8032A820:
-stb      r0, 0xb0(r5)
-
-lbl_8032A824:
-addi     r6, r6, 4
-addi     r7, r7, 1
-bdnz     lbl_8032A7F4
-
-lbl_8032A830:
-lwz      r3, sys@sda21(r13)
-lfs      f1, 0xb4(r30)
-lfs      f0, 0x54(r3)
-fadds    f0, f1, f0
-stfs     f0, 0xb4(r30)
-lfs      f1, 0xb4(r30)
-lfs      f0, 0xb8(r30)
-fcmpo    cr0, f1, f0
-cror     2, 1, 2
-bne      lbl_8032A8AC
-lfs      f0, lbl_8051DEC8@sda21(r2)
-stfs     f0, 0xb4(r30)
-lwz      r3, 0xb0(r30)
-addi     r0, r3, 1
-stw      r0, 0xb0(r30)
-lwz      r4, 0xb0(r30)
-lhz      r0, 0x2c(r30)
-cmpw     r4, r0
-blt      lbl_8032A8A4
-lhz      r0, 0x2e(r30)
-cmpw     r4, r0
-blt      lbl_8032A898
-li       r3, 0
-li       r0, 1
-stb      r3, 0xa8(r30)
-stb      r0, 0xab(r30)
-
-lbl_8032A898:
-li       r0, 1
-stb      r0, 0xaa(r30)
-b        lbl_8032A8AC
-
-lbl_8032A8A4:
-mr       r3, r30
-bl       slot_up__Q32og6Screen20CallBack_CounterSlotFi
-
-lbl_8032A8AC:
-mr       r3, r30
-li       r4, 0
-lwz      r12, 0(r30)
-li       r5, 0
-lwz      r12, 0x28(r12)
-mtctr    r12
-bctrl
-b        lbl_8032A9EC
-
-lbl_8032A8CC:
-mr       r3, r30
-bl       update__Q32og6Screen18CallBack_CounterRVFv
-lbz      r0, 0xa9(r30)
-cmplwi   r0, 0
-bne      lbl_8032A9EC
-cmpwi    r31, 0
-li       r4, 0
-ble      lbl_8032A9EC
-cmpwi    r31, 8
-addi     r5, r31, -8
-ble      lbl_8032A9BC
-addi     r0, r5, 7
-li       r3, 0
-srwi     r0, r0, 3
-mtctr    r0
-cmpwi    r5, 0
-ble      lbl_8032A9BC
-
-lbl_8032A910:
-lwz      r5, 0x7c(r30)
-li       r12, 0
-addi     r10, r3, 4
-addi     r9, r3, 8
-lwzx     r5, r5, r3
-addi     r8, r3, 0xc
-addi     r7, r3, 0x10
-addi     r6, r3, 0x14
-lwz      r11, 0(r5)
-addi     r5, r3, 0x18
-addi     r0, r3, 0x1c
-addi     r3, r3, 0x20
-stb      r12, 0xb0(r11)
-addi     r4, r4, 8
-lwz      r11, 0x7c(r30)
-lwzx     r10, r11, r10
-lwz      r10, 0(r10)
-stb      r12, 0xb0(r10)
-lwz      r10, 0x7c(r30)
-lwzx     r9, r10, r9
-lwz      r9, 0(r9)
-stb      r12, 0xb0(r9)
-lwz      r9, 0x7c(r30)
-lwzx     r8, r9, r8
-lwz      r8, 0(r8)
-stb      r12, 0xb0(r8)
-lwz      r8, 0x7c(r30)
-lwzx     r7, r8, r7
-lwz      r7, 0(r7)
-stb      r12, 0xb0(r7)
-lwz      r7, 0x7c(r30)
-lwzx     r6, r7, r6
-lwz      r6, 0(r6)
-stb      r12, 0xb0(r6)
-lwz      r6, 0x7c(r30)
-lwzx     r5, r6, r5
-lwz      r5, 0(r5)
-stb      r12, 0xb0(r5)
-lwz      r5, 0x7c(r30)
-lwzx     r5, r5, r0
-lwz      r5, 0(r5)
-stb      r12, 0xb0(r5)
-bdnz     lbl_8032A910
-
-lbl_8032A9BC:
-subf     r0, r4, r31
-slwi     r6, r4, 2
-li       r5, 0
-mtctr    r0
-cmpw     r4, r31
-bge      lbl_8032A9EC
-
-lbl_8032A9D4:
-lwz      r3, 0x7c(r30)
-lwzx     r3, r3, r6
-addi     r6, r6, 4
-lwz      r3, 0(r3)
-stb      r5, 0xb0(r3)
-bdnz     lbl_8032A9D4
-
-lbl_8032A9EC:
-lwz      r0, 0x14(r1)
-lwz      r31, 0xc(r1)
-lwz      r30, 8(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	if (_A8 && !_AC) {
+		for (int i = 0; i < goal; i++) {
+			J2DPane* pane = mCounters[i]->mPicture;
+			if (i <= (int)_B0 && _A9) {
+				pane->show();
+			} else {
+				pane->hide();
+			}
+		}
+		mTimer += sys->mDeltaTime;
+		if (mTimer >= mUpdateInterval) {
+			mTimer = 0.0f;
+			_B0++;
+			if ((int)_B0 >= (int)mCurrCounters) {
+				if ((int)_B0 >= (int)mCounterLimit) {
+					_A8 = false;
+					_AB = true;
+				}
+				_AA = true;
+			} else {
+				slot_up(_B0);
+			}
+		}
+		setValue(false, false);
+	} else {
+		CallBack_CounterRV::update();
+		if (!_A9) {
+			for (int i = 0; i < goal; i++) {
+				hidePicture(i);
+			}
+		}
+	}
 }
 
 /*
@@ -334,51 +104,16 @@ blr
  * Address:	8032AA04
  * Size:	000094
  */
-void CallBack_CounterSlot::slot_up(int)
+void CallBack_CounterSlot::slot_up(int k)
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r3
-lhz      r0, 0x2e(r3)
-cmpw     r4, r0
-ble      lbl_8032AA48
-lis      r3, lbl_8048F578@ha
-lis      r5, lbl_8048F58C@ha
-mr       r6, r4
-li       r4, 0xa9
-addi     r3, r3, lbl_8048F578@l
-addi     r5, r5, lbl_8048F58C@l
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-b        lbl_8032AA84
-
-lbl_8032AA48:
-beq      lbl_8032AA84
-lwz      r3, 0x7c(r31)
-slwi     r0, r4, 2
-lfs      f1, 0xbc(r31)
-lwzx     r3, r3, r0
-lfs      f2, 0xc0(r31)
-lwz      r3, 8(r3)
-lfs      f3, 0xc4(r31)
-lfs      f4, lbl_8051DEC8@sda21(r2)
-bl       up__Q32og6Screen8ScaleMgrFffff
-lwz      r4, 0xc8(r31)
-cmplwi   r4, 0
-beq      lbl_8032AA84
-lwz      r3, ogSound__2og@sda21(r13)
-bl       setSE__Q22og5SoundFUl
-
-lbl_8032AA84:
-lwz      r0, 0x14(r1)
-lwz      r31, 0xc(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	if (k > mCounterLimit) {
+		JUT_PANICLINE(169, "slot_up overflow ! (k=%d)\n", k);
+	} else if (k != mCounterLimit) {
+		mCounters[k]->mScaleMgr->up(mPuyoParm1, mPuyoParm2, mPuyoParm3, 0.0f);
+		if ((u32)_C8 != 0) {
+			ogSound->setSE(_C8);
+		}
+	}
 }
 
 /*
@@ -386,62 +121,26 @@ blr
  * Address:	8032AA98
  * Size:	0000C0
  */
-void CallBack_CounterSlot::startSlot(float)
+void CallBack_CounterSlot::startSlot(f32 calc)
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r3
-lbz      r0, 0xac(r3)
-cmplwi   r0, 0
-bne      lbl_8032AB44
-li       r3, 1
-li       r0, 0
-stb      r3, 0xa8(r31)
-lfs      f4, lbl_8051DEC8@sda21(r2)
-stb      r3, 0xa9(r31)
-stb      r0, 0xaa(r31)
-stw      r0, 0xb0(r31)
-stfs     f4, 0xb4(r31)
-stfs     f1, 0xb8(r31)
-stb      r3, 0x84(r31)
-lhz      r0, 0x2e(r31)
-cmpwi    r0, 0
-bge      lbl_8032AB10
-lis      r3, lbl_8048F578@ha
-lis      r5, lbl_8048F58C@ha
-addi     r3, r3, lbl_8048F578@l
-li       r4, 0xa9
-addi     r5, r5, lbl_8048F58C@l
-li       r6, 0
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-b        lbl_8032AB44
+	if (!_AC) {
+		_A8             = true;
+		_A9             = true;
+		_AA             = false;
+		_B0             = 0;
+		mTimer          = 0.0f;
+		mUpdateInterval = calc;
+		mIsPuyoAnim     = true;
 
-lbl_8032AB10:
-beq      lbl_8032AB44
-lwz      r3, 0x7c(r31)
-lfs      f1, 0xbc(r31)
-lwz      r3, 0(r3)
-lfs      f2, 0xc0(r31)
-lwz      r3, 8(r3)
-lfs      f3, 0xc4(r31)
-bl       up__Q32og6Screen8ScaleMgrFffff
-lwz      r4, 0xc8(r31)
-cmplwi   r4, 0
-beq      lbl_8032AB44
-lwz      r3, ogSound__2og@sda21(r13)
-bl       setSE__Q22og5SoundFUl
-
-lbl_8032AB44:
-lwz      r0, 0x14(r1)
-lwz      r31, 0xc(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+		if ((int)mCounterLimit < 0) {
+			JUT_PANICLINE(169, "slot_up overflow ! (k=%d)\n", 0);
+		} else if ((int)mCounterLimit != 0) {
+			mCounters[0]->mScaleMgr->up(mPuyoParm1, mPuyoParm2, mPuyoParm3, 0.0f);
+			if ((u32)_C8 != 0) {
+				ogSound->setSE(_C8);
+			}
+		}
+	}
 }
 
 /*
@@ -449,8 +148,115 @@ blr
  * Address:	8032AB58
  * Size:	000554
  */
-void CallBack_CounterSlot::setValue(bool, bool)
+void CallBack_CounterSlot::setValue(bool flag1, bool flag2)
 {
+	if (mIsBlind) {
+		mInitialDisplayValue = 0;
+		mCurrDisplayValue    = 0;
+	}
+	mCurrCounters = CalcKeta(mInitialDisplayValue);
+
+	int counts = mCurrCounters;
+	if (counts < _30) {
+		counts = _30;
+	}
+
+	for (int i = 0; i < mCounterLimit; i++) {
+		u32 power   = pow(10.0f, (f64)i);
+		u16 sujiVal = (mInitialDisplayValue / power) % 10;
+		if (mIsBlind) {
+			mCounters[i]->setSuji(mImgResources, 10);
+		} else {
+			if (_89) {
+				mCounters[i]->setSuji(mImgResources, (u16)(randFloat() * 9.0f));
+			} else {
+				mCounters[i]->setSuji(mImgResources, sujiVal);
+			}
+		}
+		J2DPicture* keta = mCounters[i]->mPicture;
+		if (keta) {
+			if (i < counts) {
+				if (_AC) {
+					keta->mIsVisible = true;
+				}
+				if (i + 1 > mCurrCounters) {
+					if (mIsBlind) {
+						keta->setAlpha(255);
+					} else {
+						keta->setAlpha(mZeroAlpha);
+					}
+				} else {
+					keta->setAlpha(255);
+					ScaleMgr* smgr = mCounters[i]->mScaleMgr;
+					if (flag1) {
+						smgr->up(msVal._00, msVal._04, msVal._08, 0.025f * i);
+					} else if (flag2) {
+						smgr->down();
+					}
+				}
+				mCounters[i]->calcScale();
+			} else {
+				keta->hide();
+			}
+		}
+	}
+
+	f32 temp  = mPaneScale.x;
+	f32 temp3 = 0.0f;
+
+	u16 changedCounts = counts;
+	if (changedCounts > mCounterLimit) {
+		changedCounts = mCounterLimit;
+	}
+
+	if (changedCounts >= 2) {
+		f32 temp2 = mPane12DistX * (f32)(changedCounts - 1) + mPaneSize.x;
+		if (temp2 > mPane13DistX) {
+			temp  = (mPaneScale.x * mPane13DistX) / temp2;
+			temp3 = mPaneSize.x / 2 * (1.0f - temp);
+		}
+	}
+	f32 xVal = mPanePosition.x + temp3;
+	mPic1->updateScale(temp, mPaneScale.y);
+	mPic1->setOffset(xVal, mPanePosition.y);
+	mPic1->calcMtx();
+
+	f32 ang                = mPic1->mAngleX;
+	f32 newx               = mPic1->mAngleY;
+	f32 newy               = mPic1->mAngleZ;
+	JUtility::TColor white = mPic1->getWhite();
+	JUtility::TColor black = mPic1->getBlack();
+	JGeometry::TBox2f* box = mPic1->getBounds();
+	mPaneBounds.x          = box->i.x;
+	mPaneBounds.y          = box->i.y;
+
+	for (int i = 0; i < mCounterLimit; i++) {
+		J2DPicture* cPane = mCounters[i]->mPicture;
+		if (cPane) {
+			f32 boxVal = (f32)i * (-mPane12DistX * temp);
+			JGeometry::TBox2f cBox(boxVal + mPaneBounds.x, mPaneBounds.y, boxVal + (mPaneBounds.x + mPaneSize.x),
+			                       mPaneBounds.y + mPaneSize.y);
+			cPane->place(cBox);
+
+			if (mIsPuyoAnim && !_AC) {
+				cPane->setBasePosition(J2DPOS_Center);
+				CounterKeta* cKeta = mCounters[i];
+				cKeta->mSize       = Vector2f(temp, mPaneScale.y);
+
+			} else {
+				cPane->setBasePosition((J2DBasePosition)mBasePosition);
+				cPane->updateScale(temp, mPaneScale.y);
+			}
+
+			cPane->mAngleX = newx;
+			cPane->mAngleY = newy;
+			cPane->mAngleZ = ang;
+			cPane->calcMtx();
+			cPane->setWhite(white);
+			cPane->setBlack(black);
+		}
+	}
+
 	/*
 stwu     r1, -0xb0(r1)
 mflr     r0
@@ -843,135 +649,29 @@ blr
  * Address:	8032B0AC
  * Size:	0001D0
  */
-void setCallBack_CounterSlot(P2DScreen::Mgr*, unsigned long long, unsigned long*, unsigned short, bool, bool, JKRArchive*)
+CallBack_CounterSlot* setCallBack_CounterSlot(P2DScreen::Mgr* mgr, u64 tag, u32* data, u16 digit, bool flag1, bool flag2, JKRArchive* arc)
 {
-	/*
-	.loc_0x0:
-	  stwu      r1, -0x60(r1)
-	  mflr      r0
-	  stw       r0, 0x64(r1)
-	  lwz       r0, 0x68(r1)
-	  stmw      r14, 0x18(r1)
-	  mr        r16, r6
-	  mr        r17, r5
-	  mr        r15, r3
-	  mr        r18, r7
-	  mr        r19, r8
-	  mr        r20, r9
-	  mr        r21, r10
-	  mr        r4, r16
-	  mr        r3, r17
-	  li        r5, 0x1
-	  li        r6, 0x1
-	  bl        -0x287CC
-	  mr        r30, r4
-	  mr        r14, r3
-	  mr        r4, r16
-	  mr        r3, r17
-	  li        r5, 0x1
-	  li        r6, 0x2
-	  bl        -0x287E8
-	  mr        r28, r4
-	  mr        r29, r3
-	  li        r25, 0x1
-	  li        r24, 0x3
-	  mr        r26, r28
-	  li        r31, 0
-	  mr        r27, r29
+	u64 tag1 = maskTag(tag, 1, 1);
+	u64 tag2 = maskTag(tag, 1, 2);
+	u64 tag3 = tag2;
+	u16 a    = 1;
 
-	.loc_0x7C:
-	  mr        r4, r16
-	  mr        r3, r17
-	  rlwinm    r6,r24,0,16,31
-	  li        r5, 0x1
-	  bl        -0x28818
-	  lwz       r12, 0x0(r15)
-	  mr        r0, r3
-	  mr        r22, r4
-	  mr        r3, r15
-	  lwz       r12, 0x3C(r12)
-	  mr        r23, r0
-	  mr        r6, r22
-	  mr        r5, r23
-	  mtctr     r12
-	  bctrl
-	  cmplwi    r3, 0
-	  bne-      .loc_0xCC
-	  subi      r0, r24, 0x1
-	  rlwinm    r25,r0,0,16,31
-	  b         .loc_0xE4
+	for (int i = 3; i <= 10; i++) {
+		u64 tag4      = maskTag(tag, 1, i);
+		J2DPane* pane = mgr->search(tag4);
+		if (!pane) {
+			a = i - 1;
+			break;
+		}
+		tag3 = tag4;
+		pane->hide();
+	}
 
-	.loc_0xCC:
-	  addi      r24, r24, 0x1
-	  stb       r31, 0xB0(r3)
-	  cmpwi     r24, 0xA
-	  mr        r26, r22
-	  mr        r27, r23
-	  ble+      .loc_0x7C
-
-	.loc_0xE4:
-	  li        r3, 0xCC
-	  bl        -0x3072F0
-	  mr.       r22, r3
-	  beq-      .loc_0x160
-	  lis       r4, 0x804D
-	  lwz       r7, 0x68(r1)
-	  mr        r5, r19
-	  mr        r6, r25
-	  addi      r4, r4, 0x7E18
-	  bl        -0x1FC90
-	  lis       r3, 0x804E
-	  li        r0, 0
-	  subi      r3, r3, 0x62E0
-	  lfs       f4, -0x498(r2)
-	  stw       r3, 0x0(r22)
-	  lfs       f3, -0x494(r2)
-	  stb       r0, 0xA8(r22)
-	  lfs       f2, -0x490(r2)
-	  stb       r0, 0xA9(r22)
-	  lfs       f1, -0x48C(r2)
-	  stb       r0, 0xAA(r22)
-	  lfs       f0, -0x488(r2)
-	  stb       r0, 0xAB(r22)
-	  stb       r0, 0xAC(r22)
-	  stw       r0, 0xB0(r22)
-	  stfs      f4, 0xB4(r22)
-	  stfs      f3, 0xB8(r22)
-	  stfs      f2, 0xBC(r22)
-	  stfs      f1, 0xC0(r22)
-	  stfs      f0, 0xC4(r22)
-	  stw       r0, 0xC8(r22)
-
-	.loc_0x160:
-	  stw       r18, 0x8(r1)
-	  mr        r3, r22
-	  mr        r4, r15
-	  mr        r6, r30
-	  stw       r21, 0xC(r1)
-	  mr        r5, r14
-	  mr        r8, r28
-	  mr        r7, r29
-	  lwz       r12, 0x0(r22)
-	  mr        r10, r26
-	  mr        r9, r27
-	  lwz       r12, 0x1C(r12)
-	  mtctr     r12
-	  bctrl
-	  mr        r3, r22
-	  mr        r4, r20
-	  bl        -0x1FA74
-	  mr        r3, r15
-	  mr        r6, r16
-	  mr        r5, r17
-	  mr        r7, r22
-	  bl        0x1098C4
-	  mr        r3, r22
-	  lmw       r14, 0x18(r1)
-	  lwz       r0, 0x64(r1)
-	  mtlr      r0
-	  addi      r1, r1, 0x60
-	  blr
-	*/
+	CallBack_CounterSlot* slot = new CallBack_CounterSlot(const_cast<char**>(SujiTex32), digit, a, arc);
+	slot->init(mgr, tag1, tag2, tag3, data, flag2);
+	slot->setPuyoAnim(flag1);
+	mgr->addCallBack(tag, slot);
+	return slot;
 }
 
 /*
@@ -979,74 +679,13 @@ void setCallBack_CounterSlot(P2DScreen::Mgr*, unsigned long long, unsigned long*
  * Address:	8032B27C
  * Size:	000090
  */
-CallBack_CounterSlot::~CallBack_CounterSlot(void)
-{
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r4
-stw      r30, 8(r1)
-or.      r30, r3, r3
-beq      lbl_8032B2F0
-lis      r4, __vt__Q32og6Screen20CallBack_CounterSlot@ha
-addi     r0, r4, __vt__Q32og6Screen20CallBack_CounterSlot@l
-stw      r0, 0(r30)
-beq      lbl_8032B2E0
-lis      r4, __vt__Q32og6Screen18CallBack_CounterRV@ha
-addi     r0, r4, __vt__Q32og6Screen18CallBack_CounterRV@l
-stw      r0, 0(r30)
-beq      lbl_8032B2E0
-lis      r4, __vt__Q29P2DScreen12CallBackNode@ha
-addi     r0, r4, __vt__Q29P2DScreen12CallBackNode@l
-stw      r0, 0(r30)
-beq      lbl_8032B2E0
-lis      r5, __vt__Q29P2DScreen4Node@ha
-li       r4, 0
-addi     r0, r5, __vt__Q29P2DScreen4Node@l
-stw      r0, 0(r30)
-bl       __dt__5CNodeFv
-
-lbl_8032B2E0:
-extsh.   r0, r31
-ble      lbl_8032B2F0
-mr       r3, r30
-bl       __dl__FPv
-
-lbl_8032B2F0:
-lwz      r0, 0x14(r1)
-mr       r3, r30
-lwz      r31, 0xc(r1)
-lwz      r30, 8(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
-}
+CallBack_CounterSlot::~CallBack_CounterSlot() { }
 
 /*
  * --INFO--
  * Address:	8032B30C
  * Size:	000034
  */
-void CallBack_CounterSlot::setValue(void)
-{
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-li       r4, 0
-li       r5, 0
-stw      r0, 0x14(r1)
-lwz      r12, 0(r3)
-lwz      r12, 0x28(r12)
-mtctr    r12
-bctrl
-lwz      r0, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
-}
+void CallBack_CounterSlot::setValue() { setValue(false, false); }
 } // namespace Screen
 } // namespace og

@@ -8,24 +8,26 @@ struct Edge;
 // @size{0x10}
 struct Sphere {
 	inline Sphere() { }
-	// inline Sphere() : m_position(nullptr), m_radius() {};
-	Sphere(Vector3f& vec, float rad)
+
+	Sphere(Vector3f& vec, f32 rad)
+	    : mPosition(vec)
+	    , mRadius(rad)
 	{
-		m_position = vec;
-		m_radius   = rad;
 	}
+
+	inline Sphere(const Vector3f& vec) { mPosition = vec; }
 
 	bool intersect(Sphere&);
 	bool intersect(Sphere&, Vector3f&);
-	bool intersect(Edge&, float&);
-	bool intersect(Edge&, float&, Vector3f&);
-	bool intersect(Edge&, float&, Vector3f&, float&);
+	bool intersect(Edge&, f32&);
+	bool intersect(Edge&, f32&, Vector3f&);
+	bool intersect(Edge&, f32&, Vector3f&, f32&);
 
 	// Unused/inlined:
 	bool intersectRay(Vector3f&, Vector3f&);
 
-	Vector3f m_position; // _00
-	float m_radius;      // _0C
+	Vector3f mPosition; // _00
+	f32 mRadius;        // _0C
 };
 } // namespace Sys
 

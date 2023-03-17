@@ -1,16 +1,17 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-lbl_8049BA58:
+.obj lbl_8049BA58, local
 	.asciz "screenObj.cpp"
+.endobj lbl_8049BA58
 .balign 4
-lbl_8049BA68:
+.obj lbl_8049BA68, local
 	.asciz "P2Assert"
+.endobj lbl_8049BA68
 
 .section .data, "wa"	# 0x8049E220 - 0x804EFC20
 .balign 8
-.global __vt__Q26Screen7ObjBase
-__vt__Q26Screen7ObjBase:
+.obj __vt__Q26Screen7ObjBase, global
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q26Screen7ObjBaseFv
@@ -41,20 +42,23 @@ __vt__Q26Screen7ObjBase:
 	.4byte doConfirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg
 	.4byte doConfirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg
 	.4byte doConfirmEndScene__Q26Screen7ObjBaseFRPQ26Screen11EndSceneArg
+.endobj __vt__Q26Screen7ObjBase
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_80520B88:
+.obj lbl_80520B88, local
 	.asciz "No Name"
+.endobj lbl_80520B88
 .balign 4
-lbl_80520B90:
+.obj lbl_80520B90, local
 	.float 0.0
-lbl_80520B94:
+.endobj lbl_80520B90
+.obj lbl_80520B94, local
 	.float 100.0
+.endobj lbl_80520B94
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__Q26Screen7ObjBaseFv
-__ct__Q26Screen7ObjBaseFv:
+.fn __ct__Q26Screen7ObjBaseFv, global
 /* 80453AE8 00450A28  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80453AEC 00450A2C  7C 08 02 A6 */	mflr r0
 /* 80453AF0 00450A30  3C 80 80 4F */	lis r4, __vt__5CNode@ha
@@ -91,9 +95,9 @@ __ct__Q26Screen7ObjBaseFv:
 /* 80453B6C 00450AAC  7C 08 03 A6 */	mtlr r0
 /* 80453B70 00450AB0  38 21 00 10 */	addi r1, r1, 0x10
 /* 80453B74 00450AB4  4E 80 00 20 */	blr 
+.endfn __ct__Q26Screen7ObjBaseFv
 
-.global create__Q26Screen7ObjBaseFP10JKRArchive
-create__Q26Screen7ObjBaseFP10JKRArchive:
+.fn create__Q26Screen7ObjBaseFP10JKRArchive, global
 /* 80453B78 00450AB8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80453B7C 00450ABC  7C 08 02 A6 */	mflr r0
 /* 80453B80 00450AC0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -105,9 +109,9 @@ create__Q26Screen7ObjBaseFP10JKRArchive:
 /* 80453B98 00450AD8  7C 08 03 A6 */	mtlr r0
 /* 80453B9C 00450ADC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80453BA0 00450AE0  4E 80 00 20 */	blr 
+.endfn create__Q26Screen7ObjBaseFP10JKRArchive
 
-.global start__Q26Screen7ObjBaseFPCQ26Screen13StartSceneArg
-start__Q26Screen7ObjBaseFPCQ26Screen13StartSceneArg:
+.fn start__Q26Screen7ObjBaseFPCQ26Screen13StartSceneArg, global
 /* 80453BA4 00450AE4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80453BA8 00450AE8  7C 08 02 A6 */	mflr r0
 /* 80453BAC 00450AEC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -117,30 +121,30 @@ start__Q26Screen7ObjBaseFPCQ26Screen13StartSceneArg:
 /* 80453BBC 00450AFC  7C 7E 1B 78 */	mr r30, r3
 /* 80453BC0 00450B00  80 03 00 30 */	lwz r0, 0x30(r3)
 /* 80453BC4 00450B04  2C 00 00 01 */	cmpwi r0, 1
-/* 80453BC8 00450B08  41 82 00 48 */	beq lbl_80453C10
-/* 80453BCC 00450B0C  40 80 00 10 */	bge lbl_80453BDC
+/* 80453BC8 00450B08  41 82 00 48 */	beq .L_80453C10
+/* 80453BCC 00450B0C  40 80 00 10 */	bge .L_80453BDC
 /* 80453BD0 00450B10  2C 00 00 00 */	cmpwi r0, 0
-/* 80453BD4 00450B14  40 80 00 14 */	bge lbl_80453BE8
-/* 80453BD8 00450B18  48 00 00 40 */	b lbl_80453C18
-lbl_80453BDC:
+/* 80453BD4 00450B14  40 80 00 14 */	bge .L_80453BE8
+/* 80453BD8 00450B18  48 00 00 40 */	b .L_80453C18
+.L_80453BDC:
 /* 80453BDC 00450B1C  2C 00 00 04 */	cmpwi r0, 4
-/* 80453BE0 00450B20  40 80 00 38 */	bge lbl_80453C18
-/* 80453BE4 00450B24  48 00 00 50 */	b lbl_80453C34
-lbl_80453BE8:
+/* 80453BE0 00450B20  40 80 00 38 */	bge .L_80453C18
+/* 80453BE4 00450B24  48 00 00 50 */	b .L_80453C34
+.L_80453BE8:
 /* 80453BE8 00450B28  81 83 00 00 */	lwz r12, 0(r3)
 /* 80453BEC 00450B2C  81 8C 00 44 */	lwz r12, 0x44(r12)
 /* 80453BF0 00450B30  7D 89 03 A6 */	mtctr r12
 /* 80453BF4 00450B34  4E 80 04 21 */	bctrl 
 /* 80453BF8 00450B38  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80453BFC 00450B3C  41 82 00 38 */	beq lbl_80453C34
+/* 80453BFC 00450B3C  41 82 00 38 */	beq .L_80453C34
 /* 80453C00 00450B40  38 00 00 01 */	li r0, 1
 /* 80453C04 00450B44  3B E0 00 01 */	li r31, 1
 /* 80453C08 00450B48  90 1E 00 30 */	stw r0, 0x30(r30)
-/* 80453C0C 00450B4C  48 00 00 28 */	b lbl_80453C34
-lbl_80453C10:
+/* 80453C0C 00450B4C  48 00 00 28 */	b .L_80453C34
+.L_80453C10:
 /* 80453C10 00450B50  3B E0 00 01 */	li r31, 1
-/* 80453C14 00450B54  48 00 00 20 */	b lbl_80453C34
-lbl_80453C18:
+/* 80453C14 00450B54  48 00 00 20 */	b .L_80453C34
+.L_80453C18:
 /* 80453C18 00450B58  3C 60 80 4A */	lis r3, lbl_8049BA58@ha
 /* 80453C1C 00450B5C  3C A0 80 4A */	lis r5, lbl_8049BA68@ha
 /* 80453C20 00450B60  38 63 BA 58 */	addi r3, r3, lbl_8049BA58@l
@@ -148,7 +152,7 @@ lbl_80453C18:
 /* 80453C28 00450B68  38 A5 BA 68 */	addi r5, r5, lbl_8049BA68@l
 /* 80453C2C 00450B6C  4C C6 31 82 */	crclr 6
 /* 80453C30 00450B70  4B BD 6A 11 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80453C34:
+.L_80453C34:
 /* 80453C34 00450B74  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80453C38 00450B78  7F E3 FB 78 */	mr r3, r31
 /* 80453C3C 00450B7C  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -156,9 +160,9 @@ lbl_80453C34:
 /* 80453C44 00450B84  7C 08 03 A6 */	mtlr r0
 /* 80453C48 00450B88  38 21 00 10 */	addi r1, r1, 0x10
 /* 80453C4C 00450B8C  4E 80 00 20 */	blr 
+.endfn start__Q26Screen7ObjBaseFPCQ26Screen13StartSceneArg
 
-.global end__Q26Screen7ObjBaseFPCQ26Screen11EndSceneArg
-end__Q26Screen7ObjBaseFPCQ26Screen11EndSceneArg:
+.fn end__Q26Screen7ObjBaseFPCQ26Screen11EndSceneArg, global
 /* 80453C50 00450B90  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80453C54 00450B94  7C 08 02 A6 */	mflr r0
 /* 80453C58 00450B98  90 01 00 24 */	stw r0, 0x24(r1)
@@ -170,33 +174,33 @@ end__Q26Screen7ObjBaseFPCQ26Screen11EndSceneArg:
 /* 80453C70 00450BB0  7C 7D 1B 78 */	mr r29, r3
 /* 80453C74 00450BB4  80 03 00 30 */	lwz r0, 0x30(r3)
 /* 80453C78 00450BB8  2C 00 00 02 */	cmpwi r0, 2
-/* 80453C7C 00450BBC  41 82 00 24 */	beq lbl_80453CA0
-/* 80453C80 00450BC0  40 80 00 14 */	bge lbl_80453C94
+/* 80453C7C 00450BBC  41 82 00 24 */	beq .L_80453CA0
+/* 80453C80 00450BC0  40 80 00 14 */	bge .L_80453C94
 /* 80453C84 00450BC4  2C 00 00 00 */	cmpwi r0, 0
-/* 80453C88 00450BC8  41 82 00 88 */	beq lbl_80453D10
-/* 80453C8C 00450BCC  40 80 00 DC */	bge lbl_80453D68
-/* 80453C90 00450BD0  48 00 00 BC */	b lbl_80453D4C
-lbl_80453C94:
+/* 80453C88 00450BC8  41 82 00 88 */	beq .L_80453D10
+/* 80453C8C 00450BCC  40 80 00 DC */	bge .L_80453D68
+/* 80453C90 00450BD0  48 00 00 BC */	b .L_80453D4C
+.L_80453C94:
 /* 80453C94 00450BD4  2C 00 00 04 */	cmpwi r0, 4
-/* 80453C98 00450BD8  40 80 00 B4 */	bge lbl_80453D4C
-/* 80453C9C 00450BDC  48 00 00 7C */	b lbl_80453D18
-lbl_80453CA0:
+/* 80453C98 00450BD8  40 80 00 B4 */	bge .L_80453D4C
+/* 80453C9C 00450BDC  48 00 00 7C */	b .L_80453D18
+.L_80453CA0:
 /* 80453CA0 00450BE0  81 83 00 00 */	lwz r12, 0(r3)
 /* 80453CA4 00450BE4  81 8C 00 48 */	lwz r12, 0x48(r12)
 /* 80453CA8 00450BE8  7D 89 03 A6 */	mtctr r12
 /* 80453CAC 00450BEC  4E 80 04 21 */	bctrl 
 /* 80453CB0 00450BF0  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80453CB4 00450BF4  41 82 00 B4 */	beq lbl_80453D68
+/* 80453CB4 00450BF4  41 82 00 B4 */	beq .L_80453D68
 /* 80453CB8 00450BF8  7F A3 EB 78 */	mr r3, r29
 /* 80453CBC 00450BFC  81 9D 00 00 */	lwz r12, 0(r29)
 /* 80453CC0 00450C00  81 8C 00 5C */	lwz r12, 0x5c(r12)
 /* 80453CC4 00450C04  7D 89 03 A6 */	mtctr r12
 /* 80453CC8 00450C08  4E 80 04 21 */	bctrl 
 /* 80453CCC 00450C0C  28 1E 00 00 */	cmplwi r30, 0
-/* 80453CD0 00450C10  41 82 00 30 */	beq lbl_80453D00
+/* 80453CD0 00450C10  41 82 00 30 */	beq .L_80453D00
 /* 80453CD4 00450C14  88 1E 00 04 */	lbz r0, 4(r30)
 /* 80453CD8 00450C18  28 00 00 00 */	cmplwi r0, 0
-/* 80453CDC 00450C1C  41 82 00 24 */	beq lbl_80453D00
+/* 80453CDC 00450C1C  41 82 00 24 */	beq .L_80453D00
 /* 80453CE0 00450C20  7F A3 EB 78 */	mr r3, r29
 /* 80453CE4 00450C24  81 9D 00 00 */	lwz r12, 0(r29)
 /* 80453CE8 00450C28  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -204,32 +208,32 @@ lbl_80453CA0:
 /* 80453CF0 00450C30  4E 80 04 21 */	bctrl 
 /* 80453CF4 00450C34  38 00 00 00 */	li r0, 0
 /* 80453CF8 00450C38  90 1D 00 30 */	stw r0, 0x30(r29)
-/* 80453CFC 00450C3C  48 00 00 0C */	b lbl_80453D08
-lbl_80453D00:
+/* 80453CFC 00450C3C  48 00 00 0C */	b .L_80453D08
+.L_80453D00:
 /* 80453D00 00450C40  38 00 00 03 */	li r0, 3
 /* 80453D04 00450C44  90 1D 00 30 */	stw r0, 0x30(r29)
-lbl_80453D08:
+.L_80453D08:
 /* 80453D08 00450C48  3B E0 00 01 */	li r31, 1
-/* 80453D0C 00450C4C  48 00 00 5C */	b lbl_80453D68
-lbl_80453D10:
+/* 80453D0C 00450C4C  48 00 00 5C */	b .L_80453D68
+.L_80453D10:
 /* 80453D10 00450C50  3B E0 00 01 */	li r31, 1
-/* 80453D14 00450C54  48 00 00 54 */	b lbl_80453D68
-lbl_80453D18:
+/* 80453D14 00450C54  48 00 00 54 */	b .L_80453D68
+.L_80453D18:
 /* 80453D18 00450C58  28 1E 00 00 */	cmplwi r30, 0
-/* 80453D1C 00450C5C  41 82 00 28 */	beq lbl_80453D44
+/* 80453D1C 00450C5C  41 82 00 28 */	beq .L_80453D44
 /* 80453D20 00450C60  88 1E 00 04 */	lbz r0, 4(r30)
 /* 80453D24 00450C64  28 00 00 00 */	cmplwi r0, 0
-/* 80453D28 00450C68  41 82 00 1C */	beq lbl_80453D44
+/* 80453D28 00450C68  41 82 00 1C */	beq .L_80453D44
 /* 80453D2C 00450C6C  81 83 00 00 */	lwz r12, 0(r3)
 /* 80453D30 00450C70  81 8C 00 64 */	lwz r12, 0x64(r12)
 /* 80453D34 00450C74  7D 89 03 A6 */	mtctr r12
 /* 80453D38 00450C78  4E 80 04 21 */	bctrl 
 /* 80453D3C 00450C7C  38 00 00 00 */	li r0, 0
 /* 80453D40 00450C80  90 1D 00 30 */	stw r0, 0x30(r29)
-lbl_80453D44:
+.L_80453D44:
 /* 80453D44 00450C84  3B E0 00 01 */	li r31, 1
-/* 80453D48 00450C88  48 00 00 20 */	b lbl_80453D68
-lbl_80453D4C:
+/* 80453D48 00450C88  48 00 00 20 */	b .L_80453D68
+.L_80453D4C:
 /* 80453D4C 00450C8C  3C 60 80 4A */	lis r3, lbl_8049BA58@ha
 /* 80453D50 00450C90  3C A0 80 4A */	lis r5, lbl_8049BA68@ha
 /* 80453D54 00450C94  38 63 BA 58 */	addi r3, r3, lbl_8049BA58@l
@@ -237,7 +241,7 @@ lbl_80453D4C:
 /* 80453D5C 00450C9C  38 A5 BA 68 */	addi r5, r5, lbl_8049BA68@l
 /* 80453D60 00450CA0  4C C6 31 82 */	crclr 6
 /* 80453D64 00450CA4  4B BD 68 DD */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80453D68:
+.L_80453D68:
 /* 80453D68 00450CA8  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 80453D6C 00450CAC  7F E3 FB 78 */	mr r3, r31
 /* 80453D70 00450CB0  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -246,9 +250,9 @@ lbl_80453D68:
 /* 80453D7C 00450CBC  7C 08 03 A6 */	mtlr r0
 /* 80453D80 00450CC0  38 21 00 20 */	addi r1, r1, 0x20
 /* 80453D84 00450CC4  4E 80 00 20 */	blr 
+.endfn end__Q26Screen7ObjBaseFPCQ26Screen11EndSceneArg
 
-.global update__Q26Screen7ObjBaseFv
-update__Q26Screen7ObjBaseFv:
+.fn update__Q26Screen7ObjBaseFv, global
 /* 80453D88 00450CC8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80453D8C 00450CCC  7C 08 02 A6 */	mflr r0
 /* 80453D90 00450CD0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -258,26 +262,26 @@ update__Q26Screen7ObjBaseFv:
 /* 80453DA0 00450CE0  7C 7E 1B 78 */	mr r30, r3
 /* 80453DA4 00450CE4  80 03 00 30 */	lwz r0, 0x30(r3)
 /* 80453DA8 00450CE8  2C 00 00 02 */	cmpwi r0, 2
-/* 80453DAC 00450CEC  41 82 00 64 */	beq lbl_80453E10
-/* 80453DB0 00450CF0  40 80 00 14 */	bge lbl_80453DC4
+/* 80453DAC 00450CEC  41 82 00 64 */	beq .L_80453E10
+/* 80453DB0 00450CF0  40 80 00 14 */	bge .L_80453DC4
 /* 80453DB4 00450CF4  2C 00 00 00 */	cmpwi r0, 0
-/* 80453DB8 00450CF8  41 82 00 18 */	beq lbl_80453DD0
-/* 80453DBC 00450CFC  40 80 00 1C */	bge lbl_80453DD8
-/* 80453DC0 00450D00  48 00 00 BC */	b lbl_80453E7C
-lbl_80453DC4:
+/* 80453DB8 00450CF8  41 82 00 18 */	beq .L_80453DD0
+/* 80453DBC 00450CFC  40 80 00 1C */	bge .L_80453DD8
+/* 80453DC0 00450D00  48 00 00 BC */	b .L_80453E7C
+.L_80453DC4:
 /* 80453DC4 00450D04  2C 00 00 04 */	cmpwi r0, 4
-/* 80453DC8 00450D08  40 80 00 B4 */	bge lbl_80453E7C
-/* 80453DCC 00450D0C  48 00 00 7C */	b lbl_80453E48
-lbl_80453DD0:
+/* 80453DC8 00450D08  40 80 00 B4 */	bge .L_80453E7C
+/* 80453DCC 00450D0C  48 00 00 7C */	b .L_80453E48
+.L_80453DD0:
 /* 80453DD0 00450D10  3B E0 00 01 */	li r31, 1
-/* 80453DD4 00450D14  48 00 00 A8 */	b lbl_80453E7C
-lbl_80453DD8:
+/* 80453DD4 00450D14  48 00 00 A8 */	b .L_80453E7C
+.L_80453DD8:
 /* 80453DD8 00450D18  81 83 00 00 */	lwz r12, 0(r3)
 /* 80453DDC 00450D1C  81 8C 00 50 */	lwz r12, 0x50(r12)
 /* 80453DE0 00450D20  7D 89 03 A6 */	mtctr r12
 /* 80453DE4 00450D24  4E 80 04 21 */	bctrl 
 /* 80453DE8 00450D28  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80453DEC 00450D2C  41 82 00 90 */	beq lbl_80453E7C
+/* 80453DEC 00450D2C  41 82 00 90 */	beq .L_80453E7C
 /* 80453DF0 00450D30  7F C3 F3 78 */	mr r3, r30
 /* 80453DF4 00450D34  81 9E 00 00 */	lwz r12, 0(r30)
 /* 80453DF8 00450D38  81 8C 00 54 */	lwz r12, 0x54(r12)
@@ -285,14 +289,14 @@ lbl_80453DD8:
 /* 80453E00 00450D40  4E 80 04 21 */	bctrl 
 /* 80453E04 00450D44  38 00 00 02 */	li r0, 2
 /* 80453E08 00450D48  90 1E 00 30 */	stw r0, 0x30(r30)
-/* 80453E0C 00450D4C  48 00 00 70 */	b lbl_80453E7C
-lbl_80453E10:
+/* 80453E0C 00450D4C  48 00 00 70 */	b .L_80453E7C
+.L_80453E10:
 /* 80453E10 00450D50  81 83 00 00 */	lwz r12, 0(r3)
 /* 80453E14 00450D54  81 8C 00 58 */	lwz r12, 0x58(r12)
 /* 80453E18 00450D58  7D 89 03 A6 */	mtctr r12
 /* 80453E1C 00450D5C  4E 80 04 21 */	bctrl 
 /* 80453E20 00450D60  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80453E24 00450D64  41 82 00 58 */	beq lbl_80453E7C
+/* 80453E24 00450D64  41 82 00 58 */	beq .L_80453E7C
 /* 80453E28 00450D68  7F C3 F3 78 */	mr r3, r30
 /* 80453E2C 00450D6C  81 9E 00 00 */	lwz r12, 0(r30)
 /* 80453E30 00450D70  81 8C 00 5C */	lwz r12, 0x5c(r12)
@@ -300,14 +304,14 @@ lbl_80453E10:
 /* 80453E38 00450D78  4E 80 04 21 */	bctrl 
 /* 80453E3C 00450D7C  38 00 00 03 */	li r0, 3
 /* 80453E40 00450D80  90 1E 00 30 */	stw r0, 0x30(r30)
-/* 80453E44 00450D84  48 00 00 38 */	b lbl_80453E7C
-lbl_80453E48:
+/* 80453E44 00450D84  48 00 00 38 */	b .L_80453E7C
+.L_80453E48:
 /* 80453E48 00450D88  81 83 00 00 */	lwz r12, 0(r3)
 /* 80453E4C 00450D8C  81 8C 00 60 */	lwz r12, 0x60(r12)
 /* 80453E50 00450D90  7D 89 03 A6 */	mtctr r12
 /* 80453E54 00450D94  4E 80 04 21 */	bctrl 
 /* 80453E58 00450D98  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80453E5C 00450D9C  41 82 00 20 */	beq lbl_80453E7C
+/* 80453E5C 00450D9C  41 82 00 20 */	beq .L_80453E7C
 /* 80453E60 00450DA0  7F C3 F3 78 */	mr r3, r30
 /* 80453E64 00450DA4  81 9E 00 00 */	lwz r12, 0(r30)
 /* 80453E68 00450DA8  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -315,7 +319,7 @@ lbl_80453E48:
 /* 80453E70 00450DB0  4E 80 04 21 */	bctrl 
 /* 80453E74 00450DB4  38 00 00 00 */	li r0, 0
 /* 80453E78 00450DB8  90 1E 00 30 */	stw r0, 0x30(r30)
-lbl_80453E7C:
+.L_80453E7C:
 /* 80453E7C 00450DBC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80453E80 00450DC0  7F E3 FB 78 */	mr r3, r31
 /* 80453E84 00450DC4  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -323,27 +327,27 @@ lbl_80453E7C:
 /* 80453E8C 00450DCC  7C 08 03 A6 */	mtlr r0
 /* 80453E90 00450DD0  38 21 00 10 */	addi r1, r1, 0x10
 /* 80453E94 00450DD4  4E 80 00 20 */	blr 
+.endfn update__Q26Screen7ObjBaseFv
 
-.global draw__Q26Screen7ObjBaseFR8Graphics
-draw__Q26Screen7ObjBaseFR8Graphics:
+.fn draw__Q26Screen7ObjBaseFR8Graphics, global
 /* 80453E98 00450DD8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80453E9C 00450DDC  7C 08 02 A6 */	mflr r0
 /* 80453EA0 00450DE0  90 01 00 14 */	stw r0, 0x14(r1)
 /* 80453EA4 00450DE4  80 03 00 30 */	lwz r0, 0x30(r3)
 /* 80453EA8 00450DE8  2C 00 00 00 */	cmpwi r0, 0
-/* 80453EAC 00450DEC  41 82 00 14 */	beq lbl_80453EC0
+/* 80453EAC 00450DEC  41 82 00 14 */	beq .L_80453EC0
 /* 80453EB0 00450DF0  81 83 00 00 */	lwz r12, 0(r3)
 /* 80453EB4 00450DF4  81 8C 00 68 */	lwz r12, 0x68(r12)
 /* 80453EB8 00450DF8  7D 89 03 A6 */	mtctr r12
 /* 80453EBC 00450DFC  4E 80 04 21 */	bctrl 
-lbl_80453EC0:
+.L_80453EC0:
 /* 80453EC0 00450E00  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80453EC4 00450E04  7C 08 03 A6 */	mtlr r0
 /* 80453EC8 00450E08  38 21 00 10 */	addi r1, r1, 0x10
 /* 80453ECC 00450E0C  4E 80 00 20 */	blr 
+.endfn draw__Q26Screen7ObjBaseFR8Graphics
 
-.global doDraw__Q26Screen7ObjBaseFR8Graphics
-doDraw__Q26Screen7ObjBaseFR8Graphics:
+.fn doDraw__Q26Screen7ObjBaseFR8Graphics, global
 /* 80453ED0 00450E10  94 21 FF 80 */	stwu r1, -0x80(r1)
 /* 80453ED4 00450E14  7C 08 02 A6 */	mflr r0
 /* 80453ED8 00450E18  C0 22 28 30 */	lfs f1, lbl_80520B90@sda21(r2)
@@ -398,15 +402,15 @@ doDraw__Q26Screen7ObjBaseFR8Graphics:
 /* 80453F9C 00450EDC  7C 08 03 A6 */	mtlr r0
 /* 80453FA0 00450EE0  38 21 00 80 */	addi r1, r1, 0x80
 /* 80453FA4 00450EE4  4E 80 00 20 */	blr 
+.endfn doDraw__Q26Screen7ObjBaseFR8Graphics
 
-.global getDispMember__Q26Screen7ObjBaseFv
-getDispMember__Q26Screen7ObjBaseFv:
+.fn getDispMember__Q26Screen7ObjBaseFv, global
 /* 80453FA8 00450EE8  80 63 00 34 */	lwz r3, 0x34(r3)
 /* 80453FAC 00450EEC  80 63 02 1C */	lwz r3, 0x21c(r3)
 /* 80453FB0 00450EF0  4E 80 00 20 */	blr 
+.endfn getDispMember__Q26Screen7ObjBaseFv
 
-.global confirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg
-confirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg:
+.fn confirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg, global
 /* 80453FB4 00450EF4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80453FB8 00450EF8  7C 08 02 A6 */	mflr r0
 /* 80453FBC 00450EFC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -418,9 +422,9 @@ confirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg:
 /* 80453FD4 00450F14  7C 08 03 A6 */	mtlr r0
 /* 80453FD8 00450F18  38 21 00 10 */	addi r1, r1, 0x10
 /* 80453FDC 00450F1C  4E 80 00 20 */	blr 
+.endfn confirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg
 
-.global confirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg
-confirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg:
+.fn confirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg, global
 /* 80453FE0 00450F20  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80453FE4 00450F24  7C 08 02 A6 */	mflr r0
 /* 80453FE8 00450F28  90 01 00 14 */	stw r0, 0x14(r1)
@@ -432,9 +436,9 @@ confirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg:
 /* 80454000 00450F40  7C 08 03 A6 */	mtlr r0
 /* 80454004 00450F44  38 21 00 10 */	addi r1, r1, 0x10
 /* 80454008 00450F48  4E 80 00 20 */	blr 
+.endfn confirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg
 
-.global confirmEndScene__Q26Screen7ObjBaseFPQ26Screen11EndSceneArg
-confirmEndScene__Q26Screen7ObjBaseFPQ26Screen11EndSceneArg:
+.fn confirmEndScene__Q26Screen7ObjBaseFPQ26Screen11EndSceneArg, global
 /* 8045400C 00450F4C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80454010 00450F50  7C 08 02 A6 */	mflr r0
 /* 80454014 00450F54  90 01 00 14 */	stw r0, 0x14(r1)
@@ -448,9 +452,9 @@ confirmEndScene__Q26Screen7ObjBaseFPQ26Screen11EndSceneArg:
 /* 80454034 00450F74  7C 08 03 A6 */	mtlr r0
 /* 80454038 00450F78  38 21 00 10 */	addi r1, r1, 0x10
 /* 8045403C 00450F7C  4E 80 00 20 */	blr 
+.endfn confirmEndScene__Q26Screen7ObjBaseFPQ26Screen11EndSceneArg
 
-.global getGamePad__Q26Screen7ObjBaseCFv
-getGamePad__Q26Screen7ObjBaseCFv:
+.fn getGamePad__Q26Screen7ObjBaseCFv, global
 /* 80454040 00450F80  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80454044 00450F84  7C 08 02 A6 */	mflr r0
 /* 80454048 00450F88  90 01 00 14 */	stw r0, 0x14(r1)
@@ -463,9 +467,9 @@ getGamePad__Q26Screen7ObjBaseCFv:
 /* 80454064 00450FA4  7C 08 03 A6 */	mtlr r0
 /* 80454068 00450FA8  38 21 00 10 */	addi r1, r1, 0x10
 /* 8045406C 00450FAC  4E 80 00 20 */	blr 
+.endfn getGamePad__Q26Screen7ObjBaseCFv
 
-.global __ct__Q26Screen10ObjMgrBaseFv
-__ct__Q26Screen10ObjMgrBaseFv:
+.fn __ct__Q26Screen10ObjMgrBaseFv, global
 /* 80454070 00450FB0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80454074 00450FB4  7C 08 02 A6 */	mflr r0
 /* 80454078 00450FB8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -483,9 +487,9 @@ __ct__Q26Screen10ObjMgrBaseFv:
 /* 804540A8 00450FE8  7C 08 03 A6 */	mtlr r0
 /* 804540AC 00450FEC  38 21 00 10 */	addi r1, r1, 0x10
 /* 804540B0 00450FF0  4E 80 00 20 */	blr 
+.endfn __ct__Q26Screen10ObjMgrBaseFv
 
-.global registObj__Q26Screen10ObjMgrBaseFPQ26Screen8IObjBasePQ26Screen9SceneBase
-registObj__Q26Screen10ObjMgrBaseFPQ26Screen8IObjBasePQ26Screen9SceneBase:
+.fn registObj__Q26Screen10ObjMgrBaseFPQ26Screen8IObjBasePQ26Screen9SceneBase, global
 /* 804540B4 00450FF4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804540B8 00450FF8  7C 08 02 A6 */	mflr r0
 /* 804540BC 00450FFC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -508,9 +512,9 @@ registObj__Q26Screen10ObjMgrBaseFPQ26Screen8IObjBasePQ26Screen9SceneBase:
 /* 80454100 00451040  7C 08 03 A6 */	mtlr r0
 /* 80454104 00451044  38 21 00 10 */	addi r1, r1, 0x10
 /* 80454108 00451048  4E 80 00 20 */	blr 
+.endfn registObj__Q26Screen10ObjMgrBaseFPQ26Screen8IObjBasePQ26Screen9SceneBase
 
-.global update__Q26Screen10ObjMgrBaseFv
-update__Q26Screen10ObjMgrBaseFv:
+.fn update__Q26Screen10ObjMgrBaseFv, global
 /* 8045410C 0045104C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80454110 00451050  7C 08 02 A6 */	mflr r0
 /* 80454114 00451054  90 01 00 14 */	stw r0, 0x14(r1)
@@ -518,21 +522,21 @@ update__Q26Screen10ObjMgrBaseFv:
 /* 8045411C 0045105C  3B E0 00 01 */	li r31, 1
 /* 80454120 00451060  93 C1 00 08 */	stw r30, 8(r1)
 /* 80454124 00451064  80 63 00 10 */	lwz r3, 0x10(r3)
-/* 80454128 00451068  48 00 00 28 */	b lbl_80454150
-lbl_8045412C:
+/* 80454128 00451068  48 00 00 28 */	b .L_80454150
+.L_8045412C:
 /* 8045412C 0045106C  81 83 00 00 */	lwz r12, 0(r3)
 /* 80454130 00451070  83 C3 00 04 */	lwz r30, 4(r3)
 /* 80454134 00451074  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 80454138 00451078  7D 89 03 A6 */	mtctr r12
 /* 8045413C 0045107C  4E 80 04 21 */	bctrl 
 /* 80454140 00451080  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80454144 00451084  40 82 00 08 */	bne lbl_8045414C
+/* 80454144 00451084  40 82 00 08 */	bne .L_8045414C
 /* 80454148 00451088  3B E0 00 00 */	li r31, 0
-lbl_8045414C:
+.L_8045414C:
 /* 8045414C 0045108C  7F C3 F3 78 */	mr r3, r30
-lbl_80454150:
+.L_80454150:
 /* 80454150 00451090  28 03 00 00 */	cmplwi r3, 0
-/* 80454154 00451094  40 82 FF D8 */	bne lbl_8045412C
+/* 80454154 00451094  40 82 FF D8 */	bne .L_8045412C
 /* 80454158 00451098  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8045415C 0045109C  7F E3 FB 78 */	mr r3, r31
 /* 80454160 004510A0  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -540,9 +544,9 @@ lbl_80454150:
 /* 80454168 004510A8  7C 08 03 A6 */	mtlr r0
 /* 8045416C 004510AC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80454170 004510B0  4E 80 00 20 */	blr 
+.endfn update__Q26Screen10ObjMgrBaseFv
 
-.global draw__Q26Screen10ObjMgrBaseFR8Graphics
-draw__Q26Screen10ObjMgrBaseFR8Graphics:
+.fn draw__Q26Screen10ObjMgrBaseFR8Graphics, global
 /* 80454174 004510B4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80454178 004510B8  7C 08 02 A6 */	mflr r0
 /* 8045417C 004510BC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -550,8 +554,8 @@ draw__Q26Screen10ObjMgrBaseFR8Graphics:
 /* 80454184 004510C4  93 C1 00 08 */	stw r30, 8(r1)
 /* 80454188 004510C8  7C 9E 23 78 */	mr r30, r4
 /* 8045418C 004510CC  80 63 00 10 */	lwz r3, 0x10(r3)
-/* 80454190 004510D0  48 00 00 20 */	b lbl_804541B0
-lbl_80454194:
+/* 80454190 004510D0  48 00 00 20 */	b .L_804541B0
+.L_80454194:
 /* 80454194 004510D4  81 83 00 00 */	lwz r12, 0(r3)
 /* 80454198 004510D8  7F C4 F3 78 */	mr r4, r30
 /* 8045419C 004510DC  83 E3 00 04 */	lwz r31, 4(r3)
@@ -559,18 +563,18 @@ lbl_80454194:
 /* 804541A4 004510E4  7D 89 03 A6 */	mtctr r12
 /* 804541A8 004510E8  4E 80 04 21 */	bctrl 
 /* 804541AC 004510EC  7F E3 FB 78 */	mr r3, r31
-lbl_804541B0:
+.L_804541B0:
 /* 804541B0 004510F0  28 03 00 00 */	cmplwi r3, 0
-/* 804541B4 004510F4  40 82 FF E0 */	bne lbl_80454194
+/* 804541B4 004510F4  40 82 FF E0 */	bne .L_80454194
 /* 804541B8 004510F8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 804541BC 004510FC  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 804541C0 00451100  83 C1 00 08 */	lwz r30, 8(r1)
 /* 804541C4 00451104  7C 08 03 A6 */	mtlr r0
 /* 804541C8 00451108  38 21 00 10 */	addi r1, r1, 0x10
 /* 804541CC 0045110C  4E 80 00 20 */	blr 
+.endfn draw__Q26Screen10ObjMgrBaseFR8Graphics
 
-.global search__Q26Screen10ObjMgrBaseFPQ26Screen9SceneBasePc
-search__Q26Screen10ObjMgrBaseFPQ26Screen9SceneBasePc:
+.fn search__Q26Screen10ObjMgrBaseFPQ26Screen9SceneBasePc, global
 /* 804541D0 00451110  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804541D4 00451114  7C 08 02 A6 */	mflr r0
 /* 804541D8 00451118  90 01 00 24 */	stw r0, 0x24(r1)
@@ -581,8 +585,8 @@ search__Q26Screen10ObjMgrBaseFPQ26Screen9SceneBasePc:
 /* 804541EC 0045112C  93 81 00 10 */	stw r28, 0x10(r1)
 /* 804541F0 00451130  7C 9C 23 78 */	mr r28, r4
 /* 804541F4 00451134  83 E3 00 10 */	lwz r31, 0x10(r3)
-/* 804541F8 00451138  48 00 00 44 */	b lbl_8045423C
-lbl_804541FC:
+/* 804541F8 00451138  48 00 00 44 */	b .L_8045423C
+.L_804541FC:
 /* 804541FC 0045113C  7F E3 FB 78 */	mr r3, r31
 /* 80454200 00451140  83 DF 00 04 */	lwz r30, 4(r31)
 /* 80454204 00451144  81 9F 00 00 */	lwz r12, 0(r31)
@@ -590,21 +594,21 @@ lbl_804541FC:
 /* 8045420C 0045114C  7D 89 03 A6 */	mtctr r12
 /* 80454210 00451150  4E 80 04 21 */	bctrl 
 /* 80454214 00451154  7C 03 E0 40 */	cmplw r3, r28
-/* 80454218 00451158  40 82 00 20 */	bne lbl_80454238
+/* 80454218 00451158  40 82 00 20 */	bne .L_80454238
 /* 8045421C 0045115C  80 7F 00 14 */	lwz r3, 0x14(r31)
 /* 80454220 00451160  7F A4 EB 78 */	mr r4, r29
 /* 80454224 00451164  4B C7 64 9D */	bl strcmp
 /* 80454228 00451168  2C 03 00 00 */	cmpwi r3, 0
-/* 8045422C 0045116C  40 82 00 0C */	bne lbl_80454238
+/* 8045422C 0045116C  40 82 00 0C */	bne .L_80454238
 /* 80454230 00451170  7F E3 FB 78 */	mr r3, r31
-/* 80454234 00451174  48 00 00 14 */	b lbl_80454248
-lbl_80454238:
+/* 80454234 00451174  48 00 00 14 */	b .L_80454248
+.L_80454238:
 /* 80454238 00451178  7F DF F3 78 */	mr r31, r30
-lbl_8045423C:
+.L_8045423C:
 /* 8045423C 0045117C  28 1F 00 00 */	cmplwi r31, 0
-/* 80454240 00451180  40 82 FF BC */	bne lbl_804541FC
+/* 80454240 00451180  40 82 FF BC */	bne .L_804541FC
 /* 80454244 00451184  38 60 00 00 */	li r3, 0
-lbl_80454248:
+.L_80454248:
 /* 80454248 00451188  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 8045424C 0045118C  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 80454250 00451190  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -613,9 +617,9 @@ lbl_80454248:
 /* 8045425C 0045119C  7C 08 03 A6 */	mtlr r0
 /* 80454260 004511A0  38 21 00 20 */	addi r1, r1, 0x20
 /* 80454264 004511A4  4E 80 00 20 */	blr 
+.endfn search__Q26Screen10ObjMgrBaseFPQ26Screen9SceneBasePc
 
-.global start__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg
-start__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg:
+.fn start__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg, global
 /* 80454268 004511A8  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8045426C 004511AC  7C 08 02 A6 */	mflr r0
 /* 80454270 004511B0  90 01 00 24 */	stw r0, 0x24(r1)
@@ -625,8 +629,8 @@ start__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg:
 /* 80454280 004511C0  93 A1 00 14 */	stw r29, 0x14(r1)
 /* 80454284 004511C4  7C 9D 23 78 */	mr r29, r4
 /* 80454288 004511C8  80 63 00 10 */	lwz r3, 0x10(r3)
-/* 8045428C 004511CC  48 00 00 2C */	b lbl_804542B8
-lbl_80454290:
+/* 8045428C 004511CC  48 00 00 2C */	b .L_804542B8
+.L_80454290:
 /* 80454290 004511D0  81 83 00 00 */	lwz r12, 0(r3)
 /* 80454294 004511D4  7F A4 EB 78 */	mr r4, r29
 /* 80454298 004511D8  83 C3 00 04 */	lwz r30, 4(r3)
@@ -634,13 +638,13 @@ lbl_80454290:
 /* 804542A0 004511E0  7D 89 03 A6 */	mtctr r12
 /* 804542A4 004511E4  4E 80 04 21 */	bctrl 
 /* 804542A8 004511E8  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 804542AC 004511EC  40 82 00 08 */	bne lbl_804542B4
+/* 804542AC 004511EC  40 82 00 08 */	bne .L_804542B4
 /* 804542B0 004511F0  3B E0 00 00 */	li r31, 0
-lbl_804542B4:
+.L_804542B4:
 /* 804542B4 004511F4  7F C3 F3 78 */	mr r3, r30
-lbl_804542B8:
+.L_804542B8:
 /* 804542B8 004511F8  28 03 00 00 */	cmplwi r3, 0
-/* 804542BC 004511FC  40 82 FF D4 */	bne lbl_80454290
+/* 804542BC 004511FC  40 82 FF D4 */	bne .L_80454290
 /* 804542C0 00451200  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 804542C4 00451204  7F E3 FB 78 */	mr r3, r31
 /* 804542C8 00451208  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -649,9 +653,9 @@ lbl_804542B8:
 /* 804542D4 00451214  7C 08 03 A6 */	mtlr r0
 /* 804542D8 00451218  38 21 00 20 */	addi r1, r1, 0x20
 /* 804542DC 0045121C  4E 80 00 20 */	blr 
+.endfn start__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg
 
-.global end__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg
-end__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg:
+.fn end__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg, global
 /* 804542E0 00451220  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804542E4 00451224  7C 08 02 A6 */	mflr r0
 /* 804542E8 00451228  90 01 00 24 */	stw r0, 0x24(r1)
@@ -661,8 +665,8 @@ end__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg:
 /* 804542F8 00451238  93 A1 00 14 */	stw r29, 0x14(r1)
 /* 804542FC 0045123C  7C 9D 23 78 */	mr r29, r4
 /* 80454300 00451240  80 63 00 10 */	lwz r3, 0x10(r3)
-/* 80454304 00451244  48 00 00 2C */	b lbl_80454330
-lbl_80454308:
+/* 80454304 00451244  48 00 00 2C */	b .L_80454330
+.L_80454308:
 /* 80454308 00451248  81 83 00 00 */	lwz r12, 0(r3)
 /* 8045430C 0045124C  7F A4 EB 78 */	mr r4, r29
 /* 80454310 00451250  83 C3 00 04 */	lwz r30, 4(r3)
@@ -670,13 +674,13 @@ lbl_80454308:
 /* 80454318 00451258  7D 89 03 A6 */	mtctr r12
 /* 8045431C 0045125C  4E 80 04 21 */	bctrl 
 /* 80454320 00451260  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80454324 00451264  40 82 00 08 */	bne lbl_8045432C
+/* 80454324 00451264  40 82 00 08 */	bne .L_8045432C
 /* 80454328 00451268  3B E0 00 00 */	li r31, 0
-lbl_8045432C:
+.L_8045432C:
 /* 8045432C 0045126C  7F C3 F3 78 */	mr r3, r30
-lbl_80454330:
+.L_80454330:
 /* 80454330 00451270  28 03 00 00 */	cmplwi r3, 0
-/* 80454334 00451274  40 82 FF D4 */	bne lbl_80454308
+/* 80454334 00451274  40 82 FF D4 */	bne .L_80454308
 /* 80454338 00451278  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 8045433C 0045127C  7F E3 FB 78 */	mr r3, r31
 /* 80454340 00451280  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -685,9 +689,9 @@ lbl_80454330:
 /* 8045434C 0045128C  7C 08 03 A6 */	mtlr r0
 /* 80454350 00451290  38 21 00 20 */	addi r1, r1, 0x20
 /* 80454354 00451294  4E 80 00 20 */	blr 
+.endfn end__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg
 
-.global confirmSetScene__Q26Screen10ObjMgrBaseFRQ26Screen11SetSceneArg
-confirmSetScene__Q26Screen10ObjMgrBaseFRQ26Screen11SetSceneArg:
+.fn confirmSetScene__Q26Screen10ObjMgrBaseFRQ26Screen11SetSceneArg, global
 /* 80454358 00451298  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8045435C 0045129C  7C 08 02 A6 */	mflr r0
 /* 80454360 004512A0  90 01 00 24 */	stw r0, 0x24(r1)
@@ -697,8 +701,8 @@ confirmSetScene__Q26Screen10ObjMgrBaseFRQ26Screen11SetSceneArg:
 /* 80454370 004512B0  93 A1 00 14 */	stw r29, 0x14(r1)
 /* 80454374 004512B4  7C 9D 23 78 */	mr r29, r4
 /* 80454378 004512B8  80 63 00 10 */	lwz r3, 0x10(r3)
-/* 8045437C 004512BC  48 00 00 30 */	b lbl_804543AC
-lbl_80454380:
+/* 8045437C 004512BC  48 00 00 30 */	b .L_804543AC
+.L_80454380:
 /* 80454380 004512C0  81 83 00 00 */	lwz r12, 0(r3)
 /* 80454384 004512C4  7F A4 EB 78 */	mr r4, r29
 /* 80454388 004512C8  83 C3 00 04 */	lwz r30, 4(r3)
@@ -706,15 +710,15 @@ lbl_80454380:
 /* 80454390 004512D0  7D 89 03 A6 */	mtctr r12
 /* 80454394 004512D4  4E 80 04 21 */	bctrl 
 /* 80454398 004512D8  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8045439C 004512DC  40 82 00 0C */	bne lbl_804543A8
+/* 8045439C 004512DC  40 82 00 0C */	bne .L_804543A8
 /* 804543A0 004512E0  3B E0 00 00 */	li r31, 0
-/* 804543A4 004512E4  48 00 00 10 */	b lbl_804543B4
-lbl_804543A8:
+/* 804543A4 004512E4  48 00 00 10 */	b .L_804543B4
+.L_804543A8:
 /* 804543A8 004512E8  7F C3 F3 78 */	mr r3, r30
-lbl_804543AC:
+.L_804543AC:
 /* 804543AC 004512EC  28 03 00 00 */	cmplwi r3, 0
-/* 804543B0 004512F0  40 82 FF D0 */	bne lbl_80454380
-lbl_804543B4:
+/* 804543B0 004512F0  40 82 FF D0 */	bne .L_80454380
+.L_804543B4:
 /* 804543B4 004512F4  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 804543B8 004512F8  7F E3 FB 78 */	mr r3, r31
 /* 804543BC 004512FC  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -723,9 +727,9 @@ lbl_804543B4:
 /* 804543C8 00451308  7C 08 03 A6 */	mtlr r0
 /* 804543CC 0045130C  38 21 00 20 */	addi r1, r1, 0x20
 /* 804543D0 00451310  4E 80 00 20 */	blr 
+.endfn confirmSetScene__Q26Screen10ObjMgrBaseFRQ26Screen11SetSceneArg
 
-.global confirmStartScene__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg
-confirmStartScene__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg:
+.fn confirmStartScene__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg, global
 /* 804543D4 00451314  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804543D8 00451318  7C 08 02 A6 */	mflr r0
 /* 804543DC 0045131C  90 01 00 24 */	stw r0, 0x24(r1)
@@ -735,8 +739,8 @@ confirmStartScene__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg:
 /* 804543EC 0045132C  93 A1 00 14 */	stw r29, 0x14(r1)
 /* 804543F0 00451330  7C 9D 23 78 */	mr r29, r4
 /* 804543F4 00451334  80 63 00 10 */	lwz r3, 0x10(r3)
-/* 804543F8 00451338  48 00 00 30 */	b lbl_80454428
-lbl_804543FC:
+/* 804543F8 00451338  48 00 00 30 */	b .L_80454428
+.L_804543FC:
 /* 804543FC 0045133C  81 83 00 00 */	lwz r12, 0(r3)
 /* 80454400 00451340  7F A4 EB 78 */	mr r4, r29
 /* 80454404 00451344  83 C3 00 04 */	lwz r30, 4(r3)
@@ -744,15 +748,15 @@ lbl_804543FC:
 /* 8045440C 0045134C  7D 89 03 A6 */	mtctr r12
 /* 80454410 00451350  4E 80 04 21 */	bctrl 
 /* 80454414 00451354  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80454418 00451358  40 82 00 0C */	bne lbl_80454424
+/* 80454418 00451358  40 82 00 0C */	bne .L_80454424
 /* 8045441C 0045135C  3B E0 00 00 */	li r31, 0
-/* 80454420 00451360  48 00 00 10 */	b lbl_80454430
-lbl_80454424:
+/* 80454420 00451360  48 00 00 10 */	b .L_80454430
+.L_80454424:
 /* 80454424 00451364  7F C3 F3 78 */	mr r3, r30
-lbl_80454428:
+.L_80454428:
 /* 80454428 00451368  28 03 00 00 */	cmplwi r3, 0
-/* 8045442C 0045136C  40 82 FF D0 */	bne lbl_804543FC
-lbl_80454430:
+/* 8045442C 0045136C  40 82 FF D0 */	bne .L_804543FC
+.L_80454430:
 /* 80454430 00451370  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 80454434 00451374  7F E3 FB 78 */	mr r3, r31
 /* 80454438 00451378  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -761,9 +765,9 @@ lbl_80454430:
 /* 80454444 00451384  7C 08 03 A6 */	mtlr r0
 /* 80454448 00451388  38 21 00 20 */	addi r1, r1, 0x20
 /* 8045444C 0045138C  4E 80 00 20 */	blr 
+.endfn confirmStartScene__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg
 
-.global confirmEndScene__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg
-confirmEndScene__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg:
+.fn confirmEndScene__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg, global
 /* 80454450 00451390  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80454454 00451394  7C 08 02 A6 */	mflr r0
 /* 80454458 00451398  90 01 00 24 */	stw r0, 0x24(r1)
@@ -773,8 +777,8 @@ confirmEndScene__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg:
 /* 80454468 004513A8  93 A1 00 14 */	stw r29, 0x14(r1)
 /* 8045446C 004513AC  7C 9D 23 78 */	mr r29, r4
 /* 80454470 004513B0  80 63 00 10 */	lwz r3, 0x10(r3)
-/* 80454474 004513B4  48 00 00 30 */	b lbl_804544A4
-lbl_80454478:
+/* 80454474 004513B4  48 00 00 30 */	b .L_804544A4
+.L_80454478:
 /* 80454478 004513B8  81 83 00 00 */	lwz r12, 0(r3)
 /* 8045447C 004513BC  7F A4 EB 78 */	mr r4, r29
 /* 80454480 004513C0  83 C3 00 04 */	lwz r30, 4(r3)
@@ -782,15 +786,15 @@ lbl_80454478:
 /* 80454488 004513C8  7D 89 03 A6 */	mtctr r12
 /* 8045448C 004513CC  4E 80 04 21 */	bctrl 
 /* 80454490 004513D0  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80454494 004513D4  40 82 00 0C */	bne lbl_804544A0
+/* 80454494 004513D4  40 82 00 0C */	bne .L_804544A0
 /* 80454498 004513D8  3B E0 00 00 */	li r31, 0
-/* 8045449C 004513DC  48 00 00 10 */	b lbl_804544AC
-lbl_804544A0:
+/* 8045449C 004513DC  48 00 00 10 */	b .L_804544AC
+.L_804544A0:
 /* 804544A0 004513E0  7F C3 F3 78 */	mr r3, r30
-lbl_804544A4:
+.L_804544A4:
 /* 804544A4 004513E4  28 03 00 00 */	cmplwi r3, 0
-/* 804544A8 004513E8  40 82 FF D0 */	bne lbl_80454478
-lbl_804544AC:
+/* 804544A8 004513E8  40 82 FF D0 */	bne .L_80454478
+.L_804544AC:
 /* 804544AC 004513EC  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 804544B0 004513F0  7F E3 FB 78 */	mr r3, r31
 /* 804544B4 004513F4  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -799,8 +803,9 @@ lbl_804544AC:
 /* 804544C0 00451400  7C 08 03 A6 */	mtlr r0
 /* 804544C4 00451404  38 21 00 20 */	addi r1, r1, 0x20
 /* 804544C8 00451408  4E 80 00 20 */	blr 
+.endfn confirmEndScene__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg
 
-.global "@24@__dt__Q26Screen7ObjBaseFv"
-"@24@__dt__Q26Screen7ObjBaseFv":
+.fn "@24@__dt__Q26Screen7ObjBaseFv", weak
 /* 804544CC 0045140C  38 63 FF E8 */	addi r3, r3, -24
 /* 804544D0 00451410  4B EB 93 98 */	b __dt__Q26Screen7ObjBaseFv
+.endfn "@24@__dt__Q26Screen7ObjBaseFv"

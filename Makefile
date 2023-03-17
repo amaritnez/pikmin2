@@ -11,6 +11,9 @@ VERBOSE ?= 0
 # If MAPGENFLAG set to 1, tells LDFLAGS to generate a mapfile, which makes linking take several minutes.
 MAPGENFLAG ?= 0
 
+# Use the all-in-one updater after successful build? (Fails on non-windows platforms)
+USE_AOI ?= 0
+
 ifeq ($(VERBOSE),0)
   QUIET := @
 endif
@@ -34,12 +37,21 @@ endif
 # Overkill epilogue fixup strategy. Set to 1 if necessary.
 EPILOGUE_PROCESS := 1
 
-# Update the README after build
-UPDATE_README ?= 1
+# Use the all-in-one updater after successful build? (Fails on non-windows platforms)
+ifeq ($(USE_AOI), 1)
+  ifeq ($(WINDOWS), 1)
+  USE_AOI = 1
+  else
+  @echo "aoi.exe fails on non-windows platforms."
+  USE_AOI = 0
+  endif
+else
+USE_AOI = 0
+endif
 
 BUILD_DIR := build/$(NAME).$(VERSION)
 ifeq ($(EPILOGUE_PROCESS),1)
-EPILOGUE_DIR := epilogue/$(NAME).$(VERSION)
+EPILOGUE_DIR := build/epilogue/$(NAME).$(VERSION)
 endif
 
 # Inputs
@@ -48,7 +60,7 @@ C_FILES := $(wildcard src/*.c)
 CPP_FILES := $(wildcard src/*.cpp)
 CPP_FILES += $(wildcard src/*.cp)
 LDSCRIPT := $(BUILD_DIR)/ldscript.lcf
-READMEGEN := tools/UpdateReadme.exe
+AOI := aoi.exe
 
 # Outputs
 DOL     := $(BUILD_DIR)/main.dol
@@ -60,23 +72,23 @@ ifeq ($(MAPGENFLAG),1)
 endif
 
 include obj_files.mk
-ifeq ($(EPILOGUE_PROCESS),1)
-include e_files.mk
-endif
 
-O_FILES :=	$(GROUP_0_FILES) $(JSYSTEM) $(DOLPHIN)\
-			$(YAMASHITA) $(KANDO) $(NISHIMURA) $(OGAWA) $(HIKINO) $(MORIMURA) $(EBISAWA) $(KONO)\
-			$(BOOTUP) $(COMMON) $(GC) $(UTILITY)
+O_FILES :=	$(JSYSTEM) $(DOLPHIN) $(PLUGPROJECT) $(SYS) $(UTILITY)
 ifeq ($(EPILOGUE_PROCESS),1)
-E_FILES :=	$(EPILOGUE_UNSCHEDULED)
+E_FILES :=	$(AR_UNSCHEDULED) $(CARD_UNSCHEDULED) $(DSP_UNSCHEDULED) $(DVD_UNSCHEDULED) $(OS_UNSCHEDULED) $(PAD_UNSCHEDULED) $(SI_UNSCHEDULED) $(GBA_UNSCHEDULED)
 endif
+DEPENDS := $($(filter *.o,O_FILES):.o=.d)
+DEPENDS += $($(filter *.o,E_FILES):.o=.d)
+# If a specific .o file is passed as a target, also process its deps
+DEPENDS += $(MAKECMDGOALS:.o=.d)
+
 #-------------------------------------------------------------------------------
 # Tools
 #-------------------------------------------------------------------------------
 
 MWCC_VERSION := 2.6
 ifeq ($(EPILOGUE_PROCESS),1)
-MWCC_EPI_VERSION := 1.2.5
+MWCC_EPI_VERSION := 1.2.5e
 MWCC_EPI_EXE := mwcceppc.exe
 endif
 MWLD_VERSION := 2.6
@@ -88,7 +100,12 @@ ifeq ($(WINDOWS),1)
   CPP     := $(DEVKITPPC)/bin/powerpc-eabi-cpp.exe -P
   PYTHON  := python
 else
-  WINE ?= wine
+  WIBO   := $(shell command -v wibo 2> /dev/null)
+  ifdef WIBO
+    WINE ?= wibo
+  else
+    WINE ?= wine
+  endif
   # Disable wine debug output for cleanliness
   export WINEDEBUG ?= -all
   # Default devkitPPC path
@@ -97,15 +114,22 @@ else
   CPP     := $(DEVKITPPC)/bin/powerpc-eabi-cpp -P
   PYTHON  := python3
 endif
-CC      = $(WINE) tools/mwcc_compiler/$(MWCC_VERSION)/mwcceppc.exe
+COMPILERS ?= tools/mwcc_compiler
+CC      = $(WINE) $(COMPILERS)/$(MWCC_VERSION)/mwcceppc.exe
 ifeq ($(EPILOGUE_PROCESS),1)
-CC_EPI  = $(WINE) tools/mwcc_compiler/$(MWCC_EPI_VERSION)/$(MWCC_EPI_EXE)
+CC_EPI  = $(WINE) $(COMPILERS)/$(MWCC_EPI_VERSION)/$(MWCC_EPI_EXE)
 endif
-LD      := $(WINE) tools/mwcc_compiler/$(MWLD_VERSION)/mwldeppc.exe
-ELF2DOL := tools/elf2dol
-SHA1SUM := sha1sum
+LD      := $(WINE) $(COMPILERS)/$(MWLD_VERSION)/mwldeppc.exe
+DTK     := tools/dtk
+ELF2DOL := $(DTK) elf2dol
+SHASUM  := $(DTK) shasum
 
-FRANK := tools/franklite.py
+ifneq ($(WINDOWS),1)
+TRANSFORM_DEP := tools/transform-dep.py
+else
+TRANSFORM_DEP := tools/transform-win.py
+endif
+FRANK := tools/frank.py
 
 # Options
 INCLUDES := -i include/
@@ -120,51 +144,15 @@ ifeq ($(VERBOSE),0)
 # this set of LDFLAGS generates no warnings.
 LDFLAGS := $(MAPGEN) -fp hard -nodefaults -w off
 endif
-CFLAGS  := -Cpp_exceptions off -enum int -inline auto -proc gekko -RTTI off -fp hard -fp_contract on -rostr -O4,p -use_lmw_stmw on -common on -sdata 8 -sdata2 8 -nodefaults -DVERNUM=$(VERNUM) $(INCLUDES)
+LIBRARY_LDFLAGS := -nodefaults -fp hard -proc gekko
+CFLAGS  := -Cpp_exceptions off -enum int -inline auto -proc gekko -RTTI off -fp hard -fp_contract on -rostr -O4,p -use_lmw_stmw on -common on -sdata 8 -sdata2 8 -nodefaults -MMD -DVERNUM=$(VERNUM) $(INCLUDES)
 
 ifeq ($(VERBOSE),0)
 # this set of ASFLAGS generates no warnings.
 ASFLAGS += -W
+# this set of CFLAGS generates no warnings.
+CFLAGS += -w off
 endif
-
-$(BUILD_DIR)/src/Dolphin/dvdFatal.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/dvderror.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/dvdidutils.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/__start.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/__ppc_eabi_init.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/OSLink.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/PPCArch.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/vec.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/GBA.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/GBARead.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/GBAWrite.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/GDBase.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/SISamplingRate.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/fstload.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/db.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/OSAudioSystem.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/OSAlloc.o: MWCC_VERSION := 1.2.5
-$(BUILD_DIR)/src/Dolphin/OS.o: MWCC_VERSION := 1.2.5
-
-# Dirty hack to overwrite sdata
-# It seems TRK-related files need -sdata 0
-$(BUILD_DIR)/src/Dolphin/main_TRK.o: CFLAGS += -sdata 0
-$(BUILD_DIR)/src/Dolphin/mainloop.o: CFLAGS += -sdata 0
-$(BUILD_DIR)/src/Dolphin/nubinit.o: CFLAGS += -sdata 0
-$(BUILD_DIR)/src/Dolphin/target_options.o: CFLAGS += -sdata 0
-
-# Disable read-only strings
-$(BUILD_DIR)/src/Dolphin/SISamplingRate.o: CFLAGS += -str noreadonly
-$(BUILD_DIR)/src/Dolphin/fstload.o: CFLAGS += -str noreadonly
-$(BUILD_DIR)/src/Dolphin/db.o: CFLAGS += -str noreadonly
-$(BUILD_DIR)/src/Dolphin/OS.o: CFLAGS += -str noreadonly
-$(BUILD_DIR)/src/Dolphin/GBA.o: CFLAGS += -str noreadonly
-
-# Disable common BSS pool
-$(DOLPHIN): CFLAGS += -common off
-
-# Enable string pooling
-$(BUILD_DIR)/src/Dolphin/locale.o: CFLAGS += -str pool
 
 #-------------------------------------------------------------------------------
 # Recipes
@@ -177,9 +165,6 @@ default: all
 all: $(DOL)
 
 ALL_DIRS := $(sort $(dir $(O_FILES)))
-ifeq ($(EPILOGUE_PROCESS),1)
-EPI_DIRS := $(sort $(dir $(E_FILES)))
-endif
 
 # Make sure build directory exists before compiling anything
 DUMMY != mkdir -p $(ALL_DIRS)
@@ -189,72 +174,90 @@ DUMMY != mkdir -p $(ALL_DIRS)
 # DUMMY != mkdir -p $(EPI_DIRS)
 # endif
 
-.PHONY: tools
-
 $(LDSCRIPT): ldscript.lcf
 	$(QUIET) $(CPP) -MMD -MP -MT $@ -MF $@.d -I include/ -I . -DBUILD_DIR=$(BUILD_DIR) -o $@ $<
 
-$(DOL): $(ELF) | tools
+$(DOL): $(ELF) | $(DTK)
 	$(QUIET) $(ELF2DOL) $< $@
-	$(QUIET) $(SHA1SUM) -c sha1/$(NAME).$(VERSION).sha1
+	$(QUIET) $(SHASUM) -c sha1/$(NAME).$(VERSION).sha1
 ifneq ($(findstring -map,$(LDFLAGS)),)
 	$(QUIET) $(PYTHON) tools/calcprogress.py $(DOL) $(MAP)
 endif
-ifeq ($(UPDATE_README),1)
-	$(WINE) $(READMEGEN)
+ifeq ($(USE_AOI),1)
+	$(WINE) ./aoi.exe
 endif
 
 clean:
 	rm -f -d -r build
-	rm -f -d -r epilogue
-	find . -name '*.o' -exec rm {} +
-	find . -name 'ctx.c' -exec rm {} +
-	find ./include -name "*.s" -type f -delete
-	$(MAKE) -C tools clean
-tools:
-	$(MAKE) -C tools
+
+$(DTK): tools/dtk_version
+	@echo "Downloading $@"
+	$(QUIET) $(PYTHON) tools/download_dtk.py $< $@
 
 # ELF creation makefile instructions
-ifeq ($(EPILOGUE_PROCESS),1)
-	@echo Linking ELF $@
-$(ELF): $(O_FILES) $(E_FILES) $(LDSCRIPT)
-	$(QUIET) @echo $(O_FILES) > build/o_files
-	$(QUIET) $(LD) $(LDFLAGS) -o $@ -lcf $(LDSCRIPT) @build/o_files
-else
 $(ELF): $(O_FILES) $(LDSCRIPT)
 	@echo Linking ELF $@
 	$(QUIET) @echo $(O_FILES) > build/o_files
 	$(QUIET) $(LD) $(LDFLAGS) -o $@ -lcf $(LDSCRIPT) @build/o_files
+
+%.d.unix: %.d $(TRANSFORM_DEP)
+	@echo Processing $<
+	$(QUIET) $(PYTHON) $(TRANSFORM_DEP) $< $@
+
+-include include_link.mk
+
+DEPENDS := $(DEPENDS:.d=.d.unix)
+ifneq ($(MAKECMDGOALS), clean)
+-include $(DEPENDS)
 endif
 
 $(BUILD_DIR)/%.o: %.s
 	@echo Assembling $<
+	$(QUIET) mkdir -p $(dir $@)
 	$(QUIET) $(AS) $(ASFLAGS) -o $@ $<
+
+# for files with capitalized .C extension
+$(BUILD_DIR)/%.o: %.C
+	@echo "Compiling " $<
+	$(QUIET) mkdir -p $(dir $@)
+	$(QUIET) $(CC) $(CFLAGS) -c -o $(dir $@) $<
 
 $(BUILD_DIR)/%.o: %.c
 	@echo "Compiling " $<
-	$(QUIET) $(CC) $(CFLAGS) -c -o $@ $<
+	$(QUIET) mkdir -p $(dir $@)
+	$(QUIET) $(CC) $(CFLAGS) -c -o $(dir $@) $<
 
 $(BUILD_DIR)/%.o: %.cp
 	@echo "Compiling " $<
-	$(QUIET) $(CC) $(CFLAGS) -c -o $@ $<
-	
+	$(QUIET) mkdir -p $(dir $@)
+	$(QUIET) $(CC) $(CFLAGS) -c -o $(dir $@) $<
+
 $(BUILD_DIR)/%.o: %.cpp
 	@echo "Compiling " $<
-	$(QUIET) $(CC) $(CFLAGS) -c -o $@ $<
+	$(QUIET) mkdir -p $(dir $@)
+	$(QUIET) $(CC) $(CFLAGS) -c -o $(dir $@) $<
 
 ifeq ($(EPILOGUE_PROCESS),1)
 $(EPILOGUE_DIR)/%.o: %.c $(BUILD_DIR)/%.o
 	@echo Frank is fixing $<
-	$(QUIET) $(PYTHON) $(FRANK) $(word 2,$^) $(word 2,$^)
+	$(QUIET) mkdir -p $(dir $@)
+	$(QUIET) $(CC_EPI) $(CFLAGS) -c -o $(dir $@) $<
+	$(QUIET) $(PYTHON) $(FRANK) $(word 2,$^) $@ $(word 2,$^)
+	$(QUIET) touch $@
 
 $(EPILOGUE_DIR)/%.o: %.cp $(BUILD_DIR)/%.o
 	@echo Frank is fixing $<
-	$(QUIET) $(PYTHON) $(FRANK) $(word 2,$^) $(word 2,$^)
+	$(QUIET) mkdir -p $(dir $@)
+	$(QUIET) $(CC_EPI) $(CFLAGS) -c -o $(dir $@) $<
+	$(QUIET) $(PYTHON) $(FRANK) $(word 2,$^) $@ $(word 2,$^)
+	$(QUIET) touch $@
 
 $(EPILOGUE_DIR)/%.o: %.cpp $(BUILD_DIR)/%.o
 	@echo Frank is fixing $<
-	$(QUIET) $(PYTHON) $(FRANK) $(word 2,$^) $(word 2,$^)
+	$(QUIET) mkdir -p $(dir $@)
+	$(QUIET) $(CC_EPI) $(CFLAGS) -c -o $(dir $@) $<
+	$(QUIET) $(PYTHON) $(FRANK) $(word 2,$^) $@ $(word 2,$^)
+	$(QUIET) touch $@
 endif
 # If we need Frank, add the following after the @echo
 # $(QUIET) $(CC_EPI) $(CFLAGS) -c -o $@ $<

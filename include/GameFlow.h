@@ -2,32 +2,37 @@
 #define _GAMEFLOW_H
 
 #include "types.h"
+#include "Section.h"
 
-struct SectionInfo;
 struct ISection;
 struct Section;
 struct JKRHeap;
 
-struct ISectionMgr {
-	ISectionMgr() { }
+struct SectionInfo {
+	char* mName;
 
-	virtual void run() = 0;
-	virtual ISection* getCurrentSection();
+	union {
+		u8 mSectionId, b, c, d;
+		u32 abcd;
+	} id;
 };
 
 struct GameFlow : public ISectionMgr {
 	GameFlow();
+	~GameFlow(); // unused and not virtual
 
-	virtual void run();
-	virtual ISection* getCurrentSection();
+	virtual void run();                    // _08
+	virtual ISection* getCurrentSection(); // _0C (weak)
 
 	void setSection();
-	SectionInfo* getSectionInfo(int);
 
+	static void* getSectionInfo(int);
 	static ISection* createSection(JKRHeap*);
+
 	static u32 mActiveSectionFlag;
 
-	Section* m_section; // _04
+	// _00 VTBL
+	Section* mSection; // _04
 };
 
 #endif

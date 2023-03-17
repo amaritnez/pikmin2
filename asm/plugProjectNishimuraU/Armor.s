@@ -1,34 +1,34 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-lbl_80487418:
+.obj lbl_80487418, local
 	.asciz "yoroimushi"
+.endobj lbl_80487418
 
 .section .data, "wa"  # 0x8049E220 - 0x804EFC20
 .balign 8
-.global __vt__Q23efx9TYoroiEat
-__vt__Q23efx9TYoroiEat:
+.obj __vt__Q23efx9TYoroiEat, weak
 	.4byte 0
 	.4byte 0
 	.4byte create__Q23efx8TSimple1FPQ23efx3Arg
 	.4byte forceKill__Q23efx8TSimple1Fv
 	.4byte fade__Q23efx8TSimple1Fv
-.global __vt__Q23efx8TYoroiHd
-__vt__Q23efx8TYoroiHd:
+.endobj __vt__Q23efx9TYoroiEat
+.obj __vt__Q23efx8TYoroiHd, weak
 	.4byte 0
 	.4byte 0
 	.4byte create__Q23efx11TSimpleMtx2FPQ23efx3Arg
 	.4byte forceKill__Q23efx8TSimple2Fv
 	.4byte fade__Q23efx8TSimple2Fv
-.global __vt__Q23efx8TYoroiAp
-__vt__Q23efx8TYoroiAp:
+.endobj __vt__Q23efx8TYoroiHd
+.obj __vt__Q23efx8TYoroiAp, weak
 	.4byte 0
 	.4byte 0
 	.4byte create__Q23efx11TSimpleMtx2FPQ23efx3Arg
 	.4byte forceKill__Q23efx8TSimple2Fv
 	.4byte fade__Q23efx8TSimple2Fv
-.global __vt__Q23efx12TYoroiAttack
-__vt__Q23efx12TYoroiAttack:
+.endobj __vt__Q23efx8TYoroiAp
+.obj __vt__Q23efx12TYoroiAttack, weak
 	.4byte 0
 	.4byte 0
 	.4byte create__Q23efx5TSyncFPQ23efx3Arg
@@ -48,15 +48,15 @@ __vt__Q23efx12TYoroiAttack:
 	.4byte startDemoDrawOff__Q23efx5TSyncFv
 	.4byte endDemoDrawOn__Q23efx5TSyncFv
 	.4byte __dt__Q23efx12TYoroiAttackFv
-.global __vt__Q23efx15TYoroiAttackhit
-__vt__Q23efx15TYoroiAttackhit:
+.endobj __vt__Q23efx12TYoroiAttack
+.obj __vt__Q23efx15TYoroiAttackhit, weak
 	.4byte 0
 	.4byte 0
 	.4byte create__Q23efx8TSimple1FPQ23efx3Arg
 	.4byte forceKill__Q23efx8TSimple1Fv
 	.4byte fade__Q23efx8TSimple1Fv
-.global __vt__Q34Game5Armor3Obj
-__vt__Q34Game5Armor3Obj:
+.endobj __vt__Q23efx15TYoroiAttackhit
+.obj __vt__Q34Game5Armor3Obj, global
 	.4byte 0
 	.4byte 0
 	.4byte getPosition__Q24Game9EnemyBaseFv
@@ -260,57 +260,76 @@ __vt__Q34Game5Armor3Obj:
 	.4byte "@740@12@viewStartCarryMotion__Q24Game9EnemyBaseFv"
 	.4byte "@740@12@viewOnPelletKilled__Q24Game9EnemyBaseFv"
 	.4byte "viewEntryShape__Q24Game10PelletViewFR7MatrixfR10Vector3<f>"
+.endobj __vt__Q34Game5Armor3Obj
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_8051B540:
+.obj lbl_8051B540, local
 	.float 0.0
-lbl_8051B544:
+.endobj lbl_8051B540
+.obj lbl_8051B544, local
 	.float 50.0
-lbl_8051B548:
+.endobj lbl_8051B544
+.obj lbl_8051B548, local
 	.float 2.5
-lbl_8051B54C:
+.endobj lbl_8051B548
+.obj lbl_8051B54C, local
 	.float 25.0
-lbl_8051B550:
+.endobj lbl_8051B54C
+.obj lbl_8051B550, local
 	.float 1.0
-lbl_8051B554:
+.endobj lbl_8051B550
+.obj lbl_8051B554, local
 	.float -1000.0
+.endobj lbl_8051B554
 .balign 4
-lbl_8051B558:
+.obj lbl_8051B558, local
 	.asciz "kamujnt"
+.endobj lbl_8051B558
 .balign 4
-lbl_8051B560:
+.obj lbl_8051B560, local
 	.float 32768.0
-lbl_8051B564:
+.endobj lbl_8051B560
+.obj lbl_8051B564, local
 	.float 0.5
+.endobj lbl_8051B564
 .balign 8
-lbl_8051B568:
-	.4byte 0x43300000
-	.4byte 0x80000000
-lbl_8051B570:
+.obj lbl_8051B568, local
+	.8byte 0x4330000080000000
+.endobj lbl_8051B568
+.obj lbl_8051B570, local
 	.float 5.0
-lbl_8051B574:
+.endobj lbl_8051B570
+.obj lbl_8051B574, local
 	.float -50.0
-lbl_8051B578:
+.endobj lbl_8051B574
+.obj lbl_8051B578, local
 	.float 250.0
-lbl_8051B57C:
+.endobj lbl_8051B578
+.obj lbl_8051B57C, local
 	.float 0.75
-lbl_8051B580: # pi
+.endobj lbl_8051B57C
+.obj lbl_8051B580, local # pi
 	.float 3.1415927
-lbl_8051B584:
+.endobj lbl_8051B580
+.obj lbl_8051B584, local
 	.float 0.0055555557
-lbl_8051B588:
+.endobj lbl_8051B584
+.obj lbl_8051B588, local
 	.float 0.7
-lbl_8051B58C:
+.endobj lbl_8051B588
+.obj lbl_8051B58C, local
 	.float -25.0
-lbl_8051B590:
+.endobj lbl_8051B58C
+.obj lbl_8051B590, local
 	.float 750.0
-lbl_8051B594:
+.endobj lbl_8051B590
+.obj lbl_8051B594, local
 	.float 0.9
+.endobj lbl_8051B594
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__Q34Game5Armor3ObjFv
-__ct__Q34Game5Armor3ObjFv:
+.fn __ct__Q34Game5Armor3ObjFv, global
 /* 8027D69C 0027A5DC  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027D6A0 0027A5E0  7C 08 02 A6 */	mflr r0
 /* 8027D6A4 0027A5E4  90 01 00 14 */	stw r0, 0x14(r1)
@@ -318,7 +337,7 @@ __ct__Q34Game5Armor3ObjFv:
 /* 8027D6AC 0027A5EC  93 E1 00 0C */	stw r31, 0xc(r1)
 /* 8027D6B0 0027A5F0  7C 7F 1B 78 */	mr r31, r3
 /* 8027D6B4 0027A5F4  93 C1 00 08 */	stw r30, 8(r1)
-/* 8027D6B8 0027A5F8  41 82 00 24 */	beq lbl_8027D6DC
+/* 8027D6B8 0027A5F8  41 82 00 24 */	beq .L_8027D6DC
 /* 8027D6BC 0027A5FC  38 1F 02 E4 */	addi r0, r31, 0x2e4
 /* 8027D6C0 0027A600  3C 60 80 4B */	lis r3, __vt__Q24Game10PelletView@ha
 /* 8027D6C4 0027A604  90 1F 01 7C */	stw r0, 0x17c(r31)
@@ -327,7 +346,7 @@ __ct__Q34Game5Armor3ObjFv:
 /* 8027D6D0 0027A610  90 7F 02 E4 */	stw r3, 0x2e4(r31)
 /* 8027D6D4 0027A614  90 1F 02 E8 */	stw r0, 0x2e8(r31)
 /* 8027D6D8 0027A618  90 1F 02 EC */	stw r0, 0x2ec(r31)
-lbl_8027D6DC:
+.L_8027D6DC:
 /* 8027D6DC 0027A61C  7F E3 FB 78 */	mr r3, r31
 /* 8027D6E0 0027A620  38 80 00 00 */	li r4, 0
 /* 8027D6E4 0027A624  4B E8 3C BD */	bl __ct__Q24Game9EnemyBaseFv
@@ -348,7 +367,7 @@ lbl_8027D6DC:
 /* 8027D720 0027A660  38 60 00 2C */	li r3, 0x2c
 /* 8027D724 0027A664  4B DA 67 81 */	bl __nw__FUl
 /* 8027D728 0027A668  7C 7E 1B 79 */	or. r30, r3, r3
-/* 8027D72C 0027A66C  41 82 00 44 */	beq lbl_8027D770
+/* 8027D72C 0027A66C  41 82 00 44 */	beq .L_8027D770
 /* 8027D730 0027A670  4B EA A2 45 */	bl __ct__Q24Game17EnemyAnimatorBaseFv
 /* 8027D734 0027A674  3C 60 80 4D */	lis r3, __vt__Q34Game5Armor14ProperAnimator@ha
 /* 8027D738 0027A678  3C 80 80 4B */	lis r4, __vt__Q28SysShape12BaseAnimator@ha
@@ -365,12 +384,12 @@ lbl_8027D6DC:
 /* 8027D764 0027A6A4  90 1E 00 14 */	stw r0, 0x14(r30)
 /* 8027D768 0027A6A8  98 1E 00 28 */	stb r0, 0x28(r30)
 /* 8027D76C 0027A6AC  90 1E 00 20 */	stw r0, 0x20(r30)
-lbl_8027D770:
+.L_8027D770:
 /* 8027D770 0027A6B0  93 DF 01 84 */	stw r30, 0x184(r31)
 /* 8027D774 0027A6B4  38 60 00 1C */	li r3, 0x1c
 /* 8027D778 0027A6B8  4B DA 67 2D */	bl __nw__FUl
 /* 8027D77C 0027A6BC  7C 64 1B 79 */	or. r4, r3, r3
-/* 8027D780 0027A6C0  41 82 00 24 */	beq lbl_8027D7A4
+/* 8027D780 0027A6C0  41 82 00 24 */	beq .L_8027D7A4
 /* 8027D784 0027A6C4  3C A0 80 4B */	lis r5, __vt__Q24Game17EnemyStateMachine@ha
 /* 8027D788 0027A6C8  3C 60 80 4D */	lis r3, __vt__Q34Game5Armor3FSM@ha
 /* 8027D78C 0027A6CC  38 05 F9 80 */	addi r0, r5, __vt__Q24Game17EnemyStateMachine@l
@@ -379,7 +398,7 @@ lbl_8027D770:
 /* 8027D798 0027A6D8  38 03 9A 6C */	addi r0, r3, __vt__Q34Game5Armor3FSM@l
 /* 8027D79C 0027A6DC  90 A4 00 18 */	stw r5, 0x18(r4)
 /* 8027D7A0 0027A6E0  90 04 00 00 */	stw r0, 0(r4)
-lbl_8027D7A4:
+.L_8027D7A4:
 /* 8027D7A4 0027A6E4  81 9F 00 00 */	lwz r12, 0(r31)
 /* 8027D7A8 0027A6E8  7F E3 FB 78 */	mr r3, r31
 /* 8027D7AC 0027A6EC  81 8C 02 F8 */	lwz r12, 0x2f8(r12)
@@ -394,13 +413,13 @@ lbl_8027D7A4:
 /* 8027D7D0 0027A710  7C 08 03 A6 */	mtlr r0
 /* 8027D7D4 0027A714  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027D7D8 0027A718  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game5Armor3ObjFv
 
-.global setInitialSetting__Q34Game5Armor3ObjFPQ24Game21EnemyInitialParamBase
-setInitialSetting__Q34Game5Armor3ObjFPQ24Game21EnemyInitialParamBase:
+.fn setInitialSetting__Q34Game5Armor3ObjFPQ24Game21EnemyInitialParamBase, global
 /* 8027D7DC 0027A71C  4E 80 00 20 */	blr 
+.endfn setInitialSetting__Q34Game5Armor3ObjFPQ24Game21EnemyInitialParamBase
 
-.global onInit__Q34Game5Armor3ObjFPQ24Game15CreatureInitArg
-onInit__Q34Game5Armor3ObjFPQ24Game15CreatureInitArg:
+.fn onInit__Q34Game5Armor3ObjFPQ24Game15CreatureInitArg, global
 /* 8027D7E0 0027A720  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027D7E4 0027A724  7C 08 02 A6 */	mflr r0
 /* 8027D7E8 0027A728  90 01 00 14 */	stw r0, 0x14(r1)
@@ -439,9 +458,9 @@ onInit__Q34Game5Armor3ObjFPQ24Game15CreatureInitArg:
 /* 8027D86C 0027A7AC  7C 08 03 A6 */	mtlr r0
 /* 8027D870 0027A7B0  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027D874 0027A7B4  4E 80 00 20 */	blr 
+.endfn onInit__Q34Game5Armor3ObjFPQ24Game15CreatureInitArg
 
-.global doUpdate__Q34Game5Armor3ObjFv
-doUpdate__Q34Game5Armor3ObjFv:
+.fn doUpdate__Q34Game5Armor3ObjFv, global
 /* 8027D878 0027A7B8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027D87C 0027A7BC  7C 08 02 A6 */	mflr r0
 /* 8027D880 0027A7C0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -460,13 +479,13 @@ doUpdate__Q34Game5Armor3ObjFv:
 /* 8027D8B4 0027A7F4  7C 08 03 A6 */	mtlr r0
 /* 8027D8B8 0027A7F8  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027D8BC 0027A7FC  4E 80 00 20 */	blr 
+.endfn doUpdate__Q34Game5Armor3ObjFv
 
-.global doDirectDraw__Q34Game5Armor3ObjFR8Graphics
-doDirectDraw__Q34Game5Armor3ObjFR8Graphics:
+.fn doDirectDraw__Q34Game5Armor3ObjFR8Graphics, global
 /* 8027D8C0 0027A800  4E 80 00 20 */	blr 
+.endfn doDirectDraw__Q34Game5Armor3ObjFR8Graphics
 
-.global doDebugDraw__Q34Game5Armor3ObjFR8Graphics
-doDebugDraw__Q34Game5Armor3ObjFR8Graphics:
+.fn doDebugDraw__Q34Game5Armor3ObjFR8Graphics, global
 /* 8027D8C4 0027A804  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027D8C8 0027A808  7C 08 02 A6 */	mflr r0
 /* 8027D8CC 0027A80C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -475,9 +494,9 @@ doDebugDraw__Q34Game5Armor3ObjFR8Graphics:
 /* 8027D8D8 0027A818  7C 08 03 A6 */	mtlr r0
 /* 8027D8DC 0027A81C  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027D8E0 0027A820  4E 80 00 20 */	blr 
+.endfn doDebugDraw__Q34Game5Armor3ObjFR8Graphics
 
-.global setFSM__Q34Game5Armor3ObjFPQ34Game5Armor3FSM
-setFSM__Q34Game5Armor3ObjFPQ34Game5Armor3FSM:
+.fn setFSM__Q34Game5Armor3ObjFPQ34Game5Armor3FSM, global
 /* 8027D8E4 0027A824  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027D8E8 0027A828  7C 08 02 A6 */	mflr r0
 /* 8027D8EC 0027A82C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -497,9 +516,9 @@ setFSM__Q34Game5Armor3ObjFPQ34Game5Armor3FSM:
 /* 8027D924 0027A864  7C 08 03 A6 */	mtlr r0
 /* 8027D928 0027A868  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027D92C 0027A86C  4E 80 00 20 */	blr 
+.endfn setFSM__Q34Game5Armor3ObjFPQ34Game5Armor3FSM
 
-.global getShadowParam__Q34Game5Armor3ObjFRQ24Game11ShadowParam
-getShadowParam__Q34Game5Armor3ObjFRQ24Game11ShadowParam:
+.fn getShadowParam__Q34Game5Armor3ObjFRQ24Game11ShadowParam, global
 /* 8027D930 0027A870  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8027D934 0027A874  7C 08 02 A6 */	mflr r0
 /* 8027D938 0027A878  90 01 00 24 */	stw r0, 0x24(r1)
@@ -515,14 +534,14 @@ getShadowParam__Q34Game5Armor3ObjFRQ24Game11ShadowParam:
 /* 8027D960 0027A8A0  80 9E 01 E0 */	lwz r4, 0x1e0(r30)
 /* 8027D964 0027A8A4  38 60 00 00 */	li r3, 0
 /* 8027D968 0027A8A8  54 80 05 6B */	rlwinm. r0, r4, 0, 0x15, 0x15
-/* 8027D96C 0027A8AC  40 82 00 0C */	bne lbl_8027D978
+/* 8027D96C 0027A8AC  40 82 00 0C */	bne .L_8027D978
 /* 8027D970 0027A8B0  54 80 03 5B */	rlwinm. r0, r4, 0, 0xd, 0xd
-/* 8027D974 0027A8B4  41 82 00 08 */	beq lbl_8027D97C
-lbl_8027D978:
+/* 8027D974 0027A8B4  41 82 00 08 */	beq .L_8027D97C
+.L_8027D978:
 /* 8027D978 0027A8B8  38 60 00 01 */	li r3, 1
-lbl_8027D97C:
+.L_8027D97C:
 /* 8027D97C 0027A8BC  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027D980 0027A8C0  41 82 00 28 */	beq lbl_8027D9A8
+/* 8027D980 0027A8C0  41 82 00 28 */	beq .L_8027D9A8
 /* 8027D984 0027A8C4  C0 21 00 08 */	lfs f1, 8(r1)
 /* 8027D988 0027A8C8  C0 02 D1 E4 */	lfs f0, lbl_8051B544@sda21(r2)
 /* 8027D98C 0027A8CC  D0 3F 00 00 */	stfs f1, 0(r31)
@@ -531,8 +550,8 @@ lbl_8027D97C:
 /* 8027D998 0027A8D8  C0 21 00 10 */	lfs f1, 0x10(r1)
 /* 8027D99C 0027A8DC  D0 3F 00 08 */	stfs f1, 8(r31)
 /* 8027D9A0 0027A8E0  D0 1F 00 18 */	stfs f0, 0x18(r31)
-/* 8027D9A4 0027A8E4  48 00 00 44 */	b lbl_8027D9E8
-lbl_8027D9A8:
+/* 8027D9A4 0027A8E4  48 00 00 44 */	b .L_8027D9E8
+.L_8027D9A8:
 /* 8027D9A8 0027A8E8  C0 01 00 08 */	lfs f0, 8(r1)
 /* 8027D9AC 0027A8EC  C0 22 D1 E8 */	lfs f1, lbl_8051B548@sda21(r2)
 /* 8027D9B0 0027A8F0  D0 1F 00 00 */	stfs f0, 0(r31)
@@ -543,14 +562,14 @@ lbl_8027D9A8:
 /* 8027D9C4 0027A904  D0 1F 00 08 */	stfs f0, 8(r31)
 /* 8027D9C8 0027A908  80 1E 01 E4 */	lwz r0, 0x1e4(r30)
 /* 8027D9CC 0027A90C  54 00 07 FF */	clrlwi. r0, r0, 0x1f
-/* 8027D9D0 0027A910  41 82 00 10 */	beq lbl_8027D9E0
+/* 8027D9D0 0027A910  41 82 00 10 */	beq .L_8027D9E0
 /* 8027D9D4 0027A914  C0 02 D1 E4 */	lfs f0, lbl_8051B544@sda21(r2)
 /* 8027D9D8 0027A918  D0 1F 00 18 */	stfs f0, 0x18(r31)
-/* 8027D9DC 0027A91C  48 00 00 0C */	b lbl_8027D9E8
-lbl_8027D9E0:
+/* 8027D9DC 0027A91C  48 00 00 0C */	b .L_8027D9E8
+.L_8027D9E0:
 /* 8027D9E0 0027A920  C0 02 D1 EC */	lfs f0, lbl_8051B54C@sda21(r2)
 /* 8027D9E4 0027A924  D0 1F 00 18 */	stfs f0, 0x18(r31)
-lbl_8027D9E8:
+.L_8027D9E8:
 /* 8027D9E8 0027A928  C0 42 D1 E0 */	lfs f2, lbl_8051B540@sda21(r2)
 /* 8027D9EC 0027A92C  C0 22 D1 F0 */	lfs f1, lbl_8051B550@sda21(r2)
 /* 8027D9F0 0027A930  D0 5F 00 0C */	stfs f2, 0xc(r31)
@@ -564,9 +583,9 @@ lbl_8027D9E8:
 /* 8027DA10 0027A950  7C 08 03 A6 */	mtlr r0
 /* 8027DA14 0027A954  38 21 00 20 */	addi r1, r1, 0x20
 /* 8027DA18 0027A958  4E 80 00 20 */	blr 
+.endfn getShadowParam__Q34Game5Armor3ObjFRQ24Game11ShadowParam
 
-.global damageCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart
-damageCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart:
+.fn damageCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart, global
 /* 8027DA1C 0027A95C  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8027DA20 0027A960  7C 08 02 A6 */	mflr r0
 /* 8027DA24 0027A964  90 01 00 24 */	stw r0, 0x24(r1)
@@ -577,29 +596,29 @@ damageCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart:
 /* 8027DA38 0027A978  FF E0 08 90 */	fmr f31, f1
 /* 8027DA3C 0027A97C  7C 7F 1B 78 */	mr r31, r3
 /* 8027DA40 0027A980  54 00 05 AD */	rlwinm. r0, r0, 0, 0x16, 0x16
-/* 8027DA44 0027A984  41 82 00 14 */	beq lbl_8027DA58
+/* 8027DA44 0027A984  41 82 00 14 */	beq .L_8027DA58
 /* 8027DA48 0027A988  C0 42 D1 F0 */	lfs f2, lbl_8051B550@sda21(r2)
 /* 8027DA4C 0027A98C  4B E8 85 E1 */	bl addDamage__Q24Game9EnemyBaseFff
 /* 8027DA50 0027A990  38 60 00 01 */	li r3, 1
-/* 8027DA54 0027A994  48 00 00 40 */	b lbl_8027DA94
-lbl_8027DA58:
+/* 8027DA54 0027A994  48 00 00 40 */	b .L_8027DA94
+.L_8027DA58:
 /* 8027DA58 0027A998  28 05 00 00 */	cmplwi r5, 0
-/* 8027DA5C 0027A99C  41 82 00 34 */	beq lbl_8027DA90
+/* 8027DA5C 0027A99C  41 82 00 34 */	beq .L_8027DA90
 /* 8027DA60 0027A9A0  3C 80 64 6D */	lis r4, 0x646D6731@ha
 /* 8027DA64 0027A9A4  38 65 00 30 */	addi r3, r5, 0x30
 /* 8027DA68 0027A9A8  38 84 67 31 */	addi r4, r4, 0x646D6731@l
 /* 8027DA6C 0027A9AC  48 19 59 C9 */	bl __eq__4ID32FUl
 /* 8027DA70 0027A9B0  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027DA74 0027A9B4  41 82 00 1C */	beq lbl_8027DA90
+/* 8027DA74 0027A9B4  41 82 00 1C */	beq .L_8027DA90
 /* 8027DA78 0027A9B8  FC 20 F8 90 */	fmr f1, f31
 /* 8027DA7C 0027A9BC  C0 42 D1 F0 */	lfs f2, lbl_8051B550@sda21(r2)
 /* 8027DA80 0027A9C0  7F E3 FB 78 */	mr r3, r31
 /* 8027DA84 0027A9C4  4B E8 85 A9 */	bl addDamage__Q24Game9EnemyBaseFff
 /* 8027DA88 0027A9C8  38 60 00 01 */	li r3, 1
-/* 8027DA8C 0027A9CC  48 00 00 08 */	b lbl_8027DA94
-lbl_8027DA90:
+/* 8027DA8C 0027A9CC  48 00 00 08 */	b .L_8027DA94
+.L_8027DA90:
 /* 8027DA90 0027A9D0  38 60 00 00 */	li r3, 0
-lbl_8027DA94:
+.L_8027DA94:
 /* 8027DA94 0027A9D4  E3 E1 00 18 */	psq_l f31, 24(r1), 0, qr0
 /* 8027DA98 0027A9D8  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 8027DA9C 0027A9DC  CB E1 00 10 */	lfd f31, 0x10(r1)
@@ -607,9 +626,9 @@ lbl_8027DA94:
 /* 8027DAA4 0027A9E4  7C 08 03 A6 */	mtlr r0
 /* 8027DAA8 0027A9E8  38 21 00 20 */	addi r1, r1, 0x20
 /* 8027DAAC 0027A9EC  4E 80 00 20 */	blr 
+.endfn damageCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart
 
-.global hipdropCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart
-hipdropCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart:
+.fn hipdropCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart, global
 /* 8027DAB0 0027A9F0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027DAB4 0027A9F4  7C 08 02 A6 */	mflr r0
 /* 8027DAB8 0027A9F8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -623,12 +642,12 @@ hipdropCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart:
 /* 8027DAD8 0027AA18  4E 80 04 21 */	bctrl 
 /* 8027DADC 0027AA1C  80 9F 01 E0 */	lwz r4, 0x1e0(r31)
 /* 8027DAE0 0027AA20  54 80 05 AD */	rlwinm. r0, r4, 0, 0x16, 0x16
-/* 8027DAE4 0027AA24  40 82 00 14 */	bne lbl_8027DAF8
+/* 8027DAE4 0027AA24  40 82 00 14 */	bne .L_8027DAF8
 /* 8027DAE8 0027AA28  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027DAEC 0027AA2C  41 82 00 0C */	beq lbl_8027DAF8
+/* 8027DAEC 0027AA2C  41 82 00 0C */	beq .L_8027DAF8
 /* 8027DAF0 0027AA30  64 80 00 08 */	oris r0, r4, 8
 /* 8027DAF4 0027AA34  90 1F 01 E0 */	stw r0, 0x1e0(r31)
-lbl_8027DAF8:
+.L_8027DAF8:
 /* 8027DAF8 0027AA38  54 60 06 3E */	clrlwi r0, r3, 0x18
 /* 8027DAFC 0027AA3C  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 8027DB00 0027AA40  7C 00 00 34 */	cntlzw r0, r0
@@ -637,9 +656,9 @@ lbl_8027DAF8:
 /* 8027DB0C 0027AA4C  7C 08 03 A6 */	mtlr r0
 /* 8027DB10 0027AA50  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027DB14 0027AA54  4E 80 00 20 */	blr 
+.endfn hipdropCallBack__Q34Game5Armor3ObjFPQ24Game8CreaturefP8CollPart
 
-.global doStartStoneState__Q34Game5Armor3ObjFv
-doStartStoneState__Q34Game5Armor3ObjFv:
+.fn doStartStoneState__Q34Game5Armor3ObjFv, global
 /* 8027DB18 0027AA58  94 21 FF B0 */	stwu r1, -0x50(r1)
 /* 8027DB1C 0027AA5C  7C 08 02 A6 */	mflr r0
 /* 8027DB20 0027AA60  90 01 00 54 */	stw r0, 0x54(r1)
@@ -659,21 +678,21 @@ doStartStoneState__Q34Game5Armor3ObjFv:
 /* 8027DB58 0027AA98  90 01 00 14 */	stw r0, 0x14(r1)
 /* 8027DB5C 0027AA9C  90 01 00 0C */	stw r0, 0xc(r1)
 /* 8027DB60 0027AAA0  90 61 00 10 */	stw r3, 0x10(r1)
-/* 8027DB64 0027AAA4  40 82 00 1C */	bne lbl_8027DB80
+/* 8027DB64 0027AAA4  40 82 00 1C */	bne .L_8027DB80
 /* 8027DB68 0027AAA8  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027DB6C 0027AAAC  81 8C 00 18 */	lwz r12, 0x18(r12)
 /* 8027DB70 0027AAB0  7D 89 03 A6 */	mtctr r12
 /* 8027DB74 0027AAB4  4E 80 04 21 */	bctrl 
 /* 8027DB78 0027AAB8  90 61 00 0C */	stw r3, 0xc(r1)
-/* 8027DB7C 0027AABC  48 00 01 B8 */	b lbl_8027DD34
-lbl_8027DB80:
+/* 8027DB7C 0027AABC  48 00 01 B8 */	b .L_8027DD34
+.L_8027DB80:
 /* 8027DB80 0027AAC0  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027DB84 0027AAC4  81 8C 00 18 */	lwz r12, 0x18(r12)
 /* 8027DB88 0027AAC8  7D 89 03 A6 */	mtctr r12
 /* 8027DB8C 0027AACC  4E 80 04 21 */	bctrl 
 /* 8027DB90 0027AAD0  90 61 00 0C */	stw r3, 0xc(r1)
-/* 8027DB94 0027AAD4  48 00 00 58 */	b lbl_8027DBEC
-lbl_8027DB98:
+/* 8027DB94 0027AAD4  48 00 00 58 */	b .L_8027DBEC
+.L_8027DB98:
 /* 8027DB98 0027AAD8  80 61 00 10 */	lwz r3, 0x10(r1)
 /* 8027DB9C 0027AADC  80 81 00 0C */	lwz r4, 0xc(r1)
 /* 8027DBA0 0027AAE0  81 83 00 00 */	lwz r12, 0(r3)
@@ -687,7 +706,7 @@ lbl_8027DB98:
 /* 8027DBC0 0027AB00  7D 89 03 A6 */	mtctr r12
 /* 8027DBC4 0027AB04  4E 80 04 21 */	bctrl 
 /* 8027DBC8 0027AB08  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027DBCC 0027AB0C  40 82 01 68 */	bne lbl_8027DD34
+/* 8027DBCC 0027AB0C  40 82 01 68 */	bne .L_8027DD34
 /* 8027DBD0 0027AB10  80 61 00 10 */	lwz r3, 0x10(r1)
 /* 8027DBD4 0027AB14  80 81 00 0C */	lwz r4, 0xc(r1)
 /* 8027DBD8 0027AB18  81 83 00 00 */	lwz r12, 0(r3)
@@ -695,16 +714,16 @@ lbl_8027DB98:
 /* 8027DBE0 0027AB20  7D 89 03 A6 */	mtctr r12
 /* 8027DBE4 0027AB24  4E 80 04 21 */	bctrl 
 /* 8027DBE8 0027AB28  90 61 00 0C */	stw r3, 0xc(r1)
-lbl_8027DBEC:
+.L_8027DBEC:
 /* 8027DBEC 0027AB2C  81 81 00 08 */	lwz r12, 8(r1)
 /* 8027DBF0 0027AB30  38 61 00 08 */	addi r3, r1, 8
 /* 8027DBF4 0027AB34  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 8027DBF8 0027AB38  7D 89 03 A6 */	mtctr r12
 /* 8027DBFC 0027AB3C  4E 80 04 21 */	bctrl 
 /* 8027DC00 0027AB40  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027DC04 0027AB44  41 82 FF 94 */	beq lbl_8027DB98
-/* 8027DC08 0027AB48  48 00 01 2C */	b lbl_8027DD34
-lbl_8027DC0C:
+/* 8027DC04 0027AB44  41 82 FF 94 */	beq .L_8027DB98
+/* 8027DC08 0027AB48  48 00 01 2C */	b .L_8027DD34
+.L_8027DC0C:
 /* 8027DC0C 0027AB4C  80 61 00 10 */	lwz r3, 0x10(r1)
 /* 8027DC10 0027AB50  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027DC14 0027AB54  81 8C 00 20 */	lwz r12, 0x20(r12)
@@ -713,7 +732,7 @@ lbl_8027DC0C:
 /* 8027DC20 0027AB60  7C 7E 1B 78 */	mr r30, r3
 /* 8027DC24 0027AB64  4B F2 19 65 */	bl isStickToMouth__Q24Game8CreatureFv
 /* 8027DC28 0027AB68  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027DC2C 0027AB6C  41 82 00 4C */	beq lbl_8027DC78
+/* 8027DC2C 0027AB6C  41 82 00 4C */	beq .L_8027DC78
 /* 8027DC30 0027AB70  3C 60 80 4B */	lis r3, __vt__Q24Game11Interaction@ha
 /* 8027DC34 0027AB74  C0 22 D1 E0 */	lfs f1, lbl_8051B540@sda21(r2)
 /* 8027DC38 0027AB78  38 03 A3 00 */	addi r0, r3, __vt__Q24Game11Interaction@l
@@ -732,10 +751,10 @@ lbl_8027DC0C:
 /* 8027DC6C 0027ABAC  81 8C 01 A4 */	lwz r12, 0x1a4(r12)
 /* 8027DC70 0027ABB0  7D 89 03 A6 */	mtctr r12
 /* 8027DC74 0027ABB4  4E 80 04 21 */	bctrl 
-lbl_8027DC78:
+.L_8027DC78:
 /* 8027DC78 0027ABB8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8027DC7C 0027ABBC  28 00 00 00 */	cmplwi r0, 0
-/* 8027DC80 0027ABC0  40 82 00 24 */	bne lbl_8027DCA4
+/* 8027DC80 0027ABC0  40 82 00 24 */	bne .L_8027DCA4
 /* 8027DC84 0027ABC4  80 61 00 10 */	lwz r3, 0x10(r1)
 /* 8027DC88 0027ABC8  80 81 00 0C */	lwz r4, 0xc(r1)
 /* 8027DC8C 0027ABCC  81 83 00 00 */	lwz r12, 0(r3)
@@ -743,8 +762,8 @@ lbl_8027DC78:
 /* 8027DC94 0027ABD4  7D 89 03 A6 */	mtctr r12
 /* 8027DC98 0027ABD8  4E 80 04 21 */	bctrl 
 /* 8027DC9C 0027ABDC  90 61 00 0C */	stw r3, 0xc(r1)
-/* 8027DCA0 0027ABE0  48 00 00 94 */	b lbl_8027DD34
-lbl_8027DCA4:
+/* 8027DCA0 0027ABE0  48 00 00 94 */	b .L_8027DD34
+.L_8027DCA4:
 /* 8027DCA4 0027ABE4  80 61 00 10 */	lwz r3, 0x10(r1)
 /* 8027DCA8 0027ABE8  80 81 00 0C */	lwz r4, 0xc(r1)
 /* 8027DCAC 0027ABEC  81 83 00 00 */	lwz r12, 0(r3)
@@ -752,8 +771,8 @@ lbl_8027DCA4:
 /* 8027DCB4 0027ABF4  7D 89 03 A6 */	mtctr r12
 /* 8027DCB8 0027ABF8  4E 80 04 21 */	bctrl 
 /* 8027DCBC 0027ABFC  90 61 00 0C */	stw r3, 0xc(r1)
-/* 8027DCC0 0027AC00  48 00 00 58 */	b lbl_8027DD18
-lbl_8027DCC4:
+/* 8027DCC0 0027AC00  48 00 00 58 */	b .L_8027DD18
+.L_8027DCC4:
 /* 8027DCC4 0027AC04  80 61 00 10 */	lwz r3, 0x10(r1)
 /* 8027DCC8 0027AC08  80 81 00 0C */	lwz r4, 0xc(r1)
 /* 8027DCCC 0027AC0C  81 83 00 00 */	lwz r12, 0(r3)
@@ -767,7 +786,7 @@ lbl_8027DCC4:
 /* 8027DCEC 0027AC2C  7D 89 03 A6 */	mtctr r12
 /* 8027DCF0 0027AC30  4E 80 04 21 */	bctrl 
 /* 8027DCF4 0027AC34  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027DCF8 0027AC38  40 82 00 3C */	bne lbl_8027DD34
+/* 8027DCF8 0027AC38  40 82 00 3C */	bne .L_8027DD34
 /* 8027DCFC 0027AC3C  80 61 00 10 */	lwz r3, 0x10(r1)
 /* 8027DD00 0027AC40  80 81 00 0C */	lwz r4, 0xc(r1)
 /* 8027DD04 0027AC44  81 83 00 00 */	lwz r12, 0(r3)
@@ -775,15 +794,15 @@ lbl_8027DCC4:
 /* 8027DD0C 0027AC4C  7D 89 03 A6 */	mtctr r12
 /* 8027DD10 0027AC50  4E 80 04 21 */	bctrl 
 /* 8027DD14 0027AC54  90 61 00 0C */	stw r3, 0xc(r1)
-lbl_8027DD18:
+.L_8027DD18:
 /* 8027DD18 0027AC58  81 81 00 08 */	lwz r12, 8(r1)
 /* 8027DD1C 0027AC5C  38 61 00 08 */	addi r3, r1, 8
 /* 8027DD20 0027AC60  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 8027DD24 0027AC64  7D 89 03 A6 */	mtctr r12
 /* 8027DD28 0027AC68  4E 80 04 21 */	bctrl 
 /* 8027DD2C 0027AC6C  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027DD30 0027AC70  41 82 FF 94 */	beq lbl_8027DCC4
-lbl_8027DD34:
+/* 8027DD30 0027AC70  41 82 FF 94 */	beq .L_8027DCC4
+.L_8027DD34:
 /* 8027DD34 0027AC74  80 61 00 10 */	lwz r3, 0x10(r1)
 /* 8027DD38 0027AC78  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027DD3C 0027AC7C  81 8C 00 1C */	lwz r12, 0x1c(r12)
@@ -791,7 +810,7 @@ lbl_8027DD34:
 /* 8027DD44 0027AC84  4E 80 04 21 */	bctrl 
 /* 8027DD48 0027AC88  80 81 00 0C */	lwz r4, 0xc(r1)
 /* 8027DD4C 0027AC8C  7C 04 18 40 */	cmplw r4, r3
-/* 8027DD50 0027AC90  40 82 FE BC */	bne lbl_8027DC0C
+/* 8027DD50 0027AC90  40 82 FE BC */	bne .L_8027DC0C
 /* 8027DD54 0027AC94  38 61 00 2C */	addi r3, r1, 0x2c
 /* 8027DD58 0027AC98  38 80 FF FF */	li r4, -1
 /* 8027DD5C 0027AC9C  4B F2 20 09 */	bl __dt__Q24Game8StickersFv
@@ -801,9 +820,9 @@ lbl_8027DD34:
 /* 8027DD6C 0027ACAC  7C 08 03 A6 */	mtlr r0
 /* 8027DD70 0027ACB0  38 21 00 50 */	addi r1, r1, 0x50
 /* 8027DD74 0027ACB4  4E 80 00 20 */	blr 
+.endfn doStartStoneState__Q34Game5Armor3ObjFv
 
-.global doFinishStoneState__Q34Game5Armor3ObjFv
-doFinishStoneState__Q34Game5Armor3ObjFv:
+.fn doFinishStoneState__Q34Game5Armor3ObjFv, global
 /* 8027DD78 0027ACB8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027DD7C 0027ACBC  7C 08 02 A6 */	mflr r0
 /* 8027DD80 0027ACC0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -817,9 +836,9 @@ doFinishStoneState__Q34Game5Armor3ObjFv:
 /* 8027DDA0 0027ACE0  7C 08 03 A6 */	mtlr r0
 /* 8027DDA4 0027ACE4  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027DDA8 0027ACE8  4E 80 00 20 */	blr 
+.endfn doFinishStoneState__Q34Game5Armor3ObjFv
 
-.global startCarcassMotion__Q34Game5Armor3ObjFv
-startCarcassMotion__Q34Game5Armor3ObjFv:
+.fn startCarcassMotion__Q34Game5Armor3ObjFv, global
 /* 8027DDAC 0027ACEC  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027DDB0 0027ACF0  7C 08 02 A6 */	mflr r0
 /* 8027DDB4 0027ACF4  38 80 00 09 */	li r4, 9
@@ -830,9 +849,9 @@ startCarcassMotion__Q34Game5Armor3ObjFv:
 /* 8027DDC8 0027AD08  7C 08 03 A6 */	mtlr r0
 /* 8027DDCC 0027AD0C  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027DDD0 0027AD10  4E 80 00 20 */	blr 
+.endfn startCarcassMotion__Q34Game5Armor3ObjFv
 
-.global doStartMovie__Q34Game5Armor3ObjFv
-doStartMovie__Q34Game5Armor3ObjFv:
+.fn doStartMovie__Q34Game5Armor3ObjFv, global
 /* 8027DDD4 0027AD14  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027DDD8 0027AD18  7C 08 02 A6 */	mflr r0
 /* 8027DDDC 0027AD1C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -841,9 +860,9 @@ doStartMovie__Q34Game5Armor3ObjFv:
 /* 8027DDE8 0027AD28  7C 08 03 A6 */	mtlr r0
 /* 8027DDEC 0027AD2C  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027DDF0 0027AD30  4E 80 00 20 */	blr 
+.endfn doStartMovie__Q34Game5Armor3ObjFv
 
-.global doEndMovie__Q34Game5Armor3ObjFv
-doEndMovie__Q34Game5Armor3ObjFv:
+.fn doEndMovie__Q34Game5Armor3ObjFv, global
 /* 8027DDF4 0027AD34  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027DDF8 0027AD38  7C 08 02 A6 */	mflr r0
 /* 8027DDFC 0027AD3C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -852,9 +871,9 @@ doEndMovie__Q34Game5Armor3ObjFv:
 /* 8027DE08 0027AD48  7C 08 03 A6 */	mtlr r0
 /* 8027DE0C 0027AD4C  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027DE10 0027AD50  4E 80 00 20 */	blr 
+.endfn doEndMovie__Q34Game5Armor3ObjFv
 
-.global initMouthSlots__Q34Game5Armor3ObjFv
-initMouthSlots__Q34Game5Armor3ObjFv:
+.fn initMouthSlots__Q34Game5Armor3ObjFv, global
 /* 8027DE14 0027AD54  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8027DE18 0027AD58  7C 08 02 A6 */	mflr r0
 /* 8027DE1C 0027AD5C  90 01 00 24 */	stw r0, 0x24(r1)
@@ -873,17 +892,17 @@ initMouthSlots__Q34Game5Armor3ObjFv:
 /* 8027DE50 0027AD90  4B EB A8 41 */	bl setup__10MouthSlotsFiPQ28SysShape5ModelPc
 /* 8027DE54 0027AD94  C3 E2 D1 EC */	lfs f31, lbl_8051B54C@sda21(r2)
 /* 8027DE58 0027AD98  3B E0 00 00 */	li r31, 0
-/* 8027DE5C 0027AD9C  48 00 00 18 */	b lbl_8027DE74
-lbl_8027DE60:
+/* 8027DE5C 0027AD9C  48 00 00 18 */	b .L_8027DE74
+.L_8027DE60:
 /* 8027DE60 0027ADA0  7F E4 FB 78 */	mr r4, r31
 /* 8027DE64 0027ADA4  38 7E 02 CC */	addi r3, r30, 0x2cc
 /* 8027DE68 0027ADA8  4B EB A9 11 */	bl getSlot__10MouthSlotsFi
 /* 8027DE6C 0027ADAC  D3 E3 00 1C */	stfs f31, 0x1c(r3)
 /* 8027DE70 0027ADB0  3B FF 00 01 */	addi r31, r31, 1
-lbl_8027DE74:
+.L_8027DE74:
 /* 8027DE74 0027ADB4  80 1E 02 CC */	lwz r0, 0x2cc(r30)
 /* 8027DE78 0027ADB8  7C 1F 00 00 */	cmpw r31, r0
-/* 8027DE7C 0027ADBC  41 80 FF E4 */	blt lbl_8027DE60
+/* 8027DE7C 0027ADBC  41 80 FF E4 */	blt .L_8027DE60
 /* 8027DE80 0027ADC0  E3 E1 00 18 */	psq_l f31, 24(r1), 0, qr0
 /* 8027DE84 0027ADC4  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 8027DE88 0027ADC8  CB E1 00 10 */	lfd f31, 0x10(r1)
@@ -892,9 +911,9 @@ lbl_8027DE74:
 /* 8027DE94 0027ADD4  7C 08 03 A6 */	mtlr r0
 /* 8027DE98 0027ADD8  38 21 00 20 */	addi r1, r1, 0x20
 /* 8027DE9C 0027ADDC  4E 80 00 20 */	blr 
+.endfn initMouthSlots__Q34Game5Armor3ObjFv
 
-.global lifeIncrement__Q34Game5Armor3ObjFv
-lifeIncrement__Q34Game5Armor3ObjFv:
+.fn lifeIncrement__Q34Game5Armor3ObjFv, global
 /* 8027DEA0 0027ADE0  C0 22 D1 E0 */	lfs f1, lbl_8051B540@sda21(r2)
 /* 8027DEA4 0027ADE4  D0 23 02 08 */	stfs f1, 0x208(r3)
 /* 8027DEA8 0027ADE8  80 03 01 E0 */	lwz r0, 0x1e0(r3)
@@ -907,9 +926,9 @@ lifeIncrement__Q34Game5Armor3ObjFv:
 /* 8027DEC4 0027AE04  C0 02 D1 F0 */	lfs f0, lbl_8051B550@sda21(r2)
 /* 8027DEC8 0027AE08  D0 03 02 00 */	stfs f0, 0x200(r3)
 /* 8027DECC 0027AE0C  4E 80 00 20 */	blr 
+.endfn lifeIncrement__Q34Game5Armor3ObjFv
 
-.global attackPikmin__Q34Game5Armor3ObjFv
-attackPikmin__Q34Game5Armor3ObjFv:
+.fn attackPikmin__Q34Game5Armor3ObjFv, global
 /* 8027DED0 0027AE10  94 21 FF 60 */	stwu r1, -0xa0(r1)
 /* 8027DED4 0027AE14  7C 08 02 A6 */	mflr r0
 /* 8027DED8 0027AE18  90 01 00 A4 */	stw r0, 0xa4(r1)
@@ -933,23 +952,23 @@ attackPikmin__Q34Game5Armor3ObjFv:
 /* 8027DF20 0027AE60  7C 7F 1B 78 */	mr r31, r3
 /* 8027DF24 0027AE64  90 81 00 40 */	stw r4, 0x40(r1)
 /* 8027DF28 0027AE68  90 01 00 44 */	stw r0, 0x44(r1)
-/* 8027DF2C 0027AE6C  40 82 00 20 */	bne lbl_8027DF4C
+/* 8027DF2C 0027AE6C  40 82 00 20 */	bne .L_8027DF4C
 /* 8027DF30 0027AE70  7C 03 03 78 */	mr r3, r0
 /* 8027DF34 0027AE74  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027DF38 0027AE78  81 8C 00 18 */	lwz r12, 0x18(r12)
 /* 8027DF3C 0027AE7C  7D 89 03 A6 */	mtctr r12
 /* 8027DF40 0027AE80  4E 80 04 21 */	bctrl 
 /* 8027DF44 0027AE84  90 61 00 40 */	stw r3, 0x40(r1)
-/* 8027DF48 0027AE88  48 00 03 1C */	b lbl_8027E264
-lbl_8027DF4C:
+/* 8027DF48 0027AE88  48 00 03 1C */	b .L_8027E264
+.L_8027DF4C:
 /* 8027DF4C 0027AE8C  7C 03 03 78 */	mr r3, r0
 /* 8027DF50 0027AE90  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027DF54 0027AE94  81 8C 00 18 */	lwz r12, 0x18(r12)
 /* 8027DF58 0027AE98  7D 89 03 A6 */	mtctr r12
 /* 8027DF5C 0027AE9C  4E 80 04 21 */	bctrl 
 /* 8027DF60 0027AEA0  90 61 00 40 */	stw r3, 0x40(r1)
-/* 8027DF64 0027AEA4  48 00 00 58 */	b lbl_8027DFBC
-lbl_8027DF68:
+/* 8027DF64 0027AEA4  48 00 00 58 */	b .L_8027DFBC
+.L_8027DF68:
 /* 8027DF68 0027AEA8  80 61 00 44 */	lwz r3, 0x44(r1)
 /* 8027DF6C 0027AEAC  80 81 00 40 */	lwz r4, 0x40(r1)
 /* 8027DF70 0027AEB0  81 83 00 00 */	lwz r12, 0(r3)
@@ -963,7 +982,7 @@ lbl_8027DF68:
 /* 8027DF90 0027AED0  7D 89 03 A6 */	mtctr r12
 /* 8027DF94 0027AED4  4E 80 04 21 */	bctrl 
 /* 8027DF98 0027AED8  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027DF9C 0027AEDC  40 82 02 C8 */	bne lbl_8027E264
+/* 8027DF9C 0027AEDC  40 82 02 C8 */	bne .L_8027E264
 /* 8027DFA0 0027AEE0  80 61 00 44 */	lwz r3, 0x44(r1)
 /* 8027DFA4 0027AEE4  80 81 00 40 */	lwz r4, 0x40(r1)
 /* 8027DFA8 0027AEE8  81 83 00 00 */	lwz r12, 0(r3)
@@ -971,16 +990,16 @@ lbl_8027DF68:
 /* 8027DFB0 0027AEF0  7D 89 03 A6 */	mtctr r12
 /* 8027DFB4 0027AEF4  4E 80 04 21 */	bctrl 
 /* 8027DFB8 0027AEF8  90 61 00 40 */	stw r3, 0x40(r1)
-lbl_8027DFBC:
+.L_8027DFBC:
 /* 8027DFBC 0027AEFC  81 81 00 3C */	lwz r12, 0x3c(r1)
 /* 8027DFC0 0027AF00  38 61 00 3C */	addi r3, r1, 0x3c
 /* 8027DFC4 0027AF04  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 8027DFC8 0027AF08  7D 89 03 A6 */	mtctr r12
 /* 8027DFCC 0027AF0C  4E 80 04 21 */	bctrl 
 /* 8027DFD0 0027AF10  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027DFD4 0027AF14  41 82 FF 94 */	beq lbl_8027DF68
-/* 8027DFD8 0027AF18  48 00 02 8C */	b lbl_8027E264
-lbl_8027DFDC:
+/* 8027DFD4 0027AF14  41 82 FF 94 */	beq .L_8027DF68
+/* 8027DFD8 0027AF18  48 00 02 8C */	b .L_8027E264
+.L_8027DFDC:
 /* 8027DFDC 0027AF1C  80 61 00 44 */	lwz r3, 0x44(r1)
 /* 8027DFE0 0027AF20  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027DFE4 0027AF24  81 8C 00 20 */	lwz r12, 0x20(r12)
@@ -992,27 +1011,27 @@ lbl_8027DFDC:
 /* 8027DFFC 0027AF3C  7D 89 03 A6 */	mtctr r12
 /* 8027E000 0027AF40  4E 80 04 21 */	bctrl 
 /* 8027E004 0027AF44  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027E008 0027AF48  41 82 01 A0 */	beq lbl_8027E1A8
+/* 8027E008 0027AF48  41 82 01 A0 */	beq .L_8027E1A8
 /* 8027E00C 0027AF4C  7F A3 EB 78 */	mr r3, r29
 /* 8027E010 0027AF50  81 9D 00 00 */	lwz r12, 0(r29)
 /* 8027E014 0027AF54  81 8C 01 C0 */	lwz r12, 0x1c0(r12)
 /* 8027E018 0027AF58  7D 89 03 A6 */	mtctr r12
 /* 8027E01C 0027AF5C  4E 80 04 21 */	bctrl 
 /* 8027E020 0027AF60  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027E024 0027AF64  41 82 01 84 */	beq lbl_8027E1A8
+/* 8027E024 0027AF64  41 82 01 84 */	beq .L_8027E1A8
 /* 8027E028 0027AF68  80 1D 00 F4 */	lwz r0, 0xf4(r29)
 /* 8027E02C 0027AF6C  7C 00 F8 40 */	cmplw r0, r31
-/* 8027E030 0027AF70  41 82 01 78 */	beq lbl_8027E1A8
+/* 8027E030 0027AF70  41 82 01 78 */	beq .L_8027E1A8
 /* 8027E034 0027AF74  3B 80 00 00 */	li r28, 0
-/* 8027E038 0027AF78  48 00 01 64 */	b lbl_8027E19C
-lbl_8027E03C:
+/* 8027E038 0027AF78  48 00 01 64 */	b .L_8027E19C
+.L_8027E03C:
 /* 8027E03C 0027AF7C  7F 84 E3 78 */	mr r4, r28
 /* 8027E040 0027AF80  38 7F 02 CC */	addi r3, r31, 0x2cc
 /* 8027E044 0027AF84  4B EB A7 35 */	bl getSlot__10MouthSlotsFi
 /* 8027E048 0027AF88  7C 7E 1B 78 */	mr r30, r3
 /* 8027E04C 0027AF8C  80 03 00 64 */	lwz r0, 0x64(r3)
 /* 8027E050 0027AF90  28 00 00 00 */	cmplwi r0, 0
-/* 8027E054 0027AF94  40 82 01 44 */	bne lbl_8027E198
+/* 8027E054 0027AF94  40 82 01 44 */	bne .L_8027E198
 /* 8027E058 0027AF98  38 81 00 30 */	addi r4, r1, 0x30
 /* 8027E05C 0027AF9C  4B EB A4 6D */	bl "getPosition__13MouthCollPartFR10Vector3<f>"
 /* 8027E060 0027AFA0  7F A4 EB 78 */	mr r4, r29
@@ -1036,17 +1055,17 @@ lbl_8027E03C:
 /* 8027E0A8 0027AFE8  EC 42 00 B2 */	fmuls f2, f2, f2
 /* 8027E0AC 0027AFEC  EC 22 08 2A */	fadds f1, f2, f1
 /* 8027E0B0 0027AFF0  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8027E0B4 0027AFF4  40 81 00 14 */	ble lbl_8027E0C8
-/* 8027E0B8 0027AFF8  40 81 00 14 */	ble lbl_8027E0CC
+/* 8027E0B4 0027AFF4  40 81 00 14 */	ble .L_8027E0C8
+/* 8027E0B8 0027AFF8  40 81 00 14 */	ble .L_8027E0CC
 /* 8027E0BC 0027AFFC  FC 00 08 34 */	frsqrte f0, f1
 /* 8027E0C0 0027B000  EC 20 00 72 */	fmuls f1, f0, f1
-/* 8027E0C4 0027B004  48 00 00 08 */	b lbl_8027E0CC
-lbl_8027E0C8:
+/* 8027E0C4 0027B004  48 00 00 08 */	b .L_8027E0CC
+.L_8027E0C8:
 /* 8027E0C8 0027B008  FC 20 00 90 */	fmr f1, f0
-lbl_8027E0CC:
+.L_8027E0CC:
 /* 8027E0CC 0027B00C  C0 1E 00 1C */	lfs f0, 0x1c(r30)
 /* 8027E0D0 0027B010  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8027E0D4 0027B014  40 80 00 C4 */	bge lbl_8027E198
+/* 8027E0D4 0027B014  40 80 00 C4 */	bge .L_8027E198
 /* 8027E0D8 0027B018  3C 80 80 4B */	lis r4, __vt__Q24Game11Interaction@ha
 /* 8027E0DC 0027B01C  3C 60 80 4B */	lis r3, __vt__Q24Game14InteractAttack@ha
 /* 8027E0E0 0027B020  38 04 A3 00 */	addi r0, r4, __vt__Q24Game11Interaction@l
@@ -1071,7 +1090,7 @@ lbl_8027E0CC:
 /* 8027E12C 0027B06C  7D 89 03 A6 */	mtctr r12
 /* 8027E130 0027B070  4E 80 04 21 */	bctrl 
 /* 8027E134 0027B074  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027E138 0027B078  41 82 00 60 */	beq lbl_8027E198
+/* 8027E138 0027B078  41 82 00 60 */	beq .L_8027E198
 /* 8027E13C 0027B07C  3C 80 80 4B */	lis r4, __vt__Q23efx5TBase@ha
 /* 8027E140 0027B080  3C 60 80 4E */	lis r3, __vt__Q23efx8TSimple1@ha
 /* 8027E144 0027B084  38 04 A7 F8 */	addi r0, r4, __vt__Q23efx5TBase@l
@@ -1094,17 +1113,17 @@ lbl_8027E0CC:
 /* 8027E188 0027B0C8  90 A1 00 1C */	stw r5, 0x1c(r1)
 /* 8027E18C 0027B0CC  90 01 00 14 */	stw r0, 0x14(r1)
 /* 8027E190 0027B0D0  48 13 0D F5 */	bl create__Q23efx8TSimple1FPQ23efx3Arg
-/* 8027E194 0027B0D4  48 00 00 14 */	b lbl_8027E1A8
-lbl_8027E198:
+/* 8027E194 0027B0D4  48 00 00 14 */	b .L_8027E1A8
+.L_8027E198:
 /* 8027E198 0027B0D8  3B 9C 00 01 */	addi r28, r28, 1
-lbl_8027E19C:
+.L_8027E19C:
 /* 8027E19C 0027B0DC  80 1F 02 CC */	lwz r0, 0x2cc(r31)
 /* 8027E1A0 0027B0E0  7C 1C 00 00 */	cmpw r28, r0
-/* 8027E1A4 0027B0E4  41 80 FE 98 */	blt lbl_8027E03C
-lbl_8027E1A8:
+/* 8027E1A4 0027B0E4  41 80 FE 98 */	blt .L_8027E03C
+.L_8027E1A8:
 /* 8027E1A8 0027B0E8  80 01 00 48 */	lwz r0, 0x48(r1)
 /* 8027E1AC 0027B0EC  28 00 00 00 */	cmplwi r0, 0
-/* 8027E1B0 0027B0F0  40 82 00 24 */	bne lbl_8027E1D4
+/* 8027E1B0 0027B0F0  40 82 00 24 */	bne .L_8027E1D4
 /* 8027E1B4 0027B0F4  80 61 00 44 */	lwz r3, 0x44(r1)
 /* 8027E1B8 0027B0F8  80 81 00 40 */	lwz r4, 0x40(r1)
 /* 8027E1BC 0027B0FC  81 83 00 00 */	lwz r12, 0(r3)
@@ -1112,8 +1131,8 @@ lbl_8027E1A8:
 /* 8027E1C4 0027B104  7D 89 03 A6 */	mtctr r12
 /* 8027E1C8 0027B108  4E 80 04 21 */	bctrl 
 /* 8027E1CC 0027B10C  90 61 00 40 */	stw r3, 0x40(r1)
-/* 8027E1D0 0027B110  48 00 00 94 */	b lbl_8027E264
-lbl_8027E1D4:
+/* 8027E1D0 0027B110  48 00 00 94 */	b .L_8027E264
+.L_8027E1D4:
 /* 8027E1D4 0027B114  80 61 00 44 */	lwz r3, 0x44(r1)
 /* 8027E1D8 0027B118  80 81 00 40 */	lwz r4, 0x40(r1)
 /* 8027E1DC 0027B11C  81 83 00 00 */	lwz r12, 0(r3)
@@ -1121,8 +1140,8 @@ lbl_8027E1D4:
 /* 8027E1E4 0027B124  7D 89 03 A6 */	mtctr r12
 /* 8027E1E8 0027B128  4E 80 04 21 */	bctrl 
 /* 8027E1EC 0027B12C  90 61 00 40 */	stw r3, 0x40(r1)
-/* 8027E1F0 0027B130  48 00 00 58 */	b lbl_8027E248
-lbl_8027E1F4:
+/* 8027E1F0 0027B130  48 00 00 58 */	b .L_8027E248
+.L_8027E1F4:
 /* 8027E1F4 0027B134  80 61 00 44 */	lwz r3, 0x44(r1)
 /* 8027E1F8 0027B138  80 81 00 40 */	lwz r4, 0x40(r1)
 /* 8027E1FC 0027B13C  81 83 00 00 */	lwz r12, 0(r3)
@@ -1136,7 +1155,7 @@ lbl_8027E1F4:
 /* 8027E21C 0027B15C  7D 89 03 A6 */	mtctr r12
 /* 8027E220 0027B160  4E 80 04 21 */	bctrl 
 /* 8027E224 0027B164  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027E228 0027B168  40 82 00 3C */	bne lbl_8027E264
+/* 8027E228 0027B168  40 82 00 3C */	bne .L_8027E264
 /* 8027E22C 0027B16C  80 61 00 44 */	lwz r3, 0x44(r1)
 /* 8027E230 0027B170  80 81 00 40 */	lwz r4, 0x40(r1)
 /* 8027E234 0027B174  81 83 00 00 */	lwz r12, 0(r3)
@@ -1144,15 +1163,15 @@ lbl_8027E1F4:
 /* 8027E23C 0027B17C  7D 89 03 A6 */	mtctr r12
 /* 8027E240 0027B180  4E 80 04 21 */	bctrl 
 /* 8027E244 0027B184  90 61 00 40 */	stw r3, 0x40(r1)
-lbl_8027E248:
+.L_8027E248:
 /* 8027E248 0027B188  81 81 00 3C */	lwz r12, 0x3c(r1)
 /* 8027E24C 0027B18C  38 61 00 3C */	addi r3, r1, 0x3c
 /* 8027E250 0027B190  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 8027E254 0027B194  7D 89 03 A6 */	mtctr r12
 /* 8027E258 0027B198  4E 80 04 21 */	bctrl 
 /* 8027E25C 0027B19C  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027E260 0027B1A0  41 82 FF 94 */	beq lbl_8027E1F4
-lbl_8027E264:
+/* 8027E260 0027B1A0  41 82 FF 94 */	beq .L_8027E1F4
+.L_8027E264:
 /* 8027E264 0027B1A4  80 61 00 44 */	lwz r3, 0x44(r1)
 /* 8027E268 0027B1A8  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027E26C 0027B1AC  81 8C 00 1C */	lwz r12, 0x1c(r12)
@@ -1160,7 +1179,7 @@ lbl_8027E264:
 /* 8027E274 0027B1B4  4E 80 04 21 */	bctrl 
 /* 8027E278 0027B1B8  80 81 00 40 */	lwz r4, 0x40(r1)
 /* 8027E27C 0027B1BC  7C 04 18 40 */	cmplw r4, r3
-/* 8027E280 0027B1C0  40 82 FD 5C */	bne lbl_8027DFDC
+/* 8027E280 0027B1C0  40 82 FD 5C */	bne .L_8027DFDC
 /* 8027E284 0027B1C4  E3 E1 00 98 */	psq_l f31, 152(r1), 0, qr0
 /* 8027E288 0027B1C8  CB E1 00 90 */	lfd f31, 0x90(r1)
 /* 8027E28C 0027B1CC  E3 C1 00 88 */	psq_l f30, 136(r1), 0, qr0
@@ -1175,9 +1194,9 @@ lbl_8027E264:
 /* 8027E2B0 0027B1F0  7C 08 03 A6 */	mtlr r0
 /* 8027E2B4 0027B1F4  38 21 00 A0 */	addi r1, r1, 0xa0
 /* 8027E2B8 0027B1F8  4E 80 00 20 */	blr 
+.endfn attackPikmin__Q34Game5Armor3ObjFv
 
-.global getSlotPikiNum__Q34Game5Armor3ObjFv
-getSlotPikiNum__Q34Game5Armor3ObjFv:
+.fn getSlotPikiNum__Q34Game5Armor3ObjFv, global
 /* 8027E2BC 0027B1FC  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8027E2C0 0027B200  7C 08 02 A6 */	mflr r0
 /* 8027E2C4 0027B204  90 01 00 24 */	stw r0, 0x24(r1)
@@ -1193,20 +1212,20 @@ getSlotPikiNum__Q34Game5Armor3ObjFv:
 /* 8027E2EC 0027B22C  83 E3 00 00 */	lwz r31, 0(r3)
 /* 8027E2F0 0027B230  3B 80 00 00 */	li r28, 0
 /* 8027E2F4 0027B234  7C 7D 1B 78 */	mr r29, r3
-/* 8027E2F8 0027B238  48 00 00 24 */	b lbl_8027E31C
-lbl_8027E2FC:
+/* 8027E2F8 0027B238  48 00 00 24 */	b .L_8027E31C
+.L_8027E2FC:
 /* 8027E2FC 0027B23C  7F A3 EB 78 */	mr r3, r29
 /* 8027E300 0027B240  7F 84 E3 78 */	mr r4, r28
 /* 8027E304 0027B244  4B EB A4 75 */	bl getSlot__10MouthSlotsFi
 /* 8027E308 0027B248  80 03 00 64 */	lwz r0, 0x64(r3)
 /* 8027E30C 0027B24C  28 00 00 00 */	cmplwi r0, 0
-/* 8027E310 0027B250  41 82 00 08 */	beq lbl_8027E318
+/* 8027E310 0027B250  41 82 00 08 */	beq .L_8027E318
 /* 8027E314 0027B254  3B DE 00 01 */	addi r30, r30, 1
-lbl_8027E318:
+.L_8027E318:
 /* 8027E318 0027B258  3B 9C 00 01 */	addi r28, r28, 1
-lbl_8027E31C:
+.L_8027E31C:
 /* 8027E31C 0027B25C  7C 1C F8 00 */	cmpw r28, r31
-/* 8027E320 0027B260  41 80 FF DC */	blt lbl_8027E2FC
+/* 8027E320 0027B260  41 80 FF DC */	blt .L_8027E2FC
 /* 8027E324 0027B264  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 8027E328 0027B268  7F C3 F3 78 */	mr r3, r30
 /* 8027E32C 0027B26C  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -1216,14 +1235,14 @@ lbl_8027E31C:
 /* 8027E33C 0027B27C  7C 08 03 A6 */	mtlr r0
 /* 8027E340 0027B280  38 21 00 20 */	addi r1, r1, 0x20
 /* 8027E344 0027B284  4E 80 00 20 */	blr 
+.endfn getSlotPikiNum__Q34Game5Armor3ObjFv
 
-.global getMouthSlots__Q34Game5Armor3ObjFv
-getMouthSlots__Q34Game5Armor3ObjFv:
+.fn getMouthSlots__Q34Game5Armor3ObjFv, weak
 /* 8027E348 0027B288  38 63 02 CC */	addi r3, r3, 0x2cc
 /* 8027E34C 0027B28C  4E 80 00 20 */	blr 
+.endfn getMouthSlots__Q34Game5Armor3ObjFv
 
-.global killSlotPiki__Q34Game5Armor3ObjFv
-killSlotPiki__Q34Game5Armor3ObjFv:
+.fn killSlotPiki__Q34Game5Armor3ObjFv, global
 /* 8027E350 0027B290  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027E354 0027B294  7C 08 02 A6 */	mflr r0
 /* 8027E358 0027B298  38 80 00 00 */	li r4, 0
@@ -1235,9 +1254,9 @@ killSlotPiki__Q34Game5Armor3ObjFv:
 /* 8027E370 0027B2B0  7C 08 03 A6 */	mtlr r0
 /* 8027E374 0027B2B4  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027E378 0027B2B8  4E 80 00 20 */	blr 
+.endfn killSlotPiki__Q34Game5Armor3ObjFv
 
-.global resetBridgeSearch__Q34Game5Armor3ObjFv
-resetBridgeSearch__Q34Game5Armor3ObjFv:
+.fn resetBridgeSearch__Q34Game5Armor3ObjFv, global
 /* 8027E37C 0027B2BC  38 80 00 01 */	li r4, 1
 /* 8027E380 0027B2C0  38 00 00 00 */	li r0, 0
 /* 8027E384 0027B2C4  98 83 02 C0 */	stb r4, 0x2c0(r3)
@@ -1246,9 +1265,9 @@ resetBridgeSearch__Q34Game5Armor3ObjFv:
 /* 8027E390 0027B2D0  D0 03 02 DC */	stfs f0, 0x2dc(r3)
 /* 8027E394 0027B2D4  D0 03 02 E0 */	stfs f0, 0x2e0(r3)
 /* 8027E398 0027B2D8  4E 80 00 20 */	blr 
+.endfn resetBridgeSearch__Q34Game5Armor3ObjFv
 
-.global setBridgeSearch__Q34Game5Armor3ObjFv
-setBridgeSearch__Q34Game5Armor3ObjFv:
+.fn setBridgeSearch__Q34Game5Armor3ObjFv, global
 /* 8027E39C 0027B2DC  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027E3A0 0027B2E0  7C 08 02 A6 */	mflr r0
 /* 8027E3A4 0027B2E4  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1256,21 +1275,21 @@ setBridgeSearch__Q34Game5Armor3ObjFv:
 /* 8027E3AC 0027B2EC  7C 7F 1B 78 */	mr r31, r3
 /* 8027E3B0 0027B2F0  88 03 02 C0 */	lbz r0, 0x2c0(r3)
 /* 8027E3B4 0027B2F4  28 00 00 00 */	cmplwi r0, 0
-/* 8027E3B8 0027B2F8  41 82 00 18 */	beq lbl_8027E3D0
+/* 8027E3B8 0027B2F8  41 82 00 18 */	beq .L_8027E3D0
 /* 8027E3BC 0027B2FC  38 00 00 00 */	li r0, 0
 /* 8027E3C0 0027B300  98 1F 02 C0 */	stb r0, 0x2c0(r31)
 /* 8027E3C4 0027B304  48 00 00 21 */	bl setNearestBridge__Q34Game5Armor3ObjFv
 /* 8027E3C8 0027B308  7F E3 FB 78 */	mr r3, r31
 /* 8027E3CC 0027B30C  48 00 02 D9 */	bl setCullingCheck__Q34Game5Armor3ObjFv
-lbl_8027E3D0:
+.L_8027E3D0:
 /* 8027E3D0 0027B310  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8027E3D4 0027B314  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 8027E3D8 0027B318  7C 08 03 A6 */	mtlr r0
 /* 8027E3DC 0027B31C  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027E3E0 0027B320  4E 80 00 20 */	blr 
+.endfn setBridgeSearch__Q34Game5Armor3ObjFv
 
-.global setNearestBridge__Q34Game5Armor3ObjFv
-setNearestBridge__Q34Game5Armor3ObjFv:
+.fn setNearestBridge__Q34Game5Armor3ObjFv, global
 /* 8027E3E4 0027B324  94 21 FF B0 */	stwu r1, -0x50(r1)
 /* 8027E3E8 0027B328  7C 08 02 A6 */	mflr r0
 /* 8027E3EC 0027B32C  90 01 00 54 */	stw r0, 0x54(r1)
@@ -1286,13 +1305,13 @@ setNearestBridge__Q34Game5Armor3ObjFv:
 /* 8027E414 0027B354  D0 03 02 E0 */	stfs f0, 0x2e0(r3)
 /* 8027E418 0027B358  80 6D 94 B8 */	lwz r3, mgr__Q24Game10ItemBridge@sda21(r13)
 /* 8027E41C 0027B35C  28 03 00 00 */	cmplwi r3, 0
-/* 8027E420 0027B360  41 82 02 14 */	beq lbl_8027E634
+/* 8027E420 0027B360  41 82 02 14 */	beq .L_8027E634
 /* 8027E424 0027B364  80 9F 00 C0 */	lwz r4, 0xc0(r31)
 /* 8027E428 0027B368  C0 04 03 5C */	lfs f0, 0x35c(r4)
 /* 8027E42C 0027B36C  EF E0 00 32 */	fmuls f31, f0, f0
-/* 8027E430 0027B370  41 82 00 08 */	beq lbl_8027E438
+/* 8027E430 0027B370  41 82 00 08 */	beq .L_8027E438
 /* 8027E434 0027B374  38 63 00 30 */	addi r3, r3, 0x30
-lbl_8027E438:
+.L_8027E438:
 /* 8027E438 0027B378  38 00 00 00 */	li r0, 0
 /* 8027E43C 0027B37C  3C 80 80 4B */	lis r4, "__vt__26Iterator<Q24Game8BaseItem>"@ha
 /* 8027E440 0027B380  38 84 05 60 */	addi r4, r4, "__vt__26Iterator<Q24Game8BaseItem>"@l
@@ -1301,21 +1320,21 @@ lbl_8027E438:
 /* 8027E44C 0027B38C  90 81 00 14 */	stw r4, 0x14(r1)
 /* 8027E450 0027B390  90 01 00 18 */	stw r0, 0x18(r1)
 /* 8027E454 0027B394  90 61 00 1C */	stw r3, 0x1c(r1)
-/* 8027E458 0027B398  40 82 00 1C */	bne lbl_8027E474
+/* 8027E458 0027B398  40 82 00 1C */	bne .L_8027E474
 /* 8027E45C 0027B39C  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027E460 0027B3A0  81 8C 00 18 */	lwz r12, 0x18(r12)
 /* 8027E464 0027B3A4  7D 89 03 A6 */	mtctr r12
 /* 8027E468 0027B3A8  4E 80 04 21 */	bctrl 
 /* 8027E46C 0027B3AC  90 61 00 18 */	stw r3, 0x18(r1)
-/* 8027E470 0027B3B0  48 00 01 A4 */	b lbl_8027E614
-lbl_8027E474:
+/* 8027E470 0027B3B0  48 00 01 A4 */	b .L_8027E614
+.L_8027E474:
 /* 8027E474 0027B3B4  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027E478 0027B3B8  81 8C 00 18 */	lwz r12, 0x18(r12)
 /* 8027E47C 0027B3BC  7D 89 03 A6 */	mtctr r12
 /* 8027E480 0027B3C0  4E 80 04 21 */	bctrl 
 /* 8027E484 0027B3C4  90 61 00 18 */	stw r3, 0x18(r1)
-/* 8027E488 0027B3C8  48 00 00 58 */	b lbl_8027E4E0
-lbl_8027E48C:
+/* 8027E488 0027B3C8  48 00 00 58 */	b .L_8027E4E0
+.L_8027E48C:
 /* 8027E48C 0027B3CC  80 61 00 1C */	lwz r3, 0x1c(r1)
 /* 8027E490 0027B3D0  80 81 00 18 */	lwz r4, 0x18(r1)
 /* 8027E494 0027B3D4  81 83 00 00 */	lwz r12, 0(r3)
@@ -1329,7 +1348,7 @@ lbl_8027E48C:
 /* 8027E4B4 0027B3F4  7D 89 03 A6 */	mtctr r12
 /* 8027E4B8 0027B3F8  4E 80 04 21 */	bctrl 
 /* 8027E4BC 0027B3FC  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027E4C0 0027B400  40 82 01 54 */	bne lbl_8027E614
+/* 8027E4C0 0027B400  40 82 01 54 */	bne .L_8027E614
 /* 8027E4C4 0027B404  80 61 00 1C */	lwz r3, 0x1c(r1)
 /* 8027E4C8 0027B408  80 81 00 18 */	lwz r4, 0x18(r1)
 /* 8027E4CC 0027B40C  81 83 00 00 */	lwz r12, 0(r3)
@@ -1337,16 +1356,16 @@ lbl_8027E48C:
 /* 8027E4D4 0027B414  7D 89 03 A6 */	mtctr r12
 /* 8027E4D8 0027B418  4E 80 04 21 */	bctrl 
 /* 8027E4DC 0027B41C  90 61 00 18 */	stw r3, 0x18(r1)
-lbl_8027E4E0:
+.L_8027E4E0:
 /* 8027E4E0 0027B420  81 81 00 14 */	lwz r12, 0x14(r1)
 /* 8027E4E4 0027B424  38 61 00 14 */	addi r3, r1, 0x14
 /* 8027E4E8 0027B428  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 8027E4EC 0027B42C  7D 89 03 A6 */	mtctr r12
 /* 8027E4F0 0027B430  4E 80 04 21 */	bctrl 
 /* 8027E4F4 0027B434  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027E4F8 0027B438  41 82 FF 94 */	beq lbl_8027E48C
-/* 8027E4FC 0027B43C  48 00 01 18 */	b lbl_8027E614
-lbl_8027E500:
+/* 8027E4F8 0027B438  41 82 FF 94 */	beq .L_8027E48C
+/* 8027E4FC 0027B43C  48 00 01 18 */	b .L_8027E614
+.L_8027E500:
 /* 8027E500 0027B440  80 61 00 1C */	lwz r3, 0x1c(r1)
 /* 8027E504 0027B444  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027E508 0027B448  81 8C 00 20 */	lwz r12, 0x20(r12)
@@ -1366,13 +1385,13 @@ lbl_8027E500:
 /* 8027E540 0027B480  EC 01 00 72 */	fmuls f0, f1, f1
 /* 8027E544 0027B484  EC 02 00 BA */	fmadds f0, f2, f2, f0
 /* 8027E548 0027B488  FC 00 F8 40 */	fcmpo cr0, f0, f31
-/* 8027E54C 0027B48C  40 80 00 0C */	bge lbl_8027E558
+/* 8027E54C 0027B48C  40 80 00 0C */	bge .L_8027E558
 /* 8027E550 0027B490  93 DF 02 D8 */	stw r30, 0x2d8(r31)
 /* 8027E554 0027B494  FF E0 00 90 */	fmr f31, f0
-lbl_8027E558:
+.L_8027E558:
 /* 8027E558 0027B498  80 01 00 20 */	lwz r0, 0x20(r1)
 /* 8027E55C 0027B49C  28 00 00 00 */	cmplwi r0, 0
-/* 8027E560 0027B4A0  40 82 00 24 */	bne lbl_8027E584
+/* 8027E560 0027B4A0  40 82 00 24 */	bne .L_8027E584
 /* 8027E564 0027B4A4  80 61 00 1C */	lwz r3, 0x1c(r1)
 /* 8027E568 0027B4A8  80 81 00 18 */	lwz r4, 0x18(r1)
 /* 8027E56C 0027B4AC  81 83 00 00 */	lwz r12, 0(r3)
@@ -1380,8 +1399,8 @@ lbl_8027E558:
 /* 8027E574 0027B4B4  7D 89 03 A6 */	mtctr r12
 /* 8027E578 0027B4B8  4E 80 04 21 */	bctrl 
 /* 8027E57C 0027B4BC  90 61 00 18 */	stw r3, 0x18(r1)
-/* 8027E580 0027B4C0  48 00 00 94 */	b lbl_8027E614
-lbl_8027E584:
+/* 8027E580 0027B4C0  48 00 00 94 */	b .L_8027E614
+.L_8027E584:
 /* 8027E584 0027B4C4  80 61 00 1C */	lwz r3, 0x1c(r1)
 /* 8027E588 0027B4C8  80 81 00 18 */	lwz r4, 0x18(r1)
 /* 8027E58C 0027B4CC  81 83 00 00 */	lwz r12, 0(r3)
@@ -1389,8 +1408,8 @@ lbl_8027E584:
 /* 8027E594 0027B4D4  7D 89 03 A6 */	mtctr r12
 /* 8027E598 0027B4D8  4E 80 04 21 */	bctrl 
 /* 8027E59C 0027B4DC  90 61 00 18 */	stw r3, 0x18(r1)
-/* 8027E5A0 0027B4E0  48 00 00 58 */	b lbl_8027E5F8
-lbl_8027E5A4:
+/* 8027E5A0 0027B4E0  48 00 00 58 */	b .L_8027E5F8
+.L_8027E5A4:
 /* 8027E5A4 0027B4E4  80 61 00 1C */	lwz r3, 0x1c(r1)
 /* 8027E5A8 0027B4E8  80 81 00 18 */	lwz r4, 0x18(r1)
 /* 8027E5AC 0027B4EC  81 83 00 00 */	lwz r12, 0(r3)
@@ -1404,7 +1423,7 @@ lbl_8027E5A4:
 /* 8027E5CC 0027B50C  7D 89 03 A6 */	mtctr r12
 /* 8027E5D0 0027B510  4E 80 04 21 */	bctrl 
 /* 8027E5D4 0027B514  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027E5D8 0027B518  40 82 00 3C */	bne lbl_8027E614
+/* 8027E5D8 0027B518  40 82 00 3C */	bne .L_8027E614
 /* 8027E5DC 0027B51C  80 61 00 1C */	lwz r3, 0x1c(r1)
 /* 8027E5E0 0027B520  80 81 00 18 */	lwz r4, 0x18(r1)
 /* 8027E5E4 0027B524  81 83 00 00 */	lwz r12, 0(r3)
@@ -1412,15 +1431,15 @@ lbl_8027E5A4:
 /* 8027E5EC 0027B52C  7D 89 03 A6 */	mtctr r12
 /* 8027E5F0 0027B530  4E 80 04 21 */	bctrl 
 /* 8027E5F4 0027B534  90 61 00 18 */	stw r3, 0x18(r1)
-lbl_8027E5F8:
+.L_8027E5F8:
 /* 8027E5F8 0027B538  81 81 00 14 */	lwz r12, 0x14(r1)
 /* 8027E5FC 0027B53C  38 61 00 14 */	addi r3, r1, 0x14
 /* 8027E600 0027B540  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 8027E604 0027B544  7D 89 03 A6 */	mtctr r12
 /* 8027E608 0027B548  4E 80 04 21 */	bctrl 
 /* 8027E60C 0027B54C  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 8027E610 0027B550  41 82 FF 94 */	beq lbl_8027E5A4
-lbl_8027E614:
+/* 8027E610 0027B550  41 82 FF 94 */	beq .L_8027E5A4
+.L_8027E614:
 /* 8027E614 0027B554  80 61 00 1C */	lwz r3, 0x1c(r1)
 /* 8027E618 0027B558  81 83 00 00 */	lwz r12, 0(r3)
 /* 8027E61C 0027B55C  81 8C 00 1C */	lwz r12, 0x1c(r12)
@@ -1428,11 +1447,11 @@ lbl_8027E614:
 /* 8027E624 0027B564  4E 80 04 21 */	bctrl 
 /* 8027E628 0027B568  80 81 00 18 */	lwz r4, 0x18(r1)
 /* 8027E62C 0027B56C  7C 04 18 40 */	cmplw r4, r3
-/* 8027E630 0027B570  40 82 FE D0 */	bne lbl_8027E500
-lbl_8027E634:
+/* 8027E630 0027B570  40 82 FE D0 */	bne .L_8027E500
+.L_8027E634:
 /* 8027E634 0027B574  80 7F 02 D8 */	lwz r3, 0x2d8(r31)
 /* 8027E638 0027B578  28 03 00 00 */	cmplwi r3, 0
-/* 8027E63C 0027B57C  41 82 00 48 */	beq lbl_8027E684
+/* 8027E63C 0027B57C  41 82 00 48 */	beq .L_8027E684
 /* 8027E640 0027B580  4B F7 09 F1 */	bl getStageWidth__Q34Game10ItemBridge4ItemFv
 /* 8027E644 0027B584  C0 02 D1 E4 */	lfs f0, lbl_8051B544@sda21(r2)
 /* 8027E648 0027B588  EF E1 00 28 */	fsubs f31, f1, f0
@@ -1450,7 +1469,7 @@ lbl_8027E634:
 /* 8027E678 0027B5B8  EC 22 08 24 */	fdivs f1, f2, f1
 /* 8027E67C 0027B5BC  EC 00 0F FC */	fnmsubs f0, f0, f31, f1
 /* 8027E680 0027B5C0  D0 1F 02 DC */	stfs f0, 0x2dc(r31)
-lbl_8027E684:
+.L_8027E684:
 /* 8027E684 0027B5C4  E3 E1 00 48 */	psq_l f31, 72(r1), 0, qr0
 /* 8027E688 0027B5C8  80 01 00 54 */	lwz r0, 0x54(r1)
 /* 8027E68C 0027B5CC  CB E1 00 40 */	lfd f31, 0x40(r1)
@@ -1459,13 +1478,13 @@ lbl_8027E684:
 /* 8027E698 0027B5D8  7C 08 03 A6 */	mtlr r0
 /* 8027E69C 0027B5DC  38 21 00 50 */	addi r1, r1, 0x50
 /* 8027E6A0 0027B5E0  4E 80 00 20 */	blr 
+.endfn setNearestBridge__Q34Game5Armor3ObjFv
 
-.global setCullingCheck__Q34Game5Armor3ObjFv
-setCullingCheck__Q34Game5Armor3ObjFv:
+.fn setCullingCheck__Q34Game5Armor3ObjFv, global
 /* 8027E6A4 0027B5E4  4E 80 00 20 */	blr 
+.endfn setCullingCheck__Q34Game5Armor3ObjFv
 
-.global checkBreakOrMove__Q34Game5Armor3ObjFv
-checkBreakOrMove__Q34Game5Armor3ObjFv:
+.fn checkBreakOrMove__Q34Game5Armor3ObjFv, global
 /* 8027E6A8 0027B5E8  94 21 FF 60 */	stwu r1, -0xa0(r1)
 /* 8027E6AC 0027B5EC  7C 08 02 A6 */	mflr r0
 /* 8027E6B0 0027B5F0  90 01 00 A4 */	stw r0, 0xa4(r1)
@@ -1485,7 +1504,7 @@ checkBreakOrMove__Q34Game5Armor3ObjFv:
 /* 8027E6E8 0027B628  7C 7F 1B 78 */	mr r31, r3
 /* 8027E6EC 0027B62C  80 83 02 D8 */	lwz r4, 0x2d8(r3)
 /* 8027E6F0 0027B630  28 04 00 00 */	cmplwi r4, 0
-/* 8027E6F4 0027B634  41 82 01 20 */	beq lbl_8027E814
+/* 8027E6F4 0027B634  41 82 01 20 */	beq .L_8027E814
 /* 8027E6F8 0027B638  38 61 00 20 */	addi r3, r1, 0x20
 /* 8027E6FC 0027B63C  4B F7 09 3D */	bl getBridgeZVec__Q34Game10ItemBridge4ItemFv
 /* 8027E700 0027B640  C3 81 00 20 */	lfs f28, 0x20(r1)
@@ -1508,10 +1527,10 @@ checkBreakOrMove__Q34Game5Armor3ObjFv:
 /* 8027E744 0027B684  EC 3C 0F FA */	fmadds f1, f28, f31, f1
 /* 8027E748 0027B688  EC 3B 0F 7A */	fmadds f1, f27, f29, f1
 /* 8027E74C 0027B68C  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8027E750 0027B690  40 81 00 0C */	ble lbl_8027E75C
+/* 8027E750 0027B690  40 81 00 0C */	ble .L_8027E75C
 /* 8027E754 0027B694  38 60 00 06 */	li r3, 6
-/* 8027E758 0027B698  48 00 00 C0 */	b lbl_8027E818
-lbl_8027E75C:
+/* 8027E758 0027B698  48 00 00 C0 */	b .L_8027E818
+.L_8027E75C:
 /* 8027E75C 0027B69C  80 9F 02 D8 */	lwz r4, 0x2d8(r31)
 /* 8027E760 0027B6A0  38 61 00 08 */	addi r3, r1, 8
 /* 8027E764 0027B6A4  4B F7 09 79 */	bl getBridgeXVec__Q34Game10ItemBridge4ItemFv
@@ -1529,25 +1548,25 @@ lbl_8027E75C:
 /* 8027E794 0027B6D4  EC 42 20 2A */	fadds f2, f2, f4
 /* 8027E798 0027B6D8  EC 3A 0F 7A */	fmadds f1, f26, f29, f1
 /* 8027E79C 0027B6DC  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8027E7A0 0027B6E0  40 80 00 0C */	bge lbl_8027E7AC
+/* 8027E7A0 0027B6E0  40 80 00 0C */	bge .L_8027E7AC
 /* 8027E7A4 0027B6E4  D0 5F 02 E0 */	stfs f2, 0x2e0(r31)
-/* 8027E7A8 0027B6E8  48 00 00 0C */	b lbl_8027E7B4
-lbl_8027E7AC:
+/* 8027E7A8 0027B6E8  48 00 00 0C */	b .L_8027E7B4
+.L_8027E7AC:
 /* 8027E7AC 0027B6EC  FC 00 10 50 */	fneg f0, f2
 /* 8027E7B0 0027B6F0  D0 1F 02 E0 */	stfs f0, 0x2e0(r31)
-lbl_8027E7B4:
+.L_8027E7B4:
 /* 8027E7B4 0027B6F4  C0 02 D1 E0 */	lfs f0, lbl_8051B540@sda21(r2)
 /* 8027E7B8 0027B6F8  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8027E7BC 0027B6FC  40 81 00 08 */	ble lbl_8027E7C4
-/* 8027E7C0 0027B700  48 00 00 08 */	b lbl_8027E7C8
-lbl_8027E7C4:
+/* 8027E7BC 0027B6FC  40 81 00 08 */	ble .L_8027E7C4
+/* 8027E7C0 0027B700  48 00 00 08 */	b .L_8027E7C8
+.L_8027E7C4:
 /* 8027E7C4 0027B704  FC 20 08 50 */	fneg f1, f1
-lbl_8027E7C8:
+.L_8027E7C8:
 /* 8027E7C8 0027B708  FC 01 20 40 */	fcmpo cr0, f1, f4
-/* 8027E7CC 0027B70C  40 81 00 0C */	ble lbl_8027E7D8
+/* 8027E7CC 0027B70C  40 81 00 0C */	ble .L_8027E7D8
 /* 8027E7D0 0027B710  38 60 00 05 */	li r3, 5
-/* 8027E7D4 0027B714  48 00 00 44 */	b lbl_8027E818
-lbl_8027E7D8:
+/* 8027E7D4 0027B714  48 00 00 44 */	b .L_8027E818
+.L_8027E7D8:
 /* 8027E7D8 0027B718  80 6D 93 08 */	lwz r3, mapMgr__4Game@sda21(r13)
 /* 8027E7DC 0027B71C  38 9F 01 8C */	addi r4, r31, 0x18c
 /* 8027E7E0 0027B720  81 83 00 04 */	lwz r12, 4(r3)
@@ -1558,15 +1577,15 @@ lbl_8027E7D8:
 /* 8027E7F4 0027B734  C0 5F 01 90 */	lfs f2, 0x190(r31)
 /* 8027E7F8 0027B738  EC 00 08 2A */	fadds f0, f0, f1
 /* 8027E7FC 0027B73C  FC 02 00 40 */	fcmpo cr0, f2, f0
-/* 8027E800 0027B740  40 81 00 0C */	ble lbl_8027E80C
+/* 8027E800 0027B740  40 81 00 0C */	ble .L_8027E80C
 /* 8027E804 0027B744  38 60 00 07 */	li r3, 7
-/* 8027E808 0027B748  48 00 00 10 */	b lbl_8027E818
-lbl_8027E80C:
+/* 8027E808 0027B748  48 00 00 10 */	b .L_8027E818
+.L_8027E80C:
 /* 8027E80C 0027B74C  38 60 00 05 */	li r3, 5
-/* 8027E810 0027B750  48 00 00 08 */	b lbl_8027E818
-lbl_8027E814:
+/* 8027E810 0027B750  48 00 00 08 */	b .L_8027E818
+.L_8027E814:
 /* 8027E814 0027B754  38 60 00 06 */	li r3, 6
-lbl_8027E818:
+.L_8027E818:
 /* 8027E818 0027B758  E3 E1 00 98 */	psq_l f31, 152(r1), 0, qr0
 /* 8027E81C 0027B75C  CB E1 00 90 */	lfd f31, 0x90(r1)
 /* 8027E820 0027B760  E3 C1 00 88 */	psq_l f30, 136(r1), 0, qr0
@@ -1584,23 +1603,23 @@ lbl_8027E818:
 /* 8027E850 0027B790  7C 08 03 A6 */	mtlr r0
 /* 8027E854 0027B794  38 21 00 A0 */	addi r1, r1, 0xa0
 /* 8027E858 0027B798  4E 80 00 20 */	blr 
+.endfn checkBreakOrMove__Q34Game5Armor3ObjFv
 
-.global isBreakBridge__Q34Game5Armor3ObjFv
-isBreakBridge__Q34Game5Armor3ObjFv:
+.fn isBreakBridge__Q34Game5Armor3ObjFv, global
 /* 8027E85C 0027B79C  80 63 02 D8 */	lwz r3, 0x2d8(r3)
 /* 8027E860 0027B7A0  28 03 00 00 */	cmplwi r3, 0
-/* 8027E864 0027B7A4  41 82 00 18 */	beq lbl_8027E87C
+/* 8027E864 0027B7A4  41 82 00 18 */	beq .L_8027E87C
 /* 8027E868 0027B7A8  80 03 02 18 */	lwz r0, 0x218(r3)
 /* 8027E86C 0027B7AC  2C 00 00 00 */	cmpwi r0, 0
-/* 8027E870 0027B7B0  41 82 00 0C */	beq lbl_8027E87C
+/* 8027E870 0027B7B0  41 82 00 0C */	beq .L_8027E87C
 /* 8027E874 0027B7B4  38 60 00 01 */	li r3, 1
 /* 8027E878 0027B7B8  4E 80 00 20 */	blr 
-lbl_8027E87C:
+.L_8027E87C:
 /* 8027E87C 0027B7BC  38 60 00 00 */	li r3, 0
 /* 8027E880 0027B7C0  4E 80 00 20 */	blr 
+.endfn isBreakBridge__Q34Game5Armor3ObjFv
 
-.global moveBridgeSide__Q34Game5Armor3ObjFv
-moveBridgeSide__Q34Game5Armor3ObjFv:
+.fn moveBridgeSide__Q34Game5Armor3ObjFv, global
 /* 8027E884 0027B7C4  94 21 FF 60 */	stwu r1, -0xa0(r1)
 /* 8027E888 0027B7C8  7C 08 02 A6 */	mflr r0
 /* 8027E88C 0027B7CC  90 01 00 A4 */	stw r0, 0xa4(r1)
@@ -1647,7 +1666,7 @@ moveBridgeSide__Q34Game5Armor3ObjFv:
 /* 8027E930 0027B870  EC 21 00 72 */	fmuls f1, f1, f1
 /* 8027E934 0027B874  EC 22 08 BA */	fmadds f1, f2, f2, f1
 /* 8027E938 0027B878  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8027E93C 0027B87C  40 80 00 80 */	bge lbl_8027E9BC
+/* 8027E93C 0027B87C  40 80 00 80 */	bge .L_8027E9BC
 /* 8027E940 0027B880  7F E3 FB 78 */	mr r3, r31
 /* 8027E944 0027B884  80 9F 00 C0 */	lwz r4, 0xc0(r31)
 /* 8027E948 0027B888  81 9F 00 00 */	lwz r12, 0(r31)
@@ -1678,8 +1697,8 @@ moveBridgeSide__Q34Game5Armor3ObjFv:
 /* 8027E9AC 0027B8EC  EC 1E 00 72 */	fmuls f0, f30, f1
 /* 8027E9B0 0027B8F0  D3 FF 01 D8 */	stfs f31, 0x1d8(r31)
 /* 8027E9B4 0027B8F4  D0 1F 01 DC */	stfs f0, 0x1dc(r31)
-/* 8027E9B8 0027B8F8  48 00 01 40 */	b lbl_8027EAF8
-lbl_8027E9BC:
+/* 8027E9B8 0027B8F8  48 00 01 40 */	b .L_8027EAF8
+.L_8027E9BC:
 /* 8027E9BC 0027B8FC  7F E4 FB 78 */	mr r4, r31
 /* 8027E9C0 0027B900  80 BF 00 C0 */	lwz r5, 0xc0(r31)
 /* 8027E9C4 0027B904  81 9F 00 00 */	lwz r12, 0(r31)
@@ -1714,15 +1733,15 @@ lbl_8027E9BC:
 /* 8027EA38 0027B978  EC 21 00 32 */	fmuls f1, f1, f0
 /* 8027EA3C 0027B97C  FC 00 10 18 */	frsp f0, f2
 /* 8027EA40 0027B980  FC 00 08 40 */	fcmpo cr0, f0, f1
-/* 8027EA44 0027B984  40 81 00 1C */	ble lbl_8027EA60
+/* 8027EA44 0027B984  40 81 00 1C */	ble .L_8027EA60
 /* 8027EA48 0027B988  C0 02 D1 E0 */	lfs f0, lbl_8051B540@sda21(r2)
 /* 8027EA4C 0027B98C  FC 1E 00 40 */	fcmpo cr0, f30, f0
-/* 8027EA50 0027B990  40 81 00 0C */	ble lbl_8027EA5C
+/* 8027EA50 0027B990  40 81 00 0C */	ble .L_8027EA5C
 /* 8027EA54 0027B994  FF C0 08 90 */	fmr f30, f1
-/* 8027EA58 0027B998  48 00 00 08 */	b lbl_8027EA60
-lbl_8027EA5C:
+/* 8027EA58 0027B998  48 00 00 08 */	b .L_8027EA60
+.L_8027EA5C:
 /* 8027EA5C 0027B99C  FF C0 08 50 */	fneg f30, f1
-lbl_8027EA60:
+.L_8027EA60:
 /* 8027EA60 0027B9A0  7F E3 FB 78 */	mr r3, r31
 /* 8027EA64 0027B9A4  81 9F 00 00 */	lwz r12, 0(r31)
 /* 8027EA68 0027B9A8  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -1761,7 +1780,7 @@ lbl_8027EA60:
 /* 8027EAEC 0027BA2C  EC 1E 00 72 */	fmuls f0, f30, f1
 /* 8027EAF0 0027BA30  D3 FF 01 D8 */	stfs f31, 0x1d8(r31)
 /* 8027EAF4 0027BA34  D0 1F 01 DC */	stfs f0, 0x1dc(r31)
-lbl_8027EAF8:
+.L_8027EAF8:
 /* 8027EAF8 0027BA38  E3 E1 00 98 */	psq_l f31, 152(r1), 0, qr0
 /* 8027EAFC 0027BA3C  CB E1 00 90 */	lfd f31, 0x90(r1)
 /* 8027EB00 0027BA40  E3 C1 00 88 */	psq_l f30, 136(r1), 0, qr0
@@ -1775,9 +1794,9 @@ lbl_8027EAF8:
 /* 8027EB20 0027BA60  7C 08 03 A6 */	mtlr r0
 /* 8027EB24 0027BA64  38 21 00 A0 */	addi r1, r1, 0xa0
 /* 8027EB28 0027BA68  4E 80 00 20 */	blr 
+.endfn moveBridgeSide__Q34Game5Armor3ObjFv
 
-.global moveBridgeCentre__Q34Game5Armor3ObjFv
-moveBridgeCentre__Q34Game5Armor3ObjFv:
+.fn moveBridgeCentre__Q34Game5Armor3ObjFv, global
 /* 8027EB2C 0027BA6C  94 21 FF 70 */	stwu r1, -0x90(r1)
 /* 8027EB30 0027BA70  7C 08 02 A6 */	mflr r0
 /* 8027EB34 0027BA74  90 01 00 94 */	stw r0, 0x94(r1)
@@ -1816,7 +1835,7 @@ moveBridgeCentre__Q34Game5Armor3ObjFv:
 /* 8027EBB8 0027BAF8  EC 21 00 72 */	fmuls f1, f1, f1
 /* 8027EBBC 0027BAFC  EC 22 08 BA */	fmadds f1, f2, f2, f1
 /* 8027EBC0 0027BB00  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8027EBC4 0027BB04  40 80 00 80 */	bge lbl_8027EC44
+/* 8027EBC4 0027BB04  40 80 00 80 */	bge .L_8027EC44
 /* 8027EBC8 0027BB08  7F E3 FB 78 */	mr r3, r31
 /* 8027EBCC 0027BB0C  80 9F 00 C0 */	lwz r4, 0xc0(r31)
 /* 8027EBD0 0027BB10  81 9F 00 00 */	lwz r12, 0(r31)
@@ -1847,8 +1866,8 @@ moveBridgeCentre__Q34Game5Armor3ObjFv:
 /* 8027EC34 0027BB74  EC 1E 00 72 */	fmuls f0, f30, f1
 /* 8027EC38 0027BB78  D3 FF 01 D8 */	stfs f31, 0x1d8(r31)
 /* 8027EC3C 0027BB7C  D0 1F 01 DC */	stfs f0, 0x1dc(r31)
-/* 8027EC40 0027BB80  48 00 01 40 */	b lbl_8027ED80
-lbl_8027EC44:
+/* 8027EC40 0027BB80  48 00 01 40 */	b .L_8027ED80
+.L_8027EC44:
 /* 8027EC44 0027BB84  7F E4 FB 78 */	mr r4, r31
 /* 8027EC48 0027BB88  80 BF 00 C0 */	lwz r5, 0xc0(r31)
 /* 8027EC4C 0027BB8C  81 9F 00 00 */	lwz r12, 0(r31)
@@ -1883,15 +1902,15 @@ lbl_8027EC44:
 /* 8027ECC0 0027BC00  EC 21 00 32 */	fmuls f1, f1, f0
 /* 8027ECC4 0027BC04  FC 00 10 18 */	frsp f0, f2
 /* 8027ECC8 0027BC08  FC 00 08 40 */	fcmpo cr0, f0, f1
-/* 8027ECCC 0027BC0C  40 81 00 1C */	ble lbl_8027ECE8
+/* 8027ECCC 0027BC0C  40 81 00 1C */	ble .L_8027ECE8
 /* 8027ECD0 0027BC10  C0 02 D1 E0 */	lfs f0, lbl_8051B540@sda21(r2)
 /* 8027ECD4 0027BC14  FC 1E 00 40 */	fcmpo cr0, f30, f0
-/* 8027ECD8 0027BC18  40 81 00 0C */	ble lbl_8027ECE4
+/* 8027ECD8 0027BC18  40 81 00 0C */	ble .L_8027ECE4
 /* 8027ECDC 0027BC1C  FF C0 08 90 */	fmr f30, f1
-/* 8027ECE0 0027BC20  48 00 00 08 */	b lbl_8027ECE8
-lbl_8027ECE4:
+/* 8027ECE0 0027BC20  48 00 00 08 */	b .L_8027ECE8
+.L_8027ECE4:
 /* 8027ECE4 0027BC24  FF C0 08 50 */	fneg f30, f1
-lbl_8027ECE8:
+.L_8027ECE8:
 /* 8027ECE8 0027BC28  7F E3 FB 78 */	mr r3, r31
 /* 8027ECEC 0027BC2C  81 9F 00 00 */	lwz r12, 0(r31)
 /* 8027ECF0 0027BC30  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -1930,7 +1949,7 @@ lbl_8027ECE8:
 /* 8027ED74 0027BCB4  EC 1E 00 72 */	fmuls f0, f30, f1
 /* 8027ED78 0027BCB8  D3 FF 01 D8 */	stfs f31, 0x1d8(r31)
 /* 8027ED7C 0027BCBC  D0 1F 01 DC */	stfs f0, 0x1dc(r31)
-lbl_8027ED80:
+.L_8027ED80:
 /* 8027ED80 0027BCC0  E3 E1 00 88 */	psq_l f31, 136(r1), 0, qr0
 /* 8027ED84 0027BCC4  CB E1 00 80 */	lfd f31, 0x80(r1)
 /* 8027ED88 0027BCC8  E3 C1 00 78 */	psq_l f30, 120(r1), 0, qr0
@@ -1944,9 +1963,9 @@ lbl_8027ED80:
 /* 8027EDA8 0027BCE8  7C 08 03 A6 */	mtlr r0
 /* 8027EDAC 0027BCEC  38 21 00 90 */	addi r1, r1, 0x90
 /* 8027EDB0 0027BCF0  4E 80 00 20 */	blr 
+.endfn moveBridgeCentre__Q34Game5Armor3ObjFv
 
-.global moveBridgeTop__Q34Game5Armor3ObjFv
-moveBridgeTop__Q34Game5Armor3ObjFv:
+.fn moveBridgeTop__Q34Game5Armor3ObjFv, global
 /* 8027EDB4 0027BCF4  94 21 FF 40 */	stwu r1, -0xc0(r1)
 /* 8027EDB8 0027BCF8  7C 08 02 A6 */	mflr r0
 /* 8027EDBC 0027BCFC  90 01 00 C4 */	stw r0, 0xc4(r1)
@@ -1982,7 +2001,7 @@ moveBridgeTop__Q34Game5Armor3ObjFv:
 /* 8027EE34 0027BD74  EC 42 00 32 */	fmuls f2, f2, f0
 /* 8027EE38 0027BD78  EF FF 08 2A */	fadds f31, f31, f1
 /* 8027EE3C 0027BD7C  EF DE 10 2A */	fadds f30, f30, f2
-/* 8027EE40 0027BD80  40 81 00 30 */	ble lbl_8027EE70
+/* 8027EE40 0027BD80  40 81 00 30 */	ble .L_8027EE70
 /* 8027EE44 0027BD84  80 9E 02 D8 */	lwz r4, 0x2d8(r30)
 /* 8027EE48 0027BD88  38 61 00 38 */	addi r3, r1, 0x38
 /* 8027EE4C 0027BD8C  4B F7 01 ED */	bl getBridgeZVec__Q34Game10ItemBridge4ItemFv
@@ -1993,8 +2012,8 @@ moveBridgeTop__Q34Game5Armor3ObjFv:
 /* 8027EE60 0027BDA0  EC 42 00 32 */	fmuls f2, f2, f0
 /* 8027EE64 0027BDA4  EF FF 08 2A */	fadds f31, f31, f1
 /* 8027EE68 0027BDA8  EF DE 10 2A */	fadds f30, f30, f2
-/* 8027EE6C 0027BDAC  48 00 00 2C */	b lbl_8027EE98
-lbl_8027EE70:
+/* 8027EE6C 0027BDAC  48 00 00 2C */	b .L_8027EE98
+.L_8027EE70:
 /* 8027EE70 0027BDB0  80 9E 02 D8 */	lwz r4, 0x2d8(r30)
 /* 8027EE74 0027BDB4  38 61 00 2C */	addi r3, r1, 0x2c
 /* 8027EE78 0027BDB8  4B F7 01 C1 */	bl getBridgeZVec__Q34Game10ItemBridge4ItemFv
@@ -2005,7 +2024,7 @@ lbl_8027EE70:
 /* 8027EE8C 0027BDCC  EC 42 00 32 */	fmuls f2, f2, f0
 /* 8027EE90 0027BDD0  EF FF 08 2A */	fadds f31, f31, f1
 /* 8027EE94 0027BDD4  EF DE 10 2A */	fadds f30, f30, f2
-lbl_8027EE98:
+.L_8027EE98:
 /* 8027EE98 0027BDD8  7F C4 F3 78 */	mr r4, r30
 /* 8027EE9C 0027BDDC  80 BE 00 C0 */	lwz r5, 0xc0(r30)
 /* 8027EEA0 0027BDE0  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2040,15 +2059,15 @@ lbl_8027EE98:
 /* 8027EF14 0027BE54  EC 21 00 32 */	fmuls f1, f1, f0
 /* 8027EF18 0027BE58  FC 00 10 18 */	frsp f0, f2
 /* 8027EF1C 0027BE5C  FC 00 08 40 */	fcmpo cr0, f0, f1
-/* 8027EF20 0027BE60  40 81 00 1C */	ble lbl_8027EF3C
+/* 8027EF20 0027BE60  40 81 00 1C */	ble .L_8027EF3C
 /* 8027EF24 0027BE64  C0 02 D1 E0 */	lfs f0, lbl_8051B540@sda21(r2)
 /* 8027EF28 0027BE68  FC 1D 00 40 */	fcmpo cr0, f29, f0
-/* 8027EF2C 0027BE6C  40 81 00 0C */	ble lbl_8027EF38
+/* 8027EF2C 0027BE6C  40 81 00 0C */	ble .L_8027EF38
 /* 8027EF30 0027BE70  FF A0 08 90 */	fmr f29, f1
-/* 8027EF34 0027BE74  48 00 00 08 */	b lbl_8027EF3C
-lbl_8027EF38:
+/* 8027EF34 0027BE74  48 00 00 08 */	b .L_8027EF3C
+.L_8027EF38:
 /* 8027EF38 0027BE78  FF A0 08 50 */	fneg f29, f1
-lbl_8027EF3C:
+.L_8027EF3C:
 /* 8027EF3C 0027BE7C  7F C3 F3 78 */	mr r3, r30
 /* 8027EF40 0027BE80  81 9E 00 00 */	lwz r12, 0(r30)
 /* 8027EF44 0027BE84  81 8C 00 64 */	lwz r12, 0x64(r12)
@@ -2067,17 +2086,17 @@ lbl_8027EF3C:
 /* 8027EF78 0027BEB8  EC 21 00 72 */	fmuls f1, f1, f1
 /* 8027EF7C 0027BEBC  EC 22 08 BA */	fmadds f1, f2, f2, f1
 /* 8027EF80 0027BEC0  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8027EF84 0027BEC4  40 80 00 1C */	bge lbl_8027EFA0
+/* 8027EF84 0027BEC4  40 80 00 1C */	bge .L_8027EFA0
 /* 8027EF88 0027BEC8  C0 02 D1 E0 */	lfs f0, lbl_8051B540@sda21(r2)
 /* 8027EF8C 0027BECC  38 60 00 01 */	li r3, 1
 /* 8027EF90 0027BED0  D0 1E 01 D4 */	stfs f0, 0x1d4(r30)
 /* 8027EF94 0027BED4  D0 1E 01 D8 */	stfs f0, 0x1d8(r30)
 /* 8027EF98 0027BED8  D0 1E 01 DC */	stfs f0, 0x1dc(r30)
-/* 8027EF9C 0027BEDC  48 00 00 F4 */	b lbl_8027F090
-lbl_8027EFA0:
+/* 8027EF9C 0027BEDC  48 00 00 F4 */	b .L_8027F090
+.L_8027EFA0:
 /* 8027EFA0 0027BEE0  C0 02 D2 30 */	lfs f0, lbl_8051B590@sda21(r2)
 /* 8027EFA4 0027BEE4  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8027EFA8 0027BEE8  40 80 00 78 */	bge lbl_8027F020
+/* 8027EFA8 0027BEE8  40 80 00 78 */	bge .L_8027F020
 /* 8027EFAC 0027BEEC  7F C3 F3 78 */	mr r3, r30
 /* 8027EFB0 0027BEF0  80 9E 00 C0 */	lwz r4, 0xc0(r30)
 /* 8027EFB4 0027BEF4  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2106,8 +2125,8 @@ lbl_8027EFA0:
 /* 8027F010 0027BF50  EC 1C 00 72 */	fmuls f0, f28, f1
 /* 8027F014 0027BF54  D3 DE 01 D8 */	stfs f30, 0x1d8(r30)
 /* 8027F018 0027BF58  D0 1E 01 DC */	stfs f0, 0x1dc(r30)
-/* 8027F01C 0027BF5C  48 00 00 74 */	b lbl_8027F090
-lbl_8027F020:
+/* 8027F01C 0027BF5C  48 00 00 74 */	b .L_8027F090
+.L_8027F020:
 /* 8027F020 0027BF60  7F C3 F3 78 */	mr r3, r30
 /* 8027F024 0027BF64  80 9E 00 C0 */	lwz r4, 0xc0(r30)
 /* 8027F028 0027BF68  81 9E 00 00 */	lwz r12, 0(r30)
@@ -2136,7 +2155,7 @@ lbl_8027F020:
 /* 8027F084 0027BFC4  EC 1C 00 72 */	fmuls f0, f28, f1
 /* 8027F088 0027BFC8  D3 DE 01 D8 */	stfs f30, 0x1d8(r30)
 /* 8027F08C 0027BFCC  D0 1E 01 DC */	stfs f0, 0x1dc(r30)
-lbl_8027F090:
+.L_8027F090:
 /* 8027F090 0027BFD0  E3 E1 00 B8 */	psq_l f31, 184(r1), 0, qr0
 /* 8027F094 0027BFD4  CB E1 00 B0 */	lfd f31, 0xb0(r1)
 /* 8027F098 0027BFD8  E3 C1 00 A8 */	psq_l f30, 168(r1), 0, qr0
@@ -2153,9 +2172,9 @@ lbl_8027F090:
 /* 8027F0C4 0027C004  7C 08 03 A6 */	mtlr r0
 /* 8027F0C8 0027C008  38 21 00 C0 */	addi r1, r1, 0xc0
 /* 8027F0CC 0027C00C  4E 80 00 20 */	blr 
+.endfn moveBridgeTop__Q34Game5Armor3ObjFv
 
-.global breakTargetBridge__Q34Game5Armor3ObjFv
-breakTargetBridge__Q34Game5Armor3ObjFv:
+.fn breakTargetBridge__Q34Game5Armor3ObjFv, global
 /* 8027F0D0 0027C010  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8027F0D4 0027C014  7C 08 02 A6 */	mflr r0
 /* 8027F0D8 0027C018  3C 80 80 4B */	lis r4, __vt__Q24Game11Interaction@ha
@@ -2179,9 +2198,9 @@ breakTargetBridge__Q34Game5Armor3ObjFv:
 /* 8027F120 0027C060  7C 08 03 A6 */	mtlr r0
 /* 8027F124 0027C064  38 21 00 20 */	addi r1, r1, 0x20
 /* 8027F128 0027C068  4E 80 00 20 */	blr 
+.endfn breakTargetBridge__Q34Game5Armor3ObjFv
 
-.global createEffect__Q34Game5Armor3ObjFv
-createEffect__Q34Game5Armor3ObjFv:
+.fn createEffect__Q34Game5Armor3ObjFv, global
 /* 8027F12C 0027C06C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027F130 0027C070  7C 08 02 A6 */	mflr r0
 /* 8027F134 0027C074  90 01 00 14 */	stw r0, 0x14(r1)
@@ -2190,7 +2209,7 @@ createEffect__Q34Game5Armor3ObjFv:
 /* 8027F140 0027C080  38 60 00 14 */	li r3, 0x14
 /* 8027F144 0027C084  4B DA 4D 61 */	bl __nw__FUl
 /* 8027F148 0027C088  28 03 00 00 */	cmplwi r3, 0
-/* 8027F14C 0027C08C  41 82 00 78 */	beq lbl_8027F1C4
+/* 8027F14C 0027C08C  41 82 00 78 */	beq .L_8027F1C4
 /* 8027F150 0027C090  3C 80 80 4B */	lis r4, __vt__Q23efx5TBase@ha
 /* 8027F154 0027C094  3C A0 80 4A */	lis r5, __vt__18JPAEmitterCallBack@ha
 /* 8027F158 0027C098  38 04 A7 F8 */	addi r0, r4, __vt__Q23efx5TBase@l
@@ -2220,16 +2239,16 @@ createEffect__Q34Game5Armor3ObjFv:
 /* 8027F1B8 0027C0F8  B0 A3 00 0C */	sth r5, 0xc(r3)
 /* 8027F1BC 0027C0FC  90 83 00 00 */	stw r4, 0(r3)
 /* 8027F1C0 0027C100  90 03 00 04 */	stw r0, 4(r3)
-lbl_8027F1C4:
+.L_8027F1C4:
 /* 8027F1C4 0027C104  90 7F 02 D4 */	stw r3, 0x2d4(r31)
 /* 8027F1C8 0027C108  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8027F1CC 0027C10C  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 8027F1D0 0027C110  7C 08 03 A6 */	mtlr r0
 /* 8027F1D4 0027C114  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027F1D8 0027C118  4E 80 00 20 */	blr 
+.endfn createEffect__Q34Game5Armor3ObjFv
 
-.global setupEffect__Q34Game5Armor3ObjFv
-setupEffect__Q34Game5Armor3ObjFv:
+.fn setupEffect__Q34Game5Armor3ObjFv, global
 /* 8027F1DC 0027C11C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027F1E0 0027C120  7C 08 02 A6 */	mflr r0
 /* 8027F1E4 0027C124  38 82 D1 F8 */	addi r4, r2, lbl_8051B558@sda21
@@ -2246,9 +2265,9 @@ setupEffect__Q34Game5Armor3ObjFv:
 /* 8027F210 0027C150  7C 08 03 A6 */	mtlr r0
 /* 8027F214 0027C154  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027F218 0027C158  4E 80 00 20 */	blr 
+.endfn setupEffect__Q34Game5Armor3ObjFv
 
-.global createAttackEffect__Q34Game5Armor3ObjFv
-createAttackEffect__Q34Game5Armor3ObjFv:
+.fn createAttackEffect__Q34Game5Armor3ObjFv, global
 /* 8027F21C 0027C15C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027F220 0027C160  7C 08 02 A6 */	mflr r0
 /* 8027F224 0027C164  38 80 00 00 */	li r4, 0
@@ -2262,9 +2281,9 @@ createAttackEffect__Q34Game5Armor3ObjFv:
 /* 8027F244 0027C184  7C 08 03 A6 */	mtlr r0
 /* 8027F248 0027C188  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027F24C 0027C18C  4E 80 00 20 */	blr 
+.endfn createAttackEffect__Q34Game5Armor3ObjFv
 
-.global createAppearEffect__Q34Game5Armor3ObjFv
-createAppearEffect__Q34Game5Armor3ObjFv:
+.fn createAppearEffect__Q34Game5Armor3ObjFv, global
 /* 8027F250 0027C190  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8027F254 0027C194  7C 08 02 A6 */	mflr r0
 /* 8027F258 0027C198  3C 80 80 48 */	lis r4, lbl_80487418@ha
@@ -2300,9 +2319,9 @@ createAppearEffect__Q34Game5Armor3ObjFv:
 /* 8027F2D0 0027C210  7C 08 03 A6 */	mtlr r0
 /* 8027F2D4 0027C214  38 21 00 20 */	addi r1, r1, 0x20
 /* 8027F2D8 0027C218  4E 80 00 20 */	blr 
+.endfn createAppearEffect__Q34Game5Armor3ObjFv
 
-.global createDisAppearEffect__Q34Game5Armor3ObjFv
-createDisAppearEffect__Q34Game5Armor3ObjFv:
+.fn createDisAppearEffect__Q34Game5Armor3ObjFv, global
 /* 8027F2DC 0027C21C  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8027F2E0 0027C220  7C 08 02 A6 */	mflr r0
 /* 8027F2E4 0027C224  3C 80 80 48 */	lis r4, lbl_80487418@ha
@@ -2338,9 +2357,9 @@ createDisAppearEffect__Q34Game5Armor3ObjFv:
 /* 8027F35C 0027C29C  7C 08 03 A6 */	mtlr r0
 /* 8027F360 0027C2A0  38 21 00 20 */	addi r1, r1, 0x20
 /* 8027F364 0027C2A4  4E 80 00 20 */	blr 
+.endfn createDisAppearEffect__Q34Game5Armor3ObjFv
 
-.global createBridgeEffect__Q34Game5Armor3ObjFv
-createBridgeEffect__Q34Game5Armor3ObjFv:
+.fn createBridgeEffect__Q34Game5Armor3ObjFv, global
 /* 8027F368 0027C2A8  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 8027F36C 0027C2AC  7C 08 02 A6 */	mflr r0
 /* 8027F370 0027C2B0  38 82 D1 F8 */	addi r4, r2, lbl_8051B558@sda21
@@ -2377,9 +2396,9 @@ createBridgeEffect__Q34Game5Armor3ObjFv:
 /* 8027F3EC 0027C32C  7C 08 03 A6 */	mtlr r0
 /* 8027F3F0 0027C330  38 21 00 30 */	addi r1, r1, 0x30
 /* 8027F3F4 0027C334  4E 80 00 20 */	blr 
+.endfn createBridgeEffect__Q34Game5Armor3ObjFv
 
-.global effectDrawOn__Q34Game5Armor3ObjFv
-effectDrawOn__Q34Game5Armor3ObjFv:
+.fn effectDrawOn__Q34Game5Armor3ObjFv, global
 /* 8027F3F8 0027C338  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027F3FC 0027C33C  7C 08 02 A6 */	mflr r0
 /* 8027F400 0027C340  90 01 00 14 */	stw r0, 0x14(r1)
@@ -2392,9 +2411,9 @@ effectDrawOn__Q34Game5Armor3ObjFv:
 /* 8027F41C 0027C35C  7C 08 03 A6 */	mtlr r0
 /* 8027F420 0027C360  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027F424 0027C364  4E 80 00 20 */	blr 
+.endfn effectDrawOn__Q34Game5Armor3ObjFv
 
-.global effectDrawOff__Q34Game5Armor3ObjFv
-effectDrawOff__Q34Game5Armor3ObjFv:
+.fn effectDrawOff__Q34Game5Armor3ObjFv, global
 /* 8027F428 0027C368  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027F42C 0027C36C  7C 08 02 A6 */	mflr r0
 /* 8027F430 0027C370  90 01 00 14 */	stw r0, 0x14(r1)
@@ -2407,9 +2426,9 @@ effectDrawOff__Q34Game5Armor3ObjFv:
 /* 8027F44C 0027C38C  7C 08 03 A6 */	mtlr r0
 /* 8027F450 0027C390  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027F454 0027C394  4E 80 00 20 */	blr 
+.endfn effectDrawOff__Q34Game5Armor3ObjFv
 
-.global __dt__Q23efx12TYoroiAttackFv
-__dt__Q23efx12TYoroiAttackFv:
+.fn __dt__Q23efx12TYoroiAttackFv, weak
 /* 8027F458 0027C398  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8027F45C 0027C39C  7C 08 02 A6 */	mflr r0
 /* 8027F460 0027C3A0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -2417,19 +2436,19 @@ __dt__Q23efx12TYoroiAttackFv:
 /* 8027F468 0027C3A8  7C 9F 23 78 */	mr r31, r4
 /* 8027F46C 0027C3AC  93 C1 00 08 */	stw r30, 8(r1)
 /* 8027F470 0027C3B0  7C 7E 1B 79 */	or. r30, r3, r3
-/* 8027F474 0027C3B4  41 82 00 64 */	beq lbl_8027F4D8
+/* 8027F474 0027C3B4  41 82 00 64 */	beq .L_8027F4D8
 /* 8027F478 0027C3B8  3C 60 80 4D */	lis r3, __vt__Q23efx12TYoroiAttack@ha
 /* 8027F47C 0027C3BC  38 63 85 1C */	addi r3, r3, __vt__Q23efx12TYoroiAttack@l
 /* 8027F480 0027C3C0  90 7E 00 00 */	stw r3, 0(r30)
 /* 8027F484 0027C3C4  38 03 00 14 */	addi r0, r3, 0x14
 /* 8027F488 0027C3C8  90 1E 00 04 */	stw r0, 4(r30)
-/* 8027F48C 0027C3CC  41 82 00 3C */	beq lbl_8027F4C8
+/* 8027F48C 0027C3CC  41 82 00 3C */	beq .L_8027F4C8
 /* 8027F490 0027C3D0  3C 60 80 4E */	lis r3, __vt__Q23efx9TChaseMtx@ha
 /* 8027F494 0027C3D4  38 63 68 A8 */	addi r3, r3, __vt__Q23efx9TChaseMtx@l
 /* 8027F498 0027C3D8  90 7E 00 00 */	stw r3, 0(r30)
 /* 8027F49C 0027C3DC  38 03 00 14 */	addi r0, r3, 0x14
 /* 8027F4A0 0027C3E0  90 1E 00 04 */	stw r0, 4(r30)
-/* 8027F4A4 0027C3E4  41 82 00 24 */	beq lbl_8027F4C8
+/* 8027F4A4 0027C3E4  41 82 00 24 */	beq .L_8027F4C8
 /* 8027F4A8 0027C3E8  3C 80 80 4E */	lis r4, __vt__Q23efx5TSync@ha
 /* 8027F4AC 0027C3EC  38 7E 00 04 */	addi r3, r30, 4
 /* 8027F4B0 0027C3F0  38 A4 69 8C */	addi r5, r4, __vt__Q23efx5TSync@l
@@ -2438,12 +2457,12 @@ __dt__Q23efx12TYoroiAttackFv:
 /* 8027F4BC 0027C3FC  38 05 00 14 */	addi r0, r5, 0x14
 /* 8027F4C0 0027C400  90 1E 00 04 */	stw r0, 4(r30)
 /* 8027F4C4 0027C404  4B E1 07 D9 */	bl __dt__18JPAEmitterCallBackFv
-lbl_8027F4C8:
+.L_8027F4C8:
 /* 8027F4C8 0027C408  7F E0 07 35 */	extsh. r0, r31
-/* 8027F4CC 0027C40C  40 81 00 0C */	ble lbl_8027F4D8
+/* 8027F4CC 0027C40C  40 81 00 0C */	ble .L_8027F4D8
 /* 8027F4D0 0027C410  7F C3 F3 78 */	mr r3, r30
 /* 8027F4D4 0027C414  4B DA 4B E1 */	bl __dl__FPv
-lbl_8027F4D8:
+.L_8027F4D8:
 /* 8027F4D8 0027C418  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8027F4DC 0027C41C  7F C3 F3 78 */	mr r3, r30
 /* 8027F4E0 0027C420  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -2451,18 +2470,19 @@ lbl_8027F4D8:
 /* 8027F4E8 0027C428  7C 08 03 A6 */	mtlr r0
 /* 8027F4EC 0027C42C  38 21 00 10 */	addi r1, r1, 0x10
 /* 8027F4F0 0027C430  4E 80 00 20 */	blr 
+.endfn __dt__Q23efx12TYoroiAttackFv
 
-.global getDownSmokeScale__Q34Game5Armor3ObjFv
-getDownSmokeScale__Q34Game5Armor3ObjFv:
+.fn getDownSmokeScale__Q34Game5Armor3ObjFv, weak
 /* 8027F4F4 0027C434  C0 22 D2 34 */	lfs f1, lbl_8051B594@sda21(r2)
 /* 8027F4F8 0027C438  4E 80 00 20 */	blr 
+.endfn getDownSmokeScale__Q34Game5Armor3ObjFv
 
-.global getEnemyTypeID__Q34Game5Armor3ObjFv
-getEnemyTypeID__Q34Game5Armor3ObjFv:
+.fn getEnemyTypeID__Q34Game5Armor3ObjFv, weak
 /* 8027F4FC 0027C43C  38 60 00 0F */	li r3, 0xf
 /* 8027F500 0027C440  4E 80 00 20 */	blr 
+.endfn getEnemyTypeID__Q34Game5Armor3ObjFv
 
-.global "@4@__dt__Q23efx12TYoroiAttackFv"
-"@4@__dt__Q23efx12TYoroiAttackFv":
+.fn "@4@__dt__Q23efx12TYoroiAttackFv", weak
 /* 8027F504 0027C444  38 63 FF FC */	addi r3, r3, -4
 /* 8027F508 0027C448  4B FF FF 50 */	b __dt__Q23efx12TYoroiAttackFv
+.endfn "@4@__dt__Q23efx12TYoroiAttackFv"

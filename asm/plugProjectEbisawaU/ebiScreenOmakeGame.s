@@ -1,28 +1,33 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-lbl_80497BE8:
+.obj lbl_80497BE8, local
 	.asciz "ebiScreenOmakeGame"
+.endobj lbl_80497BE8
 .balign 4
-lbl_80497BFC:
+.obj lbl_80497BFC, local
 	.asciz "Screen_newScreen_of_TOmakeGame"
+.endobj lbl_80497BFC
 .balign 4
-lbl_80497C1C:
+.obj lbl_80497C1C, local
 	.asciz "omake_game.blo"
+.endobj lbl_80497C1C
 .balign 4
-lbl_80497C2C:
+.obj lbl_80497C2C, local
 	.asciz "Screen_setCallBackMessage_of_TOmakeGame"
+.endobj lbl_80497C2C
 .balign 4
-lbl_80497C54:
+.obj lbl_80497C54, local
 	.asciz "omake_game.bck"
+.endobj lbl_80497C54
 .balign 4
-lbl_80497C64:
+.obj lbl_80497C64, local
 	.asciz "TOmakeGame"
+.endobj lbl_80497C64
 
 .section .data, "wa"  # 0x8049E220 - 0x804EFC20
 .balign 8
-.global __vt__Q33ebi6Screen10TOmakeGame
-__vt__Q33ebi6Screen10TOmakeGame:
+.obj __vt__Q33ebi6Screen10TOmakeGame, global
 	.4byte 0
 	.4byte 0
 	.4byte setArchive__Q33ebi6Screen11TScreenBaseFP10JKRArchive
@@ -42,31 +47,40 @@ __vt__Q33ebi6Screen10TOmakeGame:
 	.4byte doUpdateStateClose__Q33ebi6Screen10TOmakeGameFv
 	.4byte doDraw__Q33ebi6Screen10TOmakeGameFv
 	.4byte getName__Q33ebi6Screen10TOmakeGameFv
+.endobj __vt__Q33ebi6Screen10TOmakeGame
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_8051FEC8:
+.obj lbl_8051FEC8, local
 	.float 1.0
-lbl_8051FECC:
+.endobj lbl_8051FEC8
+.obj lbl_8051FECC, local
 	.float 0.0
-lbl_8051FED0:
+.endobj lbl_8051FECC
+.obj lbl_8051FED0, local
 	.float 60.0
-lbl_8051FED4:
+.endobj lbl_8051FED0
+.obj lbl_8051FED4, local
 	.float 0.1
-lbl_8051FED8:
+.endobj lbl_8051FED4
+.obj lbl_8051FED8, local
 	.float 3.3333333
-lbl_8051FEDC:
+.endobj lbl_8051FED8
+.obj lbl_8051FEDC, local
 	.float 30.0
-lbl_8051FEE0:
+.endobj lbl_8051FEDC
+.obj lbl_8051FEE0, local
 	.float 0.6
-lbl_8051FEE4:
+.endobj lbl_8051FEE0
+.obj lbl_8051FEE4, local
 	.float 0.66
-lbl_8051FEE8:
+.endobj lbl_8051FEE4
+.obj lbl_8051FEE8, local
 	.float 0.15
+.endobj lbl_8051FEE8
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__Q33ebi6Screen10TOmakeGameFv
-__ct__Q33ebi6Screen10TOmakeGameFv:
+.fn __ct__Q33ebi6Screen10TOmakeGameFv, global
 /* 803F0CF4 003EDC34  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803F0CF8 003EDC38  7C 08 02 A6 */	mflr r0
 /* 803F0CFC 003EDC3C  3C 80 80 4F */	lis r4, __vt__Q33ebi6Screen20TScreenBaseInterface@ha
@@ -225,9 +239,9 @@ __ct__Q33ebi6Screen10TOmakeGameFv:
 /* 803F0F60 003EDEA0  7C 08 03 A6 */	mtlr r0
 /* 803F0F64 003EDEA4  38 21 00 10 */	addi r1, r1, 0x10
 /* 803F0F68 003EDEA8  4E 80 00 20 */	blr 
+.endfn __ct__Q33ebi6Screen10TOmakeGameFv
 
-.global doSetArchive__Q33ebi6Screen10TOmakeGameFP10JKRArchive
-doSetArchive__Q33ebi6Screen10TOmakeGameFP10JKRArchive:
+.fn doSetArchive__Q33ebi6Screen10TOmakeGameFP10JKRArchive, global
 /* 803F0F6C 003EDEAC  94 21 FF C0 */	stwu r1, -0x40(r1)
 /* 803F0F70 003EDEB0  7C 08 02 A6 */	mflr r0
 /* 803F0F74 003EDEB4  3C A0 80 49 */	lis r5, lbl_80497BE8@ha
@@ -243,10 +257,10 @@ doSetArchive__Q33ebi6Screen10TOmakeGameFP10JKRArchive:
 /* 803F0F9C 003EDEDC  38 60 01 48 */	li r3, 0x148
 /* 803F0FA0 003EDEE0  4B C3 2F 05 */	bl __nw__FUl
 /* 803F0FA4 003EDEE4  7C 60 1B 79 */	or. r0, r3, r3
-/* 803F0FA8 003EDEE8  41 82 00 0C */	beq lbl_803F0FB4
+/* 803F0FA8 003EDEE8  41 82 00 0C */	beq .L_803F0FB4
 /* 803F0FAC 003EDEEC  48 04 3E 01 */	bl __ct__Q29P2DScreen10Mgr_tuningFv
 /* 803F0FB0 003EDEF0  7C 60 1B 78 */	mr r0, r3
-lbl_803F0FB4:
+.L_803F0FB4:
 /* 803F0FB4 003EDEF4  90 1F 00 44 */	stw r0, 0x44(r31)
 /* 803F0FB8 003EDEF8  7E 46 93 78 */	mr r6, r18
 /* 803F0FBC 003EDEFC  38 93 00 34 */	addi r4, r19, 0x34
@@ -281,7 +295,7 @@ lbl_803F0FB4:
 /* 803F1030 003EDF70  3A A5 61 6D */	addi r21, r5, 0x5467616D@l
 /* 803F1034 003EDF74  3A 84 30 31 */	addi r20, r4, 0x67623031@l
 /* 803F1038 003EDF78  3B C0 00 00 */	li r30, 0
-lbl_803F103C:
+.L_803F103C:
 /* 803F103C 003EDF7C  7F D7 FE 70 */	srawi r23, r30, 0x1f
 /* 803F1040 003EDF80  80 7F 00 44 */	lwz r3, 0x44(r31)
 /* 803F1044 003EDF84  7C DE C8 14 */	addc r6, r30, r25
@@ -313,7 +327,7 @@ lbl_803F103C:
 /* 803F10AC 003EDFEC  90 78 00 80 */	stw r3, 0x80(r24)
 /* 803F10B0 003EDFF0  2C 1E 00 03 */	cmpwi r30, 3
 /* 803F10B4 003EDFF4  3B 18 00 04 */	addi r24, r24, 4
-/* 803F10B8 003EDFF8  41 80 FF 84 */	blt lbl_803F103C
+/* 803F10B8 003EDFF8  41 80 FF 84 */	blt .L_803F103C
 /* 803F10BC 003EDFFC  80 9F 00 54 */	lwz r4, 0x54(r31)
 /* 803F10C0 003EE000  38 00 00 00 */	li r0, 0
 /* 803F10C4 003EE004  3C 60 54 73 */	lis r3, 0x54736574@ha
@@ -385,7 +399,7 @@ lbl_803F103C:
 /* 803F11CC 003EE10C  3E A0 6F 6C */	lis r21, 0x6F6C6F72@ha
 /* 803F11D0 003EE110  3E 80 00 54 */	lis r20, 0x00547363@ha
 /* 803F11D4 003EE114  3E 40 61 6D */	lis r18, 0x616d
-lbl_803F11D8:
+.L_803F11D8:
 /* 803F11D8 003EE118  80 7F 00 44 */	lwz r3, 0x44(r31)
 /* 803F11DC 003EE11C  38 D5 6F 72 */	addi r6, r21, 0x6F6C6F72@l
 /* 803F11E0 003EE120  38 B4 73 63 */	addi r5, r20, 0x00547363@l
@@ -407,7 +421,7 @@ lbl_803F11D8:
 /* 803F1220 003EE160  3A F7 00 04 */	addi r23, r23, 4
 /* 803F1224 003EE164  2C 18 00 03 */	cmpwi r24, 3
 /* 803F1228 003EE168  3A D6 00 4C */	addi r22, r22, 0x4c
-/* 803F122C 003EE16C  41 80 FF AC */	blt lbl_803F11D8
+/* 803F122C 003EE16C  41 80 FF AC */	blt .L_803F11D8
 /* 803F1230 003EE170  3C A0 6C 63 */	lis r5, 0x6C637477@ha
 /* 803F1234 003EE174  3C 80 00 57 */	lis r4, 0x00577365@ha
 /* 803F1238 003EE178  80 7F 00 44 */	lwz r3, 0x44(r31)
@@ -420,9 +434,9 @@ lbl_803F11D8:
 /* 803F1254 003EE194  7C 08 03 A6 */	mtlr r0
 /* 803F1258 003EE198  38 21 00 40 */	addi r1, r1, 0x40
 /* 803F125C 003EE19C  4E 80 00 20 */	blr 
+.endfn doSetArchive__Q33ebi6Screen10TOmakeGameFP10JKRArchive
 
-.global doOpenScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen7ArgOpen
-doOpenScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen7ArgOpen:
+.fn doOpenScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen7ArgOpen, global
 /* 803F1260 003EE1A0  94 21 FF B0 */	stwu r1, -0x50(r1)
 /* 803F1264 003EE1A4  7C 08 02 A6 */	mflr r0
 /* 803F1268 003EE1A8  C0 22 1B 70 */	lfs f1, lbl_8051FED0@sda21(r2)
@@ -496,12 +510,12 @@ doOpenScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen7ArgOpen:
 /* 803F1378 003EE2B8  90 81 00 24 */	stw r4, 0x24(r1)
 /* 803F137C 003EE2BC  80 03 00 48 */	lwz r0, 0x48(r3)
 /* 803F1380 003EE2C0  90 1D 02 AC */	stw r0, 0x2ac(r29)
-lbl_803F1384:
+.L_803F1384:
 /* 803F1384 003EE2C4  38 00 00 00 */	li r0, 0
 /* 803F1388 003EE2C8  98 1F 01 7C */	stb r0, 0x17c(r31)
 /* 803F138C 003EE2CC  80 7F 01 78 */	lwz r3, 0x178(r31)
 /* 803F1390 003EE2D0  28 03 00 00 */	cmplwi r3, 0
-/* 803F1394 003EE2D4  41 82 00 9C */	beq lbl_803F1430
+/* 803F1394 003EE2D4  41 82 00 9C */	beq .L_803F1430
 /* 803F1398 003EE2D8  80 FF 01 80 */	lwz r7, 0x180(r31)
 /* 803F139C 003EE2DC  7C 7C 1B 78 */	mr r28, r3
 /* 803F13A0 003EE2E0  38 81 00 18 */	addi r4, r1, 0x18
@@ -540,11 +554,11 @@ lbl_803F1384:
 /* 803F1424 003EE364  81 8C 00 A4 */	lwz r12, 0xa4(r12)
 /* 803F1428 003EE368  7D 89 03 A6 */	mtctr r12
 /* 803F142C 003EE36C  4E 80 04 21 */	bctrl 
-lbl_803F1430:
+.L_803F1430:
 /* 803F1430 003EE370  3B DE 00 01 */	addi r30, r30, 1
 /* 803F1434 003EE374  3B FF 00 4C */	addi r31, r31, 0x4c
 /* 803F1438 003EE378  2C 1E 00 03 */	cmpwi r30, 3
-/* 803F143C 003EE37C  41 80 FF 48 */	blt lbl_803F1384
+/* 803F143C 003EE37C  41 80 FF 48 */	blt .L_803F1384
 /* 803F1440 003EE380  80 7D 00 40 */	lwz r3, 0x40(r29)
 /* 803F1444 003EE384  38 C0 00 01 */	li r6, 1
 /* 803F1448 003EE388  C0 42 1B 78 */	lfs f2, lbl_8051FED8@sda21(r2)
@@ -590,9 +604,9 @@ lbl_803F1430:
 /* 803F14E8 003EE428  7C 08 03 A6 */	mtlr r0
 /* 803F14EC 003EE42C  38 21 00 50 */	addi r1, r1, 0x50
 /* 803F14F0 003EE430  4E 80 00 20 */	blr 
+.endfn doOpenScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen7ArgOpen
 
-.global doCloseScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen8ArgClose
-doCloseScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen8ArgClose:
+.fn doCloseScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen8ArgClose, global
 /* 803F14F4 003EE434  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803F14F8 003EE438  7C 08 02 A6 */	mflr r0
 /* 803F14FC 003EE43C  C0 22 1B 70 */	lfs f1, lbl_8051FED0@sda21(r2)
@@ -608,9 +622,9 @@ doCloseScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen8ArgClose:
 /* 803F1524 003EE464  7C 08 03 A6 */	mtlr r0
 /* 803F1528 003EE468  38 21 00 10 */	addi r1, r1, 0x10
 /* 803F152C 003EE46C  4E 80 00 20 */	blr 
+.endfn doCloseScreen__Q33ebi6Screen10TOmakeGameFPQ33ebi6Screen8ArgClose
 
-.global doUpdateStateOpen__Q33ebi6Screen10TOmakeGameFv
-doUpdateStateOpen__Q33ebi6Screen10TOmakeGameFv:
+.fn doUpdateStateOpen__Q33ebi6Screen10TOmakeGameFv, global
 /* 803F1530 003EE470  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803F1534 003EE474  7C 08 02 A6 */	mflr r0
 /* 803F1538 003EE478  90 01 00 14 */	stw r0, 0x14(r1)
@@ -632,9 +646,9 @@ doUpdateStateOpen__Q33ebi6Screen10TOmakeGameFv:
 /* 803F1578 003EE4B8  7C 08 03 A6 */	mtlr r0
 /* 803F157C 003EE4BC  38 21 00 10 */	addi r1, r1, 0x10
 /* 803F1580 003EE4C0  4E 80 00 20 */	blr 
+.endfn doUpdateStateOpen__Q33ebi6Screen10TOmakeGameFv
 
-.global doUpdateStateWait__Q33ebi6Screen10TOmakeGameFv
-doUpdateStateWait__Q33ebi6Screen10TOmakeGameFv:
+.fn doUpdateStateWait__Q33ebi6Screen10TOmakeGameFv, global
 /* 803F1584 003EE4C4  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 803F1588 003EE4C8  7C 08 02 A6 */	mflr r0
 /* 803F158C 003EE4CC  90 01 00 24 */	stw r0, 0x24(r1)
@@ -648,12 +662,12 @@ doUpdateStateWait__Q33ebi6Screen10TOmakeGameFv:
 /* 803F15AC 003EE4EC  4E 80 04 21 */	bctrl 
 /* 803F15B0 003EE4F0  88 1F 00 10 */	lbz r0, 0x10(r31)
 /* 803F15B4 003EE4F4  28 00 00 00 */	cmplwi r0, 0
-/* 803F15B8 003EE4F8  41 82 01 90 */	beq lbl_803F1748
+/* 803F15B8 003EE4F8  41 82 01 90 */	beq .L_803F1748
 /* 803F15BC 003EE4FC  38 7F 00 14 */	addi r3, r31, 0x14
 /* 803F15C0 003EE500  4B FD 04 DD */	bl update__Q23ebi24EUTPadInterface_countNumFv
 /* 803F15C4 003EE504  88 1F 00 21 */	lbz r0, 0x21(r31)
 /* 803F15C8 003EE508  28 00 00 00 */	cmplwi r0, 0
-/* 803F15CC 003EE50C  41 82 01 30 */	beq lbl_803F16FC
+/* 803F15CC 003EE50C  41 82 01 30 */	beq .L_803F16FC
 /* 803F15D0 003EE510  80 1F 00 40 */	lwz r0, 0x40(r31)
 /* 803F15D4 003EE514  83 DF 00 30 */	lwz r30, 0x30(r31)
 /* 803F15D8 003EE518  54 00 10 3A */	slwi r0, r0, 2
@@ -729,35 +743,35 @@ doUpdateStateWait__Q33ebi6Screen10TOmakeGameFv:
 /* 803F16F0 003EE630  38 A0 00 00 */	li r5, 0
 /* 803F16F4 003EE634  80 6D 98 58 */	lwz r3, spSysIF__8PSSystem@sda21(r13)
 /* 803F16F8 003EE638  4B F4 6F 39 */	bl playSystemSe__Q28PSSystem5SysIFFUlUl
-lbl_803F16FC:
+.L_803F16FC:
 /* 803F16FC 003EE63C  80 1F 02 84 */	lwz r0, 0x284(r31)
 /* 803F1700 003EE640  28 00 00 00 */	cmplwi r0, 0
-/* 803F1704 003EE644  40 82 00 44 */	bne lbl_803F1748
+/* 803F1704 003EE644  40 82 00 44 */	bne .L_803F1748
 /* 803F1708 003EE648  80 7F 00 0C */	lwz r3, 0xc(r31)
 /* 803F170C 003EE64C  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 803F1710 003EE650  54 00 05 EF */	rlwinm. r0, r0, 0, 0x17, 0x17
-/* 803F1714 003EE654  41 82 00 0C */	beq lbl_803F1720
+/* 803F1714 003EE654  41 82 00 0C */	beq .L_803F1720
 /* 803F1718 003EE658  38 00 00 00 */	li r0, 0
 /* 803F171C 003EE65C  98 1F 00 10 */	stb r0, 0x10(r31)
-lbl_803F1720:
+.L_803F1720:
 /* 803F1720 003EE660  80 7F 00 0C */	lwz r3, 0xc(r31)
 /* 803F1724 003EE664  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 803F1728 003EE668  54 00 05 AD */	rlwinm. r0, r0, 0, 0x16, 0x16
-/* 803F172C 003EE66C  41 82 00 1C */	beq lbl_803F1748
+/* 803F172C 003EE66C  41 82 00 1C */	beq .L_803F1748
 /* 803F1730 003EE670  80 6D 98 58 */	lwz r3, spSysIF__8PSSystem@sda21(r13)
 /* 803F1734 003EE674  38 80 18 01 */	li r4, 0x1801
 /* 803F1738 003EE678  38 A0 00 00 */	li r5, 0
 /* 803F173C 003EE67C  4B F4 6E F5 */	bl playSystemSe__Q28PSSystem5SysIFFUlUl
 /* 803F1740 003EE680  38 60 00 01 */	li r3, 1
-/* 803F1744 003EE684  48 00 00 80 */	b lbl_803F17C4
-lbl_803F1748:
+/* 803F1744 003EE684  48 00 00 80 */	b .L_803F17C4
+.L_803F1748:
 /* 803F1748 003EE688  38 7F 01 04 */	addi r3, r31, 0x104
 /* 803F174C 003EE68C  4B FD F8 65 */	bl isFinish__Q23ebi19E2DCallBack_AnmBaseFv
 /* 803F1750 003EE690  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 803F1754 003EE694  41 82 00 6C */	beq lbl_803F17C0
+/* 803F1754 003EE694  41 82 00 6C */	beq .L_803F17C0
 /* 803F1758 003EE698  88 1F 02 B0 */	lbz r0, 0x2b0(r31)
 /* 803F175C 003EE69C  28 00 00 00 */	cmplwi r0, 0
-/* 803F1760 003EE6A0  40 82 00 60 */	bne lbl_803F17C0
+/* 803F1760 003EE6A0  40 82 00 60 */	bne .L_803F17C0
 /* 803F1764 003EE6A4  80 7F 00 80 */	lwz r3, 0x80(r31)
 /* 803F1768 003EE6A8  38 00 00 00 */	li r0, 0
 /* 803F176C 003EE6AC  38 E0 00 01 */	li r7, 1
@@ -781,18 +795,18 @@ lbl_803F1748:
 /* 803F17B4 003EE6F4  4B FD F3 E5 */	bl play__Q23ebi19E2DCallBack_AnmBaseFf10J3DAnmAttrb
 /* 803F17B8 003EE6F8  38 00 00 01 */	li r0, 1
 /* 803F17BC 003EE6FC  98 1F 02 B0 */	stb r0, 0x2b0(r31)
-lbl_803F17C0:
+.L_803F17C0:
 /* 803F17C0 003EE700  38 60 00 00 */	li r3, 0
-lbl_803F17C4:
+.L_803F17C4:
 /* 803F17C4 003EE704  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 803F17C8 003EE708  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 803F17CC 003EE70C  83 C1 00 18 */	lwz r30, 0x18(r1)
 /* 803F17D0 003EE710  7C 08 03 A6 */	mtlr r0
 /* 803F17D4 003EE714  38 21 00 20 */	addi r1, r1, 0x20
 /* 803F17D8 003EE718  4E 80 00 20 */	blr 
+.endfn doUpdateStateWait__Q33ebi6Screen10TOmakeGameFv
 
-.global doUpdateStateClose__Q33ebi6Screen10TOmakeGameFv
-doUpdateStateClose__Q33ebi6Screen10TOmakeGameFv:
+.fn doUpdateStateClose__Q33ebi6Screen10TOmakeGameFv, global
 /* 803F17DC 003EE71C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803F17E0 003EE720  7C 08 02 A6 */	mflr r0
 /* 803F17E4 003EE724  90 01 00 14 */	stw r0, 0x14(r1)
@@ -814,9 +828,9 @@ doUpdateStateClose__Q33ebi6Screen10TOmakeGameFv:
 /* 803F1824 003EE764  7C 08 03 A6 */	mtlr r0
 /* 803F1828 003EE768  38 21 00 10 */	addi r1, r1, 0x10
 /* 803F182C 003EE76C  4E 80 00 20 */	blr 
+.endfn doUpdateStateClose__Q33ebi6Screen10TOmakeGameFv
 
-.global doDraw__Q33ebi6Screen10TOmakeGameFv
-doDraw__Q33ebi6Screen10TOmakeGameFv:
+.fn doDraw__Q33ebi6Screen10TOmakeGameFv, global
 /* 803F1830 003EE770  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 803F1834 003EE774  7C 08 02 A6 */	mflr r0
 /* 803F1838 003EE778  90 01 00 24 */	stw r0, 0x24(r1)
@@ -846,9 +860,9 @@ doDraw__Q33ebi6Screen10TOmakeGameFv:
 /* 803F1898 003EE7D8  7C 08 03 A6 */	mtlr r0
 /* 803F189C 003EE7DC  38 21 00 20 */	addi r1, r1, 0x20
 /* 803F18A0 003EE7E0  4E 80 00 20 */	blr 
+.endfn doDraw__Q33ebi6Screen10TOmakeGameFv
 
-.global setController__Q33ebi6Screen10TOmakeGameFP10Controller
-setController__Q33ebi6Screen10TOmakeGameFP10Controller:
+.fn setController__Q33ebi6Screen10TOmakeGameFP10Controller, global
 /* 803F18A4 003EE7E4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803F18A8 003EE7E8  7C 08 02 A6 */	mflr r0
 /* 803F18AC 003EE7EC  7C 65 1B 78 */	mr r5, r3
@@ -866,9 +880,9 @@ setController__Q33ebi6Screen10TOmakeGameFP10Controller:
 /* 803F18DC 003EE81C  7C 08 03 A6 */	mtlr r0
 /* 803F18E0 003EE820  38 21 00 10 */	addi r1, r1, 0x10
 /* 803F18E4 003EE824  4E 80 00 20 */	blr 
+.endfn setController__Q33ebi6Screen10TOmakeGameFP10Controller
 
-.global isDelegateControl__Q33ebi6Screen10TOmakeGameFv
-isDelegateControl__Q33ebi6Screen10TOmakeGameFv:
+.fn isDelegateControl__Q33ebi6Screen10TOmakeGameFv, global
 /* 803F18E8 003EE828  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803F18EC 003EE82C  7C 08 02 A6 */	mflr r0
 /* 803F18F0 003EE830  90 01 00 14 */	stw r0, 0x14(r1)
@@ -876,21 +890,21 @@ isDelegateControl__Q33ebi6Screen10TOmakeGameFv:
 /* 803F18F8 003EE838  3B E0 00 00 */	li r31, 0
 /* 803F18FC 003EE83C  88 03 00 10 */	lbz r0, 0x10(r3)
 /* 803F1900 003EE840  28 00 00 00 */	cmplwi r0, 0
-/* 803F1904 003EE844  40 82 00 14 */	bne lbl_803F1918
+/* 803F1904 003EE844  40 82 00 14 */	bne .L_803F1918
 /* 803F1908 003EE848  4B FE 20 A5 */	bl isCloseScreen__Q33ebi6Screen11TScreenBaseFv
 /* 803F190C 003EE84C  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 803F1910 003EE850  40 82 00 08 */	bne lbl_803F1918
+/* 803F1910 003EE850  40 82 00 08 */	bne .L_803F1918
 /* 803F1914 003EE854  3B E0 00 01 */	li r31, 1
-lbl_803F1918:
+.L_803F1918:
 /* 803F1918 003EE858  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 803F191C 003EE85C  7F E3 FB 78 */	mr r3, r31
 /* 803F1920 003EE860  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 803F1924 003EE864  7C 08 03 A6 */	mtlr r0
 /* 803F1928 003EE868  38 21 00 10 */	addi r1, r1, 0x10
 /* 803F192C 003EE86C  4E 80 00 20 */	blr 
+.endfn isDelegateControl__Q33ebi6Screen10TOmakeGameFv
 
-.global setSelfControl__Q33ebi6Screen10TOmakeGameFv
-setSelfControl__Q33ebi6Screen10TOmakeGameFv:
+.fn setSelfControl__Q33ebi6Screen10TOmakeGameFv, global
 /* 803F1930 003EE870  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 803F1934 003EE874  7C 08 02 A6 */	mflr r0
 /* 803F1938 003EE878  C0 22 1B 74 */	lfs f1, lbl_8051FED4@sda21(r2)
@@ -906,79 +920,79 @@ setSelfControl__Q33ebi6Screen10TOmakeGameFv:
 /* 803F1960 003EE8A0  7C 08 03 A6 */	mtlr r0
 /* 803F1964 003EE8A4  38 21 00 10 */	addi r1, r1, 0x10
 /* 803F1968 003EE8A8  4E 80 00 20 */	blr 
+.endfn setSelfControl__Q33ebi6Screen10TOmakeGameFv
 
-.global openMsg__Q33ebi6Screen10TOmakeGameFl
-openMsg__Q33ebi6Screen10TOmakeGameFl:
+.fn openMsg__Q33ebi6Screen10TOmakeGameFl, global
 /* 803F196C 003EE8AC  2C 04 00 02 */	cmpwi r4, 2
-/* 803F1970 003EE8B0  41 82 00 A0 */	beq lbl_803F1A10
-/* 803F1974 003EE8B4  40 80 00 14 */	bge lbl_803F1988
+/* 803F1970 003EE8B0  41 82 00 A0 */	beq .L_803F1A10
+/* 803F1974 003EE8B4  40 80 00 14 */	bge .L_803F1988
 /* 803F1978 003EE8B8  2C 04 00 00 */	cmpwi r4, 0
-/* 803F197C 003EE8BC  41 82 00 1C */	beq lbl_803F1998
-/* 803F1980 003EE8C0  40 80 00 7C */	bge lbl_803F19FC
-/* 803F1984 003EE8C4  48 00 00 C8 */	b lbl_803F1A4C
-lbl_803F1988:
+/* 803F197C 003EE8BC  41 82 00 1C */	beq .L_803F1998
+/* 803F1980 003EE8C0  40 80 00 7C */	bge .L_803F19FC
+/* 803F1984 003EE8C4  48 00 00 C8 */	b .L_803F1A4C
+.L_803F1988:
 /* 803F1988 003EE8C8  2C 04 00 04 */	cmpwi r4, 4
-/* 803F198C 003EE8CC  41 82 00 AC */	beq lbl_803F1A38
-/* 803F1990 003EE8D0  40 80 00 BC */	bge lbl_803F1A4C
-/* 803F1994 003EE8D4  48 00 00 90 */	b lbl_803F1A24
-lbl_803F1998:
+/* 803F198C 003EE8CC  41 82 00 AC */	beq .L_803F1A38
+/* 803F1990 003EE8D0  40 80 00 BC */	bge .L_803F1A4C
+/* 803F1994 003EE8D4  48 00 00 90 */	b .L_803F1A24
+.L_803F1998:
 /* 803F1998 003EE8D8  80 03 00 40 */	lwz r0, 0x40(r3)
 /* 803F199C 003EE8DC  2C 00 00 01 */	cmpwi r0, 1
-/* 803F19A0 003EE8E0  41 82 00 34 */	beq lbl_803F19D4
-/* 803F19A4 003EE8E4  40 80 00 10 */	bge lbl_803F19B4
+/* 803F19A0 003EE8E0  41 82 00 34 */	beq .L_803F19D4
+/* 803F19A4 003EE8E4  40 80 00 10 */	bge .L_803F19B4
 /* 803F19A8 003EE8E8  2C 00 00 00 */	cmpwi r0, 0
-/* 803F19AC 003EE8EC  40 80 00 14 */	bge lbl_803F19C0
-/* 803F19B0 003EE8F0  48 00 00 A4 */	b lbl_803F1A54
-lbl_803F19B4:
+/* 803F19AC 003EE8EC  40 80 00 14 */	bge .L_803F19C0
+/* 803F19B0 003EE8F0  48 00 00 A4 */	b .L_803F1A54
+.L_803F19B4:
 /* 803F19B4 003EE8F4  2C 00 00 03 */	cmpwi r0, 3
-/* 803F19B8 003EE8F8  40 80 00 9C */	bge lbl_803F1A54
-/* 803F19BC 003EE8FC  48 00 00 2C */	b lbl_803F19E8
-lbl_803F19C0:
+/* 803F19B8 003EE8F8  40 80 00 9C */	bge .L_803F1A54
+/* 803F19BC 003EE8FC  48 00 00 2C */	b .L_803F19E8
+.L_803F19C0:
 /* 803F19C0 003EE900  3C A0 30 5F */	lis r5, 0x305F3030@ha
 /* 803F19C4 003EE904  3C 80 00 34 */	lis r4, 0x00343830@ha
 /* 803F19C8 003EE908  38 C5 30 30 */	addi r6, r5, 0x305F3030@l
 /* 803F19CC 003EE90C  38 A4 38 30 */	addi r5, r4, 0x00343830@l
-/* 803F19D0 003EE910  48 00 00 84 */	b lbl_803F1A54
-lbl_803F19D4:
+/* 803F19D0 003EE910  48 00 00 84 */	b .L_803F1A54
+.L_803F19D4:
 /* 803F19D4 003EE914  3C A0 31 5F */	lis r5, 0x315F3030@ha
 /* 803F19D8 003EE918  3C 80 00 34 */	lis r4, 0x00343830@ha
 /* 803F19DC 003EE91C  38 C5 30 30 */	addi r6, r5, 0x315F3030@l
 /* 803F19E0 003EE920  38 A4 38 30 */	addi r5, r4, 0x00343830@l
-/* 803F19E4 003EE924  48 00 00 70 */	b lbl_803F1A54
-lbl_803F19E8:
+/* 803F19E4 003EE924  48 00 00 70 */	b .L_803F1A54
+.L_803F19E8:
 /* 803F19E8 003EE928  3C A0 32 5F */	lis r5, 0x325F3030@ha
 /* 803F19EC 003EE92C  3C 80 00 34 */	lis r4, 0x00343830@ha
 /* 803F19F0 003EE930  38 C5 30 30 */	addi r6, r5, 0x325F3030@l
 /* 803F19F4 003EE934  38 A4 38 30 */	addi r5, r4, 0x00343830@l
-/* 803F19F8 003EE938  48 00 00 5C */	b lbl_803F1A54
-lbl_803F19FC:
+/* 803F19F8 003EE938  48 00 00 5C */	b .L_803F1A54
+.L_803F19FC:
 /* 803F19FC 003EE93C  3C A0 33 5F */	lis r5, 0x335F3030@ha
 /* 803F1A00 003EE940  3C 80 00 34 */	lis r4, 0x00343832@ha
 /* 803F1A04 003EE944  38 C5 30 30 */	addi r6, r5, 0x335F3030@l
 /* 803F1A08 003EE948  38 A4 38 32 */	addi r5, r4, 0x00343832@l
-/* 803F1A0C 003EE94C  48 00 00 48 */	b lbl_803F1A54
-lbl_803F1A10:
+/* 803F1A0C 003EE94C  48 00 00 48 */	b .L_803F1A54
+.L_803F1A10:
 /* 803F1A10 003EE950  3C A0 34 5F */	lis r5, 0x345F3030@ha
 /* 803F1A14 003EE954  3C 80 00 34 */	lis r4, 0x00343832@ha
 /* 803F1A18 003EE958  38 C5 30 30 */	addi r6, r5, 0x345F3030@l
 /* 803F1A1C 003EE95C  38 A4 38 32 */	addi r5, r4, 0x00343832@l
-/* 803F1A20 003EE960  48 00 00 34 */	b lbl_803F1A54
-lbl_803F1A24:
+/* 803F1A20 003EE960  48 00 00 34 */	b .L_803F1A54
+.L_803F1A24:
 /* 803F1A24 003EE964  3C A0 36 5F */	lis r5, 0x365F3030@ha
 /* 803F1A28 003EE968  3C 80 00 34 */	lis r4, 0x00343832@ha
 /* 803F1A2C 003EE96C  38 C5 30 30 */	addi r6, r5, 0x365F3030@l
 /* 803F1A30 003EE970  38 A4 38 32 */	addi r5, r4, 0x00343832@l
-/* 803F1A34 003EE974  48 00 00 20 */	b lbl_803F1A54
-lbl_803F1A38:
+/* 803F1A34 003EE974  48 00 00 20 */	b .L_803F1A54
+.L_803F1A38:
 /* 803F1A38 003EE978  3C A0 35 5F */	lis r5, 0x355F3030@ha
 /* 803F1A3C 003EE97C  3C 80 00 34 */	lis r4, 0x00343832@ha
 /* 803F1A40 003EE980  38 C5 30 30 */	addi r6, r5, 0x355F3030@l
 /* 803F1A44 003EE984  38 A4 38 32 */	addi r5, r4, 0x00343832@l
-/* 803F1A48 003EE988  48 00 00 0C */	b lbl_803F1A54
-lbl_803F1A4C:
+/* 803F1A48 003EE988  48 00 00 0C */	b .L_803F1A54
+.L_803F1A4C:
 /* 803F1A4C 003EE98C  38 60 00 00 */	li r3, 0
 /* 803F1A50 003EE990  4E 80 00 20 */	blr 
-lbl_803F1A54:
+.L_803F1A54:
 /* 803F1A54 003EE994  80 83 00 60 */	lwz r4, 0x60(r3)
 /* 803F1A58 003EE998  90 C4 00 1C */	stw r6, 0x1c(r4)
 /* 803F1A5C 003EE99C  90 A4 00 18 */	stw r5, 0x18(r4)
@@ -987,9 +1001,10 @@ lbl_803F1A54:
 /* 803F1A68 003EE9A8  90 C4 00 1C */	stw r6, 0x1c(r4)
 /* 803F1A6C 003EE9AC  90 A4 00 18 */	stw r5, 0x18(r4)
 /* 803F1A70 003EE9B0  4E 80 00 20 */	blr 
+.endfn openMsg__Q33ebi6Screen10TOmakeGameFl
 
-.global getName__Q33ebi6Screen10TOmakeGameFv
-getName__Q33ebi6Screen10TOmakeGameFv:
+.fn getName__Q33ebi6Screen10TOmakeGameFv, weak
 /* 803F1A74 003EE9B4  3C 60 80 49 */	lis r3, lbl_80497C64@ha
 /* 803F1A78 003EE9B8  38 63 7C 64 */	addi r3, r3, lbl_80497C64@l
 /* 803F1A7C 003EE9BC  4E 80 00 20 */	blr 
+.endfn getName__Q33ebi6Screen10TOmakeGameFv

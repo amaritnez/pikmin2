@@ -7,9 +7,23 @@ namespace Game {
 struct Creature;
 
 struct CollEvent {
-	Creature* m_collidingCreature; // _00
-	CollPart* _04;                 // _04
-	CollPart* m_hitPart;           // _08
+	CollEvent()
+	    : mCollidingCreature(nullptr)
+	    , mCollisionObj(nullptr)
+	    , mHitPart(nullptr)
+	{
+	}
+
+	inline CollEvent(Creature* creature, CollPart* cp1, CollPart* cp2)
+	    : mCollidingCreature(creature)
+	    , mCollisionObj(cp1)
+	    , mHitPart(cp2)
+	{
+	}
+
+	Creature* mCollidingCreature; // _00
+	CollPart* mCollisionObj;      // _04
+	CollPart* mHitPart;           // _08
 };
 } // namespace Game
 

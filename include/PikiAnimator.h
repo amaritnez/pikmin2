@@ -6,10 +6,11 @@
 
 struct PikiAnimator {
 	PikiAnimator();
+
 	void setAnimMgr(SysShape::AnimMgr* mgr);
 
-	SysShape::Animator _00; // _00
-	SysShape::Animator _1C; // _1C
+	SysShape::Animator mSelfAnimator;  // _00, for piki or navi itself
+	SysShape::Animator mBoundAnimator; // _1C, if piki: for navi carrying; if navi: for piki being carried
 };
 
 #endif

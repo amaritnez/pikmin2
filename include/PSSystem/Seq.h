@@ -4,10 +4,10 @@
 #include "types.h"
 #include "Dolphin/os.h"
 #include "JSystem/JSupport/JSUList.h"
-#include "JSystem/JAI/JAISequence.h"
-#include "JSystem/JAI/JAInter.h"
+#include "JSystem/JAudio/JAI/JAISequence.h"
+#include "JSystem/JAudio/JAI/JAInter.h"
 #include "PSSystem/PSBgmTask.h"
-#include "JSystem/JAS/JASTrack.h"
+#include "JSystem/JAudio/JAS/JASTrack.h"
 #include "PSSystem/Reservator.h"
 
 namespace PSSystem {
@@ -45,16 +45,16 @@ struct SeqBase : JSULink<SeqBase> {
 
 	// _00-_10  = JSULink<SeqBase>
 	// _10      = VTABLE
-	char* m_bmsFileName;                 // _14
-	JAInter::SoundInfo* m_soundInfo;     // _18
-	SeqHeap* m_seqHeap;                  // _28
-	SeqPlayReservator m_playRes;         // _2C
-	SeqPauseOffReservator m_pauseOffRes; // _38
-	PauseMode m_pauseMode;               // _44 - enum maybe? 0x4 size
-	u8 _48;                              // _48 - unknown
-	u8 _49[0x3];                         // _49 - possibly padding
-	u32 _4C;                             // _4C - unknown
-	OSMutexObject m_mutex;               // _50
+	char* mBmsFileName;                 // _14
+	JAInter::SoundInfo* mSoundInfo;     // _18
+	SeqHeap* mSeqHeap;                  // _28
+	SeqPlayReservator mPlayRes;         // _2C
+	SeqPauseOffReservator mPauseOffRes; // _38
+	PauseMode mPauseMode;               // _44 - enum maybe? 0x4 size
+	u8 _48;                             // _48 - unknown
+	u8 _49[0x3];                        // _49 - possibly padding
+	u32 _4C;                            // _4C - unknown
+	OSMutex mMutex;                     // _50
 };
 
 /**
@@ -96,7 +96,7 @@ struct SeqMgr : JSULink<SeqBase> {
 
 	// _00-_10  = JSULink<SeqBase>
 	// _10      = VTABLE
-	Scene* m_scene; // _14
+	Scene* mScene; // _14
 };
 
 /**

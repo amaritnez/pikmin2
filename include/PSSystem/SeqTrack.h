@@ -4,8 +4,8 @@
 #include "types.h"
 #include "PSSystem/PSBgmTask.h"
 #include "PSSystem/Director.h"
-#include "JSystem/JAS/JASTrack.h"
-#include "JSystem/JAD/JADDataMgr.h"
+#include "JSystem/JAudio/JAS/JASTrack.h"
+#include "JSystem/JAudio/JAD/JADDataMgr.h"
 
 namespace PSSystem {
 
@@ -27,13 +27,13 @@ struct BeatMgr {
  * @size 0x2C
  */
 struct SeqTrackBase {
-	virtual void update();        // _08
+	virtual bool update();        // _08
 	virtual void init(JASTrack*); // _0C
 	virtual void onStopSeq() = 0; // _10
 
-	TaskEntryMgr getTaskEntryList();
+	TaskEntryMgr* getTaskEntryList();
 
-	TaskEntryMgr m_taskEntryMgr; // _04
+	TaskEntryMgr mTaskEntryMgr; // _04
 };
 
 /**
@@ -42,10 +42,10 @@ struct SeqTrackBase {
 struct SeqTrackRoot : public SeqTrackBase {
 	SeqTrackRoot();
 
-	virtual void update() // _08 (weak)
+	virtual bool update() // _08 (weak)
 	{
-		m_beatMgr.proc();
-		SeqTrackBase::update();
+		mBeatMgr.proc();
+		return SeqTrackBase::update();
 	}
 	virtual void init(JASTrack*); // _0C
 	virtual void onStopSeq();     // _10
@@ -53,8 +53,8 @@ struct SeqTrackRoot : public SeqTrackBase {
 	virtual void onBeatTop() { }  // _18 (weak)
 
 	void initSwingRatio();
-	void pitchModulation(float, float, u32, DirectorBase*);
-	void tempoChange(float, u32, DirectorBase*);
+	void pitchModulation(f32, f32, u32, DirectorBase*);
+	void tempoChange(f32, u32, DirectorBase*);
 
 	// _00      = VTABLE
 	// _04-_2C  = SeqBase
@@ -62,9 +62,9 @@ struct SeqTrackRoot : public SeqTrackBase {
 	u16 _2E;                       // _2E
 	u16 _30;                       // _30
 	u16 _32;                       // _32
-	float _34;                     // _34
+	f32 _34;                       // _34
 	int _38;                       // _38 - unknown
-	BeatMgr m_beatMgr;             // _3C
+	BeatMgr mBeatMgr;              // _3C
 	u8 _3D;                        // _3D - possibly padding or part of BeatMgr
 	u16 _3E;                       // _3E
 	TaskEntry_Tempo _40;           // _40
@@ -86,9 +86,9 @@ struct SeqTrackChild : public SeqTrackBase {
 
 	virtual void onStopSeq(); // _10
 
-	void muteOffAndFadeIn(float, u32, DirectorBase*);
+	void muteOffAndFadeIn(f32, u32, DirectorBase*);
 	void fadeoutAndMute(u32, DirectorBase*);
-	void fade(float, u32, DirectorBase*);
+	void fade(f32, u32, DirectorBase*);
 	void setIdMask(u8, DirectorBase*);
 
 	// _00      = VTABLE

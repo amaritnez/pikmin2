@@ -4,7 +4,7 @@
 #include "CNode.h"
 #include "Sys/Sphere.h"
 #include "Vector3.h"
-#include "JSystem/JUT/JUTTexture.h"
+#include "JSystem/JUtility/JUTTexture.h"
 #include "types.h"
 
 namespace TexCaster {
@@ -12,7 +12,7 @@ struct Caster : public CNode {
 	virtual ~Caster(); // _08
 
 	void hide();
-	void fadein(float);
+	void fadein(f32);
 
 	// _00      = VTABLE
 	// _04-_18  = CNode
@@ -24,14 +24,19 @@ struct Caster : public CNode {
 	u32 _38;         // _38
 	u8 _3C;          // _3C
 	u8 _3D[0x3];     // _3D - unknown, maybe padding
-	float _40;       // _40
-	float _44;       // _44
+	f32 _40;         // _40
+	f32 _44;         // _44
 };
 
 struct Mgr {
-	int m_textureCount;      // _00
-	JUTTexture** m_textures; // _04
-	Caster m_caster;         // _08
+	Caster* create(Sys::Sphere&, f32);
+	void draw(Graphics&);
+
+	static Mgr* sInstance;
+
+	int mTextureCount;      // _00
+	JUTTexture** mTextures; // _04
+	Caster mCaster;         // _08
 };
 
 } // namespace TexCaster

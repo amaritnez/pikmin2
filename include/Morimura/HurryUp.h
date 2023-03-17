@@ -1,82 +1,10 @@
 #ifndef _MORIMURA_HURRYUP_H
 #define _MORIMURA_HURRYUP_H
 
-#include "JSystem/J2D/J2DPane.h"
-#include "JSystem/JUtility.h"
-#include "Morimura/TTestBase.h"
-#include "Screen/Enums.h"
-#include "og/Screen/ogScreen.h"
-#include "Screen/Bases.h"
-#include "types.h"
-
-struct Graphics;
-struct JKRArchive;
-struct J2DPane;
-
-namespace P2DScreen {
-struct Mgr_tuning;
-}
-
-namespace og {
-namespace Screen {
-
-/**
- * @size{0x10}
- */
-struct DispMemberHurryUp : public DispMemberBase {
-	/**
-	 * @reifiedAddress{}
-	 * @reifiedFile{}
-	 */
-	virtual u32 getSize() // _00
-	{
-		return sizeof(DispMemberHurryUp);
-	}
-
-	/**
-	 * @reifiedAddress{}
-	 * @reifiedFile{}
-	 */
-	virtual u32 getOwnerID() // _04
-	{
-		return OWNER_MRMR;
-	}
-
-	/**
-	 * @reifiedAddress{}
-	 * @reifiedFile{}
-	 */
-	virtual u64 getMemberID() // _08
-	{
-		return MEMBER_HURRY_UP;
-	}
-
-	float _08; // _08
-	float _0C; // _0C
-};
-
-} // namespace Screen
-} // namespace og
+#include "Morimura/Bases.h"
 
 namespace Morimura {
 struct THuWhitePaneSet;
-struct THurryUp2D;
-
-/**
- * @size{0x224}
- */
-struct THurryUpScene : public ::Screen::SceneBase {
-	THurryUpScene();
-	~THurryUpScene(); // unused/inlined
-
-	virtual SceneType getSceneType();       // _00
-	virtual ScreenOwnerID getOwnerID();     // _04
-	virtual ScreenMemberID getMemberID();   // _08
-	virtual const char* getResName() const; // _14
-	virtual void doCreateObj(JKRArchive*);  // _18
-
-	THurryUp2D* m_obj; // _220
-};
 
 /**
  * @size{0x118}
@@ -86,50 +14,91 @@ struct THurryUp2D : public TTestBase {
 	 * @size{0xC}
 	 */
 	struct TStateParam {
-		TStateParam();
+		TStateParam()
+		{
+			mAlpha1    = 0;
+			mAlpha2    = 255;
+			mScale     = 0.0f;
+			mGoalScale = 1.0f;
+		}
 
-		u8 _00[0xC]; // _00
+		u8 mAlpha1;     // _00
+		u8 mAlpha2;     // _01
+		f32 mScale;     // _04
+		f32 mGoalScale; // _08
 	};
+
+	enum HurryUpState { StateInit, StatePlaySE, StateScaleUp1, StateColorUp, StateScaleUp2 };
 
 	THurryUp2D();
 
-	virtual ~THurryUp2D();                                   // _00
-	virtual bool doStart(const ::Screen::StartSceneArg*);    // _2C
-	virtual void doCreate(JKRArchive*);                      // _34
-	virtual bool doUpdate();                                 // _40
-	virtual void doDraw(Graphics&);                          // _50
-	virtual og::Screen::DispMemberBase* getDispMemberBase(); // _60
+	virtual ~THurryUp2D() { }                                                                                // _08 (weak)
+	virtual bool doStart(const ::Screen::StartSceneArg*);                                                    // _44
+	virtual void doCreate(JKRArchive*);                                                                      // _4C
+	virtual bool doUpdate();                                                                                 // _58
+	virtual void doDraw(Graphics& gfx);                                                                      // _68
+	virtual og::Screen::DispMemberBase* getDispMemberBase() { return mIsSection ? mDisp : getDispMember(); } // _78 (weak)
 
 	void init();
 	void move();
 	void scaleUp1();
 	void scaleUp2();
 	void colorUp();
-	void changeState(int, float);
+	void changeState(int, f32);
+	void calcCount();
 
-	JKRArchive* m_archive;                       // _78
-	P2DScreen::Mgr_tuning* _7C;                  // _7C
-	J2DPane* _80;                                // _80
-	J2DPane* _84;                                // _84
-	J2DPane* _88;                                // _88
-	THuWhitePaneSet* _8C;                        // _8C
-	J2DPane* _90;                                // _90
-	J2DPane* _94;                                // _94
-	J2DPane* _98;                                // _98
-	float _9C;                                   // _9C
-	float _A0;                                   // _A0
-	float _A4;                                   // _A4
-	float _A8;                                   // _A8
-	og::Screen::DispMemberHurryUp* m_dispMember; // _AC
-	int _B0;                                     // _B0
-	float _B4;                                   // _B4
-	float _B8;                                   // _B8
-	float _BC;                                   // _BC
-	u8 _C0[4];                                   // _C0
-	u8 _C4;                                      // _C4
-	u32 : 0;
-	u8 _C8[8];               // _C8
-	TStateParam m_params[6]; // _D0
+	JKRArchive* mArchive;                 // _78
+	P2DScreen::Mgr_tuning* mScreen;       // _7C
+	J2DPane* mPaneHurry;                  // _80
+	J2DPane* mPaneSundown;                // _84
+	J2DPane* mPaneSunW;                   // _88
+	THuWhitePaneSet* mWhitePane;          // _8C
+	J2DPane* mPaneSunL;                   // _90
+	J2DPane* mPaneHurry2;                 // _94
+	J2DPane* mPaneSundown2;               // _98
+	JGeometry::TVec2f mPane1Pos;          // _9C
+	JGeometry::TVec2f mPane2Pos;          // _A4
+	og::Screen::DispMemberHurryUp* mDisp; // _AC
+	int mState;                           // _B0
+	f32 mTimer;                           // _B4
+	f32 mAlphaMod1;                       // _B8
+	f32 mAlphaMod2;                       // _BC
+	u16 _C0;                              // _C0
+	u16 _C2;                              // _C2
+	bool mDoDraw;                         // _C4
+	f32 _C8;                              // _C8
+	f32 mTimeMax;                         // _CC
+	TStateParam mParams[6];               // _D0
+
+	static f32 mInitPosX;  // = 900.0f;
+	static f32 mMoveSp;    // = 12.0f;
+	static f32 mScaleRate; // = 1.02f;
+	static f32 mScaleSp1;  // 0.01f;
+	static f32 mColorUpSp; // 1.0f;
+	static f32 mScaleSp2;  // 0.1f;
+};
+
+/**
+ * @size{0x224}
+ */
+struct THurryUpScene : public THIOScene {
+	THurryUpScene() { }
+
+	// ~THurryUpScene(); // unused/inlined
+
+	virtual const char* getResName() const { return "res_ground.szs"; } // _1C (weak)
+	virtual void doCreateObj(JKRArchive* arc)
+	{
+		THurryUp2D* obj = new THurryUp2D;
+		registObj(obj, arc);
+		mObject = obj;
+	}                                                                // _20 (weak)
+	virtual SceneType getSceneType() { return SCENE_HURRY_UP; }      // _08 (weak)
+	virtual ScreenOwnerID getOwnerID() { return OWNER_MRMR; }        // _0C (weak)
+	virtual ScreenMemberID getMemberID() { return MEMBER_HURRY_UP; } // _10 (weak)
+
+	// _00      = VTBL
+	// _00-_220 = Morimura::THIOScene
 };
 
 } // namespace Morimura

@@ -2,7 +2,7 @@
 #define _PSAUTOBGM_MELOARR_H
 
 #include "types.h"
-#include "JSystem/JAD/JADHioNode.h"
+#include "JSystem/JAudio/JAD/JADHioNode.h"
 #include "JSystem/JSupport/JSUList.h"
 #include "PSAutoBgm/Track.h"
 
@@ -10,12 +10,14 @@ namespace PSAutoBgm {
 
 // not sure of size of this, just based off PSAutoBgm_MeloArranger.cpp
 struct MeloArrArg {
+	void assertCheck() const;
+
 	u8 _00; // _00
 	u8 _01; // _01
 };
 
 // this has some funky inheritance going on I think?
-struct MeloArrBase : public JSUPtrLink, JADHioNode {
+struct MeloArrBase : public JSULink<MeloArrBase>, JADHioNode {
 	// JADHioNode vtable:
 	// virtual void ~MeloArrBase() = 0;     // _08
 	// virtual void _0C() = 0;              // _0C - might just be gap
@@ -45,9 +47,9 @@ struct MeloArrMgr : public JADHioNode {
 	bool isToAvoid(MeloArrArg&);
 
 	// _00 = VTABLE
-	JSUPtrList m_list; // _04
-	u16 _10;           // _10
-	u8 _12;            // _12
+	JSUPtrList mList; // _04
+	u16 _10;          // _10
+	u8 _12;           // _12
 };
 
 /**
@@ -63,7 +65,7 @@ struct MeloArr_RandomAvoid : public MeloArrBase {
 	virtual bool avoidChk(MeloArrArg&); // _24
 	virtual ~MeloArr_RandomAvoid() { }  // _28 (weak)
 
-	float _1C; // _1C
+	f32 _1C; // _1C
 };
 
 } // namespace PSAutoBgm

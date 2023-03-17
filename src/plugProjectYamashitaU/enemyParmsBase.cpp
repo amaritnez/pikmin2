@@ -1,5 +1,5 @@
 #include "Game/EnemyParmsBase.h"
-#include "JSystem/JKR/JKRArchive.h"
+#include "JSystem/JKernel/JKRArchive.h"
 #include "stream.h"
 
 namespace Game {
@@ -28,8 +28,8 @@ bool EnemyParmsBase::loadSettingFile(JKRArchive* archive, char* name)
  */
 void EnemyParmsBase::setDebugParm(u32 parm)
 {
-	m_flags[0].typeView |= (u16)parm;
-	m_flags[1].typeView |= parm >> 16;
+	mFlags[0].typeView |= (u16)parm;
+	mFlags[1].typeView |= parm >> 16;
 }
 
 /*
@@ -39,7 +39,7 @@ void EnemyParmsBase::setDebugParm(u32 parm)
  */
 void EnemyParmsBase::resetDebugParm(u32 parm)
 {
-	m_flags[0].typeView &= ~((u16)parm);
-	m_flags[1].typeView &= ~(parm >> 16);
+	mFlags[0].typeView &= ~((u16)parm);
+	mFlags[1].typeView &= ~(parm >> 16);
 }
 } // namespace Game

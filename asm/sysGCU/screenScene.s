@@ -1,23 +1,26 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-lbl_8049B8A0:
+.obj lbl_8049B8A0, local
 	.asciz "screenScene.cpp"
+.endobj lbl_8049B8A0
 .balign 4
-lbl_8049B8B0:
+.obj lbl_8049B8B0, local
 	.asciz "P2Assert"
+.endobj lbl_8049B8B0
 .balign 4
-lbl_8049B8BC:
+.obj lbl_8049B8BC, local
 	.asciz "screenMgr.h"
+.endobj lbl_8049B8BC
 
 .section .data, "wa"	# 0x8049E220 - 0x804EFC20
 .balign 8
-lbl_804ED680:
+.obj lbl_804ED680, local
 	.4byte 0x00000000
 	.4byte 0xFFFFFFFF
 	.4byte userCallBackFunc__Q26Screen9SceneBaseFPQ28Resource10MgrCommand
-.global __vt__Q26Screen9SceneBase
-__vt__Q26Screen9SceneBase:
+.endobj lbl_804ED680
+.obj __vt__Q26Screen9SceneBase, global
 	.4byte 0
 	.4byte 0
 	.4byte 0
@@ -38,31 +41,34 @@ __vt__Q26Screen9SceneBase:
 	.4byte setDefaultDispMember__Q26Screen9SceneBaseFv
 	.4byte doSetBackupScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg
 	.4byte doGetFinishState__Q26Screen9SceneBaseFv
-.global "__vt__55Delegate1<Q26Screen9SceneBase,PQ28Resource10MgrCommand>"
-"__vt__55Delegate1<Q26Screen9SceneBase,PQ28Resource10MgrCommand>":
+.endobj __vt__Q26Screen9SceneBase
+.obj "__vt__55Delegate1<Q26Screen9SceneBase,PQ28Resource10MgrCommand>", weak
 	.4byte 0
 	.4byte 0
 	.4byte "invoke__55Delegate1<Q26Screen9SceneBase,PQ28Resource10MgrCommand>FPQ28Resource10MgrCommand"
-.global "__vt__36IDelegate1<PQ28Resource10MgrCommand>"
-"__vt__36IDelegate1<PQ28Resource10MgrCommand>":
+.endobj "__vt__55Delegate1<Q26Screen9SceneBase,PQ28Resource10MgrCommand>"
+.obj "__vt__36IDelegate1<PQ28Resource10MgrCommand>", weak
 	.4byte 0
 	.4byte 0
 	.4byte 0
+.endobj "__vt__36IDelegate1<PQ28Resource10MgrCommand>"
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_80520B70:
+.obj lbl_80520B70, local
 	.asciz "no name"
+.endobj lbl_80520B70
 .balign 4
-lbl_80520B78:
+.obj lbl_80520B78, local
 	.asciz "???"
+.endobj lbl_80520B78
 .balign 4
-lbl_80520B7C:
+.obj lbl_80520B7C, local
 	.asciz ""
+.endobj lbl_80520B7C
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__Q26Screen9SceneBaseFv
-__ct__Q26Screen9SceneBaseFv:
+.fn __ct__Q26Screen9SceneBaseFv, global
 /* 80451790 0044E6D0  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 80451794 0044E6D4  7C 08 02 A6 */	mflr r0
 /* 80451798 0044E6D8  3C A0 80 4F */	lis r5, lbl_804ED680@ha
@@ -101,17 +107,17 @@ __ct__Q26Screen9SceneBaseFv:
 /* 8045181C 0044E75C  90 1F 02 18 */	stw r0, 0x218(r31)
 /* 80451820 0044E760  4B BD 26 85 */	bl __nw__FUl
 /* 80451824 0044E764  7C 60 1B 79 */	or. r0, r3, r3
-/* 80451828 0044E768  41 82 00 0C */	beq lbl_80451834
+/* 80451828 0044E768  41 82 00 0C */	beq .L_80451834
 /* 8045182C 0044E76C  48 00 28 45 */	bl __ct__Q26Screen10ObjMgrBaseFv
 /* 80451830 0044E770  7C 60 1B 78 */	mr r0, r3
-lbl_80451834:
+.L_80451834:
 /* 80451834 0044E774  90 1F 02 18 */	stw r0, 0x218(r31)
 /* 80451838 0044E778  38 60 04 00 */	li r3, 0x400
 /* 8045183C 0044E77C  4B BD 27 71 */	bl __nwa__FUl
 /* 80451840 0044E780  90 7F 02 1C */	stw r3, 0x21c(r31)
 /* 80451844 0044E784  80 1F 02 1C */	lwz r0, 0x21c(r31)
 /* 80451848 0044E788  28 00 00 00 */	cmplwi r0, 0
-/* 8045184C 0044E78C  40 82 00 20 */	bne lbl_8045186C
+/* 8045184C 0044E78C  40 82 00 20 */	bne .L_8045186C
 /* 80451850 0044E790  3C 60 80 4A */	lis r3, lbl_8049B8A0@ha
 /* 80451854 0044E794  3C A0 80 4A */	lis r5, lbl_8049B8B0@ha
 /* 80451858 0044E798  38 63 B8 A0 */	addi r3, r3, lbl_8049B8A0@l
@@ -119,7 +125,7 @@ lbl_80451834:
 /* 80451860 0044E7A0  38 A5 B8 B0 */	addi r5, r5, lbl_8049B8B0@l
 /* 80451864 0044E7A4  4C C6 31 82 */	crclr 6
 /* 80451868 0044E7A8  4B BD 8D D9 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8045186C:
+.L_8045186C:
 /* 8045186C 0044E7AC  3C 80 80 4B */	lis r4, __vt__Q32og6Screen14DispMemberBase@ha
 /* 80451870 0044E7B0  3C 60 80 4E */	lis r3, __vt__Q32og6Screen15DispMemberDummy@ha
 /* 80451874 0044E7B4  38 04 11 48 */	addi r0, r4, __vt__Q32og6Screen14DispMemberBase@l
@@ -142,9 +148,9 @@ lbl_8045186C:
 /* 804518B8 0044E7F8  7C 08 03 A6 */	mtlr r0
 /* 804518BC 0044E7FC  38 21 00 30 */	addi r1, r1, 0x30
 /* 804518C0 0044E800  4E 80 00 20 */	blr 
+.endfn __ct__Q26Screen9SceneBaseFv
 
-.global searchObj__Q26Screen9SceneBaseFPc
-searchObj__Q26Screen9SceneBaseFPc:
+.fn searchObj__Q26Screen9SceneBaseFPc, global
 /* 804518C4 0044E804  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804518C8 0044E808  7C 08 02 A6 */	mflr r0
 /* 804518CC 0044E80C  7C 66 1B 78 */	mr r6, r3
@@ -157,27 +163,27 @@ searchObj__Q26Screen9SceneBaseFPc:
 /* 804518E8 0044E828  7C 08 03 A6 */	mtlr r0
 /* 804518EC 0044E82C  38 21 00 10 */	addi r1, r1, 0x10
 /* 804518F0 0044E830  4E 80 00 20 */	blr 
+.endfn searchObj__Q26Screen9SceneBaseFPc
 
-.global destroy__Q26Screen9SceneBaseFv
-destroy__Q26Screen9SceneBaseFv:
+.fn destroy__Q26Screen9SceneBaseFv, global
 /* 804518F4 0044E834  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804518F8 0044E838  7C 08 02 A6 */	mflr r0
 /* 804518FC 0044E83C  7C 64 1B 78 */	mr r4, r3
 /* 80451900 0044E840  90 01 00 14 */	stw r0, 0x14(r1)
 /* 80451904 0044E844  80 03 01 58 */	lwz r0, 0x158(r3)
 /* 80451908 0044E848  2C 00 FF FF */	cmpwi r0, -1
-/* 8045190C 0044E84C  41 82 00 10 */	beq lbl_8045191C
+/* 8045190C 0044E84C  41 82 00 10 */	beq .L_8045191C
 /* 80451910 0044E850  80 6D 9B B0 */	lwz r3, gResMgr2D@sda21(r13)
 /* 80451914 0044E854  38 84 01 28 */	addi r4, r4, 0x128
 /* 80451918 0044E858  4B FE 22 05 */	bl destroy__Q28Resource3MgrFPQ28Resource10MgrCommand
-lbl_8045191C:
+.L_8045191C:
 /* 8045191C 0044E85C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80451920 0044E860  7C 08 03 A6 */	mtlr r0
 /* 80451924 0044E864  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451928 0044E868  4E 80 00 20 */	blr 
+.endfn destroy__Q26Screen9SceneBaseFv
 
-.global create__Q26Screen9SceneBaseFv
-create__Q26Screen9SceneBaseFv:
+.fn create__Q26Screen9SceneBaseFv, global
 /* 8045192C 0044E86C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451930 0044E870  7C 08 02 A6 */	mflr r0
 /* 80451934 0044E874  90 01 00 14 */	stw r0, 0x14(r1)
@@ -185,7 +191,7 @@ create__Q26Screen9SceneBaseFv:
 /* 8045193C 0044E87C  7C 7F 1B 78 */	mr r31, r3
 /* 80451940 0044E880  80 03 01 58 */	lwz r0, 0x158(r3)
 /* 80451944 0044E884  2C 00 FF FF */	cmpwi r0, -1
-/* 80451948 0044E888  40 82 00 8C */	bne lbl_804519D4
+/* 80451948 0044E888  40 82 00 8C */	bne .L_804519D4
 /* 8045194C 0044E88C  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80451950 0044E890  4B FD 15 69 */	bl getTime__6SystemFv
 /* 80451954 0044E894  D0 3F 01 24 */	stfs f1, 0x124(r31)
@@ -198,7 +204,7 @@ create__Q26Screen9SceneBaseFv:
 /* 80451970 0044E8B0  4E 80 04 21 */	bctrl 
 /* 80451974 0044E8B4  88 03 00 00 */	lbz r0, 0(r3)
 /* 80451978 0044E8B8  7C 00 07 75 */	extsb. r0, r0
-/* 8045197C 0044E8BC  41 82 00 3C */	beq lbl_804519B8
+/* 8045197C 0044E8BC  41 82 00 3C */	beq .L_804519B8
 /* 80451980 0044E8C0  7F E3 FB 78 */	mr r3, r31
 /* 80451984 0044E8C4  81 9F 00 00 */	lwz r12, 0(r31)
 /* 80451988 0044E8C8  81 8C 00 1C */	lwz r12, 0x1c(r12)
@@ -212,25 +218,25 @@ create__Q26Screen9SceneBaseFv:
 /* 804519A8 0044E8E8  38 BF 00 04 */	addi r5, r31, 4
 /* 804519AC 0044E8EC  38 C0 00 01 */	li r6, 1
 /* 804519B0 0044E8F0  4B FE 1F E5 */	bl loadResource__Q28Resource3MgrFPQ28Resource10MgrCommandPCcb
-/* 804519B4 0044E8F4  48 00 00 18 */	b lbl_804519CC
-lbl_804519B8:
+/* 804519B4 0044E8F4  48 00 00 18 */	b .L_804519CC
+.L_804519B8:
 /* 804519B8 0044E8F8  80 6D 9B B0 */	lwz r3, gResMgr2D@sda21(r13)
 /* 804519BC 0044E8FC  38 9F 01 28 */	addi r4, r31, 0x128
 /* 804519C0 0044E900  38 A2 28 1C */	addi r5, r2, lbl_80520B7C@sda21
 /* 804519C4 0044E904  38 C0 00 01 */	li r6, 1
 /* 804519C8 0044E908  4B FE 1F CD */	bl loadResource__Q28Resource3MgrFPQ28Resource10MgrCommandPCcb
-lbl_804519CC:
+.L_804519CC:
 /* 804519CC 0044E90C  38 00 00 01 */	li r0, 1
 /* 804519D0 0044E910  90 1F 01 20 */	stw r0, 0x120(r31)
-lbl_804519D4:
+.L_804519D4:
 /* 804519D4 0044E914  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 804519D8 0044E918  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 804519DC 0044E91C  7C 08 03 A6 */	mtlr r0
 /* 804519E0 0044E920  38 21 00 10 */	addi r1, r1, 0x10
 /* 804519E4 0044E924  4E 80 00 20 */	blr 
+.endfn create__Q26Screen9SceneBaseFv
 
-.global update__Q26Screen9SceneBaseFv
-update__Q26Screen9SceneBaseFv:
+.fn update__Q26Screen9SceneBaseFv, global
 /* 804519E8 0044E928  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804519EC 0044E92C  7C 08 02 A6 */	mflr r0
 /* 804519F0 0044E930  90 01 00 14 */	stw r0, 0x14(r1)
@@ -239,24 +245,24 @@ update__Q26Screen9SceneBaseFv:
 /* 804519FC 0044E93C  93 C1 00 08 */	stw r30, 8(r1)
 /* 80451A00 0044E940  80 03 01 20 */	lwz r0, 0x120(r3)
 /* 80451A04 0044E944  2C 00 00 02 */	cmpwi r0, 2
-/* 80451A08 0044E948  41 82 01 24 */	beq lbl_80451B2C
-/* 80451A0C 0044E94C  40 80 00 14 */	bge lbl_80451A20
+/* 80451A08 0044E948  41 82 01 24 */	beq .L_80451B2C
+/* 80451A0C 0044E94C  40 80 00 14 */	bge .L_80451A20
 /* 80451A10 0044E950  2C 00 00 00 */	cmpwi r0, 0
-/* 80451A14 0044E954  41 82 01 18 */	beq lbl_80451B2C
-/* 80451A18 0044E958  40 80 00 18 */	bge lbl_80451A30
-/* 80451A1C 0044E95C  48 00 00 F4 */	b lbl_80451B10
-lbl_80451A20:
+/* 80451A14 0044E954  41 82 01 18 */	beq .L_80451B2C
+/* 80451A18 0044E958  40 80 00 18 */	bge .L_80451A30
+/* 80451A1C 0044E95C  48 00 00 F4 */	b .L_80451B10
+.L_80451A20:
 /* 80451A20 0044E960  2C 00 00 04 */	cmpwi r0, 4
-/* 80451A24 0044E964  41 82 01 08 */	beq lbl_80451B2C
-/* 80451A28 0044E968  40 80 00 E8 */	bge lbl_80451B10
-/* 80451A2C 0044E96C  48 00 00 CC */	b lbl_80451AF8
-lbl_80451A30:
+/* 80451A24 0044E964  41 82 01 08 */	beq .L_80451B2C
+/* 80451A28 0044E968  40 80 00 E8 */	bge .L_80451B10
+/* 80451A2C 0044E96C  48 00 00 CC */	b .L_80451AF8
+.L_80451A30:
 /* 80451A30 0044E970  80 6D 9B B0 */	lwz r3, gResMgr2D@sda21(r13)
 /* 80451A34 0044E974  38 9F 01 28 */	addi r4, r31, 0x128
 /* 80451A38 0044E978  38 A0 00 00 */	li r5, 0
 /* 80451A3C 0044E97C  4B FE 21 B5 */	bl sync__Q28Resource3MgrFPQ28Resource10MgrCommandb
 /* 80451A40 0044E980  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80451A44 0044E984  41 82 00 E8 */	beq lbl_80451B2C
+/* 80451A44 0044E984  41 82 00 E8 */	beq .L_80451B2C
 /* 80451A48 0044E988  7F E3 FB 78 */	mr r3, r31
 /* 80451A4C 0044E98C  81 9F 00 00 */	lwz r12, 0(r31)
 /* 80451A50 0044E990  81 8C 00 1C */	lwz r12, 0x1c(r12)
@@ -264,11 +270,11 @@ lbl_80451A30:
 /* 80451A58 0044E998  4E 80 04 21 */	bctrl 
 /* 80451A5C 0044E99C  88 03 00 00 */	lbz r0, 0(r3)
 /* 80451A60 0044E9A0  7C 00 07 75 */	extsb. r0, r0
-/* 80451A64 0044E9A4  41 82 00 80 */	beq lbl_80451AE4
+/* 80451A64 0044E9A4  41 82 00 80 */	beq .L_80451AE4
 /* 80451A68 0044E9A8  38 7F 01 28 */	addi r3, r31, 0x128
 /* 80451A6C 0044E9AC  4B FE 1A 31 */	bl getResource__Q28Resource10MgrCommandFv
 /* 80451A70 0044E9B0  7C 7E 1B 79 */	or. r30, r3, r3
-/* 80451A74 0044E9B4  40 82 00 20 */	bne lbl_80451A94
+/* 80451A74 0044E9B4  40 82 00 20 */	bne .L_80451A94
 /* 80451A78 0044E9B8  3C 60 80 4A */	lis r3, lbl_8049B8A0@ha
 /* 80451A7C 0044E9BC  3C A0 80 4A */	lis r5, lbl_8049B8B0@ha
 /* 80451A80 0044E9C0  38 63 B8 A0 */	addi r3, r3, lbl_8049B8A0@l
@@ -276,7 +282,7 @@ lbl_80451A30:
 /* 80451A88 0044E9C8  38 A5 B8 B0 */	addi r5, r5, lbl_8049B8B0@l
 /* 80451A8C 0044E9CC  4C C6 31 82 */	crclr 6
 /* 80451A90 0044E9D0  4B BD 8B B1 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80451A94:
+.L_80451A94:
 /* 80451A94 0044E9D4  38 7F 01 28 */	addi r3, r31, 0x128
 /* 80451A98 0044E9D8  4B FE 19 0D */	bl becomeCurrentHeap__Q28Resource10MgrCommandFv
 /* 80451A9C 0044E9DC  7F C3 F3 78 */	mr r3, r30
@@ -284,7 +290,7 @@ lbl_80451A94:
 /* 80451AA4 0044E9E4  38 A0 00 01 */	li r5, 1
 /* 80451AA8 0044E9E8  4B BC 96 ED */	bl mount__10JKRArchiveFPvP7JKRHeapQ210JKRArchive15EMountDirection
 /* 80451AAC 0044E9EC  7C 7E 1B 79 */	or. r30, r3, r3
-/* 80451AB0 0044E9F0  40 82 00 20 */	bne lbl_80451AD0
+/* 80451AB0 0044E9F0  40 82 00 20 */	bne .L_80451AD0
 /* 80451AB4 0044E9F4  3C 60 80 4A */	lis r3, lbl_8049B8A0@ha
 /* 80451AB8 0044E9F8  3C A0 80 4A */	lis r5, lbl_8049B8B0@ha
 /* 80451ABC 0044E9FC  38 63 B8 A0 */	addi r3, r3, lbl_8049B8A0@l
@@ -292,26 +298,26 @@ lbl_80451A94:
 /* 80451AC4 0044EA04  38 A5 B8 B0 */	addi r5, r5, lbl_8049B8B0@l
 /* 80451AC8 0044EA08  4C C6 31 82 */	crclr 6
 /* 80451ACC 0044EA0C  4B BD 8B 75 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80451AD0:
+.L_80451AD0:
 /* 80451AD0 0044EA10  7F E3 FB 78 */	mr r3, r31
 /* 80451AD4 0044EA14  7F C4 F3 78 */	mr r4, r30
 /* 80451AD8 0044EA18  48 00 02 71 */	bl createObj__Q26Screen9SceneBaseFP10JKRArchive
 /* 80451ADC 0044EA1C  38 7F 01 28 */	addi r3, r31, 0x128
 /* 80451AE0 0044EA20  4B FE 19 35 */	bl releaseCurrentHeap__Q28Resource10MgrCommandFv
-lbl_80451AE4:
+.L_80451AE4:
 /* 80451AE4 0044EA24  38 00 00 02 */	li r0, 2
 /* 80451AE8 0044EA28  90 1F 01 20 */	stw r0, 0x120(r31)
 /* 80451AEC 0044EA2C  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80451AF0 0044EA30  4B FD 13 C9 */	bl getTime__6SystemFv
-/* 80451AF4 0044EA34  48 00 00 38 */	b lbl_80451B2C
-lbl_80451AF8:
+/* 80451AF4 0044EA34  48 00 00 38 */	b .L_80451B2C
+.L_80451AF8:
 /* 80451AF8 0044EA38  48 00 00 4D */	bl updateActive__Q26Screen9SceneBaseFv
 /* 80451AFC 0044EA3C  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80451B00 0044EA40  41 82 00 2C */	beq lbl_80451B2C
+/* 80451B00 0044EA40  41 82 00 2C */	beq .L_80451B2C
 /* 80451B04 0044EA44  38 00 00 04 */	li r0, 4
 /* 80451B08 0044EA48  90 1F 01 20 */	stw r0, 0x120(r31)
-/* 80451B0C 0044EA4C  48 00 00 20 */	b lbl_80451B2C
-lbl_80451B10:
+/* 80451B0C 0044EA4C  48 00 00 20 */	b .L_80451B2C
+.L_80451B10:
 /* 80451B10 0044EA50  3C 60 80 4A */	lis r3, lbl_8049B8A0@ha
 /* 80451B14 0044EA54  3C A0 80 4A */	lis r5, lbl_8049B8B0@ha
 /* 80451B18 0044EA58  38 63 B8 A0 */	addi r3, r3, lbl_8049B8A0@l
@@ -319,16 +325,16 @@ lbl_80451B10:
 /* 80451B20 0044EA60  38 A5 B8 B0 */	addi r5, r5, lbl_8049B8B0@l
 /* 80451B24 0044EA64  4C C6 31 82 */	crclr 6
 /* 80451B28 0044EA68  4B BD 8B 19 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80451B2C:
+.L_80451B2C:
 /* 80451B2C 0044EA6C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80451B30 0044EA70  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 80451B34 0044EA74  83 C1 00 08 */	lwz r30, 8(r1)
 /* 80451B38 0044EA78  7C 08 03 A6 */	mtlr r0
 /* 80451B3C 0044EA7C  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451B40 0044EA80  4E 80 00 20 */	blr 
+.endfn update__Q26Screen9SceneBaseFv
 
-.global updateActive__Q26Screen9SceneBaseFv
-updateActive__Q26Screen9SceneBaseFv:
+.fn updateActive__Q26Screen9SceneBaseFv, global
 /* 80451B44 0044EA84  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451B48 0044EA88  7C 08 02 A6 */	mflr r0
 /* 80451B4C 0044EA8C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -345,13 +351,13 @@ updateActive__Q26Screen9SceneBaseFv:
 /* 80451B78 0044EAB8  7C 08 03 A6 */	mtlr r0
 /* 80451B7C 0044EABC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451B80 0044EAC0  4E 80 00 20 */	blr 
+.endfn updateActive__Q26Screen9SceneBaseFv
 
-.global doUpdateActive__Q26Screen9SceneBaseFv
-doUpdateActive__Q26Screen9SceneBaseFv:
+.fn doUpdateActive__Q26Screen9SceneBaseFv, global
 /* 80451B84 0044EAC4  4E 80 00 20 */	blr 
+.endfn doUpdateActive__Q26Screen9SceneBaseFv
 
-.global draw__Q26Screen9SceneBaseFR8Graphics
-draw__Q26Screen9SceneBaseFR8Graphics:
+.fn draw__Q26Screen9SceneBaseFR8Graphics, global
 /* 80451B88 0044EAC8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451B8C 0044EACC  7C 08 02 A6 */	mflr r0
 /* 80451B90 0044EAD0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -361,13 +367,13 @@ draw__Q26Screen9SceneBaseFR8Graphics:
 /* 80451BA0 0044EAE0  7C 7E 1B 78 */	mr r30, r3
 /* 80451BA4 0044EAE4  80 03 01 20 */	lwz r0, 0x120(r3)
 /* 80451BA8 0044EAE8  2C 00 00 03 */	cmpwi r0, 3
-/* 80451BAC 0044EAEC  40 80 00 10 */	bge lbl_80451BBC
+/* 80451BAC 0044EAEC  40 80 00 10 */	bge .L_80451BBC
 /* 80451BB0 0044EAF0  2C 00 00 00 */	cmpwi r0, 0
-/* 80451BB4 0044EAF4  40 80 00 4C */	bge lbl_80451C00
-/* 80451BB8 0044EAF8  48 00 00 2C */	b lbl_80451BE4
-lbl_80451BBC:
+/* 80451BB4 0044EAF4  40 80 00 4C */	bge .L_80451C00
+/* 80451BB8 0044EAF8  48 00 00 2C */	b .L_80451BE4
+.L_80451BBC:
 /* 80451BBC 0044EAFC  2C 00 00 05 */	cmpwi r0, 5
-/* 80451BC0 0044EB00  40 80 00 24 */	bge lbl_80451BE4
+/* 80451BC0 0044EB00  40 80 00 24 */	bge .L_80451BE4
 /* 80451BC4 0044EB04  81 83 00 00 */	lwz r12, 0(r3)
 /* 80451BC8 0044EB08  81 8C 00 28 */	lwz r12, 0x28(r12)
 /* 80451BCC 0044EB0C  7D 89 03 A6 */	mtctr r12
@@ -375,8 +381,8 @@ lbl_80451BBC:
 /* 80451BD4 0044EB14  80 7E 02 18 */	lwz r3, 0x218(r30)
 /* 80451BD8 0044EB18  7F E4 FB 78 */	mr r4, r31
 /* 80451BDC 0044EB1C  48 00 25 99 */	bl draw__Q26Screen10ObjMgrBaseFR8Graphics
-/* 80451BE0 0044EB20  48 00 00 20 */	b lbl_80451C00
-lbl_80451BE4:
+/* 80451BE0 0044EB20  48 00 00 20 */	b .L_80451C00
+.L_80451BE4:
 /* 80451BE4 0044EB24  3C 60 80 4A */	lis r3, lbl_8049B8A0@ha
 /* 80451BE8 0044EB28  3C A0 80 4A */	lis r5, lbl_8049B8B0@ha
 /* 80451BEC 0044EB2C  38 63 B8 A0 */	addi r3, r3, lbl_8049B8A0@l
@@ -384,41 +390,41 @@ lbl_80451BE4:
 /* 80451BF4 0044EB34  38 A5 B8 B0 */	addi r5, r5, lbl_8049B8B0@l
 /* 80451BF8 0044EB38  4C C6 31 82 */	crclr 6
 /* 80451BFC 0044EB3C  4B BD 8A 45 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80451C00:
+.L_80451C00:
 /* 80451C00 0044EB40  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80451C04 0044EB44  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 80451C08 0044EB48  83 C1 00 08 */	lwz r30, 8(r1)
 /* 80451C0C 0044EB4C  7C 08 03 A6 */	mtlr r0
 /* 80451C10 0044EB50  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451C14 0044EB54  4E 80 00 20 */	blr 
+.endfn draw__Q26Screen9SceneBaseFR8Graphics
 
-.global start__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg
-start__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg:
+.fn start__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg, global
 /* 80451C18 0044EB58  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451C1C 0044EB5C  7C 08 02 A6 */	mflr r0
 /* 80451C20 0044EB60  90 01 00 14 */	stw r0, 0x14(r1)
 /* 80451C24 0044EB64  80 03 01 20 */	lwz r0, 0x120(r3)
 /* 80451C28 0044EB68  2C 00 00 00 */	cmpwi r0, 0
-/* 80451C2C 0044EB6C  41 82 00 28 */	beq lbl_80451C54
+/* 80451C2C 0044EB6C  41 82 00 28 */	beq .L_80451C54
 /* 80451C30 0044EB70  2C 00 00 01 */	cmpwi r0, 1
-/* 80451C34 0044EB74  41 82 00 20 */	beq lbl_80451C54
+/* 80451C34 0044EB74  41 82 00 20 */	beq .L_80451C54
 /* 80451C38 0044EB78  38 00 00 03 */	li r0, 3
 /* 80451C3C 0044EB7C  90 03 01 20 */	stw r0, 0x120(r3)
 /* 80451C40 0044EB80  81 83 00 00 */	lwz r12, 0(r3)
 /* 80451C44 0044EB84  81 8C 00 3C */	lwz r12, 0x3c(r12)
 /* 80451C48 0044EB88  7D 89 03 A6 */	mtctr r12
 /* 80451C4C 0044EB8C  4E 80 04 21 */	bctrl 
-/* 80451C50 0044EB90  48 00 00 08 */	b lbl_80451C58
-lbl_80451C54:
+/* 80451C50 0044EB90  48 00 00 08 */	b .L_80451C58
+.L_80451C54:
 /* 80451C54 0044EB94  38 60 00 00 */	li r3, 0
-lbl_80451C58:
+.L_80451C58:
 /* 80451C58 0044EB98  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80451C5C 0044EB9C  7C 08 03 A6 */	mtlr r0
 /* 80451C60 0044EBA0  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451C64 0044EBA4  4E 80 00 20 */	blr 
+.endfn start__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg
 
-.global doStart__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg
-doStart__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg:
+.fn doStart__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg, global
 /* 80451C68 0044EBA8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451C6C 0044EBAC  7C 08 02 A6 */	mflr r0
 /* 80451C70 0044EBB0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -429,42 +435,42 @@ doStart__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg:
 /* 80451C84 0044EBC4  7C 08 03 A6 */	mtlr r0
 /* 80451C88 0044EBC8  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451C8C 0044EBCC  4E 80 00 20 */	blr 
+.endfn doStart__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg
 
-.global end__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg
-end__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg:
+.fn end__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg, global
 /* 80451C90 0044EBD0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451C94 0044EBD4  7C 08 02 A6 */	mflr r0
 /* 80451C98 0044EBD8  90 01 00 14 */	stw r0, 0x14(r1)
 /* 80451C9C 0044EBDC  80 03 01 20 */	lwz r0, 0x120(r3)
 /* 80451CA0 0044EBE0  2C 00 00 00 */	cmpwi r0, 0
-/* 80451CA4 0044EBE4  41 82 00 0C */	beq lbl_80451CB0
+/* 80451CA4 0044EBE4  41 82 00 0C */	beq .L_80451CB0
 /* 80451CA8 0044EBE8  2C 00 00 02 */	cmpwi r0, 2
-/* 80451CAC 0044EBEC  40 82 00 14 */	bne lbl_80451CC0
-lbl_80451CB0:
+/* 80451CAC 0044EBEC  40 82 00 14 */	bne .L_80451CC0
+.L_80451CB0:
 /* 80451CB0 0044EBF0  38 00 00 04 */	li r0, 4
 /* 80451CB4 0044EBF4  38 80 00 01 */	li r4, 1
 /* 80451CB8 0044EBF8  90 03 01 20 */	stw r0, 0x120(r3)
-/* 80451CBC 0044EBFC  48 00 00 28 */	b lbl_80451CE4
-lbl_80451CC0:
+/* 80451CBC 0044EBFC  48 00 00 28 */	b .L_80451CE4
+.L_80451CC0:
 /* 80451CC0 0044EC00  2C 00 00 01 */	cmpwi r0, 1
-/* 80451CC4 0044EC04  41 82 00 1C */	beq lbl_80451CE0
+/* 80451CC4 0044EC04  41 82 00 1C */	beq .L_80451CE0
 /* 80451CC8 0044EC08  81 83 00 00 */	lwz r12, 0(r3)
 /* 80451CCC 0044EC0C  81 8C 00 40 */	lwz r12, 0x40(r12)
 /* 80451CD0 0044EC10  7D 89 03 A6 */	mtctr r12
 /* 80451CD4 0044EC14  4E 80 04 21 */	bctrl 
 /* 80451CD8 0044EC18  7C 64 1B 78 */	mr r4, r3
-/* 80451CDC 0044EC1C  48 00 00 08 */	b lbl_80451CE4
-lbl_80451CE0:
+/* 80451CDC 0044EC1C  48 00 00 08 */	b .L_80451CE4
+.L_80451CE0:
 /* 80451CE0 0044EC20  38 80 00 00 */	li r4, 0
-lbl_80451CE4:
+.L_80451CE4:
 /* 80451CE4 0044EC24  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80451CE8 0044EC28  7C 83 23 78 */	mr r3, r4
 /* 80451CEC 0044EC2C  7C 08 03 A6 */	mtlr r0
 /* 80451CF0 0044EC30  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451CF4 0044EC34  4E 80 00 20 */	blr 
+.endfn end__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg
 
-.global doEnd__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg
-doEnd__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg:
+.fn doEnd__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg, global
 /* 80451CF8 0044EC38  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451CFC 0044EC3C  7C 08 02 A6 */	mflr r0
 /* 80451D00 0044EC40  90 01 00 14 */	stw r0, 0x14(r1)
@@ -474,9 +480,9 @@ doEnd__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg:
 /* 80451D10 0044EC50  7C 08 03 A6 */	mtlr r0
 /* 80451D14 0044EC54  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451D18 0044EC58  4E 80 00 20 */	blr 
+.endfn doEnd__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg
 
-.global userCallBackFunc__Q26Screen9SceneBaseFPQ28Resource10MgrCommand
-userCallBackFunc__Q26Screen9SceneBaseFPQ28Resource10MgrCommand:
+.fn userCallBackFunc__Q26Screen9SceneBaseFPQ28Resource10MgrCommand, global
 /* 80451D1C 0044EC5C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451D20 0044EC60  7C 08 02 A6 */	mflr r0
 /* 80451D24 0044EC64  90 01 00 14 */	stw r0, 0x14(r1)
@@ -488,9 +494,9 @@ userCallBackFunc__Q26Screen9SceneBaseFPQ28Resource10MgrCommand:
 /* 80451D3C 0044EC7C  7C 08 03 A6 */	mtlr r0
 /* 80451D40 0044EC80  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451D44 0044EC84  4E 80 00 20 */	blr 
+.endfn userCallBackFunc__Q26Screen9SceneBaseFPQ28Resource10MgrCommand
 
-.global createObj__Q26Screen9SceneBaseFP10JKRArchive
-createObj__Q26Screen9SceneBaseFP10JKRArchive:
+.fn createObj__Q26Screen9SceneBaseFP10JKRArchive, global
 /* 80451D48 0044EC88  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451D4C 0044EC8C  7C 08 02 A6 */	mflr r0
 /* 80451D50 0044EC90  90 01 00 14 */	stw r0, 0x14(r1)
@@ -502,9 +508,9 @@ createObj__Q26Screen9SceneBaseFP10JKRArchive:
 /* 80451D68 0044ECA8  7C 08 03 A6 */	mtlr r0
 /* 80451D6C 0044ECAC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451D70 0044ECB0  4E 80 00 20 */	blr 
+.endfn createObj__Q26Screen9SceneBaseFP10JKRArchive
 
-.global registObj__Q26Screen9SceneBaseFPQ26Screen7ObjBaseP10JKRArchive
-registObj__Q26Screen9SceneBaseFPQ26Screen7ObjBaseP10JKRArchive:
+.fn registObj__Q26Screen9SceneBaseFPQ26Screen7ObjBaseP10JKRArchive, global
 /* 80451D74 0044ECB4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451D78 0044ECB8  7C 08 02 A6 */	mflr r0
 /* 80451D7C 0044ECBC  7C 66 1B 78 */	mr r6, r3
@@ -528,9 +534,9 @@ registObj__Q26Screen9SceneBaseFPQ26Screen7ObjBaseP10JKRArchive:
 /* 80451DC4 0044ED04  7C 08 03 A6 */	mtlr r0
 /* 80451DC8 0044ED08  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451DCC 0044ED0C  4E 80 00 20 */	blr 
+.endfn registObj__Q26Screen9SceneBaseFPQ26Screen7ObjBaseP10JKRArchive
 
-.global confirmSetScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg
-confirmSetScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg:
+.fn confirmSetScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg, global
 /* 80451DD0 0044ED10  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80451DD4 0044ED14  7C 08 02 A6 */	mflr r0
 /* 80451DD8 0044ED18  90 01 00 24 */	stw r0, 0x24(r1)
@@ -543,7 +549,7 @@ confirmSetScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg:
 /* 80451DF4 0044ED34  80 63 02 18 */	lwz r3, 0x218(r3)
 /* 80451DF8 0044ED38  48 00 25 61 */	bl confirmSetScene__Q26Screen10ObjMgrBaseFRQ26Screen11SetSceneArg
 /* 80451DFC 0044ED3C  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80451E00 0044ED40  41 82 00 28 */	beq lbl_80451E28
+/* 80451E00 0044ED40  41 82 00 28 */	beq .L_80451E28
 /* 80451E04 0044ED44  7F A3 EB 78 */	mr r3, r29
 /* 80451E08 0044ED48  7F C4 F3 78 */	mr r4, r30
 /* 80451E0C 0044ED4C  81 9D 00 00 */	lwz r12, 0(r29)
@@ -551,9 +557,9 @@ confirmSetScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg:
 /* 80451E14 0044ED54  7D 89 03 A6 */	mtctr r12
 /* 80451E18 0044ED58  4E 80 04 21 */	bctrl 
 /* 80451E1C 0044ED5C  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80451E20 0044ED60  41 82 00 08 */	beq lbl_80451E28
+/* 80451E20 0044ED60  41 82 00 08 */	beq .L_80451E28
 /* 80451E24 0044ED64  3B E0 00 01 */	li r31, 1
-lbl_80451E28:
+.L_80451E28:
 /* 80451E28 0044ED68  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 80451E2C 0044ED6C  7F E3 FB 78 */	mr r3, r31
 /* 80451E30 0044ED70  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -562,9 +568,9 @@ lbl_80451E28:
 /* 80451E3C 0044ED7C  7C 08 03 A6 */	mtlr r0
 /* 80451E40 0044ED80  38 21 00 20 */	addi r1, r1, 0x20
 /* 80451E44 0044ED84  4E 80 00 20 */	blr 
+.endfn confirmSetScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg
 
-.global confirmStartScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg
-confirmStartScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg:
+.fn confirmStartScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg, global
 /* 80451E48 0044ED88  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80451E4C 0044ED8C  7C 08 02 A6 */	mflr r0
 /* 80451E50 0044ED90  90 01 00 24 */	stw r0, 0x24(r1)
@@ -577,7 +583,7 @@ confirmStartScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg:
 /* 80451E6C 0044EDAC  80 63 02 18 */	lwz r3, 0x218(r3)
 /* 80451E70 0044EDB0  48 00 25 65 */	bl confirmStartScene__Q26Screen10ObjMgrBaseFPQ26Screen13StartSceneArg
 /* 80451E74 0044EDB4  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80451E78 0044EDB8  41 82 00 28 */	beq lbl_80451EA0
+/* 80451E78 0044EDB8  41 82 00 28 */	beq .L_80451EA0
 /* 80451E7C 0044EDBC  7F A3 EB 78 */	mr r3, r29
 /* 80451E80 0044EDC0  7F C4 F3 78 */	mr r4, r30
 /* 80451E84 0044EDC4  81 9D 00 00 */	lwz r12, 0(r29)
@@ -585,9 +591,9 @@ confirmStartScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg:
 /* 80451E8C 0044EDCC  7D 89 03 A6 */	mtctr r12
 /* 80451E90 0044EDD0  4E 80 04 21 */	bctrl 
 /* 80451E94 0044EDD4  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80451E98 0044EDD8  41 82 00 08 */	beq lbl_80451EA0
+/* 80451E98 0044EDD8  41 82 00 08 */	beq .L_80451EA0
 /* 80451E9C 0044EDDC  3B E0 00 01 */	li r31, 1
-lbl_80451EA0:
+.L_80451EA0:
 /* 80451EA0 0044EDE0  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 80451EA4 0044EDE4  7F E3 FB 78 */	mr r3, r31
 /* 80451EA8 0044EDE8  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -596,9 +602,9 @@ lbl_80451EA0:
 /* 80451EB4 0044EDF4  7C 08 03 A6 */	mtlr r0
 /* 80451EB8 0044EDF8  38 21 00 20 */	addi r1, r1, 0x20
 /* 80451EBC 0044EDFC  4E 80 00 20 */	blr 
+.endfn confirmStartScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg
 
-.global confirmEndScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg
-confirmEndScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg:
+.fn confirmEndScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg, global
 /* 80451EC0 0044EE00  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80451EC4 0044EE04  7C 08 02 A6 */	mflr r0
 /* 80451EC8 0044EE08  90 01 00 24 */	stw r0, 0x24(r1)
@@ -610,7 +616,7 @@ confirmEndScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg:
 /* 80451EE0 0044EE20  80 63 02 18 */	lwz r3, 0x218(r3)
 /* 80451EE4 0044EE24  48 00 25 6D */	bl confirmEndScene__Q26Screen10ObjMgrBaseFPQ26Screen11EndSceneArg
 /* 80451EE8 0044EE28  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80451EEC 0044EE2C  41 82 00 28 */	beq lbl_80451F14
+/* 80451EEC 0044EE2C  41 82 00 28 */	beq .L_80451F14
 /* 80451EF0 0044EE30  7F C3 F3 78 */	mr r3, r30
 /* 80451EF4 0044EE34  38 81 00 08 */	addi r4, r1, 8
 /* 80451EF8 0044EE38  81 9E 00 00 */	lwz r12, 0(r30)
@@ -618,9 +624,9 @@ confirmEndScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg:
 /* 80451F00 0044EE40  7D 89 03 A6 */	mtctr r12
 /* 80451F04 0044EE44  4E 80 04 21 */	bctrl 
 /* 80451F08 0044EE48  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80451F0C 0044EE4C  41 82 00 08 */	beq lbl_80451F14
+/* 80451F0C 0044EE4C  41 82 00 08 */	beq .L_80451F14
 /* 80451F10 0044EE50  3B E0 00 01 */	li r31, 1
-lbl_80451F14:
+.L_80451F14:
 /* 80451F14 0044EE54  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 80451F18 0044EE58  7F E3 FB 78 */	mr r3, r31
 /* 80451F1C 0044EE5C  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -628,9 +634,9 @@ lbl_80451F14:
 /* 80451F24 0044EE64  7C 08 03 A6 */	mtlr r0
 /* 80451F28 0044EE68  38 21 00 20 */	addi r1, r1, 0x20
 /* 80451F2C 0044EE6C  4E 80 00 20 */	blr 
+.endfn confirmEndScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg
 
-.global setScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg
-setScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg:
+.fn setScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg, global
 /* 80451F30 0044EE70  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451F34 0044EE74  7C 08 02 A6 */	mflr r0
 /* 80451F38 0044EE78  90 01 00 14 */	stw r0, 0x14(r1)
@@ -643,9 +649,9 @@ setScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg:
 /* 80451F54 0044EE94  7C 08 03 A6 */	mtlr r0
 /* 80451F58 0044EE98  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451F5C 0044EE9C  4E 80 00 20 */	blr 
+.endfn setScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg
 
-.global startScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg
-startScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg:
+.fn startScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg, global
 /* 80451F60 0044EEA0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451F64 0044EEA4  7C 08 02 A6 */	mflr r0
 /* 80451F68 0044EEA8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -658,9 +664,9 @@ startScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg:
 /* 80451F84 0044EEC4  7C 08 03 A6 */	mtlr r0
 /* 80451F88 0044EEC8  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451F8C 0044EECC  4E 80 00 20 */	blr 
+.endfn startScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg
 
-.global endScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg
-endScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg:
+.fn endScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg, global
 /* 80451F90 0044EED0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80451F94 0044EED4  7C 08 02 A6 */	mflr r0
 /* 80451F98 0044EED8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -673,9 +679,9 @@ endScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg:
 /* 80451FB4 0044EEF4  7C 08 03 A6 */	mtlr r0
 /* 80451FB8 0044EEF8  38 21 00 10 */	addi r1, r1, 0x10
 /* 80451FBC 0044EEFC  4E 80 00 20 */	blr 
+.endfn endScene__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg
 
-.global setBackupScene__Q26Screen9SceneBaseFv
-setBackupScene__Q26Screen9SceneBaseFv:
+.fn setBackupScene__Q26Screen9SceneBaseFv, global
 /* 80451FC0 0044EF00  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 80451FC4 0044EF04  7C 08 02 A6 */	mflr r0
 /* 80451FC8 0044EF08  90 01 00 34 */	stw r0, 0x34(r1)
@@ -687,7 +693,7 @@ setBackupScene__Q26Screen9SceneBaseFv:
 /* 80451FE0 0044EF20  80 83 01 08 */	lwz r4, 0x108(r3)
 /* 80451FE4 0044EF24  80 A4 00 70 */	lwz r5, 0x70(r4)
 /* 80451FE8 0044EF28  28 05 00 00 */	cmplwi r5, 0
-/* 80451FEC 0044EF2C  41 82 00 B4 */	beq lbl_804520A0
+/* 80451FEC 0044EF2C  41 82 00 B4 */	beq .L_804520A0
 /* 80451FF0 0044EF30  80 E5 00 18 */	lwz r7, 0x18(r5)
 /* 80451FF4 0044EF34  3C 80 80 4E */	lis r4, __vt__Q26Screen12SceneArgBase@ha
 /* 80451FF8 0044EF38  38 04 84 68 */	addi r0, r4, __vt__Q26Screen12SceneArgBase@l
@@ -715,11 +721,11 @@ setBackupScene__Q26Screen9SceneBaseFv:
 /* 80452050 0044EF90  4E 80 04 21 */	bctrl 
 /* 80452054 0044EF94  54 60 06 3F */	clrlwi. r0, r3, 0x18
 /* 80452058 0044EF98  7C 7D 1B 78 */	mr r29, r3
-/* 8045205C 0044EF9C  41 82 00 44 */	beq lbl_804520A0
+/* 8045205C 0044EF9C  41 82 00 44 */	beq .L_804520A0
 /* 80452060 0044EFA0  83 FE 01 08 */	lwz r31, 0x108(r30)
 /* 80452064 0044EFA4  83 DF 00 70 */	lwz r30, 0x70(r31)
 /* 80452068 0044EFA8  28 1E 00 00 */	cmplwi r30, 0
-/* 8045206C 0044EFAC  40 82 00 20 */	bne lbl_8045208C
+/* 8045206C 0044EFAC  40 82 00 20 */	bne .L_8045208C
 /* 80452070 0044EFB0  3C 60 80 4A */	lis r3, lbl_8049B8BC@ha
 /* 80452074 0044EFB4  3C A0 80 4A */	lis r5, lbl_8049B8B0@ha
 /* 80452078 0044EFB8  38 63 B8 BC */	addi r3, r3, lbl_8049B8BC@l
@@ -727,13 +733,13 @@ setBackupScene__Q26Screen9SceneBaseFv:
 /* 80452080 0044EFC0  38 A5 B8 B0 */	addi r5, r5, lbl_8049B8B0@l
 /* 80452084 0044EFC4  4C C6 31 82 */	crclr 6
 /* 80452088 0044EFC8  4B BD 85 B9 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8045208C:
+.L_8045208C:
 /* 8045208C 0044EFCC  7F C3 F3 78 */	mr r3, r30
 /* 80452090 0044EFD0  4B FB F5 41 */	bl del__5CNodeFv
 /* 80452094 0044EFD4  7F C4 F3 78 */	mr r4, r30
 /* 80452098 0044EFD8  38 7F 00 78 */	addi r3, r31, 0x78
 /* 8045209C 0044EFDC  4B FB F3 6D */	bl add__5CNodeFP5CNode
-lbl_804520A0:
+.L_804520A0:
 /* 804520A0 0044EFE0  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 804520A4 0044EFE4  7F A3 EB 78 */	mr r3, r29
 /* 804520A8 0044EFE8  83 E1 00 2C */	lwz r31, 0x2c(r1)
@@ -742,9 +748,9 @@ lbl_804520A0:
 /* 804520B4 0044EFF4  7C 08 03 A6 */	mtlr r0
 /* 804520B8 0044EFF8  38 21 00 30 */	addi r1, r1, 0x30
 /* 804520BC 0044EFFC  4E 80 00 20 */	blr 
+.endfn setBackupScene__Q26Screen9SceneBaseFv
 
-.global setDispMember__Q26Screen9SceneBaseFPQ32og6Screen14DispMemberBase
-setDispMember__Q26Screen9SceneBaseFPQ32og6Screen14DispMemberBase:
+.fn setDispMember__Q26Screen9SceneBaseFPQ32og6Screen14DispMemberBase, global
 /* 804520C0 0044F000  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804520C4 0044F004  7C 08 02 A6 */	mflr r0
 /* 804520C8 0044F008  90 01 00 24 */	stw r0, 0x24(r1)
@@ -769,7 +775,7 @@ setDispMember__Q26Screen9SceneBaseFPQ32og6Screen14DispMemberBase:
 /* 80452114 0044F054  7F C5 F3 78 */	mr r5, r30
 /* 80452118 0044F058  4B EB D2 05 */	bl isID__Q32og6Screen14DispMemberBaseFUlUx
 /* 8045211C 0044F05C  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80452120 0044F060  40 82 00 50 */	bne lbl_80452170
+/* 80452120 0044F060  40 82 00 50 */	bne .L_80452170
 /* 80452124 0044F064  7F 63 DB 78 */	mr r3, r27
 /* 80452128 0044F068  81 9B 00 00 */	lwz r12, 0(r27)
 /* 8045212C 0044F06C  81 8C 00 10 */	lwz r12, 0x10(r12)
@@ -788,8 +794,8 @@ setDispMember__Q26Screen9SceneBaseFPQ32og6Screen14DispMemberBase:
 /* 80452160 0044F0A0  7F E5 FB 78 */	mr r5, r31
 /* 80452164 0044F0A4  4B EB D3 5D */	bl getSubMember__Q32og6Screen14DispMemberBaseFUlUx
 /* 80452168 0044F0A8  28 03 00 00 */	cmplwi r3, 0
-/* 8045216C 0044F0AC  41 82 00 30 */	beq lbl_8045219C
-lbl_80452170:
+/* 8045216C 0044F0AC  41 82 00 30 */	beq .L_8045219C
+.L_80452170:
 /* 80452170 0044F0B0  7F 83 E3 78 */	mr r3, r28
 /* 80452174 0044F0B4  81 9C 00 00 */	lwz r12, 0(r28)
 /* 80452178 0044F0B8  81 8C 00 08 */	lwz r12, 8(r12)
@@ -800,8 +806,8 @@ lbl_80452170:
 /* 8045218C 0044F0CC  7F 84 E3 78 */	mr r4, r28
 /* 80452190 0044F0D0  4B BB 30 0D */	bl memcpy
 /* 80452194 0044F0D4  3B A0 00 01 */	li r29, 1
-/* 80452198 0044F0D8  48 00 00 40 */	b lbl_804521D8
-lbl_8045219C:
+/* 80452198 0044F0D8  48 00 00 40 */	b .L_804521D8
+.L_8045219C:
 /* 8045219C 0044F0DC  3C 80 00 4F */	lis r4, 0x004F4741@ha
 /* 804521A0 0044F0E0  3C C0 55 4D */	lis r6, 0x554D4D59@ha
 /* 804521A4 0044F0E4  7F 83 E3 78 */	mr r3, r28
@@ -810,44 +816,44 @@ lbl_8045219C:
 /* 804521B0 0044F0F0  38 C6 4D 59 */	addi r6, r6, 0x554D4D59@l
 /* 804521B4 0044F0F4  4B EB D1 69 */	bl isID__Q32og6Screen14DispMemberBaseFUlUx
 /* 804521B8 0044F0F8  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 804521BC 0044F0FC  41 82 00 1C */	beq lbl_804521D8
+/* 804521BC 0044F0FC  41 82 00 1C */	beq .L_804521D8
 /* 804521C0 0044F100  7F 63 DB 78 */	mr r3, r27
 /* 804521C4 0044F104  81 9B 00 00 */	lwz r12, 0(r27)
 /* 804521C8 0044F108  81 8C 00 44 */	lwz r12, 0x44(r12)
 /* 804521CC 0044F10C  7D 89 03 A6 */	mtctr r12
 /* 804521D0 0044F110  4E 80 04 21 */	bctrl 
 /* 804521D4 0044F114  7C 7D 1B 78 */	mr r29, r3
-lbl_804521D8:
+.L_804521D8:
 /* 804521D8 0044F118  7F A3 EB 78 */	mr r3, r29
 /* 804521DC 0044F11C  BB 61 00 0C */	lmw r27, 0xc(r1)
 /* 804521E0 0044F120  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 804521E4 0044F124  7C 08 03 A6 */	mtlr r0
 /* 804521E8 0044F128  38 21 00 20 */	addi r1, r1, 0x20
 /* 804521EC 0044F12C  4E 80 00 20 */	blr 
+.endfn setDispMember__Q26Screen9SceneBaseFPQ32og6Screen14DispMemberBase
 
-.global getFinishState__Q26Screen9SceneBaseFv
-getFinishState__Q26Screen9SceneBaseFv:
+.fn getFinishState__Q26Screen9SceneBaseFv, global
 /* 804521F0 0044F130  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804521F4 0044F134  7C 08 02 A6 */	mflr r0
 /* 804521F8 0044F138  90 01 00 14 */	stw r0, 0x14(r1)
 /* 804521FC 0044F13C  80 03 01 20 */	lwz r0, 0x120(r3)
 /* 80452200 0044F140  2C 00 00 04 */	cmpwi r0, 4
-/* 80452204 0044F144  40 82 00 18 */	bne lbl_8045221C
+/* 80452204 0044F144  40 82 00 18 */	bne .L_8045221C
 /* 80452208 0044F148  81 83 00 00 */	lwz r12, 0(r3)
 /* 8045220C 0044F14C  81 8C 00 4C */	lwz r12, 0x4c(r12)
 /* 80452210 0044F150  7D 89 03 A6 */	mtctr r12
 /* 80452214 0044F154  4E 80 04 21 */	bctrl 
-/* 80452218 0044F158  48 00 00 08 */	b lbl_80452220
-lbl_8045221C:
+/* 80452218 0044F158  48 00 00 08 */	b .L_80452220
+.L_8045221C:
 /* 8045221C 0044F15C  38 60 FF FE */	li r3, -2
-lbl_80452220:
+.L_80452220:
 /* 80452220 0044F160  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80452224 0044F164  7C 08 03 A6 */	mtlr r0
 /* 80452228 0044F168  38 21 00 10 */	addi r1, r1, 0x10
 /* 8045222C 0044F16C  4E 80 00 20 */	blr 
+.endfn getFinishState__Q26Screen9SceneBaseFv
 
-.global getGamePad__Q26Screen9SceneBaseCFv
-getGamePad__Q26Screen9SceneBaseCFv:
+.fn getGamePad__Q26Screen9SceneBaseCFv, global
 /* 80452230 0044F170  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80452234 0044F174  7C 08 02 A6 */	mflr r0
 /* 80452238 0044F178  90 01 00 14 */	stw r0, 0x14(r1)
@@ -855,7 +861,7 @@ getGamePad__Q26Screen9SceneBaseCFv:
 /* 80452240 0044F180  83 E3 01 08 */	lwz r31, 0x108(r3)
 /* 80452244 0044F184  80 1F 00 20 */	lwz r0, 0x20(r31)
 /* 80452248 0044F188  28 00 00 00 */	cmplwi r0, 0
-/* 8045224C 0044F18C  40 82 00 20 */	bne lbl_8045226C
+/* 8045224C 0044F18C  40 82 00 20 */	bne .L_8045226C
 /* 80452250 0044F190  3C 60 80 4A */	lis r3, lbl_8049B8BC@ha
 /* 80452254 0044F194  3C A0 80 4A */	lis r5, lbl_8049B8B0@ha
 /* 80452258 0044F198  38 63 B8 BC */	addi r3, r3, lbl_8049B8BC@l
@@ -863,16 +869,16 @@ getGamePad__Q26Screen9SceneBaseCFv:
 /* 80452260 0044F1A0  38 A5 B8 B0 */	addi r5, r5, lbl_8049B8B0@l
 /* 80452264 0044F1A4  4C C6 31 82 */	crclr 6
 /* 80452268 0044F1A8  4B BD 83 D9 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_8045226C:
+.L_8045226C:
 /* 8045226C 0044F1AC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80452270 0044F1B0  80 7F 00 20 */	lwz r3, 0x20(r31)
 /* 80452274 0044F1B4  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 80452278 0044F1B8  7C 08 03 A6 */	mtlr r0
 /* 8045227C 0044F1BC  38 21 00 10 */	addi r1, r1, 0x10
 /* 80452280 0044F1C0  4E 80 00 20 */	blr 
+.endfn getGamePad__Q26Screen9SceneBaseCFv
 
-.global setColorBG__Q26Screen9SceneBaseFUcUcUcUc
-setColorBG__Q26Screen9SceneBaseFUcUcUcUc:
+.fn setColorBG__Q26Screen9SceneBaseFUcUcUcUc, global
 /* 80452284 0044F1C4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80452288 0044F1C8  7C 08 02 A6 */	mflr r0
 /* 8045228C 0044F1CC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -890,17 +896,17 @@ setColorBG__Q26Screen9SceneBaseFUcUcUcUc:
 /* 804522BC 0044F1FC  7C 08 03 A6 */	mtlr r0
 /* 804522C0 0044F200  38 21 00 10 */	addi r1, r1, 0x10
 /* 804522C4 0044F204  4E 80 00 20 */	blr 
+.endfn setColorBG__Q26Screen9SceneBaseFUcUcUcUc
 
-.global setColorBG__Q26Screen3MgrFRQ28JUtility6TColor
-setColorBG__Q26Screen3MgrFRQ28JUtility6TColor:
+.fn setColorBG__Q26Screen3MgrFRQ28JUtility6TColor, weak
 /* 804522C8 0044F208  4E 80 00 20 */	blr 
+.endfn setColorBG__Q26Screen3MgrFRQ28JUtility6TColor
 
-.global setBGMode__Q26Screen3MgrFi
-setBGMode__Q26Screen3MgrFi:
+.fn setBGMode__Q26Screen3MgrFi, weak
 /* 804522CC 0044F20C  4E 80 00 20 */	blr 
+.endfn setBGMode__Q26Screen3MgrFi
 
-.global "invoke__55Delegate1<Q26Screen9SceneBase,PQ28Resource10MgrCommand>FPQ28Resource10MgrCommand"
-"invoke__55Delegate1<Q26Screen9SceneBase,PQ28Resource10MgrCommand>FPQ28Resource10MgrCommand":
+.fn "invoke__55Delegate1<Q26Screen9SceneBase,PQ28Resource10MgrCommand>FPQ28Resource10MgrCommand", weak
 /* 804522D0 0044F210  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 804522D4 0044F214  7C 08 02 A6 */	mflr r0
 /* 804522D8 0044F218  7C 65 1B 78 */	mr r5, r3
@@ -913,3 +919,4 @@ setBGMode__Q26Screen3MgrFi:
 /* 804522F4 0044F234  7C 08 03 A6 */	mtlr r0
 /* 804522F8 0044F238  38 21 00 10 */	addi r1, r1, 0x10
 /* 804522FC 0044F23C  4E 80 00 20 */	blr 
+.endfn "invoke__55Delegate1<Q26Screen9SceneBase,PQ28Resource10MgrCommand>FPQ28Resource10MgrCommand"

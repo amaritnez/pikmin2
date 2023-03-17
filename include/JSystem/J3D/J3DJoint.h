@@ -1,61 +1,64 @@
 #ifndef _JSYSTEM_J3D_J3DJOINT_H
 #define _JSYSTEM_J3D_J3DJOINT_H
 
+#include "JSystem/J3D/J3DTypes.h"
+#include "JSystem/JGeometry.h"
+#include "JSystem/JMath.h"
 #include "types.h"
-#include "Quat.h"
-#include "Vector3.h"
-#include "JSystem/J3D/J3DMtxCalc.h"
 
 struct J3DMaterial;
 struct J3DMtxCalc;
 struct J3DMtxCalcAnmBase;
 struct J3DJoint;
 
-typedef unknown J3DJointCallBack(J3DJoint*, int);
+typedef bool (*J3DJointCallBack)(J3DJoint*, int);
 
 struct J3DJoint {
+	enum J3DJointKind {
+		JOINTKIND_Unk1 = 0x1,
+		JOINTKIND_Unk2 = 0x2,
+		JOINTKIND_Unk3 = 0x4,
+		JOINTKIND_Unk4 = 0x8,
+		JOINTKIND_Unk5 = 0x10,
+		JOINTKIND_Unk6 = 0x20,
+	};
+
 	J3DJoint();
 
 	void appendChild(J3DJoint*);
 	void entryIn();
 	void recursiveCalc();
 
-	/**
-	 * @reifiedAddress{8043EF9C}
-	 * @reifiedFile{sysGCU/sysShapeModel.cpp}
-	 */
-	u16 getJntNo() const { return m_jointIdx; }
+	u16 getJntNo() const { return mJointIdx; }
+	J3DJoint* getYounger() { return mParent; }
+	J3DJoint* getChild() { return mChild; }
+	J3DMaterial* getMesh() { return mMaterial; }
+	u8 getScaleCompensate() const { return mIgnoreParentScaling; }
+	J3DTransformInfo& getTransformInfo() { return mTransformInfo; }
+	JGeometry::TVec3f* getMax() { return &mMax; }
+	JGeometry::TVec3f* getMin() { return &mMin; }
 
-	/**
-	 * @reifiedAddress{8043EFA4}
-	 * @reifiedFile{sysGCU/sysShapeModel.cpp}
-	 */
-	J3DJoint* getYounger() { return m_parent; }
+	void setYounger(J3DJoint* parent) { mParent = parent; }
+	void setCallBack(J3DJointCallBack callback) { mFunction = callback; }
+	void setMtxCalc(J3DMtxCalc* i_mtxCalc) { mMtxCalc = i_mtxCalc; }
+	void setCurrentMtxCalc(J3DMtxCalc* calc) { mCurrentMtxCalc = calc; }
 
-	/**
-	 * @reifiedAddress{8043EFAC}
-	 * @reifiedFile{sysGCU/sysShapeModel.cpp}
-	 */
-	J3DJoint* getChild() { return m_child; }
+	static J3DMtxCalc* mCurrentMtxCalc;
 
-	u32 _00;                      // _00
-	J3DJointCallBack* m_function; // _04
-	u32 _08;                      // _08
-	J3DJoint* m_child;            // _0C
-	J3DJoint* m_parent;           // _10
-	u16 m_jointIdx;               // _14
-	s8 _16;                       // _16
-	s8 m_ignoreParentScaling;     // _17
-	Vector3f m_scale;             // _18
-	s16 m_eulerRot[3];            // _24
-	Quat m_zRotation;             // _2C
-	Quat m_yRotation;             // _3C
-	u32 _4C;                      // _4C
-	u32 _50;                      // _50
-	J3DMtxCalcAnmBase* m_mtxCalc; // _54
-	J3DMaterial* m_material;      // _58
-
-	static J3DMtxCalc* sCurrentMtxCalc;
+	u32 mCallBackUserData;           // _00
+	J3DJointCallBack mFunction;      // _04
+	u32 _08;                         // _08
+	J3DJoint* mChild;                // _0C
+	J3DJoint* mParent;               // _10
+	u16 mJointIdx;                   // _14
+	s8 mKind;                        // _16
+	u8 mIgnoreParentScaling;         // _17
+	J3DTransformInfo mTransformInfo; // _18
+	f32 mRadius;                     // _38, bounding sphere radius
+	JGeometry::TVec3f mMin;          // _3C
+	JGeometry::TVec3f mMax;          // _48
+	J3DMtxCalc* mMtxCalc;            // _54
+	J3DMaterial* mMaterial;          // _58
 };
 
 #endif

@@ -18,33 +18,53 @@ struct Vec;
 struct J3DJointTree {
 	J3DJointTree();
 
-	virtual void calc(J3DMtxBuffer*, const Vec&, const float (&)[3][4]); // _08
-	virtual ~J3DJointTree();                                             // _0C (weak)
-
-	// virtual void _010() = 0;                                              // _010
+	virtual void calc(J3DMtxBuffer*, const Vec&, const f32 (&)[3][4]); // _08
+	/**
+	 * @reifiedAddress{80083874}
+	 * @reifiedFile{JSystem/J3D/J3DModelData.cpp}
+	 */
+	virtual ~J3DJointTree() {}; // _0C (weak)
 
 	void findImportantMtxIndex();
 	void makeHierarchy(J3DJoint*, const J3DModelHierarchy**, J3DMaterialTable*, J3DShapeTable*);
 
-	// VTBL _00
-	J3DModelHierarchy* m_hierarchy; // _04
-	s32 m_08;                       // _08 previously s8*
-	u32 m_flags;                    // _0C
-	J3DJoint* _10;                  // _10
-	J3DMtxCalc* m_transformCalc;    // _14
+	// unused/inlined:
+	void clear();
 
-	// PikDecomp calls this "J3DJointBlock* jointBlock"
-	J3DJoint** m_joints;      // _18
-	u16 m_jointCnt;           // _1C
-	u16 m_envelopeCnt;        // _1E
-	u32 _20;                  // _20
-	u32 m_maxBillBoardCnt;    // _24
-	s8* _28;                  // _28
-	u16* _2C;                 // _2C
-	u32 _30;                  // _30
-	J3DDrawMtxData m_mtxData; // _34
-	u32 _40;                  // _40
-	JUTNameTab* m_nametab;    // _44
+	J3DJoint* getJointNodePointer(u16 idx) const { return mJoints[idx]; }
+	u16 getWEvlpMtxNum() const { return mEnvelopeCnt; }
+	u8 getWEvlpMixMtxNum(u16 idx) const { return mEnvelopeMixCnt[idx]; }
+	u16* getWEvlpMixIndex() const { return mEnvelopeMixIdx; }
+	f32* getWEvlpMixWeight() const { return mEnvelopeMixWeight; }
+	u16* getWEvlpImportantMtxIndex() const { return mEnvelopeImptIdx; }
+	u16 getDrawFullWgtMtxNum() const { return mMtxData.mDrawMtxCount; }
+	u16 getJointNum() const { return mJointCnt; }
+	u16 getDrawMtxNum() const { return mMtxData.mCount; }
+	u8 getDrawMtxFlag(u16 idx) const { return mMtxData.mDrawMtxFlag[idx]; }
+	u8 getDrawMtxIndex(u16 idx) const { return mMtxData.mDrawMtxIdx[idx]; }
+	JUTNameTab* getJointName() const { return mNametab; }
+	J3DJoint* getRootNode() { return mRootNode; }
+	J3DMtxCalc* getBasicMtxCalc() const { return mTransformCalc; }
+	Mtx& getInvJointMtx(s32 idx) const { return mInvJointMtx[idx]; }
+	u32 getModelDataType() const { return mModelDataType; }
+
+	// VTBL _00
+	J3DModelHierarchy* mHierarchy; // _04
+	u32 mFlags;                    // _08 previously s8* TODO: rename
+	u32 mModelDataType;            // _0C
+	J3DJoint* mRootNode;           // _10
+	J3DMtxCalc* mTransformCalc;    // _14
+	J3DJoint** mJoints;            // _18
+	u16 mJointCnt;                 // _1C
+	u16 mEnvelopeCnt;              // _1E
+	u8* mEnvelopeMixCnt;           // _20
+	u16* mEnvelopeMixIdx;          // _24
+	f32* mEnvelopeMixWeight;       // _28
+	Mtx* mInvJointMtx;             // _2C
+	u16* mEnvelopeImptIdx;         // _30
+	J3DDrawMtxData mMtxData;       // _34
+	u32 _40;                       // _40
+	JUTNameTab* mNametab;          // _44
 };
 
 #endif

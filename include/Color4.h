@@ -2,6 +2,7 @@
 #define _COLOR4_H
 
 #include "types.h"
+#include "Dolphin/gx.h"
 
 // TODO: See if this inherits GXColor
 struct Color4 {
@@ -12,6 +13,26 @@ struct Color4 {
 	    , g(green)
 	    , b(blue)
 	    , a(alpha) {};
+
+	inline GXColor toGXColor()
+	{
+		GXColor color;
+		color.r = r;
+		color.g = g;
+		color.b = b;
+		color.a = a;
+		return color;
+	}
+
+	inline void set(Color4& color) { set(color.r, color.g, color.b, color.a); }
+
+	inline void set(u8 _r, u8 _g, u8 _b, u8 _a)
+	{
+		r = _r;
+		g = _g;
+		b = _b;
+		a = _a;
+	}
 
 	void read(struct Stream&);
 	void write(struct Stream&);
@@ -25,14 +46,14 @@ struct Color4 {
 // used in sysGCU's fogMgr.cpp
 union u_color {
 	Color4 colorView;
-	u32 u32View;
+	GXColor GXColorView;
 
 	u_color(Color4 cv)
 	    : colorView(cv)
 	{
 	}
-	u_color(u32 uv)
-	    : u32View(uv)
+	u_color(GXColor uv)
+	    : GXColorView(uv)
 	{
 	}
 	u_color(u8 r, u8 g, u8 b, u8 a)

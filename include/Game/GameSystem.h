@@ -13,41 +13,53 @@ struct LightMgr;
 struct Viewport;
 namespace Game {
 
-enum GameSystemMode { GSM_STORY_MODE = 0, GSM_VERSUS_MODE, GSM_ONE_PLAYER_CHALLENGE, GSM_TWO_PLAYER_CHALLENGE, GSM_PIKLOPEDIA };
+enum GameSystemMode {
+	GSM_STORY_MODE = 0,
+	GSM_VERSUS_MODE,
+	GSM_ONE_PLAYER_CHALLENGE,
+	GSM_TWO_PLAYER_CHALLENGE,
+	GSM_PIKLOPEDIA,
+};
+
+enum GameSystemFlags {
+	GAMESYS_Unk1      = 0x1,
+	GAMESYS_IsPlaying = 0x2,
+	GAMESYS_Unk3      = 0x4,
+	GAMESYS_Unk4      = 0x8,
+	GAMESYS_Unk5      = 0x10,
+	GAMESYS_Unk6      = 0x20,
+	GAMESYS_Unk7      = 0x40,
+	GAMESYS_Unk8      = 0x80,
+};
 
 struct GameSystem : public NodeObjectMgr<GenericObjectMgr> {
 	GameSystem(Game::BaseGameSection*);
 	// vtable 1
-	virtual ~GameSystem(); // _00
+	virtual ~GameSystem(); // _08
 	// vtable 2
-	virtual void doAnimation();           // _00
-	virtual void doEntry();               // _04
-	virtual void doSetView(int);          // _08
-	virtual void doViewCalc();            // _0C
-	virtual void doSimulation(float);     // _10
-	virtual void doDirectDraw(Graphics&); // _14
-	virtual void doSimpleDraw(Viewport*); // _18
-	virtual void loadResources();         // _1C
-	virtual void resetMgr();              // _20
-	virtual bool pausable();              // _24
-	virtual bool frozenable();            // _28
-	virtual u32 getMatrixLoadType();      // _2C
-	virtual void startFrame();            // _78
-	virtual void endFrame();              // _7C
-	virtual void directDraw(Graphics&);   // _84
-	virtual void startFadeout(float);     // _88
-	virtual void startFadein(float);      // _8C
-	virtual void startFadeoutin(float);   // _90
-	virtual void startFadeblack();        // _94
-	virtual void startFadewhite();        // _98
+	virtual void doAnimation();                 // _64 (weak)
+	virtual void doEntry();                     // _68 (weak)
+	virtual void doSetView(int viewportNumber); // _6C (weak)
+	virtual void doViewCalc();                  // _70 (weak)
+	virtual void doSimulation(f32 rate);        // _74 (weak)
+	virtual void doDirectDraw(Graphics& gfx);   // _78 (weak)
+	virtual void startFrame();                  // _80
+	virtual void endFrame();                    // _84
+	virtual void doSimpleDraw(Viewport*);       // _88 (weak)
+	virtual void directDraw(Graphics&);         // _8C
+	virtual void startFadeout(f32);             // _90
+	virtual void startFadein(f32);              // _94
+	virtual void startFadeoutin(f32);           // _98
+	virtual void startFadeblack();              // _9C
+	virtual void startFadewhite();              // _A0
 
 	void addObjectMgr_reuse(TObjectNode<GenericObjectMgr>*);
 	void addObjectMgr(GenericObjectMgr*);
 	s32 calcFrameDist(int);
 	void detachAllMgr();
-	void detachObjectMgr_reuse(GenericObjectMgr*);
+	TObjectNode<GenericObjectMgr>* detachObjectMgr_reuse(GenericObjectMgr*);
 	void detachObjectMgr(GenericObjectMgr*);
-	LightMgr* getLightMgr();
+	GameLightMgr* getLightMgr();
 	void init();
 	bool isZukanMode();
 	bool paused_soft();
@@ -55,27 +67,53 @@ struct GameSystem : public NodeObjectMgr<GenericObjectMgr> {
 	void setDrawBuffer(int);
 	void setFrozen(bool, char*);
 	void setMoviePause(bool, char*);
-	void setPause(bool, char*, int);
-	void startPause(bool, int, char*);
+	u32 setPause(bool, char*, int);
+	int startPause(bool, int, char*);
 
-	/**
-	 * @fabricated
-	 */
-	inline bool isMultiplayerMode() { return (m_mode == GSM_VERSUS_MODE || m_mode == GSM_TWO_PLAYER_CHALLENGE); }
-	inline bool isChallengeMode() { return (m_mode == GSM_ONE_PLAYER_CHALLENGE || m_mode == GSM_TWO_PLAYER_CHALLENGE); }
+	inline bool isVersusMode() { return mMode == GSM_VERSUS_MODE; }
+	inline bool isMultiplayerMode() { return (mMode == GSM_VERSUS_MODE || mMode == GSM_TWO_PLAYER_CHALLENGE); }
+	inline bool isChallengeMode() { return (mMode == GSM_ONE_PLAYER_CHALLENGE || mMode == GSM_TWO_PLAYER_CHALLENGE); }
 
-	u8 _3C;                     // _3C /* bitfield */
-	TimeMgr* m_timeMgr;         // _40
-	GameSystemMode m_mode;      // _44
-	u8 m_isInCaveMaybe;         // _48
-	u8 _49;                     // _49
-	bool m_isFrozen;            // _4A
-	bool m_isPaused;            // _4B
-	bool m_isPausedSoft;        // _4C
-	bool m_isMoviePause;        // _4D
-	u32 m_frameTimer;           // _50
-	JUTTexture* m_xfbTexture;   // _54
-	BaseGameSection* m_section; // _58
+	inline void setFlag(u32 flag) { mFlags |= flag; }
+
+	inline void resetFlag(u32 flag) { mFlags &= ~flag; }
+
+	inline bool isFlag(u32 flag) { return mFlags & flag; }
+
+	inline BaseGameSection* getSection() { return mSection; }
+
+	u8 mFlags;                 // _3C /* bitfield */
+	TimeMgr* mTimeMgr;         // _40
+	GameSystemMode mMode;      // _44
+	u8 mIsInCave;              // _48
+	u8 _49;                    // _49
+	bool mIsFrozen;            // _4A
+	u8 mIsPaused;              // _4B
+	bool mIsPausedSoft;        // _4C
+	bool mIsMoviePause;        // _4D
+	u32 mFrameTimer;           // _50
+	JUTTexture* mXfbTexture;   // _54
+	BaseGameSection* mSection; // _58
+};
+
+struct OptimiseController : public JKRDisposer, public Parameters {
+	OptimiseController()
+	    : Parameters(nullptr, "Dynamics")
+	    , mC000(this, 'c000', "ピクミン首", true, false, true)
+	    ,                                                                 // pikmin neck
+	    mC001(this, 'c001', "コリジョンバッファ有効", false, false, true) // collision buffer enabled
+	{
+	}
+
+	virtual ~OptimiseController() { mInstance = nullptr; } // _08
+
+	static void globalInstance();
+	static void deleteInstance();
+
+	Parm<bool> mC000;
+	Parm<bool> mC001;
+
+	static OptimiseController* mInstance;
 };
 
 extern GameSystem* gameSystem;

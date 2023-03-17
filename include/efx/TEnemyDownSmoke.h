@@ -6,15 +6,17 @@
 
 namespace efx {
 struct TEnemyDownSmoke : public TSimple1 {
-	TEnemyDownSmoke(u16 effectID, float p2)
-	    : TSimple1(effectID, nullptr)
-	    , _0C(p2)
+	TEnemyDownSmoke()
+	    : TSimple1(PID_EnemyDownSmoke)
+	    , mScale(1.0f)
 	{
 	}
 
-	virtual bool create(Arg*); // _00
+	virtual bool create(Arg*); // _08
 
-	float _0C; // _0C
+	// _00		= VTBL
+	// _00-_0C	= TSimple1
+	f32 mScale; // _0C
 };
 
 } // namespace efx

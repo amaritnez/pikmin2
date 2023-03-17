@@ -1,109 +1,31 @@
 #include "types.h"
-
-/*
-    Generated from dpostproc
-
-    .section .rodata  # 0x804732E0 - 0x8049E220
-    .global lbl_80484128
-    lbl_80484128:
-        .4byte 0x3234362D
-        .4byte 0x52616E64
-        .4byte 0x4974656D
-        .4byte 0x556E6974
-        .4byte 0x00000000
-    .global lbl_8048413C
-    lbl_8048413C:
-        .4byte 0x52616E64
-        .4byte 0x4974656D
-        .4byte 0x556E6974
-        .4byte 0x2E637070
-        .4byte 0x00000000
-        .4byte 0x6974656D
-        .4byte 0x20736C6F
-        .4byte 0x74206E6F
-        .4byte 0x6E650A00
-        .4byte 0x6974656D
-        .4byte 0x20736C6F
-        .4byte 0x74206E6F
-        .4byte 0x7420656E
-        .4byte 0x6F756768
-        .4byte 0x0A000000
-    .global lbl_80484178
-    lbl_80484178:
-        .4byte 0x6E6F7420
-        .4byte 0x73656172
-        .4byte 0x63682069
-        .4byte 0x74656D20
-        .4byte 0x736C6F74
-        .4byte 0x0A000000
-
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .global lbl_8051A840
-    lbl_8051A840:
-        .float 1.0
-        .4byte 0x00000000
-    .global lbl_8051A848
-    lbl_8051A848:
-        .4byte 0x43300000
-        .4byte 0x80000000
-    .global lbl_8051A850
-    lbl_8051A850:
-        .4byte 0x6974656D
-        .4byte 0x00000000
-    .global lbl_8051A858
-    lbl_8051A858:
-        .4byte 0x47000000
-    .global lbl_8051A85C
-    lbl_8051A85C:
-        .float 0.5
-    .global lbl_8051A860
-    lbl_8051A860:
-        .4byte 0x43C80000
-    .global lbl_8051A864
-    lbl_8051A864:
-        .4byte 0x00000000
-*/
+#include "Game/Cave/RandMapMgr.h"
+#include "Game/Cave/RandMapUnit.h"
+#include "Game/Cave/Node.h"
+#include "Game/Cave/Info.h"
+#include "Dolphin/rand.h"
 
 namespace Game {
+namespace Cave {
+
+static const char randItemUnitName[] = "246-RandItemUnit";
 
 /*
  * --INFO--
  * Address:	8024E38C
  * Size:	000064
  */
-Cave::RandItemUnit::RandItemUnit(Game::Cave::MapUnitGenerator*)
+RandItemUnit::RandItemUnit(MapUnitGenerator* generator)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	li       r0, 0
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	stw      r4, 8(r3)
-	stw      r0, 0(r3)
-	lwz      r3, 8(r3)
-	lwz      r3, 8(r3)
-	cmplwi   r3, 0
-	beq      lbl_8024E3C8
-	bl       getItemMax__Q34Game4Cave9FloorInfoFv
-	stw      r3, 4(r31)
-	b        lbl_8024E3CC
-
-lbl_8024E3C8:
-	stw      r0, 4(r31)
-
-lbl_8024E3CC:
-	li       r0, 0
-	mr       r3, r31
-	stw      r0, 0x10(r31)
-	stw      r0, 0x14(r31)
-	lwz      r31, 0xc(r1)
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mMapUnitGenerator = generator;
+	mItems            = 0;
+	if (mMapUnitGenerator->mFloorInfo) {
+		mMax = mMapUnitGenerator->mFloorInfo->getItemMax();
+	} else {
+		mMax = 0;
+	}
+	mMapNode = nullptr;
+	mBaseGen = nullptr;
 }
 
 /*
@@ -111,99 +33,51 @@ lbl_8024E3CC:
  * Address:	8024E3F0
  * Size:	000008
  */
-void Cave::RandItemUnit::setManageClassPtr(Game::Cave::RandMapScore* a1)
-{
-	// Generated from stw r4, 0xC(r3)
-	_0C = a1;
-}
+void RandItemUnit::setManageClassPtr(RandMapScore* ptr) { mRandMapScore = ptr; }
 
 /*
  * --INFO--
  * Address:	8024E3F8
  * Size:	000104
  */
-void Cave::RandItemUnit::setItemSlot()
+void RandItemUnit::setItemSlot()
 {
-	/*
-	stwu     r1, -0x30(r1)
-	mflr     r0
-	stw      r0, 0x34(r1)
-	stmw     r27, 0x1c(r1)
-	mr       r31, r3
-	lwz      r3, 0(r3)
-	lwz      r0, 4(r31)
-	cmpw     r3, r0
-	bge      lbl_8024E4E8
-	li       r29, 0
+	// check that we have space for new items
+	if (mItems < mMax) {
+		// only try to place a max of 100 items, regardless of desired item count
+		for (int i = 0; i < 100; i++) {
+			// initially null basegen pointer
+			BaseGen* currBaseGen = nullptr;
+			MapNode* currMapNode;
+			// check for hard mode
+			if (isItemSetHard()) {
+				currMapNode = getItemHardSetMapNode(&currBaseGen);
+			} else {
+				currMapNode = getItemNormalSetMapNode(&currBaseGen);
+			}
 
-lbl_8024E420:
-	li       r0, 0
-	mr       r3, r31
-	stw      r0, 8(r1)
-	bl       isItemSetHard__Q34Game4Cave12RandItemUnitFv
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8024E44C
-	mr       r3, r31
-	addi     r4, r1, 8
-	bl getItemHardSetMapNode__Q34Game4Cave12RandItemUnitFPPQ34Game4Cave7BaseGen
-	mr       r30, r3
-	b        lbl_8024E45C
+			// get an item unit
+			ItemUnit* curritemUnit = getItemUnit();
 
-lbl_8024E44C:
-	mr       r3, r31
-	addi     r4, r1, 8
-	bl
-getItemNormalSetMapNode__Q34Game4Cave12RandItemUnitFPPQ34Game4Cave7BaseGen mr
-r30, r3
-
-lbl_8024E45C:
-	mr       r28, r30
-	mr       r3, r31
-	bl       getItemUnit__Q34Game4Cave12RandItemUnitFv
-	cmplwi   r30, 0
-	mr       r27, r3
-	beq      lbl_8024E4E8
-	cmplwi   r27, 0
-	beq      lbl_8024E4E8
-	li       r3, 0x34
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_8024E4A0
-	lwz      r5, 8(r1)
-	mr       r4, r27
-	li       r6, 1
-	bl __ct__Q34Game4Cave8ItemNodeFPQ34Game4Cave8ItemUnitPQ34Game4Cave7BaseGeni
-	mr       r30, r3
-
-lbl_8024E4A0:
-	mr       r3, r30
-	mr       r4, r28
-	bl       makeGlobalData__Q34Game4Cave8ItemNodeFPQ34Game4Cave7MapNode
-	lwz      r3, 0x24(r28)
-	mr       r4, r30
-	bl       add__5CNodeFP5CNode
-	lwz      r3, 0(r31)
-	addi     r0, r3, 1
-	stw      r0, 0(r31)
-	lwz      r3, 0(r31)
-	lwz      r0, 4(r31)
-	cmpw     r3, r0
-	blt      lbl_8024E4DC
-	b        lbl_8024E4E8
-	b        lbl_8024E4E8
-
-lbl_8024E4DC:
-	addi     r29, r29, 1
-	cmpwi    r29, 0x64
-	blt      lbl_8024E420
-
-lbl_8024E4E8:
-	lmw      r27, 0x1c(r1)
-	lwz      r0, 0x34(r1)
-	mtlr     r0
-	addi     r1, r1, 0x30
-	blr
-	*/
+			// if mapnode and item unit exist, make a new item node
+			if (currMapNode && curritemUnit) {
+				// make item
+				ItemNode* newitem = new ItemNode(curritemUnit, currBaseGen, 1);
+				// make data global on map node
+				newitem->makeGlobalData(currMapNode);
+				// add item to nodes
+				currMapNode->mItemNode->add((ItemNode*)newitem);
+				// increment item count and check we haven't hit our item limit
+				mItems++;
+				if (mItems < mMax) {
+					continue;
+				} else {
+					return;
+				}
+			}
+			return;
+		}
+	}
 }
 
 /*
@@ -211,103 +85,35 @@ lbl_8024E4E8:
  * Address:	8024E4FC
  * Size:	000110
  */
-void Cave::RandItemUnit::isItemSetDone(Game::Cave::MapNode*, Game::Cave::BaseGen*)
+bool RandItemUnit::isItemSetDone(MapNode* mapNode, BaseGen* baseGen)
 {
-	/*
-	.loc_0x0:
-	  stwu      r1, -0x10(r1)
-	  mflr      r0
-	  cmplwi    r5, 0
-	  stw       r0, 0x14(r1)
-	  stw       r31, 0xC(r1)
-	  mr        r31, r4
-	  stw       r30, 0x8(r1)
-	  mr        r30, r3
-	  beq-      .loc_0x54
-	  lwz       r3, 0x24(r31)
-	  lwz       r3, 0x10(r3)
-	  b         .loc_0x48
+	if (baseGen) {
+		FOREACH_NODE(ItemNode, mapNode->mItemNode->mChild, node)
+		{
+			if (node->mGenerator == baseGen) {
+				return true;
+			}
+		}
+	} else {
+		if (mapNode == mRandMapScore->getFixObjNode(1)) {
+			return true;
+		}
+		if (mapNode == mRandMapScore->getFixObjNode(2)) {
+			return true;
+		}
+		if (mapNode->mItemNode->mChild) {
+			return true;
+		}
 
-	.loc_0x30:
-	  lwz       r0, 0x1C(r3)
-	  cmplw     r0, r5
-	  bne-      .loc_0x44
-	  li        r3, 0x1
-	  b         .loc_0xF8
-
-	.loc_0x44:
-	  lwz       r3, 0x4(r3)
-
-	.loc_0x48:
-	  cmplwi    r3, 0
-	  bne+      .loc_0x30
-	  b         .loc_0xF4
-
-	.loc_0x54:
-	  lwz       r3, 0xC(r30)
-	  li        r4, 0x1
-	  bl        -0x19B0
-	  cmplw     r31, r3
-	  bne-      .loc_0x70
-	  li        r3, 0x1
-	  b         .loc_0xF8
-
-	.loc_0x70:
-	  lwz       r3, 0xC(r30)
-	  li        r4, 0x2
-	  bl        -0x19CC
-	  cmplw     r31, r3
-	  bne-      .loc_0x8C
-	  li        r3, 0x1
-	  b         .loc_0xF8
-
-	.loc_0x8C:
-	  lwz       r3, 0x24(r31)
-	  lwz       r0, 0x10(r3)
-	  cmplwi    r0, 0
-	  beq-      .loc_0xA4
-	  li        r3, 0x1
-	  b         .loc_0xF8
-
-	.loc_0xA4:
-	  lwz       r3, 0x1C(r31)
-	  lwz       r4, 0x10(r3)
-	  b         .loc_0xEC
-
-	.loc_0xB0:
-	  lwz       r3, 0x18(r4)
-	  lwz       r3, 0x0(r3)
-	  cmplwi    r3, 0
-	  beq-      .loc_0xE8
-	  lbz       r0, 0x24(r3)
-	  cmplwi    r0, 0
-	  bne-      .loc_0xE8
-	  lwz       r0, 0x20(r3)
-	  cmpwi     r0, 0x5
-	  beq-      .loc_0xE8
-	  cmpwi     r0, 0x6
-	  beq-      .loc_0xE8
-	  li        r3, 0x1
-	  b         .loc_0xF8
-
-	.loc_0xE8:
-	  lwz       r4, 0x4(r4)
-
-	.loc_0xEC:
-	  cmplwi    r4, 0
-	  bne+      .loc_0xB0
-
-	.loc_0xF4:
-	  li        r3, 0
-
-	.loc_0xF8:
-	  lwz       r0, 0x14(r1)
-	  lwz       r31, 0xC(r1)
-	  lwz       r30, 0x8(r1)
-	  mtlr      r0
-	  addi      r1, r1, 0x10
-	  blr
-	*/
+		FOREACH_NODE(EnemyNode, mapNode->mEnemyNode->mChild, node)
+		{
+			TekiInfo* info = node->mEnemyUnit->mTekiInfo;
+			if (info && (info->mDropMode == 0) && (info->mType != BaseGen::Seam__Door) && (info->mType != BaseGen::Plant)) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 /*
@@ -315,84 +121,27 @@ void Cave::RandItemUnit::isItemSetDone(Game::Cave::MapNode*, Game::Cave::BaseGen
  * Address:	8024E60C
  * Size:	0000E8
  */
-void Cave::RandItemUnit::isGroundCapEnemySetDone(Game::Cave::MapNode*)
+bool RandItemUnit::isGroundCapEnemySetDone(MapNode* mapNode)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	li       r4, 1
-	stw      r30, 8(r1)
-	mr       r30, r3
-	lwz      r3, 0xc(r3)
-	bl       getFixObjNode__Q34Game4Cave12RandMapScoreFi
-	cmplw    r31, r3
-	bne      lbl_8024E644
-	li       r3, 1
-	b        lbl_8024E6DC
+	if (mapNode == mRandMapScore->getFixObjNode(1)) {
+		return true;
+	}
+	if (mapNode == mRandMapScore->getFixObjNode(2)) {
+		return true;
+	}
+	if (mapNode->mItemNode->mChild) {
+		return true;
+	}
 
-lbl_8024E644:
-	lwz      r3, 0xc(r30)
-	li       r4, 2
-	bl       getFixObjNode__Q34Game4Cave12RandMapScoreFi
-	cmplw    r31, r3
-	bne      lbl_8024E660
-	li       r3, 1
-	b        lbl_8024E6DC
-
-lbl_8024E660:
-	lwz      r3, 0x24(r31)
-	lwz      r0, 0x10(r3)
-	cmplwi   r0, 0
-	beq      lbl_8024E678
-	li       r3, 1
-	b        lbl_8024E6DC
-
-lbl_8024E678:
-	lwz      r3, 0x1c(r31)
-	lwz      r31, 0x10(r3)
-	b        lbl_8024E6D0
-
-lbl_8024E684:
-	lwz      r3, 0x18(r31)
-	lwz      r4, 0(r3)
-	cmplwi   r4, 0
-	beq      lbl_8024E6CC
-	lwz      r0, 0x20(r4)
-	cmpwi    r0, 5
-	beq      lbl_8024E6CC
-	cmpwi    r0, 6
-	beq      lbl_8024E6CC
-	lbz      r0, 0x24(r4)
-	cmplwi   r0, 0
-	beq      lbl_8024E6C4
-	lwz      r3, 8(r30)
-	bl       isPomGroup__Q34Game4Cave16MapUnitGeneratorFPQ34Game4Cave8TekiInfo
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8024E6CC
-
-lbl_8024E6C4:
-	li       r3, 1
-	b        lbl_8024E6DC
-
-lbl_8024E6CC:
-	lwz      r31, 4(r31)
-
-lbl_8024E6D0:
-	cmplwi   r31, 0
-	bne      lbl_8024E684
-	li       r3, 0
-
-lbl_8024E6DC:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	FOREACH_NODE(EnemyNode, mapNode->mEnemyNode->mChild, node)
+	{
+		TekiInfo* info = node->mEnemyUnit->mTekiInfo;
+		if (info && (info->mType != BaseGen::Seam__Door) && (info->mType != BaseGen::Plant)
+		    && (info->mDropMode == 0 || (mMapUnitGenerator->isPomGroup(info)))) {
+			return true;
+		}
+	}
+	return false;
 }
 
 /*
@@ -400,76 +149,24 @@ lbl_8024E6DC:
  * Address:	8024E6F4
  * Size:	0000D0
  */
-void Cave::RandItemUnit::isFallCapEnemySetDone(Game::Cave::MapNode*)
+bool RandItemUnit::isFallCapEnemySetDone(MapNode* mapNode)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	li       r4, 1
-	stw      r30, 8(r1)
-	mr       r30, r3
-	lwz      r3, 0xc(r3)
-	bl       getFixObjNode__Q34Game4Cave12RandMapScoreFi
-	cmplw    r31, r3
-	bne      lbl_8024E72C
-	li       r3, 1
-	b        lbl_8024E7AC
+	if (mapNode == mRandMapScore->getFixObjNode(1)) {
+		return true;
+	}
+	if (mapNode == mRandMapScore->getFixObjNode(2)) {
+		return true;
+	}
 
-lbl_8024E72C:
-	lwz      r3, 0xc(r30)
-	li       r4, 2
-	bl       getFixObjNode__Q34Game4Cave12RandMapScoreFi
-	cmplw    r31, r3
-	bne      lbl_8024E748
-	li       r3, 1
-	b        lbl_8024E7AC
-
-lbl_8024E748:
-	lwz      r3, 0x1c(r31)
-	lwz      r31, 0x10(r3)
-	b        lbl_8024E7A0
-
-lbl_8024E754:
-	lwz      r3, 0x18(r31)
-	lwz      r4, 0(r3)
-	cmplwi   r4, 0
-	beq      lbl_8024E79C
-	lwz      r0, 0x20(r4)
-	cmpwi    r0, 5
-	beq      lbl_8024E79C
-	cmpwi    r0, 6
-	beq      lbl_8024E79C
-	lbz      r0, 0x24(r4)
-	cmplwi   r0, 0
-	bne      lbl_8024E794
-	lwz      r3, 8(r30)
-	bl       isPomGroup__Q34Game4Cave16MapUnitGeneratorFPQ34Game4Cave8TekiInfo
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_8024E79C
-
-lbl_8024E794:
-	li       r3, 1
-	b        lbl_8024E7AC
-
-lbl_8024E79C:
-	lwz      r31, 4(r31)
-
-lbl_8024E7A0:
-	cmplwi   r31, 0
-	bne      lbl_8024E754
-	li       r3, 0
-
-lbl_8024E7AC:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	FOREACH_NODE(EnemyNode, mapNode->mEnemyNode->mChild, node)
+	{
+		TekiInfo* info = node->mEnemyUnit->mTekiInfo;
+		if (info && (info->mType != BaseGen::Seam__Door) && (info->mType != BaseGen::Plant)
+		    && (info->mDropMode != 0 || (mMapUnitGenerator->isPomGroup(info)))) {
+			return true;
+		}
+	}
+	return false;
 }
 
 /*
@@ -477,14 +174,10 @@ lbl_8024E7AC:
  * Address:	8024E7C4
  * Size:	00000C
  */
-void Cave::RandItemUnit::setItemDropPositionList(Game::Cave::MapNode**, Game::Cave::BaseGen**)
+void RandItemUnit::setItemDropPositionList(MapNode** node, BaseGen** gen)
 {
-	/*
-	.loc_0x0:
-	  stw       r4, 0x10(r3)
-	  stw       r5, 0x14(r3)
-	  blr
-	*/
+	mMapNode = node;
+	mBaseGen = gen;
 }
 
 /*
@@ -492,171 +185,43 @@ void Cave::RandItemUnit::setItemDropPositionList(Game::Cave::MapNode**, Game::Ca
  * Address:	8024E7D0
  * Size:	000228
  */
-void Cave::RandItemUnit::getItemDropPosition(Vector3f&, float, int)
+void RandItemUnit::getItemDropPosition(Vector3f& position, f32 weight, int floorIndex)
 {
-	/*
-	stwu     r1, -0x890(r1)
-	mflr     r0
-	stw      r0, 0x894(r1)
-	stfd     f31, 0x880(r1)
-	psq_st   f31, -1912(r1), 0, qr0
-	stfd     f30, 0x870(r1)
-	psq_st   f30, -1928(r1), 0, qr0
-	stmw     r24, 0x850(r1)
-	mr       r29, r3
-	lis      r7, lbl_80484128@ha
-	lwz      r6, 8(r3)
-	fmr      f30, f1
-	lwz      r3, 0xc(r3)
-	mr       r30, r4
-	lwz      r4, 0x28(r6)
-	mr       r31, r5
-	lwz      r0, 0x2c(r6)
-	stw      r4, 0x14(r1)
-	addi     r28, r7, lbl_80484128@l
-	stw      r0, 0x18(r1)
-	bl       getVersusHighScore__Q34Game4Cave12RandMapScoreFv
-	xoris    r3, r3, 0x8000
-	lis      r0, 0x4330
-	stw      r3, 0x83c(r1)
-	lfs      f0, lbl_8051A840@sda21(r2)
-	stw      r0, 0x838(r1)
-	lfd      f2, lbl_8051A848@sda21(r2)
-	fsubs    f0, f0, f30
-	lfd      f1, 0x838(r1)
-	lwz      r3, 0xc(r29)
-	fsubs    f1, f1, f2
-	fmuls    f31, f0, f1
-	bl       getVersusLowScore__Q34Game4Cave12RandMapScoreFv
-	xoris    r3, r3, 0x8000
-	lis      r0, 0x4330
-	stw      r3, 0x844(r1)
-	cmpwi    r31, 0
-	lfd      f1, lbl_8051A848@sda21(r2)
-	stw      r0, 0x840(r1)
-	lfd      f0, 0x840(r1)
-	fsubs    f0, f0, f1
-	fmadds   f0, f30, f0, f31
-	fctiwz   f0, f0
-	stfd     f0, 0x848(r1)
-	lwz      r26, 0x84c(r1)
-	bge      lbl_8024E92C
-	lis      r3, 0x00138800@ha
-	addi     r31, r1, 0x14
-	addi     r0, r3, 0x00138800@l
-	li       r27, 0
-	stw      r0, 0xc(r1)
 
-lbl_8024E89C:
-	lwz      r3, 0(r31)
-	lwz      r25, 0x10(r3)
-	b        lbl_8024E8C4
+	MapNode* nodes[2];
+	MapNode* dropList[256];
+	MapNode* dropNode;
 
-lbl_8024E8A8:
-	mr       r3, r29
-	mr       r4, r25
-	mr       r6, r26
-	addi     r5, r1, 0x10
-	addi     r7, r1, 0xc
-	bl
-getItemDropMapNode__Q34Game4Cave12RandItemUnitFPQ34Game4Cave7MapNodePPQ34Game4Cave7MapNodeiRi
-	lwz      r25, 4(r25)
+	nodes[0] = mMapUnitGenerator->mPlacedMapNodes;
+	nodes[1] = mMapUnitGenerator->mVisitedMapNodes;
 
-lbl_8024E8C4:
-	cmplwi   r25, 0
-	bne      lbl_8024E8A8
-	addi     r27, r27, 1
-	addi     r31, r31, 4
-	cmpwi    r27, 2
-	blt      lbl_8024E89C
-	lwz      r5, 0x10(r1)
-	cmplwi   r5, 0
-	beq      lbl_8024E914
-	mr       r4, r29
-	mr       r6, r26
-	addi     r3, r1, 0x28
-	bl getItemBaseGenPosition__Q34Game4Cave12RandItemUnitFPQ34Game4Cave7MapNodei
-	lfs      f0, 0x28(r1)
-	stfs     f0, 0(r30)
-	lfs      f0, 0x2c(r1)
-	stfs     f0, 4(r30)
-	lfs      f0, 0x30(r1)
-	stfs     f0, 8(r30)
-	b        lbl_8024E9D4
+	int score = weight * (f32)mRandMapScore->getVersusLowScore() + (1.0f - weight) * (f32)mRandMapScore->getVersusHighScore();
 
-lbl_8024E914:
-	addi     r3, r28, 0x14
-	addi     r5, r28, 0x28
-	li       r4, 0x177
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-	b        lbl_8024E9D4
+	if (floorIndex < 0) {
+		int dropIndex = 1280000;
+		for (int i = 0; i < 2; i++) {
+			FOREACH_NODE(MapNode, nodes[i]->mChild, mapNode) { getItemDropMapNode(mapNode, &dropNode, score, dropIndex); }
+		}
 
-lbl_8024E92C:
-	li       r0, 0
-	addi     r27, r1, 0x14
-	stw      r0, 8(r1)
-	li       r25, 0
+		if (dropNode) {
+			position = getItemBaseGenPosition(dropNode, score);
+		} else {
+			JUT_PANICLINE(375, "item slot none\n");
+		}
 
-lbl_8024E93C:
-	lwz      r3, 0(r27)
-	lwz      r24, 0x10(r3)
-	b        lbl_8024E964
+	} else {
+		int dropIndex = 0;
+		BaseGen* basegen[256];
+		for (int i = 0; i < 2; i++) {
+			FOREACH_NODE(MapNode, nodes[i]->mChild, mapNode) { getItemDropList(mapNode, dropList, basegen, dropIndex); }
+		}
 
-lbl_8024E948:
-	mr       r3, r29
-	mr       r4, r24
-	addi     r5, r1, 0x434
-	addi     r6, r1, 0x34
-	addi     r7, r1, 8
-	bl
-getItemDropList__Q34Game4Cave12RandItemUnitFPQ34Game4Cave7MapNodePPQ34Game4Cave7MapNodePPQ34Game4Cave7BaseGenRi
-	lwz      r24, 4(r24)
-
-lbl_8024E964:
-	cmplwi   r24, 0
-	bne      lbl_8024E948
-	addi     r25, r25, 1
-	addi     r27, r27, 4
-	cmpwi    r25, 2
-	blt      lbl_8024E93C
-	lwz      r7, 8(r1)
-	cmpw     r31, r7
-	bge      lbl_8024E9C0
-	mr       r4, r29
-	mr       r8, r26
-	mr       r9, r31
-	addi     r3, r1, 0x1c
-	addi     r5, r1, 0x434
-	addi     r6, r1, 0x34
-	bl
-getItemBaseGenPosition__Q34Game4Cave12RandItemUnitFPPQ34Game4Cave7MapNodePPQ34Game4Cave7BaseGeniii
-	lfs      f0, 0x1c(r1)
-	stfs     f0, 0(r30)
-	lfs      f0, 0x20(r1)
-	stfs     f0, 4(r30)
-	lfs      f0, 0x24(r1)
-	stfs     f0, 8(r30)
-	b        lbl_8024E9D4
-
-lbl_8024E9C0:
-	addi     r3, r28, 0x14
-	addi     r5, r28, 0x38
-	li       r4, 0x18e
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8024E9D4:
-	psq_l    f31, -1912(r1), 0, qr0
-	lfd      f31, 0x880(r1)
-	psq_l    f30, -1928(r1), 0, qr0
-	lfd      f30, 0x870(r1)
-	lmw      r24, 0x850(r1)
-	lwz      r0, 0x894(r1)
-	mtlr     r0
-	addi     r1, r1, 0x890
-	blr
-	*/
+		if (floorIndex < dropIndex) {
+			position = getItemBaseGenPosition(dropList, basegen, dropIndex, score, floorIndex);
+		} else {
+			JUT_PANICLINE(398, "item slot not enough\n");
+		}
+	}
 }
 
 /*
@@ -664,8 +229,62 @@ lbl_8024E9D4:
  * Address:	8024E9F8
  * Size:	00038C
  */
-void Cave::RandItemUnit::getItemNormalSetMapNode(Game::Cave::BaseGen**)
+MapNode* RandItemUnit::getItemNormalSetMapNode(BaseGen** outGens)
 {
+	int counter = 0;
+	MapNode* mapNodeList[512];
+	BaseGen* baseGenList[512];
+	int nodeScoreList[512];
+	int totalScore = 0;
+
+	FOREACH_NODE(MapNode, mMapUnitGenerator->mPlacedMapNodes->mChild, currMapNode)
+	{
+		if (currMapNode->mUnitInfo->getUnitKind() == 1) {
+			int slotNum = getItemSlotNum(currMapNode);
+			if (slotNum) {
+				BaseGen* baseGen = currMapNode->mUnitInfo->getBaseGen();
+				if (baseGen) {
+					FOREACH_NODE(BaseGen, baseGen->mChild, currBaseGen)
+					{
+						if (currBaseGen->mSpawnType == BaseGen::Treasure__Item) {
+							if (!isItemSetDone(currMapNode, currBaseGen)) {
+								mapNodeList[counter]   = currMapNode;
+								baseGenList[counter]   = currBaseGen;
+								nodeScoreList[counter] = (currMapNode->getNodeScore() / slotNum) + 1;
+								totalScore += nodeScoreList[counter];
+								counter++;
+							}
+						}
+					}
+				}
+			}
+		} else {
+			if (!strncmp(currMapNode->getUnitName(), "item", 4)) {
+				if (!isItemSetDone(currMapNode, nullptr)) {
+					mapNodeList[counter]   = currMapNode;
+					baseGenList[counter]   = nullptr;
+					nodeScoreList[counter] = (currMapNode->getNodeScore() * 10) + 1;
+					totalScore += nodeScoreList[counter];
+					counter++;
+				}
+			}
+		}
+	}
+
+	// regswaps here
+	if (totalScore) {
+		int randScore    = totalScore * randFloat();
+		int scoreCounter = 0;
+		for (int i = 0; i < counter; i++) {
+			scoreCounter += nodeScoreList[i];
+			if (scoreCounter > randScore) {
+				outGens[0] = baseGenList[i];
+				return mapNodeList[i];
+			}
+		}
+	}
+
+	return nullptr;
 	/*
 	stwu     r1, -0x1850(r1)
 	mflr     r0
@@ -962,278 +581,63 @@ lbl_8024ED70:
  * Address:	8024ED84
  * Size:	000340
  */
-void Cave::RandItemUnit::getItemHardSetMapNode(Game::Cave::BaseGen**)
+MapNode* RandItemUnit::getItemHardSetMapNode(BaseGen** outGens)
 {
-	/*
-	stwu     r1, -0x1040(r1)
-	mflr     r0
-	stw      r0, 0x1044(r1)
-	stmw     r25, 0x1024(r1)
-	mr       r25, r3
-	mr       r26, r4
-	li       r31, 0
-	li       r30, -1
-	lwz      r3, 8(r3)
-	lwz      r3, 0x28(r3)
-	lwz      r29, 0x10(r3)
-	b        lbl_8024F034
+	int counter = 0;
+	MapNode* mapNodeList[512];
+	BaseGen* baseGenList[512];
+	int totalScore = -1;
 
-lbl_8024EDB4:
-	lwz      r3, 0x18(r29)
-	bl       getUnitKind__Q34Game4Cave8UnitInfoFv
-	cmpwi    r3, 1
-	bne      lbl_8024EF2C
-	lwz      r3, 0x24(r29)
-	lwz      r12, 0(r3)
-	lwz      r12, 0xc(r12)
-	mtctr    r12
-	bctrl
-	addi     r27, r3, 1
-	mr       r3, r29
-	bl       getNodeScore__Q34Game4Cave7MapNodeFv
-	divw     r28, r3, r27
-	lwz      r3, 0x18(r29)
-	bl       getBaseGen__Q34Game4Cave8UnitInfoFv
-	cmplwi   r3, 0
-	beq      lbl_8024F030
-	lwz      r27, 0x10(r3)
-	b        lbl_8024EF20
+	FOREACH_NODE(MapNode, mMapUnitGenerator->mPlacedMapNodes->mChild, currMapNode)
+	{
+		if (currMapNode->mUnitInfo->getUnitKind() == 1) {
+			int currItemCount = static_cast<ItemNode*>(currMapNode->mItemNode)->getChildCount() + 1;
+			int currScore     = currMapNode->getNodeScore() / currItemCount;
+			BaseGen* baseGen  = currMapNode->mUnitInfo->getBaseGen();
+			if (baseGen) {
+				FOREACH_NODE(BaseGen, baseGen->mChild, currBaseGen)
+				{
+					if (currBaseGen->mSpawnType == BaseGen::Treasure__Item) {
+						if (!isItemSetDone(currMapNode, currBaseGen)) {
+							if (currScore >= totalScore) {
+								if (currScore > totalScore) {
+									counter    = 0;
+									totalScore = currScore;
+								}
+								mapNodeList[counter] = currMapNode;
+								baseGenList[counter] = currBaseGen;
+								counter++;
+							}
+						}
+					}
+				}
+			}
 
-lbl_8024EE00:
-	lwz      r0, 0x18(r27)
-	cmpwi    r0, 2
-	bne      lbl_8024EF1C
-	cmplwi   r27, 0
-	beq      lbl_8024EE44
-	lwz      r3, 0x24(r29)
-	lwz      r3, 0x10(r3)
-	b        lbl_8024EE38
+		} else {
+			if (!strncmp(currMapNode->getUnitName(), "item", 4)) {
+				int currScore = currMapNode->getNodeScore() + 1;
+				if (!isItemSetDone(currMapNode, nullptr)) {
+					if (currScore >= totalScore) {
+						if (currScore > totalScore) {
+							counter    = 0;
+							totalScore = currScore;
+						}
+						mapNodeList[counter] = currMapNode;
+						baseGenList[counter] = nullptr;
+						counter++;
+					}
+				}
+			}
+		}
+	}
 
-lbl_8024EE20:
-	lwz      r0, 0x1c(r3)
-	cmplw    r0, r27
-	bne      lbl_8024EE34
-	li       r0, 1
-	b        lbl_8024EEE8
+	if (counter) {
+		int randIndex = counter * randFloat();
+		outGens[0]    = baseGenList[randIndex];
+		return mapNodeList[randIndex];
+	}
 
-lbl_8024EE34:
-	lwz      r3, 4(r3)
-
-lbl_8024EE38:
-	cmplwi   r3, 0
-	bne      lbl_8024EE20
-	b        lbl_8024EEE4
-
-lbl_8024EE44:
-	lwz      r3, 0xc(r25)
-	li       r4, 1
-	bl       getFixObjNode__Q34Game4Cave12RandMapScoreFi
-	cmplw    r29, r3
-	bne      lbl_8024EE60
-	li       r0, 1
-	b        lbl_8024EEE8
-
-lbl_8024EE60:
-	lwz      r3, 0xc(r25)
-	li       r4, 2
-	bl       getFixObjNode__Q34Game4Cave12RandMapScoreFi
-	cmplw    r29, r3
-	bne      lbl_8024EE7C
-	li       r0, 1
-	b        lbl_8024EEE8
-
-lbl_8024EE7C:
-	lwz      r3, 0x24(r29)
-	lwz      r0, 0x10(r3)
-	cmplwi   r0, 0
-	beq      lbl_8024EE94
-	li       r0, 1
-	b        lbl_8024EEE8
-
-lbl_8024EE94:
-	lwz      r3, 0x1c(r29)
-	lwz      r4, 0x10(r3)
-	b        lbl_8024EEDC
-
-lbl_8024EEA0:
-	lwz      r3, 0x18(r4)
-	lwz      r3, 0(r3)
-	cmplwi   r3, 0
-	beq      lbl_8024EED8
-	lbz      r0, 0x24(r3)
-	cmplwi   r0, 0
-	bne      lbl_8024EED8
-	lwz      r0, 0x20(r3)
-	cmpwi    r0, 5
-	beq      lbl_8024EED8
-	cmpwi    r0, 6
-	beq      lbl_8024EED8
-	li       r0, 1
-	b        lbl_8024EEE8
-
-lbl_8024EED8:
-	lwz      r4, 4(r4)
-
-lbl_8024EEDC:
-	cmplwi   r4, 0
-	bne      lbl_8024EEA0
-
-lbl_8024EEE4:
-	li       r0, 0
-
-lbl_8024EEE8:
-	clrlwi.  r0, r0, 0x18
-	bne      lbl_8024EF1C
-	cmpw     r28, r30
-	blt      lbl_8024EF1C
-	ble      lbl_8024EF04
-	li       r31, 0
-	mr       r30, r28
-
-lbl_8024EF04:
-	slwi     r0, r31, 2
-	addi     r4, r1, 0x808
-	addi     r3, r1, 8
-	stwx     r29, r4, r0
-	addi     r31, r31, 1
-	stwx     r27, r3, r0
-
-lbl_8024EF1C:
-	lwz      r27, 4(r27)
-
-lbl_8024EF20:
-	cmplwi   r27, 0
-	bne      lbl_8024EE00
-	b        lbl_8024F030
-
-lbl_8024EF2C:
-	mr       r3, r29
-	bl       getUnitName__Q34Game4Cave7MapNodeFv
-	addi     r4, r2, lbl_8051A850@sda21
-	li       r5, 4
-	bl       strncmp
-	cmpwi    r3, 0
-	bne      lbl_8024F030
-	mr       r3, r29
-	bl       getNodeScore__Q34Game4Cave7MapNodeFv
-	addi     r27, r3, 1
-	lwz      r3, 0xc(r25)
-	li       r4, 1
-	bl       getFixObjNode__Q34Game4Cave12RandMapScoreFi
-	cmplw    r29, r3
-	bne      lbl_8024EF70
-	li       r0, 1
-	b        lbl_8024EFF8
-
-lbl_8024EF70:
-	lwz      r3, 0xc(r25)
-	li       r4, 2
-	bl       getFixObjNode__Q34Game4Cave12RandMapScoreFi
-	cmplw    r29, r3
-	bne      lbl_8024EF8C
-	li       r0, 1
-	b        lbl_8024EFF8
-
-lbl_8024EF8C:
-	lwz      r3, 0x24(r29)
-	lwz      r0, 0x10(r3)
-	cmplwi   r0, 0
-	beq      lbl_8024EFA4
-	li       r0, 1
-	b        lbl_8024EFF8
-
-lbl_8024EFA4:
-	lwz      r3, 0x1c(r29)
-	lwz      r4, 0x10(r3)
-	b        lbl_8024EFEC
-
-lbl_8024EFB0:
-	lwz      r3, 0x18(r4)
-	lwz      r3, 0(r3)
-	cmplwi   r3, 0
-	beq      lbl_8024EFE8
-	lbz      r0, 0x24(r3)
-	cmplwi   r0, 0
-	bne      lbl_8024EFE8
-	lwz      r0, 0x20(r3)
-	cmpwi    r0, 5
-	beq      lbl_8024EFE8
-	cmpwi    r0, 6
-	beq      lbl_8024EFE8
-	li       r0, 1
-	b        lbl_8024EFF8
-
-lbl_8024EFE8:
-	lwz      r4, 4(r4)
-
-lbl_8024EFEC:
-	cmplwi   r4, 0
-	bne      lbl_8024EFB0
-	li       r0, 0
-
-lbl_8024EFF8:
-	clrlwi.  r0, r0, 0x18
-	bne      lbl_8024F030
-	cmpw     r27, r30
-	blt      lbl_8024F030
-	ble      lbl_8024F014
-	li       r31, 0
-	mr       r30, r27
-
-lbl_8024F014:
-	slwi     r5, r31, 2
-	addi     r4, r1, 0x808
-	addi     r3, r1, 8
-	li       r0, 0
-	stwx     r29, r4, r5
-	addi     r31, r31, 1
-	stwx     r0, r3, r5
-
-lbl_8024F030:
-	lwz      r29, 4(r29)
-
-lbl_8024F034:
-	cmplwi   r29, 0
-	bne      lbl_8024EDB4
-	cmpwi    r31, 0
-	beq      lbl_8024F0AC
-	bl       rand
-	lis      r5, 0x4330
-	xoris    r0, r3, 0x8000
-	stw      r0, 0x100c(r1)
-	xoris    r0, r31, 0x8000
-	lfd      f2, lbl_8051A848@sda21(r2)
-	addi     r4, r1, 8
-	stw      r5, 0x1008(r1)
-	addi     r3, r1, 0x808
-	lfs      f0, lbl_8051A858@sda21(r2)
-	lfd      f1, 0x1008(r1)
-	stw      r0, 0x1014(r1)
-	fsubs    f1, f1, f2
-	stw      r5, 0x1010(r1)
-	fdivs    f1, f1, f0
-	lfd      f0, 0x1010(r1)
-	fsubs    f0, f0, f2
-	fmuls    f0, f0, f1
-	fctiwz   f0, f0
-	stfd     f0, 0x1018(r1)
-	lwz      r0, 0x101c(r1)
-	slwi     r5, r0, 2
-	lwzx     r0, r4, r5
-	lwzx     r3, r3, r5
-	stw      r0, 0(r26)
-	b        lbl_8024F0B0
-
-lbl_8024F0AC:
-	li       r3, 0
-
-lbl_8024F0B0:
-	lmw      r25, 0x1024(r1)
-	lwz      r0, 0x1044(r1)
-	mtlr     r0
-	addi     r1, r1, 0x1040
-	blr
-	*/
+	return nullptr;
 }
 
 /*
@@ -1241,7 +645,7 @@ lbl_8024F0B0:
  * Address:	8024F0C4
  * Size:	000180
  */
-void Cave::RandItemUnit::getItemUnit()
+ItemUnit* RandItemUnit::getItemUnit()
 {
 	/*
 	stwu     r1, -0x1030(r1)
@@ -1364,42 +768,19 @@ lbl_8024F228:
  * Address:	8024F244
  * Size:	000060
  */
-void Cave::RandItemUnit::getItemSlotNum(Game::Cave::MapNode*)
+int RandItemUnit::getItemSlotNum(MapNode* mapNode)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	li       r31, 0
-	lwz      r3, 0x18(r4)
-	bl       getBaseGen__Q34Game4Cave8UnitInfoFv
-	cmplwi   r3, 0
-	beq      lbl_8024F28C
-	lwz      r3, 0x10(r3)
-	b        lbl_8024F284
-
-lbl_8024F270:
-	lwz      r0, 0x18(r3)
-	cmpwi    r0, 2
-	bne      lbl_8024F280
-	addi     r31, r31, 1
-
-lbl_8024F280:
-	lwz      r3, 4(r3)
-
-lbl_8024F284:
-	cmplwi   r3, 0
-	bne      lbl_8024F270
-
-lbl_8024F28C:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	int itemSlotNum  = 0;
+	BaseGen* baseGen = mapNode->mUnitInfo->getBaseGen();
+	if (baseGen) {
+		FOREACH_NODE(BaseGen, baseGen->mChild, node)
+		{
+			if (node->mSpawnType == BaseGen::Treasure__Item) {
+				itemSlotNum++;
+			}
+		}
+	}
+	return itemSlotNum;
 }
 
 /*
@@ -1407,43 +788,23 @@ lbl_8024F28C:
  * Address:	8024F2A4
  * Size:	00005C
  */
-void Cave::RandItemUnit::isItemSetHard()
+bool RandItemUnit::isItemSetHard()
 {
-	/*
-	lwz      r4, 8(r3)
-	lwz      r0, 4(r4)
-	cmpwi    r0, 4
-	beq      lbl_8024F2F0
-	bge      lbl_8024F2F8
-	cmpwi    r0, 2
-	bge      lbl_8024F2D4
-	cmpwi    r0, 0
-	bge      lbl_8024F2CC
-	b        lbl_8024F2F8
-
-lbl_8024F2CC:
-	li       r3, 0
-	blr
-
-lbl_8024F2D4:
-	lwz      r0, 0(r3)
-	cmpwi    r0, 0
-	beq      lbl_8024F2E8
-	li       r3, 0
-	blr
-
-lbl_8024F2E8:
-	li       r3, 1
-	blr
-
-lbl_8024F2F0:
-	li       r3, 1
-	blr
-
-lbl_8024F2F8:
-	li       r3, 0
-	blr
-	*/
+	switch (mMapUnitGenerator->mRandItemType) {
+	case 0:
+	case 1:
+		return false;
+	case 2:
+	case 3:
+		if (mItems != 0) {
+			return false;
+		}
+		return true;
+	case 4:
+		return true;
+	default:
+		return false;
+	}
 }
 
 /*
@@ -1451,7 +812,7 @@ lbl_8024F2F8:
  * Address:	8024F300
  * Size:	000148
  */
-void Cave::RandItemUnit::getItemDropMapNode(Game::Cave::MapNode*, Game::Cave::MapNode**, int, int&)
+void RandItemUnit::getItemDropMapNode(MapNode*, MapNode**, int, int&)
 {
 	/*
 	.loc_0x0:
@@ -1557,7 +918,7 @@ void Cave::RandItemUnit::getItemDropMapNode(Game::Cave::MapNode*, Game::Cave::Ma
  * Address:	8024F448
  * Size:	000314
  */
-void Cave::RandItemUnit::getItemBaseGenPosition(Game::Cave::MapNode*, int)
+Vector3f RandItemUnit::getItemBaseGenPosition(MapNode*, int)
 {
 	/*
 	stwu     r1, -0x330(r1)
@@ -1777,7 +1138,7 @@ lbl_8024F728:
  * Address:	8024F75C
  * Size:	00018C
  */
-void Cave::RandItemUnit::getItemDropList(Game::Cave::MapNode*, Game::Cave::MapNode**, Game::Cave::BaseGen**, int&)
+void RandItemUnit::getItemDropList(MapNode*, MapNode**, BaseGen**, int&)
 {
 	/*
 	.loc_0x0:
@@ -1902,7 +1263,7 @@ void Cave::RandItemUnit::getItemDropList(Game::Cave::MapNode*, Game::Cave::MapNo
  * Address:	8024F8E8
  * Size:	0002CC
  */
-void Cave::RandItemUnit::getItemBaseGenPosition(Game::Cave::MapNode**, Game::Cave::BaseGen**, int, int, int)
+Vector3f RandItemUnit::getItemBaseGenPosition(MapNode**, BaseGen**, int, int, int)
 {
 	/*
 	.loc_0x0:
@@ -2129,7 +1490,7 @@ void Cave::RandItemUnit::getItemBaseGenPosition(Game::Cave::MapNode**, Game::Cav
  * Address:	8024FBB4
  * Size:	000114
  */
-void Cave::RandItemUnit::getItemDropSortingList(Game::Cave::MapNode**, Game::Cave::BaseGen**, int*, int)
+void RandItemUnit::getItemDropSortingList(MapNode**, BaseGen**, int*, int)
 {
 	/*
 	.loc_0x0:
@@ -2216,4 +1577,5 @@ void Cave::RandItemUnit::getItemDropSortingList(Game::Cave::MapNode**, Game::Cav
 	  blr
 	*/
 }
+} // namespace Cave
 } // namespace Game

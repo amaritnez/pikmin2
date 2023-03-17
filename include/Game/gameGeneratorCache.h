@@ -9,22 +9,22 @@ namespace Game {
 struct CourseCache : public CNode {
 	CourseCache(int);
 
-	virtual ~CourseCache(); // _00
+	virtual ~CourseCache(); // _08 (weak)
 
 	void beginSave(int);
 	int getColorMePikmins(u8*, int);
 	void read(Stream&);
 	void write(Stream&);
 
-	int m_courseIndex;    // _18
-	u32 m_offset;         // _1C
-	u32 m_size;           // _20
-	u32 m_generatorCount; // _24
-	int m_generatorSize;  // _28
-	u32 m_creatureCount;  // _2C
-	int m_creatureSize;   // _30
-	int m_pikiheadCount;  // _34
-	int m_pikiheadSize;   // _38
+	int mCourseIndex;    // _18
+	u32 mOffset;         // _1C
+	u32 mSize;           // _20
+	u32 mGeneratorCount; // _24
+	int mGeneratorSize;  // _28
+	u32 mCreatureCount;  // _2C
+	int mCreatureSize;   // _30
+	int mPikiheadCount;  // _34
+	int mPikiheadSize;   // _38
 };
 
 /// @size{0x140}
@@ -57,14 +57,16 @@ struct GeneratorCache {
 	void updateUseList();
 	void write(Stream&);
 
-	CourseCache _00;       // _00
-	CourseCache _3C;       // _3C
-	CourseCache* _78;      // _78
-	u8* m_heapBuffer;      // _7C
-	int m_heapSize;        // _80
-	u32 m_freeOffset;      // _84
-	int m_freeSize;        // _88
-	Generator m_generator; // _8C
+	inline int getHeapUsedSize() const { return mHeapSize - mFreeSize; }
+
+	CourseCache _00;      // _00
+	CourseCache _3C;      // _3C
+	CourseCache* _78;     // _78
+	u8* mHeapBuffer;      // _7C
+	int mHeapSize;        // _80
+	u32 mFreeOffset;      // _84
+	int mFreeSize;        // _88
+	Generator mGenerator; // _8C
 };
 
 extern GeneratorCache* generatorCache;

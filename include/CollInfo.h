@@ -5,114 +5,109 @@
 #include "Graphics.h"
 #include "IDelegate.h"
 #include "id32.h"
-#include "JSystem/JKR/JKRFileLoader.h"
+#include "JSystem/JKernel/JKRFileLoader.h"
 #include "MonoObjectMgr.h"
 #include "Sys/Tube.h"
 #include "SysShape/Model.h"
 #include "SysShape/MtxObject.h"
 #include "Vector3.h"
+#include "Condition.h"
 
 struct CollPartMgr;
-struct FindCollPartArg;
+
+#define COLLTYPE_SPHERE   (0)
+#define COLLTYPE_TUBE     (1)
+#define COLLTYPE_TUBETREE (2)
+
+namespace Game {
+struct Creature;
+}
 
 struct CollPart : public CNode {
 	CollPart();
 	CollPart(SysShape::MtxObject*);
 
 	////////////// VTABLE
-	virtual ~CollPart() { }      // _08 (weak)
-	virtual int getChildCount(); // _0C (weak)
-	virtual bool isMouth()       // _10 (weak)
+	virtual ~CollPart() { }     // _08 (weak)
+	virtual int getChildCount() // _0C (weak)
+	{
+		return CNode::getChildCount();
+	}
+	virtual bool isMouth() // _10 (weak)
 	{
 		return false;
 	}
-	virtual void draw(Graphics&);            // _14
-	virtual void constructor() { }           // _18 (weak)
-	virtual void doAnimation() { }           // _1C (weak)
-	virtual void doEntry() { }               // _20 (weak)
-	virtual void doSetView(u32) { }          // _24 (weak)
-	virtual void doViewCalc() { }            // _28 (weak)
-	virtual void doSimulation(float) { }     // _2C (weak)
-	virtual void doDirectDraw(Graphics&) { } // _30 (weak)
+	virtual void draw(Graphics&);                // _14
+	virtual void constructor() { }               // _18 (weak)
+	virtual void doAnimation() { }               // _1C (weak)
+	virtual void doEntry() { }                   // _20 (weak)
+	virtual void doSetView(u32) { }              // _24 (weak)
+	virtual void doViewCalc() { }                // _28 (weak)
+	virtual void doSimulation(f32 rate) { }      // _2C (weak)
+	virtual void doDirectDraw(Graphics& gfx) { } // _30 (weak)
 	////////////// END VTABLE
 
 	void init(SysShape::MtxObject*);
-	/**
-	 * @reifiedAddress{8013915C}
-	 * @reifiedFile{plugProjectKandoU/collinfo.cpp}
-	 */
+
 	void addChild(CollPart* child) { add(child); }
 	void attachModel(SysShape::MtxObject*);
+
 	void calcStickGlobal(Vector3f&, Vector3f&);
 	void calcStickLocal(Vector3f&, Vector3f&);
 	void calcPoseMatrix(Vector3f&, Matrixf&);
+
 	void checkCollision(Sys::Sphere&, IDelegate1<CollPart*>*);
 	void checkCollisionMulti(CollPart*, IDelegate3<CollPart*, CollPart*, Vector3f&>*);
+
 	CollPart* clone(SysShape::MtxObject*, CollPartMgr*);
 	bool collide(CollPart*, Vector3f&);
+
 	int getAllCollPartToArray(CollPart**, int, int&);
-	/**
-	 * @reifiedAddress{80134540}
-	 * @reifiedFile{plugProjectKandoU/collinfo.cpp}
-	 */
-	CollPart* getChild() { return (CollPart*)m_child; }
+
+	CollPart* getChild() { return (CollPart*)mChild; }
 	CollPart* getCollPart(u32);
-	/**
-	 * @reifiedAddress{80134548}
-	 * @reifiedFile{plugProjectKandoU/collinfo.cpp}
-	 */
-	CollPart* getNext() { return (CollPart*)m_next; }
+	CollPart* getNext() { return (CollPart*)mNext; }
+
 	void getSphere(Sys::Sphere&);
 	void getTube(Sys::Tube&);
-	/**
-	 * @reifiedAddress{80134B90}
-	 * @reifiedFile{plugProjectKandoU/collinfo.cpp}
-	 */
-	bool isLeaf() { return (m_child == nullptr); }
-	/**
-	 * @reifiedAddress{80135510}
-	 * @reifiedFile{plugProjectKandoU/collinfo.cpp}
-	 */
-	bool isSphere() { return (m_hasCollPart == 0); }
+
+	bool isLeaf() { return (getChild() == nullptr); }
+	bool isSphere() { return (mPartType == COLLTYPE_SPHERE); }
 	bool isStickable();
-	bool isTube() { return (m_hasCollPart == 2); }
-	bool isTubeTree() { return (m_hasCollPart == 1); }
-	/**
-	 * @fabricated
-	 */
-	bool isTubeLike() { return isTubeTree() || isTube(); }
-	/**
-	 * @reifiedAddress{80134BA0}
-	 * @reifiedFile{plugProjectKandoU/collinfo.cpp}
-	 */
-	bool isPrim() { return (isLeaf() || isTubeTree() || isTube()); }
+	bool isTube() { return (mPartType == COLLTYPE_TUBE); }
+	bool isTubeTree() { return (mPartType == COLLTYPE_TUBETREE); }
+	bool isTubeLike() { return isTube() || isTubeTree(); }
+	bool isPrim() { return (getChild() == nullptr || isTube() || isTubeTree()); }
+
 	void makeMatrixTo(Matrixf&);
 	void makeTubeTree();
 	void read(Stream&, bool);
-	void setScale(float);
+	void setScale(f32);
 	void update();
 
-	float _18;                    // _18   /* PikDecomp calls this `radius1`. */
-	float _1C;                    // _1C   /* PikDecomp calls this `radius`. */
-	Vector3f _20;                 // _20   /* PikDecomp calls this `Offset`. SodiumDecomp calls
-	                              // this `size_0x20`. :shrug: */
-	u32 m_jointIndex;             // _2C
-	ID32 _30;                     // _30
-	ID32 _3C;                     // _3C
-	short m_attribute;            // _48   /* name from PikDecomp */
-	Vector3f m_position;          // _4C   /* name from PikDecomp */
-	u8 m_hasCollPart;             // _58   /* name from PikDecomp */
-	SysShape::MtxObject* m_model; // _5C
-	u32 _60;                      // _60
+	f32 mBaseRadius;             // _18, base radius used to calculate real radius (in setScale, it's scaled)
+	f32 mRadius;                 // _1C
+	Vector3f mOffset;            // _20
+	u32 mJointIndex;             // _2C
+	ID32 mCurrentID;             // _30, identifier of current part, initialised to root
+	ID32 mSpecialID;             // _3C, used to detect whether the collpart is stickable, denoted by prefixed -s: e.g. 'sp01'
+	u16 mAttribute;              // _48
+	Vector3f mPosition;          // _4C
+	u8 mPartType;                // _58, using define list - 0=Sphere, 1=Tube, 2=TubeTree
+	SysShape::MtxObject* mModel; // _5C
+	u32 _60;                     // _60
 };
 
 struct CollPartMgr : public MonoObjectMgr<CollPart> {
 
-	virtual ~CollPartMgr(); // _08 (weak)
-	// virtual void _2C() = 0;		  // _2C - need to work out
-	// virtual void _30() = 0; 		  // _30 - need to work out
+	virtual ~CollPartMgr() { } // _08 (weak)
 
 	CollPart* createOne(SysShape::MtxObject*);
+};
+
+struct FindCollPartArg {
+	Condition<CollPart>* mCondition; // _00
+	Vector3f mPosition;              // _04
 };
 
 struct MouthCollPart : public CollPart {
@@ -127,9 +122,12 @@ struct MouthCollPart : public CollPart {
 	void copyMatrixTo(Matrixf&);
 	void getPosition(Vector3f&);
 
-	CollPart* _64;        // _64
-	SysShape::Joint* _68; // _68
-	u8 _6C;               // _6C
+	// inlined
+	void setup(SysShape::Model* model, char* jointName, Vector3f& vector);
+
+	Game::Creature* mStuckCreature; // _64
+	SysShape::Joint* mMouthJoint;   // _68
+	u8 _6C;                         // _6C
 };
 
 struct MouthSlots {
@@ -139,20 +137,27 @@ struct MouthSlots {
 	void update();
 	void setup(int, SysShape::Model*, char*);
 
-	int m_max;              // _00
-	MouthCollPart* m_slots; // _04
+	int getMax() { return mMax; }
+
+	inline Game::Creature* getStuckCreature(int i) { return getSlot(i)->mStuckCreature; }
+
+	int mMax;              // _00
+	MouthCollPart* mSlots; // _04
 };
+
+#define ACP_DRAWFLAG_DISABLED (0x0)
+#define ACP_DRAWFLAG_ENABLED  (0x1)
 
 struct AgeCollPart : public CollPart {
 	AgeCollPart(SysShape::Model*);
 
-	virtual ~AgeCollPart();       // _08 (weak)
+	virtual ~AgeCollPart() { }    // _08 (weak)
 	virtual void draw(Graphics&); // _14
 
-	u8 _64; // _64
+	u8 mDrawFlags; // _64
 };
 
-struct CollPartFactory : CollPart {
+struct CollPartFactory : public CollPart {
 	inline CollPartFactory(Stream& input)
 	    : CollPart()
 	{
@@ -163,7 +168,7 @@ struct CollPartFactory : CollPart {
 
 	static CollPartFactory* load(char*);
 	static CollPartFactory* load(JKRFileLoader*, char*);
-	void createInstance(SysShape::MtxObject*, CollPartMgr*);
+	CollPart* createInstance(SysShape::MtxObject*, CollPartMgr*);
 };
 
 struct CollTree {
@@ -175,7 +180,7 @@ struct CollTree {
 	void checkCollision(Sys::Sphere&, IDelegate1<CollPart*>*);
 	bool checkCollisionRec(CollPart*, CollPart*, CollPart**, CollPart**, Vector3f&);
 	void checkCollisionMulti(CollTree*, IDelegate3<CollPart*, CollPart*, Vector3f&>*);
-	void findCollPart(FindCollPartArg&);
+	CollPart* findCollPart(FindCollPartArg&);
 	void getBoundingSphere(Sys::Sphere&);
 	CollPart* getCollPart(u32);
 	CollPart* getRandomCollPart();
@@ -186,8 +191,10 @@ struct CollTree {
 	// Unused/inlined:
 	void checkCollisionMultiRec(CollPart*, CollPart*, IDelegate3<CollPart*, CollPart*, Vector3f&>*);
 
-	CollPart* m_part;   // _00
-	CollPartMgr* m_mgr; // _04
+	static bool mDebug;
+
+	CollPart* mPart;   // _00
+	CollPartMgr* mMgr; // _04
 };
 
 #endif

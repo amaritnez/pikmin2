@@ -9,9 +9,9 @@ namespace Cave {
  */
 Adjust::Adjust()
 {
-	_00 = -1;
-	_04 = -1;
-	_08 = -1;
+	mDoorID    = -1;
+	mDistance  = -1;
+	mTekiFlags = -1;
 }
 
 /*
@@ -22,7 +22,7 @@ Adjust::Adjust()
 AdjustNode::AdjustNode()
     : CNode()
 {
-	m_node = nullptr;
+	mNode = nullptr;
 }
 
 /*
@@ -33,7 +33,7 @@ AdjustNode::AdjustNode()
 AdjustNode::AdjustNode(Adjust* node)
     : CNode()
 {
-	m_node = node;
+	mNode = node;
 }
 
 /*
@@ -42,8 +42,8 @@ AdjustNode::AdjustNode(Adjust* node)
  * Size:	000010
  */
 Door::Door()
-    : m_direction(-1)
-    , m_offset(-1)
+    : mDirection(-1)
+    , mOffset(-1)
 {
 }
 
@@ -65,8 +65,8 @@ DoorNode::DoorNode()
  */
 DoorNode::DoorNode(Door& door)
 {
-	m_node.m_direction = door.m_direction;
-	m_node.m_offset    = door.m_offset;
+	mNode.mDirection = door.mDirection;
+	mNode.mOffset    = door.mOffset;
 }
 
 /*
@@ -76,22 +76,22 @@ DoorNode::DoorNode(Door& door)
  */
 bool DoorNode::isDoorAdjust(DoorNode* other)
 {
-	s32 x = m_node.m_direction;
-	s32 y = other->m_node.m_direction;
+	CardinalDirection x = static_cast<CardinalDirection>(mNode.mDirection);
+	CardinalDirection y = static_cast<CardinalDirection>(other->mNode.mDirection);
 
-	if (!x && y == 2) {
+	if (x == CD_UP && y == CD_DOWN) {
 		return true;
 	}
 
-	if (x == 2 && !y) {
+	if (x == CD_DOWN && y == CD_UP) {
 		return true;
 	}
 
-	if (x == 3 && y == 1) {
+	if (x == CD_LEFT && y == CD_RIGHT) {
 		return true;
 	}
 
-	if (x == 1 && y == 3) {
+	if (x == CD_RIGHT && y == CD_LEFT) {
 		return true;
 	}
 

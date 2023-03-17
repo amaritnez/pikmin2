@@ -78,19 +78,19 @@ void BaseFlockMgr::update()
 {
 	do_update_boundSphere();
 
-	Graphics* gfx = sys->m_gfx;
-	for (int i = 0; i < gfx->m_viewportCount; i++) {
+	Graphics* gfx = sys->mGfx;
+	for (int i = 0; i < gfx->mViewportCount; i++) {
 		Viewport* vp = gfx->getViewport(i);
 
 		if (!vp->viewable()) {
-			_1C[i] = false;
+			mIsAgentVisible[i] = false;
 			continue;
 		}
 
-		if (vp->m_camera->isVisible(_0C)) {
-			_1C[i] = true;
+		if (vp->mCamera->isVisible(_0C)) {
+			mIsAgentVisible[i] = true;
 		} else {
-			_1C[i] = false;
+			mIsAgentVisible[i] = false;
 		}
 	}
 
@@ -172,7 +172,7 @@ lbl_8020EB7C:
  * Address:	8020EBBC
  * Size:	000154
  */
-void getNearestFlock__Q24Game12BaseFlockMgrFR10Vector3f(void)
+void getNearestFlock__Q24Game12BaseFlockMgrFR10Vector3f()
 {
 	/*
 	stwu     r1, -0x30(r1)
@@ -280,7 +280,7 @@ namespace Game {
  * Address:	........
  * Size:	000140
  */
-// void BaseFlockMgr::getRandomFlock(void)
+// void BaseFlockMgr::getRandomFlock()
 // {
 // UNUSED FUNCTION
 // }
@@ -719,7 +719,7 @@ blr
  * Address:	8020F258
  * Size:	000028
  */
-void __sinit_flockMgr_cpp(void)
+void __sinit_flockMgr_cpp()
 {
 	/*
 	lis      r4, __float_nan@ha

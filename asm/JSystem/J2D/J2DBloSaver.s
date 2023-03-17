@@ -9,44 +9,43 @@ lbl_constructor:
 
 .section .sbss # 0x80514D80 - 0x80516360
 .balign 8
-.global TextureNameConnect__11J2DBloSaver
-TextureNameConnect__11J2DBloSaver:
+.obj TextureNameConnect__11J2DBloSaver, global
 	.skip 0x4
+.endobj TextureNameConnect__11J2DBloSaver
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global getTexNo__11J2DTevBlockCFUl
-getTexNo__11J2DTevBlockCFUl: # weak function
+.fn getTexNo__11J2DTevBlockCFUl, weak
 /* 800494E4 00046424  3C 60 00 01 */	lis r3, 0x0000FFFF@ha
 /* 800494E8 00046428  38 63 FF FF */	addi r3, r3, 0x0000FFFF@l
 /* 800494EC 0004642C  4E 80 00 20 */	blr 
+.endfn getTexNo__11J2DTevBlockCFUl
 
-.global setTexNo__11J2DTevBlockFUlUs
-setTexNo__11J2DTevBlockFUlUs: # weak function
+.fn setTexNo__11J2DTevBlockFUlUs, weak
 /* 800494F0 00046430  4E 80 00 20 */	blr 
+.endfn setTexNo__11J2DTevBlockFUlUs
 
-.global getTevSwapModeTable__11J2DTevBlockFUl
-getTevSwapModeTable__11J2DTevBlockFUl: # weak function
+.fn getTevSwapModeTable__11J2DTevBlockFUl, weak
 /* 800494F4 00046434  38 60 00 00 */	li r3, 0
 /* 800494F8 00046438  4E 80 00 20 */	blr 
+.endfn getTevSwapModeTable__11J2DTevBlockFUl
 
-.global getTevOrder__11J2DTevBlockFUl
-getTevOrder__11J2DTevBlockFUl: # weak function
+.fn getTevOrder__11J2DTevBlockFUl, weak
 /* 800494FC 0004643C  38 60 00 00 */	li r3, 0
 /* 80049500 00046440  4E 80 00 20 */	blr 
+.endfn getTevOrder__11J2DTevBlockFUl
 
-.global getFontNo__11J2DTevBlockCFv
-getFontNo__11J2DTevBlockCFv: # weak function
+.fn getFontNo__11J2DTevBlockCFv, weak
 /* 80049504 00046444  3C 60 00 01 */	lis r3, 0x0000FFFF@ha
 /* 80049508 00046448  38 63 FF FF */	addi r3, r3, 0x0000FFFF@l
 /* 8004950C 0004644C  4E 80 00 20 */	blr 
+.endfn getFontNo__11J2DTevBlockCFv
 
-.global getIndTexStageNum__11J2DIndBlockCFv
-getIndTexStageNum__11J2DIndBlockCFv: # weak function
+.fn getIndTexStageNum__11J2DIndBlockCFv, weak
 /* 80049510 00046450  38 60 00 00 */	li r3, 0
 /* 80049514 00046454  4E 80 00 20 */	blr 
+.endfn getIndTexStageNum__11J2DIndBlockCFv
 
-.global __dt__Q211J2DBloSaver19CTextureNameConnectFv
-__dt__Q211J2DBloSaver19CTextureNameConnectFv:
+.fn __dt__Q211J2DBloSaver19CTextureNameConnectFv, global
 /* 80049518 00046458  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8004951C 0004645C  7C 08 02 A6 */	mflr r0
 /* 80049520 00046460  90 01 00 14 */	stw r0, 0x14(r1)
@@ -54,13 +53,13 @@ __dt__Q211J2DBloSaver19CTextureNameConnectFv:
 /* 80049528 00046468  7C 9F 23 78 */	mr r31, r4
 /* 8004952C 0004646C  93 C1 00 08 */	stw r30, 8(r1)
 /* 80049530 00046470  7C 7E 1B 79 */	or. r30, r3, r3
-/* 80049534 00046474  41 82 00 18 */	beq lbl_8004954C
+/* 80049534 00046474  41 82 00 18 */	beq .L_8004954C
 /* 80049538 00046478  48 00 00 31 */	bl clear__Q211J2DBloSaver19CTextureNameConnectFv
 /* 8004953C 0004647C  7F E0 07 35 */	extsh. r0, r31
-/* 80049540 00046480  40 81 00 0C */	ble lbl_8004954C
+/* 80049540 00046480  40 81 00 0C */	ble .L_8004954C
 /* 80049544 00046484  7F C3 F3 78 */	mr r3, r30
 /* 80049548 00046488  4B FD AB 6D */	bl __dl__FPv
-lbl_8004954C:
+.L_8004954C:
 /* 8004954C 0004648C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80049550 00046490  7F C3 F3 78 */	mr r3, r30
 /* 80049554 00046494  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -68,9 +67,9 @@ lbl_8004954C:
 /* 8004955C 0004649C  7C 08 03 A6 */	mtlr r0
 /* 80049560 000464A0  38 21 00 10 */	addi r1, r1, 0x10
 /* 80049564 000464A4  4E 80 00 20 */	blr 
+.endfn __dt__Q211J2DBloSaver19CTextureNameConnectFv
 
-.global clear__Q211J2DBloSaver19CTextureNameConnectFv
-clear__Q211J2DBloSaver19CTextureNameConnectFv:
+.fn clear__Q211J2DBloSaver19CTextureNameConnectFv, global
 /* 80049568 000464A8  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8004956C 000464AC  7C 08 02 A6 */	mflr r0
 /* 80049570 000464B0  90 01 00 24 */	stw r0, 0x24(r1)
@@ -79,20 +78,20 @@ clear__Q211J2DBloSaver19CTextureNameConnectFv:
 /* 8004957C 000464BC  93 A1 00 14 */	stw r29, 0x14(r1)
 /* 80049580 000464C0  7C 7D 1B 78 */	mr r29, r3
 /* 80049584 000464C4  83 E3 00 00 */	lwz r31, 0(r3)
-/* 80049588 000464C8  48 00 00 24 */	b lbl_800495AC
-lbl_8004958C:
+/* 80049588 000464C8  48 00 00 24 */	b .L_800495AC
+.L_8004958C:
 /* 8004958C 000464CC  28 1F 00 00 */	cmplwi r31, 0
 /* 80049590 000464D0  83 DF 00 08 */	lwz r30, 8(r31)
-/* 80049594 000464D4  41 82 00 14 */	beq lbl_800495A8
+/* 80049594 000464D4  41 82 00 14 */	beq .L_800495A8
 /* 80049598 000464D8  80 7F 00 04 */	lwz r3, 4(r31)
 /* 8004959C 000464DC  4B FD AB 3D */	bl __dla__FPv
 /* 800495A0 000464E0  7F E3 FB 78 */	mr r3, r31
 /* 800495A4 000464E4  4B FD AB 11 */	bl __dl__FPv
-lbl_800495A8:
+.L_800495A8:
 /* 800495A8 000464E8  7F DF F3 78 */	mr r31, r30
-lbl_800495AC:
+.L_800495AC:
 /* 800495AC 000464EC  28 1F 00 00 */	cmplwi r31, 0
-/* 800495B0 000464F0  40 82 FF DC */	bne lbl_8004958C
+/* 800495B0 000464F0  40 82 FF DC */	bne .L_8004958C
 /* 800495B4 000464F4  38 00 00 00 */	li r0, 0
 /* 800495B8 000464F8  90 1D 00 00 */	stw r0, 0(r29)
 /* 800495BC 000464FC  80 01 00 24 */	lwz r0, 0x24(r1)
@@ -102,9 +101,9 @@ lbl_800495AC:
 /* 800495CC 0004650C  7C 08 03 A6 */	mtlr r0
 /* 800495D0 00046510  38 21 00 20 */	addi r1, r1, 0x20
 /* 800495D4 00046514  4E 80 00 20 */	blr 
+.endfn clear__Q211J2DBloSaver19CTextureNameConnectFv
 
-.global __ct__11J2DTevStageFv
-__ct__11J2DTevStageFv: # weak function
+.fn __ct__11J2DTevStageFv, weak
 /* 800495D8 00046518  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800495DC 0004651C  7C 08 02 A6 */	mflr r0
 /* 800495E0 00046520  3C 80 80 48 */	lis r4, j2dDefaultTevStageInfo@ha
@@ -131,9 +130,9 @@ __ct__11J2DTevStageFv: # weak function
 /* 80049634 00046574  7C 08 03 A6 */	mtlr r0
 /* 80049638 00046578  38 21 00 10 */	addi r1, r1, 0x10
 /* 8004963C 0004657C  4E 80 00 20 */	blr 
+.endfn __ct__11J2DTevStageFv
 
-.global setTevStageInfo__11J2DTevStageFRC15J2DTevStageInfo
-setTevStageInfo__11J2DTevStageFRC15J2DTevStageInfo: # weak function
+.fn setTevStageInfo__11J2DTevStageFRC15J2DTevStageInfo, weak
 /* 80049640 00046580  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80049644 00046584  88 A4 00 01 */	lbz r5, 1(r4)
 /* 80049648 00046588  93 E1 00 0C */	stw r31, 0xc(r1)
@@ -158,7 +157,7 @@ setTevStageInfo__11J2DTevStageFRC15J2DTevStageInfo: # weak function
 /* 80049694 000465D4  89 04 00 07 */	lbz r8, 7(r4)
 /* 80049698 000465D8  98 03 00 01 */	stb r0, 1(r3)
 /* 8004969C 000465DC  88 E4 00 06 */	lbz r7, 6(r4)
-/* 800496A0 000465E0  41 81 00 2C */	bgt lbl_800496CC
+/* 800496A0 000465E0  41 81 00 2C */	bgt .L_800496CC
 /* 800496A4 000465E4  88 A3 00 01 */	lbz r5, 1(r3)
 /* 800496A8 000465E8  55 00 25 36 */	rlwinm r0, r8, 4, 0x14, 0x1b
 /* 800496AC 000465EC  54 A5 07 32 */	rlwinm r5, r5, 0, 0x1c, 0x19
@@ -168,8 +167,8 @@ setTevStageInfo__11J2DTevStageFRC15J2DTevStageInfo: # weak function
 /* 800496BC 000465FC  54 00 00 3A */	rlwinm r0, r0, 0, 0, 0x1d
 /* 800496C0 00046600  7C 00 3B 78 */	or r0, r0, r7
 /* 800496C4 00046604  98 03 00 01 */	stb r0, 1(r3)
-/* 800496C8 00046608  48 00 00 20 */	b lbl_800496E8
-lbl_800496CC:
+/* 800496C8 00046608  48 00 00 20 */	b .L_800496E8
+.L_800496CC:
 /* 800496CC 0004660C  88 03 00 01 */	lbz r0, 1(r3)
 /* 800496D0 00046610  50 C0 1E B6 */	rlwimi r0, r6, 3, 0x1a, 0x1b
 /* 800496D4 00046614  98 03 00 01 */	stb r0, 1(r3)
@@ -177,7 +176,7 @@ lbl_800496CC:
 /* 800496DC 0004661C  54 00 00 3A */	rlwinm r0, r0, 0, 0, 0x1d
 /* 800496E0 00046620  60 00 00 03 */	ori r0, r0, 3
 /* 800496E4 00046624  98 03 00 01 */	stb r0, 1(r3)
-lbl_800496E8:
+.L_800496E8:
 /* 800496E8 00046628  88 03 00 01 */	lbz r0, 1(r3)
 /* 800496EC 0004662C  55 25 1D 78 */	rlwinm r5, r9, 3, 0x15, 0x1c
 /* 800496F0 00046630  89 04 00 0C */	lbz r8, 0xc(r4)
@@ -225,7 +224,7 @@ lbl_800496E8:
 /* 80049798 000466D8  54 84 07 B8 */	rlwinm r4, r4, 0, 0x1e, 0x1c
 /* 8004979C 000466DC  7C 84 3B 78 */	or r4, r4, r7
 /* 800497A0 000466E0  98 83 00 05 */	stb r4, 5(r3)
-/* 800497A4 000466E4  41 81 00 2C */	bgt lbl_800497D0
+/* 800497A4 000466E4  41 81 00 2C */	bgt .L_800497D0
 /* 800497A8 000466E8  88 83 00 05 */	lbz r4, 5(r3)
 /* 800497AC 000466EC  57 C0 25 36 */	rlwinm r0, r30, 4, 0x14, 0x1b
 /* 800497B0 000466F0  54 84 00 3A */	rlwinm r4, r4, 0, 0, 0x1d
@@ -235,8 +234,8 @@ lbl_800496E8:
 /* 800497C0 00046700  54 84 07 32 */	rlwinm r4, r4, 0, 0x1c, 0x19
 /* 800497C4 00046704  7C 80 03 78 */	or r0, r4, r0
 /* 800497C8 00046708  98 03 00 05 */	stb r0, 5(r3)
-/* 800497CC 0004670C  48 00 00 20 */	b lbl_800497EC
-lbl_800497D0:
+/* 800497CC 0004670C  48 00 00 20 */	b .L_800497EC
+.L_800497D0:
 /* 800497D0 00046710  88 83 00 05 */	lbz r4, 5(r3)
 /* 800497D4 00046714  50 04 1E B6 */	rlwimi r4, r0, 3, 0x1a, 0x1b
 /* 800497D8 00046718  98 83 00 05 */	stb r4, 5(r3)
@@ -244,7 +243,7 @@ lbl_800497D0:
 /* 800497E0 00046720  54 00 00 3A */	rlwinm r0, r0, 0, 0, 0x1d
 /* 800497E4 00046724  60 00 00 03 */	ori r0, r0, 3
 /* 800497E8 00046728  98 03 00 05 */	stb r0, 5(r3)
-lbl_800497EC:
+.L_800497EC:
 /* 800497EC 0004672C  88 E3 00 05 */	lbz r7, 5(r3)
 /* 800497F0 00046730  54 A4 1D 78 */	rlwinm r4, r5, 3, 0x15, 0x1c
 /* 800497F4 00046734  54 C0 34 B2 */	rlwinm r0, r6, 6, 0x12, 0x19
@@ -258,8 +257,9 @@ lbl_800497EC:
 /* 80049814 00046754  83 C1 00 08 */	lwz r30, 8(r1)
 /* 80049818 00046758  38 21 00 10 */	addi r1, r1, 0x10
 /* 8004981C 0004675C  4E 80 00 20 */	blr 
+.endfn setTevStageInfo__11J2DTevStageFRC15J2DTevStageInfo
 
-__sinit_J2DBloSaver_cpp: # static initializer
+.fn __sinit_J2DBloSaver_cpp, local
 /* 80049820 00046760  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80049824 00046764  7C 08 02 A6 */	mflr r0
 /* 80049828 00046768  3C 60 80 05 */	lis r3, __dt__Q211J2DBloSaver19CTextureNameConnectFv@ha
@@ -275,3 +275,4 @@ __sinit_J2DBloSaver_cpp: # static initializer
 /* 80049850 00046790  7C 08 03 A6 */	mtlr r0
 /* 80049854 00046794  38 21 00 10 */	addi r1, r1, 0x10
 /* 80049858 00046798  4E 80 00 20 */	blr 
+.endfn __sinit_J2DBloSaver_cpp

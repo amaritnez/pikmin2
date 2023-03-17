@@ -3,11 +3,10 @@
 #include "og/Screen/ogScreen.h"
 #include "og/Screen/TotalPokoScreen.h"
 #include "og/Sound.h"
-#include "P2DScreen.h"
 #include "System.h"
+#include "trig.h"
 
 namespace og {
-
 namespace Screen {
 
 /*
@@ -17,20 +16,20 @@ namespace Screen {
  */
 TotalPokoScreen::TotalPokoScreen()
 {
-	m_isOpen            = false;
-	m_currentPokoCount  = 2469;
-	m_previousPokoCount = m_currentPokoCount;
-	_150                = m_currentPokoCount;
-	m_callBackCounterRV = nullptr;
-	m_pane              = nullptr;
-	_160                = 0.0f;
-	_164                = 0.0f;
-	_168                = 0.0f;
-	_16C                = 0.0f;
-	_170                = 0.0f;
-	_174                = 0.0f;
-	_178                = false;
-	m_scaleMgr          = new ScaleMgr();
+	mIsOpen            = false;
+	mCurrentPokoCount  = 2469;
+	mPreviousPokoCount = mCurrentPokoCount;
+	mDisplayPokoCount  = mCurrentPokoCount;
+	mCallBackCounterRV = nullptr;
+	mPane              = nullptr;
+	_160               = 0.0f;
+	mStandardPos.x     = 0.0f;
+	mStandardPos.y     = 0.0f;
+	mCurrPos.x         = 0.0f;
+	mCurrPos.y         = 0.0f;
+	mTimer             = 0.0f;
+	mNeedAdd           = false;
+	mScaleMgr          = new ScaleMgr;
 }
 
 /*
@@ -40,17 +39,17 @@ TotalPokoScreen::TotalPokoScreen()
  */
 void TotalPokoScreen::showTotalPoko()
 {
-	if (!m_isOpen) {
-		m_isOpen = true;
-		_174     = 0.8f;
-		_178     = true;
+	if (!mIsOpen) {
+		mIsOpen  = true;
+		mTimer   = 0.8f;
+		mNeedAdd = true;
 
 		if (!newScreen::checkMovieActive()) {
 			ogSound->setOpenTotalPoko();
 		}
 
-		_150                = m_previousPokoCount;
-		m_pane->m_isVisible = true;
+		mDisplayPokoCount = mPreviousPokoCount;
+		mPane->show();
 	}
 }
 
@@ -61,11 +60,11 @@ void TotalPokoScreen::showTotalPoko()
  */
 void TotalPokoScreen::setTotalPoko(u32 newPokoCount)
 {
-	m_previousPokoCount = m_currentPokoCount;
-	m_currentPokoCount  = newPokoCount;
+	mPreviousPokoCount = mCurrentPokoCount;
+	mCurrentPokoCount  = newPokoCount;
 
-	if (m_isOpen && _174 <= 00 && _178 == false) {
-		_178 = true;
+	if (mIsOpen && mTimer <= 0.0f && !mNeedAdd) {
+		mNeedAdd = true;
 
 		if (!newScreen::checkMovieActive()) {
 			ogSound->setPlusTotalPoko();
@@ -80,9 +79,9 @@ void TotalPokoScreen::setTotalPoko(u32 newPokoCount)
  */
 void TotalPokoScreen::closeTotalPoko()
 {
-	if (m_isOpen) {
+	if (mIsOpen) {
 		ogSound->setCloseTotalPoko();
-		m_isOpen = false;
+		mIsOpen = false;
 	}
 }
 
@@ -91,27 +90,27 @@ void TotalPokoScreen::closeTotalPoko()
  * Address:	8032C570
  * Size:	000010
  */
-void TotalPokoScreen::hideTotalPoko() { m_pane->m_isVisible = false; }
+void TotalPokoScreen::hideTotalPoko() { mPane->hide(); }
 
 /*
  * --INFO--
  * Address:	8032C580
  * Size:	000138
  */
-void TotalPokoScreen::setCallBack(JKRArchive* archive, float x, float y, float scaleX, float scaleY)
+void TotalPokoScreen::setCallBack(JKRArchive* archive, f32 x, f32 y, f32 scaleX, f32 scaleY)
 {
-	m_callBackCounterRV = setCallBack_CounterRV(this, 'Ppoko01', &_150, 10, false, true, archive);
-	m_pane              = search('Npoko');
-	_160                = 0.0f;
-	_164                = x + m_pane->_0D4.x;
-	_168                = y + m_pane->_0D4.y;
-	_16C                = _164;
-	_170                = _168;
+	mCallBackCounterRV = setCallBack_CounterRV(this, 'Ppoko01', &mDisplayPokoCount, 10, false, true, archive);
+	mPane              = search('Npoko');
+	_160               = 0.0f;
+	mStandardPos.x     = x + mPane->mOffset.x;
+	mStandardPos.y     = y + mPane->mOffset.y;
+	mCurrPos.x         = mStandardPos.x;
+	mCurrPos.y         = mStandardPos.y;
 
-	m_pane->move(_16C, _170);
-	J2DPane* pane   = m_pane;
-	pane->m_scale.x = scaleX;
-	pane->m_scale.y = scaleY;
+	mPane->move(mCurrPos.x, mCurrPos.y);
+	J2DPane* pane  = mPane;
+	pane->mScale.x = scaleX;
+	pane->mScale.y = scaleY;
 	pane->calcMtx();
 }
 
@@ -124,44 +123,40 @@ void TotalPokoScreen::update()
 {
 	P2DScreen::Mgr::update();
 
-	if (m_isOpen) {
-		_174 -= sys->m_secondsPerFrame;
+	if (mIsOpen) {
+		mTimer -= sys->mDeltaTime;
 
-		if (_170 < _168) {
-			_170 += 20.0f;
+		if (mCurrPos.y < mStandardPos.y) {
+			mCurrPos.y += 20.0f;
 
-			if (_170 >= _168) {
-				_170 = _168;
-				m_scaleMgr->up(0.3f, 20.0f, 0.5f, 0.0f);
+			if (mCurrPos.y >= mStandardPos.y) {
+				mCurrPos.y = mStandardPos.y;
+				mScaleMgr->up(0.3f, 20.0f, 0.5f, 0.0f);
 			}
 		}
 
-		if (_174 < 0.0f) {
-			_174 = 0.0f;
+		if (mTimer < 0.0f) {
+			mTimer = 0.0f;
 
-			if (_178) {
-				_150 = m_currentPokoCount;
-				m_callBackCounterRV->startPuyoUp(20.0f);
+			if (mNeedAdd) {
+				mDisplayPokoCount = mCurrentPokoCount;
+				mCallBackCounterRV->startPuyoUp(20.0f);
 
 				if (!newScreen::checkMovieActive()) {
 					ogSound->setPlusTotalPoko();
 				}
 
-				_178 = false;
+				mNeedAdd = false;
 			}
 		}
 	} else {
-		if (_170 > -80.0f) {
-			_170 -= 20.0f;
+		if (mCurrPos.y > -80.0f) {
+			mCurrPos.y -= 20.0f;
 		}
 	}
 
-	f32 scale       = m_scaleMgr->calc();
-	J2DPane* pane   = m_pane;
-	pane->m_scale.x = scale;
-	pane->m_scale.y = scale;
-	pane->calcMtx();
-	m_pane->move(_16C, _170);
+	mPane->updateScale(mScaleMgr->calc());
+	mPane->move(mCurrPos.x, mCurrPos.y);
 }
 } // namespace Screen
 } // namespace og

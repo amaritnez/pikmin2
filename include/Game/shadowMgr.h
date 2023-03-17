@@ -1,6 +1,7 @@
 #ifndef _GAME_SHADOWMGR_H
 #define _GAME_SHADOWMGR_H
 
+#include "Game/JointFuncs.h"
 #include "BaseParm.h"
 #include "CNode.h"
 #include "Color4.h"
@@ -8,6 +9,7 @@
 #include "Rect.h"
 #include "Vector3.h"
 #include "Sys/Sphere.h"
+#include "SysShape/Joint.h"
 
 struct Camera;
 struct Color4;
@@ -22,36 +24,37 @@ struct JointShadowRootNode;
 
 // Size: 0x20
 struct ShadowParam {
-	Vector3f m_position;          // _00
-	Sys::Sphere m_boundingSphere; // _0C
-	float _1C;                    // _1C
+	Vector3f mPosition;          // _00
+	Sys::Sphere mBoundingSphere; // _0C
+	f32 mSize;                   // _1C
 };
 
 // Size: 0x60
 struct ShadowParms : public Parameters {
-	Parm<float> m_lodNear; // _0C
-	Parm<float> m_lodFar;  // _34
-	void* m_end;           // _5C
+	Parm<f32> mLodNear; // _0C
+	Parm<f32> mLodFar;  // _34
+	void* mEnd;         // _5C
 };
 
 // Size: 0x24
 struct ShadowNode : public CNode {
-	virtual ~ShadowNode(); // _00
+	virtual ~ShadowNode(); // _08 (weak)
 
-	Creature* m_creature; // _18
-	u32 _1C;              // _1C
-	u32 _20;              // _20 /* bitfield */
+	Creature* mCreature; // _18
+	u32 _1C;             // _1C
+	u32 _20;             // _20 /* bitfield */
 };
 
 struct CylinderBase {
 	CylinderBase();
 
-	virtual void setFilterTextureID(int);     // _00
-	virtual void drawInit();                  // _04
-	virtual void drawCylinder(Matrixf&, int); // _08
-	virtual void drawFinish();                // _0C
+	virtual void setFilterTextureID(int);     // _08
+	virtual void drawInit();                  // _0C
+	virtual void drawCylinder(Matrixf&, int); // _10
+	virtual void drawFinish();                // _14
 
 	void setColor(Color4*);
+	void setShadowRect(Rectf&);
 	void setCameraParms(Camera*, int);
 	void makeSRT(Matrixf&, ShadowParam&);
 	void getCylinderType(ShadowParam&, int);
@@ -66,20 +69,26 @@ struct CylinderBase {
 	void drawCylinderList(int);
 
 	// VTBL _00
-	void* m_displayListObj; // _04
-	Color4* m_color;        // _08
-	ShadowParms* m_parms;   // _0C
-	Rectf _10;              // _10
-	Vector3f _20[2];        // _20
-	Vector3f _38[2];        // _38
-	float _50;              // _50
+	void* mDisplayListObj; // _04
+	Color4* mColor;        // _08
+	ShadowParms* mParms;   // _0C
+	Rectf _10;             // _10
+	Vector3f _20[2];       // _20
+	Vector3f _38[2];       // _38
+	f32 _50;               // _50
 };
 
 struct ShadowCylinder2 : public CylinderBase {
-	virtual void setFilterTextureID(int);     // _00
-	virtual void drawInit();                  // _04
-	virtual void drawCylinder(Matrixf&, int); // _08
-	virtual void drawFinish();                // _0C
+	ShadowCylinder2(ShadowParms*, Color4*);
+
+	virtual void setFilterTextureID(int);     // _08
+	virtual void drawInit();                  // _0C
+	virtual void drawCylinder(Matrixf&, int); // _10
+	virtual void drawFinish();                // _14
+
+	void copyShadowTexture();
+	void setupTextureFilterGX();
+	void drawTextureFilter();
 
 	u8 _54[8]; // _54
 	void* _5C; // _5C
@@ -87,26 +96,91 @@ struct ShadowCylinder2 : public CylinderBase {
 };
 
 struct ShadowCylinder3 : public CylinderBase {
-	virtual void setFilterTextureID(int);     // _00
-	virtual void drawInit();                  // _04
-	virtual void drawCylinder(Matrixf&, int); // _08
-	virtual void drawFinish();                // _0C
+	ShadowCylinder3(ShadowParms*, Color4*);
+
+	virtual void setFilterTextureID(int);     // _08
+	virtual void drawInit();                  // _0C
+	virtual void drawCylinder(Matrixf&, int); // _10
+	virtual void drawFinish();                // _14
+
+	void drawScreenFilter();
 
 	u8 _54[4]; // _54
 };
 
+struct TubeShadowPosNode : public JointShadowNode {
+	inline TubeShadowPosNode()
+	    : JointShadowNode(2)
+	{
+	}
+
+	virtual ~TubeShadowPosNode() { } // _08 (weak)
+
+	void makeShadowSRT(JointShadowParm&, Vector3f&, Vector3f&);
+
+	// _00     = VTBL
+	// _00-_18 = CNode
+};
+
+struct TubeShadowSetNode : public JointShadowNode {
+	inline TubeShadowSetNode()
+	    : JointShadowNode(2)
+	{
+		mJoint = nullptr;
+	}
+
+	virtual ~TubeShadowSetNode() { } // _08 (weak)
+
+	void makeShadowSRT(JointShadowParm&, Vector3f&, Vector3f&);
+
+	// _00     = VTBL
+	// _00-_24 = JointShadowNode
+	SysShape::Joint* mJoint; // _24
+};
+
+struct TubeShadowTransNode : public JointShadowNode {
+	inline TubeShadowTransNode()
+	    : JointShadowNode(2)
+	{
+		mJoint = nullptr;
+	}
+
+	virtual ~TubeShadowTransNode() { } // _08 (weak)
+
+	void makeShadowSRT(JointShadowParm&, Vector3f&, Vector3f&);
+
+	// _00     = VTBL
+	// _00-_24 = JointShadowNode
+	SysShape::Joint* mJoint; // _24
+};
+
+struct SphereShadowNode : public JointShadowNode {
+	inline SphereShadowNode()
+	    : JointShadowNode(2)
+	{
+	}
+
+	virtual ~SphereShadowNode() { } // _08 (weak)
+
+	void makeShadowSRT(JointShadowParm&, Vector3f&);
+
+	// _00     = VTBL
+	// _00-_24 = JointShadowNode
+};
+
 // Size: 0x50
 struct ShadowMgr : public CNode {
-	virtual ~ShadowMgr();               // _00
-	virtual int getChildCount();        // _04
-	virtual int getSize();              // _08
-	virtual int getMax();               // _0C
-	virtual Creature* getCreature(int); // _10
-	virtual int getFirst();             // _14
-	virtual int getNext(int);           // _18
-	virtual bool isDone(int);           // _1C
-	virtual void write(Stream&);        // _20
-	virtual void read(Stream&);         // _24
+	ShadowMgr(int);
+
+	virtual ~ShadowMgr();               // _08 (weak)
+	virtual int getSize();              // _10
+	virtual int getMax();               // _14
+	virtual Creature* getCreature(int); // _18
+	virtual int getFirst();             // _1C
+	virtual int getNext(int);           // _20
+	virtual bool isDone(int);           // _24
+	virtual void write(Stream&);        // _28
+	virtual void read(Stream&);         // _2C
 
 	void init();
 	void update();
@@ -158,15 +232,15 @@ struct ShadowMgr : public CNode {
 	ShadowNode* _24;          // _24
 	ShadowCylinder2* _28;     // _28
 	ShadowCylinder3* _2C;     // _2C
-	Viewport** m_viewports;   // _30
+	Viewport** mViewports;    // _30
 	JointShadowRootNode* _34; // _34
 	JointShadowRootNode* _38; // _38
 	u8 _3C;                   // _3C
 	u8 _3D;                   // _3D
 	int _40;                  // _40
 	int _44;                  // _44
-	Color4 m_color;           // _48
-	ShadowParms* m_parms;     // _4C
+	Color4 mColor;            // _48
+	ShadowParms* mParms;      // _4C
 };
 
 extern ShadowMgr* shadowMgr;

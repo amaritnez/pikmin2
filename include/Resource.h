@@ -4,7 +4,7 @@
 #include "CNode.h"
 #include "DvdThreadCommand.h"
 #include "IDelegate.h"
-#include "JSystem/JKR/JKRDisposer.h"
+#include "JSystem/JKernel/JKRDisposer.h"
 
 struct Graphics;
 
@@ -16,32 +16,35 @@ namespace Resource {
 struct MgrCommand;
 
 struct Node : public CNode, JKRDisposer {
-	~Node();
+	Node(char const*);
+
+	virtual ~Node(); // _08 (weak)
 
 	// Unused/inlined:
-	Node(char const*);
 	void dump();
 	void drawDump(Graphics&, int&, int&);
 	void becomeCurrentHeap();
+
 	static void destroy(Node*);
 
 	// CNode _00 - _18
 	// JKRDisposer _18 - _30
-	JKRHeap* _30;             // _30
-	u8 m_groupIDMaybe;        // _34
-	void* m_resource;         // _38
-	MgrCommand* m_mgrCommand; // _3C
+	JKRHeap* _30;            // _30
+	u8 mGroupIDMaybe;        // _34
+	void* mResource;         // _38
+	MgrCommand* mMgrCommand; // _3C
 };
 
 struct MgrCommand : public CNode, JKRDisposer {
 	MgrCommand(char*);
-	~MgrCommand();
 
-	void aramLoadCallBackFunc();
+	virtual ~MgrCommand();               // _08 (weak)
+	virtual void memoryCallBackFunc();   // _1C
+	virtual void dvdLoadCallBackFunc();  // _20
+	virtual void aramLoadCallBackFunc(); // _24
+
 	void becomeCurrentHeap();
-	void dvdLoadCallBackFunc();
 	void* getResource();
-	void memoryCallBackFunc();
 	void releaseCurrentHeap();
 	void setModeInvalid();
 	void userCallBackInvoke();
@@ -69,9 +72,8 @@ struct MgrCommand : public CNode, JKRDisposer {
 
 struct Mgr {
 	Mgr(JKRHeap*, u32);
-	~Mgr();
 
-	virtual void drawDump(Graphics&, int, int); // _00
+	virtual void drawDump(Graphics&, int, int); // _08
 
 	void createNewNode(const char*);
 	void delFinishCommand();
@@ -87,21 +89,25 @@ struct Mgr {
 	void syncAll(bool);
 	void watchHeap();
 
-	// VTBL _00
-	JKRHeap* _04; // _04
-	u32 _08;      // _08
-	u32 _0C;      // _0C
-	CNode _10;    // _10
-	CNode _28;    // _28
+	// _00 = VTBL
+	JKRHeap* mHeap; // _04
+	u32 _08;        // _08
+	u32 _0C;        // _0C
+	CNode _10;      // _10
+	CNode _28;      // _28
 	union {
 		u8 bytesView[4];
 		u32 dwordView;
 	} _40; // _40
 };
 
-struct Mgr2D : Mgr {
+struct Mgr2D : public Mgr {
 	Mgr2D(JKRHeap*);
+
 	static void init(JKRHeap*);
+
+	// _00     = VTBL
+	// _00-_44 = Mgr
 };
 } // namespace Resource
 

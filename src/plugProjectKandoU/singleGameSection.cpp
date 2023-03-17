@@ -1,12 +1,23 @@
-#include "Dolphin/string.h"
 #include "Game/BaseGameSection.h"
 #include "Game/GameSystem.h"
 #include "Game/Piki.h"
-#include "Iterator.h"
-#include "Screen/Enums.h"
-#include "types.h"
+#include "Game/PikiMgr.h"
 #include "Game/SingleGameSection.h"
 #include "Game/SingleGame.h"
+#include "Game/Entities/ItemOnyon.h"
+#include "Game/Entities/ItemCave.h"
+#include "Game/gameStat.h"
+#include "efx/TLastMomiji.h"
+#include "efx/TForestSakura.h"
+#include "efx/TTutorialSnow.h"
+#include "Screen/Enums.h"
+#include "PSM/Scene.h"
+#include "PSSystem/PSGame.h"
+#include "PSSystem/PSMainSide_Scene.h"
+#include "Dolphin/string.h"
+#include "Iterator.h"
+#include "Radar.h"
+#include "nans.h"
 
 /*
     Generated from dpostproc
@@ -619,197 +630,44 @@
 
 namespace Game {
 
+static const int unusedSGSArray[] = { 0, 0, 0 };
+static const char sgsName[]       = "SingleGameSection";
+
 /*
  * --INFO--
  * Address:	80152074
  * Size:	000084
  */
-SingleGameSection::~SingleGameSection(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	or.      r30, r3, r3
-	beq      lbl_801520DC
-	lis      r3, __vt__Q24Game17SingleGameSection@ha
-	addic.   r0, r30, 0x1b8
-	addi     r3, r3, __vt__Q24Game17SingleGameSection@l
-	li       r0, 0
-	stw      r3, 0(r30)
-	stw      r0, mgr__5Radar@sda21(r13)
-	beq      lbl_801520C0
-	addic.   r3, r30, 0x214
-	beq      lbl_801520C0
-	li       r4, 0
-	bl       __dt__10JSUPtrLinkFv
-
-lbl_801520C0:
-	mr       r3, r30
-	li       r4, 0
-	bl       __dt__Q24Game15BaseGameSectionFv
-	extsh.   r0, r31
-	ble      lbl_801520DC
-	mr       r3, r30
-	bl       __dl__FPv
-
-lbl_801520DC:
-	lwz      r0, 0x14(r1)
-	mr       r3, r30
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+SingleGameSection::~SingleGameSection() { Radar::mgr = nullptr; }
 
 /*
  * --INFO--
  * Address:	801520F8
  * Size:	000184
  */
-void SingleGameSection::startMainBgm(void)
+void SingleGameSection::startMainBgm()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	lis      r4, lbl_8047CD98@ha
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	addi     r31, r4, lbl_8047CD98@l
-	stw      r30, 8(r1)
-	lwz      r3, gameSystem__4Game@sda21(r13)
-	lbz      r0, 0x3c(r3)
-	ori      r0, r0, 2
-	stb      r0, 0x3c(r3)
-	lwz      r0, spSceneMgr__8PSSystem@sda21(r13)
-	cmplwi   r0, 0
-	bne      lbl_80152144
-	addi     r3, r31, 0x20
-	addi     r5, r31, 0x2c
-	li       r4, 0x1d3
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	gameSystem->setFlag(GAMESYS_IsPlaying);
+	PSSystem::SceneMgr* mgr = PSSystem::getSceneMgr();
+	mgr->checkScene();
+	mgr->mScenes->mChild->startMainSeq();
 
-lbl_80152144:
-	lwz      r30, spSceneMgr__8PSSystem@sda21(r13)
-	lwz      r0, 4(r30)
-	cmplwi   r0, 0
-	bne      lbl_80152168
-	addi     r3, r31, 0x38
-	addi     r5, r31, 0x2c
-	li       r4, 0xc7
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	if (Radar::mgr && !Radar::mgr->getNumOtakaraItems() && gameSystem->mIsInCave) {
+		PSSystem::SceneMgr* mgr2 = PSSystem::getSceneMgr();
+		PSSystem::checkSceneMgr(mgr2);
 
-lbl_80152168:
-	lwz      r3, 4(r30)
-	lwz      r3, 4(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, mgr__5Radar@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_80152264
-	bl       getNumOtakaraItems__Q25Radar3MgrFv
-	cmpwi    r3, 0
-	bne      lbl_80152264
-	lwz      r3, gameSystem__4Game@sda21(r13)
-	lbz      r0, 0x48(r3)
-	cmplwi   r0, 0
-	beq      lbl_80152264
-	lwz      r0, spSceneMgr__8PSSystem@sda21(r13)
-	cmplwi   r0, 0
-	bne      lbl_801521C8
-	addi     r3, r31, 0x20
-	addi     r5, r31, 0x2c
-	li       r4, 0x1d3
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_801521C8:
-	lwz      r30, spSceneMgr__8PSSystem@sda21(r13)
-	cmplwi   r30, 0
-	bne      lbl_801521E8
-	addi     r3, r31, 0x20
-	addi     r5, r31, 0x2c
-	li       r4, 0x1dc
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_801521E8:
-	lwz      r0, 4(r30)
-	cmplwi   r0, 0
-	bne      lbl_80152208
-	addi     r3, r31, 0x38
-	addi     r5, r31, 0x2c
-	li       r4, 0xcf
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_80152208:
-	lwz      r3, 4(r30)
-	lwz      r30, 4(r3)
-	cmplwi   r30, 0
-	bne      lbl_8015222C
-	addi     r3, r31, 0x38
-	addi     r5, r31, 0x44
-	li       r4, 0xd1
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8015222C:
-	lwz      r12, 0(r30)
-	mr       r3, r30
-	lwz      r12, 0x40(r12)
-	mtctr    r12
-	bctrl
-	clrlwi.  r0, r3, 0x18
-	bne      lbl_8015225C
-	addi     r3, r31, 0x68
-	addi     r5, r31, 0x2c
-	li       r4, 0x177
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8015225C:
-	mr       r3, r30
-	bl       stopPollutionSe__Q23PSM10Scene_CaveFv
-
-lbl_80152264:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+		PSM::Scene_Cave* scene = static_cast<PSM::Scene_Cave*>(mgr2->getChildScene());
+		PSSystem::checkGameScene(scene);
+		scene->stopPollutionSe();
+	}
 }
 
-} // namespace Game
-
-namespace PSM {
-
-/*
- * --INFO--
- * Address:	8015227C
- * Size:	000008
- */
-bool SceneBase::isGameScene(void) { return false; }
-} // namespace PSM
-
-namespace Game {
 /*
  * --INFO--
  * Address:	80152284
  * Size:	0002A0
  */
-void SingleGame::FSM::init(Game::SingleGameSection*)
+void SingleGame::FSM::init(SingleGameSection* section)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1024,24 +882,17 @@ lbl_80152504:
  * Address:	........
  * Size:	000038
  */
-void SingleGame::FSM::draw(Game::SingleGameSection*, Graphics&)
+void SingleGame::FSM::draw(SingleGameSection* section, Graphics&)
 {
 	// UNUSED FUNCTION
 }
 
 /*
  * --INFO--
- * Address:	80152524
- * Size:	000004
- */
-void SingleGame::State::draw(Game::SingleGameSection*, Graphics&) { }
-
-/*
- * --INFO--
  * Address:	80152528
  * Size:	000020
  */
-void SingleGame::FSM::transit(Game::SingleGameSection*, int, Game::StateArg*)
+void SingleGame::FSM::transit(SingleGameSection* section, int, Game::StateArg*)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1061,7 +912,7 @@ void SingleGame::FSM::transit(Game::SingleGameSection*, int, Game::StateArg*)
  * Address:	80152548
  * Size:	000040
  */
-void SingleGame::FSM::getState(int)
+SingleGame::State* SingleGame::FSM::getState(int)
 {
 	/*
 	cmpwi    r4, 0
@@ -1096,7 +947,7 @@ lbl_80152580:
  * Address:	80152588
  * Size:	000200
  */
-void SingleGame::State::accountEarnings(Game::SingleGameSection*, Game::PelletCropMemory*, bool)
+SingleGame::State* SingleGame::State::accountEarnings(SingleGameSection* section, Game::PelletCropMemory*, bool)
 {
 	/*
 	.loc_0x0:
@@ -1256,7 +1107,7 @@ void SingleGame::State::accountEarnings(Game::SingleGameSection*, Game::PelletCr
  * Address:	80152788
  * Size:	000160
  */
-void SingleGame::CaveDayEndState::init(Game::SingleGameSection*, Game::StateArg*)
+void SingleGame::CaveDayEndState::init(SingleGameSection* section, Game::StateArg*)
 {
 	/*
 	.loc_0x0:
@@ -1368,7 +1219,7 @@ void SingleGame::CaveDayEndState::init(Game::SingleGameSection*, Game::StateArg*
  * Address:	801528E8
  * Size:	0000B4
  */
-void SingleGame::CaveDayEndState::exec(Game::SingleGameSection*)
+void SingleGame::CaveDayEndState::exec(SingleGameSection* section)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1426,7 +1277,7 @@ lbl_80152984:
  * Address:	8015299C
  * Size:	000030
  */
-// void transit__Q24Game36FSMState<Game::SingleGameSection> FPQ24Game17SingleGameSectioniPQ24Game8StateArg(void)
+// void transit__Q24Game36FSMState<Game::SingleGameSection> FPQ24Game17SingleGameSectioniPQ24Game8StateArg()
 // {
 // 	/*
 // 	.loc_0x0:
@@ -1450,7 +1301,7 @@ lbl_80152984:
  * Address:	801529CC
  * Size:	00003C
  */
-void SingleGame::CaveDayEndState::draw(Game::SingleGameSection*, Graphics&)
+void SingleGame::CaveDayEndState::draw(SingleGameSection* section, Graphics&)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1476,7 +1327,7 @@ void SingleGame::CaveDayEndState::draw(Game::SingleGameSection*, Graphics&)
  * Address:	80152A08
  * Size:	000034
  */
-void SingleGame::CaveDayEndState::cleanup(Game::SingleGameSection*)
+void SingleGame::CaveDayEndState::cleanup(SingleGameSection* section)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1500,7 +1351,8 @@ void SingleGame::CaveDayEndState::cleanup(Game::SingleGameSection*)
  * Address:	80152A3C
  * Size:	0000E0
  */
-SingleGameSection::SingleGameSection(JKRHeap*)
+SingleGameSection::SingleGameSection(JKRHeap* heap)
+    : BaseGameSection(heap)
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -1569,7 +1421,7 @@ lbl_80152AF8:
  * Address:	80152B1C
  * Size:	000034
  */
-void SingleGameSection::section_fadeout(void)
+void SingleGameSection::section_fadeout()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1590,17 +1442,10 @@ void SingleGameSection::section_fadeout(void)
 
 /*
  * --INFO--
- * Address:	80152B50
- * Size:	000004
- */
-void SingleGame::State::on_section_fadeout(Game::SingleGameSection*) { }
-
-/*
- * --INFO--
  * Address:	80152B54
  * Size:	00000C
  */
-void SingleGameSection::flow_goto_title(void)
+void SingleGameSection::flow_goto_title()
 {
 	// Generated from stb r0, 0x1B5(r3)
 	_1B5 = 1;
@@ -1611,7 +1456,7 @@ void SingleGameSection::flow_goto_title(void)
  * Address:	80152B60
  * Size:	000188
  */
-void SingleGameSection::onInit(void)
+void SingleGameSection::onInit()
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -1726,7 +1571,7 @@ lbl_80152CB4:
  * Address:	80152CE8
  * Size:	000034
  */
-// void start__Q24Game40StateMachine<Game::SingleGameSection> FPQ24Game17SingleGameSectioniPQ24Game8StateArg(void)
+// void start__Q24Game40StateMachine<Game::SingleGameSection> FPQ24Game17SingleGameSectioniPQ24Game8StateArg()
 // {
 // 	/*
 // 	.loc_0x0:
@@ -1751,7 +1596,7 @@ lbl_80152CB4:
  * Address:	80152D1C
  * Size:	0000EC
  */
-void SingleGameSection::doUpdate(void)
+bool SingleGameSection::doUpdate()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1822,17 +1667,10 @@ lbl_80152DF0:
 
 /*
  * --INFO--
- * Address:	80152E08
- * Size:	000004
- */
-void SingleGame::State::on_demo_timer(Game::SingleGameSection*, unsigned long) { }
-
-/*
- * --INFO--
  * Address:	80152E0C
  * Size:	000050
  */
-void SingleGameSection::doDraw(Graphics&)
+void SingleGameSection::doDraw(Graphics& gfx)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1901,7 +1739,7 @@ lbl_80152EA4:
  * Address:	80152EB8
  * Size:	000260
  */
-void SingleGameSection::onSetSoundScene(void)
+void SingleGameSection::onSetSoundScene()
 {
 	/*
 	stwu     r1, -0xa0(r1)
@@ -2082,7 +1920,7 @@ lbl_80153100:
  * Address:	80153118
  * Size:	000008
  */
-void SingleGameSection::getCaveID(void)
+u32 SingleGameSection::getCaveID()
 {
 	/*
 	lwz      r3, 0x238(r3)
@@ -2095,7 +1933,7 @@ void SingleGameSection::getCaveID(void)
  * Address:	80153120
  * Size:	0002A0
  */
-void SingleGameSection::onSetupFloatMemory(void)
+void SingleGameSection::onSetupFloatMemory()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2302,7 +2140,7 @@ lbl_801533AC:
  * Address:	801533C0
  * Size:	000050
  */
-void SingleGameSection::onClearHeap(void)
+void SingleGameSection::onClearHeap()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2335,7 +2173,7 @@ lbl_801533FC:
  * Address:	80153410
  * Size:	00000C
  */
-void SingleGameSection::onStartHeap(void)
+void SingleGameSection::onStartHeap()
 {
 	// Generated from stb r0, 0x194(r3)
 	_194 = 0;
@@ -2348,8 +2186,8 @@ void SingleGameSection::onStartHeap(void)
  */
 void SingleGameSection::gmOrimaDown(int naviID)
 {
-	if (m_currentState != nullptr) {
-		m_currentState->onOrimaDown(this, naviID);
+	if (mCurrentState) {
+		mCurrentState->onOrimaDown(this, naviID);
 	}
 	/*
 	stwu     r1, -0x10(r1)
@@ -2376,17 +2214,10 @@ lbl_80153450:
 
 /*
  * --INFO--
- * Address:	80153460
- * Size:	000004
- */
-void SingleGame::State::onOrimaDown(Game::SingleGameSection*, int) { }
-
-/*
- * --INFO--
  * Address:	80153464
  * Size:	000004
  */
-void SingleGameSection::gmPikminZero(void) { }
+void SingleGameSection::gmPikminZero() { }
 
 /*
  * --INFO--
@@ -2398,9 +2229,9 @@ void SingleGameSection::enableTimer(float initialValue, unsigned long timerType)
 	if (timerType != 0) {
 		return;
 	}
-	m_timerType    = timerType;
-	m_timer        = initialValue;
-	m_timerEnabled = true;
+	mTimerType    = timerType;
+	mTimer        = initialValue;
+	mTimerEnabled = true;
 	/*
 	lwz      r0, 0x17c(r3)
 	cmplwi   r0, 0
@@ -2469,8 +2300,8 @@ lbl_801534F4:
  */
 void SingleGameSection::onMovieStart(Game::MovieConfig* config, unsigned long p2, unsigned long p3)
 {
-	if (m_currentState != nullptr) {
-		m_currentState->onMovieStart(this, config, p2, p3);
+	if (mCurrentState) {
+		mCurrentState->onMovieStart(this, config, p2, p3);
 	}
 	/*
 	.loc_0x0:
@@ -2502,21 +2333,14 @@ void SingleGameSection::onMovieStart(Game::MovieConfig* config, unsigned long p2
 
 /*
  * --INFO--
- * Address:	8015355C
- * Size:	000004
- */
-void SingleGame::State::onMovieStart(Game::SingleGameSection*, Game::MovieConfig*, unsigned long, unsigned long) { }
-
-/*
- * --INFO--
  * Address:	80153560
  * Size:	000064
  */
 void SingleGameSection::onMovieDone(Game::MovieConfig* config, unsigned long p2, unsigned long p3)
 {
-	gameSystem->_3C &= 0xF7;
-	if (m_currentState != nullptr) {
-		m_currentState->onMovieDone(this, config, p2, p3);
+	gameSystem->mFlags &= 0xF7;
+	if (mCurrentState) {
+		mCurrentState->onMovieDone(this, config, p2, p3);
 	}
 	/*
 	.loc_0x0:
@@ -2552,21 +2376,14 @@ void SingleGameSection::onMovieDone(Game::MovieConfig* config, unsigned long p2,
 
 /*
  * --INFO--
- * Address:	801535C4
- * Size:	000004
- */
-void SingleGame::State::onMovieDone(Game::SingleGameSection*, Game::MovieConfig*, unsigned long, unsigned long) { }
-
-/*
- * --INFO--
  * Address:	801535C8
  * Size:	00005C
  */
 void SingleGameSection::onMovieCommand(int p1)
 {
 	BaseGameSection::onMovieCommand(p1);
-	if (m_currentState != nullptr) {
-		m_currentState->onMovieCommand(this, p1);
+	if (mCurrentState) {
+		mCurrentState->onMovieCommand(this, p1);
 	}
 	/*
 	stwu     r1, -0x10(r1)
@@ -2596,13 +2413,6 @@ lbl_8015360C:
 	blr
 	*/
 }
-
-/*
- * --INFO--
- * Address:	80153624
- * Size:	000004
- */
-void SingleGame::State::onMovieCommand(Game::SingleGameSection*, int) { }
 
 /*
  * --INFO--
@@ -2774,7 +2584,7 @@ lbl_80153854:
  * Address:	80153868
  * Size:	000008
  */
-void Onyon::getFaceDir(void)
+f32 Onyon::getFaceDir()
 {
 	/*
 	lfs      f1, 0x228(r3)
@@ -2787,7 +2597,7 @@ void Onyon::getFaceDir(void)
  * Address:	80153870
  * Size:	000454
  */
-void SingleGameSection::playMovie_helloPikmin(Game::Piki*)
+void SingleGameSection::playMovie_helloPikmin(Game::Piki* p)
 {
 	/*
 	stwu     r1, -0x160(r1)
@@ -3105,18 +2915,18 @@ void SingleGameSection::saveMainMapSituation(bool isSubmergedCastle)
 		iterator.first();
 		while (!iterator.isDone()) {
 			Piki* piki = (*iterator);
-			if (piki->isAlive() && piki->m_pikminType != Blue) {
-				playData->m_pikiContainer.getCount(piki->m_pikminType, piki->m_pikminGrowth)++;
+			if (piki->isAlive() && piki->mPikiKind != Blue) {
+				playData->mPikiContainer.getCount(piki->mPikiKind, piki->mHappaKind)++;
 				PikiKillArg killArg(0x10001);
-				piki->kill(&pikiKillArg);
+				piki->kill(&killArg);
 			}
 			iterator.next();
 		}
 	}
 	pikiMgr->caveSaveFormationPikmins(false);
 	pikiMgr->forceEnterPikmins(1);
-	playData->m_caveSaveData.m_time = gameSystem->m_timeMgr->m_currentTimeOfDay;
-	saveToGeneratorCache(m_currentCourseInfo);
+	playData->mCaveSaveData.mTime = gameSystem->mTimeMgr->mCurrentTimeOfDay;
+	saveToGeneratorCache(mCurrentCourseInfo);
 	/*
 	stwu     r1, -0x30(r1)
 	mflr     r0
@@ -3316,7 +3126,7 @@ lbl_80153F18:
  */
 void SingleGameSection::loadMainMapSituation()
 {
-	gameSystem->m_timeMgr->setTime(playData->m_caveSaveData.m_time);
+	gameSystem->mTimeMgr->setTime(playData->mCaveSaveData.mTime);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -3340,10 +3150,10 @@ void SingleGameSection::loadMainMapSituation()
  */
 void SingleGameSection::clearCaveMenus()
 {
-	_180          = 0;
-	m_currentCave = nullptr;
-	m_hole        = nullptr;
-	m_fountain    = nullptr;
+	mOpenMenuFlags = 0;
+	mCurrentCave   = nullptr;
+	mHole          = nullptr;
+	mFountain      = nullptr;
 	/*
 	li       r0, 0
 	stb      r0, 0x180(r3)
@@ -3658,7 +3468,7 @@ lbl_801543B4:
  */
 CourseInfo* SingleGameSection::getCurrentCourseInfo()
 {
-	return m_currentCourseInfo;
+	return mCurrentCourseInfo;
 	/*
 	lwz      r3, 0x22c(r3)
 	blr
@@ -3932,7 +3742,7 @@ void SingleGameSection::openKanketuMenu(Game::ItemBigFountain::Item*, Controller
  * Address:	8015471C
  * Size:	000300
  */
-void SingleGameSection::updateCaveMenus(void)
+bool SingleGameSection::updateCaveMenus()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -4166,7 +3976,7 @@ lbl_80154A04:
 void SingleGameSection::goNextFloor(Game::ItemHole::Item* hole)
 {
 	_194 = true;
-	m_currentState->onNextFloor(this, hole);
+	mCurrentState->onNextFloor(this, hole);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -4189,23 +3999,16 @@ void SingleGameSection::goNextFloor(Game::ItemHole::Item* hole)
 
 /*
  * --INFO--
- * Address:	80154A5C
- * Size:	000004
- */
-void SingleGame::State::onNextFloor(Game::SingleGameSection*, Game::ItemHole::Item*) { }
-
-/*
- * --INFO--
  * Address:	80154A60
  * Size:	000074
  */
 void SingleGameSection::goCave(Game::ItemCave::Item* cave)
 {
-	strcpy(m_caveFilename, cave->m_caveFilename);
-	m_caveID->setID(cave->m_caveID.getID());
-	_194            = true;
-	m_isInCaveMaybe = true;
-	m_currentState->onHoleIn(this, cave);
+	strcpy(mCaveFilename, cave->mCaveFilename);
+	mCaveID.setID(cave->mCaveID.getID());
+	_194    = true;
+	mInCave = true;
+	mCurrentState->onHoleIn(this, cave);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -4241,21 +4044,14 @@ void SingleGameSection::goCave(Game::ItemCave::Item* cave)
 
 /*
  * --INFO--
- * Address:	80154AD4
- * Size:	000004
- */
-void SingleGame::State::onHoleIn(Game::SingleGameSection*, Game::ItemCave::Item*) { }
-
-/*
- * --INFO--
  * Address:	80154AD8
  * Size:	000048
  */
 void SingleGameSection::goMainMap(Game::ItemBigFountain::Item* fountain)
 {
-	_194            = true;
-	m_isInCaveMaybe = false;
-	m_currentState->onFountainReturn(this, fountain);
+	_194    = true;
+	mInCave = false;
+	mCurrentState->onFountainReturn(this, fountain);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -4280,17 +4076,10 @@ void SingleGameSection::goMainMap(Game::ItemBigFountain::Item* fountain)
 
 /*
  * --INFO--
- * Address:	80154B20
- * Size:	000004
- */
-void SingleGame::State::onFountainReturn(Game::SingleGameSection*, Game::ItemBigFountain::Item*) { }
-
-/*
- * --INFO--
  * Address:	80154B24
  * Size:	000020
  */
-void SingleGameSection::setupMainMapGames(void)
+void SingleGameSection::setupMainMapGames()
 {
 	createFallPikmins();
 	/*
@@ -4310,7 +4099,7 @@ void SingleGameSection::setupMainMapGames(void)
  * Address:	80154B44
  * Size:	000020
  */
-void SingleGameSection::setupCaveGames(void)
+void SingleGameSection::setupCaveGames()
 {
 	createFallPikmins();
 	/*
@@ -4330,7 +4119,7 @@ void SingleGameSection::setupCaveGames(void)
  * Address:	80154B64
  * Size:	000474
  */
-void SingleGameSection::createFallPikmins(void)
+void SingleGameSection::createFallPikmins()
 {
 	/*
 	stwu     r1, -0x150(r1)
@@ -4641,15 +4430,15 @@ lbl_80154F20:
 	*/
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000440
- */
-void SingleGameSection::createFallPikmins(Game::PikiContainer&, int)
-{
-	// UNUSED FUNCTION
-}
+// /*
+//  * --INFO--
+//  * Address:	........
+//  * Size:	000440
+//  */
+// void SingleGameSection::createFallPikmins(Game::PikiContainer&, int)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
@@ -5021,47 +4810,32 @@ lbl_80155430:
 	*/
 }
 
-/*
- * --INFO--
- * Address:	801554DC
- * Size:	000010
- */
-void GameStat::PikiCounter::operator()(int)
-{
-	/*
-	slwi     r0, r4, 2
-	add      r3, r3, r0
-	lwz      r3, 4(r3)
-	blr
-	*/
-}
+// /*
+//  * --INFO--
+//  * Address:	........
+//  * Size:	0000E0
+//  */
+// void SingleGameSection::setDispMemberNavi(og::Screen::DataNavi&, int)
+// {
+// 	// UNUSED FUNCTION
+// }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000E0
- */
-void SingleGameSection::setDispMemberNavi(og::Screen::DataNavi&, int)
-{
-	// UNUSED FUNCTION
-}
-
-/*
- * --INFO--
- * Address:	........
- * Size:	000148
- */
-void SingleGameSection::calcOtakaraLevel(float&)
-{
-	// UNUSED FUNCTION
-}
+// /*
+//  * --INFO--
+//  * Address:	........
+//  * Size:	000148
+//  */
+// void SingleGameSection::calcOtakaraLevel(float&)
+// {
+// 	// UNUSED FUNCTION
+// }
 
 /*
  * --INFO--
  * Address:	801554EC
  * Size:	00058C
  */
-void SingleGameSection::updateMainMapScreen(void)
+void SingleGameSection::updateMainMapScreen()
 {
 	/*
 	stwu     r1, -0xd0(r1)
@@ -5462,17 +5236,10 @@ lbl_801559E4:
 
 /*
  * --INFO--
- * Address:	80155A78
- * Size:	000004
- */
-void SingleGameSection::drawMainMapScreen(void) { }
-
-/*
- * --INFO--
  * Address:	80155A7C
  * Size:	0004D8
  */
-void SingleGameSection::updateCaveScreen(void)
+void SingleGameSection::updateCaveScreen()
 {
 	/*
 	stwu     r1, -0xb0(r1)
@@ -5821,7 +5588,7 @@ lbl_80155EC0:
  */
 int SingleGameSection::getCurrFloor()
 {
-	return m_currentFloor;
+	return mCurrentFloor;
 	/*
 	lwz      r3, 0x248(r3)
 	blr
@@ -5833,21 +5600,21 @@ int SingleGameSection::getCurrFloor()
  * Address:	80155F5C
  * Size:	000004
  */
-void SingleGameSection::drawCaveScreen(void) { }
+void SingleGameSection::drawCaveScreen() { }
 
 /*
  * --INFO--
  * Address:	80155F60
  * Size:	00008C
  */
-void SingleGameSection::newCaveOtakaraEarningsAndDrops(void)
+void SingleGameSection::newCaveOtakaraEarningsAndDrops()
 {
 	int otakaraCount = PelletList::Mgr::getCount(PelletList::OTAKARA);
 	int itemCount    = PelletList::Mgr::getCount(PelletList::ITEM);
 	_254.alloc(otakaraCount);
 	_25C.alloc(itemCount);
-	_264.alloc(otakaraCount);
-	_26C.alloc(itemCount);
+	mOtakaraCounter.alloc(otakaraCount);
+	mItemCounter.alloc(itemCount);
 	_274 = 0;
 	/*
 	stwu     r1, -0x20(r1)
@@ -5893,12 +5660,12 @@ void SingleGameSection::newCaveOtakaraEarningsAndDrops(void)
  * Address:	80155FEC
  * Size:	000050
  */
-void SingleGameSection::clearCaveOtakaraEarningsAndDrops(void)
+void SingleGameSection::clearCaveOtakaraEarningsAndDrops()
 {
 	_254.clear();
 	_25C.clear();
-	_264.clear();
-	_26C.clear();
+	mOtakaraCounter.clear();
+	mItemCounter.clear();
 	_274 = 0;
 	/*
 	stwu     r1, -0x10(r1)
@@ -5926,328 +5693,6 @@ void SingleGameSection::clearCaveOtakaraEarningsAndDrops(void)
 
 } // namespace Game
 
-namespace og {
-
-namespace Screen {
-
-/*
- * --INFO--
- * Address:	8015603C
- * Size:	000008
- */
-u32 DispMemberCave::getSize(void) { return sizeof(DispMemberCave); }
-
-/*
- * --INFO--
- * Address:	80156044
- * Size:	00000C
- */
-ScreenOwnerID DispMemberCave::getOwnerID(void)
-{
-	return OWNER_OGA;
-	/*
-lis      r3, 0x004F4741@ha
-addi     r3, r3, 0x004F4741@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80156050
- * Size:	000010
- */
-ScreenMemberID DispMemberCave::getMemberID(void)
-{
-	return MEMBER_CAVE;
-	/*
-lis      r4, 0x43415645@ha
-li       r3, 0
-addi     r4, r4, 0x43415645@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80156060
- * Size:	000004
- */
-void DispMemberBase::doSetSubMemberAll(void) { }
-
-/*
- * --INFO--
- * Address:	80156064
- * Size:	000008
- */
-u32 DispMemberHurryUp::getSize(void) { return sizeof(DispMemberHurryUp); }
-
-/*
- * --INFO--
- * Address:	8015606C
- * Size:	00000C
- */
-ScreenOwnerID DispMemberHurryUp::getOwnerID(void)
-{
-	return OWNER_MRMR;
-	/*
-lis      r3, 0x4D524D52@ha
-addi     r3, r3, 0x4D524D52@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80156078
- * Size:	000014
- */
-ScreenMemberID DispMemberHurryUp::getMemberID(void)
-{
-	return MEMBER_HURRY_UP;
-	/*
-lis      r4, 0x52595550@ha
-lis      r3, 0x00485552@ha
-addi     r4, r4, 0x52595550@l
-addi     r3, r3, 0x00485552@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	8015608C
- * Size:	000008
- */
-u32 DispMemberDayEndCount::getSize(void) { return sizeof(DispMemberDayEndCount); }
-
-/*
- * --INFO--
- * Address:	80156094
- * Size:	00000C
- */
-ScreenOwnerID DispMemberDayEndCount::getOwnerID(void)
-{
-	return OWNER_MRMR;
-	/*
-lis      r3, 0x4D524D52@ha
-addi     r3, r3, 0x4D524D52@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	801560A0
- * Size:	000014
- */
-ScreenMemberID DispMemberDayEndCount::getMemberID(void)
-{
-	return MEMBER_DAY_END_COUNT;
-	/*
-lis      r4, 0x4E444344@ha
-lis      r3, 0x44415945@ha
-addi     r4, r4, 0x4E444344@l
-addi     r3, r3, 0x44415945@l
-blr
-	*/
-}
-
-// /*
-//  * --INFO--
-//  * Address:	801560B4
-//  * Size:	000008
-//  */
-// u32 DispMemberGround::getSize(void) { return 0x88; }
-
-// /*
-//  * --INFO--
-//  * Address:	801560BC
-//  * Size:	00000C
-//  */
-// void DispMemberGround::getOwnerID(void)
-// {
-// 	/*
-// lis      r3, 0x004F4741@ha
-// addi     r3, r3, 0x004F4741@l
-// blr
-// 	*/
-// }
-
-// /*
-//  * --INFO--
-//  * Address:	801560C8
-//  * Size:	000010
-//  */
-// void DispMemberGround::getMemberID(void)
-// {
-// 	/*
-// lis      r4, 0x4F554E44@ha
-// li       r3, 0x4752
-// addi     r4, r4, 0x4F554E44@l
-// blr
-// 	*/
-// }
-
-namespace Game {
-
-} // namespace Game
-
-} // namespace Screen
-
-/*
- * --INFO--
- * Address:	801560D8
- * Size:	00000C
- */
-void PikiInitArg::getName(void)
-{
-	return "PikiInitArg";
-	/*
-	lis      r3, lbl_8047CFB8@ha
-	addi     r3, r3, lbl_8047CFB8@l
-	blr
-	*/
-}
-
-} // namespace og
-
-namespace og {
-
-namespace Screen {
-
-/*
- * --INFO--
- * Address:	801560E4
- * Size:	000008
- */
-u32 DispMemberKanketuMenu::getSize(void) { return sizeof(DispMemberKanketuMenu); }
-
-/*
- * --INFO--
- * Address:	801560EC
- * Size:	00000C
- */
-ScreenOwnerID DispMemberKanketuMenu::getOwnerID(void)
-{
-	return OWNER_OGA;
-	/*
-lis      r3, 0x004F4741@ha
-addi     r3, r3, 0x004F4741@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	801560F8
- * Size:	000014
- */
-ScreenMemberID DispMemberKanketuMenu::getMemberID(void)
-{
-	/*
-lis      r4, 0x4B455455@ha
-lis      r3, 0x004B414E@ha
-addi     r4, r4, 0x4B455455@l
-addi     r3, r3, 0x004B414E@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	8015610C
- * Size:	000008
- */
-u32 DispMemberCaveMore::getSize(void) { return 0x28; }
-
-/*
- * --INFO--
- * Address:	80156114
- * Size:	00000C
- */
-void DispMemberCaveMore::getOwnerID(void)
-{
-	/*
-lis      r3, 0x004F4741@ha
-addi     r3, r3, 0x004F4741@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80156120
- * Size:	000014
- */
-void DispMemberCaveMore::getMemberID(void)
-{
-	/*
-lis      r4, 0x4D4F5245@ha
-lis      r3, 0x43415645@ha
-addi     r4, r4, 0x4D4F5245@l
-addi     r3, r3, 0x43415645@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80156134
- * Size:	000008
- */
-u32 DispMemberAnaDemo::getSize(void) { return 0x24; }
-
-/*
- * --INFO--
- * Address:	8015613C
- * Size:	00000C
- */
-void DispMemberAnaDemo::getOwnerID(void)
-{
-	/*
-lis      r3, 0x004F4741@ha
-addi     r3, r3, 0x004F4741@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80156148
- * Size:	000014
- */
-void DispMemberAnaDemo::getMemberID(void)
-{
-	/*
-lis      r4, 0x44454D4F@ha
-lis      r3, 0x414E415F@ha
-addi     r4, r4, 0x44454D4F@l
-addi     r3, r3, 0x414E415F@l
-blr
-	*/
-}
-
-namespace Game {
-
-} // namespace Game
-
-} // namespace Screen
-
-/*
- * --INFO--
- * Address:	8015615C
- * Size:	00000C
- */
-void PikiKillArg::getName(void)
-{
-	/*
-	lis      r3, lbl_8047CFC4@ha
-	addi     r3, r3, lbl_8047CFC4@l
-	blr
-	*/
-}
-
 namespace efx {
 
 /*
@@ -6255,7 +5700,7 @@ namespace efx {
  * Address:	80156168
  * Size:	00009C
  */
-TLastMomiji::~TLastMomiji(void)
+TLastMomiji::~TLastMomiji()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -6309,7 +5754,7 @@ blr
  * Address:	80156204
  * Size:	00009C
  */
-TForestSakura::~TForestSakura(void)
+TForestSakura::~TForestSakura()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -6363,7 +5808,7 @@ blr
  * Address:	801562A0
  * Size:	00009C
  */
-TTutorialSnow::~TTutorialSnow(void)
+TTutorialSnow::~TTutorialSnow()
 {
 	/*
 stwu     r1, -0x10(r1)
@@ -6414,8 +5859,6 @@ blr
 
 } // namespace efx
 
-} // namespace og
-
 /**
  * @reified{isCaveFloor__Q26PSGame13CaveFloorInfoFv}
  * @reified{isBossFloor__Q26PSGame13CaveFloorInfoFv}
@@ -6436,7 +5879,7 @@ bool SingleGameSection::isDevelopSection() { return false; }
  * Address:	80156374
  * Size:	000008
  */
-void SingleGameSection::getTimerType()
+u32 SingleGameSection::getTimerType()
 {
 	/*
 	lwz      r3, 0x17c(r3)
@@ -6449,7 +5892,7 @@ void SingleGameSection::getTimerType()
  * Address:	8015637C
  * Size:	000008
  */
-void SingleGameSection::getCaveFilename(void)
+char* SingleGameSection::getCaveFilename()
 {
 	/*
 	addi     r3, r3, 0x195
@@ -6676,30 +6119,3 @@ void StateMachine<SingleGameSection>::registerState(FSMState<SingleGameSection>*
 }
 
 } // namespace Game
-
-/*
- * --INFO--
- * Address:	80156588
- * Size:	000028
- */
-void __sinit_singleGameSection_cpp(void)
-{
-	/*
-	lis      r4, __float_nan@ha
-	li       r0, -1
-	lfs      f0, __float_nan@l(r4)
-	lis      r3, lbl_804B1070@ha
-	stw      r0, lbl_80515940@sda21(r13)
-	stfsu    f0, lbl_804B1070@l(r3)
-	stfs     f0, lbl_80515944@sda21(r13)
-	stfs     f0, 4(r3)
-	stfs     f0, 8(r3)
-	blr
-	*/
-}
-
-/**
- * @generated{@4@__dt__Q23efx13TTutorialSnowFv}
- * @generated{@4@__dt__Q23efx13TForestSakuraFv}
- * @generated{@4@__dt__Q23efx11TLastMomijiFv}
- */

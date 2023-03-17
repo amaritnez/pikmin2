@@ -15,28 +15,37 @@ struct CurrTriInfo;
 namespace Sys {
 struct VertexTable;
 struct RayIntersectInfo;
-struct OBBTree : TriDivider {
+
+struct OBBTree : public TriDivider {
 	OBBTree();
 
-	virtual ~OBBTree() { }                            // _08 (weak)
-	virtual float getMinY(Vector3f&);                 // _10
-	virtual TriIndexList* findTriLists(Sys::Sphere&); // _14 (weak)
-	virtual void read(Stream&);                       // _18
-	virtual void getCurrTri(Game::CurrTriInfo&);      // _1C
-	virtual void getBoundBox(BoundBox&);              // _24 (weak)
-	virtual OBBTree* clone(Matrixf&);                 // _28
+	virtual ~OBBTree() { }                             // _08 (weak)
+	virtual f32 getMinY(Vector3f&);                    // _10
+	virtual TriIndexList* findTriLists(Sphere& sphere) // _14 (weak)
+	{
+		return mRoot.findTriLists(sphere);
+	}
+	virtual void read(Stream&);                  // _18
+	virtual void getCurrTri(Game::CurrTriInfo&); // _1C
+	virtual void getBoundBox(BoundBox&);         // _24 (weak)
+	virtual OBBTree* clone(Matrixf&);            // _28
 
-	void construct(Sys::VertexTable*, Sys::TriangleTable*, int, int);
-	void readWithoutVerts(Stream&, Sys::VertexTable&);
-	void traceMove(Matrixf&, Matrixf&, Game::MoveInfo&, float);
-	void traceMove_global(Game::MoveInfo&, float);
-	void findRayIntersection(Sys::RayIntersectInfo&, Matrixf&, Matrixf&);
-	void traceMove_new(Matrixf&, Matrixf&, Game::MoveInfo&, float);
-	void traceMove_new_global(Game::MoveInfo&, float);
+	void construct(VertexTable*, TriangleTable*, int, int);
+	void readWithoutVerts(Stream&, VertexTable&);
+	void traceMove(Matrixf&, Matrixf&, Game::MoveInfo&, f32);
+	void traceMove_global(Game::MoveInfo&, f32);
+	void findRayIntersection(RayIntersectInfo&, Matrixf&, Matrixf&);
+	void traceMove_new(Matrixf&, Matrixf&, Game::MoveInfo&, f32);
+	void traceMove_new_global(Game::MoveInfo&, f32);
+	void traceMove_original(Matrixf&, Matrixf&, Game::MoveInfo&, float);
 
-	VertexTable* m_vertexTable;     // _18
-	TriangleTable* m_triangleTable; // _1C
-	OBB m_obb;                      // _20
+	void draw(Graphics&);
+	void write(Stream&);
+	void writeVertsOnly(Stream&);
+	void writeWithoutVerts(Stream&);
+	void testIntersection(Sys::Sphere&, Vector3f&);
+
+	OBB mRoot; // _20
 };
 } // namespace Sys
 

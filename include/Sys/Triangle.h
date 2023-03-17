@@ -18,26 +18,21 @@ struct VertexTable;
 
 struct Triangle {
 	struct SphereSweep {
-		float _00;    // _00
-		float _04;    // _04
-		float _08;    // _08
-		float _0C;    // _0C
-		float _10;    // _10
-		float _14;    // _14
-		float _18;    // _18
-		u8 _1C;       // _1C
-		Vector3f _20; // _20
-		float _2C;    // _2C
-		Vector3f _30; // _30
+		Vector3f _00;        // _00
+		Sys::Sphere mSphere; // _0C
+		u8 _1C;              // _1C
+		Vector3f mNormal;    // _20
+		f32 _2C;             // _2C
+		Vector3f _30;        // _30
 	};
 
 	Triangle();
 
 	void createSphere(VertexTable&);
 	bool fastIntersect(Sphere&);
-	float calcDist(Plane&, VertexTable&);
-	bool intersect(Edge&, float, Vector3f&);
-	bool intersect(Edge&, float, Vector3f&, float&);
+	f32 calcDist(Plane&, VertexTable&);
+	bool intersect(Edge&, f32, Vector3f&);
+	bool intersect(Edge&, f32, Vector3f&, f32&);
 	bool intersect(VertexTable&, Sphere&);
 	bool intersect(VertexTable&, Sphere&, Vector3f&);
 	bool intersectHard(VertexTable&, Sphere&, Vector3f&);
@@ -55,11 +50,11 @@ struct Triangle {
 	bool intersect(Edge&, Vector3f&);
 	bool intersectOptimistic(Sphere&, Vector3f&);
 
-	Vector3i m_vertices;   // _00, _04, _08 	- addresses of each vertex in vertex table
-	Plane m_trianglePlane; // _0C				- ax + by + cz + d form of plane triangle lies in
-	Plane m_edgePlanes[3]; // _1C, _2C, _3C 	- plane through each side of triangle (?)
-	Sphere m_sphere;       // _4C				- bounding sphere of triangle
-	MapCode::Code m_code;  // _5C				- map code (?)
+	Vector3i mVertices;   // _00, _04, _08 	- addresses of each vertex in vertex table
+	Plane mTrianglePlane; // _0C				- ax + by + cz + d form of plane triangle lies in
+	Plane mEdgePlanes[3]; // _1C, _2C, _3C 	- plane through each side of triangle (?)
+	Sphere mSphere;       // _4C				- bounding sphere of triangle
+	MapCode::Code mCode;  // _5C				- map code (?)
 
 	// 1 -> 2 -> 3
 	// ^----<----^

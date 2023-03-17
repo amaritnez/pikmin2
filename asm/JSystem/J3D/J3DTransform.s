@@ -1,64 +1,62 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-.global j3dDefaultTransformInfo
-j3dDefaultTransformInfo:
+.obj j3dDefaultTransformInfo, global
 	.float 1.0
 	.float 1.0
 	.float 1.0
-	.4byte 0x00000000
-	.4byte 0x00000000
-	.4byte 0x00000000
-	.4byte 0x00000000
-	.4byte 0x00000000
-.global j3dDefaultScale
-j3dDefaultScale:
+	.4byte 0
+	.4byte 0
+	.float 0.0
+	.float 0.0
+	.float 0.0
+.endobj j3dDefaultTransformInfo
+.obj j3dDefaultScale, global
 	.float 1.0
 	.float 1.0
 	.float 1.0
-.global j3dDefaultMtx
-j3dDefaultMtx:
+.endobj j3dDefaultScale
+.obj j3dDefaultMtx, global
 	.float 1.0
-	.4byte 0x00000000
-	.4byte 0x00000000
-	.4byte 0x00000000
-	.4byte 0x00000000
+	.float 0.0
+	.float 0.0
+	.float 0.0
+	.float 0.0
 	.float 1.0
-	.4byte 0x00000000
-	.4byte 0x00000000
-	.4byte 0x00000000
-	.4byte 0x00000000
+	.float 0.0
+	.float 0.0
+	.float 0.0
+	.float 0.0
 	.float 1.0
+	.float 0.0
+.endobj j3dDefaultMtx
+.obj lbl_8047889C, local
 	.4byte 0x00000000
-.global lbl_8047889C
-lbl_8047889C:
 	.4byte 0x00000000
 	.4byte 0x00000000
-	.4byte 0x00000000
+.endobj lbl_8047889C
 
 .section .sdata, "wa"  # 0x80514680 - 0x80514D80
 .balign 8
-.global Unit01
-Unit01:
-	.skip 4
+.obj Unit01, local
+	.float 0.0
 	.float 1.0
+.endobj Unit01
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-.global lbl_80516998
-lbl_80516998:
-	.4byte 0x00000000
-.global lbl_8051699C
-lbl_8051699C:
+.obj lbl_80516998, local
+	.float 0.0
+.endobj lbl_80516998
+.obj lbl_8051699C, local
 	.float 1.0
-.global lbl_805169A0
-lbl_805169A0:
+.endobj lbl_8051699C
+.obj lbl_805169A0, local
 	.float 0.5
-	.4byte 0x00000000
+.endobj lbl_805169A0
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global J3DCalcBBoardMtx__FPA4_f
-J3DCalcBBoardMtx__FPA4_f:
+.fn J3DCalcBBoardMtx__FPA4_f, global
 /* 8005EE78 0005BDB8  C0 43 00 00 */	lfs f2, 0(r3)
 /* 8005EE7C 0005BDBC  C0 23 00 10 */	lfs f1, 0x10(r3)
 /* 8005EE80 0005BDC0  EC 42 00 B2 */	fmuls f2, f2, f2
@@ -85,40 +83,40 @@ J3DCalcBBoardMtx__FPA4_f:
 /* 8005EED4 0005BE14  FC 07 08 40 */	fcmpo cr0, f7, f1
 /* 8005EED8 0005BE18  EC 66 28 2A */	fadds f3, f6, f5
 /* 8005EEDC 0005BE1C  EC 44 10 2A */	fadds f2, f4, f2
-/* 8005EEE0 0005BE20  40 81 00 1C */	ble lbl_8005EEFC
-/* 8005EEE4 0005BE24  40 81 00 10 */	ble lbl_8005EEF4
+/* 8005EEE0 0005BE20  40 81 00 1C */	ble .L_8005EEFC
+/* 8005EEE4 0005BE24  40 81 00 10 */	ble .L_8005EEF4
 /* 8005EEE8 0005BE28  FC 20 38 34 */	frsqrte f1, f7
 /* 8005EEEC 0005BE2C  EC 21 01 F2 */	fmuls f1, f1, f7
-/* 8005EEF0 0005BE30  48 00 00 08 */	b lbl_8005EEF8
-lbl_8005EEF4:
+/* 8005EEF0 0005BE30  48 00 00 08 */	b .L_8005EEF8
+.L_8005EEF4:
 /* 8005EEF4 0005BE34  FC 20 38 90 */	fmr f1, f7
-lbl_8005EEF8:
+.L_8005EEF8:
 /* 8005EEF8 0005BE38  FC E0 08 90 */	fmr f7, f1
-lbl_8005EEFC:
+.L_8005EEFC:
 /* 8005EEFC 0005BE3C  C0 22 86 38 */	lfs f1, lbl_80516998@sda21(r2)
 /* 8005EF00 0005BE40  FC 03 08 40 */	fcmpo cr0, f3, f1
-/* 8005EF04 0005BE44  40 81 00 1C */	ble lbl_8005EF20
-/* 8005EF08 0005BE48  40 81 00 10 */	ble lbl_8005EF18
+/* 8005EF04 0005BE44  40 81 00 1C */	ble .L_8005EF20
+/* 8005EF08 0005BE48  40 81 00 10 */	ble .L_8005EF18
 /* 8005EF0C 0005BE4C  FC 20 18 34 */	frsqrte f1, f3
 /* 8005EF10 0005BE50  EC 21 00 F2 */	fmuls f1, f1, f3
-/* 8005EF14 0005BE54  48 00 00 08 */	b lbl_8005EF1C
-lbl_8005EF18:
+/* 8005EF14 0005BE54  48 00 00 08 */	b .L_8005EF1C
+.L_8005EF18:
 /* 8005EF18 0005BE58  FC 20 18 90 */	fmr f1, f3
-lbl_8005EF1C:
+.L_8005EF1C:
 /* 8005EF1C 0005BE5C  FC 60 08 90 */	fmr f3, f1
-lbl_8005EF20:
+.L_8005EF20:
 /* 8005EF20 0005BE60  C0 22 86 38 */	lfs f1, lbl_80516998@sda21(r2)
 /* 8005EF24 0005BE64  FC 02 08 40 */	fcmpo cr0, f2, f1
-/* 8005EF28 0005BE68  40 81 00 1C */	ble lbl_8005EF44
-/* 8005EF2C 0005BE6C  40 81 00 10 */	ble lbl_8005EF3C
+/* 8005EF28 0005BE68  40 81 00 1C */	ble .L_8005EF44
+/* 8005EF2C 0005BE6C  40 81 00 10 */	ble .L_8005EF3C
 /* 8005EF30 0005BE70  FC 20 10 34 */	frsqrte f1, f2
 /* 8005EF34 0005BE74  EC 21 00 B2 */	fmuls f1, f1, f2
-/* 8005EF38 0005BE78  48 00 00 08 */	b lbl_8005EF40
-lbl_8005EF3C:
+/* 8005EF38 0005BE78  48 00 00 08 */	b .L_8005EF40
+.L_8005EF3C:
 /* 8005EF3C 0005BE7C  FC 20 10 90 */	fmr f1, f2
-lbl_8005EF40:
+.L_8005EF40:
 /* 8005EF40 0005BE80  FC 40 08 90 */	fmr f2, f1
-lbl_8005EF44:
+.L_8005EF44:
 /* 8005EF44 0005BE84  C0 02 86 38 */	lfs f0, lbl_80516998@sda21(r2)
 /* 8005EF48 0005BE88  F0 03 00 04 */	psq_st f0, 4(r3), 0, qr0
 /* 8005EF4C 0005BE8C  F0 03 00 20 */	psq_st f0, 32(r3), 0, qr0
@@ -128,9 +126,9 @@ lbl_8005EF44:
 /* 8005EF5C 0005BE9C  D0 03 00 18 */	stfs f0, 0x18(r3)
 /* 8005EF60 0005BEA0  D0 43 00 28 */	stfs f2, 0x28(r3)
 /* 8005EF64 0005BEA4  4E 80 00 20 */	blr 
+.endfn J3DCalcBBoardMtx__FPA4_f
 
-.global J3DCalcYBBoardMtx__FPA4_f
-J3DCalcYBBoardMtx__FPA4_f:
+.fn J3DCalcYBBoardMtx__FPA4_f, global
 /* 8005EF68 0005BEA8  94 21 FF C0 */	stwu r1, -0x40(r1)
 /* 8005EF6C 0005BEAC  7C 08 02 A6 */	mflr r0
 /* 8005EF70 0005BEB0  90 01 00 44 */	stw r0, 0x44(r1)
@@ -158,28 +156,28 @@ J3DCalcYBBoardMtx__FPA4_f:
 /* 8005EFC8 0005BF08  EC 22 08 2A */	fadds f1, f2, f1
 /* 8005EFCC 0005BF0C  FC 1F 00 40 */	fcmpo cr0, f31, f0
 /* 8005EFD0 0005BF10  EF C3 08 2A */	fadds f30, f3, f1
-/* 8005EFD4 0005BF14  40 81 00 1C */	ble lbl_8005EFF0
-/* 8005EFD8 0005BF18  40 81 00 10 */	ble lbl_8005EFE8
+/* 8005EFD4 0005BF14  40 81 00 1C */	ble .L_8005EFF0
+/* 8005EFD8 0005BF18  40 81 00 10 */	ble .L_8005EFE8
 /* 8005EFDC 0005BF1C  FC 00 F8 34 */	frsqrte f0, f31
 /* 8005EFE0 0005BF20  EC 00 07 F2 */	fmuls f0, f0, f31
-/* 8005EFE4 0005BF24  48 00 00 08 */	b lbl_8005EFEC
-lbl_8005EFE8:
+/* 8005EFE4 0005BF24  48 00 00 08 */	b .L_8005EFEC
+.L_8005EFE8:
 /* 8005EFE8 0005BF28  FC 00 F8 90 */	fmr f0, f31
-lbl_8005EFEC:
+.L_8005EFEC:
 /* 8005EFEC 0005BF2C  FF E0 00 90 */	fmr f31, f0
-lbl_8005EFF0:
+.L_8005EFF0:
 /* 8005EFF0 0005BF30  C0 02 86 38 */	lfs f0, lbl_80516998@sda21(r2)
 /* 8005EFF4 0005BF34  FC 1E 00 40 */	fcmpo cr0, f30, f0
-/* 8005EFF8 0005BF38  40 81 00 1C */	ble lbl_8005F014
-/* 8005EFFC 0005BF3C  40 81 00 10 */	ble lbl_8005F00C
+/* 8005EFF8 0005BF38  40 81 00 1C */	ble .L_8005F014
+/* 8005EFFC 0005BF3C  40 81 00 10 */	ble .L_8005F00C
 /* 8005F000 0005BF40  FC 00 F0 34 */	frsqrte f0, f30
 /* 8005F004 0005BF44  EC 00 07 B2 */	fmuls f0, f0, f30
-/* 8005F008 0005BF48  48 00 00 08 */	b lbl_8005F010
-lbl_8005F00C:
+/* 8005F008 0005BF48  48 00 00 08 */	b .L_8005F010
+.L_8005F00C:
 /* 8005F00C 0005BF4C  FC 00 F0 90 */	fmr f0, f30
-lbl_8005F010:
+.L_8005F010:
 /* 8005F010 0005BF50  FF C0 00 90 */	fmr f30, f0
-lbl_8005F014:
+.L_8005F014:
 /* 8005F014 0005BF54  3C 80 80 48 */	lis r4, lbl_8047889C@ha
 /* 8005F018 0005BF58  38 61 00 08 */	addi r3, r1, 8
 /* 8005F01C 0005BF5C  38 E4 88 9C */	addi r7, r4, lbl_8047889C@l
@@ -216,9 +214,9 @@ lbl_8005F014:
 /* 8005F098 0005BFD8  7C 08 03 A6 */	mtlr r0
 /* 8005F09C 0005BFDC  38 21 00 40 */	addi r1, r1, 0x40
 /* 8005F0A0 0005BFE0  4E 80 00 20 */	blr 
+.endfn J3DCalcYBBoardMtx__FPA4_f
 
-.global J3DPSCalcInverseTranspose__FPA4_fPA3_f
-J3DPSCalcInverseTranspose__FPA4_fPA3_f:
+.fn J3DPSCalcInverseTranspose__FPA4_fPA3_f, global
 /* 8005F0A4 0005BFE4  E0 03 80 00 */	psq_l f0, 0(r3), 1, qr0
 /* 8005F0A8 0005BFE8  E0 23 00 04 */	psq_l f1, 4(r3), 0, qr0
 /* 8005F0AC 0005BFEC  E0 43 80 10 */	psq_l f2, 16(r3), 1, qr0
@@ -245,10 +243,10 @@ J3DPSCalcInverseTranspose__FPA4_fPA3_f:
 /* 8005F100 0005C040  10 E2 3B 3A */	ps_madd f7, f2, f12, f7
 /* 8005F104 0005C044  10 E4 3A FA */	ps_madd f7, f4, f11, f7
 /* 8005F108 0005C048  10 07 08 40 */	ps_cmpo0 cr0, f7, f1
-/* 8005F10C 0005C04C  40 82 00 0C */	bne lbl_8005F118
+/* 8005F10C 0005C04C  40 82 00 0C */	bne .L_8005F118
 /* 8005F110 0005C050  38 60 00 00 */	li r3, 0
 /* 8005F114 0005C054  4E 80 00 20 */	blr 
-lbl_8005F118:
+.L_8005F118:
 /* 8005F118 0005C058  EC 00 38 30 */	fres f0, f7
 /* 8005F11C 0005C05C  10 C0 00 2A */	ps_add f6, f0, f0
 /* 8005F120 0005C060  10 A0 00 32 */	ps_mul f5, f0, f0
@@ -270,9 +268,9 @@ lbl_8005F118:
 /* 8005F160 0005C0A0  38 60 00 01 */	li r3, 1
 /* 8005F164 0005C0A4  F1 04 80 20 */	psq_st f8, 32(r4), 1, qr0
 /* 8005F168 0005C0A8  4E 80 00 20 */	blr 
+.endfn J3DPSCalcInverseTranspose__FPA4_fPA3_f
 
-.global J3DGetTranslateRotateMtx__FRC16J3DTransformInfoPA4_f
-J3DGetTranslateRotateMtx__FRC16J3DTransformInfoPA4_f:
+.fn J3DGetTranslateRotateMtx__FRC16J3DTransformInfoPA4_f, global
 /* 8005F16C 0005C0AC  A8 A3 00 0E */	lha r5, 0xe(r3)
 /* 8005F170 0005C0B0  3C C0 80 50 */	lis r6, sincosTable___5JMath@ha
 /* 8005F174 0005C0B4  38 C6 71 A0 */	addi r6, r6, sincosTable___5JMath@l
@@ -317,9 +315,9 @@ J3DGetTranslateRotateMtx__FRC16J3DTransformInfoPA4_f:
 /* 8005F210 0005C150  D0 24 00 1C */	stfs f1, 0x1c(r4)
 /* 8005F214 0005C154  D0 04 00 2C */	stfs f0, 0x2c(r4)
 /* 8005F218 0005C158  4E 80 00 20 */	blr 
+.endfn J3DGetTranslateRotateMtx__FRC16J3DTransformInfoPA4_f
 
-.global J3DGetTranslateRotateMtx__FsssfffPA4_f
-J3DGetTranslateRotateMtx__FsssfffPA4_f:
+.fn J3DGetTranslateRotateMtx__FsssfffPA4_f, global
 /* 8005F21C 0005C15C  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8005F220 0005C160  DB E1 00 10 */	stfd f31, 0x10(r1)
 /* 8005F224 0005C164  F3 E1 00 18 */	psq_st f31, 24(r1), 0, qr0
@@ -364,9 +362,9 @@ J3DGetTranslateRotateMtx__FsssfffPA4_f:
 /* 8005F2C0 0005C200  CB E1 00 10 */	lfd f31, 0x10(r1)
 /* 8005F2C4 0005C204  38 21 00 20 */	addi r1, r1, 0x20
 /* 8005F2C8 0005C208  4E 80 00 20 */	blr 
+.endfn J3DGetTranslateRotateMtx__FsssfffPA4_f
 
-.global J3DGetTextureMtx__FRC17J3DTextureSRTInfoRC3VecPA4_f
-J3DGetTextureMtx__FRC17J3DTextureSRTInfoRC3VecPA4_f:
+.fn J3DGetTextureMtx__FRC17J3DTextureSRTInfoRC3VecPA4_f, global
 /* 8005F2CC 0005C20C  A8 03 00 08 */	lha r0, 8(r3)
 /* 8005F2D0 0005C210  3C C0 80 50 */	lis r6, sincosTable___5JMath@ha
 /* 8005F2D4 0005C214  38 E6 71 A0 */	addi r7, r6, sincosTable___5JMath@l
@@ -410,9 +408,9 @@ J3DGetTextureMtx__FRC17J3DTextureSRTInfoRC3VecPA4_f:
 /* 8005F36C 0005C2AC  D0 25 00 0C */	stfs f1, 0xc(r5)
 /* 8005F370 0005C2B0  D0 05 00 28 */	stfs f0, 0x28(r5)
 /* 8005F374 0005C2B4  4E 80 00 20 */	blr 
+.endfn J3DGetTextureMtx__FRC17J3DTextureSRTInfoRC3VecPA4_f
 
-.global J3DGetTextureMtxOld__FRC17J3DTextureSRTInfoRC3VecPA4_f
-J3DGetTextureMtxOld__FRC17J3DTextureSRTInfoRC3VecPA4_f:
+.fn J3DGetTextureMtxOld__FRC17J3DTextureSRTInfoRC3VecPA4_f, global
 /* 8005F378 0005C2B8  A8 03 00 08 */	lha r0, 8(r3)
 /* 8005F37C 0005C2BC  3C C0 80 50 */	lis r6, sincosTable___5JMath@ha
 /* 8005F380 0005C2C0  38 E6 71 A0 */	addi r7, r6, sincosTable___5JMath@l
@@ -456,9 +454,9 @@ J3DGetTextureMtxOld__FRC17J3DTextureSRTInfoRC3VecPA4_f:
 /* 8005F418 0005C358  D0 25 00 08 */	stfs f1, 8(r5)
 /* 8005F41C 0005C35C  D0 05 00 28 */	stfs f0, 0x28(r5)
 /* 8005F420 0005C360  4E 80 00 20 */	blr 
+.endfn J3DGetTextureMtxOld__FRC17J3DTextureSRTInfoRC3VecPA4_f
 
-.global J3DGetTextureMtxMaya__FRC17J3DTextureSRTInfoPA4_f
-J3DGetTextureMtxMaya__FRC17J3DTextureSRTInfoPA4_f:
+.fn J3DGetTextureMtxMaya__FRC17J3DTextureSRTInfoPA4_f, global
 /* 8005F424 0005C364  C1 22 86 40 */	lfs f9, lbl_805169A0@sda21(r2)
 /* 8005F428 0005C368  3C A0 80 50 */	lis r5, sincosTable___5JMath@ha
 /* 8005F42C 0005C36C  C0 03 00 10 */	lfs f0, 0x10(r3)
@@ -501,9 +499,9 @@ J3DGetTextureMtxMaya__FRC17J3DTextureSRTInfoPA4_f:
 /* 8005F4C0 0005C400  D0 24 00 0C */	stfs f1, 0xc(r4)
 /* 8005F4C4 0005C404  D0 04 00 28 */	stfs f0, 0x28(r4)
 /* 8005F4C8 0005C408  4E 80 00 20 */	blr 
+.endfn J3DGetTextureMtxMaya__FRC17J3DTextureSRTInfoPA4_f
 
-.global J3DGetTextureMtxMayaOld__FRC17J3DTextureSRTInfoPA4_f
-J3DGetTextureMtxMayaOld__FRC17J3DTextureSRTInfoPA4_f:
+.fn J3DGetTextureMtxMayaOld__FRC17J3DTextureSRTInfoPA4_f, global
 /* 8005F4CC 0005C40C  C1 22 86 40 */	lfs f9, lbl_805169A0@sda21(r2)
 /* 8005F4D0 0005C410  3C A0 80 50 */	lis r5, sincosTable___5JMath@ha
 /* 8005F4D4 0005C414  C0 03 00 10 */	lfs f0, 0x10(r3)
@@ -546,9 +544,9 @@ J3DGetTextureMtxMayaOld__FRC17J3DTextureSRTInfoPA4_f:
 /* 8005F568 0005C4A8  D0 24 00 08 */	stfs f1, 8(r4)
 /* 8005F56C 0005C4AC  D0 04 00 28 */	stfs f0, 0x28(r4)
 /* 8005F570 0005C4B0  4E 80 00 20 */	blr 
+.endfn J3DGetTextureMtxMayaOld__FRC17J3DTextureSRTInfoPA4_f
 
-.global J3DScaleNrmMtx__FPA4_fRC3Vec
-J3DScaleNrmMtx__FPA4_fRC3Vec:
+.fn J3DScaleNrmMtx__FPA4_fRC3Vec, global
 /* 8005F574 0005C4B4  E0 44 00 00 */	psq_l f2, 0(r4), 0, qr0
 /* 8005F578 0005C4B8  E0 03 00 00 */	psq_l f0, 0(r3), 0, qr0
 /* 8005F57C 0005C4BC  C0 64 00 08 */	lfs f3, 8(r4)
@@ -574,9 +572,9 @@ J3DScaleNrmMtx__FPA4_fRC3Vec:
 /* 8005F5CC 0005C50C  EC 81 00 F2 */	fmuls f4, f1, f3
 /* 8005F5D0 0005C510  D0 83 00 28 */	stfs f4, 0x28(r3)
 /* 8005F5D4 0005C514  4E 80 00 20 */	blr 
+.endfn J3DScaleNrmMtx__FPA4_fRC3Vec
 
-.global J3DScaleNrmMtx33__FPA3_fRC3Vec
-J3DScaleNrmMtx33__FPA3_fRC3Vec:
+.fn J3DScaleNrmMtx33__FPA3_fRC3Vec, global
 /* 8005F5D8 0005C518  E0 03 00 00 */	psq_l f0, 0(r3), 0, qr0
 /* 8005F5DC 0005C51C  E0 C4 00 00 */	psq_l f6, 0(r4), 0, qr0
 /* 8005F5E0 0005C520  C0 23 00 08 */	lfs f1, 8(r3)
@@ -598,9 +596,9 @@ J3DScaleNrmMtx33__FPA3_fRC3Vec:
 /* 8005F620 0005C560  F0 83 00 18 */	psq_st f4, 24(r3), 0, qr0
 /* 8005F624 0005C564  D0 A3 00 20 */	stfs f5, 0x20(r3)
 /* 8005F628 0005C568  4E 80 00 20 */	blr 
+.endfn J3DScaleNrmMtx33__FPA3_fRC3Vec
 
-.global J3DMtxProjConcat__FPA4_fPA4_fPA4_f
-J3DMtxProjConcat__FPA4_fPA4_fPA4_f:
+.fn J3DMtxProjConcat__FPA4_fPA4_fPA4_f, global
 /* 8005F62C 0005C56C  E0 43 00 00 */	psq_l f2, 0(r3), 0, qr0
 /* 8005F630 0005C570  E0 63 00 08 */	psq_l f3, 8(r3), 0, qr0
 /* 8005F634 0005C574  10 C2 14 20 */	ps_merge00 f6, f2, f2
@@ -674,9 +672,9 @@ J3DMtxProjConcat__FPA4_fPA4_fPA4_f:
 /* 8005F744 0005C684  10 09 03 7A */	ps_madd f0, f9, f13, f0
 /* 8005F748 0005C688  F0 05 00 28 */	psq_st f0, 40(r5), 0, qr0
 /* 8005F74C 0005C68C  4E 80 00 20 */	blr 
+.endfn J3DMtxProjConcat__FPA4_fPA4_fPA4_f
 
-.global J3DPSMtxArrayConcat__FPA4_fPA4_fPA4_fUl
-J3DPSMtxArrayConcat__FPA4_fPA4_fPA4_fUl:
+.fn J3DPSMtxArrayConcat__FPA4_fPA4_fPA4_fUl, global
 /* 8005F750 0005C690  94 21 FF C0 */	stwu r1, -0x40(r1)
 /* 8005F754 0005C694  D9 C1 00 08 */	stfd f14, 8(r1)
 /* 8005F758 0005C698  3C E0 80 51 */	lis r7, Unit01@ha
@@ -686,7 +684,7 @@ J3DPSMtxArrayConcat__FPA4_fPA4_fPA4_fUl:
 /* 8005F768 0005C6A8  38 84 FF F8 */	addi r4, r4, -8
 /* 8005F76C 0005C6AC  38 A5 FF F8 */	addi r5, r5, -8
 /* 8005F770 0005C6B0  7C C9 03 A6 */	mtctr r6
-lbl_8005F774:
+.L_8005F774:
 /* 8005F774 0005C6B4  E0 03 00 00 */	psq_l f0, 0(r3), 0, qr0
 /* 8005F778 0005C6B8  E0 C4 00 08 */	psq_l f6, 8(r4), 0, qr0
 /* 8005F77C 0005C6BC  E0 E4 00 10 */	psq_l f7, 16(r4), 0, qr0
@@ -727,9 +725,10 @@ lbl_8005F774:
 /* 8005F808 0005C748  F0 45 00 28 */	psq_st f2, 40(r5), 0, qr0
 /* 8005F80C 0005C74C  10 1F 01 5E */	ps_madds1 f0, f31, f5, f0
 /* 8005F810 0005C750  F4 05 00 30 */	psq_stu f0, 48(r5), 0, qr0
-/* 8005F814 0005C754  42 00 FF 60 */	bdnz lbl_8005F774
+/* 8005F814 0005C754  42 00 FF 60 */	bdnz .L_8005F774
 /* 8005F818 0005C758  C9 C1 00 08 */	lfd f14, 8(r1)
 /* 8005F81C 0005C75C  C9 E1 00 10 */	lfd f15, 0x10(r1)
 /* 8005F820 0005C760  CB E1 00 28 */	lfd f31, 0x28(r1)
 /* 8005F824 0005C764  38 21 00 40 */	addi r1, r1, 0x40
 /* 8005F828 0005C768  4E 80 00 20 */	blr 
+.endfn J3DPSMtxArrayConcat__FPA4_fPA4_fPA4_fUl

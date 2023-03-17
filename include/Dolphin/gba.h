@@ -33,7 +33,7 @@ typedef struct GBA {
 	unknown _10;
 	u8* _14;
 	u8* _18;
-	GBASyncCallback m_syncCallback; // _1C
+	GBASyncCallback mSyncCallback; // _1C
 	int _20;
 	OSThreadQueue _24;
 	u8 _2C[4];
@@ -41,7 +41,7 @@ typedef struct GBA {
 	u32 _34;
 	GBAProcHandler _38;
 	u8 _3C[0xBC];
-	SecParam* m_secParam; // _F8
+	SecParam* mSecParam; // _F8
 	u8 _FC[4];
 } GBA;
 
@@ -50,12 +50,18 @@ extern GBA __GBA[4];
 extern BOOL __GBAReset;
 
 void GBAInit();
-unknown __GBATransfer(int portIndex, unknown, unknown, GBAProcHandler);
+BOOL __GBATransfer(int portIndex, u32, u32, GBAProcHandler);
 int __GBASync(int portIndex);
 void __GBASyncCallback(int portIndex, int);
 BOOL OnReset();
 void ShortCommandProc(int portIndex);
 void ReadProc(int portIndex);
+int GBAReset(int portIndex, u8* p2);
+int GBAGetStatus(int portIndex, u8* p2);
+int GBARead(int portIndex, u8* p2, u8* p3);
+int GBAWrite(int portIndex, u8* p2, u8* p3);
+
+static inline GBAProcHandler getGBAHandler(GBA* gba) { return gba->_38; }
 
 #ifdef __cplusplus
 }

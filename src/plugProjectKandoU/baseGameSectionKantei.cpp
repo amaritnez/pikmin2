@@ -148,42 +148,31 @@
         .4byte 0x41200000
 */
 
+#include "Game/BaseGameSection.h"
+#include "Game/pelletMgr.h"
+
+#include "JSystem/J3D/J3DSys.h"
+
+#include "trig.h"
+#include "nans.h"
+
 namespace Game {
+
+struct OtakaraArray {
+	int a;
+	f32 b;
+} asArrayOtakara[] = { { -1, 1.0f } };
 
 /*
  * --INFO--
  * Address:	8023B534
  * Size:	000064
  */
-void BaseGameSection::drawOtakaraWindow(Graphics&)
+void BaseGameSection::drawOtakaraWindow(Graphics& gfx)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	lis      r5, j3dSys@ha
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	addi     r3, r5, j3dSys@l
-	bl       reinitGX__6J3DSysFv
-	lis      r3, j3dSys@ha
-	addi     r3, r3, j3dSys@l
-	bl       drawInit__6J3DSysFv
-	mr       r3, r30
-	mr       r4, r31
-	lwz      r12, 0(r30)
-	lwz      r12, 0x11c(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	j3dSys.reinitGX();
+	j3dSys.drawInit();
+	do_drawOtakaraWindow(gfx);
 }
 
 /*
@@ -191,49 +180,19 @@ void BaseGameSection::drawOtakaraWindow(Graphics&)
  * Address:	8023B598
  * Size:	000094
  */
-void BaseGameSection::setDraw2DCreature(Game::Creature*)
+void BaseGameSection::setDraw2DCreature(Game::Creature* creature)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r4, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	beq      lbl_8023B610
-	lwz      r3, 0x13c(r30)
-	cmplwi   r3, 0
-	beq      lbl_8023B610
-	lwz      r12, 0(r3)
-	lwz      r12, 0x1a8(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x13c(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x1ac(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x1a8(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x1ac(r12)
-	mtctr    r12
-	bctrl
+	if (creature) {
+		if (mDraw2DCreature) {
+			mDraw2DCreature->getCreatureName();
+			mDraw2DCreature->getCreatureID();
 
-lbl_8023B610:
-	stw      r31, 0x13c(r30)
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+			creature->getCreatureName();
+			creature->getCreatureID();
+		}
+	}
+
+	mDraw2DCreature = creature;
 }
 
 /*
@@ -241,8 +200,43 @@ lbl_8023B610:
  * Address:	8023B62C
  * Size:	0001E0
  */
-void BaseGameSection::startZoomWindow(void)
+void BaseGameSection::startZoomWindow()
 {
+	mTreasureGetState    = 1;
+	mDraw2DCreatureScale = 0.0f;
+
+	SysShape::Model* model = mDraw2DCreature->mModel;
+	f32 modelRadius        = model->getRoughBoundingRadius();
+	Vector3f& center       = model->getRoughCenter();
+
+	if (mDraw2DCreature->getObjType() == OBJTYPE_Honey) {
+		modelRadius *= 1.5F;
+	}
+
+	if (mDraw2DCreature->getObjType() == OBJTYPE_Pellet) {
+		modelRadius *= 1.5F;
+		Pellet* p = (Pellet*)mDraw2DCreature;
+		if (p->getKind() == PELTYPE_TREASURE) {
+			// WTF?
+			int configIdx = p->getConfigIndex();
+			int i         = 0;
+			for (OtakaraArray* c = &asArrayOtakara[i]; c->a != -1; c++) {
+				if (configIdx == c->a) {
+					modelRadius /= asArrayOtakara[i].b;
+					break;
+				}
+
+				i++;
+			}
+		} else {
+			p->getKind();
+		}
+	}
+
+	f32 properDist  = mTreasureZoomCamera->calcProperDistance(20.0f, modelRadius);
+	f32 l           = _lenVec(center);
+	Vector3f length = Vector3f(0.0f, l, 0.0f);
+	mTreasureZoomCamera->init(properDist, JMath::sincosTable_.mTable[256].second, length, nullptr);
 	/*
 	stwu     r1, -0x50(r1)
 	mflr     r0
@@ -388,7 +382,7 @@ lbl_8023B7BC:
  * Address:	8023B80C
  * Size:	000258
  */
-void BaseGameSection::startKantei2D(void)
+void BaseGameSection::startKantei2D()
 {
 	/*
 	stwu     r1, -0x80(r1)
@@ -567,7 +561,6 @@ lbl_8023BA44:
  * Address:	8023BA64
  * Size:	0000CC
  */
-// void onKanteiDone__Q24Game15BaseGameSectionFR7Rect<float>(void)
 void BaseGameSection::onKanteiDone(Rectf& rect)
 {
 	/*
@@ -627,21 +620,9 @@ void BaseGameSection::onKanteiDone(Rectf& rect)
 
 /*
  * --INFO--
- * Address:	........
- * Size:	000038
- */
-void BaseGameSection::closeZoomWindow(void)
-{
-	// UNUSED FUNCTION
-}
-
-/*
- * --INFO--
  * Address:	8023BB30
  * Size:	000114
  */
-// void init__Q34Game15BaseGameSection10ZoomCameraFffR10Vector3f
-// P10Controller(void)
 void BaseGameSection::ZoomCamera::init(float, float, Vector3f&, Controller*)
 {
 	/*
@@ -733,7 +714,7 @@ void BaseGameSection::ZoomCamera::init(float, float, Vector3f&, Controller*)
  * Address:	8023BC44
  * Size:	0002B0
  */
-void BaseGameSection::ZoomCamera::makeLookAt(void)
+void BaseGameSection::ZoomCamera::makeLookAt()
 {
 	/*
 	stwu     r1, -0x70(r1)
@@ -942,7 +923,7 @@ lbl_8023BEBC:
  * Address:	8023BEF4
  * Size:	000164
  */
-void BaseGameSection::ZoomCamera::doUpdate(void)
+void BaseGameSection::ZoomCamera::doUpdate()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1349,67 +1330,67 @@ lbl_8023C444:
  * Address:	8023C468
  * Size:	0000D0
  */
-BaseGameSection::ZoomCamera::~ZoomCamera(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	stw      r30, 8(r1)
-	mr       r30, r4
-	beq      lbl_8023C51C
-	lis      r4, __vt__Q34Game15BaseGameSection10ZoomCamera@ha
-	addi     r0, r4, __vt__Q34Game15BaseGameSection10ZoomCamera@l
-	stw      r0, 0(r31)
-	beq      lbl_8023C50C
-	lis      r4, __vt__12LookAtCamera@ha
-	addi     r0, r4, __vt__12LookAtCamera@l
-	stw      r0, 0(r31)
-	beq      lbl_8023C50C
-	lis      r4, __vt__6Camera@ha
-	addi     r0, r4, __vt__6Camera@l
-	stw      r0, 0(r31)
-	beq      lbl_8023C50C
-	lis      r4, __vt__11CullFrustum@ha
-	addi     r0, r4, __vt__11CullFrustum@l
-	stw      r0, 0(r31)
-	beq      lbl_8023C50C
-	lis      r4, __vt__9CullPlane@ha
-	addi     r0, r4, __vt__9CullPlane@l
-	stw      r0, 0(r31)
-	beq      lbl_8023C50C
-	lis      r4, "__vt__22ArrayContainer<5Plane>"@ha
-	addi     r0, r4, "__vt__22ArrayContainer<5Plane>"@l
-	stw      r0, 0(r31)
-	beq      lbl_8023C50C
-	lis      r4, "__vt__17Container<5Plane>"@ha
-	addi     r0, r4, "__vt__17Container<5Plane>"@l
-	stw      r0, 0(r31)
-	beq      lbl_8023C50C
-	lis      r5, __vt__16GenericContainer@ha
-	li       r4, 0
-	addi     r0, r5, __vt__16GenericContainer@l
-	stw      r0, 0(r31)
-	bl       __dt__5CNodeFv
+// BaseGameSection::ZoomCamera::~ZoomCamera()
+// {
+// 	/*
+// 	stwu     r1, -0x10(r1)
+// 	mflr     r0
+// 	stw      r0, 0x14(r1)
+// 	stw      r31, 0xc(r1)
+// 	or.      r31, r3, r3
+// 	stw      r30, 8(r1)
+// 	mr       r30, r4
+// 	beq      lbl_8023C51C
+// 	lis      r4, __vt__Q34Game15BaseGameSection10ZoomCamera@ha
+// 	addi     r0, r4, __vt__Q34Game15BaseGameSection10ZoomCamera@l
+// 	stw      r0, 0(r31)
+// 	beq      lbl_8023C50C
+// 	lis      r4, __vt__12LookAtCamera@ha
+// 	addi     r0, r4, __vt__12LookAtCamera@l
+// 	stw      r0, 0(r31)
+// 	beq      lbl_8023C50C
+// 	lis      r4, __vt__6Camera@ha
+// 	addi     r0, r4, __vt__6Camera@l
+// 	stw      r0, 0(r31)
+// 	beq      lbl_8023C50C
+// 	lis      r4, __vt__11CullFrustum@ha
+// 	addi     r0, r4, __vt__11CullFrustum@l
+// 	stw      r0, 0(r31)
+// 	beq      lbl_8023C50C
+// 	lis      r4, __vt__9CullPlane@ha
+// 	addi     r0, r4, __vt__9CullPlane@l
+// 	stw      r0, 0(r31)
+// 	beq      lbl_8023C50C
+// 	lis      r4, "__vt__22ArrayContainer<5Plane>"@ha
+// 	addi     r0, r4, "__vt__22ArrayContainer<5Plane>"@l
+// 	stw      r0, 0(r31)
+// 	beq      lbl_8023C50C
+// 	lis      r4, "__vt__17Container<5Plane>"@ha
+// 	addi     r0, r4, "__vt__17Container<5Plane>"@l
+// 	stw      r0, 0(r31)
+// 	beq      lbl_8023C50C
+// 	lis      r5, __vt__16GenericContainer@ha
+// 	li       r4, 0
+// 	addi     r0, r5, __vt__16GenericContainer@l
+// 	stw      r0, 0(r31)
+// 	bl       __dt__5CNodeFv
 
-lbl_8023C50C:
-	extsh.   r0, r30
-	ble      lbl_8023C51C
-	mr       r3, r31
-	bl       __dl__FPv
+// lbl_8023C50C:
+// 	extsh.   r0, r30
+// 	ble      lbl_8023C51C
+// 	mr       r3, r31
+// 	bl       __dl__FPv
 
-lbl_8023C51C:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// lbl_8023C51C:
+// 	lwz      r0, 0x14(r1)
+// 	mr       r3, r31
+// 	lwz      r31, 0xc(r1)
+// 	lwz      r30, 8(r1)
+// 	mtlr     r0
+// 	addi     r1, r1, 0x10
+// 	blr
+// 	*/
+// }
 
 } // namespace Game
 
@@ -1420,104 +1401,81 @@ lbl_8023C51C:
  */
 void LookAtCamera::startVibration(int) { }
 
-namespace og {
+// namespace og {
+// namespace Screen {
 
-namespace Screen {
+// /*
+//  * --INFO--
+//  * Address:	8023C53C
+//  * Size:	000008
+//  */
+// u32 DispMemberSpecialItem::getSize() { return 0x10; }
 
-/*
- * --INFO--
- * Address:	8023C53C
- * Size:	000008
- */
-u32 DispMemberSpecialItem::getSize(void) { return 0x10; }
+// /*
+//  * --INFO--
+//  * Address:	8023C544
+//  * Size:	00000C
+//  */
+// void DispMemberSpecialItem::getOwnerID()
+// {
+// 	/*
+// lis      r3, 0x004F4741@ha
+// addi     r3, r3, 0x004F4741@l
+// blr
+// 	*/
+// }
 
-/*
- * --INFO--
- * Address:	8023C544
- * Size:	00000C
- */
-void DispMemberSpecialItem::getOwnerID(void)
-{
-	/*
-lis      r3, 0x004F4741@ha
-addi     r3, r3, 0x004F4741@l
-blr
-	*/
-}
+// /*
+//  * --INFO--
+//  * Address:	8023C550
+//  * Size:	000014
+//  */
+// void DispMemberSpecialItem::getMemberID()
+// {
+// 	/*
+// lis      r4, 0x4954454D@ha
+// lis      r3, 0x0053505F@ha
+// addi     r4, r4, 0x4954454D@l
+// addi     r3, r3, 0x0053505F@l
+// blr
+// 	*/
+// }
 
-/*
- * --INFO--
- * Address:	8023C550
- * Size:	000014
- */
-void DispMemberSpecialItem::getMemberID(void)
-{
-	/*
-lis      r4, 0x4954454D@ha
-lis      r3, 0x0053505F@ha
-addi     r4, r4, 0x4954454D@l
-addi     r3, r3, 0x0053505F@l
-blr
-	*/
-}
+// /*
+//  * --INFO--
+//  * Address:	8023C564
+//  * Size:	000008
+//  */
+// u32 DispMemberKantei::getSize() { return 0x40; }
 
-/*
- * --INFO--
- * Address:	8023C564
- * Size:	000008
- */
-u32 DispMemberKantei::getSize(void) { return 0x40; }
+// /*
+//  * --INFO--
+//  * Address:	8023C56C
+//  * Size:	00000C
+//  */
+// void DispMemberKantei::getOwnerID()
+// {
+// 	/*
+// lis      r3, 0x004F4741@ha
+// addi     r3, r3, 0x004F4741@l
+// blr
+// 	*/
+// }
 
-/*
- * --INFO--
- * Address:	8023C56C
- * Size:	00000C
- */
-void DispMemberKantei::getOwnerID(void)
-{
-	/*
-lis      r3, 0x004F4741@ha
-addi     r3, r3, 0x004F4741@l
-blr
-	*/
-}
+// /*
+//  * --INFO--
+//  * Address:	8023C578
+//  * Size:	000010
+//  */
+// void DispMemberKantei::getMemberID()
+// {
+// 	/*
+// lis      r4, 0x4E544549@ha
+// li       r3, 0x4b41
+// addi     r4, r4, 0x4E544549@l
+// blr
+// 	*/
+// }
 
-/*
- * --INFO--
- * Address:	8023C578
- * Size:	000010
- */
-void DispMemberKantei::getMemberID(void)
-{
-	/*
-lis      r4, 0x4E544549@ha
-li       r3, 0x4b41
-addi     r4, r4, 0x4E544549@l
-blr
-	*/
-}
-
-} // namespace Screen
-
-} // namespace og
-
-/*
- * --INFO--
- * Address:	8023C588
- * Size:	000028
- */
-void __sinit_baseGameSectionKantei_cpp(void)
-{
-	/*
-	lis      r4, __float_nan@ha
-	li       r0, -1
-	lfs      f0, __float_nan@l(r4)
-	lis      r3, lbl_804C1688@ha
-	stw      r0, lbl_80515CC8@sda21(r13)
-	stfsu    f0, lbl_804C1688@l(r3)
-	stfs     f0, lbl_80515CCC@sda21(r13)
-	stfs     f0, 4(r3)
-	stfs     f0, 8(r3)
-	blr
-	*/
-}
+// } // namespace Screen
+// } // namespace og

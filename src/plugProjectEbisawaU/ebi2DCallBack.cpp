@@ -1,7 +1,7 @@
 #include "JSystem/J2D/J2DAnm.h"
-#include "JSystem/JKR/JKRArchive.h"
-#include "JSystem/JUT/JUTException.h"
-#include "JSystem/JKR/JKRFileLoader.h"
+#include "JSystem/JKernel/JKRArchive.h"
+#include "JSystem/JUtility/JUTException.h"
+#include "JSystem/JKernel/JKRFileLoader.h"
 #include "ebi/E2DCallBack.h"
 #include "types.h"
 
@@ -113,14 +113,14 @@ namespace ebi {
  * Address:	803D068C
  * Size:	000060
  */
-void E2DCallBack_Purupuru::do_update(void)
+void E2DCallBack_Purupuru::do_update()
 {
 	if (_18) {
-		_3C             = m_scaleMgr.calc();
-		J2DPane* pane   = _18;
-		float scale     = _3C;
-		pane->m_scale.x = scale;
-		pane->m_scale.y = scale;
+		_3C            = mScaleMgr.calc();
+		J2DPane* pane  = _18;
+		float scale    = _3C;
+		pane->mScale.x = scale;
+		pane->mScale.y = scale;
 		pane->calcMtx();
 	}
 }
@@ -130,7 +130,7 @@ void E2DCallBack_Purupuru::do_update(void)
  * Address:	803D06EC
  * Size:	0002CC
  */
-void E2DCallBack_BlinkFontColor::do_update(void)
+void E2DCallBack_BlinkFontColor::do_update()
 {
 	/*
 	stwu     r1, -0x90(r1)
@@ -332,7 +332,7 @@ lbl_803D0994:
  * Address:	803D09B8
  * Size:	000118
  */
-void E2DCallBack_BlinkAlpha::do_update(void)
+void E2DCallBack_BlinkAlpha::do_update()
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -425,11 +425,11 @@ void E2DCallBack_AnmBase::loadAnm(char* path, JKRArchive* archive, long p3, long
 {
 	void* resource = JKRFileLoader::getGlbResource(path, archive);
 	P2ASSERTLINE(74, (resource != nullptr));
-	m_anm           = J2DAnmLoaderDataBase::load(resource);
-	m_frameCtrl._06 = p3;
-	m_frameCtrl._10 = p3;
-	m_frameCtrl._0A = p3;
-	m_frameCtrl._08 = ((m_anm->m_maxFrame < p4) ? m_anm->m_maxFrame : p4);
+	mAnim          = J2DAnmLoaderDataBase::load(resource);
+	mFrameCtrl._06 = p3;
+	mFrameCtrl._10 = p3;
+	mFrameCtrl._0A = p3;
+	mFrameCtrl._08 = ((mAnim->mMaxFrame < p4) ? mAnim->mMaxFrame : p4);
 
 	/*
 	stwu     r1, -0x20(r1)
@@ -663,10 +663,10 @@ lbl_803D0D80:
  * Address:	803D0DB4
  * Size:	000014
  */
-void E2DCallBack_AnmBase::stop(void)
+void E2DCallBack_AnmBase::stop()
 {
-	_1C        = 0;
-	m_isFinish = true;
+	mIsEnabled  = 0;
+	mIsFinished = true;
 }
 
 /*
@@ -674,7 +674,7 @@ void E2DCallBack_AnmBase::stop(void)
  * Address:	........
  * Size:	000050
  */
-void E2DCallBack_AnmBase::disconnect(void)
+void E2DCallBack_AnmBase::disconnect()
 {
 	// UNUSED FUNCTION
 }
@@ -684,10 +684,10 @@ void E2DCallBack_AnmBase::disconnect(void)
  * Address:	803D0DC8
  * Size:	00003C
  */
-void E2DCallBack_AnmBase::setStartFrame(void)
+void E2DCallBack_AnmBase::setStartFrame()
 {
-	m_frameCtrl._10       = m_frameCtrl._06;
-	m_anm->m_currentFrame = m_frameCtrl._10;
+	mFrameCtrl._10       = mFrameCtrl._06;
+	mAnim->mCurrentFrame = mFrameCtrl._10;
 }
 
 /*
@@ -695,10 +695,10 @@ void E2DCallBack_AnmBase::setStartFrame(void)
  * Address:	803D0E04
  * Size:	00003C
  */
-void E2DCallBack_AnmBase::setEndFrame(void)
+void E2DCallBack_AnmBase::setEndFrame()
 {
-	m_frameCtrl._10       = m_frameCtrl._08;
-	m_anm->m_currentFrame = m_frameCtrl._10;
+	mFrameCtrl._10       = mFrameCtrl._08;
+	mAnim->mCurrentFrame = mFrameCtrl._10;
 }
 
 /*
@@ -706,7 +706,7 @@ void E2DCallBack_AnmBase::setEndFrame(void)
  * Address:	803D0E40
  * Size:	0000C0
  */
-void E2DCallBack_AnmBase::setRandFrame(void)
+void E2DCallBack_AnmBase::setRandFrame()
 {
 	/*
 	stwu     r1, -0x50(r1)
@@ -765,9 +765,9 @@ void E2DCallBack_AnmBase::setRandFrame(void)
  * Address:	803D0F00
  * Size:	000054
  */
-float E2DCallBack_AnmBase::getPlayFinRate(void)
+float E2DCallBack_AnmBase::getPlayFinRate()
 {
-	return (m_frameCtrl._10 - m_frameCtrl._06) / m_frameCtrl._08;
+	return (mFrameCtrl._10 - mFrameCtrl._06) / mFrameCtrl._08;
 	/*
 	stwu     r1, -0x20(r1)
 	lis      r4, 0x4330
@@ -798,14 +798,14 @@ float E2DCallBack_AnmBase::getPlayFinRate(void)
  * Address:	803D0F54
  * Size:	00005C
  */
-void E2DCallBack_AnmBase::do_update(void)
+void E2DCallBack_AnmBase::do_update()
 {
 	if (_18) {
-		m_frameCtrl.update();
-		m_anm->m_currentFrame = m_frameCtrl._10;
+		mFrameCtrl.update();
+		mAnim->mCurrentFrame = mFrameCtrl._10;
 	}
-	if (m_frameCtrl.m_attr & 1) {
-		m_isFinish = true;
+	if (mFrameCtrl.mAttr & 1) {
+		mIsFinished = true;
 	}
 	/*
 	stwu     r1, -0x10(r1)
@@ -843,9 +843,9 @@ lbl_803D0F9C:
  * Address:	803D0FB0
  * Size:	000008
  */
-bool E2DCallBack_AnmBase::isFinish(void)
+bool E2DCallBack_AnmBase::isFinish()
 {
-	return m_isFinish;
+	return mIsFinished;
 	/*
 	lbz      r3, 0x38(r3)
 	blr
@@ -857,7 +857,7 @@ bool E2DCallBack_AnmBase::isFinish(void)
  * Address:	803D0FB8
  * Size:	00014C
  */
-void E2DCallBack_WindowCursor::do_update(void)
+void E2DCallBack_WindowCursor::do_update()
 {
 	/*
 	stwu     r1, -0x30(r1)

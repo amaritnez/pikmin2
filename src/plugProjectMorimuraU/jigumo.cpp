@@ -1,4 +1,6 @@
+#include "Vector3.h"
 #include "types.h"
+#include "Game/Entities/Jigumo.h"
 
 /*
     Generated from dpostproc
@@ -349,7 +351,7 @@ namespace Game {
  * Address:	80368EA0
  * Size:	000038
  */
-void Jigumo::mouthScaleCallBack(J3DJoint*, int)
+bool Jigumo::mouthScaleCallBack(J3DJoint*, int)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -376,7 +378,7 @@ lbl_80368EC4:
  * Address:	80368ED8
  * Size:	00016C
  */
-void Jigumo::Obj::setParameters(void)
+void Jigumo::Obj::setParameters()
 {
 	/*
 	stwu     r1, -0x50(r1)
@@ -481,14 +483,13 @@ lbl_80368FE8:
 	*/
 }
 
-} // namespace Game
-
 /*
  * --INFO--
  * Address:	80369044
  * Size:	00017C
  */
-void birth__Q34Game6Jigumo3ObjFR10Vector3f f(void)
+// void birth__Q34Game6Jigumo3ObjFR10Vector3f f()
+void Jigumo::Obj::birth(Vector3f&, f32)
 {
 	/*
 	stwu     r1, -0x70(r1)
@@ -599,14 +600,12 @@ lbl_8036918C:
 	*/
 }
 
-namespace Game {
-
 /*
  * --INFO--
  * Address:	803691C0
  * Size:	000008
  */
-u32 Jigumo::Obj::getEnemyTypeID(void) { return 0x3F; }
+EnemyTypeID::EEnemyTypeID Jigumo::Obj::getEnemyTypeID() { return EnemyTypeID::EnemyID_Jigumo; }
 
 /*
  * --INFO--
@@ -773,7 +772,7 @@ lbl_803693B8:
  * Address:	80369404
  * Size:	0003E4
  */
-Jigumo::Obj::Obj(void)
+Jigumo::Obj::Obj()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1089,7 +1088,7 @@ void Jigumo::Obj::setFSM(Game::Jigumo::FSM*)
  * Address:	80369834
  * Size:	000040
  */
-void Jigumo::Obj::doUpdate(void)
+void Jigumo::Obj::doUpdate()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1144,7 +1143,7 @@ void Jigumo::Obj::doDebugDraw(Graphics&)
  * Address:	80369898
  * Size:	00014C
  */
-void Jigumo::Obj::doAnimationCullingOff(void)
+void Jigumo::Obj::doAnimationCullingOff()
 {
 	/*
 	stwu     r1, -0x30(r1)
@@ -1244,7 +1243,7 @@ lbl_80369968:
  * Address:	803699E4
  * Size:	000028
  */
-void Jigumo::Obj::startCarcassMotion(void)
+void Jigumo::Obj::startCarcassMotion()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1265,7 +1264,7 @@ void Jigumo::Obj::startCarcassMotion(void)
  * Address:	80369A0C
  * Size:	0000BC
  */
-void Jigumo::Obj::initMouthSlots(void)
+void Jigumo::Obj::initMouthSlots()
 {
 	/*
 	stwu     r1, -0x30(r1)
@@ -1381,7 +1380,7 @@ lbl_80369B48:
  * Address:	80369B64
  * Size:	000108
  */
-void Jigumo::Obj::pressCallBack(Game::Creature*, float, CollPart*)
+bool Jigumo::Obj::pressCallBack(Game::Creature*, float, CollPart*)
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -1466,7 +1465,7 @@ lbl_80369C50:
  * Address:	80369C6C
  * Size:	0001B4
  */
-void Jigumo::Obj::damageCallBack(Game::Creature*, float, CollPart*)
+bool Jigumo::Obj::damageCallBack(Game::Creature*, float, CollPart*)
 {
 	/*
 	stwu     r1, -0xb0(r1)
@@ -1663,7 +1662,7 @@ lbl_80369ED8:
  * Address:	80369EF0
  * Size:	000120
  */
-void Jigumo::Obj::outWaterCallback(void)
+void Jigumo::Obj::outWaterCallback()
 {
 	/*
 	stwu     r1, -0x30(r1)
@@ -1861,7 +1860,7 @@ lbl_8036A14C:
  * Address:	8036A160
  * Size:	00007C
  */
-void Jigumo::Obj::earthquakeCallBack(Game::Creature*, float)
+bool Jigumo::Obj::earthquakeCallBack(Game::Creature*, float)
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -1957,7 +1956,7 @@ void Jigumo::Obj::getShadowParam(Game::ShadowParam&)
  * Address:	8036A278
  * Size:	00007C
  */
-void Jigumo::Obj::needShadow(void)
+bool Jigumo::Obj::needShadow()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2151,14 +2150,14 @@ void Jigumo::Obj::onKill(Game::CreatureKillArg*)
  * Address:	8036A49C
  * Size:	000008
  */
-u32 Jigumo::Obj::isLivingThing(void) { return 0x1; }
+bool Jigumo::Obj::isLivingThing() { return true; }
 
 /*
  * --INFO--
  * Address:	8036A4A4
  * Size:	00008C
  */
-void Jigumo::Obj::doStartMovie(void)
+void Jigumo::Obj::doStartMovie()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2204,7 +2203,7 @@ void Jigumo::Obj::doStartMovie(void)
  * Address:	8036A530
  * Size:	00008C
  */
-void Jigumo::Obj::doEndMovie(void)
+void Jigumo::Obj::doEndMovie()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2250,7 +2249,7 @@ void Jigumo::Obj::doEndMovie(void)
  * Address:	8036A5BC
  * Size:	0000D8
  */
-void Jigumo::Obj::doStartStoneState(void)
+void Jigumo::Obj::doStartStoneState()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2319,7 +2318,7 @@ lbl_8036A680:
  * Address:	8036A694
  * Size:	0000E8
  */
-void Jigumo::Obj::doFinishStoneState(void)
+void Jigumo::Obj::doFinishStoneState()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -2394,7 +2393,7 @@ lbl_8036A74C:
  * Address:	8036A77C
  * Size:	000034
  */
-void Jigumo::Obj::getGoalDist(void)
+void Jigumo::Obj::getGoalDist()
 {
 	/*
 	lfs      f1, 0x190(r3)
@@ -2418,7 +2417,7 @@ void Jigumo::Obj::getGoalDist(void)
  * Address:	8036A7B0
  * Size:	0007DC
  */
-void Jigumo::Obj::walkFunc(void)
+void Jigumo::Obj::walkFunc()
 {
 	/*
 	stwu     r1, -0xb0(r1)
@@ -2998,7 +2997,7 @@ lbl_8036AF4C:
  * Address:	8036AF8C
  * Size:	00019C
  */
-void Jigumo::Obj::getOffsetForMapCollision(void)
+Vector3f Jigumo::Obj::getOffsetForMapCollision()
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -3134,7 +3133,7 @@ lbl_8036B120:
  * Address:	8036B128
  * Size:	000820
  */
-void Jigumo::Obj::calcBaseTrMatrix(void)
+void Jigumo::Obj::calcBaseTrMatrix()
 {
 	/*
 	stwu     r1, -0x160(r1)
@@ -3739,7 +3738,7 @@ lbl_8036B90C:
  * Address:	........
  * Size:	0000E8
  */
-void Jigumo::Obj::isUnitePos(void)
+bool Jigumo::Obj::isUnitePos()
 {
 	// UNUSED FUNCTION
 }
@@ -3784,7 +3783,7 @@ lbl_8036B970:
  * Address:	8036B9A0
  * Size:	000080
  */
-void Jigumo::Obj::getWalkSpeed(void)
+void Jigumo::Obj::getWalkSpeed()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -3839,7 +3838,7 @@ lbl_8036BA0C:
  * Address:	8036BA20
  * Size:	000074
  */
-void Jigumo::Obj::velocityControl(void)
+void Jigumo::Obj::velocityControl()
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -3938,7 +3937,7 @@ lbl_8036BB14:
  * Address:	8036BB3C
  * Size:	0001C0
  */
-void Jigumo::Obj::effectStart(void)
+void Jigumo::Obj::effectStart()
 {
 	/*
 	stwu     r1, -0x40(r1)
@@ -4071,7 +4070,7 @@ lbl_8036BCE4:
  * Address:	8036BCFC
  * Size:	00008C
  */
-void Jigumo::Obj::effectStop(void)
+void Jigumo::Obj::effectStop()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -4117,7 +4116,7 @@ void Jigumo::Obj::effectStop(void)
  * Address:	........
  * Size:	0000A8
  */
-void Jigumo::Obj::appearEffectStart(void)
+void Jigumo::Obj::appearEffectStart()
 {
 	// UNUSED FUNCTION
 }
@@ -4127,7 +4126,7 @@ void Jigumo::Obj::appearEffectStart(void)
  * Address:	........
  * Size:	000030
  */
-void Jigumo::Obj::appearEffectStop(void)
+void Jigumo::Obj::appearEffectStop()
 {
 	// UNUSED FUNCTION
 }
@@ -4137,7 +4136,7 @@ void Jigumo::Obj::appearEffectStop(void)
  * Address:	8036BD88
  * Size:	000028
  */
-void Jigumo::Obj::boundEffect(void)
+void Jigumo::Obj::boundEffect()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -4158,7 +4157,7 @@ void Jigumo::Obj::boundEffect(void)
  * Address:	8036BDB0
  * Size:	000124
  */
-void Jigumo::Obj::eatWaterEffect(void)
+void Jigumo::Obj::eatWaterEffect()
 {
 	/*
 	stwu     r1, -0x60(r1)
@@ -4244,7 +4243,7 @@ lbl_8036BEC0:
  * Address:	8036BED4
  * Size:	000020
  */
-void Jigumo::Obj::killNest(void)
+void Jigumo::Obj::killNest()
 {
 	/*
 	lwz      r4, 0x2e4(r3)
@@ -4265,7 +4264,7 @@ lbl_8036BEE8:
  * Address:	8036BEF4
  * Size:	000194
  */
-void Jigumo::Obj::mouthScaleMtxCalc(void)
+void Jigumo::Obj::mouthScaleMtxCalc()
 {
 	/*
 	lwz      r4, 0x174(r3)
@@ -4404,7 +4403,7 @@ void Jigumo::Obj::setInitialSetting(Game::EnemyInitialParamBase*) { }
  * Address:	8036C08C
  * Size:	000014
  */
-void Jigumo::Obj::getCellRadius(void)
+f32 Jigumo::Obj::getCellRadius()
 {
 	/*
 	lwz      r4, 0xc0(r3)
@@ -4420,7 +4419,7 @@ void Jigumo::Obj::getCellRadius(void)
  * Address:	8036C0A0
  * Size:	000008
  */
-void Jigumo::Obj::getBodyRadius(void)
+f32 Jigumo::Obj::getBodyRadius()
 {
 	/*
 	lfs      f1, 0x2f0(r3)
@@ -4433,7 +4432,7 @@ void Jigumo::Obj::getBodyRadius(void)
  * Address:	8036C0A8
  * Size:	000028
  */
-void Jigumo::Obj::eatWhitePikminCallBack(Game::Creature*, float)
+bool Jigumo::Obj::eatWhitePikminCallBack(Game::Creature*, float)
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -4454,7 +4453,7 @@ void Jigumo::Obj::eatWhitePikminCallBack(Game::Creature*, float)
  * Address:	8036C0D0
  * Size:	000008
  */
-void Jigumo::Obj::getDownSmokeScale(void)
+f32 Jigumo::Obj::getDownSmokeScale()
 {
 	/*
 	lfs      f1, lbl_8051E9E8@sda21(r2)
@@ -4467,7 +4466,7 @@ void Jigumo::Obj::getDownSmokeScale(void)
  * Address:	8036C0D8
  * Size:	000008
  */
-void Jigumo::Obj::getMouthSlots(void)
+MouthSlots* Jigumo::Obj::getMouthSlots()
 {
 	/*
 	addi     r3, r3, 0x2d8
@@ -4480,7 +4479,7 @@ void Jigumo::Obj::getMouthSlots(void)
  * Address:	8036C0E0
  * Size:	00003C
  */
-void Jigumo::Obj::createEfxHamon(void)
+void Jigumo::Obj::createEfxHamon()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -4504,99 +4503,3 @@ lbl_8036C108:
 }
 
 } // namespace Game
-
-/*
- * --INFO--
- * Address:	8036C11C
- * Size:	000014
- */
-void @908 @12 @Game::EnemyBase::viewOnPelletKilled(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -908
-	b        viewOnPelletKilled__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	8036C130
- * Size:	000014
- */
-void @908 @12 @Game::EnemyBase::viewStartCarryMotion(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -908
-	b        viewStartCarryMotion__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	8036C144
- * Size:	000014
- */
-void @908 @12 @Game::EnemyBase::viewStartPreCarryMotion(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -908
-	b        viewStartPreCarryMotion__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	8036C158
- * Size:	000014
- */
-void @908 @12 @Game::EnemyBase::view_finish_carrymotion(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -908
-	b        view_finish_carrymotion__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	8036C16C
- * Size:	000014
- */
-void @908 @12 @Game::EnemyBase::view_start_carrymotion(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -908
-	b        view_start_carrymotion__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	8036C180
- * Size:	000014
- */
-void @908 @12 @Game::EnemyBase::viewGetShape(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -908
-	b        viewGetShape__Q24Game9EnemyBaseFv
-	*/
-}

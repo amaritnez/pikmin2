@@ -2,7 +2,10 @@
 #define _SYS_GRIDDIVIDER_H
 
 #include "Sys/TriDivider.h"
+#include "Sys/TriIndexList.h"
 #include "Vector3.h"
+#include "Vector2.h"
+
 namespace Game {
 struct CurrTriInfo;
 } // namespace Game
@@ -24,34 +27,44 @@ struct GridInfo {
  */
 struct GridDivider : public TriDivider {
 	GridDivider()
-	    : m_boundingBox()
+	    : mBoundingBox()
 	{
-		m_triIndexLists = nullptr;
-		m_maxZ          = 0;
-		m_maxX          = 0;
+		mTriIndexLists = nullptr;
+		mMaxZ          = 0;
+		mMaxX          = 0;
 	}
 
-	virtual ~GridDivider();                                                          // _08 (weak)
-	virtual float getMinY(Vector3f&);                                                // _10
-	virtual TriIndexList* findTriLists(Sys::Sphere&);                                // _14
-	virtual void read(Stream&);                                                      // _18
-	virtual void getCurrTri(Game::CurrTriInfo&);                                     // _1C
-	virtual void createTriangles(Sys::CreateTriangleArg&);                           // _20
-	virtual void getBoundBox(BoundBox&);                                             // _24 (weak)
-	virtual GridDivider* do_clone(Matrixf&, Sys::VertexTable*, Sys::TriangleTable*); // _2C
-	// virtual void _30() = 0;														  // _30 - need to work out what this is
+	virtual ~GridDivider() // _08 (weak)
+	{
+		if (&mMaxX)
+			delete[] mTriIndexLists;
+	}
+	virtual f32 getMinY(Vector3f&);                                       // _10
+	virtual TriIndexList* findTriLists(Sphere&);                          // _14
+	virtual void read(Stream&);                                           // _18
+	virtual void getCurrTri(Game::CurrTriInfo&);                          // _1C
+	virtual void createTriangles(CreateTriangleArg&);                     // _20
+	virtual void getBoundBox(BoundBox&);                                  // _24 (weak)
+	virtual TriDivider* do_clone(Matrixf&, VertexTable*, TriangleTable*); // _2C
 
-	void create(BoundBox&, int, int, Sys::VertexTable*, Sys::TriangleTable*);
+	void create(BoundBox&, int, int, VertexTable*, TriangleTable*);
 
 	// Unused/inlined:
-	void write(Stream&); // TODO: I wonder if this was declared virtual and then removed when unused somehow...
+	void write(Stream&);
 
-	int m_maxX;
-	int m_maxZ;
-	TriIndexList* m_triIndexLists;
-	BoundBox m_boundingBox;
-	float m_scaleX;
-	float m_scaleZ;
+	inline void readIndexList(Stream& stream)
+	{
+		for (int i = 0; i < (mMaxX * mMaxZ); i++) {
+			mTriIndexLists[i].read(stream);
+		}
+	}
+
+	int mMaxX;                    // _20
+	int mMaxZ;                    // _24
+	TriIndexList* mTriIndexLists; // _28
+	BoundBox mBoundingBox;        // _2C
+	f32 mScaleX;                  // _44
+	f32 mScaleZ;                  // _48
 };
 } // namespace Sys
 

@@ -1,7 +1,7 @@
-#include "Morimura/TTestBase.h"
+#include "Morimura/Bases.h"
 
 namespace Morimura {
-u64 TTestBase::mIsSection;
+bool TTestBase::mIsSection;
 
 /*
  * --INFO--
@@ -10,15 +10,14 @@ u64 TTestBase::mIsSection;
  */
 TTestBase::TTestBase(char* name)
 {
-	m_timer        = 0.0f;
-	m_timerLength  = 0.5f;
-	m_fadeFraction = 0.0f;
-	m_fadeAlpha    = 0;
+	mTimer        = 0.0f;
+	mTimerLength  = 0.5f;
+	mFadeFraction = 0.0f;
+	mFadeAlpha    = 0;
+	mCanInput     = false;
 
-	_45 = 0;
-
-	strcpy(m_baseName, name);
-	m_name = m_baseName;
+	strcpy(mBaseName, name);
+	mName = mBaseName;
 }
 
 /*
@@ -28,11 +27,10 @@ TTestBase::TTestBase(char* name)
  */
 bool TTestBase::doStart(Screen::StartSceneArg const*)
 {
-	m_fadeFraction = 0.0f;
-	m_timer        = 0.0f;
-	m_fadeAlpha    = 0;
-
-	_45 = 0;
+	mFadeFraction = 0.0f;
+	mTimer        = 0.0f;
+	mFadeAlpha    = 0;
+	mCanInput     = false;
 
 	return true;
 }
@@ -44,7 +42,7 @@ bool TTestBase::doStart(Screen::StartSceneArg const*)
  */
 bool TTestBase::doEnd(Screen::EndSceneArg const*)
 {
-	m_timer = 0.0f;
+	mTimer = 0.0f;
 	return true;
 }
 
@@ -56,19 +54,19 @@ bool TTestBase::doEnd(Screen::EndSceneArg const*)
 bool TTestBase::doUpdateFadein()
 {
 	// Increase the fade timer, if it goes over the max, then clamp it
-	m_timer += sys->m_secondsPerFrame;
-	if (m_timer > m_timerLength) {
-		m_timer = m_timerLength;
+	mTimer += sys->mDeltaTime;
+	if (mTimer > mTimerLength) {
+		mTimer = mTimerLength;
 	}
 
 	// Work out the fade-in amount based on the timer
-	m_fadeFraction = m_timer / m_timerLength;
-	m_fadeAlpha    = 255.0f * m_fadeFraction;
+	mFadeFraction = mTimer / mTimerLength;
+	mFadeAlpha    = 255.0f * mFadeFraction;
 
 	doUpdate();
 
 	// Function returns true if the fade-in is done
-	if (m_timer >= m_timerLength) {
+	if (mTimer >= mTimerLength) {
 		return true;
 	}
 
@@ -80,7 +78,7 @@ bool TTestBase::doUpdateFadein()
  * Address:	8034932C
  * Size:	00000C
  */
-void TTestBase::doUpdateFinish() { m_timer = 0.0f; }
+void TTestBase::doUpdateFinish() { mTimer = 0.0f; }
 
 /*
  * --INFO--
@@ -90,19 +88,19 @@ void TTestBase::doUpdateFinish() { m_timer = 0.0f; }
 bool TTestBase::doUpdateFadeout()
 {
 	// Increase the fade timer, if it goes over the max, then clamp it
-	m_timer += sys->m_secondsPerFrame;
-	if (m_timer > m_timerLength) {
-		m_timer = m_timerLength;
+	mTimer += sys->mDeltaTime;
+	if (mTimer > mTimerLength) {
+		mTimer = mTimerLength;
 	}
 
 	// An equation that works out the inverse of the fade-in
-	m_fadeFraction = 1.0f - (m_timer / m_timerLength);
-	m_fadeAlpha    = 255.0f * m_fadeFraction;
+	mFadeFraction = 1.0f - (mTimer / mTimerLength);
+	mFadeAlpha    = 255.0f * mFadeFraction;
 
 	doUpdate();
 
 	// Function returns true if the fade-out is done
-	if (m_timer >= m_timerLength) {
+	if (mTimer >= mTimerLength) {
 		return true;
 	}
 

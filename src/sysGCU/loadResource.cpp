@@ -1,7 +1,7 @@
 #include "LoadResource.h"
-#include "JSystem/JKR/JKRArchive.h"
-#include "JSystem/JKR/JKRDvdRipper.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JKernel/JKRArchive.h"
+#include "JSystem/JKernel/JKRDvdRipper.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "types.h"
 
 /*
@@ -155,13 +155,13 @@ void LoadResource::Node::dump()
  * Size:	000044
  */
 LoadResource::Arg::Arg(char const* p1)
-    : _00(p1)
+    : mPath(p1)
     , _04(nullptr)
     , _08(0)
     , _0C(0)
-    , m_expandSwitch(Switch_1)
+    , mExpandSwitch(Switch_1)
     , _14(0)
-    , m_heap(nullptr)
+    , mHeap(nullptr)
     , _1C(1)
     , _20(-1)
     , _24(nullptr)
@@ -190,8 +190,8 @@ LoadResource::ArgAramOnly::ArgAramOnly(char const* p1)
  * Size:	00009C
  */
 LoadResource::Mgr::Mgr()
-    : m_aramRoot("AramRoot")
-    , m_dvdRoot("DvdRoot")
+    : mAramRoot("AramRoot")
+    , mDvdRoot("DvdRoot")
 {
 	// UNUSED FUNCTION
 	P2ASSERTLINE(118, gLoadResourceMgr == nullptr);
@@ -287,15 +287,15 @@ void LoadResource::Mgr::dump()
 LoadResource::Node* LoadResource::Mgr::mountArchive(LoadResource::Arg& arg)
 {
 	Node* node = load(arg);
-	if (node != nullptr) {
-		JKRArchive::EMountDirection mountDirection = JKRArchive::EMD_Unk2;
-		void* v1                                   = node->_30;
-		JKRHeap* heap                              = arg.m_heap;
+	if (node) {
+		JKRArchive::EMountDirection mountDirection = JKRArchive::EMD_Tail;
+		void* v1                                   = node->mFile;
+		JKRHeap* heap                              = arg.mHeap;
 		if (arg._1C == 1) {
-			mountDirection = JKRArchive::EMD_Unk1;
+			mountDirection = JKRArchive::EMD_Head;
 		}
-		node->m_archive = JKRArchive::mount(v1, heap, mountDirection);
-		JUT_ASSERTLINE(221, node->m_archive != nullptr, "mount arc failure");
+		node->mArchive = JKRArchive::mount(v1, heap, mountDirection);
+		JUT_ASSERTLINE(221, node->mArchive != nullptr, "mount arc failure");
 	}
 	return node;
 }
@@ -563,7 +563,7 @@ lbl_8044CAAC:
 //  * Address:	8044CAC4
 //  * Size:	000008
 //  */
-// @24 @LoadResource::Node::~Node(void)
+// @24 @LoadResource::Node::~Node()
 // {
 // 	/*
 // 	addi     r3, r3, -24

@@ -1,6 +1,5 @@
 #include "CNode.h"
-#include "JSystem/JUT/JUTException.h"
-#include "Screen/Bases.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "Screen/screenObj.h"
 #include "og/Screen/ogScreen.h"
 #include "types.h"
@@ -75,11 +74,11 @@ namespace Screen {
  * Address:	80453AE8
  * Size:	000090
  */
-ObjBase::ObjBase(void)
+ObjBase::ObjBase()
     : IObjBase()
 {
-	_30     = 0;
-	m_owner = nullptr;
+	_30    = 0;
+	mOwner = nullptr;
 }
 
 /*
@@ -280,7 +279,7 @@ lbl_80453D68:
  * Address:	80453D88
  * Size:	000110
  */
-bool ObjBase::update(void)
+bool ObjBase::update()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -383,7 +382,7 @@ void ObjBase::draw(Graphics& gfx)
  * Address:	80453ED0
  * Size:	0000D8
  */
-void ObjBase::doDraw(Graphics&)
+void ObjBase::doDraw(Graphics& gfx)
 {
 	// J2DPrint print(JFWSystem::systemFont, 0.0f);
 	// print.initiate();
@@ -395,7 +394,7 @@ void ObjBase::doDraw(Graphics&)
 	// print._44.g = 0xFF;
 	// print._44.b = 0xFF;
 	// print._44.a = 0xFF;
-	// print.print(100.0f, m_name); // TODO: What's the other double param?
+	// print.print(100.0f, mName); // TODO: What's the other double param?
 	/*
 	stwu     r1, -0x80(r1)
 	mflr     r0
@@ -459,7 +458,7 @@ void ObjBase::doDraw(Graphics&)
  * Address:	80453FA8
  * Size:	00000C
  */
-og::Screen::DispMemberBase* ObjBase::getDispMember(void) { return (og::Screen::DispMemberBase*)m_owner->m_dispMemberBuffer; }
+og::Screen::DispMemberBase* ObjBase::getDispMember() { return mOwner->mDispMember; }
 
 /*
  * --INFO--
@@ -517,10 +516,10 @@ void ObjMgrBase::registObj(Screen::IObjBase* obj, Screen::SceneBase* scene)
  * Address:	8045410C
  * Size:	000068
  */
-bool ObjMgrBase::update(void)
+bool ObjMgrBase::update()
 {
 	bool result = true;
-	for (IObjBase* obj = (IObjBase*)_00.m_child; obj != nullptr; obj = (IObjBase*)obj->m_next) {
+	for (IObjBase* obj = (IObjBase*)_00.mChild; obj != nullptr; obj = (IObjBase*)obj->mNext) {
 		if (!obj->update()) {
 			result = false;
 		}
@@ -570,7 +569,7 @@ lbl_80454150:
  */
 void ObjMgrBase::draw(Graphics& gfx)
 {
-	for (IObjBase* obj = (IObjBase*)_00.m_child; obj != nullptr; obj = (IObjBase*)obj->m_next) {
+	for (IObjBase* obj = (IObjBase*)_00.mChild; obj != nullptr; obj = (IObjBase*)obj->mNext) {
 		obj->draw(gfx);
 	}
 	/*
@@ -910,7 +909,7 @@ lbl_804544AC:
 //  * Address:	804544CC
 //  * Size:	000008
 //  */
-// @24 @Screen::ObjBase::~ObjBase(void)
+// @24 @Screen::ObjBase::~ObjBase()
 // {
 // 	/*
 // 	addi     r3, r3, -24

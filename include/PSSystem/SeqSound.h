@@ -1,7 +1,7 @@
 #ifndef _PSSYSTEM_SEQSOUND_H
 #define _PSSYSTEM_SEQSOUND_H
 
-#include "JSystem/JAI/JAISequence.h"
+#include "JSystem/JAudio/JAI/JAISequence.h"
 
 namespace PSSystem {
 /**

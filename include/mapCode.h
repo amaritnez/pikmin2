@@ -27,7 +27,7 @@ struct Code {
 	};
 #pragma enumsalwaysint reset
 
-	u8 getAttribute();
+	int getAttribute();
 	char* getAttributeName();
 	u8 getSlipCode();
 	char* getSlipCodeName();
@@ -36,19 +36,19 @@ struct Code {
 	void setCode(int, int, bool);
 	void write(Stream&);
 
-	inline char* getContents() { return (char*)m_contents; }
+	inline char* getContents() { return (char*)mContents; }
 
-	// u8 m_attribute;
+	// u8 mAttribute;
 	union {
-		u8 m_contents;
-		u8 m_attribute : 4, m_slipCode : 2, m_isBald : 1;
+		u8 mContents;
+		u8 mAttribute : 4, mSlipCode : 2, mIsBald : 1;
 	};
 };
 
 struct Mgr {
-	struct CodeArray : ArrayContainer<MapCode::Code> {
+	struct CodeArray : public ArrayContainer<Code> {
 		inline CodeArray()
-		    : ArrayContainer<MapCode::Code>()
+		    : ArrayContainer<Code>()
 		{
 		}
 
@@ -63,7 +63,7 @@ struct Mgr {
 	void read(Stream&);
 	void attachCodes(Sys::TriangleTable*);
 
-	CodeArray m_codeArray; // _00
+	CodeArray mCodeArray; // _00
 };
 } // namespace MapCode
 

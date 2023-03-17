@@ -4,6 +4,7 @@
 #include "JSystem/JGeometry.h"
 #include "types.h"
 #include "Vector3.h"
+#include "Matrixf.h"
 
 namespace PSGame {
 /**
@@ -11,90 +12,106 @@ namespace PSGame {
  */
 struct SceneInfo {
 	enum FlagDef {
-		SF_0            = 0,
-		SF_FORCE_USHORT = 0xFFFF,
+		SCENEFLAG_Unk0 = 0,
+		SCENEFLAG_Unk1 = 1,
 	};
 
 	enum FlagBitShift {
 		SFBS_0 = 0,
+		SFBS_1 = 1,
+	};
+
+	enum GameType {
+		SCENE_NULL = 0,
+		COURSE_TUTORIAL,
+		COURSE_FOREST,
+		COURSE_YAKUSHIMA,
+		COURSE_LAST,
+		COURSE_TEST,
+		CHALLENGE_MODE, // includes key get
+		TWO_PLAYER_BATTLE,
+		TITLE_SCREEN, // includes options high score and bonus themes
+		CAVE_RESULTS,
+		FILE_SELECT,
+		WORLD_MAP_NORMAL,
+		WORLD_MAP_NEWLEVEL,
+		PIKLOPEDIA,
+		ENDING_COMPLETE,
+		ENDING_DEBTRESULT,
+		CHALLENGE_RESULTS,
+		CHALLENGE_MENU,
+		TITLE_18,
+		VERSUS_MENU,
+		COURSE_TUTORIALDAY1
 	};
 
 	SceneInfo();
 
-	/**
-	 * @reifiedAddress{803381EC}
-	 * @reifiedFile{plugProjectHikinoU/PSGame.cpp}
-	 */
-	virtual bool isCaveFloor() // _00
-	{
-		return false;
-	}
+	virtual bool isCaveFloor() { return false; } // _08 (weak)
 
 	void setStageFlag(FlagDef, FlagBitShift);
-	FlagDef getFlag(const FlagBitShift);
+	FlagDef getFlag(FlagBitShift) const;
 	void setStageCamera() const;
 
-	FlagDef m_stageFlags; // _04
-	u8 m_gameType;        // _06
-	u8 _07;
-	Vector3f* _08;
-	u32 _0C;
-	Vector3f* _10;
-	u32 _14;
-	Vector3f* _18;
-	u32 _1C;
-	JGeometry::TBox3f _20;
+	// _00 = VTBL
+	u16 mStageFlags;         // _04
+	u8 mSceneType;           // _06
+	u8 mCameras;             // _07
+	Vector3f* mCam1Position; // _08
+	Vector3f* _0C;           // _0C
+	Vector3f* mCam2Position; // _10
+	Vector3f* _14;           // _14
+	Matrixf* mCameraMtx;     // _18
+	Matrixf* _1C;            // _1C
+	JGeometry::TBox3f _20;   // _20
 };
 
 /**
  * @size{0x4C}
  */
 struct CaveFloorInfo : public SceneInfo {
-	/**
-	 * @reifiedAddress{8015633C}
-	 * @reifiedFile{src/plugProjectKandoU/singleGameSection.cpp}
-	 */
-	virtual bool isCaveFloor() // _00
+	inline CaveFloorInfo()
 	{
-		return true;
+		mAlphaType = 0;
+		mBetaType  = 0;
+		_40        = 0;
+		mCaveID    = 0xFFFF;
+		_48        = 0xFF;
+		_49        = 0xFF;
 	}
-	/**
-	 * @reifiedAddress{80156344}
-	 * @reifiedFile{src/plugProjectKandoU/singleGameSection.cpp}
-	 */
-	virtual bool isBossFloor() // _04
-	{
-		/*
-		lwz      r0, 0x3c(r3)
-		subfic   r0, r0, 1
-		cntlzw   r0, r0
-		srwi     r3, r0, 5
-		blr
-		*/
-	}
-	/**
-	 * @reifiedAddress{80156358}
-	 * @reifiedFile{src/plugProjectKandoU/singleGameSection.cpp}
-	 */
-	virtual bool isRelaxFloor() // _08
-	{
-		/*
-		lwz      r0, 0x3c(r3)
-		subfic   r0, r0, 2
-		cntlzw   r0, r0
-		srwi     r3, r0, 5
-		blr
-		*/
-	}
+
+	virtual bool isCaveFloor() { return true; } // _08 (weak)
+	virtual bool isBossFloor();                 // _0C (weak)
+	// {
+	// 	/*
+	// 	lwz      r0, 0x3c(r3)
+	// 	subfic   r0, r0, 1
+	// 	cntlzw   r0, r0
+	// 	srwi     r3, r0, 5
+	// 	blr
+	// 	*/
+	// }
+	virtual bool isRelaxFloor(); // _10 (weak)
+	// {
+	// 	/*
+	// 	lwz      r0, 0x3c(r3)
+	// 	subfic   r0, r0, 2
+	// 	cntlzw   r0, r0
+	// 	srwi     r3, r0, 5
+	// 	blr
+	// 	*/
+	// }
 
 	u32 getCaveNoFromID();
 
-	uint m_alphaType; // _38
-	uint m_betaType;  // _3C
-	u8 _40;           // _40
-	u32 m_caveID;     // _44
-	u8 _48;           // _48
-	u8 _49;           // _49
+	// _00     = VTBL
+	// _00-_38 = SceneInfo
+	uint mAlphaType; // _38
+	uint mBetaType;  // _3C
+	u8 _40;          // _40
+	u32 mCaveID;     // _44
+	u8 _48;          // _48
+	u8 _49;          // _49
 };
 } // namespace PSGame
 

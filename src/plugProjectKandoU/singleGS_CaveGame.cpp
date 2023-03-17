@@ -1,211 +1,35 @@
 #include "Game/Entities/BlackMan.h"
 #include "Game/GameSystem.h"
-#include "Game/ItemBigFountain.h"
-#include "Game/ItemHole.h"
+#include "Game/Entities/ItemBigFountain.h"
+#include "Game/Entities/ItemHole.h"
 #include "Game/MapMgr.h"
 #include "Game/MoviePlayer.h"
 #include "Game/Navi.h"
 #include "Game/mapParts.h"
-#include "Vector3.h"
-#include "types.h"
-#include "nans.h"
 #include "Game/SingleGame.h"
+#include "PSM/Global.h"
+#include "Screen/Game2DMgr.h"
+#include "og/Screen/DispMember.h"
+#include "Game/Entities/ItemOnyon.h"
+#include "Game/PikiMgr.h"
+#include "PikiAI.h"
+#include "Game/Cave/RandMapMgr.h"
+#include "Game/DeathMgr.h"
+#include "Radar.h"
+#include "TParticle2dMgr.h"
+#include "utilityU.h"
+#include "Game/PikiState.h"
+#include "Dolphin/rand.h"
+#include "Game/Entities/PelletOtakara.h"
+#include "Game/Entities/PelletItem.h"
+#include "PSSystem/PSGame.h"
+#include "PSM/Scene.h"
+#include "PSSystem/PSMainSide_Scene.h"
+#include "Game/Entities/ItemPikihead.h"
+#include "nans.h"
 
-/*
-    Generated from dpostproc
-
-    .section .ctors, "wa"  # 0x80472F00 - 0x804732C0
-    .4byte __sinit_singleGS_CaveGame_cpp
-
-    .section .rodata  # 0x804732E0 - 0x8049E220
-    .global lbl_80482430
-    lbl_80482430:
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x53696E67
-        .4byte 0x6C654753
-        .4byte 0x5F47616D
-        .4byte 0x65000000
-    .global lbl_8048244C
-    lbl_8048244C:
-        .4byte 0x7330425F
-        .4byte 0x63765F63
-        .4byte 0x6F757273
-        .4byte 0x65696E00
-        .4byte 0x50534761
-        .4byte 0x6D652E68
-        .4byte 0x00000000
-        .asciz "P2Assert"
-        .skip 3
-        .4byte 0x50535363
-        .4byte 0x656E652E
-        .4byte 0x68000000
-        .4byte 0x67657420
-        .4byte 0x736F756E
-        .4byte 0x64207363
-        .4byte 0x656E6520
-        .4byte 0x61740A69
-        .4byte 0x6E76616C
-        .4byte 0x69642074
-        .4byte 0x696D6D69
-        .4byte 0x6E670A00
-        .4byte 0x50534D61
-        .4byte 0x696E5369
-        .4byte 0x64655F53
-        .4byte 0x63656E65
-        .4byte 0x2E680000
-    .global lbl_804824B8
-    lbl_804824B8:
-        .4byte 0x7330355F
-        .4byte 0x70696B6D
-        .4byte 0x696E7A65
-        .4byte 0x726F0000
-        .4byte 0x736D2D67
-        .4byte 0x69766575
-        .4byte 0x70000000
-        .4byte 0x7331325F
-        .4byte 0x63765F67
-        .4byte 0x69766575
-        .4byte 0x70000000
-        .4byte 0x73696E67
-        .4byte 0x6C654753
-        .4byte 0x5F436176
-        .4byte 0x6547616D
-        .4byte 0x652E6370
-        .4byte 0x70000000
-        .4byte 0x6E6F2070
-        .4byte 0x6F642064
-        .4byte 0x656D6F20
-        .4byte 0x31320000
-        .4byte 0x496C6C65
-        .4byte 0x67616C20
-        .4byte 0x72657475
-        .4byte 0x726E2076
-        .4byte 0x616C7565
-        .4byte 0x2025642E
-        .4byte 0x00000000
-    .global lbl_80482528
-    lbl_80482528:
-        .4byte 0x63617665
-        .4byte 0x73746174
-        .4byte 0x653A636C
-        .4byte 0x65616E75
-        .4byte 0x70000000
-    .global lbl_8048253C
-    lbl_8048253C:
-        .4byte 0x7330335F
-        .4byte 0x6F72696D
-        .4byte 0x61646F77
-        .4byte 0x6E000000
-    .global lbl_8048254C
-    lbl_8048254C:
-        .4byte 0x7330435F
-        .4byte 0x63765F65
-        .4byte 0x73636170
-        .4byte 0x65000000
-    .global lbl_8048255C
-    lbl_8048255C:
-        .4byte 0x7330395F
-        .4byte 0x686F6C65
-        .4byte 0x696E0000
-        .4byte 0x6730375F
-        .4byte 0x63765F67
-        .4byte 0x616D6573
-        .4byte 0x74617274
-        .4byte 0x00000000
-        .4byte 0x50696B69
-        .4byte 0x4B696C6C
-        .4byte 0x41726700
-        .4byte 0x43726561
-        .4byte 0x74757265
-        .4byte 0x4B696C6C
-        .4byte 0x41726700
-
-    .section .data, "wa"  # 0x8049E220 - 0x804EFC20
-    .global lbl_804C05F0
-    lbl_804C05F0:
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x00000000
-    .global __vt__Q34Game10SingleGame9CaveState
-    __vt__Q34Game10SingleGame9CaveState:
-        .4byte 0
-        .4byte 0
-        .4byte
-   init__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSectionPQ24Game8StateArg
-        .4byte exec__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSection
-        .4byte
-   cleanup__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSection .4byte
-   "resume__Q24Game36FSMState<Q24Game17SingleGameSection>FPQ24Game17SingleGameSection"
-        .4byte
-   "restart__Q24Game36FSMState<Q24Game17SingleGameSection>FPQ24Game17SingleGameSection"
-        .4byte
-   "transit__Q24Game36FSMState<Q24Game17SingleGameSection>FPQ24Game17SingleGameSectioniPQ24Game8StateArg"
-        .4byte
-   draw__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSectionR8Graphics
-        .4byte
-   onOrimaDown__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSectioni
-        .4byte
-   onMovieStart__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSectionPQ24Game11MovieConfigUlUl
-        .4byte
-   onMovieDone__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSectionPQ24Game11MovieConfigUlUl
-        .4byte
-   onMovieCommand__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSectioni
-        .4byte
-   onHoleIn__Q34Game10SingleGame5StateFPQ24Game17SingleGameSectionPQ34Game8ItemCave4Item
-        .4byte
-   onNextFloor__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSectionPQ34Game8ItemHole4Item
-        .4byte
-   onFountainReturn__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSectionPQ34Game15ItemBigFountain4Item
-        .4byte
-   on_section_fadeout__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSection
-        .4byte
-   on_demo_timer__Q34Game10SingleGame5StateFPQ24Game17SingleGameSectionUl .4byte
-   0
-
-    .section .sbss # 0x80514D80 - 0x80516360
-    .global lbl_80515BF0
-    lbl_80515BF0:
-        .skip 0x4
-    .global lbl_80515BF4
-    lbl_80515BF4:
-        .skip 0x4
-
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .global lbl_8051A000
-    lbl_8051A000:
-        .float 1.0
-    .global lbl_8051A004
-    lbl_8051A004:
-        .4byte 0x46480000
-    .global lbl_8051A008
-    lbl_8051A008:
-        .4byte 0x00000000
-    .global lbl_8051A00C
-    lbl_8051A00C:
-        .4byte 0x47FA0000
-    .global lbl_8051A010
-    lbl_8051A010:
-        .4byte 0x736D2D63
-        .4byte 0x616E6300
-    .global lbl_8051A018
-    lbl_8051A018:
-        .4byte 0x6F70656E
-        .4byte 0x2D736D00
-    .global lbl_8051A020
-    lbl_8051A020:
-        .4byte 0x47000000
-        .4byte 0x00000000
-    .global lbl_8051A028
-    lbl_8051A028:
-        .4byte 0x43300000
-        .4byte 0x80000000
-    .global lbl_8051A030
-    lbl_8051A030:
-        .4byte 0x44610000
-        .4byte 0x00000000
-*/
+static const char someArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static const char Name[]      = "SingleGS_Game";
 
 namespace Game {
 
@@ -214,8 +38,66 @@ namespace Game {
  * Address:	80217760
  * Size:	000304
  */
-void SingleGame::CaveState::init(Game::SingleGameSection*, Game::StateArg*)
+void SingleGame::CaveState::init(SingleGameSection* game, StateArg* arg)
 {
+	deathMgr->mSoundDeathCount = 0;
+	moviePlayer->reset();
+	mLosePellets = false;
+	mDrawSave    = false;
+	game->setupCaveGames();
+	game->_194 = false;
+	sys->heapStatusDump(true);
+	gameSystem->mTimeMgr->mFlags |= TIMEMGR_FLAG_STOPPED;
+	gameSystem->mFlags |= GAMESYS_Unk6;
+	Screen::gGame2DMgr->mScreenMgr->mInCave = true;
+	gameSystem->mIsInCave                   = true;
+	game->setFixNearFar(true, 1.0f, 12800.0f);
+
+	// I assume this is meant to check if the 'active' navi is dead and if so, swap to the other navi
+	// but good lord this is weird
+	int naviID = playData->mCaveSaveData.mActiveNaviID;
+	if ((1 << naviID * 8) & playData->mDeadNaviID[naviID]) {
+		naviID = 1 - naviID;
+	}
+
+	game->setPlayerMode(naviID);
+	game->setCamController();
+
+	// if olimar and louie are both alive, set louie to be in olimars party
+	Navi* olimar = naviMgr->getAt(0);
+	Navi* louie  = naviMgr->getAt(1);
+	if (olimar->isAlive() && louie->isAlive()) {
+		InteractFue act(olimar, false, true);
+		louie->stimulate(act);
+	}
+
+	MoviePlayArg moviearg("s0B_cv_coursein", nullptr, game->mMovieFinishCallback, 0);
+	moviearg.mDelegateStart = game->mMovieStartCallback;
+	Vector3f& pos           = moviearg.mOrigin;
+
+	mapMgr->getStartPosition(pos, false);
+
+	if (ItemOnyon::mgr->mPod) {
+		moviearg.mAngle = ItemOnyon::mgr->mPod->getFaceDir();
+	}
+	mapMgr->getMinY(pos);
+	moviearg.mOrigin.y = mapMgr->getMinY(pos);
+	moviePlayer->play(moviearg);
+
+	Screen::gGame2DMgr->startCount_Floor();
+	game->clearCaveMenus();
+	mFadeout = false;
+	gameSystem->mFlags &= ~GAMESYS_IsPlaying;
+
+	game->_23D = false;
+	Vector3f temp1;
+	float temp2;
+	if (!Radar::mgr->calcNearestTreasure(Vector3f::zero, FLOAT_DIST_MAX, temp1, temp2)) {
+		game->mNeedTreasureCalc = true;
+	} else {
+		game->mNeedTreasureCalc = false;
+	}
+
 	/*
 	stwu     r1, -0x70(r1)
 	mflr     r0
@@ -428,9 +310,31 @@ lbl_80217A44:
  * Address:	........
  * Size:	000174
  */
-unknown SingleGame::CaveState::gameStart(Game::SingleGameSection*)
+void SingleGame::CaveState::gameStart(SingleGameSection* game)
 {
-	// UNUSED FUNCTION
+	og::Screen::DispMemberCave disp;
+	RoomMapMgr* mgr    = static_cast<RoomMapMgr*>(mapMgr);
+	int cFloor         = mgr->mSublevel;
+	int maxFloor       = mgr->mCaveInfo->getFloorMax() - 1;
+	bool isFinal       = (cFloor == maxFloor);
+	disp.mIsFinalFloor = isFinal;
+
+	if (isFinal) {
+		Screen::gGame2DMgr->open_GameCave(disp, 2);
+	} else {
+		Screen::gGame2DMgr->open_GameCave(disp, 0);
+		gameSystem->mFlags |= GAMESYS_IsPlaying;
+		PSSystem::SceneMgr* mgr = PSSystem::getSceneMgr();
+		mgr->checkScene();
+		mgr->mScenes->mChild->startMainSeq();
+		if (Radar::mgr && !Radar::Mgr::getNumOtakaraItems()) {
+			PSSystem::SceneMgr* mgr = PSSystem::getSceneMgr();
+			PSSystem::checkSceneMgr(mgr);
+			PSM::Scene_Cave* scene = static_cast<PSM::Scene_Cave*>(mgr->getChildScene());
+			PSSystem::checkGameScene(scene);
+			scene->stopPollutionSe();
+		}
+	}
 }
 
 /*
@@ -438,213 +342,79 @@ unknown SingleGame::CaveState::gameStart(Game::SingleGameSection*)
  * Address:	80217A64
  * Size:	00000C
  */
-void SingleGame::CaveState::on_section_fadeout(Game::SingleGameSection*)
-{
-	// Generated from stb r0, 0x11(r3)
-	_11 = 1;
-}
+void SingleGame::CaveState::on_section_fadeout(SingleGameSection*) { mFadeout = true; }
 
 /*
  * --INFO--
  * Address:	80217A70
  * Size:	0002D4
  */
-void SingleGame::CaveState::exec(Game::SingleGameSection*)
+void SingleGame::CaveState::exec(SingleGameSection* game)
 {
-	/*
-	stwu     r1, -0x70(r1)
-	mflr     r0
-	stw      r0, 0x74(r1)
-	stw      r31, 0x6c(r1)
-	mr       r31, r4
-	stw      r30, 0x68(r1)
-	mr       r30, r3
-	lbz      r0, 0x11(r3)
-	cmplwi   r0, 0
-	bne      lbl_80217D2C
-	lbz      r0, 0x18(r30)
-	cmplwi   r0, 0
-	beq      lbl_80217B08
-	lwz      r3, particle2dMgr@sda21(r13)
-	bl       update__14TParticle2dMgrFv
-	lwz      r3, gGame2DMgr__6Screen@sda21(r13)
-	bl       update__Q26Screen9Game2DMgrFv
-	lwz      r3, gGame2DMgr__6Screen@sda21(r13)
-	bl       check_Save__Q26Screen9Game2DMgrCFv
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_80217D2C
-	lbz      r8, 0x23c(r31)
-	li       r7, 0
-	li       r0, 1
-	mr       r3, r30
-	stb      r7, 8(r1)
-	mr       r4, r31
-	addi     r6, r1, 8
-	li       r5, 2
-	stb      r7, 9(r1)
-	stb      r8, 0xa(r1)
-	sth      r0, 0xc(r1)
-	lwz      r12, 0(r30)
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	b        lbl_80217D2C
-	b        lbl_80217D2C
+	if (mFadeout)
+		return;
 
-lbl_80217B08:
-	mr       r3, r31
-	bl       doUpdate__Q24Game15BaseGameSectionFv
-	lwz      r0, randMapMgr__Q24Game4Cave@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_80217B68
-	lwz      r3, naviMgr__4Game@sda21(r13)
-	bl       getActiveNavi__Q24Game7NaviMgrFv
-	cmplwi   r3, 0
-	beq      lbl_80217B68
-	mr       r4, r3
-	addi     r3, r1, 0x1c
-	lwz      r12, 0(r4)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	lfs      f2, 0x1c(r1)
-	addi     r4, r1, 0x28
-	lfs      f1, 0x20(r1)
-	lfs      f0, 0x24(r1)
-	stfs     f2, 0x28(r1)
-	lwz      r3, randMapMgr__Q24Game4Cave@sda21(r13)
-	stfs     f1, 0x2c(r1)
-	stfs     f0, 0x30(r1)
-	bl       "radarMapPartsOpen__Q34Game4Cave10RandMapMgrFR10Vector3<f>"
+	// the saving between cave floors is part of this state
+	if (mDrawSave) {
+		particle2dMgr->update();
+		Screen::gGame2DMgr->update();
+		if ((u8)Screen::gGame2DMgr->check_Save()) {
+			LoadArg arg(1, false, false, game->mInCave);
+			transit(game, SGS_Load, &arg);
+			return;
+		}
+		return;
+	}
 
-lbl_80217B68:
-	lwz      r3, 0x250(r31)
-	lwz      r0, 4(r30)
-	lwz      r3, 4(r3)
-	cmpw     r3, r0
-	bne      lbl_80217D2C
-	mr       r3, r31
-	bl       updateCaveScreen__Q24Game17SingleGameSectionFv
-	lwz      r3, moviePlayer__4Game@sda21(r13)
-	lwz      r0, 0x1f0(r3)
-	clrlwi.  r0, r0, 0x1f
-	bne      lbl_80217CA0
-	li       r3, -1
-	bl       getMapPikmins__Q24Game8GameStatFi
-	cmpwi    r3, 0
-	bne      lbl_80217CA0
-	lwz      r5, gameSystem__4Game@sda21(r13)
-	lis      r3, lbl_804824B8@ha
-	addi     r4, r3, lbl_804824B8@l
-	lfs      f0, lbl_8051A008@sda21(r2)
-	lbz      r3, 0x3c(r5)
-	li       r0, 0
-	rlwinm   r3, r3, 0, 0x1b, 0x19
-	stb      r3, 0x3c(r5)
-	lwz      r5, 0xc8(r31)
-	lwz      r3, naviMgr__4Game@sda21(r13)
-	stw      r4, 0x34(r1)
-	stw      r0, 0x38(r1)
-	stw      r5, 0x40(r1)
-	stfs     f0, 0x4c(r1)
-	stfs     f0, 0x50(r1)
-	stfs     f0, 0x54(r1)
-	stfs     f0, 0x58(r1)
-	stw      r0, 0x5c(r1)
-	stw      r0, 0x44(r1)
-	stw      r0, 0x3c(r1)
-	stw      r0, 0x60(r1)
-	stw      r0, 0x48(r1)
-	stw      r0, 0x64(r1)
-	bl       getActiveNavi__Q24Game7NaviMgrFv
-	or.      r30, r3, r3
-	bne      lbl_80217C40
-	lwz      r3, gameSystem__4Game@sda21(r13)
-	li       r4, 1
-	lwz      r3, 0x58(r3)
-	lwz      r0, 0xe4(r3)
-	cmpwi    r0, 0
-	bne      lbl_80217C28
-	li       r4, 0
+	game->BaseGameSection::doUpdate();
 
-lbl_80217C28:
-	lwz      r3, naviMgr__4Game@sda21(r13)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x24(r12)
-	mtctr    r12
-	bctrl
-	mr       r30, r3
+	// check filling in radar map rooms
+	if (Cave::randMapMgr) {
+		Navi* navi = naviMgr->getActiveNavi();
+		if (navi) {
+			Vector3f naviPos = navi->getPosition();
+			Cave::randMapMgr->radarMapPartsOpen(naviPos);
+		}
+	}
 
-lbl_80217C40:
-	lwz      r0, 0xcc(r31)
-	mr       r4, r30
-	addi     r3, r1, 0x10
-	stw      r0, 0x44(r1)
-	lwz      r12, 0(r30)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	lfs      f2, 0x10(r1)
-	mr       r3, r30
-	lfs      f1, 0x14(r1)
-	lfs      f0, 0x18(r1)
-	stfs     f2, 0x4c(r1)
-	stfs     f1, 0x50(r1)
-	stfs     f0, 0x54(r1)
-	lwz      r12, 0(r30)
-	lwz      r12, 0x64(r12)
-	mtctr    r12
-	bctrl
-	stfs     f1, 0x58(r1)
-	addi     r4, r1, 0x34
-	lwz      r3, moviePlayer__4Game@sda21(r13)
-	bl       play__Q24Game11MoviePlayerFRQ24Game12MoviePlayArg
-	b        lbl_80217D2C
+	if (game->mCurrentState->mId == mId) {
+		game->updateCaveScreen();
 
-lbl_80217CA0:
-	lbz      r0, 0x180(r31)
-	cmplwi   r0, 0
-	beq      lbl_80217CBC
-	mr       r3, r31
-	bl       updateCaveMenus__Q24Game17SingleGameSectionFv
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_80217D2C
-
-lbl_80217CBC:
-	mr       r3, r30
-	mr       r4, r31
-	bl check_SMenu__Q34Game10SingleGame9CaveStateFPQ24Game17SingleGameSection bl
-PSMGetPikminNumD__Fv mr       r0, r3 li       r3, -1 mr       r30, r0 bl
-getMapPikmins_exclude_Me__Q24Game8GameStatFi cmpwi    r3, 0xa bge lbl_80217D10
-	lwz      r0, mSoundDeathCount__Q24Game8DeathMgr@sda21(r13)
-	cmpwi    r0, 0
-	ble      lbl_80217D10
-	cmplwi   r30, 0
-	beq      lbl_80217D2C
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x10(r12)
-	mtctr    r12
-	bctrl
-	b        lbl_80217D2C
-
-lbl_80217D10:
-	cmplwi   r30, 0
-	beq      lbl_80217D2C
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-
-lbl_80217D2C:
-	lwz      r0, 0x74(r1)
-	lwz      r31, 0x6c(r1)
-	lwz      r30, 0x68(r1)
-	mtlr     r0
-	addi     r1, r1, 0x70
-	blr
-	*/
+		// check pikmin extinction cutscene
+		if (!(moviePlayer->mFlags & MoviePlayer::IS_ACTIVE)) {
+			if (GameStat::getMapPikmins(-1) == 0) {
+				gameSystem->mFlags &= ~GAMESYS_Unk6;
+				MoviePlayArg moviearg("s05_pikminzero", nullptr, game->mMovieFinishCallback, 0);
+				Navi* navi = naviMgr->getActiveNavi();
+				if (!navi) {
+					int id = 1;
+					if (gameSystem->mSection->mPrevNaviIdx == 0) {
+						id = 0;
+					}
+					navi = naviMgr->getAt(id);
+				}
+				moviearg.mDelegateStart = game->mMovieStartCallback;
+				moviearg.mOrigin        = navi->getPosition();
+				moviearg.mAngle         = navi->getFaceDir();
+				moviePlayer->play(moviearg);
+				return;
+				// check muting parts of music when lots of pikmin die (does this actually happen in caves?)
+			}
+		}
+		if (!game->mOpenMenuFlags || game->updateCaveMenus()) {
+			check_SMenu(game);
+			PSM::PikminNumberDirector* psm = PSMGetPikminNumD();
+			if (GameStat::getMapPikmins_exclude_Me(-1) < 10 && deathMgr->mSoundDeathCount > 0) {
+				if (psm) {
+					psm->directOn();
+				}
+			} else {
+				if (psm) {
+					psm->directOff();
+				}
+			}
+		}
+	}
 }
 
 /*
@@ -652,54 +422,20 @@ lbl_80217D2C:
  * Address:	80217D44
  * Size:	000098
  */
-void SingleGame::CaveState::draw(Game::SingleGameSection*, Graphics&)
+void SingleGame::CaveState::draw(SingleGameSection* game, Graphics& gfx)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r5
-	stw      r30, 8(r1)
-	mr       r30, r4
-	lbz      r0, 0x11(r3)
-	cmplwi   r0, 0
-	bne      lbl_80217DC4
-	lbz      r0, 0x18(r3)
-	cmplwi   r0, 0
-	beq      lbl_80217D94
-	mr       r3, r30
-	mr       r4, r31
-	lwz      r12, 0(r30)
-	lwz      r12, 0x118(r12)
-	mtctr    r12
-	bctrl
-	b        lbl_80217DC4
-
-lbl_80217D94:
-	lwz      r3, randMapMgr__Q24Game4Cave@sda21(r13)
-	cmplwi   r3, 0
-	beq      lbl_80217DA8
-	mr       r4, r31
-	bl       captureRadarMap__Q34Game4Cave10RandMapMgrFR8Graphics
-
-lbl_80217DA8:
-	mr       r3, r30
-	mr       r4, r31
-	bl       doDraw__Q24Game15BaseGameSectionFR8Graphics
-	mr       r3, r30
-	bl       drawCaveScreen__Q24Game17SingleGameSectionFv
-	mr       r3, r30
-	bl       test_draw_treasure_detector__Q24Game15BaseGameSectionFv
-
-lbl_80217DC4:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if (!mFadeout) {
+		if (mDrawSave) {
+			game->draw_Ogawa2D(gfx);
+		} else {
+			if (Cave::randMapMgr) {
+				Cave::randMapMgr->captureRadarMap(gfx);
+			}
+			game->BaseGameSection::doDraw(gfx);
+			game->drawCaveScreen();
+			game->test_draw_treasure_detector();
+		}
+	}
 }
 
 /*
@@ -707,8 +443,63 @@ lbl_80217DC4:
  * Address:	80217DDC
  * Size:	00048C
  */
-void SingleGame::CaveState::check_SMenu(Game::SingleGameSection*)
+void SingleGame::CaveState::check_SMenu(SingleGameSection* game)
 {
+	Screen::gGame2DMgr->setGamePad(game->mControllerP1);
+	int state = Screen::gGame2DMgr->check_SMenu();
+	switch (state) {
+	case 1: // unpause and resume gameplay
+		gameSystem->setPause(false, "sm-canc", 3);
+		gameSystem->setMoviePause(false, "sm-canc");
+		return;
+	case 4:
+		gameSystem->mFlags &= 0x20;
+		gameSystem->setMoviePause(false, "sm-giveup");
+		if (moviePlayer->mDemoState != 0)
+			return;
+		MoviePlayArg arg("s12_cave_giveup", nullptr, game->mMovieFinishCallback, 0);
+		arg.mDelegateStart = game->mMovieStartCallback;
+		Onyon* onyon       = ItemOnyon::mgr->mPod;
+		JUT_ASSERTLINE(792, onyon, "no pod demo 12");
+		arg.mOrigin = onyon->getPosition();
+		arg.mAngle  = onyon->getFaceDir();
+		moviePlayer->play(arg);
+
+		for (int i = 0; i < 2; i++) {
+			Navi* navi = naviMgr->getAt(i);
+			if (navi->isAlive() && navi->isStickTo()) {
+				navi->endStick();
+			}
+		}
+
+		Iterator<Piki> it(pikiMgr);
+		CI_LOOP(it)
+		{
+			Piki* piki = *it;
+			if (piki->isAlive()) {
+				piki->endStick();
+				piki->mBrain->start(PikiAI::ACT_Free, nullptr);
+			}
+		}
+		return;
+	case -1:
+		// Conditions to open pause menu
+		if (!(gameSystem->mFlags & GAMESYS_Unk4) && moviePlayer->mDemoState == 0 && !gameSystem->paused()
+		    && game->mControllerP1->mButton.mButtonDown & Controller::PRESS_START) {
+			og::Screen::DispMemberSMenuAll disp;
+			game->setDispMemberSMenu(disp);
+			if (!Screen::gGame2DMgr->open_SMenu(disp)) {
+				return;
+			}
+			gameSystem->setPause(true, "open-sm", 3);
+			gameSystem->setMoviePause(true, "open-sm");
+		}
+		break;
+	case 0:
+		break;
+	default:
+		JUT_PANICLINE(854, "Illegal return value %d.", Screen::gGame2DMgr->check_SMenu());
+	}
 	/*
 	stwu     r1, -0x130(r1)
 	mflr     r0
@@ -1046,8 +837,14 @@ lbl_80218250:
  * Address:	80218268
  * Size:	000068
  */
-void SingleGame::CaveState::cleanup(Game::SingleGameSection*)
+void SingleGame::CaveState::cleanup(SingleGameSection* game)
 {
+	gameSystem->mFlags &= ~GAMESYS_IsPlaying;
+	gameSystem->setMoviePause(false, "cavestate:cleanup");
+	game->setDraw2DCreature(nullptr);
+	if (game->mTheExpHeap) {
+		PSMCancelToPauseOffMainBgm();
+	}
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -1085,25 +882,16 @@ lbl_802182BC:
  * Address:	802182D0
  * Size:	0000D4
  */
-void SingleGame::CaveState::onOrimaDown(Game::SingleGameSection* section, int naviID)
+void SingleGame::CaveState::onOrimaDown(SingleGameSection* game, int naviID)
 {
-	MoviePlayArg arg;
-	arg._0C             = section->_C8;
-	arg.m_courseName    = nullptr;
-	arg.m_movieName     = "s03_orimadown";
-	arg.m_origin        = Vector3f::zero;
-	arg.m_angle         = 0.0f;
-	arg._08             = nullptr;
-	arg.m_streamID      = 0;
-	arg._14             = 0;
-	arg.m_soundPosition = nullptr;
-	arg._10             = section->_CC;
-	arg.m_naviID        = naviID;
-	moviePlayer->_18C   = naviMgr->getAt(naviID);
+	MoviePlayArg arg("s03_orima_down", nullptr, game->mMovieFinishCallback, naviID);
+	arg.mDelegateStart = game->mMovieStartCallback;
+
+	moviePlayer->mTargetNavi = naviMgr->getAt(naviID);
 	if (naviID == 0) {
-		moviePlayer->_190 = section->_104;
+		moviePlayer->mActingCamera = game->mOlimarCamera;
 	} else {
-		moviePlayer->_190 = section->_108;
+		moviePlayer->mActingCamera = game->mLouieCamera;
 	}
 	moviePlayer->play(arg);
 	/*
@@ -1172,26 +960,17 @@ lbl_80218380:
  * Address:	802183A4
  * Size:	000104
  */
-void SingleGame::CaveState::onFountainReturn(Game::SingleGameSection* section, Game::ItemBigFountain::Item* fountain)
+void SingleGame::CaveState::onFountainReturn(SingleGameSection* game, ItemBigFountain::Item* fountain)
 {
-	gameSystem->_3C &= 0xDF;
-	section->loadMainMapSituation();
-	MoviePlayArg arg;
-	arg._0C                     = section->_C8;
-	arg.m_courseName            = nullptr;
-	arg.m_movieName             = "s0C_cv_escape";
-	arg.m_origin                = Vector3f::zero;
-	arg.m_angle                 = 0.0f;
-	arg.m_naviID                = 0;
-	arg._10                     = nullptr;
-	arg._08                     = nullptr;
-	arg.m_streamID              = 0;
-	arg._14                     = 0;
-	arg.m_soundPosition         = nullptr;
-	arg.m_origin                = fountain->getPosition();
-	arg.m_angle                 = fountain->getFaceDir();
-	arg._10                     = section->_CC;
-	moviePlayer->m_targetObject = fountain;
+	gameSystem->mFlags &= ~GAMESYS_Unk6;
+	game->loadMainMapSituation();
+
+	MoviePlayArg arg("s0C_cave_escape", nullptr, game->mMovieFinishCallback, 0);
+	arg.mOrigin        = fountain->getPosition();
+	arg.mAngle         = fountain->getFaceDir();
+	arg.mDelegateStart = game->mMovieStartCallback;
+
+	moviePlayer->mTargetObject = fountain;
 	fountain->movie_begin(false);
 	moviePlayer->play(arg);
 	/*
@@ -1269,34 +1048,24 @@ void SingleGame::CaveState::onFountainReturn(Game::SingleGameSection* section, G
  * Address:	802184A8
  * Size:	000144
  */
-void SingleGame::CaveState::onNextFloor(Game::SingleGameSection* section, Game::ItemHole::Item* hole)
+void SingleGame::CaveState::onNextFloor(SingleGameSection* game, ItemHole::Item* hole)
 {
-	BlackMan::Obj* waterwraith = ((RoomMapMgr*)mapMgr)->m_blackmanObjPtr;
-	if (waterwraith != nullptr) {
+	BlackMan::Obj* waterwraith = ((RoomMapMgr*)mapMgr)->mBlackMan;
+	if (waterwraith) {
 		if (waterwraith->isAlive()) {
-			playData->m_caveSaveData.m_waterwraithTimer = waterwraith->getTimer();
+			playData->mCaveSaveData.mWaterwraithTimer = waterwraith->getTimer();
 		} else {
-			playData->m_caveSaveData.m_isWaterwraithAlive = false;
+			playData->mCaveSaveData.mIsWaterwraithAlive = false;
 		}
 	}
-	gameSystem->_3C &= 0xDF;
-	section->loadMainMapSituation();
-	MoviePlayArg arg;
-	arg._0C                     = section->_C8;
-	arg.m_movieName             = "s09_holein";
-	arg.m_courseName            = nullptr;
-	arg.m_origin                = Vector3f::zero;
-	arg.m_angle                 = 0.0f;
-	arg.m_naviID                = 0;
-	arg._10                     = nullptr;
-	arg._08                     = nullptr;
-	arg.m_streamID              = 0;
-	arg._14                     = 0;
-	arg.m_soundPosition         = nullptr;
-	arg.m_origin                = hole->getPosition();
-	arg.m_angle                 = hole->getFaceDir();
-	arg._10                     = section->_CC;
-	moviePlayer->m_targetObject = hole;
+	gameSystem->mFlags &= ~GAMESYS_Unk6;
+
+	MoviePlayArg arg("s0C_cave_escape", nullptr, game->mMovieFinishCallback, 0);
+
+	arg.mOrigin                = hole->getPosition();
+	arg.mAngle                 = hole->getFaceDir();
+	arg.mDelegateStart         = game->mMovieStartCallback;
+	moviePlayer->mTargetObject = hole;
 	moviePlayer->play(arg);
 	/*
 	.loc_0x0:
@@ -1393,8 +1162,95 @@ void SingleGame::CaveState::onNextFloor(Game::SingleGameSection* section, Game::
  * Address:	802185EC
  * Size:	0005F0
  */
-void SingleGame::CaveState::onMovieCommand(Game::SingleGameSection*, int)
+void SingleGame::CaveState::onMovieCommand(SingleGameSection* game, int command)
 {
+	if (command != 0 || mLosePellets || (moviePlayer->isPlaying("s03_orimadown") && !naviMgr->mNaviCount)) {
+		return;
+	}
+
+	if (moviePlayer->isPlaying("s03_orimadown")) {
+		Iterator<Piki> it(pikiMgr);
+		CI_LOOP(it)
+		{
+			Piki* piki = *it;
+			if (piki->isAlive()) {
+				piki->mBrain->start(PikiAI::ACT_Free, nullptr);
+				piki->movie_begin(false);
+				PanicStateArg arg;
+				arg.mPanicType = 3;
+				piki->mFsm->transit(piki, PIKISTATE_Panic, &arg);
+			}
+		}
+	}
+
+	game->clearCaveOtakaraEarningsAndDrops();
+	int lost     = 0;
+	mLosePellets = true;
+
+	PelletCropMemory* mem = playData->mCaveCropMemory;
+
+	KindCounter& counter = mem->mOtakara;
+	for (int i = 0; i < counter.mNumKinds; i++) {
+		if ((*counter(i))) {
+			lost += *counter(i);
+		}
+	}
+	KindCounter& counter2 = mem->mItem;
+	for (int i = 0; i < counter2.mNumKinds; i++) {
+		if ((*counter2(i))) {
+			lost += *counter2(i);
+		}
+	}
+
+	f32 zero = 0.0f;
+	f32 calc = randFloat() * zero + 1.0f;
+	if (calc >= 0.0f) {
+		if (calc > 1.0f) {
+			calc = 1.0f;
+		}
+	}
+
+	game->_274 = true;
+	calc       = (f32)lost * calc;
+	if (calc > 0.0f) {
+		BasePelletMgr* pelmgr = PelletOtakara::mgr;
+		KindCounter& counter  = mem->mOtakara;
+		for (int i = 0; i < counter.mNumKinds; i++) {
+			int j = 0;
+			for (int k = 0; k < *counter(i); k++) {
+				pelmgr->getPelletConfig(i);
+				if (randFloat() <= calc / (f32)lost) {
+					pelmgr->getPelletConfig(i);
+					playData->losePellet(pelmgr, i);
+					*(counter(i)) += 1;
+					j++;
+					calc -= 1.0f;
+				}
+				lost--;
+			}
+			u8* flag = counter(i);
+			*flag -= j;
+		}
+
+		pelmgr                = PelletItem::mgr;
+		KindCounter& counter3 = mem->mItem;
+		for (int i = 0; i < counter3.mNumKinds; i++) {
+			int j = 0;
+			for (int k = 0; k < *counter3(i); k++) {
+				pelmgr->getPelletConfig(i);
+				if (randFloat() <= calc / (f32)lost) {
+					pelmgr->getPelletConfig(i);
+					*(game->mItemCounter(i)) += 1;
+					playData->losePellet(pelmgr, i);
+					j++;
+					calc -= 1.0f;
+				}
+				lost--;
+			}
+			*(counter3(i)) -= j;
+		}
+	}
+
 	/*
 	stwu     r1, -0x90(r1)
 	mflr     r0
@@ -1846,8 +1702,78 @@ lbl_80218BB0:
  * Address:	80218BDC
  * Size:	000490
  */
-void SingleGame::CaveState::onMovieStart(Game::SingleGameSection*, Game::MovieConfig*, unsigned long, unsigned long)
+void SingleGame::CaveState::onMovieStart(SingleGameSection* game, MovieConfig* config, u32, u32 naviID)
 {
+	if (config->is("s0B_cv_coursein")) {
+		game->createFallPikminSound();
+	}
+	Screen::gGame2DMgr->startFadeBG_Floor();
+	if (config->is("s05_pikminzero")) {
+		Screen::gGame2DMgr->open_GameOver(Screen::Game2DMgr::GOTITLE_PikminZero);
+	}
+
+	if (config->is("s12_cv_giveup")) {
+		Screen::gGame2DMgr->mScreenMgr->reset();
+
+		Iterator<Piki> it(pikiMgr);
+		CI_LOOP(it)
+		{
+			Piki* piki = *it;
+			if (piki->isAlive() && !piki->isStickTo() && piki->mPikiKind == Bulbmin) {
+				piki->movie_begin(false);
+			}
+		}
+	}
+
+	if (config->is("s03_orimadown")) {
+		Screen::Game2DMgr::GameOverTitle id;
+		if (naviID == 0) {
+			id = Screen::Game2DMgr::GOTITLE_OlimarDown;
+			game->setPlayerMode(0);
+		} else {
+			id = Screen::Game2DMgr::GOTITLE_LouieDown;
+			if (playData->mStoryFlags & STORY_DebtPaid) {
+				id = Screen::Game2DMgr::GOTITLE_PresidentDown;
+			}
+			game->setPlayerMode(1);
+		}
+		Screen::gGame2DMgr->open_GameOver(id);
+	}
+
+	if (config->is("s09_holein")) {
+		gameSystem->mFlags &= ~GAMESYS_Unk6;
+		playData->setCurrentCaveFloor(game->getCurrFloor() + 1);
+
+		int id;
+		Navi* navi = naviMgr->getActiveNavi();
+		if (navi) {
+			id = navi->mNaviIndex;
+		} else {
+			id = 0;
+		}
+		playData->mCaveSaveData.mActiveNaviID = id;
+
+		if (!navi) {
+			for (int i = 0; i < 25; i++) { }
+		} else {
+			for (int i = 0; i < 2; i++) {
+				Navi* navi = naviMgr->getAt(i);
+				if (navi->isAlive() && navi->isStickTo()) {
+					navi->endStick();
+				}
+			}
+		}
+		Vector3f holepos = game->mHole->getPosition();
+		game->prepareHoleIn(holepos, true);
+		game->saveCaveMore();
+	}
+
+	if (config->is("s0C_cv_escape")) {
+		gameSystem->mFlags &= ~GAMESYS_Unk6;
+		Vector3f geyserpos = game->mFountain->getPosition();
+		game->prepareFountainOn(geyserpos);
+	}
+
 	/*
 	.loc_0x0:
 	  stwu      r1, -0x60(r1)
@@ -2198,8 +2124,117 @@ void SingleGame::CaveState::onMovieStart(Game::SingleGameSection*, Game::MovieCo
  * Address:	8021906C
  * Size:	000EB4
  */
-void SingleGame::CaveState::onMovieDone(Game::SingleGameSection*, Game::MovieConfig*, unsigned long, unsigned long)
+void SingleGame::CaveState::onMovieDone(Game::SingleGameSection* game, Game::MovieConfig* config, u32, u32 naviID)
 {
+	if (config->is("s0C_cv_escape")) {
+		PSMCancelToPauseOffMainBgm();
+		moviePlayer->clearSuspendedDemo();
+		pikiMgr->caveSaveAllPikmins(true, true);
+		CaveResultArg arg;
+		arg._00 = 1;
+		transit(game, SGS_CaveResult, &arg);
+		return;
+	} else if (config->is("s09_holein")) {
+		moviePlayer->clearSuspendedDemo();
+		og::Screen::DispMemberSave disp;
+		disp.mDoSound = true;
+		PSMCancelToPauseOffMainBgm();
+		Screen::gGame2DMgr->open_Save(disp);
+		mDrawSave = true;
+		return;
+	} else if (config->is("g07_cv_gamestart")) {
+		gameStart(game);
+		return;
+	} else if (config->is("s0B_cv_coursein")) {
+
+		Iterator<Piki> it(pikiMgr);
+		CI_LOOP(it)
+		{
+			Piki* piki    = *it;
+			Vector3f temp = piki->getPosition();
+			temp.y        = mapMgr->getMinY(temp);
+			piki->setPosition(temp, false);
+			piki->mSimVelocity = 0.0f; // seems odd, this might be another velocity, not position
+			piki->mVelocity    = 0.0f;
+		}
+
+		if (!playData->isDemoFlag(DEMO_First_Cave_Enter)) {
+			playData->setDemoFlag(DEMO_First_Cave_Enter);
+			MoviePlayArg arg("g07_cv_gamestart", nullptr, game->mMovieFinishCallback, 0);
+			Screen::gGame2DMgr->close_Floor();
+			if (ItemOnyon::mgr->mPod) {
+				arg.mAngle = ItemOnyon::mgr->mPod->getFaceDir();
+			}
+			mapMgr->getStartPosition(arg.mOrigin, 0);
+			arg.mOrigin.y = mapMgr->getMinY(arg.mOrigin);
+			moviePlayer->play(arg);
+		} else {
+			Screen::gGame2DMgr->close_Floor();
+			gameStart(game);
+		}
+		return;
+	} else if (config->is("s03_orimadown")) {
+		Screen::gGame2DMgr->close_GameOver();
+		naviMgr->getAt(naviID)->setDeadLaydown();
+		if (naviMgr->mNaviCount != 2) {
+			if ((int)naviID == 0) {
+				gameSystem->mSection->setPlayerMode(1);
+			} else {
+				gameSystem->mSection->setPlayerMode(0);
+			}
+		} else {
+			// probably make this 100 a constant define
+			Piki* pikilist[100];
+			Iterator<Piki> it(pikiMgr);
+			int pikis = 0;
+			CI_LOOP(it)
+			{
+				Piki* piki = *it;
+				if (piki->isAlive() && piki->mPikiKind != Bulbmin) {
+					pikilist[pikis] = piki;
+				}
+				pikis++;
+			}
+
+			for (int i = 0; i < pikis; i++) {
+				if (!pikilist[i]->isZikatu()) {
+					deathMgr->inc(0);
+					deathMgr->inc(7);
+				}
+				PikiKillArg killarg(true);
+				pikilist[i]->kill(&killarg);
+			}
+			gameSystem->mFlags &= ~GAMESYS_Unk6;
+			CaveResultArg statearg;
+			statearg._00 = 2;
+			transit(game, SGS_CaveResult, &statearg);
+		}
+		return;
+	} else if (config->is("s05_pikminzero")) {
+		gameSystem->mFlags &= ~GAMESYS_Unk6;
+		Screen::gGame2DMgr->close_GameOver();
+		CaveResultArg statearg;
+		statearg._00 = 3;
+		transit(game, SGS_CaveResult, &statearg);
+	} else if (config->is("s12_cv_giveup")) {
+		moviePlayer->clearSuspendedDemo();
+		gameSystem->mFlags &= ~GAMESYS_Unk6;
+
+		Iterator<ItemPikihead::Item> it(ItemPikihead::mgr);
+		int pikis = 0;
+		CI_LOOP(it)
+		{
+			ItemPikihead::Item* head = *it;
+			if (head->isAlive()) {
+				deathMgr->inc(0);
+				deathMgr->inc(7);
+			}
+		}
+		pikiMgr->caveSaveAllPikmins(true, true);
+		CaveResultArg statearg;
+		statearg._00 = 4;
+		transit(game, SGS_CaveResult, &statearg);
+	}
 	/*
 	.loc_0x0:
 	  stwu      r1, -0x330(r1)
@@ -3269,7 +3304,7 @@ void SingleGame::CaveState::onMovieDone(Game::SingleGameSection*, Game::MovieCon
  * Address:	80219F20
  * Size:	000028
  */
-void __sinit_singleGS_CaveGame_cpp(void)
+void __sinit_singleGS_CaveGame_cpp()
 {
 	/*
 	lis      r4, __float_nan@ha

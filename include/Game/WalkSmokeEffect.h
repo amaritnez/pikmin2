@@ -20,15 +20,17 @@ namespace WalkSmokeEffect {
 struct Obj {
 	Obj();
 
-	// unused/inlined
-	void init(Matrixf*, float);
+	// inlined
 	void update(EnemyBase*);
+
+	// unused
+	void init(Matrixf*, f32);
 	void draw(Graphics&);
 
-	bool _00;            // _00
-	Matrixf* m_matrix;   // _04 - unknown
-	float _08;           // _08 - height?
-	Vector3f m_position; // _0C
+	bool _00;           // _00
+	Matrixf* mMatrix;   // _04 - unknown
+	f32 _08;            // _08 - height?
+	Vector3f mPosition; // _0C
 };
 
 /**
@@ -39,13 +41,13 @@ struct Mgr {
 
 	void alloc(int);
 	void update(EnemyBase*);
-	void setup(int, SysShape::Model*, char*, float);
+	void setup(int, SysShape::Model*, char*, f32);
 
 	// unused/inlined
 	void draw(Graphics&);
 
-	int m_objCount; // _00
-	Obj* m_objects; // _04 - array of objects
+	int mNumObjects; // _00
+	Obj* mObjects;   // _04 - array of objects
 };
 
 } // namespace WalkSmokeEffect

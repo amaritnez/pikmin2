@@ -8,7 +8,7 @@ struct Stream;
 namespace P2JME {
 namespace Caption {
 struct TControl;
-} // namespace Caption
+}
 } // namespace P2JME
 
 namespace Caption {
@@ -19,12 +19,12 @@ namespace Caption {
 struct Node : public CNode {
 	Node();
 
-	virtual ~Node() { }         // _08
+	virtual ~Node() { }         // _08 (weak)
 	virtual void read(Stream&); // _10
 
-	u32 m_startFrame; // _18
-	u32 m_endFrame;   // _1C
-	char m_mesgID[8]; // _20
+	u32 mStartFrame; // _18
+	u32 mEndFrame;   // _1C
+	char mMesgID[8]; // _20
 };
 
 /**
@@ -33,8 +33,8 @@ struct Node : public CNode {
 struct Mgr : public CNode {
 	Mgr();
 
-	virtual ~Mgr();             // _00
-	virtual void read(Stream&); // _08
+	virtual ~Mgr() { }          // _08 (weak)
+	virtual void read(Stream&); // _10
 
 	void draw(Graphics&);
 	P2JME::Caption::TControl* getFreeMessage();
@@ -45,9 +45,9 @@ struct Mgr : public CNode {
 	// Unused/inlined:
 	void setCurrentNode(long);
 
-	P2JME::Caption::TControl* m_controls; // _18
-	Node* m_node;                         // _1C
-	u8 _20[4];                            // _20
+	P2JME::Caption::TControl* mControls; // _18
+	Node* mNode;                         // _1C
+	u8 _20[4];                           // _20
 };
 } // namespace Caption
 

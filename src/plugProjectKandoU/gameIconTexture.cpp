@@ -1,8 +1,8 @@
 #include "Game/IconTexture.h"
-#include "JSystem/JKR/JKRArchive.h"
-#include "JSystem/JKR/JKRDisposer.h"
-#include "JSystem/JUT/JUTTexture.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JKernel/JKRArchive.h"
+#include "JSystem/JKernel/JKRDisposer.h"
+#include "JSystem/JUtility/JUTTexture.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "JSystem/ResTIMG.h"
 #include "LoadResource.h"
 #include "types.h"
@@ -54,11 +54,11 @@ namespace Game {
  * Address:	80233484
  * Size:	000048
  */
-IconTexture::Loader::Loader(void)
+IconTexture::Loader::Loader()
     : JKRDisposer()
 {
-	m_archive = nullptr;
-	m_node    = nullptr;
+	mArchive = nullptr;
+	mNode    = nullptr;
 }
 
 /*
@@ -66,13 +66,13 @@ IconTexture::Loader::Loader(void)
  * Address:	802334CC
  * Size:	00008C
  */
-IconTexture::Loader::~Loader(void)
+IconTexture::Loader::~Loader()
 {
-	if (m_archive) {
-		m_archive = nullptr;
+	if (mArchive) {
+		mArchive = nullptr;
 	}
-	if (m_node) {
-		m_node = nullptr;
+	if (mNode) {
+		mNode = nullptr;
 	}
 }
 
@@ -84,9 +84,9 @@ IconTexture::Loader::~Loader(void)
 void IconTexture::Loader::loadResource(char* path)
 {
 	LoadResource::Arg arg(path);
-	m_node = gLoadResourceMgr->mountArchive(arg);
-	if (m_node != nullptr) {
-		m_archive = m_node->m_archive;
+	mNode = gLoadResourceMgr->mountArchive(arg);
+	if (mNode) {
+		mArchive = mNode->mArchive;
 		return;
 	}
 	JUT_PANICLINE(45, "failed to open [%s]\n", path);
@@ -97,17 +97,17 @@ void IconTexture::Loader::loadResource(char* path)
  * Address:	802335DC
  * Size:	000030
  */
-ResTIMG* IconTexture::Loader::getResTIMG(char* path) { return (ResTIMG*)m_archive->getResource(path); }
+ResTIMG* IconTexture::Loader::getResTIMG(char* path) { return (ResTIMG*)mArchive->getResource(path); }
 
 /*
  * --INFO--
  * Address:	8023360C
  * Size:	000048
  */
-IconTexture::Mgr::Mgr(void)
+IconTexture::Mgr::Mgr()
     : JKRDisposer()
-    , m_textures(nullptr)
-    , m_count(0)
+    , mTextures(nullptr)
+    , mCount(0)
 {
 }
 
@@ -116,13 +116,13 @@ IconTexture::Mgr::Mgr(void)
  * Address:	80233654
  * Size:	00008C
  */
-IconTexture::Mgr::~Mgr(void)
+IconTexture::Mgr::~Mgr()
 {
-	if (m_textures) {
-		delete[] m_textures;
-		m_textures = nullptr;
+	if (mTextures) {
+		delete[] mTextures;
+		mTextures = nullptr;
 	}
-	m_count = 0;
+	mCount = 0;
 }
 
 /*
@@ -133,8 +133,8 @@ IconTexture::Mgr::~Mgr(void)
 void IconTexture::Mgr::create(int count)
 {
 	P2ASSERTLINE(78, count > 0);
-	m_textures = new JUTTexture[count];
-	m_count    = count;
+	mTextures = new JUTTexture[count];
+	mCount    = count;
 }
 
 /*
@@ -144,8 +144,8 @@ void IconTexture::Mgr::create(int count)
  */
 void IconTexture::Mgr::setTexture(int index, ResTIMG* resource)
 {
-	JUT_ASSERTLINE(86, (0 <= index && index < m_count), "illegal index [%d] [0..%d)\n", index, m_count);
-	m_textures[index].storeTIMG(resource, (u8)'\0');
+	JUT_ASSERTLINE(86, (0 <= index && index < mCount), "illegal index [%d] [0..%d)\n", index, mCount);
+	mTextures[index].storeTIMG(resource, (u8)'\0');
 }
 
 /*
@@ -155,9 +155,9 @@ void IconTexture::Mgr::setTexture(int index, ResTIMG* resource)
  */
 JUTTexture* IconTexture::Mgr::getTexture(int index)
 {
-	if (0 > index || index >= m_count) {
+	if (0 > index || index >= mCount) {
 		return nullptr;
 	}
-	return &m_textures[index];
+	return &mTextures[index];
 }
 } // namespace Game

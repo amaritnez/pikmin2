@@ -1,8 +1,8 @@
 #ifndef _ARAM_H
 #define _ARAM_H
 
-#include "JSystem/JKR/JKRDvdRipper.h"
-#include "JSystem/JKR/Aram.h"
+#include "JSystem/JKernel/JKRDvdRipper.h"
+#include "JSystem/JKernel/JKRAram.h"
 #include "CNode.h"
 #include "types.h"
 
@@ -11,12 +11,12 @@ struct Node : CNode {
 	inline Node();
 	virtual ~Node() { } // _08
 
-	inline int dvdToAram(char const*, bool);
+	inline u32 dvdToAram(char const*, bool);
 	void* aramToMainRam(unsigned char*, unsigned long, unsigned long, JKRExpandSwitch, unsigned long, JKRHeap*,
 	                    JKRDvdRipper::EAllocDirection, int, unsigned long*);
 	inline void dump();
 
-	JKRAramBlock* m_status; // _18
+	JKRAramBlock* mStatus; // _18
 };
 
 struct Mgr {
@@ -26,11 +26,11 @@ struct Mgr {
 
 	void* aramToMainRam(char const*, unsigned char*, unsigned long, unsigned long, JKRExpandSwitch, unsigned long, JKRHeap*,
 	                    JKRDvdRipper::EAllocDirection, int, unsigned long*);
-
+	void dump();
 	u32 dvdToAram(char const*, bool);
 	Node* search(char const* name);
 
-	CNode m_node; // _00
+	CNode mNode; // _00
 };
 }; // namespace ARAM
 extern ARAM::Mgr* gAramMgr;

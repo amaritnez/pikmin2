@@ -1,12 +1,12 @@
 #ifndef _EFX_TCALLBACK_STATICCLIPPING_H
 #define _EFX_TCALLBACK_STATICCLIPPING_H
 
-#include "JSystem/JPA/JPAEmitter.h"
+#include "JSystem/JParticle/JPAEmitter.h"
 
 namespace efx {
 struct TCallBack_StaticClipping : public JPAEmitterCallBack {
-	virtual ~TCallBack_StaticClipping();        // _00
-	virtual void executeAfter(JPABaseEmitter*); // _08
+	virtual ~TCallBack_StaticClipping();        // _08 (weak)
+	virtual void executeAfter(JPABaseEmitter*); // _10
 };
 } // namespace efx
 

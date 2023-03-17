@@ -6,16 +6,16 @@
 #include "Game/Creature.h"
 
 namespace Game {
-struct Stickers : public Container<Game::Creature> {
-	Stickers(Game::Creature*);
+struct Stickers : public Container<Creature> {
+	Stickers(Creature*);
 
 	virtual ~Stickers();          // _08
-	virtual void getNext(void*);  // _14
-	virtual void getStart();      // _18
-	virtual void getEnd();        // _1C
+	virtual void* getNext(void*); // _14
+	virtual void* getStart();     // _18
+	virtual void* getEnd();       // _1C
 	virtual Creature* get(void*); // _20
 
-	void initialise();
+	static void initialise();
 };
 } // namespace Game
 

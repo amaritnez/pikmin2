@@ -4,29 +4,43 @@
 #include "Dolphin/gx.h"
 #include "types.h"
 
+#ifndef _JUTTransparency
+typedef u8 _JUTTransparency;
+#endif
+
 struct ResTIMG {
-	u8 m_textureFormat;        // _00
-	u8 m_transparency;         // _01
-	u16 m_sizeX;               // _02
-	u16 m_sizeY;               // _04
-	u8 m_wrapS;                // _06
-	u8 m_wrapT;                // _07
-	u8 m_paletteFormat;        // _08
-	u8 m_lutFormat;            // _09
-	short m_paletteEntryCount; // _0A
-	u32 m_paletteOffset;       // _0C
-	GXBool _10;                // _10
-	GXBool _11;                // _11
-	GXBool _12;                // _12
-	GXBool _13;                // _13
-	u8 m_magFilterType;        // _14
-	u8 m_minFilterType;        // _15
-	char _16;                  // _16
-	char _17;                  // _17
-	u8 m_totalImageCount;      // _18
-	short _1A;                 // _1A
-	int m_imageDataOffset;     // _1C
-	u8 _20[4];                 // _20
+	inline BOOL isMIPmapEnabled() const { return (mIsMIPmapEnabled > 0); }
+
+	inline u16 getWidth() const { return mSizeX; }
+	inline u16 getHeight() const { return mSizeY; }
+
+	u8 mTextureFormat;              // _00
+	_JUTTransparency mTransparency; // _01
+	u16 mSizeX;                     // _02
+	u16 mSizeY;                     // _04
+	u8 mWrapS;                      // _06
+	u8 mWrapT;                      // _07
+	u8 mPaletteFormat;              // _08
+	u8 mLutFormat;                  // _09
+	u16 mPaletteEntryCount;         // _0A
+	u32 mPaletteOffset;             // _0C
+	GXBool mIsMIPmapEnabled;        // _10
+	GXBool mDoEdgeLOD;              // _11
+	GXBool mIsBiasClamp;            // _12
+	GXBool mIsMaxAnisotropy;        // _13
+	u8 mMinFilterType;              // _14
+	u8 mMagFilterType;              // _15
+	s8 mMinLOD;                     // _16
+	s8 mMaxLOD;                     // _17
+	u8 mTotalImageCount;            // _18
+	u8 _19;                         // _19, unknown
+	s16 mLODBias;                   // _1A
+	int mImageDataOffset;           // _1C
+};
+
+struct ResTIMGPair {
+	ResTIMG _00;
+	ResTIMG _20;
 };
 
 #endif

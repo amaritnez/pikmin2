@@ -6,15 +6,26 @@
 
 namespace efx {
 struct TEnemyDead : public TSimple1 {
-	inline TEnemyDead(u16 effectID, JPABaseEmitter* emitter)
-	    : TSimple1(effectID, emitter)
+	inline TEnemyDead()
+	    : TSimple1(PID_EnemyDead)
 	{
 	}
 
 	virtual bool create(Arg*); // _08
 
-	// _00      = VTABLE
-	// _04-_0C  = TSimple1
+	// _00      = VTBL
+	// _00-_0C  = TSimple1
+};
+
+struct TEnemyDead_ArgScale : public TSimple1 {
+	inline TEnemyDead_ArgScale()
+	    : TSimple1(PID_EnemyDead)
+	{
+	}
+	virtual bool create(Arg*); // _08
+
+	// _00		= VTBL
+	// _00-_0C	= TSimple1
 };
 
 } // namespace efx

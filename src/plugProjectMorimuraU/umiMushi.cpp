@@ -1,4 +1,11 @@
 #include "types.h"
+#include "Game/Entities/UmiMushi.h"
+#include "PSM/EnemyBoss.h"
+#include "PSSystem/PSMainSide_ObjSound.h"
+#include "Game/Navi.h"
+#include "JSystem/J3D/J3DMtxBuffer.h"
+#include "Game/EnemyFunc.h"
+#include "JSystem/JMath.h"
 
 /*
     Generated from dpostproc
@@ -469,119 +476,58 @@
 */
 
 namespace Game {
+namespace UmiMushi {
+
+static const char unusedString[] = "umiMushi";
+Obj* curU;
 
 /*
  * --INFO--
  * Address:	80383100
  * Size:	000038
  */
-void UmiMushi::eyeScaleCallBack(J3DJoint*, int)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	cmpwi    r4, 0
-	stw      r0, 0x14(r1)
-	bne      lbl_80383124
-	lwz      r3, curU__Q24Game8UmiMushi@sda21(r13)
-	cmplwi   r3, 0
-	beq      lbl_80383124
-	bl       eyeScaleMtxCalc__Q34Game8UmiMushi3ObjFv
 
-lbl_80383124:
-	lwz      r0, 0x14(r1)
-	li       r3, 1
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+static bool eyeScaleCallBack(J3DJoint* joint, int t)
+{
+	if (t == 0 && curU) {
+		curU->eyeScaleMtxCalc();
+	}
+	return true;
+};
 
 /*
  * --INFO--
  * Address:	80383138
  * Size:	000038
  */
-void UmiMushi::weakScaleCallBack(J3DJoint*, int)
+static bool weakScaleCallBack(J3DJoint* joint, int t)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	cmpwi    r4, 0
-	stw      r0, 0x14(r1)
-	bne      lbl_8038315C
-	lwz      r3, curU__Q24Game8UmiMushi@sda21(r13)
-	cmplwi   r3, 0
-	beq      lbl_8038315C
-	bl       weakScaleMtxCalc__Q34Game8UmiMushi3ObjFv
-
-lbl_8038315C:
-	lwz      r0, 0x14(r1)
-	li       r3, 1
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+	if (t == 0 && curU) {
+		curU->weakScaleMtxCalc();
+	}
+	return true;
+};
 
 /*
  * --INFO--
  * Address:	80383170
  * Size:	0000B4
  */
-void UmiMushi::Obj::setParameters(void)
+void Obj::setParameters()
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stfd     f31, 0x10(r1)
-	psq_st   f31, 24(r1), 0, qr0
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	bl       setParameters__Q24Game9EnemyBaseFv
-	lwz      r0, 0x39c(r31)
-	lfs      f31, lbl_8051ED90@sda21(r2)
-	cmpwi    r0, 0x65
-	bne      lbl_803831A4
-	lfs      f31, lbl_8051ED94@sda21(r2)
-
-lbl_803831A4:
-	stfs     f31, 0x1f8(r31)
-	fmr      f1, f31
-	stfs     f31, 0x168(r31)
-	stfs     f31, 0x16c(r31)
-	stfs     f31, 0x170(r31)
-	lwz      r3, 0x114(r31)
-	lwz      r3, 0(r3)
-	bl       setScale__8CollPartFf
-	lwz      r3, 0xc0(r31)
-	lfs      f0, 0x21c(r3)
-	fmuls    f0, f31, f0
-	stfs     f0, 0x27c(r31)
-	lwz      r0, 0x39c(r31)
-	cmpwi    r0, 0x65
-	bne      lbl_803831EC
-	lfs      f0, lbl_8051ED98@sda21(r2)
-	lwz      r3, 0xc0(r31)
-	stfs     f0, 0x1a4(r3)
-
-lbl_803831EC:
-	lis      r4, 0x7765616B@ha
-	lwz      r3, 0x114(r31)
-	addi     r4, r4, 0x7765616B@l
-	bl       getCollPart__8CollTreeFUl
-	lwz      r4, 0xc0(r31)
-	lfs      f1, 0xa34(r4)
-	bl       setScale__8CollPartFf
-	psq_l    f31, 24(r1), 0, qr0
-	lwz      r0, 0x24(r1)
-	lfd      f31, 0x10(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	EnemyBase::setParameters();
+	float scale = 1.0f;
+	if (mBloysterType == EnemyTypeID::EnemyID_UmiMushiBlind) {
+		scale = 0.5f;
+	}
+	mScaleModifier = scale;
+	mScale         = Vector3f(scale);
+	mCollTree->mPart->setScale(scale);
+	mCurLodSphere.mRadius = scale * C_PARMS->mGeneral.mOffCameraRadius.mValue;
+	if (mBloysterType == EnemyTypeID::EnemyID_UmiMushiBlind) {
+		C_PARMS->mGeneral.mHeightOffsetFromFloor.mValue = 50.0f;
+	}
+	mCollTree->getCollPart('weak')->setScale(C_PARMS->_A34); // scale of weak point (tail bulb)
 }
 
 /*
@@ -589,458 +535,145 @@ lbl_803831EC:
  * Address:	80383224
  * Size:	000030
  */
-void UmiMushi::Obj::getBodyRadius(void)
+f32 Obj::getBodyRadius()
 {
-	/*
-	lwz      r0, 0x1e0(r3)
-	rlwinm.  r0, r0, 0, 0x16, 0x16
-	beq      lbl_8038324C
-	lwz      r0, 0x39c(r3)
-	cmpwi    r0, 0x65
-	bne      lbl_80383244
-	lfs      f1, lbl_8051ED98@sda21(r2)
-	blr
-
-lbl_80383244:
-	lfs      f1, lbl_8051ED9C@sda21(r2)
-	blr
-
-lbl_8038324C:
-	lfs      f1, lbl_8051EDA0@sda21(r2)
-	blr
-	*/
+	if (isEvent(0, EB_IsBittered)) {
+		if (mBloysterType == EnemyTypeID::EnemyID_UmiMushiBlind) {
+			return 50.0f;
+		}
+		return 100.0f;
+	}
+	return 0.0f;
 }
-
-} // namespace Game
 
 /*
  * --INFO--
  * Address:	80383254
  * Size:	000020
  */
-void birth__Q34Game8UmiMushi3ObjFR10Vector3f f(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	bl       "birth__Q24Game9EnemyBaseFR10Vector3<f>f"
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
-
-namespace Game {
+void Obj::birth(Vector3f& position, f32 faceDirection) { EnemyBase::birth(position, faceDirection); }
 
 /*
  * --INFO--
  * Address:	80383274
  * Size:	0005A8
  */
-void UmiMushi::Obj::onInit(Game::CreatureInitArg*)
+
+void Obj::onInit(CreatureInitArg* initArg)
 {
-	/*
-	stwu     r1, -0x30(r1)
-	mflr     r0
-	lis      r5, lbl_80493AE8@ha
-	stw      r0, 0x34(r1)
-	stmw     r27, 0x1c(r1)
-	mr       r30, r3
-	addi     r31, r5, lbl_80493AE8@l
-	bl       onInit__Q24Game9EnemyBaseFPQ24Game15CreatureInitArg
-	lwz      r0, 0x1e0(r30)
-	addi     r4, r31, 0xc
-	rlwinm   r0, r0, 0, 0x18, 0x16
-	stw      r0, 0x1e0(r30)
-	lwz      r3, 0x174(r30)
-	bl       getJoint__Q28SysShape5ModelFPc
-	stw      r3, 0x2d4(r30)
-	lwz      r0, 0x2d4(r30)
-	cmplwi   r0, 0
-	bne      lbl_803832D0
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0x7c
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	EnemyBase::onInit(initArg);
+	disableEvent(0, EB_IsDeathEffectEnabled);
+	mHeadJoint = mModel->getJoint("head_joint1");
+	P2ASSERTLINE(124, mHeadJoint);
+	mTargetNavi = nullptr;
+	_2BC        = mHomePosition;
+	_2E0        = 0;
+	_2E4        = mHomePosition;
+	_2F0        = 0;
+	_2F4        = 0;
+	_2FC        = 0.0f;
+	mTargetNavi = nullptr; // second null initialization of targetNavi
+	_2DC        = 0;
+	_300        = 0;
+	mNextState  = UMIMUSHI_NULL;
 
-lbl_803832D0:
-	li       r27, 0
-	lfs      f0, lbl_8051EDA0@sda21(r2)
-	stw      r27, 0x2d8(r30)
-	li       r28, -1
-	li       r29, -25
-	li       r12, -100
-	lfs      f1, 0x198(r30)
-	li       r11, -30
-	li       r10, 0x3c
-	li       r9, -115
-	stfs     f1, 0x2bc(r30)
-	li       r8, -180
-	li       r7, 0x32
-	li       r3, -80
-	lfs      f1, 0x19c(r30)
-	li       r0, -75
-	mr       r4, r30
-	li       r5, 1
-	stfs     f1, 0x2c0(r30)
-	li       r6, 0
-	lfs      f1, 0x1a0(r30)
-	stfs     f1, 0x2c4(r30)
-	stw      r27, 0x2e0(r30)
-	lfs      f1, 0x198(r30)
-	stfs     f1, 0x2e4(r30)
-	lfs      f1, 0x19c(r30)
-	stfs     f1, 0x2e8(r30)
-	lfs      f1, 0x1a0(r30)
-	stfs     f1, 0x2ec(r30)
-	stw      r27, 0x2f0(r30)
-	stw      r27, 0x2f4(r30)
-	stfs     f0, 0x2fc(r30)
-	stw      r27, 0x2d8(r30)
-	stb      r27, 0x2dc(r30)
-	stw      r27, 0x300(r30)
-	stw      r28, 0x2c8(r30)
-	sth      r29, 0x34c(r30)
-	sth      r12, 0x34e(r30)
-	sth      r11, 0x350(r30)
-	sth      r10, 0x324(r30)
-	sth      r9, 0x326(r30)
-	sth      r9, 0x328(r30)
-	sth      r27, 0x32c(r30)
-	sth      r8, 0x32e(r30)
-	sth      r8, 0x330(r30)
-	sth      r11, 0x334(r30)
-	sth      r11, 0x336(r30)
-	sth      r7, 0x338(r30)
-	sth      r3, 0x33c(r30)
-	sth      r3, 0x33e(r30)
-	sth      r27, 0x340(r30)
-	sth      r27, 0x344(r30)
-	sth      r29, 0x346(r30)
-	sth      r0, 0x348(r30)
-	lha      r0, 0x344(r30)
-	sth      r0, 0x31c(r30)
-	lha      r0, 0x346(r30)
-	sth      r0, 0x31e(r30)
-	lha      r0, 0x348(r30)
-	sth      r0, 0x320(r30)
-	lha      r0, 0x34a(r30)
-	sth      r0, 0x322(r30)
-	lha      r0, 0x344(r30)
-	sth      r0, 0x314(r30)
-	lha      r0, 0x346(r30)
-	sth      r0, 0x316(r30)
-	lha      r0, 0x348(r30)
-	sth      r0, 0x318(r30)
-	lha      r0, 0x34a(r30)
-	sth      r0, 0x31a(r30)
-	stw      r27, curU__Q24Game8UmiMushi@sda21(r13)
-	lwz      r3, 0x398(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 0xc(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x354(r30)
-	cmplwi   r0, 0
-	bne      lbl_80383420
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0x9d
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	mNormalColor2.r = -25;
+	mNormalColor2.g = -100;
+	mNormalColor2.b = -30;
 
-lbl_80383420:
-	lwz      r3, 0x354(r30)
-	lwz      r4, 0x180(r30)
-	lwz      r12, 0(r3)
-	lwz      r4, 0x44(r4)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x358(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038345C
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xa0
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	mOlimarColor1.r = 60;
+	mOlimarColor1.g = -115;
+	mOlimarColor1.b = -115;
 
-lbl_8038345C:
-	lwz      r3, 0x358(r30)
-	bl       init__Q34Game8UmiMushi17UmimushiShadowMgrFv
-	lwz      r3, 0x174(r30)
-	lwz      r3, 8(r3)
-	lwz      r27, 4(r3)
-	cmplwi   r27, 0
-	bne      lbl_8038348C
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xa6
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	mOlimarColor2.r = 0;
+	mOlimarColor2.g = -180;
+	mOlimarColor2.b = -180;
 
-lbl_8038348C:
-	lwz      r3, 0x64(r27)
-	addi     r4, r31, 0x34
-	bl       getIndex__10JUTNameTabCFPCc
-	lwz      r4, 0x60(r27)
-	rlwinm   r0, r3, 2, 0xe, 0x1d
-	lwzx     r0, r4, r0
-	stw      r0, 0x310(r30)
-	lwz      r0, 0x310(r30)
-	cmplwi   r0, 0
-	bne      lbl_803834C8
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xab
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	mLouieColor1.r = -30;
+	mLouieColor1.g = -30;
+	mLouieColor1.b = 50;
 
-lbl_803834C8:
-	lwz      r0, 0x39c(r30)
-	cmpwi    r0, 0x47
-	bne      lbl_80383520
-	lwz      r27, 0x28c(r30)
-	mr       r3, r27
-	lwz      r12, 0x28(r27)
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	cmpwi    r3, 6
-	beq      lbl_80383508
-	addi     r3, r31, 0x40
-	addi     r5, r31, 0x28
-	li       r4, 0x45a
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	mLouieColor2.r = -80;
+	mLouieColor2.g = -80;
+	mLouieColor2.b = 0;
 
-lbl_80383508:
-	mr       r3, r27
-	li       r4, 0
-	bl       setAppearFlag__Q23PSM9EnemyBossFb
-	li       r0, 1
-	stb      r0, 0x118(r27)
-	b        lbl_803835CC
+	mNormalColor1.r = 0;
+	mNormalColor1.g = -25;
+	mNormalColor1.b = -75;
 
-lbl_80383520:
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x228(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0xc0(r30)
-	lfs      f0, lbl_8051EDA4@sda21(r2)
-	lfs      f1, 0x984(r3)
-	stfs     f1, 0x200(r30)
-	stfs     f1, 0x204(r30)
-	stfs     f0, 0x35c(r30)
-	lwz      r0, 0x174(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038356C
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xbd
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	_31C = mNormalColor1;
+	_314 = mNormalColor1;
 
-lbl_8038356C:
-	lwz      r3, 0x174(r30)
-	addi     r4, r31, 0x58
-	lwz      r5, 8(r3)
-	lwz      r27, 4(r5)
-	bl       getJointIndex__Q28SysShape5ModelFPc
-	sth      r3, 0x360(r30)
-	addi     r4, r31, 0x64
-	lwz      r3, 0x174(r30)
-	bl       getJointIndex__Q28SysShape5ModelFPc
-	sth      r3, 0x362(r30)
-	lis      r4, eyeScaleCallBack__Q24Game8UmiMushiFP8J3DJointi@ha
-	lis      r3, weakScaleCallBack__Q24Game8UmiMushiFP8J3DJointi@ha
-	lhz      r0, 0x360(r30)
-	addi     r6, r4, eyeScaleCallBack__Q24Game8UmiMushiFP8J3DJointi@l
-	lwz      r5, 0x28(r27)
-	addi     r4, r3, weakScaleCallBack__Q24Game8UmiMushiFP8J3DJointi@l
-	slwi     r0, r0, 2
-	lwzx     r3, r5, r0
-	stw      r6, 4(r3)
-	lhz      r0, 0x362(r30)
-	lwz      r3, 0x28(r27)
-	slwi     r0, r0, 2
-	lwzx     r3, r3, r0
-	stw      r4, 4(r3)
+	curU = nullptr;
 
-lbl_803835CC:
-	li       r0, 0
-	stb      r0, 0x2b0(r30)
-	lfs      f0, 0x18c(r30)
-	stfs     f0, 0x38c(r30)
-	lfs      f0, 0x190(r30)
-	stfs     f0, 0x390(r30)
-	lfs      f0, 0x194(r30)
-	stfs     f0, 0x394(r30)
-	lwz      r0, 0x364(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038360C
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xd4
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	mFsm->start(this, UMIMUSHI_Walk, nullptr);
 
-lbl_8038360C:
-	lis      r3, __vt__Q23efx3Arg@ha
-	addi     r4, r1, 8
-	addi     r0, r3, __vt__Q23efx3Arg@l
-	stw      r0, 8(r1)
-	lfs      f0, 0x38c(r30)
-	stfs     f0, 0xc(r1)
-	lfs      f0, 0x390(r30)
-	stfs     f0, 0x10(r1)
-	lfs      f0, 0x394(r30)
-	stfs     f0, 0x14(r1)
-	lwz      r3, 0x364(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x364(r30)
-	lfs      f1, 0x1f8(r30)
-	bl       setGlobalScale__Q23efx9TUmiHamonFf
-	lwz      r0, 0x368(r30)
-	cmplwi   r0, 0
-	bne      lbl_80383674
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xda
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	P2ASSERTLINE(157, _354);
+	_354->start(C_MGR->mTexAnimation);
 
-lbl_80383674:
-	lwz      r0, 0x36c(r30)
-	cmplwi   r0, 0
-	bne      lbl_80383694
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xdb
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	P2ASSERTLINE(160, mShadowMgr);
+	mShadowMgr->init();
 
-lbl_80383694:
-	lwz      r3, 0x174(r30)
-	addi     r4, r31, 0x64
-	bl       getJoint__Q28SysShape5ModelFPc
-	bl       getWorldMatrix__Q28SysShape5JointFv
-	mr       r0, r3
-	lwz      r3, 0x368(r30)
-	mr       r27, r0
-	mr       r4, r27
-	bl       setMtxptr__Q23efx10TChaseMtx2FPA4_f
-	lwz      r3, 0x36c(r30)
-	mr       r4, r27
-	bl       setMtxptr__Q23efx10TChaseMtx2FPA4_f
-	lwz      r0, 0x370(r30)
-	cmplwi   r0, 0
-	bne      lbl_803836E4
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xe1
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	J3DModelData* modelData = mModel->mJ3dModel->mModelData;
+	P2ASSERTLINE(166, modelData);
 
-lbl_803836E4:
-	lwz      r0, 0x374(r30)
-	cmplwi   r0, 0
-	bne      lbl_80383704
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xe2
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	u16 matIdx = modelData->mMaterialTable.mMaterialNames->getIndex("cc_mat1_v");
+	_310       = modelData->mMaterialTable.mMaterials[matIdx];
 
-lbl_80383704:
-	lwz      r0, 0x378(r30)
-	cmplwi   r0, 0
-	bne      lbl_80383724
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xe4
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	P2ASSERTLINE(171, _310);
 
-lbl_80383724:
-	lwz      r0, 0x37c(r30)
-	cmplwi   r0, 0
-	bne      lbl_80383744
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xe5
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	if (mBloysterType == EnemyTypeID::EnemyID_UmiMushi) {
+		PSM::EnemyMidBoss* bossSoundObj = static_cast<PSM::EnemyMidBoss*>(mSoundObj);
+		checkMidBoss(bossSoundObj);
+		bossSoundObj->setAppearFlag(false);
+		bossSoundObj->_118 = true;
+	} else {
+		setParameters();
+		float health = C_PROPERPARMS.mBlindHealth.mValue;
+		mHealth      = health;
+		mMaxHealth   = health;
+		_35C         = 0.45f;
+		P2ASSERTLINE(189, mModel);
+		J3DModelData* modelData                                 = mModel->mJ3dModel->mModelData;
+		mEyeJointIdx                                            = mModel->getJointIndex("eyes_joint1");
+		mWeakJointIdx                                           = mModel->getJointIndex("weak_joint2");
+		modelData->mJointTree.mJoints[mEyeJointIdx]->mFunction  = UmiMushi::eyeScaleCallBack;
+		modelData->mJointTree.mJoints[mWeakJointIdx]->mFunction = UmiMushi::weakScaleCallBack;
+	}
+	mDropGroup     = EDG_None;
+	mHamonPosition = mPosition;
+	P2ASSERTLINE(212, mEfxHamon);
+	efx::Arg efxArg(mHamonPosition);
+	mEfxHamon->create(&efxArg);
+	mEfxHamon->setGlobalScale(mScaleModifier);
 
-lbl_80383744:
-	lwz      r3, 0x174(r30)
-	addi     r4, r31, 0x70
-	bl       getJoint__Q28SysShape5ModelFPc
-	bl       getWorldMatrix__Q28SysShape5JointFv
-	mr       r27, r3
-	lwz      r3, 0x370(r30)
-	mr       r4, r27
-	bl       setMtxptr__Q23efx10TChaseMtx2FPA4_f
-	lwz      r3, 0x378(r30)
-	mr       r4, r27
-	bl       setMtxptr__Q23efx10TChaseMtx2FPA4_f
-	lwz      r3, 0x174(r30)
-	addi     r4, r31, 0x7c
-	bl       getJoint__Q28SysShape5ModelFPc
-	bl       getWorldMatrix__Q28SysShape5JointFv
-	mr       r27, r3
-	lwz      r3, 0x374(r30)
-	mr       r4, r27
-	bl       setMtxptr__Q23efx10TChaseMtx2FPA4_f
-	lwz      r3, 0x37c(r30)
-	mr       r4, r27
-	bl       setMtxptr__Q23efx10TChaseMtx2FPA4_f
-	lwz      r0, 0x380(r30)
-	cmplwi   r0, 0
-	bne      lbl_803837BC
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xef
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	P2ASSERTLINE(218, mEfxWeakRed);
+	P2ASSERTLINE(219, mEfxWeakBlue);
+	Matrixf* modelMtx = mModel->getJoint("weak_joint2")->getWorldMatrix();
+	mEfxWeakRed->setMtxptr(modelMtx->mMatrix.mtxView);
+	mEfxWeakBlue->setMtxptr(modelMtx->mMatrix.mtxView);
 
-lbl_803837BC:
-	lwz      r0, 0x384(r30)
-	cmplwi   r0, 0
-	bne      lbl_803837DC
-	addi     r3, r31, 0x18
-	addi     r5, r31, 0x28
-	li       r4, 0xf0
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	P2ASSERTLINE(225, mEfxEyeRed[0]);
+	P2ASSERTLINE(226, mEfxEyeRed[1]);
 
-lbl_803837DC:
-	lwz      r3, 0x174(r30)
-	addi     r4, r31, 0x88
-	bl       getJoint__Q28SysShape5ModelFPc
-	bl       getWorldMatrix__Q28SysShape5JointFv
-	stw      r3, 0x388(r30)
-	lwz      r0, 0x388(r30)
-	lwz      r3, 0x380(r30)
-	stw      r0, 0x10(r3)
-	lwz      r0, 0x388(r30)
-	lwz      r3, 0x384(r30)
-	stw      r0, 0x10(r3)
-	lmw      r27, 0x1c(r1)
-	lwz      r0, 0x34(r1)
-	mtlr     r0
-	addi     r1, r1, 0x30
-	blr
-	*/
+	P2ASSERTLINE(228, mEfxEyeBlue[0]);
+	P2ASSERTLINE(229, mEfxEyeBlue[1]);
+
+	modelMtx = mModel->getJoint("ef_eye_r")->getWorldMatrix();
+	mEfxEyeRed[0]->setMtxptr(modelMtx->mMatrix.mtxView);
+	mEfxEyeBlue[0]->setMtxptr(modelMtx->mMatrix.mtxView);
+
+	modelMtx = mModel->getJoint("ef_eye_l")->getWorldMatrix();
+	mEfxEyeRed[1]->setMtxptr(modelMtx->mMatrix.mtxView);
+	mEfxEyeBlue[1]->setMtxptr(modelMtx->mMatrix.mtxView);
+
+	P2ASSERTLINE(239, mEfxEat);
+	P2ASSERTLINE(240, mEfxBubble);
+
+	_388 = mModel->getJoint("bero_joint1")->getWorldMatrix();
+
+	mEfxEat->mMtx    = _388;
+	mEfxBubble->mMtx = _388;
 }
 
 /*
@@ -1048,304 +681,44 @@ lbl_803837DC:
  * Address:	8038381C
  * Size:	000428
  */
-UmiMushi::Obj::Obj(void)
+Obj::Obj()
+    : mHeadJoint(nullptr)
+    , mTargetNavi(nullptr)
+    , _2DD(0)
+    , _310(nullptr)
+    , _354(nullptr)
+    , mShadowMgr(nullptr)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	extsh.   r0, r4
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	stw      r30, 8(r1)
-	beq      lbl_8038385C
-	addi     r0, r31, 0x3a4
-	lis      r3, __vt__Q24Game10PelletView@ha
-	stw      r0, 0x17c(r31)
-	addi     r3, r3, __vt__Q24Game10PelletView@l
-	li       r0, 0
-	stw      r3, 0x3a4(r31)
-	stw      r0, 0x3a8(r31)
-	stw      r0, 0x3ac(r31)
+	mEfxHamon      = nullptr;
+	mEfxWeakRed    = nullptr;
+	mEfxWeakBlue   = nullptr;
+	mEfxEyeRed[0]  = nullptr;
+	mEfxEyeRed[1]  = nullptr;
+	mEfxEyeBlue[0] = nullptr;
+	mEfxEyeBlue[1] = nullptr;
+	mEfxEat        = nullptr;
+	mEfxBubble     = nullptr;
+	_388           = nullptr;
+	mFsm           = nullptr;
+	mJointIndices  = nullptr;
 
-lbl_8038385C:
-	mr       r3, r31
-	li       r4, 0
-	bl       __ct__Q24Game9EnemyBaseFv
-	lis      r3, __vt__Q34Game8UmiMushi3Obj@ha
-	addi     r0, r31, 0x3a4
-	addi     r5, r3, __vt__Q34Game8UmiMushi3Obj@l
-	addi     r3, r31, 0x2cc
-	stw      r5, 0(r31)
-	addi     r4, r5, 0x1b0
-	addi     r5, r5, 0x2fc
-	stw      r4, 0x178(r31)
-	lwz      r4, 0x17c(r31)
-	stw      r5, 0(r4)
-	lwz      r4, 0x17c(r31)
-	subf     r0, r4, r0
-	stw      r0, 0xc(r4)
-	bl       __ct__10MouthSlotsFv
-	li       r0, 0
-	li       r3, 0x2c
-	stw      r0, 0x2d4(r31)
-	stw      r0, 0x2d8(r31)
-	stb      r0, 0x2dd(r31)
-	stw      r0, 0x310(r31)
-	stw      r0, 0x354(r31)
-	stw      r0, 0x358(r31)
-	stw      r0, 0x364(r31)
-	stw      r0, 0x368(r31)
-	stw      r0, 0x36c(r31)
-	stw      r0, 0x370(r31)
-	stw      r0, 0x374(r31)
-	stw      r0, 0x378(r31)
-	stw      r0, 0x37c(r31)
-	stw      r0, 0x380(r31)
-	stw      r0, 0x384(r31)
-	stw      r0, 0x388(r31)
-	stw      r0, 0x398(r31)
-	stw      r0, 0x3a0(r31)
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_8038393C
-	bl       __ct__Q24Game17EnemyAnimatorBaseFv
-	lis      r3, __vt__Q34Game8UmiMushi14ProperAnimator@ha
-	lis      r4, __vt__Q28SysShape12BaseAnimator@ha
-	addi     r0, r3, __vt__Q34Game8UmiMushi14ProperAnimator@l
-	lis      r3, __vt__Q28SysShape8Animator@ha
-	stw      r0, 0(r30)
-	addi     r4, r4, __vt__Q28SysShape12BaseAnimator@l
-	addi     r3, r3, __vt__Q28SysShape8Animator@l
-	li       r0, 0
-	stw      r4, 0x10(r30)
-	stw      r3, 0x10(r30)
-	stb      r0, 0x28(r30)
-	stw      r0, 0x1c(r30)
-	stw      r0, 0x14(r30)
-	stb      r0, 0x28(r30)
-	stw      r0, 0x20(r30)
+	mAnimator = new ProperAnimator;
+	setFSM(new FSM);
+	_354       = new Sys::MatLoopAnimator;
+	mShadowMgr = new UmimushiShadowMgr(this);
 
-lbl_8038393C:
-	stw      r30, 0x184(r31)
-	li       r3, 0x1c
-	bl       __nw__FUl
-	or.      r4, r3, r3
-	beq      lbl_80383970
-	lis      r5, __vt__Q24Game17EnemyStateMachine@ha
-	lis      r3, __vt__Q34Game8UmiMushi3FSM@ha
-	addi     r0, r5, __vt__Q24Game17EnemyStateMachine@l
-	li       r5, -1
-	stw      r0, 0(r4)
-	addi     r0, r3, __vt__Q34Game8UmiMushi3FSM@l
-	stw      r5, 0x18(r4)
-	stw      r0, 0(r4)
+	mEfxHamon = new efx::TUmiHamon(&mHamonPosition);
 
-lbl_80383970:
-	lwz      r12, 0(r31)
-	mr       r3, r31
-	lwz      r12, 0x2f8(r12)
-	mtctr    r12
-	bctrl
-	li       r3, 0xc
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_803839A4
-	bl       __ct__Q23Sys15MatBaseAnimatorFv
-	lis      r3, __vt__Q23Sys15MatLoopAnimator@ha
-	addi     r0, r3, __vt__Q23Sys15MatLoopAnimator@l
-	stw      r0, 0(r30)
+	mEfxWeakRed  = new efx::TUmiWeakRed;
+	mEfxWeakBlue = new efx::TUmiWeakBlue;
 
-lbl_803839A4:
-	stw      r30, 0x354(r31)
-	li       r3, 0x18
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_803839C4
-	mr       r4, r31
-	bl       __ct__Q34Game8UmiMushi17UmimushiShadowMgrFPQ34Game8UmiMushi3Obj
-	mr       r0, r3
+	mEfxEyeRed[0]  = new efx::TUmiEyeRed;
+	mEfxEyeBlue[0] = new efx::TUmiEyeBlue;
+	mEfxEyeRed[1]  = new efx::TUmiEyeRed;
+	mEfxEyeBlue[1] = new efx::TUmiEyeBlue;
 
-lbl_803839C4:
-	stw      r0, 0x358(r31)
-	li       r3, 0x2c
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_803839F4
-	addi     r4, r31, 0x38c
-	li       r5, 0x1de
-	li       r6, 0x1df
-	bl       "__ct__Q23efx10TChasePos2FP10Vector3<f>UsUs"
-	lis      r3, __vt__Q23efx9TUmiHamon@ha
-	addi     r0, r3, __vt__Q23efx9TUmiHamon@l
-	stw      r0, 0(r30)
-
-lbl_803839F4:
-	stw      r30, 0x364(r31)
-	li       r3, 0x2c
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_80383A24
-	li       r4, 0
-	li       r5, 0x1e2
-	li       r6, 0x1e3
-	bl       __ct__Q23efx10TChaseMtx2FPA4_fUsUs
-	lis      r3, __vt__Q23efx11TUmiWeakRed@ha
-	addi     r0, r3, __vt__Q23efx11TUmiWeakRed@l
-	stw      r0, 0(r30)
-
-lbl_80383A24:
-	stw      r30, 0x368(r31)
-	li       r3, 0x2c
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_80383A54
-	li       r4, 0
-	li       r5, 0x1e0
-	li       r6, 0x1e1
-	bl       __ct__Q23efx10TChaseMtx2FPA4_fUsUs
-	lis      r3, __vt__Q23efx12TUmiWeakBlue@ha
-	addi     r0, r3, __vt__Q23efx12TUmiWeakBlue@l
-	stw      r0, 0(r30)
-
-lbl_80383A54:
-	stw      r30, 0x36c(r31)
-	li       r3, 0x2c
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_80383A84
-	li       r4, 0
-	li       r5, 0x1d9
-	li       r6, 0x1da
-	bl       __ct__Q23efx10TChaseMtx2FPA4_fUsUs
-	lis      r3, __vt__Q23efx10TUmiEyeRed@ha
-	addi     r0, r3, __vt__Q23efx10TUmiEyeRed@l
-	stw      r0, 0(r30)
-
-lbl_80383A84:
-	stw      r30, 0x370(r31)
-	li       r3, 0x2c
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_80383AB4
-	li       r4, 0
-	li       r5, 0x1d7
-	li       r6, 0x1d8
-	bl       __ct__Q23efx10TChaseMtx2FPA4_fUsUs
-	lis      r3, __vt__Q23efx11TUmiEyeBlue@ha
-	addi     r0, r3, __vt__Q23efx11TUmiEyeBlue@l
-	stw      r0, 0(r30)
-
-lbl_80383AB4:
-	stw      r30, 0x378(r31)
-	li       r3, 0x2c
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_80383AE4
-	li       r4, 0
-	li       r5, 0x1d9
-	li       r6, 0x1da
-	bl       __ct__Q23efx10TChaseMtx2FPA4_fUsUs
-	lis      r3, __vt__Q23efx10TUmiEyeRed@ha
-	addi     r0, r3, __vt__Q23efx10TUmiEyeRed@l
-	stw      r0, 0(r30)
-
-lbl_80383AE4:
-	stw      r30, 0x374(r31)
-	li       r3, 0x2c
-	bl       __nw__FUl
-	or.      r30, r3, r3
-	beq      lbl_80383B14
-	li       r4, 0
-	li       r5, 0x1d7
-	li       r6, 0x1d8
-	bl       __ct__Q23efx10TChaseMtx2FPA4_fUsUs
-	lis      r3, __vt__Q23efx11TUmiEyeBlue@ha
-	addi     r0, r3, __vt__Q23efx11TUmiEyeBlue@l
-	stw      r0, 0(r30)
-
-lbl_80383B14:
-	stw      r30, 0x37c(r31)
-	li       r3, 0x14
-	bl       __nw__FUl
-	cmplwi   r3, 0
-	beq      lbl_80383B9C
-	lis      r4, __vt__Q23efx5TBase@ha
-	lis      r5, __vt__18JPAEmitterCallBack@ha
-	addi     r0, r4, __vt__Q23efx5TBase@l
-	lis      r4, __vt__Q23efx5TSync@ha
-	stw      r0, 0(r3)
-	addi     r0, r5, __vt__18JPAEmitterCallBack@l
-	addi     r5, r4, __vt__Q23efx5TSync@l
-	lis      r4, __vt__Q23efx9TChaseMtx@ha
-	stw      r0, 4(r3)
-	addi     r7, r4, __vt__Q23efx9TChaseMtx@l
-	lis      r4, __vt__Q23efx7TUmiEat@ha
-	addi     r0, r5, 0x14
-	stw      r5, 0(r3)
-	addi     r4, r4, __vt__Q23efx7TUmiEat@l
-	li       r9, 0
-	li       r8, 0x2b2
-	stw      r0, 4(r3)
-	addi     r6, r7, 0x14
-	li       r5, 0x1d6
-	addi     r0, r4, 0x14
-	stw      r9, 8(r3)
-	sth      r8, 0xc(r3)
-	stb      r9, 0xe(r3)
-	stw      r7, 0(r3)
-	stw      r6, 4(r3)
-	stw      r9, 0x10(r3)
-	sth      r5, 0xc(r3)
-	stw      r4, 0(r3)
-	stw      r0, 4(r3)
-
-lbl_80383B9C:
-	stw      r3, 0x380(r31)
-	li       r3, 0x14
-	bl       __nw__FUl
-	cmplwi   r3, 0
-	beq      lbl_80383C24
-	lis      r4, __vt__Q23efx5TBase@ha
-	lis      r5, __vt__18JPAEmitterCallBack@ha
-	addi     r0, r4, __vt__Q23efx5TBase@l
-	lis      r4, __vt__Q23efx5TSync@ha
-	stw      r0, 0(r3)
-	addi     r0, r5, __vt__18JPAEmitterCallBack@l
-	addi     r5, r4, __vt__Q23efx5TSync@l
-	lis      r4, __vt__Q23efx9TChaseMtx@ha
-	stw      r0, 4(r3)
-	addi     r7, r4, __vt__Q23efx9TChaseMtx@l
-	lis      r4, __vt__Q23efx11TUmiDeadawa@ha
-	addi     r0, r5, 0x14
-	stw      r5, 0(r3)
-	addi     r4, r4, __vt__Q23efx11TUmiDeadawa@l
-	li       r9, 0
-	li       r8, 0x2b2
-	stw      r0, 4(r3)
-	addi     r6, r7, 0x14
-	li       r5, 0x1d4
-	addi     r0, r4, 0x14
-	stw      r9, 8(r3)
-	sth      r8, 0xc(r3)
-	stb      r9, 0xe(r3)
-	stw      r7, 0(r3)
-	stw      r6, 4(r3)
-	stw      r9, 0x10(r3)
-	sth      r5, 0xc(r3)
-	stw      r4, 0(r3)
-	stw      r0, 4(r3)
-
-lbl_80383C24:
-	stw      r3, 0x384(r31)
-	mr       r3, r31
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mEfxEat    = new efx::TUmiEat;
+	mEfxBubble = new efx::TUmiDeadawa;
 }
 
 /*
@@ -1353,29 +726,11 @@ lbl_80383C24:
  * Address:	80383C44
  * Size:	00004C
  */
-void UmiMushi::Obj::setFSM(Game::UmiMushi::FSM*)
+void Obj::setFSM(FSM* fsm)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	stw      r4, 0x398(r3)
-	mr       r4, r31
-	lwz      r3, 0x398(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	li       r0, 0
-	stw      r0, 0x2b4(r31)
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mFsm = fsm;
+	mFsm->init(this);
+	mCurrentLifecycleState = nullptr;
 }
 
 /*
@@ -1383,50 +738,16 @@ void UmiMushi::Obj::setFSM(Game::UmiMushi::FSM*)
  * Address:	80383C90
  * Size:	000090
  */
-void UmiMushi::Obj::doUpdate(void)
+void Obj::doUpdate()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	mr       r4, r31
-	lwz      r3, 0x398(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x10(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, 0x18c(r31)
-	stfs     f0, 0x38c(r31)
-	lfs      f0, 0x190(r31)
-	stfs     f0, 0x390(r31)
-	lfs      f0, 0x194(r31)
-	stfs     f0, 0x394(r31)
-	lwz      r3, 0x280(r31)
-	cmplwi   r3, 0
-	beq      lbl_80383CFC
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, 0(r3)
-	stfs     f0, 0x390(r31)
-	b        lbl_80383D0C
-
-lbl_80383CFC:
-	lfs      f1, 0x390(r31)
-	lfs      f0, lbl_8051ED98@sda21(r2)
-	fsubs    f0, f1, f0
-	stfs     f0, 0x390(r31)
-
-lbl_80383D0C:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mFsm->exec(this);
+	mHamonPosition  = mPosition; // blobing pos??
+	WaterBox* water = mWaterBox;
+	if (water) {
+		mHamonPosition.y = *water->getSeaHeightPtr();
+	} else {
+		mHamonPosition.y -= 50.0f;
+	}
 }
 
 /*
@@ -1434,358 +755,80 @@ lbl_80383D0C:
  * Address:	80383D20
  * Size:	0004B0
  */
-void UmiMushi::Obj::doAnimationCullingOff(void)
+void Obj::doAnimationCullingOff()
 {
-	/*
-	stwu     r1, -0x50(r1)
-	mflr     r0
-	stw      r0, 0x54(r1)
-	stfd     f31, 0x40(r1)
-	psq_st   f31, 72(r1), 0, qr0
-	stw      r31, 0x3c(r1)
-	stw      r30, 0x38(r1)
-	stw      r29, 0x34(r1)
-	stw      r28, 0x30(r1)
-	mr       r31, r3
-	lwz      r0, 0x39c(r3)
-	cmpwi    r0, 0x65
-	bne      lbl_80383D58
-	stw      r31, curU__Q24Game8UmiMushi@sda21(r13)
 
-lbl_80383D58:
-	mr       r3, r31
-	bl       doAnimationCullingOff__Q24Game9EnemyBaseFv
-	lwz      r3, 0x358(r31)
-	bl       update__Q34Game8UmiMushi17UmimushiShadowMgrFv
-	lwz      r3, 0x2d8(r31)
-	cmplwi   r3, 0
-	beq      lbl_80383DF4
-	lbz      r0, 0x2dc(r31)
-	cmplwi   r0, 0
-	beq      lbl_80383DF4
-	lwz      r0, 0x300(r31)
-	cmpwi    r0, 0
-	bne      lbl_80383DD4
-	lhz      r0, 0x2dc(r3)
-	cmplwi   r0, 0
-	bne      lbl_80383DB8
-	lwz      r3, 0x28c(r31)
-	li       r4, 0x593a
-	li       r5, 0
-	lwz      r12, 0x28(r3)
-	lwz      r12, 0x88(r12)
-	mtctr    r12
-	bctrl
-	b        lbl_80383DD4
+	if (mBloysterType == EnemyTypeID::EnemyID_UmiMushiBlind) {
+		curU = this;
+	}
+	EnemyBase::doAnimationCullingOff();
+	mShadowMgr->update();
+	if (mTargetNavi && _2DC) {
+		if (_300 == 0) {
+			if (mTargetNavi->mNaviIndex == 0) {
+				mSoundObj->startSound(PSSE_EN_UMI_SEARCH_ORIMER, 0);
+			} else {
+				mSoundObj->startSound(PSSE_EN_UMI_SEARCH_LUGIE, 0);
+			}
+		}
+		_300++;
+		if (_300 >= 30) {
+			_300 = 0;
+		}
+	}
+	if (mBloysterType == EnemyTypeID::EnemyID_UmiMushi) {
+		PSM::EnemyBoss* bossSound = static_cast<PSM::EnemyBoss*>(mSoundObj);
+		checkBoss(bossSound);
+		if (bossSound) {
+			if (mSticked) {
+				bossSound->postPikiAttack(true);
+			} else {
+				bossSound->postPikiAttack(true);
+			}
+		}
+	}
+	Mtx* worldMtxPtr;
+	if (mBloysterType == EnemyTypeID::EnemyID_UmiMushiBlind) {
 
-lbl_80383DB8:
-	lwz      r3, 0x28c(r31)
-	li       r4, 0x593b
-	li       r5, 0
-	lwz      r12, 0x28(r3)
-	lwz      r12, 0x88(r12)
-	mtctr    r12
-	bctrl
+		for (int slot = 0; slot < mMouthSlots.getMax(); slot++) {
+			if (!mMouthSlots.getStuckCreature(slot))
+				continue;
 
-lbl_80383DD4:
-	lwz      r3, 0x300(r31)
-	addi     r0, r3, 1
-	stw      r0, 0x300(r31)
-	lwz      r0, 0x300(r31)
-	cmpwi    r0, 0x1e
-	blt      lbl_80383DF4
-	li       r0, 0
-	stw      r0, 0x300(r31)
+			Mtx* mtxs = mModel->mJ3dModel->mMtxBuffer->mWorldMatrices;
+			int idx   = mJointIndices[slot];
 
-lbl_80383DF4:
-	lwz      r0, 0x39c(r31)
-	cmpwi    r0, 0x47
-	bne      lbl_80383ECC
-	lwz      r29, 0x28c(r31)
-	li       r30, 0
-	mr       r3, r29
-	lwz      r12, 0x28(r29)
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	cmpwi    r3, 5
-	beq      lbl_80383E5C
-	mr       r3, r29
-	lwz      r12, 0x28(r29)
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	cmpwi    r3, 6
-	beq      lbl_80383E5C
-	mr       r3, r29
-	lwz      r12, 0x28(r29)
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-	cmpwi    r3, 7
-	bne      lbl_80383E60
+			worldMtxPtr   = &mtxs[idx];
+			Mtx& worldMtx = *worldMtxPtr;
 
-lbl_80383E5C:
-	li       r30, 1
+			Vector3f vec0(worldMtx[0][0], worldMtx[1][0], worldMtx[2][0]);
+			Vector3f vec1(worldMtx[0][1], worldMtx[1][1], worldMtx[2][1]);
+			Vector3f vec2(worldMtx[0][2], worldMtx[1][2], worldMtx[2][2]);
+			// Vector3f vec3 (worldMtx[0][3], worldMtx[1][3], worldMtx[2][3]);
 
-lbl_80383E60:
-	clrlwi.  r0, r30, 0x18
-	bne      lbl_80383E84
-	lis      r3, lbl_80493B28@ha
-	lis      r5, lbl_80493B10@ha
-	addi     r3, r3, lbl_80493B28@l
-	li       r4, 0x454
-	addi     r5, r5, lbl_80493B10@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+			float mtxFactor = vec1.normalise();
+			mtxFactor *= 2.0f;
+			if (mtxFactor > 2.0f) {
+				mtxFactor = 2.0f;
+			}
+			PSVECCrossProduct((Vec*)&vec1, (Vec*)&vec2, (Vec*)&vec0);
+			vec0.normalise();
+			PSVECCrossProduct((Vec*)&vec0, (Vec*)&vec1, (Vec*)&vec2);
+			vec2.normalise();
 
-lbl_80383E84:
-	cmplwi   r29, 0
-	beq      lbl_80383ECC
-	lwz      r0, 0xf0(r31)
-	cmplwi   r0, 0
-	beq      lbl_80383EB4
-	mr       r3, r29
-	li       r4, 1
-	lwz      r12, 0x28(r29)
-	lwz      r12, 0xd8(r12)
-	mtctr    r12
-	bctrl
-	b        lbl_80383ECC
+			worldMtx[0][0] = vec0.x * mtxFactor;
+			worldMtx[1][0] = vec0.y * mtxFactor;
+			worldMtx[2][0] = vec0.z * mtxFactor;
 
-lbl_80383EB4:
-	mr       r3, r29
-	li       r4, 1
-	lwz      r12, 0x28(r29)
-	lwz      r12, 0xd8(r12)
-	mtctr    r12
-	bctrl
+			worldMtx[0][1] = vec1.x * mtxFactor;
+			worldMtx[1][1] = vec1.y * mtxFactor;
+			worldMtx[2][1] = vec1.z * mtxFactor;
 
-lbl_80383ECC:
-	lwz      r0, 0x39c(r31)
-	cmpwi    r0, 0x65
-	bne      lbl_803841A0
-	li       r28, 0
-	li       r30, 0
-	b        lbl_80384194
-
-lbl_80383EE4:
-	mr       r4, r28
-	addi     r3, r31, 0x2cc
-	bl       getSlot__10MouthSlotsFi
-	lwz      r0, 0x64(r3)
-	cmplwi   r0, 0
-	beq      lbl_8038418C
-	lwz      r4, 0x174(r31)
-	lwz      r3, 0x3a0(r31)
-	lwz      r4, 8(r4)
-	lhzx     r0, r3, r30
-	lwz      r3, 0x84(r4)
-	mulli    r0, r0, 0x30
-	lfs      f1, lbl_8051EDA0@sda21(r2)
-	lwz      r3, 0xc(r3)
-	add      r29, r3, r0
-	lfs      f3, 0x20(r29)
-	lfs      f2, 0x10(r29)
-	lfs      f0, 0(r29)
-	stfs     f0, 0x20(r1)
-	stfs     f2, 0x24(r1)
-	stfs     f3, 0x28(r1)
-	lfs      f2, 0x14(r29)
-	lfs      f3, 4(r29)
-	lfs      f4, 0x24(r29)
-	fmuls    f6, f2, f2
-	fmuls    f0, f3, f3
-	fmuls    f7, f4, f4
-	stfs     f3, 0x14(r1)
-	fadds    f0, f0, f6
-	stfs     f2, 0x18(r1)
-	stfs     f4, 0x1c(r1)
-	fadds    f0, f7, f0
-	lfs      f5, 0x28(r29)
-	lfs      f4, 0x18(r29)
-	lfs      f2, 8(r29)
-	fcmpo    cr0, f0, f1
-	stfs     f2, 8(r1)
-	stfs     f4, 0xc(r1)
-	stfs     f5, 0x10(r1)
-	ble      lbl_80383FA0
-	fmadds   f0, f3, f3, f6
-	fadds    f4, f7, f0
-	fcmpo    cr0, f4, f1
-	ble      lbl_80383FA4
-	frsqrte  f0, f4
-	fmuls    f4, f0, f4
-	b        lbl_80383FA4
-
-lbl_80383FA0:
-	fmr      f4, f1
-
-lbl_80383FA4:
-	lfs      f0, lbl_8051EDA0@sda21(r2)
-	fcmpo    cr0, f4, f0
-	ble      lbl_80383FE0
-	lfs      f0, lbl_8051ED90@sda21(r2)
-	lfs      f2, 0x14(r1)
-	fdivs    f3, f0, f4
-	lfs      f1, 0x18(r1)
-	lfs      f0, 0x1c(r1)
-	fmuls    f2, f2, f3
-	fmuls    f1, f1, f3
-	fmuls    f0, f0, f3
-	stfs     f2, 0x14(r1)
-	stfs     f1, 0x18(r1)
-	stfs     f0, 0x1c(r1)
-	b        lbl_80383FE4
-
-lbl_80383FE0:
-	fmr      f4, f0
-
-lbl_80383FE4:
-	lfs      f0, lbl_8051EDA8@sda21(r2)
-	fmuls    f31, f4, f0
-	fcmpo    cr0, f31, f0
-	ble      lbl_80383FF8
-	fmr      f31, f0
-
-lbl_80383FF8:
-	addi     r3, r1, 0x14
-	addi     r4, r1, 8
-	addi     r5, r1, 0x20
-	bl       PSVECCrossProduct
-	lfs      f2, 0x20(r1)
-	lfs      f1, 0x24(r1)
-	fmuls    f0, f2, f2
-	lfs      f3, 0x28(r1)
-	fmuls    f4, f1, f1
-	lfs      f1, lbl_8051EDA0@sda21(r2)
-	fmuls    f3, f3, f3
-	fadds    f0, f0, f4
-	fadds    f0, f3, f0
-	fcmpo    cr0, f0, f1
-	ble      lbl_80384050
-	fmadds   f0, f2, f2, f4
-	fadds    f3, f3, f0
-	fcmpo    cr0, f3, f1
-	ble      lbl_80384054
-	frsqrte  f0, f3
-	fmuls    f3, f0, f3
-	b        lbl_80384054
-
-lbl_80384050:
-	fmr      f3, f1
-
-lbl_80384054:
-	lfs      f0, lbl_8051EDA0@sda21(r2)
-	fcmpo    cr0, f3, f0
-	ble      lbl_8038408C
-	lfs      f0, lbl_8051ED90@sda21(r2)
-	lfs      f2, 0x20(r1)
-	fdivs    f3, f0, f3
-	lfs      f1, 0x24(r1)
-	lfs      f0, 0x28(r1)
-	fmuls    f2, f2, f3
-	fmuls    f1, f1, f3
-	fmuls    f0, f0, f3
-	stfs     f2, 0x20(r1)
-	stfs     f1, 0x24(r1)
-	stfs     f0, 0x28(r1)
-
-lbl_8038408C:
-	addi     r3, r1, 0x20
-	addi     r4, r1, 0x14
-	addi     r5, r1, 8
-	bl       PSVECCrossProduct
-	lfs      f2, 8(r1)
-	lfs      f1, 0xc(r1)
-	fmuls    f0, f2, f2
-	lfs      f3, 0x10(r1)
-	fmuls    f4, f1, f1
-	lfs      f1, lbl_8051EDA0@sda21(r2)
-	fmuls    f3, f3, f3
-	fadds    f0, f0, f4
-	fadds    f0, f3, f0
-	fcmpo    cr0, f0, f1
-	ble      lbl_803840E4
-	fmadds   f0, f2, f2, f4
-	fadds    f3, f3, f0
-	fcmpo    cr0, f3, f1
-	ble      lbl_803840E8
-	frsqrte  f0, f3
-	fmuls    f3, f0, f3
-	b        lbl_803840E8
-
-lbl_803840E4:
-	fmr      f3, f1
-
-lbl_803840E8:
-	lfs      f0, lbl_8051EDA0@sda21(r2)
-	fcmpo    cr0, f3, f0
-	ble      lbl_80384120
-	lfs      f0, lbl_8051ED90@sda21(r2)
-	lfs      f2, 8(r1)
-	fdivs    f3, f0, f3
-	lfs      f1, 0xc(r1)
-	lfs      f0, 0x10(r1)
-	fmuls    f2, f2, f3
-	fmuls    f1, f1, f3
-	fmuls    f0, f0, f3
-	stfs     f2, 8(r1)
-	stfs     f1, 0xc(r1)
-	stfs     f0, 0x10(r1)
-
-lbl_80384120:
-	lfs      f0, 0x20(r1)
-	fmuls    f0, f0, f31
-	stfs     f0, 0(r29)
-	lfs      f0, 0x24(r1)
-	fmuls    f0, f0, f31
-	stfs     f0, 0x10(r29)
-	lfs      f0, 0x28(r1)
-	fmuls    f0, f0, f31
-	stfs     f0, 0x20(r29)
-	lfs      f0, 0x14(r1)
-	fmuls    f0, f0, f31
-	stfs     f0, 4(r29)
-	lfs      f0, 0x18(r1)
-	fmuls    f0, f0, f31
-	stfs     f0, 0x14(r29)
-	lfs      f0, 0x1c(r1)
-	fmuls    f0, f0, f31
-	stfs     f0, 0x24(r29)
-	lfs      f0, 8(r1)
-	fmuls    f0, f0, f31
-	stfs     f0, 8(r29)
-	lfs      f0, 0xc(r1)
-	fmuls    f0, f0, f31
-	stfs     f0, 0x18(r29)
-	lfs      f0, 0x10(r1)
-	fmuls    f0, f0, f31
-	stfs     f0, 0x28(r29)
-
-lbl_8038418C:
-	addi     r30, r30, 2
-	addi     r28, r28, 1
-
-lbl_80384194:
-	lwz      r0, 0x2cc(r31)
-	cmpw     r28, r0
-	blt      lbl_80383EE4
-
-lbl_803841A0:
-	li       r0, 0
-	stw      r0, curU__Q24Game8UmiMushi@sda21(r13)
-	psq_l    f31, 72(r1), 0, qr0
-	lwz      r0, 0x54(r1)
-	lfd      f31, 0x40(r1)
-	lwz      r31, 0x3c(r1)
-	lwz      r30, 0x38(r1)
-	lwz      r29, 0x34(r1)
-	lwz      r28, 0x30(r1)
-	mtlr     r0
-	addi     r1, r1, 0x50
-	blr
-	*/
+			worldMtx[0][2] = vec2.x * mtxFactor;
+			worldMtx[1][2] = vec2.y * mtxFactor;
+			worldMtx[2][2] = vec2.z * mtxFactor;
+		}
+	}
+	curU = nullptr;
 }
 
 /*
@@ -1793,23 +836,10 @@ lbl_803841A0:
  * Address:	803841D0
  * Size:	000034
  */
-void UmiMushi::Obj::doAnimationCullingOn(void)
+void Obj::doAnimationCullingOn()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	bl       doAnimationCullingOn__Q24Game9EnemyBaseFv
-	mr       r3, r31
-	bl       createColorEffect__Q34Game8UmiMushi3ObjFv
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	EnemyBase::doAnimationCullingOn();
+	createColorEffect();
 }
 
 /*
@@ -1817,74 +847,26 @@ void UmiMushi::Obj::doAnimationCullingOn(void)
  * Address:	80384204
  * Size:	000004
  */
-void UmiMushi::Obj::doDirectDraw(Graphics&) { }
+void Obj::doDirectDraw(Graphics& gfx) { }
 
 /*
  * --INFO--
  * Address:	80384208
  * Size:	000020
  */
-void UmiMushi::Obj::doDebugDraw(Graphics&)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	bl       doDebugDraw__Q24Game9EnemyBaseFR8Graphics
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void Obj::doDebugDraw(Graphics& gfx) { EnemyBase::doDebugDraw(gfx); }
 
 /*
  * --INFO--
  * Address:	80384228
  * Size:	000098
  */
-void UmiMushi::Obj::changeMaterial(void)
+void Obj::changeMaterial()
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	li       r4, 0
-	stw      r0, 0x24(r1)
-	addi     r5, r1, 8
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	mr       r30, r3
-	lwz      r3, 0x174(r3)
-	lha      r0, 0x314(r30)
-	lwz      r31, 8(r3)
-	sth      r0, 8(r1)
-	lha      r0, 0x316(r30)
-	sth      r0, 0xa(r1)
-	lha      r0, 0x318(r30)
-	sth      r0, 0xc(r1)
-	lha      r0, 0x31a(r30)
-	sth      r0, 0xe(r1)
-	lwz      r3, 0x310(r30)
-	lwz      r3, 0x2c(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x64(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x354(r30)
-	lfs      f1, lbl_8051EDAC@sda21(r2)
-	bl       animate__Q23Sys15MatBaseAnimatorFf
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	J3DModel* model = mModel->mJ3dModel;
+	_310->mTevBlock->setTevColor(0, _314);
+	model->calcMaterial();
+	_354->animate(30.0f);
 }
 
 /*
@@ -1892,65 +874,17 @@ void UmiMushi::Obj::changeMaterial(void)
  * Address:	803842C0
  * Size:	0000DC
  */
-void UmiMushi::Obj::doStartMovie(void)
+void Obj::doStartMovie()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r3, 0x364(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x368(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x36c(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x370(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x374(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x378(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x37c(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x380(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x40(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x384(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x40(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mEfxHamon->startDemoDrawOff();
+	mEfxWeakRed->startDemoDrawOff();
+	mEfxWeakBlue->startDemoDrawOff();
+	mEfxEyeRed[0]->startDemoDrawOff();
+	mEfxEyeRed[1]->startDemoDrawOff();
+	mEfxEyeBlue[0]->startDemoDrawOff();
+	mEfxEyeBlue[1]->startDemoDrawOff();
+	mEfxEat->startDemoDrawOff();
+	mEfxBubble->startDemoDrawOff();
 }
 
 /*
@@ -1958,65 +892,17 @@ void UmiMushi::Obj::doStartMovie(void)
  * Address:	8038439C
  * Size:	0000DC
  */
-void UmiMushi::Obj::doEndMovie(void)
+void Obj::doEndMovie()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r3, 0x364(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x368(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x36c(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x370(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x374(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x378(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x37c(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x380(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x44(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x384(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x44(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mEfxHamon->endDemoDrawOn();
+	mEfxWeakRed->endDemoDrawOn();
+	mEfxWeakBlue->endDemoDrawOn();
+	mEfxEyeRed[0]->endDemoDrawOn();
+	mEfxEyeRed[1]->endDemoDrawOn();
+	mEfxEyeBlue[0]->endDemoDrawOn();
+	mEfxEyeBlue[1]->endDemoDrawOn();
+	mEfxEat->endDemoDrawOn();
+	mEfxBubble->endDemoDrawOn();
 }
 
 /*
@@ -2024,46 +910,15 @@ void UmiMushi::Obj::doEndMovie(void)
  * Address:	80384478
  * Size:	000090
  */
-void UmiMushi::Obj::getShadowParam(Game::ShadowParam&)
+void Obj::getShadowParam(ShadowParam& parms)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	lwz      r3, 0x2d4(r3)
-	bl       getWorldMatrix__Q28SysShape5JointFv
-	lfs      f0, 0xc(r3)
-	lfs      f5, lbl_8051EDB0@sda21(r2)
-	stfs     f0, 0(r31)
-	lfs      f3, lbl_8051EDA0@sda21(r2)
-	lfs      f0, 0x1c(r3)
-	lfs      f2, lbl_8051ED90@sda21(r2)
-	stfs     f0, 4(r31)
-	lfs      f0, lbl_8051EDB4@sda21(r2)
-	lfs      f4, 0x2c(r3)
-	lfs      f1, lbl_8051EDB8@sda21(r2)
-	stfs     f4, 8(r31)
-	lfs      f4, 0x190(r30)
-	fadds    f4, f5, f4
-	stfs     f4, 4(r31)
-	stfs     f3, 0xc(r31)
-	stfs     f2, 0x10(r31)
-	stfs     f3, 0x14(r31)
-	stfs     f0, 0x18(r31)
-	lfs      f0, 0x1f8(r30)
-	fmuls    f0, f1, f0
-	stfs     f0, 0x1c(r31)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mHeadJoint->getWorldMatrix()->getTranslation(parms.mPosition);
+	parms.mPosition.y                 = mPosition.y + 5.0f;
+	parms.mBoundingSphere.mPosition.x = 0.0f;
+	parms.mBoundingSphere.mPosition.y = 1.0f;
+	parms.mBoundingSphere.mPosition.z = 0.0f;
+	parms.mBoundingSphere.mRadius     = 10.0f;
+	parms.mSize                       = mScaleModifier * 80.0f;
 }
 
 /*
@@ -2071,28 +926,13 @@ void UmiMushi::Obj::getShadowParam(Game::ShadowParam&)
  * Address:	80384508
  * Size:	000040
  */
-void UmiMushi::Obj::doSimulation(float)
+void Obj::doSimulation(f32 speed)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lwz      r4, 0x2e0(r3)
-	addi     r0, r4, -1
-	stw      r0, 0x2e0(r3)
-	lwz      r0, 0x2e0(r3)
-	cmpwi    r0, 0
-	bge      lbl_80384534
-	li       r0, 0
-	stw      r0, 0x2e0(r3)
-
-lbl_80384534:
-	bl       doSimulation__Q24Game9EnemyBaseFf
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	--_2E0;
+	if (_2E0 < 0) {
+		_2E0 = 0;
+	}
+	EnemyBase::doSimulation(speed);
 }
 
 /*
@@ -2100,109 +940,27 @@ lbl_80384534:
  * Address:	80384548
  * Size:	000164
  */
-void UmiMushi::Obj::damageCallBack(Game::Creature*, float, CollPart*)
+bool Obj::damageCallBack(Creature* creature, f32 strength, CollPart* part)
 {
-	/*
-	stwu     r1, -0x40(r1)
-	mflr     r0
-	stw      r0, 0x44(r1)
-	stfd     f31, 0x30(r1)
-	psq_st   f31, 56(r1), 0, qr0
-	stw      r31, 0x2c(r1)
-	stw      r30, 0x28(r1)
-	stw      r29, 0x24(r1)
-	lwz      r0, 0x1e0(r3)
-	fmr      f31, f1
-	mr       r29, r3
-	mr       r30, r4
-	rlwinm.  r0, r0, 0, 0x16, 0x16
-	mr       r31, r5
-	beq      lbl_80384594
-	lfs      f2, lbl_8051ED90@sda21(r2)
-	bl       addDamage__Q24Game9EnemyBaseFff
-	li       r3, 1
-	b        lbl_80384688
-
-lbl_80384594:
-	cmplwi   r30, 0
-	bne      lbl_803845B8
-	lis      r3, lbl_80493B00@ha
-	lis      r5, lbl_80493B10@ha
-	addi     r3, r3, lbl_80493B00@l
-	li       r4, 0x2a6
-	addi     r5, r5, lbl_80493B10@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803845B8:
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	cmplwi   r31, 0
-	beq      lbl_80384618
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0xa8(r12)
-	mtctr    r12
-	bctrl
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_80384684
-	mr       r3, r30
-	bl       isStickTo__Q24Game8CreatureFv
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_80384684
-	fmr      f1, f31
-	lfs      f2, lbl_8051ED90@sda21(r2)
-	mr       r3, r29
-	bl       addDamage__Q24Game9EnemyBaseFff
-	li       r3, 1
-	b        lbl_80384688
-
-lbl_80384618:
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0xa8(r12)
-	mtctr    r12
-	bctrl
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_80384684
-	mr       r4, r30
-	addi     r3, r1, 8
-	lwz      r12, 0(r30)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	lfs      f1, lbl_8051ED98@sda21(r2)
-	lfs      f0, 0x190(r29)
-	lfs      f2, 0xc(r1)
-	fadds    f0, f1, f0
-	fcmpo    cr0, f2, f0
-	bge      lbl_80384684
-	lwz      r4, 0xc0(r29)
-	mr       r3, r29
-	lfs      f2, lbl_8051ED90@sda21(r2)
-	lfs      f0, 0x81c(r4)
-	fmuls    f1, f31, f0
-	bl       addDamage__Q24Game9EnemyBaseFff
-	li       r3, 1
-	b        lbl_80384688
-
-lbl_80384684:
-	li       r3, 0
-
-lbl_80384688:
-	psq_l    f31, 56(r1), 0, qr0
-	lwz      r0, 0x44(r1)
-	lfd      f31, 0x30(r1)
-	lwz      r31, 0x2c(r1)
-	lwz      r30, 0x28(r1)
-	lwz      r29, 0x24(r1)
-	mtlr     r0
-	addi     r1, r1, 0x40
-	blr
-	*/
+	if (isEvent(0, EB_IsBittered)) {
+		addDamage(strength, 1.0f);
+		return true;
+	}
+	P2ASSERTLINE(678, creature);
+	creature->isPiki();
+	Piki* piki = static_cast<Piki*>(creature);
+	if (part) {
+		if (piki->isAlive() && piki->isStickTo()) {
+			addDamage(strength, 1.0f);
+			return true;
+		}
+	} else {
+		if (piki->isAlive() && piki->getPosition().y < mPosition.y + 50.0f) {
+			addDamage(strength * C_PROPERPARMS.mDamageRate.mValue, 1.0f);
+			return true;
+		}
+	}
+	return false;
 }
 
 /*
@@ -2210,61 +968,18 @@ lbl_80384688:
  * Address:	803846AC
  * Size:	0000BC
  */
-void UmiMushi::Obj::pressCallBack(Game::Creature*, float, CollPart*)
+bool Obj::pressCallBack(Creature* creature, f32 strength, CollPart* part)
 {
-	/*
-	stwu     r1, -0x30(r1)
-	mflr     r0
-	stw      r0, 0x34(r1)
-	stfd     f31, 0x20(r1)
-	psq_st   f31, 40(r1), 0, qr0
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	or.      r30, r4, r4
-	fmr      f31, f1
-	mr       r29, r3
-	mr       r31, r5
-	bne      lbl_803846FC
-	lis      r3, lbl_80493B00@ha
-	lis      r5, lbl_80493B10@ha
-	addi     r3, r3, lbl_80493B00@l
-	li       r4, 0x2ca
-	addi     r5, r5, lbl_80493B10@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
 
-lbl_803846FC:
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_80384730
-	lbz      r0, 0x2b8(r30)
-	cmpwi    r0, 3
-	bne      lbl_80384730
-	lwz      r3, 0xc0(r29)
-	lfs      f0, 0x90c(r3)
-	fmuls    f31, f31, f0
+	P2ASSERTLINE(714, creature);
+	if (creature->isPiki()) {
+		Piki* piki = static_cast<Piki*>(creature);
 
-lbl_80384730:
-	fmr      f1, f31
-	mr       r3, r29
-	mr       r4, r30
-	mr       r5, r31
-	bl       pressCallBack__Q24Game9EnemyBaseFPQ24Game8CreaturefP8CollPart
-	psq_l    f31, 40(r1), 0, qr0
-	lwz      r0, 0x34(r1)
-	lfd      f31, 0x20(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x30
-	blr
-	*/
+		if ((int)piki->mPikiKind == Purple) {
+			strength *= C_PROPERPARMS.mPurpleDamageRate.mValue;
+		}
+	}
+	return EnemyBase::pressCallBack(creature, strength, part);
 }
 
 /*
@@ -2272,61 +987,17 @@ lbl_80384730:
  * Address:	80384768
  * Size:	0000BC
  */
-void UmiMushi::Obj::hipdropCallBack(Game::Creature*, float, CollPart*)
+bool Obj::hipdropCallBack(Creature* creature, f32 strength, CollPart* part)
 {
-	/*
-	stwu     r1, -0x30(r1)
-	mflr     r0
-	stw      r0, 0x34(r1)
-	stfd     f31, 0x20(r1)
-	psq_st   f31, 40(r1), 0, qr0
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	or.      r30, r4, r4
-	fmr      f31, f1
-	mr       r29, r3
-	mr       r31, r5
-	bne      lbl_803847B8
-	lis      r3, lbl_80493B00@ha
-	lis      r5, lbl_80493B10@ha
-	addi     r3, r3, lbl_80493B00@l
-	li       r4, 0x2dd
-	addi     r5, r5, lbl_80493B10@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	P2ASSERTLINE(733, creature);
+	if (creature->isPiki()) {
+		Piki* piki = static_cast<Piki*>(creature);
 
-lbl_803847B8:
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_803847EC
-	lbz      r0, 0x2b8(r30)
-	cmpwi    r0, 3
-	bne      lbl_803847EC
-	lwz      r3, 0xc0(r29)
-	lfs      f0, 0x90c(r3)
-	fmuls    f31, f31, f0
-
-lbl_803847EC:
-	fmr      f1, f31
-	mr       r3, r29
-	mr       r4, r30
-	mr       r5, r31
-	bl       hipdropCallBack__Q24Game9EnemyBaseFPQ24Game8CreaturefP8CollPart
-	psq_l    f31, 40(r1), 0, qr0
-	lwz      r0, 0x34(r1)
-	lfd      f31, 0x20(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x30
-	blr
-	*/
+		if ((int)piki->mPikiKind == Purple) {
+			strength *= C_PROPERPARMS.mPurpleDamageRate.mValue;
+		}
+	}
+	return EnemyBase::hipdropCallBack(creature, strength, part);
 }
 
 /*
@@ -2334,57 +1005,14 @@ lbl_803847EC:
  * Address:	80384824
  * Size:	0000AC
  */
-void UmiMushi::Obj::earthquakeCallBack(Game::Creature*, float)
+bool Obj::earthquakeCallBack(Creature* creature, f32 damage)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stfd     f31, 0x10(r1)
-	psq_st   f31, 24(r1), 0, qr0
-	stw      r31, 0xc(r1)
-	stw      r30, 8(r1)
-	or.      r31, r4, r4
-	fmr      f31, f1
-	mr       r30, r3
-	bne      lbl_8038486C
-	lis      r3, lbl_80493B00@ha
-	lis      r5, lbl_80493B10@ha
-	addi     r3, r3, lbl_80493B00@l
-	li       r4, 0x2f0
-	addi     r5, r5, lbl_80493B10@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	P2ASSERTLINE(752, creature);
+	if (creature->isPiki() && (int)static_cast<Piki*>(creature)->mPikiKind == Purple) {
+		damage *= C_PROPERPARMS.mPurpleDamageRate.mValue;
+	}
 
-lbl_8038486C:
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	clrlwi.  r0, r3, 0x18
-	beq      lbl_803848A0
-	lbz      r0, 0x2b8(r31)
-	cmpwi    r0, 3
-	bne      lbl_803848A0
-	lwz      r3, 0xc0(r30)
-	lfs      f0, 0x90c(r3)
-	fmuls    f31, f31, f0
-
-lbl_803848A0:
-	fmr      f1, f31
-	mr       r3, r30
-	mr       r4, r31
-	bl       earthquakeCallBack__Q24Game9EnemyBaseFPQ24Game8Creaturef
-	psq_l    f31, 24(r1), 0, qr0
-	lwz      r0, 0x24(r1)
-	lfd      f31, 0x10(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	return EnemyBase::earthquakeCallBack(creature, damage);
 }
 
 /*
@@ -2392,113 +1020,29 @@ lbl_803848A0:
  * Address:	803848D0
  * Size:	000020
  */
-void UmiMushi::Obj::collisionCallback(Game::CollEvent&)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	bl       collisionCallback__Q24Game9EnemyBaseFRQ24Game9CollEvent
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void Obj::collisionCallback(CollEvent& event) { EnemyBase::collisionCallback(event); }
 
 /*
  * --INFO--
  * Address:	803848F0
  * Size:	000130
  */
-void UmiMushi::Obj::initMouthSlots(void)
+void Obj::initMouthSlots()
 {
-	/*
-	stwu     r1, -0x50(r1)
-	mflr     r0
-	stw      r0, 0x54(r1)
-	stfd     f31, 0x40(r1)
-	psq_st   f31, 72(r1), 0, qr0
-	stw      r31, 0x3c(r1)
-	stw      r30, 0x38(r1)
-	stw      r29, 0x34(r1)
-	stw      r28, 0x30(r1)
-	mr       r28, r3
-	li       r4, 7
-	addi     r3, r28, 0x2cc
-	bl       alloc__10MouthSlotsFi
-	lis      r4, lbl_80493BD0@ha
-	li       r3, 0xe
-	addi     r10, r4, lbl_80493BD0@l
-	lwz      r9, 0(r10)
-	lwz      r8, 4(r10)
-	lwz      r7, 8(r10)
-	lwz      r6, 0xc(r10)
-	lwz      r5, 0x10(r10)
-	lwz      r4, 0x14(r10)
-	lwz      r0, 0x18(r10)
-	stw      r9, 8(r1)
-	stw      r8, 0xc(r1)
-	stw      r7, 0x10(r1)
-	stw      r6, 0x14(r1)
-	stw      r5, 0x18(r1)
-	stw      r4, 0x1c(r1)
-	stw      r0, 0x20(r1)
-	bl       __nwa__FUl
-	stw      r3, 0x3a0(r28)
-	addi     r31, r1, 8
-	li       r29, 0
-	li       r30, 0
-	b        lbl_803849EC
+	mMouthSlots.alloc(7);
+	char* mouthSlotNames[7] = { "kamu_joint1", "kamu_joint2", "kamu_joint3", "kamu_joint4", "kamu_joint5", "kamu_joint6", "kamu_joint7" };
+	mJointIndices           = new u16[7];
 
-lbl_80384980:
-	lwz      r5, 0x174(r28)
-	mr       r4, r29
-	lwz      r6, 0(r31)
-	addi     r3, r28, 0x2cc
-	bl       setup__10MouthSlotsFiPQ28SysShape5ModelPc
-	lwz      r3, 0x174(r28)
-	lwz      r4, 0(r31)
-	bl       getJointIndex__Q28SysShape5ModelFPc
-	lwz      r4, 0x3a0(r28)
-	sthx     r3, r4, r30
-	lwz      r0, 0x39c(r28)
-	cmpwi    r0, 0x65
-	bne      lbl_803849CC
-	lfs      f31, lbl_8051EDBC@sda21(r2)
-	mr       r4, r29
-	addi     r3, r28, 0x2cc
-	bl       getSlot__10MouthSlotsFi
-	stfs     f31, 0x1c(r3)
-	b        lbl_803849E0
-
-lbl_803849CC:
-	lfs      f31, lbl_8051EDAC@sda21(r2)
-	mr       r4, r29
-	addi     r3, r28, 0x2cc
-	bl       getSlot__10MouthSlotsFi
-	stfs     f31, 0x1c(r3)
-
-lbl_803849E0:
-	addi     r31, r31, 4
-	addi     r30, r30, 2
-	addi     r29, r29, 1
-
-lbl_803849EC:
-	lwz      r0, 0x2cc(r28)
-	cmpw     r29, r0
-	blt      lbl_80384980
-	psq_l    f31, 72(r1), 0, qr0
-	lwz      r0, 0x54(r1)
-	lfd      f31, 0x40(r1)
-	lwz      r31, 0x3c(r1)
-	lwz      r30, 0x38(r1)
-	lwz      r29, 0x34(r1)
-	lwz      r28, 0x30(r1)
-	mtlr     r0
-	addi     r1, r1, 0x50
-	blr
-	*/
+	for (int i = 0; i < mMouthSlots.getMax(); i++) {
+		mMouthSlots.setup(i, mModel, mouthSlotNames[i]);
+		u32 jointIdx     = mModel->getJointIndex(mouthSlotNames[i]);
+		mJointIndices[i] = jointIdx;
+		if (mBloysterType == EnemyTypeID::EnemyID_UmiMushiBlind) {
+			mMouthSlots.getSlot(i)->mRadius = 25.0f;
+		} else {
+			mMouthSlots.getSlot(i)->mRadius = 30.0f;
+		}
+	}
 }
 
 /*
@@ -2506,47 +1050,13 @@ lbl_803849EC:
  * Address:	80384A20
  * Size:	000094
  */
-void UmiMushi::Obj::doStartStoneState(void)
+void Obj::doStartStoneState()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	bl       doStartStoneState__Q24Game9EnemyBaseFv
-	lis      r4, 0x68656164@ha
-	lwz      r3, 0x114(r31)
-	addi     r4, r4, 0x68656164@l
-	bl       getCollPart__8CollTreeFUl
-	lis      r4, 0x73745F5F@ha
-	addi     r3, r3, 0x3c
-	addi     r4, r4, 0x73745F5F@l
-	bl       __as__4ID32FUl
-	lis      r4, 0x6B757469@ha
-	lwz      r3, 0x114(r31)
-	addi     r4, r4, 0x6B757469@l
-	bl       getCollPart__8CollTreeFUl
-	lis      r4, 0x73745F5F@ha
-	addi     r3, r3, 0x3c
-	addi     r4, r4, 0x73745F5F@l
-	bl       __as__4ID32FUl
-	lis      r4, 0x6B657475@ha
-	lwz      r3, 0x114(r31)
-	addi     r4, r4, 0x6B657475@l
-	bl       getCollPart__8CollTreeFUl
-	lis      r4, 0x73745F5F@ha
-	addi     r3, r3, 0x3c
-	addi     r4, r4, 0x73745F5F@l
-	bl       __as__4ID32FUl
-	mr       r3, r31
-	bl       fadeAllEffect__Q34Game8UmiMushi3ObjFv
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	EnemyBase::doStartStoneState();
+	mCollTree->getCollPart('head')->mSpecialID = 'st__';
+	mCollTree->getCollPart('kuti')->mSpecialID = 'st__';
+	mCollTree->getCollPart('ketu')->mSpecialID = 'st__';
+	fadeAllEffect();
 }
 
 /*
@@ -2554,58 +1064,16 @@ void UmiMushi::Obj::doStartStoneState(void)
  * Address:	80384AB4
  * Size:	0000BC
  */
-void UmiMushi::Obj::doFinishStoneState(void)
+void Obj::doFinishStoneState()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	bl       doFinishStoneState__Q24Game9EnemyBaseFv
-	lis      r4, 0x68656164@ha
-	lwz      r3, 0x114(r31)
-	addi     r4, r4, 0x68656164@l
-	bl       getCollPart__8CollTreeFUl
-	lis      r4, 0x5F5F5F5F@ha
-	addi     r3, r3, 0x3c
-	addi     r4, r4, 0x5F5F5F5F@l
-	bl       __as__4ID32FUl
-	lis      r4, 0x6B757469@ha
-	lwz      r3, 0x114(r31)
-	addi     r4, r4, 0x6B757469@l
-	bl       getCollPart__8CollTreeFUl
-	lis      r4, 0x5F5F5F5F@ha
-	addi     r3, r3, 0x3c
-	addi     r4, r4, 0x5F5F5F5F@l
-	bl       __as__4ID32FUl
-	lis      r4, 0x6B657475@ha
-	lwz      r3, 0x114(r31)
-	addi     r4, r4, 0x6B657475@l
-	bl       getCollPart__8CollTreeFUl
-	lis      r4, 0x5F5F5F5F@ha
-	addi     r3, r3, 0x3c
-	addi     r4, r4, 0x5F5F5F5F@l
-	bl       __as__4ID32FUl
-	lwz      r5, 0xc0(r31)
-	mr       r3, r31
-	lfs      f4, lbl_8051EDC0@sda21(r2)
-	li       r4, 0
-	lfs      f1, 0x53c(r5)
-	lfs      f2, 0x4c4(r5)
-	lfs      f3, 0x4ec(r5)
-	bl
-	"flickStickPikmin__Q24Game9EnemyFuncFPQ24Game8CreatureffffP23Condition<Q24Game4Piki>"
-	lfs      f0, lbl_8051EDA0@sda21(r2)
-	mr       r3, r31
-	stfs     f0, 0x20c(r31)
-	bl       createColorEffect__Q34Game8UmiMushi3ObjFv
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	EnemyBase::doFinishStoneState();
+	mCollTree->getCollPart('head')->mSpecialID = '____';
+	mCollTree->getCollPart('kuti')->mSpecialID = '____';
+	mCollTree->getCollPart('ketu')->mSpecialID = '____';
+	EnemyFunc::flickStickPikmin(this, C_PARMS->mGeneral.mShakeRateMaybe.mValue, C_PARMS->mGeneral.mShakeKnockback.mValue,
+	                            C_PARMS->mGeneral.mShakeDamage.mValue, -1000.0f, nullptr);
+	mToFlick = 0.0f;
+	createColorEffect();
 }
 
 /*
@@ -2613,52 +1081,19 @@ void UmiMushi::Obj::doFinishStoneState(void)
  * Address:	80384B70
  * Size:	000028
  */
-void UmiMushi::Obj::startCarcassMotion(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	li       r4, 8
-	li       r5, 0
-	stw      r0, 0x14(r1)
-	bl       startMotion__Q24Game9EnemyBaseFiPQ28SysShape14MotionListener
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void Obj::startCarcassMotion() { EnemyBase::startMotion(8, nullptr); }
 
 /*
  * --INFO--
  * Address:	80384B98
  * Size:	00004C
  */
-void UmiMushi::Obj::doGetLifeGaugeParam(Game::LifeGaugeParam&)
+void Obj::doGetLifeGaugeParam(LifeGaugeParam& settings)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	bl       doGetLifeGaugeParam__Q24Game9EnemyBaseFRQ24Game14LifeGaugeParam
-	lwz      r0, 0x39c(r30)
-	cmpwi    r0, 0x65
-	bne      lbl_80384BCC
-	lfs      f0, lbl_8051EDC4@sda21(r2)
-	stfs     f0, 4(r31)
-
-lbl_80384BCC:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	EnemyBase::doGetLifeGaugeParam(settings);
+	if (mBloysterType == EnemyTypeID::EnemyID_UmiMushiBlind) {
+		settings.mPosition.y = 60.0f;
+	}
 }
 
 /*
@@ -2666,35 +1101,14 @@ lbl_80384BCC:
  * Address:	80384BE4
  * Size:	00005C
  */
-void UmiMushi::Obj::isReachToGoal(float)
+bool Obj::isReachToGoal(f32 radius)
 {
-	/*
-	lwz      r4, 0x2f4(r3)
-	addi     r0, r4, 1
-	stw      r0, 0x2f4(r3)
-	lwz      r0, 0x2f4(r3)
-	cmpwi    r0, 0x320
-	ble      lbl_80384C0C
-	li       r0, 0
-	stw      r0, 0x2f4(r3)
-	li       r3, 1
-	blr
-
-lbl_80384C0C:
-	fmuls    f0, f1, f1
-	lfs      f2, 0x194(r3)
-	lfs      f1, 0x2c4(r3)
-	lfs      f3, 0x18c(r3)
-	fsubs    f2, f2, f1
-	lfs      f1, 0x2bc(r3)
-	fsubs    f3, f3, f1
-	fmuls    f1, f2, f2
-	fmadds   f1, f3, f3, f1
-	fcmpo    cr0, f1, f0
-	mfcr     r0
-	srwi     r3, r0, 0x1f
-	blr
-	*/
+	_2F4++;
+	if (_2F4 > 800) {
+		_2F4 = 0;
+		return true;
+	}
+	return sqrDistanceXZ(mPosition, _2BC) < SQUARE(radius); // how is this not matching >:O
 }
 
 /*
@@ -2702,242 +1116,71 @@ lbl_80384C0C:
  * Address:	80384C40
  * Size:	000358
  */
-void UmiMushi::Obj::walkFunc(void)
+void Obj::walkFunc()
 {
-	/*
-	stwu     r1, -0xa0(r1)
-	mflr     r0
-	stw      r0, 0xa4(r1)
-	stfd     f31, 0x90(r1)
-	psq_st   f31, 152(r1), 0, qr0
-	stfd     f30, 0x80(r1)
-	psq_st   f30, 136(r1), 0, qr0
-	stfd     f29, 0x70(r1)
-	psq_st   f29, 120(r1), 0, qr0
-	stfd     f28, 0x60(r1)
-	psq_st   f28, 104(r1), 0, qr0
-	stfd     f27, 0x50(r1)
-	psq_st   f27, 88(r1), 0, qr0
-	stw      r31, 0x4c(r1)
-	mr       r31, r3
-	lfs      f0, lbl_8051EDC8@sda21(r2)
-	lwz      r3, 0xc0(r3)
-	lfs      f2, 0x2fc(r31)
-	lfs      f1, 0xa20(r3)
-	lfs      f30, 0x2e4(r3)
-	fadds    f1, f2, f1
-	lfs      f27, 0xa1c(r3)
-	lfs      f29, 0x30c(r3)
-	lfs      f28, 0x334(r3)
-	stfs     f1, 0x2fc(r31)
-	lfs      f1, 0x2fc(r31)
-	fcmpo    cr0, f1, f0
-	ble      lbl_80384CB8
-	fsubs    f0, f1, f0
-	stfs     f0, 0x2fc(r31)
+	f32 speed         = C_PARMS->mGeneral.mMoveSpeed.mValue;
+	f32 inA1C         = C_PARMS->_A1C;
+	f32 rotationAccel = C_PARMS->mGeneral.mRotationalAccel.mValue;
+	f32 rotationSpeed = C_PARMS->mGeneral.mRotationalSpeed.mValue;
 
-lbl_80384CB8:
-	lfs      f1, 0x2fc(r31)
-	bl       sin
-	lwz      r3, 0xc0(r31)
-	frsp     f0, f1
-	lbz      r0, 0xa10(r3)
-	fmuls    f2, f27, f0
-	cmplwi   r0, 0
-	bne      lbl_80384CDC
-	lfs      f2, lbl_8051EDA0@sda21(r2)
+	_2FC += C_PARMS->_A20;
+	if (_2FC > 360.0f) {
+		_2FC -= 360.0f;
+	}
 
-lbl_80384CDC:
-	lfs      f0, 0x2f8(r31)
-	mr       r4, r31
-	lfs      f1, lbl_8051EDD0@sda21(r2)
-	addi     r3, r1, 0x14
-	stfs     f0, 0x1fc(r31)
-	fmuls    f0, f1, f2
-	lfs      f1, lbl_8051EDCC@sda21(r2)
-	lwz      r12, 0(r31)
-	lwz      r12, 8(r12)
-	fmuls    f31, f1, f0
-	mtctr    r12
-	bctrl
-	lfs      f5, 0x14(r1)
-	lis      r3, atanTable___5JMath@ha
-	lfs      f3, 0x1c(r1)
-	addi     r3, r3, atanTable___5JMath@l
-	lfs      f1, 0x2bc(r31)
-	lfs      f0, 0x2c4(r31)
-	lfs      f4, 0x18(r1)
-	fsubs    f1, f1, f5
-	fsubs    f2, f0, f3
-	stfs     f5, 8(r1)
-	stfs     f4, 0xc(r1)
-	stfs     f3, 0x10(r1)
-	bl       "atan2___Q25JMath18TAtanTable<1024,f>CFff"
-	bl       roundAng__Ff
-	lwz      r12, 0(r31)
-	fmr      f27, f1
-	mr       r3, r31
-	lwz      r12, 0x64(r12)
-	mtctr    r12
-	bctrl
-	fmr      f2, f1
-	fmr      f1, f27
-	bl       angDist__Fff
-	fmuls    f29, f1, f29
-	lfs      f0, lbl_8051EDD0@sda21(r2)
-	lfs      f1, lbl_8051EDCC@sda21(r2)
-	fmuls    f0, f0, f28
-	fabs     f2, f29
-	fmuls    f1, f1, f0
-	frsp     f0, f2
-	fcmpo    cr0, f0, f1
-	ble      lbl_80384DA4
-	lfs      f0, lbl_8051EDA0@sda21(r2)
-	fcmpo    cr0, f29, f0
-	ble      lbl_80384DA0
-	fmr      f29, f1
-	b        lbl_80384DA4
+	f32 somethingRotation = sin(_2FC);
+	f32 idk               = inA1C * somethingRotation;
+	if (!C_PARMS->_A10) {
+		idk = 0.0f;
+	}
+	mFaceDir            = _2F8;
+	f32 faceDirRads     = idk * PI * DEG2RAD;
+	Vector3f position   = getPosition();
+	Vector2f stupidVec2 = Vector2f(position.x - _2BC.x, position.z - _2BC.z);
+	f32 tailAngMaybe    = JMath::atanTable_.atan2_(stupidVec2.x, stupidVec2.y);
+	tailAngMaybe        = roundAng(tailAngMaybe);
+	f32 faceDir         = getFaceDir();
+	angDist(tailAngMaybe, faceDir);
 
-lbl_80384DA0:
-	fneg     f29, f1
+	f32 totalRotation        = tailAngMaybe * rotationAccel;
+	f32 rotationSpeedRadians = rotationSpeed * PI * DEG2RAD;
+	f32 rotationAmount       = totalRotation;
+	if (rotationSpeedRadians < FABS(totalRotation)) {
+		rotationAmount = rotationSpeedRadians;
+		if (totalRotation <= 0.0f) {
+			totalRotation = -totalRotation;
+		}
+	}
 
-lbl_80384DA4:
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x64(r12)
-	mtctr    r12
-	bctrl
-	fadds    f1, f29, f1
-	bl       roundAng__Ff
-	stfs     f1, 0x1fc(r31)
-	lfs      f0, lbl_8051EDA0@sda21(r2)
-	lfs      f1, 0x1fc(r31)
-	stfs     f1, 0x1a8(r31)
-	lfs      f4, 0x1fc(r31)
-	fadds    f3, f4, f31
-	fcmpo    cr0, f3, f0
-	bge      lbl_80384E0C
-	lfs      f0, lbl_8051EDD4@sda21(r2)
-	lis      r3, sincosTable___5JMath@ha
-	addi     r3, r3, sincosTable___5JMath@l
-	fmuls    f0, f3, f0
-	fctiwz   f0, f0
-	stfd     f0, 0x30(r1)
-	lwz      r0, 0x34(r1)
-	rlwinm   r0, r0, 3, 0x12, 0x1c
-	lfsx     f0, r3, r0
-	fneg     f2, f0
-	b        lbl_80384E30
+	faceDir  = getFaceDir();
+	mFaceDir = roundAng(faceDir + totalRotation);
 
-lbl_80384E0C:
-	lfs      f0, lbl_8051EDD8@sda21(r2)
-	lis      r3, sincosTable___5JMath@ha
-	addi     r3, r3, sincosTable___5JMath@l
-	fmuls    f0, f3, f0
-	fctiwz   f0, f0
-	stfd     f0, 0x38(r1)
-	lwz      r0, 0x3c(r1)
-	rlwinm   r0, r0, 3, 0x12, 0x1c
-	lfsx     f2, r3, r0
+	mRotation.y = mFaceDir;
 
-lbl_80384E30:
-	lfs      f0, lbl_8051EDA0@sda21(r2)
-	fmuls    f27, f30, f2
-	lfs      f1, 0x1d4(r31)
-	lfs      f28, 0x1d8(r31)
-	fcmpo    cr0, f3, f0
-	lfs      f0, 0x1dc(r31)
-	stfs     f1, 0x20(r1)
-	stfs     f28, 0x24(r1)
-	stfs     f0, 0x28(r1)
-	bge      lbl_80384E5C
-	fneg     f3, f3
+	f32 deltaFaceDir = faceDirRads + mFaceDir;
 
-lbl_80384E5C:
-	lfs      f0, lbl_8051EDD8@sda21(r2)
-	lis      r3, sincosTable___5JMath@ha
-	addi     r3, r3, sincosTable___5JMath@l
-	fmr      f1, f31
-	fmuls    f0, f3, f0
-	fctiwz   f0, f0
-	stfd     f0, 0x40(r1)
-	lwz      r0, 0x44(r1)
-	rlwinm   r0, r0, 3, 0x12, 0x1c
-	add      r3, r3, r0
-	lfs      f29, 4(r3)
-	stfs     f4, 0x2f8(r31)
-	bl       roundAng__Ff
-	lfs      f2, 0x1fc(r31)
-	fmuls    f0, f30, f29
-	fadds    f1, f2, f1
-	stfs     f1, 0x1fc(r31)
-	lfs      f1, 0x1fc(r31)
-	stfs     f1, 0x1a8(r31)
-	stfs     f27, 0x1d4(r31)
-	stfs     f28, 0x1d8(r31)
-	stfs     f0, 0x1dc(r31)
-	lwz      r3, 0x2f0(r31)
-	addi     r0, r3, 1
-	stw      r0, 0x2f0(r31)
-	lwz      r0, 0x2f0(r31)
-	cmpwi    r0, 0x78
-	ble      lbl_80384F40
-	lfs      f1, 0x194(r31)
-	lfs      f0, 0x2ec(r31)
-	lfs      f2, 0x18c(r31)
-	fsubs    f3, f1, f0
-	lfs      f1, 0x2e4(r31)
-	lfs      f0, lbl_8051EDDC@sda21(r2)
-	fsubs    f2, f2, f1
-	fmuls    f1, f3, f3
-	fmadds   f1, f2, f2, f1
-	fcmpo    cr0, f1, f0
-	bge      lbl_80384F20
-	li       r3, 0x78
-	li       r0, 0
-	stw      r3, 0x2e0(r31)
-	stw      r0, 0x230(r31)
-	lfs      f0, 0x198(r31)
-	stfs     f0, 0x2bc(r31)
-	lfs      f0, 0x19c(r31)
-	stfs     f0, 0x2c0(r31)
-	lfs      f0, 0x1a0(r31)
-	stfs     f0, 0x2c4(r31)
+	f32 sinSmth = pikmin2_sinf(deltaFaceDir) * speed;
+	f32 cosSmth = pikmin2_cosf(deltaFaceDir) * speed;
 
-lbl_80384F20:
-	lfs      f0, 0x18c(r31)
-	li       r0, 0
-	stfs     f0, 0x2e4(r31)
-	lfs      f0, 0x190(r31)
-	stfs     f0, 0x2e8(r31)
-	lfs      f0, 0x194(r31)
-	stfs     f0, 0x2ec(r31)
-	stw      r0, 0x2f0(r31)
+	_2F8 = mFaceDir;
 
-lbl_80384F40:
-	lwz      r3, 0x28c(r31)
-	li       r4, 0x513c
-	li       r5, 0
-	lwz      r12, 0x28(r3)
-	lwz      r12, 0x88(r12)
-	mtctr    r12
-	bctrl
-	psq_l    f31, 152(r1), 0, qr0
-	lfd      f31, 0x90(r1)
-	psq_l    f30, 136(r1), 0, qr0
-	lfd      f30, 0x80(r1)
-	psq_l    f29, 120(r1), 0, qr0
-	lfd      f29, 0x70(r1)
-	psq_l    f28, 104(r1), 0, qr0
-	lfd      f28, 0x60(r1)
-	psq_l    f27, 88(r1), 0, qr0
-	lfd      f27, 0x50(r1)
-	lwz      r0, 0xa4(r1)
-	lwz      r31, 0x4c(r1)
-	mtlr     r0
-	addi     r1, r1, 0xa0
-	blr
-	*/
+	mFaceDir += faceDirRads;
+	mRotation.y = mFaceDir;
+
+	mTargetVelocity = Vector3f(sinSmth, mTargetVelocity.y, cosSmth);
+
+	_2F0++;
+
+	if (_2F0 > 120) {
+		if (sqrDistanceXZ(mPosition, _2E4) < SQUARE(30.0f)) {
+			_2E0            = 120;
+			mTargetCreature = nullptr;
+			_2BC            = mHomePosition;
+		}
+		_2E4 = mPosition;
+		_2F0 = 0;
+	}
+	mSoundObj->startSound(PSSE_EN_UMI_ZURUZURU, 0);
 }
 
 /*
@@ -2945,7 +1188,7 @@ lbl_80384F40:
  * Address:	80384F98
  * Size:	000150
  */
-void UmiMushi::Obj::setNextGoal(void)
+void Obj::setNextGoal()
 {
 	/*
 	stwu     r1, -0x40(r1)
@@ -3048,7 +1291,7 @@ lbl_80385098:
  * Address:	803850E8
  * Size:	000810
  */
-void UmiMushi::Obj::changeColor(void)
+void Obj::changeColor()
 {
 	/*
 	stwu     r1, -0x90(r1)
@@ -3611,7 +1854,7 @@ lbl_803858CC:
  * Address:	803858F8
  * Size:	0001C0
  */
-void UmiMushi::Obj::resetColor(void)
+void Obj::resetColor()
 {
 	/*
 	stwu     r1, -0x80(r1)
@@ -3740,7 +1983,7 @@ lbl_803859AC:
  * Address:	80385AB8
  * Size:	0001BC
  */
-void UmiMushi::Obj::turnFunc(void)
+f32 Obj::turnFunc()
 {
 	/*
 	stwu     r1, -0x70(r1)
@@ -3870,15 +2113,10 @@ lbl_80385C10:
  * Address:	80385C74
  * Size:	000014
  */
-void UmiMushi::Obj::resetWalkParm(void)
+void Obj::resetWalkParm()
 {
-	/*
-	lfs      f1, 0x1fc(r3)
-	lfs      f0, lbl_8051EDA0@sda21(r2)
-	stfs     f1, 0x2f8(r3)
-	stfs     f0, 0x2fc(r3)
-	blr
-	*/
+	_2F8 = mFaceDir;
+	_2FC = 0.0f;
 }
 
 /*
@@ -3886,7 +2124,7 @@ void UmiMushi::Obj::resetWalkParm(void)
  * Address:	80385C88
  * Size:	000248
  */
-void UmiMushi::Obj::isChangeNavi(void)
+bool Obj::isChangeNavi()
 {
 	/*
 	stwu     r1, -0x70(r1)
@@ -4062,7 +2300,7 @@ lbl_80385EA0:
  * Address:	80385ED0
  * Size:	0001D8
  */
-void UmiMushi::Obj::isFindTarget(void)
+bool Obj::isFindTarget()
 {
 	/*
 	stwu     r1, -0x90(r1)
@@ -4203,7 +2441,7 @@ lbl_80386074:
  * Address:	803860A8
  * Size:	000240
  */
-void UmiMushi::Obj::isAttackStart(void)
+bool Obj::isAttackStart()
 {
 	/*
 	stwu     r1, -0xb0(r1)
@@ -4368,7 +2606,7 @@ lbl_803862AC:
  * Address:	803862E8
  * Size:	0001B4
  */
-void UmiMushi::Obj::isNeedTurn(void)
+bool Obj::isNeedTurn()
 {
 	/*
 	stwu     r1, -0x70(r1)
@@ -4494,7 +2732,7 @@ lbl_80386478:
  * Address:	8038649C
  * Size:	00005C
  */
-void UmiMushi::Obj::isOutOfTerritory(float)
+bool Obj::isOutOfTerritory(f32)
 {
 	/*
 	lwz      r4, gameSystem__4Game@sda21(r13)
@@ -4530,7 +2768,7 @@ lbl_803864C0:
  * Address:	........
  * Size:	000044
  */
-void UmiMushi::Obj::returnHome(void)
+void Obj::returnHome()
 {
 	// UNUSED FUNCTION
 }
@@ -4540,7 +2778,7 @@ void UmiMushi::Obj::returnHome(void)
  * Address:	803864F8
  * Size:	00012C
  */
-void UmiMushi::Obj::canMove(void)
+bool Obj::canMove()
 {
 	/*
 	stwu     r1, -0x30(r1)
@@ -4634,7 +2872,7 @@ lbl_80386608:
  * Address:	80386624
  * Size:	000490
  */
-void UmiMushi::Obj::outMove(void)
+bool Obj::outMove()
 {
 	/*
 	stwu     r1, -0xc0(r1)
@@ -4967,7 +3205,7 @@ lbl_80386A70:
  * Address:	80386AB4
  * Size:	000080
  */
-void UmiMushi::Obj::setFindAnim(void)
+void Obj::setFindAnim()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -5014,27 +3252,10 @@ lbl_80386B20:
  * Address:	80386B34
  * Size:	000044
  */
-void UmiMushi::Obj::fadeAllEffect(void)
+void Obj::fadeAllEffect()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r3, 0x364(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x10(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	bl       fadeColorEffect__Q34Game8UmiMushi3ObjFv
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mEfxHamon->fade();
+	fadeColorEffect();
 }
 
 /*
@@ -5042,52 +3263,15 @@ void UmiMushi::Obj::fadeAllEffect(void)
  * Address:	80386B78
  * Size:	0000A8
  */
-void UmiMushi::Obj::fadeColorEffect(void)
+void Obj::fadeColorEffect()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r3, 0x368(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x10(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x36c(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x10(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x370(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x10(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x374(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x10(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x378(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x10(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x37c(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x10(r12)
-	mtctr    r12
-	bctrl
-	li       r0, 0
-	stb      r0, 0x2dc(r31)
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mEfxWeakRed->fade();
+	mEfxWeakBlue->fade();
+	mEfxEyeRed[0]->fade();
+	mEfxEyeRed[1]->fade();
+	mEfxEyeBlue[0]->fade();
+	mEfxEyeBlue[1]->fade();
+	_2DC = false;
 }
 
 /*
@@ -5095,7 +3279,7 @@ void UmiMushi::Obj::fadeColorEffect(void)
  * Address:	80386C20
  * Size:	00010C
  */
-void UmiMushi::Obj::createColorEffect(void)
+void Obj::createColorEffect()
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -5177,7 +3361,7 @@ lbl_80386D18:
  * Address:	80386D2C
  * Size:	0000C0
  */
-void UmiMushi::Obj::attackEffect(void)
+void Obj::attackEffect()
 {
 	/*
 	stwu     r1, -0x40(r1)
@@ -5236,7 +3420,7 @@ void UmiMushi::Obj::attackEffect(void)
  * Address:	80386DEC
  * Size:	0000C0
  */
-void UmiMushi::Obj::meltEffect(void)
+void Obj::meltEffect()
 {
 	/*
 	stwu     r1, -0x40(r1)
@@ -5295,7 +3479,7 @@ void UmiMushi::Obj::meltEffect(void)
  * Address:	80386EAC
  * Size:	00010C
  */
-void UmiMushi::Obj::flickEffect(void)
+void Obj::flickEffect()
 {
 	/*
 	stwu     r1, -0x50(r1)
@@ -5375,38 +3559,11 @@ lbl_80386FA4:
  * Address:	80386FB8
  * Size:	000070
  */
-void UmiMushi::Obj::eatEffect(void)
+void Obj::eatEffect()
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	lis      r4, __vt__Q23efx3Arg@ha
-	stw      r0, 0x24(r1)
-	addi     r0, r4, __vt__Q23efx3Arg@l
-	addi     r4, r1, 8
-	stw      r31, 0x1c(r1)
-	mr       r31, r3
-	stw      r0, 8(r1)
-	lfs      f0, 0x18c(r3)
-	stfs     f0, 0xc(r1)
-	lfs      f0, 0x190(r3)
-	stfs     f0, 0x10(r1)
-	lfs      f0, 0x194(r3)
-	stfs     f0, 0x14(r1)
-	lwz      r3, 0x380(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x380(r31)
-	lfs      f1, 0x1f8(r31)
-	bl       setGlobalScale__Q23efx7TUmiEatFf
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	efx::Arg arg(mPosition);
+	mEfxEat->create(&arg);
+	mEfxEat->setGlobalScale(mScaleModifier);
 }
 
 /*
@@ -5414,38 +3571,11 @@ void UmiMushi::Obj::eatEffect(void)
  * Address:	80387028
  * Size:	000070
  */
-void UmiMushi::Obj::bubbleEffect(void)
+void Obj::bubbleEffect()
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	lis      r4, __vt__Q23efx3Arg@ha
-	stw      r0, 0x24(r1)
-	addi     r0, r4, __vt__Q23efx3Arg@l
-	addi     r4, r1, 8
-	stw      r31, 0x1c(r1)
-	mr       r31, r3
-	stw      r0, 8(r1)
-	lfs      f0, 0x18c(r3)
-	stfs     f0, 0xc(r1)
-	lfs      f0, 0x190(r3)
-	stfs     f0, 0x10(r1)
-	lfs      f0, 0x194(r3)
-	stfs     f0, 0x14(r1)
-	lwz      r3, 0x384(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x384(r31)
-	lfs      f1, 0x1f8(r31)
-	bl       setGlobalScale__Q23efx11TUmiDeadawaFf
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	efx::Arg arg(mPosition);
+	mEfxBubble->create(&arg);
+	mEfxBubble->setGlobalScale(mScaleModifier);
 }
 
 /*
@@ -5453,28 +3583,14 @@ void UmiMushi::Obj::bubbleEffect(void)
  * Address:	80387098
  * Size:	000028
  */
-void UmiMushi::Obj::delShadow(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	mr       r4, r3
-	stw      r0, 0x14(r1)
-	lwz      r3, shadowMgr__4Game@sda21(r13)
-	bl       delNormalShadow__Q24Game9ShadowMgrFPQ24Game8Creature
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void Obj::delShadow() { shadowMgr->delNormalShadow(this); }
 
 /*
  * --INFO--
  * Address:	803870C0
  * Size:	0002C8
  */
-void UmiMushi::Obj::eyeScaleMtxCalc(void)
+void Obj::eyeScaleMtxCalc()
 {
 	/*
 	stwu     r1, -0x40(r1)
@@ -5687,7 +3803,7 @@ lbl_80387358:
  * Address:	80387388
  * Size:	000184
  */
-void UmiMushi::Obj::weakScaleMtxCalc(void)
+void Obj::weakScaleMtxCalc()
 {
 	/*
 	lwz      r4, 0x174(r3)
@@ -5808,313 +3924,5 @@ lbl_803874B8:
 	*/
 }
 
-namespace efx {
-
-/*
- * --INFO--
- * Address:	8038750C
- * Size:	00009C
- */
-TUmiDeadawa::~TUmiDeadawa(void)
-{
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r4
-stw      r30, 8(r1)
-or.      r30, r3, r3
-beq      lbl_8038758C
-lis      r3, __vt__Q23efx11TUmiDeadawa@ha
-addi     r3, r3, __vt__Q23efx11TUmiDeadawa@l
-stw      r3, 0(r30)
-addi     r0, r3, 0x14
-stw      r0, 4(r30)
-beq      lbl_8038757C
-lis      r3, __vt__Q23efx9TChaseMtx@ha
-addi     r3, r3, __vt__Q23efx9TChaseMtx@l
-stw      r3, 0(r30)
-addi     r0, r3, 0x14
-stw      r0, 4(r30)
-beq      lbl_8038757C
-lis      r4, __vt__Q23efx5TSync@ha
-addi     r3, r30, 4
-addi     r5, r4, __vt__Q23efx5TSync@l
-li       r4, 0
-stw      r5, 0(r30)
-addi     r0, r5, 0x14
-stw      r0, 4(r30)
-bl       __dt__18JPAEmitterCallBackFv
-
-lbl_8038757C:
-extsh.   r0, r31
-ble      lbl_8038758C
-mr       r3, r30
-bl       __dl__FPv
-
-lbl_8038758C:
-lwz      r0, 0x14(r1)
-mr       r3, r30
-lwz      r31, 0xc(r1)
-lwz      r30, 8(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803875A8
- * Size:	00009C
- */
-TUmiEat::~TUmiEat(void)
-{
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r4
-stw      r30, 8(r1)
-or.      r30, r3, r3
-beq      lbl_80387628
-lis      r3, __vt__Q23efx7TUmiEat@ha
-addi     r3, r3, __vt__Q23efx7TUmiEat@l
-stw      r3, 0(r30)
-addi     r0, r3, 0x14
-stw      r0, 4(r30)
-beq      lbl_80387618
-lis      r3, __vt__Q23efx9TChaseMtx@ha
-addi     r3, r3, __vt__Q23efx9TChaseMtx@l
-stw      r3, 0(r30)
-addi     r0, r3, 0x14
-stw      r0, 4(r30)
-beq      lbl_80387618
-lis      r4, __vt__Q23efx5TSync@ha
-addi     r3, r30, 4
-addi     r5, r4, __vt__Q23efx5TSync@l
-li       r4, 0
-stw      r5, 0(r30)
-addi     r0, r5, 0x14
-stw      r0, 4(r30)
-bl       __dt__18JPAEmitterCallBackFv
-
-lbl_80387618:
-extsh.   r0, r31
-ble      lbl_80387628
-mr       r3, r30
-bl       __dl__FPv
-
-lbl_80387628:
-lwz      r0, 0x14(r1)
-mr       r3, r30
-lwz      r31, 0xc(r1)
-lwz      r30, 8(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
-}
-
-} // namespace efx
-
-/*
- * --INFO--
- * Address:	80387644
- * Size:	000004
- */
-void UmiMushi::Obj::setInitialSetting(Game::EnemyInitialParamBase*) { }
-
-/*
- * --INFO--
- * Address:	80387648
- * Size:	000004
- */
-void applyImpulse__Q34Game8UmiMushi3ObjFR10Vector3f R10Vector3f(void) { }
-
-/*
- * --INFO--
- * Address:	8038764C
- * Size:	00000C
- */
-void UmiMushi::Obj::getDamageCoeStoneState(void)
-{
-	/*
-	lwz      r3, 0xc0(r3)
-	lfs      f1, 0x81c(r3)
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80387658
- * Size:	000028
- */
-void UmiMushi::Obj::eatWhitePikminCallBack(Game::Creature*, float)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lwz      r5, 0xc0(r3)
-	lfs      f1, 0x95c(r5)
-	bl       eatWhitePikminCallBack__Q24Game9EnemyBaseFPQ24Game8Creaturef
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80387680
- * Size:	000008
- */
-void UmiMushi::Obj::getEnemyTypeID(void)
-{
-	/*
-	lwz      r3, 0x39c(r3)
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80387688
- * Size:	000008
- */
-void UmiMushi::Obj::getMouthSlots(void)
-{
-	/*
-	addi     r3, r3, 0x2cc
-	blr
-	*/
-}
-
+} // namespace UmiMushi
 } // namespace Game
-
-/*
- * --INFO--
- * Address:	80387690
- * Size:	000014
- */
-void @932 @12 @Game::EnemyBase::viewOnPelletKilled(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -932
-	b        viewOnPelletKilled__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803876A4
- * Size:	000014
- */
-void @932 @12 @Game::EnemyBase::viewStartCarryMotion(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -932
-	b        viewStartCarryMotion__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803876B8
- * Size:	000014
- */
-void @932 @12 @Game::EnemyBase::viewStartPreCarryMotion(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -932
-	b        viewStartPreCarryMotion__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803876CC
- * Size:	000014
- */
-void @932 @12 @Game::EnemyBase::view_finish_carrymotion(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -932
-	b        view_finish_carrymotion__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803876E0
- * Size:	000014
- */
-void @932 @12 @Game::EnemyBase::view_start_carrymotion(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -932
-	b        view_start_carrymotion__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803876F4
- * Size:	000014
- */
-void @932 @12 @Game::EnemyBase::viewGetShape(void)
-{
-	/*
-	li       r11, 0xc
-	lwzx     r11, r3, r11
-	add      r3, r3, r11
-	addi     r3, r3, -932
-	b        viewGetShape__Q24Game9EnemyBaseFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80387708
- * Size:	000008
- */
-@4 @efx::TUmiEat::~TUmiEat(void)
-{
-	/*
-	addi     r3, r3, -4
-	b        __dt__Q23efx7TUmiEatFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80387710
- * Size:	000008
- */
-@4 @efx::TUmiDeadawa::~TUmiDeadawa(void)
-{
-	/*
-	addi     r3, r3, -4
-	b        __dt__Q23efx11TUmiDeadawaFv
-	*/
-}

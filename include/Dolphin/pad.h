@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 #include "types.h"
-#include "dolphin/os.h"
+#include "Dolphin/os.h"
 
 typedef struct PADStatus {
 	u16 button;      // Or-ed PAD_BUTTON_* bits
@@ -37,10 +37,11 @@ typedef struct PADStatus {
 #define PAD_BUTTON_MENU  0x1000
 #define PAD_BUTTON_START 0x1000
 
-#define PAD_CHAN0 0
-#define PAD_CHAN1 1
-#define PAD_CHAN2 2
-#define PAD_CHAN3 3
+#define PAD_CHAN0   0
+#define PAD_CHAN1   1
+#define PAD_CHAN2   2
+#define PAD_CHAN3   3
+#define PAD_CHANMAX 4
 
 #define PAD_CHAN0_BIT 0x80000000
 #define PAD_CHAN1_BIT 0x40000000
@@ -79,11 +80,13 @@ BOOL PADReset(u32 mask);
 u32 PADRead(PADStatus* status);
 void PADSetSamplingRate(u32 msec);
 void PADClamp(PADStatus* status);
+void PADClampCircle(PADStatus* status);
 void PADControlAllMotors(u32* command);
 void PADControlMotor(int chan, u32 command);
 BOOL PADRecalibrate(u32 mask);
 BOOL PADSync(void);
 void PADSetAnalogMode(u32 mode);
+void PADSetSpec(u32 spec);
 
 typedef void (*PADSamplingCallback)(void);
 

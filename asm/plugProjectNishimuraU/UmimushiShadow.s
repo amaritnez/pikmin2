@@ -1,58 +1,58 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-.global lbl_8048D1C0
-lbl_8048D1C0:
+.obj lbl_8048D1C0, local
 	.asciz "weak_joint1"
-.global lbl_8048D1CC
-lbl_8048D1CC:
+.endobj lbl_8048D1C0
+.balign 4
+.obj lbl_8048D1CC, local
 	.asciz "weak_joint2"
+.endobj lbl_8048D1CC
 
 .section .data, "wa"  # 0x8049E220 - 0x804EFC20
 .balign 8
-.global __vt__Q24Game24UmimushiSphereShadowNode
-__vt__Q24Game24UmimushiSphereShadowNode:
+.obj __vt__Q24Game24UmimushiSphereShadowNode, weak
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q24Game24UmimushiSphereShadowNodeFv
 	.4byte getChildCount__5CNodeFv
-.global __vt__Q24Game22UmimushiTubeShadowNode
-__vt__Q24Game22UmimushiTubeShadowNode:
+.endobj __vt__Q24Game24UmimushiSphereShadowNode
+.obj __vt__Q24Game22UmimushiTubeShadowNode, weak
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q24Game22UmimushiTubeShadowNodeFv
 	.4byte getChildCount__5CNodeFv
+.endobj __vt__Q24Game22UmimushiTubeShadowNode
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-.global lbl_8051D180
-lbl_8051D180:
+.obj lbl_8051D180, local
 	.float 0.5
-.global lbl_8051D184
-lbl_8051D184:
-	.4byte 0x00000000
-.global lbl_8051D188
-lbl_8051D188:
+.endobj lbl_8051D180
+.obj lbl_8051D184, local
+	.float 0.0
+.endobj lbl_8051D184
+.obj lbl_8051D188, local
 	.float 1.0
-.global lbl_8051D18C
-lbl_8051D18C:
-	.4byte 0x41C80000
-.global lbl_8051D190
-lbl_8051D190:
-	.4byte 0x40200000
-.global lbl_8051D194
-lbl_8051D194:
-	.4byte 0xC1480000
-.global lbl_8051D198
-lbl_8051D198:
-	.4byte 0x3FC00000
-.global lbl_8051D19C
-lbl_8051D19C:
-	.4byte 0x41700000
+.endobj lbl_8051D188
+.obj lbl_8051D18C, local
+	.float 25.0
+.endobj lbl_8051D18C
+.obj lbl_8051D190, local
+	.float 2.5
+.endobj lbl_8051D190
+.obj lbl_8051D194, local
+	.float -12.5
+.endobj lbl_8051D194
+.obj lbl_8051D198, local
+	.float 1.5
+.endobj lbl_8051D198
+.obj lbl_8051D19C, local
+	.float 15.0
+.endobj lbl_8051D19C
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global "makeShadowSRT__Q24Game22UmimushiTubeShadowNodeFRQ24Game15JointShadowParmP7MatrixfR10Vector3<f>R10Vector3<f>"
-"makeShadowSRT__Q24Game22UmimushiTubeShadowNodeFRQ24Game15JointShadowParmP7MatrixfR10Vector3<f>R10Vector3<f>":
+.fn "makeShadowSRT__Q24Game22UmimushiTubeShadowNodeFRQ24Game15JointShadowParmP7MatrixfR10Vector3<f>R10Vector3<f>", global
 /* 802F27DC 002EF71C  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 802F27E0 002EF720  DB E1 00 20 */	stfd f31, 0x20(r1)
 /* 802F27E4 002EF724  F3 E1 00 28 */	psq_st f31, 40(r1), 0, qr0
@@ -119,23 +119,23 @@ lbl_8051D19C:
 /* 802F28D8 002EF818  ED A3 68 FA */	fmadds f13, f3, f3, f13
 /* 802F28DC 002EF81C  ED BF 68 2A */	fadds f13, f31, f13
 /* 802F28E0 002EF820  FC 0D 60 40 */	fcmpo cr0, f13, f12
-/* 802F28E4 002EF824  40 81 00 14 */	ble lbl_802F28F8
-/* 802F28E8 002EF828  40 81 00 14 */	ble lbl_802F28FC
+/* 802F28E4 002EF824  40 81 00 14 */	ble .L_802F28F8
+/* 802F28E8 002EF828  40 81 00 14 */	ble .L_802F28FC
 /* 802F28EC 002EF82C  FD 80 68 34 */	frsqrte f12, f13
 /* 802F28F0 002EF830  ED AC 03 72 */	fmuls f13, f12, f13
-/* 802F28F4 002EF834  48 00 00 08 */	b lbl_802F28FC
-lbl_802F28F8:
+/* 802F28F4 002EF834  48 00 00 08 */	b .L_802F28FC
+.L_802F28F8:
 /* 802F28F8 002EF838  FD A0 60 90 */	fmr f13, f12
-lbl_802F28FC:
+.L_802F28FC:
 /* 802F28FC 002EF83C  C1 82 EE 24 */	lfs f12, lbl_8051D184@sda21(r2)
 /* 802F2900 002EF840  FC 0D 60 40 */	fcmpo cr0, f13, f12
-/* 802F2904 002EF844  40 81 00 18 */	ble lbl_802F291C
+/* 802F2904 002EF844  40 81 00 18 */	ble .L_802F291C
 /* 802F2908 002EF848  C1 82 EE 28 */	lfs f12, lbl_8051D188@sda21(r2)
 /* 802F290C 002EF84C  ED 8C 68 24 */	fdivs f12, f12, f13
 /* 802F2910 002EF850  EC 63 03 32 */	fmuls f3, f3, f12
 /* 802F2914 002EF854  EC 84 03 32 */	fmuls f4, f4, f12
 /* 802F2918 002EF858  EC A5 03 32 */	fmuls f5, f5, f12
-lbl_802F291C:
+.L_802F291C:
 /* 802F291C 002EF85C  C3 C4 00 20 */	lfs f30, 0x20(r4)
 /* 802F2920 002EF860  ED 89 40 2A */	fadds f12, f9, f8
 /* 802F2924 002EF864  C1 24 00 24 */	lfs f9, 0x24(r4)
@@ -175,11 +175,11 @@ lbl_802F291C:
 /* 802F29AC 002EF8EC  CB C1 00 10 */	lfd f30, 0x10(r1)
 /* 802F29B0 002EF8F0  38 21 00 30 */	addi r1, r1, 0x30
 /* 802F29B4 002EF8F4  4E 80 00 20 */	blr 
+.endfn "makeShadowSRT__Q24Game22UmimushiTubeShadowNodeFRQ24Game15JointShadowParmP7MatrixfR10Vector3<f>R10Vector3<f>"
 
-.global "makeShadowSRT__Q24Game24UmimushiSphereShadowNodeFRQ24Game15JointShadowParmP7MatrixfR10Vector3<f>b"
-"makeShadowSRT__Q24Game24UmimushiSphereShadowNodeFRQ24Game15JointShadowParmP7MatrixfR10Vector3<f>b":
+.fn "makeShadowSRT__Q24Game24UmimushiSphereShadowNodeFRQ24Game15JointShadowParmP7MatrixfR10Vector3<f>b", global
 /* 802F29B8 002EF8F8  54 E0 06 3F */	clrlwi. r0, r7, 0x18
-/* 802F29BC 002EF8FC  41 82 00 44 */	beq lbl_802F2A00
+/* 802F29BC 002EF8FC  41 82 00 44 */	beq .L_802F2A00
 /* 802F29C0 002EF900  C0 02 EE 30 */	lfs f0, lbl_8051D190@sda21(r2)
 /* 802F29C4 002EF904  C0 24 00 20 */	lfs f1, 0x20(r4)
 /* 802F29C8 002EF908  C0 A5 00 08 */	lfs f5, 8(r5)
@@ -195,15 +195,15 @@ lbl_802F291C:
 /* 802F29F0 002EF930  EC 63 00 32 */	fmuls f3, f3, f0
 /* 802F29F4 002EF934  EC 84 00 32 */	fmuls f4, f4, f0
 /* 802F29F8 002EF938  EC E7 00 72 */	fmuls f7, f7, f1
-/* 802F29FC 002EF93C  48 00 00 1C */	b lbl_802F2A18
-lbl_802F2A00:
+/* 802F29FC 002EF93C  48 00 00 1C */	b .L_802F2A18
+.L_802F2A00:
 /* 802F2A00 002EF940  C0 62 EE 24 */	lfs f3, lbl_8051D184@sda21(r2)
 /* 802F2A04 002EF944  C1 64 00 20 */	lfs f11, 0x20(r4)
 /* 802F2A08 002EF948  FC 80 18 90 */	fmr f4, f3
 /* 802F2A0C 002EF94C  FC A0 18 90 */	fmr f5, f3
 /* 802F2A10 002EF950  FC C0 18 90 */	fmr f6, f3
 /* 802F2A14 002EF954  FC E0 58 90 */	fmr f7, f11
-lbl_802F2A18:
+.L_802F2A18:
 /* 802F2A18 002EF958  C1 06 00 00 */	lfs f8, 0(r6)
 /* 802F2A1C 002EF95C  C0 46 00 04 */	lfs f2, 4(r6)
 /* 802F2A20 002EF960  C0 24 00 24 */	lfs f1, 0x24(r4)
@@ -231,9 +231,9 @@ lbl_802F2A18:
 /* 802F2A78 002EF9B8  D1 23 00 1C */	stfs f9, 0x1c(r3)
 /* 802F2A7C 002EF9BC  D1 43 00 2C */	stfs f10, 0x2c(r3)
 /* 802F2A80 002EF9C0  4E 80 00 20 */	blr 
+.endfn "makeShadowSRT__Q24Game24UmimushiSphereShadowNodeFRQ24Game15JointShadowParmP7MatrixfR10Vector3<f>b"
 
-.global __ct__Q34Game8UmiMushi17UmimushiShadowMgrFPQ34Game8UmiMushi3Obj
-__ct__Q34Game8UmiMushi17UmimushiShadowMgrFPQ34Game8UmiMushi3Obj:
+.fn __ct__Q34Game8UmiMushi17UmimushiShadowMgrFPQ34Game8UmiMushi3Obj, global
 /* 802F2A84 002EF9C4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 802F2A88 002EF9C8  7C 08 02 A6 */	mflr r0
 /* 802F2A8C 002EF9CC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -245,22 +245,22 @@ __ct__Q34Game8UmiMushi17UmimushiShadowMgrFPQ34Game8UmiMushi3Obj:
 /* 802F2AA4 002EF9E4  38 60 00 20 */	li r3, 0x20
 /* 802F2AA8 002EF9E8  4B D3 13 FD */	bl __nw__FUl
 /* 802F2AAC 002EF9EC  7C 60 1B 79 */	or. r0, r3, r3
-/* 802F2AB0 002EF9F0  41 82 00 10 */	beq lbl_802F2AC0
+/* 802F2AB0 002EF9F0  41 82 00 10 */	beq .L_802F2AC0
 /* 802F2AB4 002EF9F4  7F E4 FB 78 */	mr r4, r31
 /* 802F2AB8 002EF9F8  4B F4 E7 C5 */	bl __ct__Q24Game19JointShadowRootNodeFPQ24Game8Creature
 /* 802F2ABC 002EF9FC  7C 60 1B 78 */	mr r0, r3
-lbl_802F2AC0:
+.L_802F2AC0:
 /* 802F2AC0 002EFA00  90 1E 00 0C */	stw r0, 0xc(r30)
 /* 802F2AC4 002EFA04  38 60 00 24 */	li r3, 0x24
 /* 802F2AC8 002EFA08  4B D3 13 DD */	bl __nw__FUl
 /* 802F2ACC 002EFA0C  7C 7F 1B 79 */	or. r31, r3, r3
-/* 802F2AD0 002EFA10  41 82 00 18 */	beq lbl_802F2AE8
+/* 802F2AD0 002EFA10  41 82 00 18 */	beq .L_802F2AE8
 /* 802F2AD4 002EFA14  38 80 00 02 */	li r4, 2
 /* 802F2AD8 002EFA18  4B F4 E8 05 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802F2ADC 002EFA1C  3C 60 80 4D */	lis r3, __vt__Q24Game22UmimushiTubeShadowNode@ha
 /* 802F2AE0 002EFA20  38 03 52 B8 */	addi r0, r3, __vt__Q24Game22UmimushiTubeShadowNode@l
 /* 802F2AE4 002EFA24  90 1F 00 00 */	stw r0, 0(r31)
-lbl_802F2AE8:
+.L_802F2AE8:
 /* 802F2AE8 002EFA28  93 FE 00 10 */	stw r31, 0x10(r30)
 /* 802F2AEC 002EFA2C  80 7E 00 0C */	lwz r3, 0xc(r30)
 /* 802F2AF0 002EFA30  80 9E 00 10 */	lwz r4, 0x10(r30)
@@ -268,13 +268,13 @@ lbl_802F2AE8:
 /* 802F2AF8 002EFA38  38 60 00 24 */	li r3, 0x24
 /* 802F2AFC 002EFA3C  4B D3 13 A9 */	bl __nw__FUl
 /* 802F2B00 002EFA40  7C 7F 1B 79 */	or. r31, r3, r3
-/* 802F2B04 002EFA44  41 82 00 18 */	beq lbl_802F2B1C
+/* 802F2B04 002EFA44  41 82 00 18 */	beq .L_802F2B1C
 /* 802F2B08 002EFA48  38 80 00 02 */	li r4, 2
 /* 802F2B0C 002EFA4C  4B F4 E7 D1 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802F2B10 002EFA50  3C 60 80 4D */	lis r3, __vt__Q24Game24UmimushiSphereShadowNode@ha
 /* 802F2B14 002EFA54  38 03 52 A8 */	addi r0, r3, __vt__Q24Game24UmimushiSphereShadowNode@l
 /* 802F2B18 002EFA58  90 1F 00 00 */	stw r0, 0(r31)
-lbl_802F2B1C:
+.L_802F2B1C:
 /* 802F2B1C 002EFA5C  93 FE 00 14 */	stw r31, 0x14(r30)
 /* 802F2B20 002EFA60  80 7E 00 0C */	lwz r3, 0xc(r30)
 /* 802F2B24 002EFA64  80 9E 00 14 */	lwz r4, 0x14(r30)
@@ -286,9 +286,9 @@ lbl_802F2B1C:
 /* 802F2B3C 002EFA7C  7C 08 03 A6 */	mtlr r0
 /* 802F2B40 002EFA80  38 21 00 10 */	addi r1, r1, 0x10
 /* 802F2B44 002EFA84  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game8UmiMushi17UmimushiShadowMgrFPQ34Game8UmiMushi3Obj
 
-.global init__Q34Game8UmiMushi17UmimushiShadowMgrFv
-init__Q34Game8UmiMushi17UmimushiShadowMgrFv:
+.fn init__Q34Game8UmiMushi17UmimushiShadowMgrFv, global
 /* 802F2B48 002EFA88  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 802F2B4C 002EFA8C  7C 08 02 A6 */	mflr r0
 /* 802F2B50 002EFA90  90 01 00 14 */	stw r0, 0x14(r1)
@@ -315,9 +315,9 @@ init__Q34Game8UmiMushi17UmimushiShadowMgrFv:
 /* 802F2BA4 002EFAE4  7C 08 03 A6 */	mtlr r0
 /* 802F2BA8 002EFAE8  38 21 00 10 */	addi r1, r1, 0x10
 /* 802F2BAC 002EFAEC  4E 80 00 20 */	blr 
+.endfn init__Q34Game8UmiMushi17UmimushiShadowMgrFv
 
-.global update__Q34Game8UmiMushi17UmimushiShadowMgrFv
-update__Q34Game8UmiMushi17UmimushiShadowMgrFv:
+.fn update__Q34Game8UmiMushi17UmimushiShadowMgrFv, global
 /* 802F2BB0 002EFAF0  94 21 FF A0 */	stwu r1, -0x60(r1)
 /* 802F2BB4 002EFAF4  7C 08 02 A6 */	mflr r0
 /* 802F2BB8 002EFAF8  90 01 00 64 */	stw r0, 0x64(r1)
@@ -381,35 +381,35 @@ update__Q34Game8UmiMushi17UmimushiShadowMgrFv:
 /* 802F2CA0 002EFBE0  80 63 01 7C */	lwz r3, 0x17c(r3)
 /* 802F2CA4 002EFBE4  80 63 00 04 */	lwz r3, 4(r3)
 /* 802F2CA8 002EFBE8  28 03 00 00 */	cmplwi r3, 0
-/* 802F2CAC 002EFBEC  41 82 00 34 */	beq lbl_802F2CE0
+/* 802F2CAC 002EFBEC  41 82 00 34 */	beq .L_802F2CE0
 /* 802F2CB0 002EFBF0  81 83 00 00 */	lwz r12, 0(r3)
 /* 802F2CB4 002EFBF4  81 8C 02 04 */	lwz r12, 0x204(r12)
 /* 802F2CB8 002EFBF8  7D 89 03 A6 */	mtctr r12
 /* 802F2CBC 002EFBFC  4E 80 04 21 */	bctrl 
 /* 802F2CC0 002EFC00  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 802F2CC4 002EFC04  41 82 00 1C */	beq lbl_802F2CE0
+/* 802F2CC4 002EFC04  41 82 00 1C */	beq .L_802F2CE0
 /* 802F2CC8 002EFC08  80 7F 00 10 */	lwz r3, 0x10(r31)
 /* 802F2CCC 002EFC0C  80 03 00 0C */	lwz r0, 0xc(r3)
 /* 802F2CD0 002EFC10  28 00 00 00 */	cmplwi r0, 0
-/* 802F2CD4 002EFC14  41 82 00 24 */	beq lbl_802F2CF8
+/* 802F2CD4 002EFC14  41 82 00 24 */	beq .L_802F2CF8
 /* 802F2CD8 002EFC18  48 11 E8 F9 */	bl del__5CNodeFv
-/* 802F2CDC 002EFC1C  48 00 00 1C */	b lbl_802F2CF8
-lbl_802F2CE0:
+/* 802F2CDC 002EFC1C  48 00 00 1C */	b .L_802F2CF8
+.L_802F2CE0:
 /* 802F2CE0 002EFC20  80 9F 00 10 */	lwz r4, 0x10(r31)
 /* 802F2CE4 002EFC24  80 04 00 0C */	lwz r0, 0xc(r4)
 /* 802F2CE8 002EFC28  28 00 00 00 */	cmplwi r0, 0
-/* 802F2CEC 002EFC2C  40 82 00 0C */	bne lbl_802F2CF8
+/* 802F2CEC 002EFC2C  40 82 00 0C */	bne .L_802F2CF8
 /* 802F2CF0 002EFC30  80 7F 00 0C */	lwz r3, 0xc(r31)
 /* 802F2CF4 002EFC34  48 11 E6 CD */	bl addHead__5CNodeFP5CNode
-lbl_802F2CF8:
+.L_802F2CF8:
 /* 802F2CF8 002EFC38  80 01 00 64 */	lwz r0, 0x64(r1)
 /* 802F2CFC 002EFC3C  83 E1 00 5C */	lwz r31, 0x5c(r1)
 /* 802F2D00 002EFC40  7C 08 03 A6 */	mtlr r0
 /* 802F2D04 002EFC44  38 21 00 60 */	addi r1, r1, 0x60
 /* 802F2D08 002EFC48  4E 80 00 20 */	blr 
+.endfn update__Q34Game8UmiMushi17UmimushiShadowMgrFv
 
-.global __dt__Q24Game24UmimushiSphereShadowNodeFv
-__dt__Q24Game24UmimushiSphereShadowNodeFv:
+.fn __dt__Q24Game24UmimushiSphereShadowNodeFv, weak
 /* 802F2D0C 002EFC4C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 802F2D10 002EFC50  7C 08 02 A6 */	mflr r0
 /* 802F2D14 002EFC54  90 01 00 14 */	stw r0, 0x14(r1)
@@ -417,22 +417,22 @@ __dt__Q24Game24UmimushiSphereShadowNodeFv:
 /* 802F2D1C 002EFC5C  7C 9F 23 78 */	mr r31, r4
 /* 802F2D20 002EFC60  93 C1 00 08 */	stw r30, 8(r1)
 /* 802F2D24 002EFC64  7C 7E 1B 79 */	or. r30, r3, r3
-/* 802F2D28 002EFC68  41 82 00 38 */	beq lbl_802F2D60
+/* 802F2D28 002EFC68  41 82 00 38 */	beq .L_802F2D60
 /* 802F2D2C 002EFC6C  3C 80 80 4D */	lis r4, __vt__Q24Game24UmimushiSphereShadowNode@ha
 /* 802F2D30 002EFC70  38 04 52 A8 */	addi r0, r4, __vt__Q24Game24UmimushiSphereShadowNode@l
 /* 802F2D34 002EFC74  90 1E 00 00 */	stw r0, 0(r30)
-/* 802F2D38 002EFC78  41 82 00 18 */	beq lbl_802F2D50
+/* 802F2D38 002EFC78  41 82 00 18 */	beq .L_802F2D50
 /* 802F2D3C 002EFC7C  3C A0 80 4C */	lis r5, __vt__Q24Game15JointShadowNode@ha
 /* 802F2D40 002EFC80  38 80 00 00 */	li r4, 0
 /* 802F2D44 002EFC84  38 05 1A 34 */	addi r0, r5, __vt__Q24Game15JointShadowNode@l
 /* 802F2D48 002EFC88  90 1E 00 00 */	stw r0, 0(r30)
 /* 802F2D4C 002EFC8C  48 11 E8 3D */	bl __dt__5CNodeFv
-lbl_802F2D50:
+.L_802F2D50:
 /* 802F2D50 002EFC90  7F E0 07 35 */	extsh. r0, r31
-/* 802F2D54 002EFC94  40 81 00 0C */	ble lbl_802F2D60
+/* 802F2D54 002EFC94  40 81 00 0C */	ble .L_802F2D60
 /* 802F2D58 002EFC98  7F C3 F3 78 */	mr r3, r30
 /* 802F2D5C 002EFC9C  4B D3 13 59 */	bl __dl__FPv
-lbl_802F2D60:
+.L_802F2D60:
 /* 802F2D60 002EFCA0  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 802F2D64 002EFCA4  7F C3 F3 78 */	mr r3, r30
 /* 802F2D68 002EFCA8  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -440,9 +440,9 @@ lbl_802F2D60:
 /* 802F2D70 002EFCB0  7C 08 03 A6 */	mtlr r0
 /* 802F2D74 002EFCB4  38 21 00 10 */	addi r1, r1, 0x10
 /* 802F2D78 002EFCB8  4E 80 00 20 */	blr 
+.endfn __dt__Q24Game24UmimushiSphereShadowNodeFv
 
-.global __dt__Q24Game22UmimushiTubeShadowNodeFv
-__dt__Q24Game22UmimushiTubeShadowNodeFv:
+.fn __dt__Q24Game22UmimushiTubeShadowNodeFv, weak
 /* 802F2D7C 002EFCBC  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 802F2D80 002EFCC0  7C 08 02 A6 */	mflr r0
 /* 802F2D84 002EFCC4  90 01 00 14 */	stw r0, 0x14(r1)
@@ -450,22 +450,22 @@ __dt__Q24Game22UmimushiTubeShadowNodeFv:
 /* 802F2D8C 002EFCCC  7C 9F 23 78 */	mr r31, r4
 /* 802F2D90 002EFCD0  93 C1 00 08 */	stw r30, 8(r1)
 /* 802F2D94 002EFCD4  7C 7E 1B 79 */	or. r30, r3, r3
-/* 802F2D98 002EFCD8  41 82 00 38 */	beq lbl_802F2DD0
+/* 802F2D98 002EFCD8  41 82 00 38 */	beq .L_802F2DD0
 /* 802F2D9C 002EFCDC  3C 80 80 4D */	lis r4, __vt__Q24Game22UmimushiTubeShadowNode@ha
 /* 802F2DA0 002EFCE0  38 04 52 B8 */	addi r0, r4, __vt__Q24Game22UmimushiTubeShadowNode@l
 /* 802F2DA4 002EFCE4  90 1E 00 00 */	stw r0, 0(r30)
-/* 802F2DA8 002EFCE8  41 82 00 18 */	beq lbl_802F2DC0
+/* 802F2DA8 002EFCE8  41 82 00 18 */	beq .L_802F2DC0
 /* 802F2DAC 002EFCEC  3C A0 80 4C */	lis r5, __vt__Q24Game15JointShadowNode@ha
 /* 802F2DB0 002EFCF0  38 80 00 00 */	li r4, 0
 /* 802F2DB4 002EFCF4  38 05 1A 34 */	addi r0, r5, __vt__Q24Game15JointShadowNode@l
 /* 802F2DB8 002EFCF8  90 1E 00 00 */	stw r0, 0(r30)
 /* 802F2DBC 002EFCFC  48 11 E7 CD */	bl __dt__5CNodeFv
-lbl_802F2DC0:
+.L_802F2DC0:
 /* 802F2DC0 002EFD00  7F E0 07 35 */	extsh. r0, r31
-/* 802F2DC4 002EFD04  40 81 00 0C */	ble lbl_802F2DD0
+/* 802F2DC4 002EFD04  40 81 00 0C */	ble .L_802F2DD0
 /* 802F2DC8 002EFD08  7F C3 F3 78 */	mr r3, r30
 /* 802F2DCC 002EFD0C  4B D3 12 E9 */	bl __dl__FPv
-lbl_802F2DD0:
+.L_802F2DD0:
 /* 802F2DD0 002EFD10  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 802F2DD4 002EFD14  7F C3 F3 78 */	mr r3, r30
 /* 802F2DD8 002EFD18  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -473,3 +473,4 @@ lbl_802F2DD0:
 /* 802F2DE0 002EFD20  7C 08 03 A6 */	mtlr r0
 /* 802F2DE4 002EFD24  38 21 00 10 */	addi r1, r1, 0x10
 /* 802F2DE8 002EFD28  4E 80 00 20 */	blr 
+.endfn __dt__Q24Game22UmimushiTubeShadowNodeFv

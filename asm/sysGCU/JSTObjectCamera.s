@@ -5,12 +5,12 @@ lbl_constructor:
 
 .section .data, "wa"  # 0x8049E220 - 0x804EFC20
 .balign 8
-govNAN___Q24Game5P2JST:
+.obj govNAN___Q24Game5P2JST, local
 	.float 0.0
 	.float 0.0
 	.float 0.0
-.global __vt__Q34Game5P2JST12ObjectCamera
-__vt__Q34Game5P2JST12ObjectCamera:
+.endobj govNAN___Q24Game5P2JST
+.obj __vt__Q34Game5P2JST12ObjectCamera, global
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q34Game5P2JST12ObjectCameraFv
@@ -63,36 +63,44 @@ __vt__Q34Game5P2JST12ObjectCamera:
 	.4byte update__Q34Game5P2JST12ObjectCameraFv
 	.4byte start__Q34Game5P2JST12ObjectCameraFv
 	.4byte stop__Q34Game5P2JST12ObjectCameraFv
+.endobj __vt__Q34Game5P2JST12ObjectCamera
 
 .section .sbss # 0x80514D80 - 0x80516360
 .balign 8
-gu32NAN___Q24Game5P2JST:
+.obj gu32NAN___Q24Game5P2JST, local
 	.skip 0x4
-gfNAN___Q24Game5P2JST:
+.endobj gu32NAN___Q24Game5P2JST
+.obj gfNAN___Q24Game5P2JST, local
 	.skip 0x4
-sFovBackup__Q24Game5P2JST:
+.endobj gfNAN___Q24Game5P2JST
+.obj sFovBackup__Q24Game5P2JST, local
 	.skip 0x4
+.endobj sFovBackup__Q24Game5P2JST
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_80520698:
+.obj lbl_80520698, local
 	.float 45.0
+.endobj lbl_80520698
 .balign 8
-lbl_805206A0:
-	.4byte 0x43300000
-	.4byte 0x80000000
-lbl_805206A8:
+.obj lbl_805206A0, local
+	.8byte 0x4330000080000000
+.endobj lbl_805206A0
+.obj lbl_805206A8, local
 	.float 0.0
-lbl_805206AC:
+.endobj lbl_805206A8
+.obj lbl_805206AC, local
 	.float 1.0
-lbl_805206B0:
+.endobj lbl_805206AC
+.obj lbl_805206B0, local
 	.float 0.017453292
-lbl_805206B4:
+.endobj lbl_805206B0
+.obj lbl_805206B4, local
 	.float 200.0
+.endobj lbl_805206B4
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__Q34Game5P2JST12ObjectCameraFPCcPQ24Game11MoviePlayer
-__ct__Q34Game5P2JST12ObjectCameraFPCcPQ24Game11MoviePlayer:
+.fn __ct__Q34Game5P2JST12ObjectCameraFPCcPQ24Game11MoviePlayer, global
 /* 8042F6E4 0042C624  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8042F6E8 0042C628  7C 08 02 A6 */	mflr r0
 /* 8042F6EC 0042C62C  3C C0 80 4A */	lis r6, __vt__Q26JStage7TObject@ha
@@ -143,10 +151,10 @@ __ct__Q34Game5P2JST12ObjectCameraFPCcPQ24Game11MoviePlayer:
 /* 8042F7A0 0042C6E0  99 5F 00 C4 */	stb r10, 0xc4(r31)
 /* 8042F7A4 0042C6E4  4B BF 47 01 */	bl __nw__FUl
 /* 8042F7A8 0042C6E8  7C 60 1B 79 */	or. r0, r3, r3
-/* 8042F7AC 0042C6EC  41 82 00 0C */	beq lbl_8042F7B8
+/* 8042F7AC 0042C6EC  41 82 00 0C */	beq .L_8042F7B8
 /* 8042F7B0 0042C6F0  4B FE AE 99 */	bl __ct__6CameraFv
 /* 8042F7B4 0042C6F4  7C 60 1B 78 */	mr r0, r3
-lbl_8042F7B8:
+.L_8042F7B8:
 /* 8042F7B8 0042C6F8  90 1F 00 C0 */	stw r0, 0xc0(r31)
 /* 8042F7BC 0042C6FC  7F E3 FB 78 */	mr r3, r31
 /* 8042F7C0 0042C700  80 01 00 14 */	lwz r0, 0x14(r1)
@@ -154,9 +162,9 @@ lbl_8042F7B8:
 /* 8042F7C8 0042C708  7C 08 03 A6 */	mtlr r0
 /* 8042F7CC 0042C70C  38 21 00 10 */	addi r1, r1, 0x10
 /* 8042F7D0 0042C710  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game5P2JST12ObjectCameraFPCcPQ24Game11MoviePlayer
 
-.global __dt__Q34Game5P2JST12ObjectCameraFv
-__dt__Q34Game5P2JST12ObjectCameraFv:
+.fn __dt__Q34Game5P2JST12ObjectCameraFv, global
 /* 8042F7D4 0042C714  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8042F7D8 0042C718  7C 08 02 A6 */	mflr r0
 /* 8042F7DC 0042C71C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -164,7 +172,7 @@ __dt__Q34Game5P2JST12ObjectCameraFv:
 /* 8042F7E4 0042C724  7C 9F 23 78 */	mr r31, r4
 /* 8042F7E8 0042C728  93 C1 00 08 */	stw r30, 8(r1)
 /* 8042F7EC 0042C72C  7C 7E 1B 79 */	or. r30, r3, r3
-/* 8042F7F0 0042C730  41 82 00 30 */	beq lbl_8042F820
+/* 8042F7F0 0042C730  41 82 00 30 */	beq .L_8042F820
 /* 8042F7F4 0042C734  3C A0 80 4F */	lis r5, __vt__Q34Game5P2JST12ObjectCamera@ha
 /* 8042F7F8 0042C738  38 80 00 00 */	li r4, 0
 /* 8042F7FC 0042C73C  38 A5 C1 1C */	addi r5, r5, __vt__Q34Game5P2JST12ObjectCamera@l
@@ -173,10 +181,10 @@ __dt__Q34Game5P2JST12ObjectCameraFv:
 /* 8042F808 0042C748  90 1E 00 04 */	stw r0, 4(r30)
 /* 8042F80C 0042C74C  4B C6 8F E9 */	bl __dt__Q26JStage7TCameraFv
 /* 8042F810 0042C750  7F E0 07 35 */	extsh. r0, r31
-/* 8042F814 0042C754  40 81 00 0C */	ble lbl_8042F820
+/* 8042F814 0042C754  40 81 00 0C */	ble .L_8042F820
 /* 8042F818 0042C758  7F C3 F3 78 */	mr r3, r30
 /* 8042F81C 0042C75C  4B BF 48 99 */	bl __dl__FPv
-lbl_8042F820:
+.L_8042F820:
 /* 8042F820 0042C760  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8042F824 0042C764  7F C3 F3 78 */	mr r3, r30
 /* 8042F828 0042C768  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -184,9 +192,9 @@ lbl_8042F820:
 /* 8042F830 0042C770  7C 08 03 A6 */	mtlr r0
 /* 8042F834 0042C774  38 21 00 10 */	addi r1, r1, 0x10
 /* 8042F838 0042C778  4E 80 00 20 */	blr 
+.endfn __dt__Q34Game5P2JST12ObjectCameraFv
 
-.global reset__Q34Game5P2JST12ObjectCameraFv
-reset__Q34Game5P2JST12ObjectCameraFv:
+.fn reset__Q34Game5P2JST12ObjectCameraFv, global
 /* 8042F83C 0042C77C  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8042F840 0042C780  7C 08 02 A6 */	mflr r0
 /* 8042F844 0042C784  3C 80 80 4F */	lis r4, govNAN___Q24Game5P2JST@ha
@@ -229,13 +237,13 @@ reset__Q34Game5P2JST12ObjectCameraFv:
 /* 8042F8D8 0042C818  7C 08 03 A6 */	mtlr r0
 /* 8042F8DC 0042C81C  38 21 00 20 */	addi r1, r1, 0x20
 /* 8042F8E0 0042C820  4E 80 00 20 */	blr 
+.endfn reset__Q34Game5P2JST12ObjectCameraFv
 
-.global update__Q34Game5P2JST12ObjectCameraFv
-update__Q34Game5P2JST12ObjectCameraFv:
+.fn update__Q34Game5P2JST12ObjectCameraFv, global
 /* 8042F8E4 0042C824  4E 80 00 20 */	blr 
+.endfn update__Q34Game5P2JST12ObjectCameraFv
 
-.global setProjection__Q34Game5P2JST12ObjectCameraFv
-setProjection__Q34Game5P2JST12ObjectCameraFv:
+.fn setProjection__Q34Game5P2JST12ObjectCameraFv, global
 /* 8042F8E8 0042C828  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8042F8EC 0042C82C  7C 08 02 A6 */	mflr r0
 /* 8042F8F0 0042C830  90 01 00 14 */	stw r0, 0x14(r1)
@@ -245,9 +253,9 @@ setProjection__Q34Game5P2JST12ObjectCameraFv:
 /* 8042F900 0042C840  7C 08 03 A6 */	mtlr r0
 /* 8042F904 0042C844  38 21 00 10 */	addi r1, r1, 0x10
 /* 8042F908 0042C848  4E 80 00 20 */	blr 
+.endfn setProjection__Q34Game5P2JST12ObjectCameraFv
 
-.global setView__Q34Game5P2JST12ObjectCameraFv
-setView__Q34Game5P2JST12ObjectCameraFv:
+.fn setView__Q34Game5P2JST12ObjectCameraFv, global
 /* 8042F90C 0042C84C  94 21 FF 80 */	stwu r1, -0x80(r1)
 /* 8042F910 0042C850  7C 08 02 A6 */	mflr r0
 /* 8042F914 0042C854  C0 22 23 48 */	lfs f1, lbl_805206A8@sda21(r2)
@@ -279,9 +287,9 @@ setView__Q34Game5P2JST12ObjectCameraFv:
 /* 8042F97C 0042C8BC  7C 08 03 A6 */	mtlr r0
 /* 8042F980 0042C8C0  38 21 00 80 */	addi r1, r1, 0x80
 /* 8042F984 0042C8C4  4E 80 00 20 */	blr 
+.endfn setView__Q34Game5P2JST12ObjectCameraFv
 
-.global updateCamera__Q34Game5P2JST12ObjectCameraFv
-updateCamera__Q34Game5P2JST12ObjectCameraFv:
+.fn updateCamera__Q34Game5P2JST12ObjectCameraFv, global
 /* 8042F988 0042C8C8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8042F98C 0042C8CC  7C 08 02 A6 */	mflr r0
 /* 8042F990 0042C8D0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -309,31 +317,31 @@ updateCamera__Q34Game5P2JST12ObjectCameraFv:
 /* 8042F9E8 0042C928  7C 08 03 A6 */	mtlr r0
 /* 8042F9EC 0042C92C  38 21 00 10 */	addi r1, r1, 0x10
 /* 8042F9F0 0042C930  4E 80 00 20 */	blr 
+.endfn updateCamera__Q34Game5P2JST12ObjectCameraFv
 
-.global JSGGetName__Q34Game5P2JST12ObjectCameraCFv
-JSGGetName__Q34Game5P2JST12ObjectCameraCFv:
+.fn JSGGetName__Q34Game5P2JST12ObjectCameraCFv, global
 /* 8042F9F4 0042C934  80 63 00 0C */	lwz r3, 0xc(r3)
 /* 8042F9F8 0042C938  4E 80 00 20 */	blr 
+.endfn JSGGetName__Q34Game5P2JST12ObjectCameraCFv
 
-.global JSGSetFlag__Q34Game5P2JST12ObjectCameraFUl
-JSGSetFlag__Q34Game5P2JST12ObjectCameraFUl:
+.fn JSGSetFlag__Q34Game5P2JST12ObjectCameraFUl, global
 /* 8042F9FC 0042C93C  90 83 00 10 */	stw r4, 0x10(r3)
 /* 8042FA00 0042C940  4E 80 00 20 */	blr 
+.endfn JSGSetFlag__Q34Game5P2JST12ObjectCameraFUl
 
-.global JSGGetFlag__Q34Game5P2JST12ObjectCameraCFv
-JSGGetFlag__Q34Game5P2JST12ObjectCameraCFv:
+.fn JSGGetFlag__Q34Game5P2JST12ObjectCameraCFv, global
 /* 8042FA04 0042C944  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 8042FA08 0042C948  4E 80 00 20 */	blr 
+.endfn JSGGetFlag__Q34Game5P2JST12ObjectCameraCFv
 
-.global JSGSetData__Q34Game5P2JST12ObjectCameraFUlPCvUl
-JSGSetData__Q34Game5P2JST12ObjectCameraFUlPCvUl:
+.fn JSGSetData__Q34Game5P2JST12ObjectCameraFUlPCvUl, global
 /* 8042FA0C 0042C94C  90 83 00 14 */	stw r4, 0x14(r3)
 /* 8042FA10 0042C950  90 A3 00 18 */	stw r5, 0x18(r3)
 /* 8042FA14 0042C954  90 C3 00 1C */	stw r6, 0x1c(r3)
 /* 8042FA18 0042C958  4E 80 00 20 */	blr 
+.endfn JSGSetData__Q34Game5P2JST12ObjectCameraFUlPCvUl
 
-.global JSGSetViewPosition__Q34Game5P2JST12ObjectCameraFRC3Vec
-JSGSetViewPosition__Q34Game5P2JST12ObjectCameraFRC3Vec:
+.fn JSGSetViewPosition__Q34Game5P2JST12ObjectCameraFRC3Vec, global
 /* 8042FA1C 0042C95C  C0 04 00 00 */	lfs f0, 0(r4)
 /* 8042FA20 0042C960  C0 24 00 04 */	lfs f1, 4(r4)
 /* 8042FA24 0042C964  D0 03 00 90 */	stfs f0, 0x90(r3)
@@ -341,9 +349,9 @@ JSGSetViewPosition__Q34Game5P2JST12ObjectCameraFRC3Vec:
 /* 8042FA2C 0042C96C  D0 23 00 94 */	stfs f1, 0x94(r3)
 /* 8042FA30 0042C970  D0 03 00 98 */	stfs f0, 0x98(r3)
 /* 8042FA34 0042C974  4E 80 00 20 */	blr 
+.endfn JSGSetViewPosition__Q34Game5P2JST12ObjectCameraFRC3Vec
 
-.global JSGGetViewPosition__Q34Game5P2JST12ObjectCameraCFP3Vec
-JSGGetViewPosition__Q34Game5P2JST12ObjectCameraCFP3Vec:
+.fn JSGGetViewPosition__Q34Game5P2JST12ObjectCameraCFP3Vec, global
 /* 8042FA38 0042C978  C0 03 00 90 */	lfs f0, 0x90(r3)
 /* 8042FA3C 0042C97C  C0 23 00 94 */	lfs f1, 0x94(r3)
 /* 8042FA40 0042C980  D0 04 00 00 */	stfs f0, 0(r4)
@@ -351,9 +359,9 @@ JSGGetViewPosition__Q34Game5P2JST12ObjectCameraCFP3Vec:
 /* 8042FA48 0042C988  D0 24 00 04 */	stfs f1, 4(r4)
 /* 8042FA4C 0042C98C  D0 04 00 08 */	stfs f0, 8(r4)
 /* 8042FA50 0042C990  4E 80 00 20 */	blr 
+.endfn JSGGetViewPosition__Q34Game5P2JST12ObjectCameraCFP3Vec
 
-.global JSGSetViewTargetPosition__Q34Game5P2JST12ObjectCameraFRC3Vec
-JSGSetViewTargetPosition__Q34Game5P2JST12ObjectCameraFRC3Vec:
+.fn JSGSetViewTargetPosition__Q34Game5P2JST12ObjectCameraFRC3Vec, global
 /* 8042FA54 0042C994  C0 04 00 00 */	lfs f0, 0(r4)
 /* 8042FA58 0042C998  C0 24 00 04 */	lfs f1, 4(r4)
 /* 8042FA5C 0042C99C  D0 03 00 9C */	stfs f0, 0x9c(r3)
@@ -361,9 +369,9 @@ JSGSetViewTargetPosition__Q34Game5P2JST12ObjectCameraFRC3Vec:
 /* 8042FA64 0042C9A4  D0 23 00 A0 */	stfs f1, 0xa0(r3)
 /* 8042FA68 0042C9A8  D0 03 00 A4 */	stfs f0, 0xa4(r3)
 /* 8042FA6C 0042C9AC  4E 80 00 20 */	blr 
+.endfn JSGSetViewTargetPosition__Q34Game5P2JST12ObjectCameraFRC3Vec
 
-.global JSGGetViewTargetPosition__Q34Game5P2JST12ObjectCameraCFP3Vec
-JSGGetViewTargetPosition__Q34Game5P2JST12ObjectCameraCFP3Vec:
+.fn JSGGetViewTargetPosition__Q34Game5P2JST12ObjectCameraCFP3Vec, global
 /* 8042FA70 0042C9B0  C0 03 00 9C */	lfs f0, 0x9c(r3)
 /* 8042FA74 0042C9B4  C0 23 00 A0 */	lfs f1, 0xa0(r3)
 /* 8042FA78 0042C9B8  D0 04 00 00 */	stfs f0, 0(r4)
@@ -371,49 +379,49 @@ JSGGetViewTargetPosition__Q34Game5P2JST12ObjectCameraCFP3Vec:
 /* 8042FA80 0042C9C0  D0 24 00 04 */	stfs f1, 4(r4)
 /* 8042FA84 0042C9C4  D0 04 00 08 */	stfs f0, 8(r4)
 /* 8042FA88 0042C9C8  4E 80 00 20 */	blr 
+.endfn JSGGetViewTargetPosition__Q34Game5P2JST12ObjectCameraCFP3Vec
 
-.global JSGSetViewRoll__Q34Game5P2JST12ObjectCameraFf
-JSGSetViewRoll__Q34Game5P2JST12ObjectCameraFf:
+.fn JSGSetViewRoll__Q34Game5P2JST12ObjectCameraFf, global
 /* 8042FA8C 0042C9CC  D0 23 00 A8 */	stfs f1, 0xa8(r3)
 /* 8042FA90 0042C9D0  4E 80 00 20 */	blr 
+.endfn JSGSetViewRoll__Q34Game5P2JST12ObjectCameraFf
 
-.global JSGGetViewRoll__Q34Game5P2JST12ObjectCameraCFv
-JSGGetViewRoll__Q34Game5P2JST12ObjectCameraCFv:
+.fn JSGGetViewRoll__Q34Game5P2JST12ObjectCameraCFv, global
 /* 8042FA94 0042C9D4  C0 23 00 A8 */	lfs f1, 0xa8(r3)
 /* 8042FA98 0042C9D8  4E 80 00 20 */	blr 
+.endfn JSGGetViewRoll__Q34Game5P2JST12ObjectCameraCFv
 
-.global JSGSetProjectionNear__Q34Game5P2JST12ObjectCameraFf
-JSGSetProjectionNear__Q34Game5P2JST12ObjectCameraFf:
+.fn JSGSetProjectionNear__Q34Game5P2JST12ObjectCameraFf, global
 /* 8042FA9C 0042C9DC  D0 23 00 AC */	stfs f1, 0xac(r3)
 /* 8042FAA0 0042C9E0  4E 80 00 20 */	blr 
+.endfn JSGSetProjectionNear__Q34Game5P2JST12ObjectCameraFf
 
-.global JSGGetProjectionNear__Q34Game5P2JST12ObjectCameraCFv
-JSGGetProjectionNear__Q34Game5P2JST12ObjectCameraCFv:
+.fn JSGGetProjectionNear__Q34Game5P2JST12ObjectCameraCFv, global
 /* 8042FAA4 0042C9E4  C0 23 00 AC */	lfs f1, 0xac(r3)
 /* 8042FAA8 0042C9E8  4E 80 00 20 */	blr 
+.endfn JSGGetProjectionNear__Q34Game5P2JST12ObjectCameraCFv
 
-.global JSGSetProjectionFar__Q34Game5P2JST12ObjectCameraFf
-JSGSetProjectionFar__Q34Game5P2JST12ObjectCameraFf:
+.fn JSGSetProjectionFar__Q34Game5P2JST12ObjectCameraFf, global
 /* 8042FAAC 0042C9EC  D0 23 00 B0 */	stfs f1, 0xb0(r3)
 /* 8042FAB0 0042C9F0  4E 80 00 20 */	blr 
+.endfn JSGSetProjectionFar__Q34Game5P2JST12ObjectCameraFf
 
-.global JSGGetProjectionFar__Q34Game5P2JST12ObjectCameraCFv
-JSGGetProjectionFar__Q34Game5P2JST12ObjectCameraCFv:
+.fn JSGGetProjectionFar__Q34Game5P2JST12ObjectCameraCFv, global
 /* 8042FAB4 0042C9F4  C0 23 00 B0 */	lfs f1, 0xb0(r3)
 /* 8042FAB8 0042C9F8  4E 80 00 20 */	blr 
+.endfn JSGGetProjectionFar__Q34Game5P2JST12ObjectCameraCFv
 
-.global JSGSetProjectionFovy__Q34Game5P2JST12ObjectCameraFf
-JSGSetProjectionFovy__Q34Game5P2JST12ObjectCameraFf:
+.fn JSGSetProjectionFovy__Q34Game5P2JST12ObjectCameraFf, global
 /* 8042FABC 0042C9FC  D0 23 00 B4 */	stfs f1, 0xb4(r3)
 /* 8042FAC0 0042CA00  4E 80 00 20 */	blr 
+.endfn JSGSetProjectionFovy__Q34Game5P2JST12ObjectCameraFf
 
-.global JSGGetProjectionFovy__Q34Game5P2JST12ObjectCameraCFv
-JSGGetProjectionFovy__Q34Game5P2JST12ObjectCameraCFv:
+.fn JSGGetProjectionFovy__Q34Game5P2JST12ObjectCameraCFv, global
 /* 8042FAC4 0042CA04  C0 23 00 B4 */	lfs f1, 0xb4(r3)
 /* 8042FAC8 0042CA08  4E 80 00 20 */	blr 
+.endfn JSGGetProjectionFovy__Q34Game5P2JST12ObjectCameraCFv
 
-.global JSGSetProjectionAspect__Q34Game5P2JST12ObjectCameraFf
-JSGSetProjectionAspect__Q34Game5P2JST12ObjectCameraFf:
+.fn JSGSetProjectionAspect__Q34Game5P2JST12ObjectCameraFf, global
 /* 8042FACC 0042CA0C  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8042FAD0 0042CA10  7C 08 02 A6 */	mflr r0
 /* 8042FAD4 0042CA14  90 01 00 24 */	stw r0, 0x24(r1)
@@ -439,14 +447,14 @@ JSGSetProjectionAspect__Q34Game5P2JST12ObjectCameraFf:
 /* 8042FB24 0042CA64  7C 08 03 A6 */	mtlr r0
 /* 8042FB28 0042CA68  38 21 00 20 */	addi r1, r1, 0x20
 /* 8042FB2C 0042CA6C  4E 80 00 20 */	blr 
+.endfn JSGSetProjectionAspect__Q34Game5P2JST12ObjectCameraFf
 
-.global JSGGetProjectionAspect__Q34Game5P2JST12ObjectCameraCFv
-JSGGetProjectionAspect__Q34Game5P2JST12ObjectCameraCFv:
+.fn JSGGetProjectionAspect__Q34Game5P2JST12ObjectCameraCFv, global
 /* 8042FB30 0042CA70  C0 23 00 B8 */	lfs f1, 0xb8(r3)
 /* 8042FB34 0042CA74  4E 80 00 20 */	blr 
+.endfn JSGGetProjectionAspect__Q34Game5P2JST12ObjectCameraCFv
 
-.global setCamera__Q34Game5P2JST12ObjectCameraFP6Camera
-setCamera__Q34Game5P2JST12ObjectCameraFP6Camera:
+.fn setCamera__Q34Game5P2JST12ObjectCameraFP6Camera, global
 /* 8042FB38 0042CA78  94 21 FF C0 */	stwu r1, -0x40(r1)
 /* 8042FB3C 0042CA7C  7C 08 02 A6 */	mflr r0
 /* 8042FB40 0042CA80  90 01 00 44 */	stw r0, 0x44(r1)
@@ -551,9 +559,9 @@ setCamera__Q34Game5P2JST12ObjectCameraFP6Camera:
 /* 8042FCCC 0042CC0C  7C 08 03 A6 */	mtlr r0
 /* 8042FCD0 0042CC10  38 21 00 40 */	addi r1, r1, 0x40
 /* 8042FCD4 0042CC14  4E 80 00 20 */	blr 
+.endfn setCamera__Q34Game5P2JST12ObjectCameraFP6Camera
 
-.global start__Q34Game5P2JST12ObjectCameraFv
-start__Q34Game5P2JST12ObjectCameraFv:
+.fn start__Q34Game5P2JST12ObjectCameraFv, global
 /* 8042FCD8 0042CC18  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8042FCDC 0042CC1C  7C 08 02 A6 */	mflr r0
 /* 8042FCE0 0042CC20  90 01 00 14 */	stw r0, 0x14(r1)
@@ -568,9 +576,9 @@ start__Q34Game5P2JST12ObjectCameraFv:
 /* 8042FD04 0042CC44  7C 08 03 A6 */	mtlr r0
 /* 8042FD08 0042CC48  38 21 00 10 */	addi r1, r1, 0x10
 /* 8042FD0C 0042CC4C  4E 80 00 20 */	blr 
+.endfn start__Q34Game5P2JST12ObjectCameraFv
 
-.global stop__Q34Game5P2JST12ObjectCameraFv
-stop__Q34Game5P2JST12ObjectCameraFv:
+.fn stop__Q34Game5P2JST12ObjectCameraFv, global
 /* 8042FD10 0042CC50  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8042FD14 0042CC54  7C 08 02 A6 */	mflr r0
 /* 8042FD18 0042CC58  90 01 00 14 */	stw r0, 0x14(r1)
@@ -578,13 +586,13 @@ stop__Q34Game5P2JST12ObjectCameraFv:
 /* 8042FD20 0042CC60  7C 7F 1B 78 */	mr r31, r3
 /* 8042FD24 0042CC64  80 63 00 BC */	lwz r3, 0xbc(r3)
 /* 8042FD28 0042CC68  28 03 00 00 */	cmplwi r3, 0
-/* 8042FD2C 0042CC6C  41 82 00 18 */	beq lbl_8042FD44
+/* 8042FD2C 0042CC6C  41 82 00 18 */	beq .L_8042FD44
 /* 8042FD30 0042CC70  80 9F 00 C0 */	lwz r4, 0xc0(r31)
 /* 8042FD34 0042CC74  4B FE AB 25 */	bl copyFrom__6CameraFP6Camera
 /* 8042FD38 0042CC78  80 7F 00 BC */	lwz r3, 0xbc(r31)
 /* 8042FD3C 0042CC7C  38 00 00 00 */	li r0, 0
 /* 8042FD40 0042CC80  90 03 01 40 */	stw r0, 0x140(r3)
-lbl_8042FD44:
+.L_8042FD44:
 /* 8042FD44 0042CC84  38 00 00 00 */	li r0, 0
 /* 8042FD48 0042CC88  98 1F 00 C4 */	stb r0, 0xc4(r31)
 /* 8042FD4C 0042CC8C  80 01 00 14 */	lwz r0, 0x14(r1)
@@ -592,8 +600,9 @@ lbl_8042FD44:
 /* 8042FD54 0042CC94  7C 08 03 A6 */	mtlr r0
 /* 8042FD58 0042CC98  38 21 00 10 */	addi r1, r1, 0x10
 /* 8042FD5C 0042CC9C  4E 80 00 20 */	blr 
+.endfn stop__Q34Game5P2JST12ObjectCameraFv
 
-__sinit_JSTObjectCamera_cpp: # static initializer
+.fn __sinit_JSTObjectCamera_cpp, local
 /* 8042FD60 0042CCA0  3C 80 80 51 */	lis r4, __float_nan@ha
 /* 8042FD64 0042CCA4  38 00 FF FF */	li r0, -1
 /* 8042FD68 0042CCA8  C0 04 48 B0 */	lfs f0, __float_nan@l(r4)
@@ -604,23 +613,24 @@ __sinit_JSTObjectCamera_cpp: # static initializer
 /* 8042FD7C 0042CCBC  D0 03 00 04 */	stfs f0, 4(r3)
 /* 8042FD80 0042CCC0  D0 03 00 08 */	stfs f0, 8(r3)
 /* 8042FD84 0042CCC4  4E 80 00 20 */	blr 
+.endfn __sinit_JSTObjectCamera_cpp
 
-.global "@4@stop__Q34Game5P2JST12ObjectCameraFv"
-"@4@stop__Q34Game5P2JST12ObjectCameraFv":
+.fn "@4@stop__Q34Game5P2JST12ObjectCameraFv", weak
 /* 8042FD88 0042CCC8  38 63 FF FC */	addi r3, r3, -4
 /* 8042FD8C 0042CCCC  4B FF FF 84 */	b stop__Q34Game5P2JST12ObjectCameraFv
+.endfn "@4@stop__Q34Game5P2JST12ObjectCameraFv"
 
-.global "@4@start__Q34Game5P2JST12ObjectCameraFv"
-"@4@start__Q34Game5P2JST12ObjectCameraFv":
+.fn "@4@start__Q34Game5P2JST12ObjectCameraFv", weak
 /* 8042FD90 0042CCD0  38 63 FF FC */	addi r3, r3, -4
 /* 8042FD94 0042CCD4  4B FF FF 44 */	b start__Q34Game5P2JST12ObjectCameraFv
+.endfn "@4@start__Q34Game5P2JST12ObjectCameraFv"
 
-.global "@4@update__Q34Game5P2JST12ObjectCameraFv"
-"@4@update__Q34Game5P2JST12ObjectCameraFv":
+.fn "@4@update__Q34Game5P2JST12ObjectCameraFv", weak
 /* 8042FD98 0042CCD8  38 63 FF FC */	addi r3, r3, -4
 /* 8042FD9C 0042CCDC  4B FF FB 48 */	b update__Q34Game5P2JST12ObjectCameraFv
+.endfn "@4@update__Q34Game5P2JST12ObjectCameraFv"
 
-.global "@4@reset__Q34Game5P2JST12ObjectCameraFv"
-"@4@reset__Q34Game5P2JST12ObjectCameraFv":
+.fn "@4@reset__Q34Game5P2JST12ObjectCameraFv", weak
 /* 8042FDA0 0042CCE0  38 63 FF FC */	addi r3, r3, -4
 /* 8042FDA4 0042CCE4  4B FF FA 98 */	b reset__Q34Game5P2JST12ObjectCameraFv
+.endfn "@4@reset__Q34Game5P2JST12ObjectCameraFv"

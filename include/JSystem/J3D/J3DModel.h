@@ -9,7 +9,11 @@
 #include "JSystem/J3D/J3DJointTree.h"
 #include "JSystem/J3D/J3DTypes.h"
 #include "JSystem/J3D/J3DVertexBuffer.h"
+#include "JSystem/J3D/J3DMtxBuffer.h"
 #include "JSystem/JGeometry.h"
+#include "JSystem/J3D/J3DPacket.h"
+#include "JSystem/JUtility/JUTNameTab.h"
+#include "BitFlag.h"
 
 struct J3DDeformData;
 struct J3DMatPacket;
@@ -18,6 +22,45 @@ struct J3DMtxBuffer;
 struct J3DShapePacket;
 struct J3DSkinDeform;
 struct J3DVtxColorCalc;
+struct J3DModel;
+
+typedef void (*J3DCalcCallBack)(J3DModel*, u32 timing);
+
+// TODO: name these
+enum J3DModelFlags {
+	J3DMODEL_Unk1  = 0x1,
+	J3DMODEL_Unk2  = 0x2,
+	J3DMODEL_Unk3  = 0x4,
+	J3DMODEL_Unk4  = 0x8,
+	J3DMODEL_Unk5  = 0x10,
+	J3DMODEL_Unk6  = 0x20,
+	J3DMODEL_Unk7  = 0x40,
+	J3DMODEL_Unk8  = 0x80,
+	J3DMODEL_Unk9  = 0x100,
+	J3DMODEL_Unk10 = 0x200,
+	J3DMODEL_Unk11 = 0x400,
+	J3DMODEL_Unk12 = 0x800,
+	J3DMODEL_Unk13 = 0x1000,
+	J3DMODEL_Unk14 = 0x2000,
+	J3DMODEL_Unk15 = 0x4000,
+	J3DMODEL_Unk16 = 0x8000,
+	J3DMODEL_Unk17 = 0x10000,
+	J3DMODEL_Unk18 = 0x20000,
+	J3DMODEL_Unk19 = 0x40000,
+	J3DMODEL_Unk20 = 0x80000,
+	J3DMODEL_Unk21 = 0x100000,
+	J3DMODEL_Unk22 = 0x200000,
+	J3DMODEL_Unk23 = 0x400000,
+	J3DMODEL_Unk24 = 0x800000,
+	J3DMODEL_Unk25 = 0x1000000,
+	J3DMODEL_Unk26 = 0x2000000,
+	J3DMODEL_Unk27 = 0x4000000,
+	J3DMODEL_Unk28 = 0x8000000,
+	J3DMODEL_Unk29 = 0x10000000,
+	J3DMODEL_Unk30 = 0x20000000,
+	J3DMODEL_Unk31 = 0x40000000,
+	J3DMODEL_Unk32 = 0x80000000,
+};
 
 /**
  * @size{0xE4}
@@ -25,54 +68,104 @@ struct J3DVtxColorCalc;
 struct J3DModelData {
 	J3DModelData();
 
-	virtual ~J3DModelData(); // _00
+	virtual ~J3DModelData() { } // _08 (weak)
 
 	void clear();
 	void newSharedDisplayList(u32);
 	void indexToPtr();
 	void makeSharedDL();
-	void simpleCalcMaterial(u16, Mtx*);
+	void simpleCalcMaterial(u16, f32 (*)[4]);
 	void syncJ3DSysFlags() const;
 
+	inline void init(const J3DModelHierarchy* hierarchy)
+	{
+		mJointTree.makeHierarchy(nullptr, &hierarchy, &mMaterialTable, &mShapeTable);
+		mShapeTable.initShapeNodes(&mJointTree.mMtxData, &mVertexData);
+	}
+
+	inline void setTevColor(char* name, J3DGXColorS10& color)
+	{
+		u16 idx          = mMaterialTable.mMaterialNames->getIndex(name);
+		J3DMaterial* mat = mMaterialTable.mMaterials[idx];
+		mat->mTevBlock->setTevColor(0, color);
+	}
+
+	inline void setTevColor(char* name, u16 r, u16 g, u16 b, u16 a)
+	{
+		u16 idx          = mMaterialTable.mMaterialNames->getIndex(name);
+		J3DMaterial* mat = mMaterialTable.mMaterials[idx];
+		mat->mTevBlock->setTevColor(0, J3DGXColorS10(r, g, b, a));
+	}
+
+	J3DVertexData* getVertexData() { return &mVertexData; }
+	J3DJoint* getJointNodePointer(u16 idx) const { return mJointTree.getJointNodePointer(idx); }
+	J3DMaterialTable& getMaterialTable() { return mMaterialTable; }
+	JUTNameTab* getMaterialName() const { return mMaterialTable.getMaterialName(); }
+	u16 getShapeNum() const { return mShapeTable.getShapeNum(); }
+	u16 getMaterialNum() const { return mMaterialTable.getMaterialNum(); }
+	u16 getJointNum() const { return mJointTree.getJointNum(); }
+	u16 getDrawMtxNum() const { return mJointTree.getDrawMtxNum(); }
+	J3DMaterial* getMaterialNodePointer(u16 idx) const { return mMaterialTable.getMaterialNodePointer(idx); }
+	J3DShape* getShapeNodePointer(u16 idx) const { return mShapeTable.getItem(idx); }
+	J3DJointTree& getJointTree() { return mJointTree; }
+	JUTNameTab* getJointName() const { return mJointTree.getJointName(); }
+	Mtx& getInvJointMtx(s32 idx) const { return mJointTree.getInvJointMtx(idx); }
+	J3DTexture* getTexture() const { return mMaterialTable.getTexture(); }
+	JUTNameTab* getTextureName() const { return mMaterialTable.getTextureName(); }
+	u16 getWEvlpMtxNum() const { return mJointTree.getWEvlpMtxNum(); }
+	u32 getModelDataType() const { return mJointTree.getModelDataType(); }
+	void* getVtxPosArray() const { return mVertexData.getVtxPosArray(); }
+	void* getVtxNrmArray() const { return mVertexData.getVtxNrmArray(); }
+	GXColor* getVtxColorArray(u8 idx) const { return mVertexData.getVtxColorArray(idx); }
+	u32 getVertexNum() const { return mVertexData.getVtxNum(); }
+	u32 getVertexColorNum() const { return mVertexData.getColNum(); }
+
+	bool checkFlag(u32 flag) const { return (mModelLoaderFlags & flag) ? true : false; }
+	u32 getFlag() const { return mModelLoaderFlags; }
+	u16 checkBumpFlag() const { return mBumpFlag; }
+	void setBumpFlag(u32 flag) { mBumpFlag = flag; }
+	bool checkBBoardFlag() const { return mBillboardFlag == 1; }
+	bool isLocked() { return mMaterialTable.isLocked(); }
+
+	void entryTexMtxAnimator(J3DAnmTextureSRTKey* anm) { mMaterialTable.entryTexMtxAnimator(anm); }
+	void entryTevRegAnimator(J3DAnmTevRegKey* anm) { mMaterialTable.entryTevRegAnimator(anm); }
+
 	// VTBL _00
-	u8* m_bmd;                        // _04
-	u32 m_modelLoaderFlags;           // _08
-	u16 _0C;                          // _0C
-	u16 m_jointSet;                   // _0E
-	J3DJointTree m_jointTree;         // _10
-	J3DMaterialTable m_materialTable; // _58
-	J3DShapeTable m_shapeTable;       // _78
-	JUTNameTab* _84;                  // _84
-	J3DVertexData m_vertexData;       // _88
+	const void* mBmd;                // _04
+	u32 mModelLoaderFlags;           // _08
+	u16 mBumpFlag;                   // _0C
+	u16 mBillboardFlag;              // _0E
+	J3DJointTree mJointTree;         // _10
+	J3DMaterialTable mMaterialTable; // _58
+	J3DShapeTable mShapeTable;       // _78
+	J3DVertexData mVertexData;       // _88
 };
 
 /**
  * @size{0xDC}
  */
 struct J3DModel {
-	/**
-	 * @fabricated
-	 */
-	J3DModel(J3DModelData* data, unsigned long p2, unsigned long modelType)
+	J3DModel(J3DModelData* data, u32 p2, u32 modelType)
 	{
-		m_vertexBuffer.init();
+		mVertexBuffer.init();
 		initialize();
 		entryModelData(data, p2, modelType);
 	}
-	virtual void update();         // _00
-	virtual void entry();          // _04
-	virtual void calc();           // _08
-	virtual void calcMaterial();   // _0C
-	virtual void calcDiffTexMtx(); // _10
-	virtual void viewCalc();       // _14
-	virtual ~J3DModel();           // _18
+
+	virtual void update();         // _08
+	virtual void entry();          // _0C
+	virtual void calc();           // _10
+	virtual void calcMaterial();   // _14
+	virtual void calcDiffTexMtx(); // _18
+	virtual void viewCalc();       // _1C
+	virtual ~J3DModel() { }        // _20 (weak)
 
 	void initialize();
-	void entryModelData(J3DModelData*, unsigned long, unsigned long);
-	J3DShapePacket* createShapePacket(J3DModelData*);
-	J3DMatPacket* createMatPacket(J3DModelData*, unsigned long);
-	void newDifferedDisplayList(unsigned long);
-	void newDifferedTexMtx(J3DTexDiffFlag);
+	int entryModelData(J3DModelData*, u32, u32);
+	int createShapePacket(J3DModelData*);
+	int createMatPacket(J3DModelData*, u32);
+	int newDifferedDisplayList(u32);
+	int newDifferedTexMtx(J3DTexDiffFlag);
 	void lock();
 	void makeDL();
 	void diff();
@@ -83,34 +176,57 @@ struct J3DModel {
 	void calcBBoardMtx();
 	void prepareShapePackets();
 
+	inline J3DModelData* getModelData() { return mModelData; }
+
+	void onFlag(u32 flag) { mFlags |= flag; }
+	void offFlag(u32 flag) { mFlags &= ~flag; }
+	bool checkFlag(u32 flag) const { return mFlags & flag; }
+
+	bool isCpuSkinningOn() const { return (mFlags & J3DMODEL_Unk3) && (mFlags & J3DMODEL_Unk4); }
+
+	Mtx& getBaseTRMtx() { return mPosMtx; }
+	void i_setBaseTRMtx(Mtx m) { PSMTXCopy(m, mPosMtx); }
+	u32 getMtxCalcMode() const { return mFlags & J3DMODEL_Unk3; }
+	J3DVertexBuffer* getVertexBuffer() const { return (J3DVertexBuffer*)&mVertexBuffer; }
+	J3DMatPacket* getMatPacket(u16 idx) const { return &mMatPackets[idx]; }
+	J3DShapePacket* getShapePacket(u16 idx) const { return &mShapePackets[idx]; }
+	Mtx33* getBumpMtxPtr(int idx) const { return mMtxBuffer->getBumpMtxPtr(idx); }
+	Mtx33* getNrmMtxPtr() const { return mMtxBuffer->getNrmMtxPtr(); }
+	Mtx* getDrawMtxPtr() const { return mMtxBuffer->getDrawMtxPtr(); }
+	void setBaseScale(const Vec& scale)
+	{
+		mModelScale.x = scale.x;
+		mModelScale.y = scale.y;
+		mModelScale.z = scale.z;
+	}
+	void setUserArea(u32 area) { mUserArea = area; }
+	u32 getUserArea() const { return mUserArea; }
+	JGeometry::TVec3f* getBaseScale() { return &mModelScale; }
+	void setAnmMtx(int i, Mtx m) { mMtxBuffer->setAnmMtx(i, m); }
+
 	// _00 VTBL
-	J3DModelData* m_modelData;       // _04
-	u32 _08;                         // _08 /* bitfield of some sort */
-	u32 m_displayListFlag;           // _0C
-	void* _10;                       // _10
-	u32 _14;                         // _14
-	JGeometry::TVec3f m_modelScale;  // _18
-	Mtx _24;                         // _24
-	J3DMtxCalc* _54;                 // _54
-	J3DMtxBuffer* m_mtxBuffer;       // _84
-	J3DVertexBuffer m_vertexBuffer;  // _88
-	J3DMatPacket* m_matPackets;      // _C0
-	J3DShapePacket* m_shapePackets;  // _C4
-	J3DDeformData* m_deformData;     // _C8
-	J3DSkinDeform* m_skinDeform;     // _CC
-	J3DVtxColorCalc* m_vtxColorCalc; // _D0
-	u32 _D4;                         // _D4
-	void* _D8;                       // _D8
+	J3DModelData* mModelData;       // _04
+	u32 mFlags;                     // _08
+	u32 mDiffFlag;                  // _0C
+	J3DCalcCallBack mCalcCallBack;  // _10
+	u32 mUserArea;                  // _14
+	JGeometry::TVec3f mModelScale;  // _18
+	Mtx mPosMtx;                    // _24
+	Mtx mInternalView;              // _54
+	J3DMtxBuffer* mMtxBuffer;       // _84
+	J3DVertexBuffer mVertexBuffer;  // _88
+	J3DMatPacket* mMatPackets;      // _C0
+	J3DShapePacket* mShapePackets;  // _C4
+	J3DDeformData* mDeformData;     // _C8
+	J3DSkinDeform* mSkinDeform;     // _CC
+	J3DVtxColorCalc* mVtxColorCalc; // _D0
+	u32 _D4;                        // _D4
+	void* _D8;                      // _D8
 };
 
 struct J3DModelHierarchy {
-	short _00;
-	short _02;
-};
-
-struct J3DModelLoaderDataBase {
-	static J3DModelData* load(const void*, u32);
-	static J3DModelData* loadBinaryDisplayList(const void*, u32);
+	u16 _00;
+	u16 _02;
 };
 
 #endif

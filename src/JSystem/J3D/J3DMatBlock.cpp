@@ -1,820 +1,19 @@
+#include "Dolphin/gd.h"
+#include "Dolphin/gx.h"
+#include "Dolphin/os.h"
+#include "JSystem/J3D/J3DColorBlock.h"
+#include "JSystem/J3D/J3DGXColor.h"
+#include "JSystem/J3D/J3DInd.h"
+#include "JSystem/J3D/J3DPE.h"
+#include "JSystem/J3D/J3DTevBlock.h"
+#include "JSystem/J3D/J3DTexGenBlock.h"
+#include "JSystem/J3D/J3DTexMtx.h"
+#include "JSystem/J3D/J3DTypes.h"
 #include "types.h"
 
-/*
-    Generated from dpostproc
-
-    .section .ctors, "wa"  # 0x80472F00 - 0x804732C0
-    .4byte __sinit_J3DMatBlock_cpp
-
-    .section .data, "wa"  # 0x8049E220 - 0x804EFC20
-    .global lbl_804A20F0
-    lbl_804A20F0:
-        .4byte lbl_80081300
-        .4byte lbl_800811EC
-        .4byte lbl_80081240
-        .4byte lbl_80081270
-        .4byte lbl_80081300
-        .4byte lbl_800812B4
-        .4byte lbl_800811EC
-        .4byte lbl_800811EC
-        .4byte lbl_80081240
-        .4byte lbl_80081270
-        .4byte lbl_800812B4
-        .4byte lbl_800812B4
-    .global lbl_804A2120
-    lbl_804A2120:
-        .4byte lbl_80081440
-        .4byte lbl_8008139C
-        .4byte lbl_800813B0
-        .4byte lbl_800813E0
-        .4byte lbl_80081440
-        .4byte lbl_800813F4
-        .4byte lbl_8008139C
-        .4byte lbl_8008139C
-        .4byte lbl_800813B0
-        .4byte lbl_800813E0
-        .4byte lbl_800813F4
-        .4byte lbl_800813F4
-    .global lbl_804A2150
-    lbl_804A2150:
-        .4byte lbl_80081570
-        .4byte lbl_800814D8
-        .4byte lbl_800814F4
-        .4byte lbl_8008151C
-        .4byte lbl_80081570
-        .4byte lbl_80081538
-        .4byte lbl_800814D8
-        .4byte lbl_800814D8
-        .4byte lbl_800814F4
-        .4byte lbl_8008151C
-        .4byte lbl_80081538
-        .4byte lbl_80081538
-    .global lbl_804A2180
-    lbl_804A2180:
-        .4byte lbl_80081688
-        .4byte lbl_80081618
-        .4byte lbl_80081634
-        .4byte lbl_80081650
-        .4byte lbl_80081688
-        .4byte lbl_8008166C
-        .4byte lbl_80081618
-        .4byte lbl_80081618
-        .4byte lbl_80081634
-        .4byte lbl_80081650
-        .4byte lbl_8008166C
-        .4byte lbl_8008166C
-    .global __vt__14J3DPEBlockFull
-    __vt__14J3DPEBlockFull:
-        .4byte 0
-        .4byte 0
-        .4byte reset__14J3DPEBlockFullFP10J3DPEBlock
-        .4byte load__14J3DPEBlockFullFv
-        .4byte patch__14J3DPEBlockFullFv
-        .4byte diff__14J3DPEBlockFullFUl
-        .4byte diffFog__14J3DPEBlockFullFv
-        .4byte diffBlend__14J3DPEBlockFullFv
-        .4byte countDLSize__14J3DPEBlockFullFv
-        .4byte getType__14J3DPEBlockFullFv
-        .4byte setFog__14J3DPEBlockFullF6J3DFog
-        .4byte setFog__14J3DPEBlockFullFP6J3DFog
-        .4byte getFog__14J3DPEBlockFullFv
-        .4byte setAlphaComp__14J3DPEBlockFullFPC12J3DAlphaComp
-        .4byte setAlphaComp__14J3DPEBlockFullFRC12J3DAlphaComp
-        .4byte getAlphaComp__14J3DPEBlockFullFv
-        .4byte setBlend__14J3DPEBlockFullFPC8J3DBlend
-        .4byte setBlend__14J3DPEBlockFullFRC8J3DBlend
-        .4byte getBlend__14J3DPEBlockFullFv
-        .4byte setZMode__14J3DPEBlockFullFPC8J3DZMode
-        .4byte setZMode__14J3DPEBlockFullF8J3DZMode
-        .4byte getZMode__14J3DPEBlockFullFv
-        .4byte setZCompLoc__14J3DPEBlockFullFPCUc
-        .4byte setZCompLoc__14J3DPEBlockFullFUc
-        .4byte getZCompLoc__14J3DPEBlockFullCFv
-        .4byte setDither__14J3DPEBlockFullFPCUc
-        .4byte setDither__14J3DPEBlockFullFUc
-        .4byte getDither__14J3DPEBlockFullCFv
-        .4byte getFogOffset__14J3DPEBlockFullCFv
-        .4byte setFogOffset__14J3DPEBlockFullFUl
-        .4byte __dt__14J3DPEBlockFullFv
-    .global __vt__16J3DPEBlockFogOff
-    __vt__16J3DPEBlockFogOff:
-        .4byte 0
-        .4byte 0
-        .4byte reset__16J3DPEBlockFogOffFP10J3DPEBlock
-        .4byte load__16J3DPEBlockFogOffFv
-        .4byte patch__10J3DPEBlockFv
-        .4byte diff__16J3DPEBlockFogOffFUl
-        .4byte diffFog__10J3DPEBlockFv
-        .4byte diffBlend__16J3DPEBlockFogOffFv
-        .4byte countDLSize__16J3DPEBlockFogOffFv
-        .4byte getType__16J3DPEBlockFogOffFv
-        .4byte setFog__10J3DPEBlockF6J3DFog
-        .4byte setFog__10J3DPEBlockFP6J3DFog
-        .4byte getFog__10J3DPEBlockFv
-        .4byte setAlphaComp__16J3DPEBlockFogOffFPC12J3DAlphaComp
-        .4byte setAlphaComp__16J3DPEBlockFogOffFRC12J3DAlphaComp
-        .4byte getAlphaComp__16J3DPEBlockFogOffFv
-        .4byte setBlend__16J3DPEBlockFogOffFPC8J3DBlend
-        .4byte setBlend__16J3DPEBlockFogOffFRC8J3DBlend
-        .4byte getBlend__16J3DPEBlockFogOffFv
-        .4byte setZMode__16J3DPEBlockFogOffFPC8J3DZMode
-        .4byte setZMode__16J3DPEBlockFogOffF8J3DZMode
-        .4byte getZMode__16J3DPEBlockFogOffFv
-        .4byte setZCompLoc__16J3DPEBlockFogOffFPCUc
-        .4byte setZCompLoc__16J3DPEBlockFogOffFUc
-        .4byte getZCompLoc__16J3DPEBlockFogOffCFv
-        .4byte setDither__16J3DPEBlockFogOffFPCUc
-        .4byte setDither__16J3DPEBlockFogOffFUc
-        .4byte getDither__16J3DPEBlockFogOffCFv
-        .4byte getFogOffset__10J3DPEBlockCFv
-        .4byte setFogOffset__10J3DPEBlockFUl
-        .4byte __dt__16J3DPEBlockFogOffFv
-    .global __vt__13J3DTevBlock16
-    __vt__13J3DTevBlock16:
-        .4byte 0
-        .4byte 0
-        .4byte reset__13J3DTevBlock16FP11J3DTevBlock
-        .4byte load__13J3DTevBlock16Fv
-        .4byte diff__11J3DTevBlockFUl
-        .4byte diffTexNo__13J3DTevBlock16Fv
-        .4byte diffTevReg__13J3DTevBlock16Fv
-        .4byte diffTexCoordScale__13J3DTevBlock16Fv
-        .4byte diffTevStage__13J3DTevBlock16Fv
-        .4byte diffTevStageIndirect__13J3DTevBlock16Fv
-        .4byte patch__13J3DTevBlock16Fv
-        .4byte patchTexNo__13J3DTevBlock16Fv
-        .4byte patchTevReg__13J3DTevBlock16Fv
-        .4byte patchTexNoAndTexCoordScale__13J3DTevBlock16Fv
-        .4byte ptrToIndex__13J3DTevBlock16Fv
-        .4byte indexToPtr__13J3DTevBlock16Fv
-        .4byte getType__13J3DTevBlock16Fv
-        .4byte countDLSize__13J3DTevBlock16Fv
-        .4byte setTexNo__13J3DTevBlock16FUlPCUs
-        .4byte setTexNo__13J3DTevBlock16FUlUs
-        .4byte getTexNo__13J3DTevBlock16CFUl
-        .4byte setTevOrder__13J3DTevBlock16FUlPC11J3DTevOrder
-        .4byte setTevOrder__13J3DTevBlock16FUl11J3DTevOrder
-        .4byte getTevOrder__13J3DTevBlock16FUl
-        .4byte setTevColor__13J3DTevBlock16FUlPC13J3DGXColorS10
-        .4byte setTevColor__13J3DTevBlock16FUl13J3DGXColorS10
-        .4byte getTevColor__13J3DTevBlock16FUl
-        .4byte setTevKColor__13J3DTevBlock16FUlPC10J3DGXColor
-        .4byte setTevKColor__13J3DTevBlock16FUl10J3DGXColor
-        .4byte getTevKColor__13J3DTevBlock16FUl
-        .4byte setTevKColorSel__13J3DTevBlock16FUlPCUc
-        .4byte setTevKColorSel__13J3DTevBlock16FUlUc
-        .4byte getTevKColorSel__13J3DTevBlock16FUl
-        .4byte setTevKAlphaSel__13J3DTevBlock16FUlPCUc
-        .4byte setTevKAlphaSel__13J3DTevBlock16FUlUc
-        .4byte getTevKAlphaSel__13J3DTevBlock16FUl
-        .4byte setTevStageNum__13J3DTevBlock16FPCUc
-        .4byte setTevStageNum__13J3DTevBlock16FUc
-        .4byte getTevStageNum__13J3DTevBlock16CFv
-        .4byte setTevStage__13J3DTevBlock16FUlPC11J3DTevStage
-        .4byte setTevStage__13J3DTevBlock16FUl11J3DTevStage
-        .4byte getTevStage__13J3DTevBlock16FUl
-        .4byte setTevSwapModeInfo__13J3DTevBlock16FUlPC18J3DTevSwapModeInfo
-        .4byte setTevSwapModeInfo__13J3DTevBlock16FUl18J3DTevSwapModeInfo
-        .4byte setTevSwapModeTable__13J3DTevBlock16FUlPC19J3DTevSwapModeTable
-        .4byte setTevSwapModeTable__13J3DTevBlock16FUl19J3DTevSwapModeTable
-        .4byte getTevSwapModeTable__13J3DTevBlock16FUl
-        .4byte setIndTevStage__13J3DTevBlock16FUlPC14J3DIndTevStage
-        .4byte setIndTevStage__13J3DTevBlock16FUl14J3DIndTevStage
-        .4byte getIndTevStage__13J3DTevBlock16FUl
-        .4byte getTexNoOffset__13J3DTevBlock16CFv
-        .4byte getTevRegOffset__13J3DTevBlock16CFv
-        .4byte setTexNoOffset__11J3DTevBlockFUl
-        .4byte setTevRegOffset__13J3DTevBlock16FUl
-        .4byte __dt__13J3DTevBlock16Fv
-    .global __vt__12J3DTevBlock4
-    __vt__12J3DTevBlock4:
-        .4byte 0
-        .4byte 0
-        .4byte reset__12J3DTevBlock4FP11J3DTevBlock
-        .4byte load__12J3DTevBlock4Fv
-        .4byte diff__11J3DTevBlockFUl
-        .4byte diffTexNo__12J3DTevBlock4Fv
-        .4byte diffTevReg__12J3DTevBlock4Fv
-        .4byte diffTexCoordScale__12J3DTevBlock4Fv
-        .4byte diffTevStage__12J3DTevBlock4Fv
-        .4byte diffTevStageIndirect__12J3DTevBlock4Fv
-        .4byte patch__12J3DTevBlock4Fv
-        .4byte patchTexNo__12J3DTevBlock4Fv
-        .4byte patchTevReg__12J3DTevBlock4Fv
-        .4byte patchTexNoAndTexCoordScale__12J3DTevBlock4Fv
-        .4byte ptrToIndex__12J3DTevBlock4Fv
-        .4byte indexToPtr__12J3DTevBlock4Fv
-        .4byte getType__12J3DTevBlock4Fv
-        .4byte countDLSize__12J3DTevBlock4Fv
-        .4byte setTexNo__12J3DTevBlock4FUlPCUs
-        .4byte setTexNo__12J3DTevBlock4FUlUs
-        .4byte getTexNo__12J3DTevBlock4CFUl
-        .4byte setTevOrder__12J3DTevBlock4FUlPC11J3DTevOrder
-        .4byte setTevOrder__12J3DTevBlock4FUl11J3DTevOrder
-        .4byte getTevOrder__12J3DTevBlock4FUl
-        .4byte setTevColor__12J3DTevBlock4FUlPC13J3DGXColorS10
-        .4byte setTevColor__12J3DTevBlock4FUl13J3DGXColorS10
-        .4byte getTevColor__12J3DTevBlock4FUl
-        .4byte setTevKColor__12J3DTevBlock4FUlPC10J3DGXColor
-        .4byte setTevKColor__12J3DTevBlock4FUl10J3DGXColor
-        .4byte getTevKColor__12J3DTevBlock4FUl
-        .4byte setTevKColorSel__12J3DTevBlock4FUlPCUc
-        .4byte setTevKColorSel__12J3DTevBlock4FUlUc
-        .4byte getTevKColorSel__12J3DTevBlock4FUl
-        .4byte setTevKAlphaSel__12J3DTevBlock4FUlPCUc
-        .4byte setTevKAlphaSel__12J3DTevBlock4FUlUc
-        .4byte getTevKAlphaSel__12J3DTevBlock4FUl
-        .4byte setTevStageNum__12J3DTevBlock4FPCUc
-        .4byte setTevStageNum__12J3DTevBlock4FUc
-        .4byte getTevStageNum__12J3DTevBlock4CFv
-        .4byte setTevStage__12J3DTevBlock4FUlPC11J3DTevStage
-        .4byte setTevStage__12J3DTevBlock4FUl11J3DTevStage
-        .4byte getTevStage__12J3DTevBlock4FUl
-        .4byte setTevSwapModeInfo__12J3DTevBlock4FUlPC18J3DTevSwapModeInfo
-        .4byte setTevSwapModeInfo__12J3DTevBlock4FUl18J3DTevSwapModeInfo
-        .4byte setTevSwapModeTable__12J3DTevBlock4FUlPC19J3DTevSwapModeTable
-        .4byte setTevSwapModeTable__12J3DTevBlock4FUl19J3DTevSwapModeTable
-        .4byte getTevSwapModeTable__12J3DTevBlock4FUl
-        .4byte setIndTevStage__12J3DTevBlock4FUlPC14J3DIndTevStage
-        .4byte setIndTevStage__12J3DTevBlock4FUl14J3DIndTevStage
-        .4byte getIndTevStage__12J3DTevBlock4FUl
-        .4byte getTexNoOffset__12J3DTevBlock4CFv
-        .4byte getTevRegOffset__12J3DTevBlock4CFv
-        .4byte setTexNoOffset__11J3DTevBlockFUl
-        .4byte setTevRegOffset__12J3DTevBlock4FUl
-        .4byte __dt__12J3DTevBlock4Fv
-    .global __vt__12J3DTevBlock2
-    __vt__12J3DTevBlock2:
-        .4byte 0
-        .4byte 0
-        .4byte reset__12J3DTevBlock2FP11J3DTevBlock
-        .4byte load__12J3DTevBlock2Fv
-        .4byte diff__11J3DTevBlockFUl
-        .4byte diffTexNo__12J3DTevBlock2Fv
-        .4byte diffTevReg__12J3DTevBlock2Fv
-        .4byte diffTexCoordScale__12J3DTevBlock2Fv
-        .4byte diffTevStage__12J3DTevBlock2Fv
-        .4byte diffTevStageIndirect__12J3DTevBlock2Fv
-        .4byte patch__12J3DTevBlock2Fv
-        .4byte patchTexNo__12J3DTevBlock2Fv
-        .4byte patchTevReg__12J3DTevBlock2Fv
-        .4byte patchTexNoAndTexCoordScale__12J3DTevBlock2Fv
-        .4byte ptrToIndex__12J3DTevBlock2Fv
-        .4byte indexToPtr__12J3DTevBlock2Fv
-        .4byte getType__12J3DTevBlock2Fv
-        .4byte countDLSize__12J3DTevBlock2Fv
-        .4byte setTexNo__12J3DTevBlock2FUlPCUs
-        .4byte setTexNo__12J3DTevBlock2FUlUs
-        .4byte getTexNo__12J3DTevBlock2CFUl
-        .4byte setTevOrder__12J3DTevBlock2FUlPC11J3DTevOrder
-        .4byte setTevOrder__12J3DTevBlock2FUl11J3DTevOrder
-        .4byte getTevOrder__12J3DTevBlock2FUl
-        .4byte setTevColor__12J3DTevBlock2FUlPC13J3DGXColorS10
-        .4byte setTevColor__12J3DTevBlock2FUl13J3DGXColorS10
-        .4byte getTevColor__12J3DTevBlock2FUl
-        .4byte setTevKColor__12J3DTevBlock2FUlPC10J3DGXColor
-        .4byte setTevKColor__12J3DTevBlock2FUl10J3DGXColor
-        .4byte getTevKColor__12J3DTevBlock2FUl
-        .4byte setTevKColorSel__12J3DTevBlock2FUlPCUc
-        .4byte setTevKColorSel__12J3DTevBlock2FUlUc
-        .4byte getTevKColorSel__12J3DTevBlock2FUl
-        .4byte setTevKAlphaSel__12J3DTevBlock2FUlPCUc
-        .4byte setTevKAlphaSel__12J3DTevBlock2FUlUc
-        .4byte getTevKAlphaSel__12J3DTevBlock2FUl
-        .4byte setTevStageNum__12J3DTevBlock2FPCUc
-        .4byte setTevStageNum__12J3DTevBlock2FUc
-        .4byte getTevStageNum__12J3DTevBlock2CFv
-        .4byte setTevStage__12J3DTevBlock2FUlPC11J3DTevStage
-        .4byte setTevStage__12J3DTevBlock2FUl11J3DTevStage
-        .4byte getTevStage__12J3DTevBlock2FUl
-        .4byte setTevSwapModeInfo__12J3DTevBlock2FUlPC18J3DTevSwapModeInfo
-        .4byte setTevSwapModeInfo__12J3DTevBlock2FUl18J3DTevSwapModeInfo
-        .4byte setTevSwapModeTable__12J3DTevBlock2FUlPC19J3DTevSwapModeTable
-        .4byte setTevSwapModeTable__12J3DTevBlock2FUl19J3DTevSwapModeTable
-        .4byte getTevSwapModeTable__12J3DTevBlock2FUl
-        .4byte setIndTevStage__12J3DTevBlock2FUlPC14J3DIndTevStage
-        .4byte setIndTevStage__12J3DTevBlock2FUl14J3DIndTevStage
-        .4byte getIndTevStage__12J3DTevBlock2FUl
-        .4byte getTexNoOffset__12J3DTevBlock2CFv
-        .4byte getTevRegOffset__12J3DTevBlock2CFv
-        .4byte setTexNoOffset__11J3DTevBlockFUl
-        .4byte setTevRegOffset__12J3DTevBlock2FUl
-        .4byte __dt__12J3DTevBlock2Fv
-    .global __vt__12J3DTevBlock1
-    __vt__12J3DTevBlock1:
-        .4byte 0
-        .4byte 0
-        .4byte reset__12J3DTevBlock1FP11J3DTevBlock
-        .4byte load__12J3DTevBlock1Fv
-        .4byte diff__11J3DTevBlockFUl
-        .4byte diffTexNo__12J3DTevBlock1Fv
-        .4byte diffTevReg__12J3DTevBlock1Fv
-        .4byte diffTexCoordScale__12J3DTevBlock1Fv
-        .4byte diffTevStage__12J3DTevBlock1Fv
-        .4byte diffTevStageIndirect__12J3DTevBlock1Fv
-        .4byte patch__12J3DTevBlock1Fv
-        .4byte patchTexNo__12J3DTevBlock1Fv
-        .4byte patchTevReg__12J3DTevBlock1Fv
-        .4byte patchTexNoAndTexCoordScale__12J3DTevBlock1Fv
-        .4byte ptrToIndex__12J3DTevBlock1Fv
-        .4byte indexToPtr__12J3DTevBlock1Fv
-        .4byte getType__12J3DTevBlock1Fv
-        .4byte countDLSize__12J3DTevBlock1Fv
-        .4byte setTexNo__12J3DTevBlock1FUlPCUs
-        .4byte setTexNo__12J3DTevBlock1FUlUs
-        .4byte getTexNo__12J3DTevBlock1CFUl
-        .4byte setTevOrder__12J3DTevBlock1FUlPC11J3DTevOrder
-        .4byte setTevOrder__12J3DTevBlock1FUl11J3DTevOrder
-        .4byte getTevOrder__12J3DTevBlock1FUl
-        .4byte setTevColor__11J3DTevBlockFUlPC13J3DGXColorS10
-        .4byte setTevColor__11J3DTevBlockFUl13J3DGXColorS10
-        .4byte getTevColor__11J3DTevBlockFUl
-        .4byte setTevKColor__11J3DTevBlockFUlPC10J3DGXColor
-        .4byte setTevKColor__11J3DTevBlockFUl10J3DGXColor
-        .4byte getTevKColor__11J3DTevBlockFUl
-        .4byte setTevKColorSel__11J3DTevBlockFUlPCUc
-        .4byte setTevKColorSel__11J3DTevBlockFUlUc
-        .4byte getTevKColorSel__11J3DTevBlockFUl
-        .4byte setTevKAlphaSel__11J3DTevBlockFUlPCUc
-        .4byte setTevKAlphaSel__11J3DTevBlockFUlUc
-        .4byte getTevKAlphaSel__11J3DTevBlockFUl
-        .4byte setTevStageNum__12J3DTevBlock1FPCUc
-        .4byte setTevStageNum__12J3DTevBlock1FUc
-        .4byte getTevStageNum__12J3DTevBlock1CFv
-        .4byte setTevStage__12J3DTevBlock1FUlPC11J3DTevStage
-        .4byte setTevStage__12J3DTevBlock1FUl11J3DTevStage
-        .4byte getTevStage__12J3DTevBlock1FUl
-        .4byte setTevSwapModeInfo__11J3DTevBlockFUlPC18J3DTevSwapModeInfo
-        .4byte setTevSwapModeInfo__11J3DTevBlockFUl18J3DTevSwapModeInfo
-        .4byte setTevSwapModeTable__11J3DTevBlockFUlPC19J3DTevSwapModeTable
-        .4byte setTevSwapModeTable__11J3DTevBlockFUl19J3DTevSwapModeTable
-        .4byte getTevSwapModeTable__11J3DTevBlockFUl
-        .4byte setIndTevStage__12J3DTevBlock1FUlPC14J3DIndTevStage
-        .4byte setIndTevStage__12J3DTevBlock1FUl14J3DIndTevStage
-        .4byte getIndTevStage__12J3DTevBlock1FUl
-        .4byte getTexNoOffset__12J3DTevBlock1CFv
-        .4byte getTevRegOffset__11J3DTevBlockCFv
-        .4byte setTexNoOffset__11J3DTevBlockFUl
-        .4byte setTevRegOffset__11J3DTevBlockFUl
-        .4byte __dt__12J3DTevBlock1Fv
-    .global __vt__18J3DTevBlockPatched
-    __vt__18J3DTevBlockPatched:
-        .4byte 0
-        .4byte 0
-        .4byte reset__18J3DTevBlockPatchedFP11J3DTevBlock
-        .4byte load__18J3DTevBlockPatchedFv
-        .4byte diff__11J3DTevBlockFUl
-        .4byte diffTexNo__18J3DTevBlockPatchedFv
-        .4byte diffTevReg__18J3DTevBlockPatchedFv
-        .4byte diffTexCoordScale__18J3DTevBlockPatchedFv
-        .4byte diffTevStage__18J3DTevBlockPatchedFv
-        .4byte diffTevStageIndirect__18J3DTevBlockPatchedFv
-        .4byte patch__18J3DTevBlockPatchedFv
-        .4byte patchTexNo__18J3DTevBlockPatchedFv
-        .4byte patchTevReg__18J3DTevBlockPatchedFv
-        .4byte patchTexNoAndTexCoordScale__18J3DTevBlockPatchedFv
-        .4byte ptrToIndex__18J3DTevBlockPatchedFv
-        .4byte indexToPtr__18J3DTevBlockPatchedFv
-        .4byte getType__18J3DTevBlockPatchedFv
-        .4byte countDLSize__18J3DTevBlockPatchedFv
-        .4byte setTexNo__18J3DTevBlockPatchedFUlPCUs
-        .4byte setTexNo__18J3DTevBlockPatchedFUlUs
-        .4byte getTexNo__18J3DTevBlockPatchedCFUl
-        .4byte setTevOrder__18J3DTevBlockPatchedFUlPC11J3DTevOrder
-        .4byte setTevOrder__18J3DTevBlockPatchedFUl11J3DTevOrder
-        .4byte getTevOrder__18J3DTevBlockPatchedFUl
-        .4byte setTevColor__18J3DTevBlockPatchedFUlPC13J3DGXColorS10
-        .4byte setTevColor__18J3DTevBlockPatchedFUl13J3DGXColorS10
-        .4byte getTevColor__18J3DTevBlockPatchedFUl
-        .4byte setTevKColor__18J3DTevBlockPatchedFUlPC10J3DGXColor
-        .4byte setTevKColor__18J3DTevBlockPatchedFUl10J3DGXColor
-        .4byte getTevKColor__18J3DTevBlockPatchedFUl
-        .4byte setTevKColorSel__18J3DTevBlockPatchedFUlPCUc
-        .4byte setTevKColorSel__18J3DTevBlockPatchedFUlUc
-        .4byte getTevKColorSel__18J3DTevBlockPatchedFUl
-        .4byte setTevKAlphaSel__11J3DTevBlockFUlPCUc
-        .4byte setTevKAlphaSel__11J3DTevBlockFUlUc
-        .4byte getTevKAlphaSel__11J3DTevBlockFUl
-        .4byte setTevStageNum__18J3DTevBlockPatchedFPCUc
-        .4byte setTevStageNum__18J3DTevBlockPatchedFUc
-        .4byte getTevStageNum__18J3DTevBlockPatchedCFv
-        .4byte setTevStage__18J3DTevBlockPatchedFUlPC11J3DTevStage
-        .4byte setTevStage__18J3DTevBlockPatchedFUl11J3DTevStage
-        .4byte getTevStage__18J3DTevBlockPatchedFUl
-        .4byte setTevSwapModeInfo__11J3DTevBlockFUlPC18J3DTevSwapModeInfo
-        .4byte setTevSwapModeInfo__11J3DTevBlockFUl18J3DTevSwapModeInfo
-        .4byte setTevSwapModeTable__11J3DTevBlockFUlPC19J3DTevSwapModeTable
-        .4byte setTevSwapModeTable__11J3DTevBlockFUl19J3DTevSwapModeTable
-        .4byte getTevSwapModeTable__11J3DTevBlockFUl
-        .4byte setIndTevStage__18J3DTevBlockPatchedFUlPC14J3DIndTevStage
-        .4byte setIndTevStage__18J3DTevBlockPatchedFUl14J3DIndTevStage
-        .4byte getIndTevStage__18J3DTevBlockPatchedFUl
-        .4byte getTexNoOffset__18J3DTevBlockPatchedCFv
-        .4byte getTevRegOffset__18J3DTevBlockPatchedCFv
-        .4byte setTexNoOffset__11J3DTevBlockFUl
-        .4byte setTevRegOffset__18J3DTevBlockPatchedFUl
-        .4byte __dt__18J3DTevBlockPatchedFv
-    .global __vt__19J3DTexGenBlockBasic
-    __vt__19J3DTexGenBlockBasic:
-        .4byte 0
-        .4byte 0
-        .4byte reset__19J3DTexGenBlockBasicFP14J3DTexGenBlock
-        .4byte calc__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte calcWithoutViewMtx__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte calcPostTexMtx__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte calcPostTexMtxWithoutViewMtx__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte load__19J3DTexGenBlockBasicFv
-        .4byte patch__19J3DTexGenBlockBasicFv
-        .4byte diff__21J3DTexGenBlockPatchedFUl
-        .4byte diffTexMtx__21J3DTexGenBlockPatchedFv
-        .4byte diffTexGen__21J3DTexGenBlockPatchedFv
-        .4byte countDLSize__19J3DTexGenBlockBasicFv
-        .4byte getType__19J3DTexGenBlockBasicFv
-        .4byte setTexGenNum__21J3DTexGenBlockPatchedFPCUl
-        .4byte setTexGenNum__21J3DTexGenBlockPatchedFUl
-        .4byte getTexGenNum__21J3DTexGenBlockPatchedCFv
-        .4byte setTexCoord__21J3DTexGenBlockPatchedFUlPC11J3DTexCoord
-        .4byte getTexCoord__21J3DTexGenBlockPatchedFUl
-        .4byte setTexMtx__21J3DTexGenBlockPatchedFUlP9J3DTexMtx
-        .4byte getTexMtx__21J3DTexGenBlockPatchedFUl
-        .4byte setNBTScale__19J3DTexGenBlockBasicFPC11J3DNBTScale
-        .4byte setNBTScale__19J3DTexGenBlockBasicF11J3DNBTScale
-        .4byte getNBTScale__19J3DTexGenBlockBasicFv
-        .4byte getTexMtxOffset__21J3DTexGenBlockPatchedCFv
-        .4byte setTexMtxOffset__21J3DTexGenBlockPatchedFUl
-        .4byte __dt__19J3DTexGenBlockBasicFv
-    .global __vt__15J3DTexGenBlock4
-    __vt__15J3DTexGenBlock4:
-        .4byte 0
-        .4byte 0
-        .4byte reset__15J3DTexGenBlock4FP14J3DTexGenBlock
-        .4byte calc__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte calcWithoutViewMtx__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte calcPostTexMtx__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte calcPostTexMtxWithoutViewMtx__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte load__15J3DTexGenBlock4Fv
-        .4byte patch__15J3DTexGenBlock4Fv
-        .4byte diff__21J3DTexGenBlockPatchedFUl
-        .4byte diffTexMtx__21J3DTexGenBlockPatchedFv
-        .4byte diffTexGen__21J3DTexGenBlockPatchedFv
-        .4byte countDLSize__15J3DTexGenBlock4Fv
-        .4byte getType__15J3DTexGenBlock4Fv
-        .4byte setTexGenNum__21J3DTexGenBlockPatchedFPCUl
-        .4byte setTexGenNum__21J3DTexGenBlockPatchedFUl
-        .4byte getTexGenNum__21J3DTexGenBlockPatchedCFv
-        .4byte setTexCoord__21J3DTexGenBlockPatchedFUlPC11J3DTexCoord
-        .4byte getTexCoord__21J3DTexGenBlockPatchedFUl
-        .4byte setTexMtx__21J3DTexGenBlockPatchedFUlP9J3DTexMtx
-        .4byte getTexMtx__21J3DTexGenBlockPatchedFUl
-        .4byte setNBTScale__15J3DTexGenBlock4FPC11J3DNBTScale
-        .4byte setNBTScale__15J3DTexGenBlock4F11J3DNBTScale
-        .4byte getNBTScale__15J3DTexGenBlock4Fv
-        .4byte getTexMtxOffset__21J3DTexGenBlockPatchedCFv
-        .4byte setTexMtxOffset__21J3DTexGenBlockPatchedFUl
-        .4byte __dt__15J3DTexGenBlock4Fv
-    .global __vt__21J3DTexGenBlockPatched
-    __vt__21J3DTexGenBlockPatched:
-        .4byte 0
-        .4byte 0
-        .4byte reset__21J3DTexGenBlockPatchedFP14J3DTexGenBlock
-        .4byte calc__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte calcWithoutViewMtx__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte calcPostTexMtx__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte calcPostTexMtxWithoutViewMtx__21J3DTexGenBlockPatchedFPA4_Cf
-        .4byte load__21J3DTexGenBlockPatchedFv
-        .4byte patch__21J3DTexGenBlockPatchedFv
-        .4byte diff__21J3DTexGenBlockPatchedFUl
-        .4byte diffTexMtx__21J3DTexGenBlockPatchedFv
-        .4byte diffTexGen__21J3DTexGenBlockPatchedFv
-        .4byte countDLSize__21J3DTexGenBlockPatchedFv
-        .4byte getType__21J3DTexGenBlockPatchedFv
-        .4byte setTexGenNum__21J3DTexGenBlockPatchedFPCUl
-        .4byte setTexGenNum__21J3DTexGenBlockPatchedFUl
-        .4byte getTexGenNum__21J3DTexGenBlockPatchedCFv
-        .4byte setTexCoord__21J3DTexGenBlockPatchedFUlPC11J3DTexCoord
-        .4byte getTexCoord__21J3DTexGenBlockPatchedFUl
-        .4byte setTexMtx__21J3DTexGenBlockPatchedFUlP9J3DTexMtx
-        .4byte getTexMtx__21J3DTexGenBlockPatchedFUl
-        .4byte setNBTScale__14J3DTexGenBlockFPC11J3DNBTScale
-        .4byte setNBTScale__14J3DTexGenBlockF11J3DNBTScale
-        .4byte getNBTScale__14J3DTexGenBlockFv
-        .4byte getTexMtxOffset__21J3DTexGenBlockPatchedCFv
-        .4byte setTexMtxOffset__21J3DTexGenBlockPatchedFUl
-        .4byte __dt__21J3DTexGenBlockPatchedFv
-    .global __vt__20J3DColorBlockLightOn
-    __vt__20J3DColorBlockLightOn:
-        .4byte 0
-        .4byte 0
-        .4byte load__20J3DColorBlockLightOnFv
-        .4byte reset__20J3DColorBlockLightOnFP13J3DColorBlock
-        .4byte patch__20J3DColorBlockLightOnFv
-        .4byte patchMatColor__20J3DColorBlockLightOnFv
-        .4byte patchLight__20J3DColorBlockLightOnFv
-        .4byte diff__20J3DColorBlockLightOnFUl
-        .4byte diffMatColor__20J3DColorBlockLightOnFv
-        .4byte diffLight__20J3DColorBlockLightOnFv
-        .4byte countDLSize__20J3DColorBlockLightOnFv
-        .4byte getType__20J3DColorBlockLightOnFv
-        .4byte setMatColor__20J3DColorBlockLightOnFUlPC10J3DGXColor
-        .4byte setMatColor__20J3DColorBlockLightOnFUl10J3DGXColor
-        .4byte getMatColor__20J3DColorBlockLightOnFUl
-        .4byte setAmbColor__20J3DColorBlockLightOnFUlPC10J3DGXColor
-        .4byte setAmbColor__20J3DColorBlockLightOnFUl10J3DGXColor
-        .4byte getAmbColor__20J3DColorBlockLightOnFUl
-        .4byte setColorChanNum__20J3DColorBlockLightOnFUc
-        .4byte setColorChanNum__20J3DColorBlockLightOnFPCUc
-        .4byte getColorChanNum__20J3DColorBlockLightOnCFv
-        .4byte setColorChan__20J3DColorBlockLightOnFUlRC12J3DColorChan
-        .4byte setColorChan__20J3DColorBlockLightOnFUlPC12J3DColorChan
-        .4byte getColorChan__20J3DColorBlockLightOnFUl
-        .4byte setLight__20J3DColorBlockLightOnFUlP11J3DLightObj
-        .4byte getLight__20J3DColorBlockLightOnFUl
-        .4byte setCullMode__20J3DColorBlockLightOnFPCUc
-        .4byte setCullMode__20J3DColorBlockLightOnFUc
-        .4byte getCullMode__20J3DColorBlockLightOnCFv
-        .4byte getMatColorOffset__20J3DColorBlockLightOnCFv
-        .4byte getColorChanOffset__20J3DColorBlockLightOnCFv
-        .4byte setMatColorOffset__20J3DColorBlockLightOnFUl
-        .4byte setColorChanOffset__20J3DColorBlockLightOnFUl
-        .4byte __dt__20J3DColorBlockLightOnFv
-    .global __vt__22J3DColorBlockAmbientOn
-    __vt__22J3DColorBlockAmbientOn:
-        .4byte 0
-        .4byte 0
-        .4byte load__22J3DColorBlockAmbientOnFv
-        .4byte reset__22J3DColorBlockAmbientOnFP13J3DColorBlock
-        .4byte patch__21J3DColorBlockLightOffFv
-        .4byte patchMatColor__21J3DColorBlockLightOffFv
-        .4byte patchLight__21J3DColorBlockLightOffFv
-        .4byte diff__21J3DColorBlockLightOffFUl
-        .4byte diffMatColor__21J3DColorBlockLightOffFv
-        .4byte diffLight__21J3DColorBlockLightOffFv
-        .4byte countDLSize__22J3DColorBlockAmbientOnFv
-        .4byte getType__22J3DColorBlockAmbientOnFv
-        .4byte setMatColor__21J3DColorBlockLightOffFUlPC10J3DGXColor
-        .4byte setMatColor__21J3DColorBlockLightOffFUl10J3DGXColor
-        .4byte getMatColor__21J3DColorBlockLightOffFUl
-        .4byte setAmbColor__22J3DColorBlockAmbientOnFUlPC10J3DGXColor
-        .4byte setAmbColor__22J3DColorBlockAmbientOnFUl10J3DGXColor
-        .4byte getAmbColor__22J3DColorBlockAmbientOnFUl
-        .4byte setColorChanNum__21J3DColorBlockLightOffFUc
-        .4byte setColorChanNum__21J3DColorBlockLightOffFPCUc
-        .4byte getColorChanNum__21J3DColorBlockLightOffCFv
-        .4byte setColorChan__21J3DColorBlockLightOffFUlRC12J3DColorChan
-        .4byte setColorChan__21J3DColorBlockLightOffFUlPC12J3DColorChan
-        .4byte getColorChan__21J3DColorBlockLightOffFUl
-        .4byte setLight__13J3DColorBlockFUlP11J3DLightObj
-        .4byte getLight__13J3DColorBlockFUl
-        .4byte setCullMode__21J3DColorBlockLightOffFPCUc
-        .4byte setCullMode__21J3DColorBlockLightOffFUc
-        .4byte getCullMode__21J3DColorBlockLightOffCFv
-        .4byte getMatColorOffset__21J3DColorBlockLightOffCFv
-        .4byte getColorChanOffset__21J3DColorBlockLightOffCFv
-        .4byte setMatColorOffset__21J3DColorBlockLightOffFUl
-        .4byte setColorChanOffset__21J3DColorBlockLightOffFUl
-        .4byte __dt__22J3DColorBlockAmbientOnFv
-    .global __vt__13J3DPEBlockXlu
-    __vt__13J3DPEBlockXlu:
-        .4byte 0
-        .4byte 0
-        .4byte reset__10J3DPEBlockFP10J3DPEBlock
-        .4byte load__13J3DPEBlockXluFv
-        .4byte patch__10J3DPEBlockFv
-        .4byte diff__10J3DPEBlockFUl
-        .4byte diffFog__10J3DPEBlockFv
-        .4byte diffBlend__10J3DPEBlockFv
-        .4byte countDLSize__13J3DPEBlockXluFv
-        .4byte getType__13J3DPEBlockXluFv
-        .4byte setFog__10J3DPEBlockF6J3DFog
-        .4byte setFog__10J3DPEBlockFP6J3DFog
-        .4byte getFog__10J3DPEBlockFv
-        .4byte setAlphaComp__10J3DPEBlockFPC12J3DAlphaComp
-        .4byte setAlphaComp__10J3DPEBlockFRC12J3DAlphaComp
-        .4byte getAlphaComp__10J3DPEBlockFv
-        .4byte setBlend__10J3DPEBlockFPC8J3DBlend
-        .4byte setBlend__10J3DPEBlockFRC8J3DBlend
-        .4byte getBlend__10J3DPEBlockFv
-        .4byte setZMode__10J3DPEBlockFPC8J3DZMode
-        .4byte setZMode__10J3DPEBlockF8J3DZMode
-        .4byte getZMode__10J3DPEBlockFv
-        .4byte setZCompLoc__10J3DPEBlockFPCUc
-        .4byte setZCompLoc__10J3DPEBlockFUc
-        .4byte getZCompLoc__10J3DPEBlockCFv
-        .4byte setDither__10J3DPEBlockFPCUc
-        .4byte setDither__10J3DPEBlockFUc
-        .4byte getDither__10J3DPEBlockCFv
-        .4byte getFogOffset__10J3DPEBlockCFv
-        .4byte setFogOffset__10J3DPEBlockFUl
-        .4byte __dt__13J3DPEBlockXluFv
-    .global __vt__17J3DPEBlockTexEdge
-    __vt__17J3DPEBlockTexEdge:
-        .4byte 0
-        .4byte 0
-        .4byte reset__10J3DPEBlockFP10J3DPEBlock
-        .4byte load__17J3DPEBlockTexEdgeFv
-        .4byte patch__10J3DPEBlockFv
-        .4byte diff__10J3DPEBlockFUl
-        .4byte diffFog__10J3DPEBlockFv
-        .4byte diffBlend__10J3DPEBlockFv
-        .4byte countDLSize__17J3DPEBlockTexEdgeFv
-        .4byte getType__17J3DPEBlockTexEdgeFv
-        .4byte setFog__10J3DPEBlockF6J3DFog
-        .4byte setFog__10J3DPEBlockFP6J3DFog
-        .4byte getFog__10J3DPEBlockFv
-        .4byte setAlphaComp__10J3DPEBlockFPC12J3DAlphaComp
-        .4byte setAlphaComp__10J3DPEBlockFRC12J3DAlphaComp
-        .4byte getAlphaComp__10J3DPEBlockFv
-        .4byte setBlend__10J3DPEBlockFPC8J3DBlend
-        .4byte setBlend__10J3DPEBlockFRC8J3DBlend
-        .4byte getBlend__10J3DPEBlockFv
-        .4byte setZMode__10J3DPEBlockFPC8J3DZMode
-        .4byte setZMode__10J3DPEBlockF8J3DZMode
-        .4byte getZMode__10J3DPEBlockFv
-        .4byte setZCompLoc__10J3DPEBlockFPCUc
-        .4byte setZCompLoc__10J3DPEBlockFUc
-        .4byte getZCompLoc__10J3DPEBlockCFv
-        .4byte setDither__10J3DPEBlockFPCUc
-        .4byte setDither__10J3DPEBlockFUc
-        .4byte getDither__10J3DPEBlockCFv
-        .4byte getFogOffset__10J3DPEBlockCFv
-        .4byte setFogOffset__10J3DPEBlockFUl
-        .4byte __dt__17J3DPEBlockTexEdgeFv
-    .global __vt__13J3DPEBlockOpa
-    __vt__13J3DPEBlockOpa:
-        .4byte 0
-        .4byte 0
-        .4byte reset__10J3DPEBlockFP10J3DPEBlock
-        .4byte load__13J3DPEBlockOpaFv
-        .4byte patch__10J3DPEBlockFv
-        .4byte diff__10J3DPEBlockFUl
-        .4byte diffFog__10J3DPEBlockFv
-        .4byte diffBlend__10J3DPEBlockFv
-        .4byte countDLSize__13J3DPEBlockOpaFv
-        .4byte getType__13J3DPEBlockOpaFv
-        .4byte setFog__10J3DPEBlockF6J3DFog
-        .4byte setFog__10J3DPEBlockFP6J3DFog
-        .4byte getFog__10J3DPEBlockFv
-        .4byte setAlphaComp__10J3DPEBlockFPC12J3DAlphaComp
-        .4byte setAlphaComp__10J3DPEBlockFRC12J3DAlphaComp
-        .4byte getAlphaComp__10J3DPEBlockFv
-        .4byte setBlend__10J3DPEBlockFPC8J3DBlend
-        .4byte setBlend__10J3DPEBlockFRC8J3DBlend
-        .4byte getBlend__10J3DPEBlockFv
-        .4byte setZMode__10J3DPEBlockFPC8J3DZMode
-        .4byte setZMode__10J3DPEBlockF8J3DZMode
-        .4byte getZMode__10J3DPEBlockFv
-        .4byte setZCompLoc__10J3DPEBlockFPCUc
-        .4byte setZCompLoc__10J3DPEBlockFUc
-        .4byte getZCompLoc__10J3DPEBlockCFv
-        .4byte setDither__10J3DPEBlockFPCUc
-        .4byte setDither__10J3DPEBlockFUc
-        .4byte getDither__10J3DPEBlockCFv
-        .4byte getFogOffset__10J3DPEBlockCFv
-        .4byte setFogOffset__10J3DPEBlockFUl
-        .4byte __dt__13J3DPEBlockOpaFv
-    .global __vt__15J3DIndBlockFull
-    __vt__15J3DIndBlockFull:
-        .4byte 0
-        .4byte 0
-        .4byte reset__15J3DIndBlockFullFP11J3DIndBlock
-        .4byte diff__15J3DIndBlockFullFUl
-        .4byte load__15J3DIndBlockFullFv
-        .4byte countDLSize__15J3DIndBlockFullFv
-        .4byte getType__15J3DIndBlockFullFv
-        .4byte setIndTexStageNum__15J3DIndBlockFullFUc
-        .4byte getIndTexStageNum__15J3DIndBlockFullCFv
-        .4byte setIndTexOrder__15J3DIndBlockFullFUl14J3DIndTexOrder
-        .4byte setIndTexOrder__15J3DIndBlockFullFUlPC14J3DIndTexOrder
-        .4byte getIndTexOrder__15J3DIndBlockFullFUl
-        .4byte setIndTexMtx__15J3DIndBlockFullFUlPC12J3DIndTexMtx
-        .4byte setIndTexMtx__15J3DIndBlockFullFUl12J3DIndTexMtx
-        .4byte getIndTexMtx__15J3DIndBlockFullFUl
-        .4byte setIndTexCoordScale__15J3DIndBlockFullFUlPC19J3DIndTexCoordScale
-        .4byte setIndTexCoordScale__15J3DIndBlockFullFUl19J3DIndTexCoordScale
-        .4byte getIndTexCoordScale__15J3DIndBlockFullFUl
-        .4byte __dt__15J3DIndBlockFullFv
-    .global __vt__11J3DTevBlock
-    __vt__11J3DTevBlock:
-        .4byte 0
-        .4byte 0
-        .4byte reset__11J3DTevBlockFP11J3DTevBlock
-        .4byte load__11J3DTevBlockFv
-        .4byte diff__11J3DTevBlockFUl
-        .4byte diffTexNo__11J3DTevBlockFv
-        .4byte diffTevReg__11J3DTevBlockFv
-        .4byte diffTexCoordScale__11J3DTevBlockFv
-        .4byte diffTevStage__11J3DTevBlockFv
-        .4byte diffTevStageIndirect__11J3DTevBlockFv
-        .4byte patch__11J3DTevBlockFv
-        .4byte patchTexNo__11J3DTevBlockFv
-        .4byte patchTevReg__11J3DTevBlockFv
-        .4byte patchTexNoAndTexCoordScale__11J3DTevBlockFv
-        .4byte 0
-        .4byte 0
-        .4byte 0
-        .4byte countDLSize__11J3DTevBlockFv
-        .4byte setTexNo__11J3DTevBlockFUlPCUs
-        .4byte setTexNo__11J3DTevBlockFUlUs
-        .4byte getTexNo__11J3DTevBlockCFUl
-        .4byte setTevOrder__11J3DTevBlockFUlPC11J3DTevOrder
-        .4byte setTevOrder__11J3DTevBlockFUl11J3DTevOrder
-        .4byte getTevOrder__11J3DTevBlockFUl
-        .4byte setTevColor__11J3DTevBlockFUlPC13J3DGXColorS10
-        .4byte setTevColor__11J3DTevBlockFUl13J3DGXColorS10
-        .4byte getTevColor__11J3DTevBlockFUl
-        .4byte setTevKColor__11J3DTevBlockFUlPC10J3DGXColor
-        .4byte setTevKColor__11J3DTevBlockFUl10J3DGXColor
-        .4byte getTevKColor__11J3DTevBlockFUl
-        .4byte setTevKColorSel__11J3DTevBlockFUlPCUc
-        .4byte setTevKColorSel__11J3DTevBlockFUlUc
-        .4byte getTevKColorSel__11J3DTevBlockFUl
-        .4byte setTevKAlphaSel__11J3DTevBlockFUlPCUc
-        .4byte setTevKAlphaSel__11J3DTevBlockFUlUc
-        .4byte getTevKAlphaSel__11J3DTevBlockFUl
-        .4byte setTevStageNum__11J3DTevBlockFPCUc
-        .4byte setTevStageNum__11J3DTevBlockFUc
-        .4byte getTevStageNum__11J3DTevBlockCFv
-        .4byte setTevStage__11J3DTevBlockFUlPC11J3DTevStage
-        .4byte setTevStage__11J3DTevBlockFUl11J3DTevStage
-        .4byte getTevStage__11J3DTevBlockFUl
-        .4byte setTevSwapModeInfo__11J3DTevBlockFUlPC18J3DTevSwapModeInfo
-        .4byte setTevSwapModeInfo__11J3DTevBlockFUl18J3DTevSwapModeInfo
-        .4byte setTevSwapModeTable__11J3DTevBlockFUlPC19J3DTevSwapModeTable
-        .4byte setTevSwapModeTable__11J3DTevBlockFUl19J3DTevSwapModeTable
-        .4byte getTevSwapModeTable__11J3DTevBlockFUl
-        .4byte setIndTevStage__11J3DTevBlockFUlPC14J3DIndTevStage
-        .4byte setIndTevStage__11J3DTevBlockFUl14J3DIndTevStage
-        .4byte getIndTevStage__11J3DTevBlockFUl
-        .4byte getTexNoOffset__11J3DTevBlockCFv
-        .4byte getTevRegOffset__11J3DTevBlockCFv
-        .4byte setTexNoOffset__11J3DTevBlockFUl
-        .4byte setTevRegOffset__11J3DTevBlockFUl
-        .4byte __dt__11J3DTevBlockFv
-    .global __vt__21J3DColorBlockLightOff
-    __vt__21J3DColorBlockLightOff:
-        .4byte 0
-        .4byte 0
-        .4byte load__21J3DColorBlockLightOffFv
-        .4byte reset__21J3DColorBlockLightOffFP13J3DColorBlock
-        .4byte patch__21J3DColorBlockLightOffFv
-        .4byte patchMatColor__21J3DColorBlockLightOffFv
-        .4byte patchLight__21J3DColorBlockLightOffFv
-        .4byte diff__21J3DColorBlockLightOffFUl
-        .4byte diffMatColor__21J3DColorBlockLightOffFv
-        .4byte diffLight__21J3DColorBlockLightOffFv
-        .4byte countDLSize__21J3DColorBlockLightOffFv
-        .4byte getType__21J3DColorBlockLightOffFv
-        .4byte setMatColor__21J3DColorBlockLightOffFUlPC10J3DGXColor
-        .4byte setMatColor__21J3DColorBlockLightOffFUl10J3DGXColor
-        .4byte getMatColor__21J3DColorBlockLightOffFUl
-        .4byte setAmbColor__13J3DColorBlockFUlPC10J3DGXColor
-        .4byte setAmbColor__13J3DColorBlockFUl10J3DGXColor
-        .4byte getAmbColor__13J3DColorBlockFUl
-        .4byte setColorChanNum__21J3DColorBlockLightOffFUc
-        .4byte setColorChanNum__21J3DColorBlockLightOffFPCUc
-        .4byte getColorChanNum__21J3DColorBlockLightOffCFv
-        .4byte setColorChan__21J3DColorBlockLightOffFUlRC12J3DColorChan
-        .4byte setColorChan__21J3DColorBlockLightOffFUlPC12J3DColorChan
-        .4byte getColorChan__21J3DColorBlockLightOffFUl
-        .4byte setLight__13J3DColorBlockFUlP11J3DLightObj
-        .4byte getLight__13J3DColorBlockFUl
-        .4byte setCullMode__21J3DColorBlockLightOffFPCUc
-        .4byte setCullMode__21J3DColorBlockLightOffFUc
-        .4byte getCullMode__21J3DColorBlockLightOffCFv
-        .4byte getMatColorOffset__21J3DColorBlockLightOffCFv
-        .4byte getColorChanOffset__21J3DColorBlockLightOffCFv
-        .4byte setMatColorOffset__21J3DColorBlockLightOffFUl
-        .4byte setColorChanOffset__21J3DColorBlockLightOffFUl
-        .4byte __dt__21J3DColorBlockLightOffFv
-        .4byte 0
-
-    .section .sdata, "wa"  # 0x80514680 - 0x80514D80
-    .global SizeOfLoadMatColors
-    SizeOfLoadMatColors:
-        .4byte 0xd
-    .global SizeOfLoadAmbColors
-    SizeOfLoadAmbColors:
-        .4byte 0xd
-    .global SizeOfLoadColorChans
-    SizeOfLoadColorChans:
-        .4byte 0x15
-
-    .section .sbss # 0x80514D80 - 0x80516360
-    .global SizeOfJ3DColorBlockLightOffLoad
-    SizeOfJ3DColorBlockLightOffLoad:
-        .skip 0x4
-    .global SizeOfJ3DColorBlockAmbientOnLoad
-    SizeOfJ3DColorBlockAmbientOnLoad:
-        .skip 0x4
-
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .global lbl_80516AD8
-    lbl_80516AD8:
-        .4byte 0x02000201
-    .global lbl_80516ADC
-    lbl_80516ADC:
-        .4byte 0x00000000
-*/
+static size_t SizeOfLoadMatColors  = 0x0D;
+static size_t SizeOfLoadAmbColors  = 0x0D;
+static size_t SizeOfLoadColorChans = 0x15;
 
 /*
  * --INFO--
@@ -823,6 +22,12 @@
  */
 void J3DColorBlockLightOff::initialize()
 {
+	mColorChannelNum = 0;
+	for (int i = 0; i < 2; i++) {
+		mMaterialColors[i] = j3dDefaultColInfo;
+	}
+	mMaterialColorOffset = 0;
+	mColorChannelOffset  = 0;
 	/*
 	li       r7, 0
 	addi     r8, r2, j3dDefaultColInfo@sda21
@@ -941,48 +146,37 @@ void J3DColorBlockLightOn::initialize()
  * --INFO--
  * Address:	80077320
  * Size:	000030
+ * initialize__21J3DTexGenBlockPatchedFv
  */
 void J3DTexGenBlockPatched::initialize()
 {
-	/*
-	li       r0, 0
-	stw      r0, 4(r3)
-	stw      r0, 0x38(r3)
-	stw      r0, 0x3c(r3)
-	stw      r0, 0x40(r3)
-	stw      r0, 0x44(r3)
-	stw      r0, 0x48(r3)
-	stw      r0, 0x4c(r3)
-	stw      r0, 0x50(r3)
-	stw      r0, 0x54(r3)
-	stw      r0, 0x58(r3)
-	blr
-	*/
+	mTexgenCnt = 0;
+	for (int i = 0; i < 8; i++) {
+		mTexMatrices[i] = nullptr;
+	}
+	mDlistOffs = 0;
 }
 
 /*
  * --INFO--
  * Address:	80077350
  * Size:	000020
+ * initialize__15J3DTexGenBlock4Fv
  */
 void J3DTexGenBlock4::initialize()
 {
-	/*
-	li       r0, 0
-	stw      r0, 4(r3)
-	stw      r0, 0x38(r3)
-	stw      r0, 0x3c(r3)
-	stw      r0, 0x40(r3)
-	stw      r0, 0x44(r3)
-	stw      r0, 0x58(r3)
-	blr
-	*/
+	mTexgenCnt = 0;
+	for (int i = 0; i < 4; i++) {
+		mTexMatrices[i] = nullptr;
+	}
+	mDlistOffs = 0;
 }
 
 /*
  * --INFO--
  * Address:	80077370
  * Size:	000030
+ * initialize__19J3DTexGenBlockBasicFv
  */
 void J3DTexGenBlockBasic::initialize()
 {
@@ -1006,20 +200,45 @@ void J3DTexGenBlockBasic::initialize()
  * --INFO--
  * Address:	800773A0
  * Size:	00000C
+ * initialize__15J3DTevBlockNullFv
  */
 void J3DTevBlockNull::initialize()
 {
 	// Generated from stw r0, 0x4(r3)
-	_04 = 0;
+	mTexNoOffset = 0;
 }
 
 /*
  * --INFO--
  * Address:	800773AC
  * Size:	00018C
+ * initialize__18J3DTevBlockPatchedFv
  */
 void J3DTevBlockPatched::initialize()
 {
+	for (int i = 0; i < 8; i++) {
+		mTexIndices[i] = 0xFFFF;
+	}
+	for (int i = 0; i < 8; i++) {
+		mStages[i]._00 = 0xC0 + (i * 2);
+		mStages[i]._04 = 0xC1 + (i * 2);
+	}
+	// const J3DGXColorS10 defaultTevK = j3dDefaultTevKColor;
+	// const J3DGXColor defaultTev     = j3dDefaultTevColor;
+	for (int i = 0; i < 3; i++) {
+		mKColors[i] = j3dDefaultTevKColor;
+		// _98[i] = defaultTevK;
+	}
+	for (int i = 0; i < 4; i++) {
+		mColors[i] = j3dDefaultTevColor;
+		// _B8[i] = defaultTev;
+	}
+	for (int i = 0; i < 8; i++) {
+		_C8[i] = 0xC;
+	}
+	mStageNum    = 1;
+	mTexNoOffset = 0;
+	mRegOffset   = 0;
 	/*
 	stwu     r1, -0x40(r1)
 	lis      r4, 0x0000FFFF@ha
@@ -1127,30 +346,53 @@ void J3DTevBlockPatched::initialize()
  * --INFO--
  * Address:	80077538
  * Size:	000028
+ * initialize__12J3DTevBlock1Fv
  */
 void J3DTevBlock1::initialize()
 {
-	/*
-	lis      r4, 0x0000FFFF@ha
-	li       r5, 0xc0
-	addi     r0, r4, 0x0000FFFF@l
-	li       r4, 0xc1
-	sth      r0, 8(r3)
-	li       r0, 0
-	stb      r5, 0xe(r3)
-	stb      r4, 0x12(r3)
-	stw      r0, 4(r3)
-	blr
-	*/
+	for (int i = 0; i < 1; i++) {
+		mTexIndices[i] = 0xFFFF;
+	}
+	for (int i = 0; i < 1; i++) {
+		mStages[i]._00 = 0xC0 + (i * 2);
+		mStages[i]._04 = 0xC1 + (i * 2);
+	}
+	mTexNoOffset = 0;
 }
 
 /*
  * --INFO--
  * Address:	80077560
  * Size:	000110
+ * initialize__12J3DTevBlock2Fv
  */
 void J3DTevBlock2::initialize()
 {
+	for (int i = 0; i < 2; i++) {
+		mTexIndices[i] = 0xFFFF;
+	}
+	for (int i = 0; i < 2; i++) {
+		mStages[i]._00 = 0xC0 + (i * 2);
+		mStages[i]._04 = 0xC1 + (i * 2);
+	}
+	for (int i = 0; i < 2; i++) {
+		mKColorSels[i] = 0xC;
+	}
+	for (int i = 0; i < 2; i++) {
+		mKAlphaSels[i] = 0x1C;
+	}
+	// const J3DGXColorS10 defaultTevK = j3dDefaultTevKColor;
+	// const J3DGXColor defaultTev     = j3dDefaultTevColor;
+	for (int i = 0; i < 3; i++) {
+		mKColors[i] = j3dDefaultTevKColor;
+		// _98[i] = defaultTevK;
+	}
+	for (int i = 0; i < 4; i++) {
+		mColors[i] = j3dDefaultTevColor;
+		// _B8[i] = defaultTev;
+	}
+	mTexNoOffset = 0;
+	mRegOffset   = 0;
 	/*
 	stwu     r1, -0x10(r1)
 	lis      r4, 0x0000FFFF@ha
@@ -1479,11 +721,7 @@ lbl_80077920:
  * Address:	800779FC
  * Size:	00000C
  */
-void J3DIndBlockFull::initialize()
-{
-	// Generated from stb r0, 0x4(r3)
-	_04 = 0;
-}
+void J3DIndBlockFull::initialize() { mIndTexStageNum = 0; }
 
 /*
  * --INFO--
@@ -1492,17 +730,10 @@ void J3DIndBlockFull::initialize()
  */
 void J3DPEBlockFogOff::initialize()
 {
-	/*
-	lis      r5, 0x0000FFFF@ha
-	li       r4, 0xff
-	addi     r5, r5, 0x0000FFFF@l
-	li       r0, 1
-	sth      r5, 4(r3)
-	sth      r5, 0xc(r3)
-	stb      r4, 0xe(r3)
-	stb      r0, 0xf(r3)
-	blr
-	*/
+	mAlphaComp._00 = 0xFFFF;
+	mZMode._00     = 0xFFFF;
+	_0E            = 0xFF;
+	mDither        = 1;
 }
 
 /*
@@ -1512,19 +743,11 @@ void J3DPEBlockFogOff::initialize()
  */
 void J3DPEBlockFull::initialize()
 {
-	/*
-	lis      r4, 0x0000FFFF@ha
-	li       r5, 0xff
-	addi     r6, r4, 0x0000FFFF@l
-	li       r4, 1
-	sth      r6, 0x30(r3)
-	li       r0, 0
-	sth      r6, 0x38(r3)
-	stb      r5, 0x3a(r3)
-	stb      r4, 0x3b(r3)
-	stw      r0, 0x3c(r3)
-	blr
-	*/
+	mAlphaComp._00 = 0xFFFF;
+	mZMode._00     = 0xFFFF;
+	_3A            = 0xFF;
+	mDither        = 1;
+	mFogOffset     = 0;
 }
 
 /*
@@ -1602,7 +825,7 @@ u32 J3DTevBlock4::countDLSize() { return 0x244; }
  * Address:	80077AA8
  * Size:	000008
  */
-u32 J3DTevBlock16::countDLSize() { return 0x3E8; }
+u32 J3DTevBlock16::countDLSize() { return 1000; }
 
 /*
  * --INFO--
@@ -2903,39 +2126,57 @@ lbl_80078D40:
  * --INFO--
  * Address:	80078D68
  * Size:	00004C
+ * patch__21J3DColorBlockLightOffFv
  */
 void J3DColorBlockLightOff::patch()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	patchMatColor();
+	patchLight();
 }
 
 /*
  * --INFO--
  * Address:	80078DB4
  * Size:	0001AC
+ * patchMatColor__21J3DColorBlockLightOffFv
  */
 void J3DColorBlockLightOff::patchMatColor()
 {
+	__GDCurrentDL->pDisplayListData = __GDCurrentDL->begin + mMaterialColorOffset;
+	u8* data                        = __GDCurrentDL->pDisplayListData;
+	if (__GDCurrentDL->end < data + SizeOfLoadMatColors) {
+		GDOverflowed();
+	}
+	__GDWrite(0x10);
+	__GDWrite(0x00);
+	__GDWrite(0x01);
+	__GDWrite(0x10);
+	__GDWrite(0x0C);
+	// J3DGXColor color = _04[0];
+	// __GDWrite(color.a);
+	// __GDWrite(color.b);
+	// __GDWrite(color.g);
+	// __GDWrite(color.r);
+	// color = _04[1];
+	// __GDWrite(color.a);
+	// __GDWrite(color.b);
+	// __GDWrite(color.g);
+	// __GDWrite(color.r);
+	for (int i = 0; i < 2; i++) {
+		J3DGXColor color = mMaterialColors[i];
+		__GDWrite(color.a);
+		__GDWrite(color.b);
+		__GDWrite(color.g);
+		__GDWrite(color.r);
+	}
+	// for (int i = 0; i < 2; i++) {
+	// 	const u8* color = _04[i].asBytes();
+	// 	__GDWrite(color[3]);
+	// 	__GDWrite(color[2]);
+	// 	__GDWrite(color[1]);
+	// 	__GDWrite(color[0]);
+	// }
+	DCStoreRange(data, __GDCurrentDL->pDisplayListData - data);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -3347,27 +2588,8 @@ lbl_800792FC:
  */
 void J3DColorBlockLightOn::patch()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r12, 0(r3)
-	lwz      r12, 0x14(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	patchMatColor();
+	patchLight();
 }
 
 /*
@@ -3800,41 +3022,16 @@ lbl_800799B4:
  * --INFO--
  * Address:	800799F4
  * Size:	000068
+ * diff__21J3DColorBlockLightOffFUl
  */
-void J3DColorBlockLightOff::diff(unsigned long)
+void J3DColorBlockLightOff::diff(unsigned long p1)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	clrlwi.  r0, r4, 0x1f
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	beq      lbl_80079A28
-	lwz      r12, 0(r3)
-	lwz      r12, 0x20(r12)
-	mtctr    r12
-	bctrl
-
-lbl_80079A28:
-	rlwinm.  r0, r31, 0, 0x1e, 0x1e
-	beq      lbl_80079A44
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x24(r12)
-	mtctr    r12
-	bctrl
-
-lbl_80079A44:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if (p1 & 1) {
+		diffMatColor();
+	}
+	if (p1 & 2) {
+		diffLight();
+	}
 }
 
 /*
@@ -4227,45 +3424,16 @@ lbl_80079F58:
  * --INFO--
  * Address:	80079FDC
  * Size:	000070
+ * diff__20J3DColorBlockLightOnFUl
  */
-void J3DColorBlockLightOn::diff(unsigned long)
+void J3DColorBlockLightOn::diff(unsigned long p1)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	clrlwi.  r0, r4, 0x1f
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	beq      lbl_8007A010
-	lwz      r12, 0(r3)
-	lwz      r12, 0x20(r12)
-	mtctr    r12
-	bctrl
-
-lbl_8007A010:
-	rlwinm.  r0, r31, 0, 0x1e, 0x1e
-	bne      lbl_8007A020
-	rlwinm.  r0, r31, 0x1c, 0x1c, 0x1f
-	beq      lbl_8007A034
-
-lbl_8007A020:
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x24(r12)
-	mtctr    r12
-	bctrl
-
-lbl_8007A034:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if (p1 & 1) {
+		diffMatColor();
+	}
+	if (p1 & 2 || p1 & 0xF0) {
+		diffLight();
+	}
 }
 
 /*
@@ -4674,9 +3842,19 @@ lbl_8007A5D4:
  * --INFO--
  * Address:	8007A5FC
  * Size:	0000A8
+ * load__15J3DTexGenBlock4Fv
  */
 void J3DTexGenBlock4::load()
 {
+	mDlistOffs = __GDCurrentDL->pDisplayListData - __GDCurrentDL->begin;
+	for (int i = 0; i < 4; i++) {
+		if (mTexMatrices[i] && mTexCoords->_02 != 0x3C) {
+			mTexMatrices[i]->load(i);
+		}
+	}
+	if (mTexgenCnt != 0) {
+		loadTexCoordGens(mTexgenCnt, mTexCoords);
+	}
 	/*
 	stwu     r1, -0x20(r1)
 	mflr     r0
@@ -4733,6 +3911,7 @@ lbl_8007A684:
  * --INFO--
  * Address:	8007A6A4
  * Size:	0000A8
+ * load__19J3DTexGenBlockBasicFv
  */
 void J3DTexGenBlockBasic::load()
 {
@@ -4792,6 +3971,7 @@ lbl_8007A72C:
  * --INFO--
  * Address:	8007A74C
  * Size:	000090
+ * patch__21J3DTexGenBlockPatchedFv
  */
 void J3DTexGenBlockPatched::patch()
 {
@@ -4843,6 +4023,7 @@ lbl_8007A79C:
  * --INFO--
  * Address:	8007A7DC
  * Size:	0000AC
+ * patch__15J3DTexGenBlock4Fv
  */
 void J3DTexGenBlock4::patch()
 {
@@ -4901,9 +4082,18 @@ lbl_8007A840:
  * --INFO--
  * Address:	8007A888
  * Size:	0000AC
+ * patch__19J3DTexGenBlockBasicFv
  */
 void J3DTexGenBlockBasic::patch()
 {
+	__GDCurrentDL->pDisplayListData = __GDCurrentDL->begin + mDlistOffs;
+	u8* data                        = __GDCurrentDL->pDisplayListData;
+	for (u32 i = 0; i < 8; i++) {
+		if (mTexMatrices[i] && mTexCoords[i]._02 != 0x3C) {
+			mTexMatrices[i]->load(i);
+		}
+	}
+	DCStoreRange(data, __GDCurrentDL->pDisplayListData - data);
 	/*
 	stwu     r1, -0x20(r1)
 	mflr     r0
@@ -4960,38 +4150,14 @@ lbl_8007A8EC:
  * Address:	8007A934
  * Size:	000068
  */
-void J3DTexGenBlockPatched::diff(unsigned long)
+void J3DTexGenBlockPatched::diff(unsigned long p1)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	rlwinm.  r0, r4, 0x18, 0x1c, 0x1f
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	beq      lbl_8007A984
-	lwz      r12, 0(r3)
-	lwz      r12, 0x28(r12)
-	mtctr    r12
-	bctrl
-	rlwinm.  r0, r31, 0, 0x13, 0x13
-	beq      lbl_8007A984
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x2c(r12)
-	mtctr    r12
-	bctrl
-
-lbl_8007A984:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if ((p1 >> 8 & 0xF) != 0) {
+		diffTexMtx();
+		if ((p1 & 0x1000) != 0) {
+			diffTexGen();
+		}
+	}
 }
 
 /*
@@ -5001,34 +4167,11 @@ lbl_8007A984:
  */
 void J3DTexGenBlockPatched::diffTexMtx()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	stw      r30, 8(r1)
-	li       r30, 0
-
-lbl_8007A9B8:
-	lwz      r3, 0x38(r31)
-	cmplwi   r3, 0
-	beq      lbl_8007A9CC
-	mr       r4, r30
-	bl       load__9J3DTexMtxCFUl
-
-lbl_8007A9CC:
-	addi     r30, r30, 1
-	addi     r31, r31, 4
-	cmplwi   r30, 8
-	blt      lbl_8007A9B8
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	for (u32 i = 0; i < 8; i++) {
+		if (mTexMatrices[i] != nullptr) {
+			mTexMatrices[i]->load(i);
+		}
+	}
 }
 
 /*
@@ -5038,23 +4181,9 @@ lbl_8007A9CC:
  */
 void J3DTexGenBlockPatched::diffTexGen()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	mr       r4, r3
-	stw      r0, 0x14(r1)
-	lwz      r3, 4(r3)
-	cmplwi   r3, 0
-	beq      lbl_8007AA18
-	addi     r4, r4, 8
-	bl       loadTexCoordGens__FUlP11J3DTexCoord
-
-lbl_8007AA18:
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if (mTexgenCnt != 0) {
+		loadTexCoordGens(mTexgenCnt, mTexCoords);
+	}
 }
 
 /*
@@ -6519,39 +5648,29 @@ lbl_8007BE60:
  * --INFO--
  * Address:	8007BE90
  * Size:	00004C
+ * patch__18J3DTevBlockPatchedFv
  */
 void J3DTevBlockPatched::patch()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r12, 0(r3)
-	lwz      r12, 0x2c(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x30(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	patchTexNo();
+	patchTevReg();
 }
 
 /*
  * --INFO--
  * Address:	8007BEDC
  * Size:	00006C
+ * TODO: needs loadTexNo
+ * patchTexNo__12J3DTevBlock1Fv
  */
 void J3DTevBlock1::patchTexNo()
 {
+	__GDCurrentDL->pDisplayListData = __GDCurrentDL->begin + mTexNoOffset;
+	u8* data                        = __GDCurrentDL->pDisplayListData;
+	if (mTexIndices[0] != 0xFFFF) {
+		// loadTexNo(0, mTexIndices);
+	}
+	DCStoreRange(data, __GDCurrentDL->pDisplayListData - data);
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -6596,6 +5715,7 @@ void J3DTevBlock1::patchTevReg() { }
  * --INFO--
  * Address:	8007BF4C
  * Size:	0000E4
+ * patchTexNoAndTexCoordScale__12J3DTevBlock1Fv
  */
 void J3DTevBlock1::patchTexNoAndTexCoordScale()
 {
@@ -6667,23 +5787,9 @@ J3DGDSetTevOrder__F13_GXTevStageID13_GXTexCoordID11_GXTexMapID12_GXChannelID13_G
  * --INFO--
  * Address:	8007C030
  * Size:	00002C
+ * patch__12J3DTevBlock1Fv
  */
-void J3DTevBlock1::patch()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x2c(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void J3DTevBlock1::patch() { patchTexNo(); }
 
 /*
  * --INFO--
@@ -6692,6 +5798,14 @@ void J3DTevBlock1::patch()
  */
 void J3DTevBlock2::patchTexNo()
 {
+	__GDCurrentDL->pDisplayListData = __GDCurrentDL->begin + mTexNoOffset;
+	u8* start                       = __GDCurrentDL->pDisplayListData;
+	for (u32 i = 0; i < 2; i++) {
+		if (mTexIndices[i] != 0xFFFF) {
+			loadTexNo(i, mTexIndices[i]);
+		}
+	}
+	DCStoreRange(start, __GDCurrentDL->pDisplayListData - start);
 	/*
 	stwu     r1, -0x20(r1)
 	mflr     r0
@@ -6914,27 +6028,8 @@ J3DGDSetTevOrder__F13_GXTevStageID13_GXTexCoordID11_GXTexMapID12_GXChannelID13_G
  */
 void J3DTevBlock2::patch()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r12, 0(r3)
-	lwz      r12, 0x2c(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x30(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	patchTexNo();
+	patchTevReg();
 }
 
 /*
@@ -7174,27 +6269,8 @@ lbl_8007C608:
  */
 void J3DTevBlock4::patch()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r12, 0(r3)
-	lwz      r12, 0x2c(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x30(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	patchTexNo();
+	patchTevReg();
 }
 
 /*
@@ -7434,27 +6510,8 @@ lbl_8007C924:
  */
 void J3DTevBlock16::patch()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r12, 0(r3)
-	lwz      r12, 0x2c(r12)
-	mtctr    r12
-	bctrl
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x30(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	patchTexNo();
+	patchTevReg();
 }
 
 /*
@@ -7530,35 +6587,11 @@ lbl_8007CA44:
  */
 void J3DTevBlockPatched::diffTexNo()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	stw      r30, 8(r1)
-	li       r30, 0
-
-lbl_8007CA78:
-	lhz      r0, 8(r31)
-	cmplwi   r0, 0xffff
-	beq      lbl_8007CA90
-	mr       r3, r30
-	addi     r4, r31, 8
-	bl       loadTexNo__FUlRCUs
-
-lbl_8007CA90:
-	addi     r30, r30, 1
-	addi     r31, r31, 2
-	cmplwi   r30, 8
-	blt      lbl_8007CA78
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	for (u32 i = 0; i < 8; i++) {
+		if (mTexIndices[i] != 0xFFFF) {
+			loadTexNo(i, mTexIndices[i]);
+		}
+	}
 }
 
 /*
@@ -7829,23 +6862,11 @@ lbl_8007CDD0:
  */
 void J3DTevBlock1::diffTexNo()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lhz      r0, 8(r3)
-	cmplwi   r0, 0xffff
-	beq      lbl_8007CE10
-	addi     r4, r3, 8
-	li       r3, 0
-	bl       loadTexNo__FUlRCUs
-
-lbl_8007CE10:
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	for (u32 i = 0; i < 1; i++) {
+		if (mTexIndices[i] != 0xFFFF) {
+			loadTexNo(i, mTexIndices[i]);
+		}
+	}
 }
 
 /*
@@ -8013,35 +7034,11 @@ void J3DTevBlock1::diffTexCoordScale()
  */
 void J3DTevBlock2::diffTexNo()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	stw      r30, 8(r1)
-	li       r30, 0
-
-lbl_8007D018:
-	lhz      r0, 8(r31)
-	cmplwi   r0, 0xffff
-	beq      lbl_8007D030
-	mr       r3, r30
-	addi     r4, r31, 8
-	bl       loadTexNo__FUlRCUs
-
-lbl_8007D030:
-	addi     r30, r30, 1
-	addi     r31, r31, 2
-	cmplwi   r30, 2
-	blt      lbl_8007D018
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	for (u32 i = 0; i < 2; i++) {
+		if (mTexIndices[i] != 0xFFFF) {
+			loadTexNo(i, mTexIndices[i]);
+		}
+	}
 }
 
 /*
@@ -8104,6 +7101,22 @@ lbl_8007D0B0:
  */
 void J3DTevBlock2::diffTevStage()
 {
+	if (mStageNum == 0) {
+		return;
+	}
+	for (int i = 0; i < 2; i++) {
+		J3DTevStage* stage = mStages + i;
+		__GDWrite(0x61);
+		__GDWrite(stage->_03);
+		__GDWrite(stage->_02);
+		__GDWrite(stage->_01);
+		__GDWrite(stage->_00);
+		__GDWrite(0x61);
+		__GDWrite(stage->_07);
+		__GDWrite(stage->_06);
+		__GDWrite(stage->_05);
+		__GDWrite(stage->_04);
+	}
 	/*
 	lbz      r0, 0x34(r3)
 	mtctr    r0
@@ -8298,35 +7311,11 @@ void J3DTevBlock2::diffTexCoordScale()
  */
 void J3DTevBlock4::diffTexNo()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	stw      r30, 8(r1)
-	li       r30, 0
-
-lbl_8007D380:
-	lhz      r0, 8(r31)
-	cmplwi   r0, 0xffff
-	beq      lbl_8007D398
-	mr       r3, r30
-	addi     r4, r31, 8
-	bl       loadTexNo__FUlRCUs
-
-lbl_8007D398:
-	addi     r30, r30, 1
-	addi     r31, r31, 2
-	cmplwi   r30, 4
-	blt      lbl_8007D380
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	for (u32 i = 0; i < 4; i++) {
+		if (mTexIndices[i] != 0xFFFF) {
+			loadTexNo(i, mTexIndices[i]);
+		}
+	}
 }
 
 /*
@@ -8597,35 +7586,11 @@ lbl_8007D6D8:
  */
 void J3DTevBlock16::diffTexNo()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	stw      r30, 8(r1)
-	li       r30, 0
-
-lbl_8007D710:
-	lhz      r0, 8(r31)
-	cmplwi   r0, 0xffff
-	beq      lbl_8007D728
-	mr       r3, r30
-	addi     r4, r31, 8
-	bl       loadTexNo__FUlRCUs
-
-lbl_8007D728:
-	addi     r30, r30, 1
-	addi     r31, r31, 2
-	cmplwi   r30, 8
-	blt      lbl_8007D710
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	for (u32 i = 0; i < 8; i++) {
+		if (mTexIndices[i] != 0xFFFF) {
+			loadTexNo(i, mTexIndices[i]);
+		}
+	}
 }
 
 /*
@@ -9030,8 +7995,21 @@ lbl_8007DBF4:
  * Address:	8007DC2C
  * Size:	00009C
  */
-void J3DTevBlock::indexToPtr_private(unsigned long)
+void J3DTevBlock::indexToPtr_private(unsigned long p1)
 {
+	__GDCurrentDL->pDisplayListData = __GDCurrentDL->begin + p1;
+	u8* start                       = __GDCurrentDL->pDisplayListData;
+	// int i                           = 0;
+	for (int i = 0;; i++) {
+		u8* data = __GDCurrentDL->pDisplayListData;
+		if (!isTexNoReg(data)) {
+			break;
+		}
+		loadTexNo(i, getTexNoReg(data));
+		// i++;
+	}
+	DCStoreRange(start, __GDCurrentDL->pDisplayListData - start);
+	return;
 	/*
 	stwu     r1, -0x20(r1)
 	mflr     r0
@@ -11089,40 +10067,14 @@ lbl_8007F7C4:
  * Address:	8007F8B8
  * Size:	000068
  */
-void J3DPEBlockFull::diff(unsigned long)
+void J3DPEBlockFull::diff(unsigned long p1)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	rlwinm.  r0, r4, 0, 3, 3
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	mr       r30, r3
-	beq      lbl_8007F8EC
-	lwz      r12, 0(r3)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-
-lbl_8007F8EC:
-	rlwinm.  r0, r31, 0, 2, 2
-	beq      lbl_8007F908
-	mr       r3, r30
-	lwz      r12, 0(r30)
-	lwz      r12, 0x1c(r12)
-	mtctr    r12
-	bctrl
-
-lbl_8007F908:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	if ((p1 & 0x10000000) != 0) {
+		diffFog();
+	}
+	if ((p1 & 0x20000000) != 0) {
+		diffBlend();
+	}
 }
 
 /*
@@ -11700,128 +10652,22 @@ lbl_80080004:
  * Address:	80080068
  * Size:	0001B8
  */
-void J3DTevBlockPatched::reset(J3DTevBlock*)
+void J3DTevBlockPatched::reset(J3DTevBlock* block)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	mr       r31, r4
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	stw      r28, 0x10(r1)
-	mr       r28, r3
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x98(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0xd0(r28)
-	mr       r30, r28
-	li       r29, 0
-
-lbl_800800AC:
-	mr       r3, r31
-	mr       r4, r29
-	lwz      r12, 0(r31)
-	lwz      r12, 0x50(r12)
-	mtctr    r12
-	bctrl
-	addi     r29, r29, 1
-	sth      r3, 8(r30)
-	cmplwi   r29, 8
-	addi     r30, r30, 2
-	blt      lbl_800800AC
-	li       r29, 0
-	mr       r30, r28
-
-lbl_800800E0:
-	mr       r3, r31
-	mr       r4, r29
-	lwz      r12, 0(r31)
-	lwz      r12, 0x68(r12)
-	mtctr    r12
-	bctrl
-	lha      r0, 0(r3)
-	addi     r29, r29, 1
-	cmplwi   r29, 4
-	sth      r0, 0x98(r30)
-	lha      r0, 2(r3)
-	sth      r0, 0x9a(r30)
-	lha      r0, 4(r3)
-	sth      r0, 0x9c(r30)
-	lha      r0, 6(r3)
-	sth      r0, 0x9e(r30)
-	addi     r30, r30, 8
-	blt      lbl_800800E0
-	li       r29, 0
-	mr       r30, r28
-
-lbl_80080130:
-	mr       r3, r31
-	mr       r4, r29
-	lwz      r12, 0(r31)
-	lwz      r12, 0x74(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	addi     r29, r29, 1
-	cmplwi   r29, 4
-	stb      r0, 0xb8(r30)
-	lbz      r0, 1(r3)
-	stb      r0, 0xb9(r30)
-	lbz      r0, 2(r3)
-	stb      r0, 0xba(r30)
-	lbz      r0, 3(r3)
-	stb      r0, 0xbb(r30)
-	addi     r30, r30, 4
-	blt      lbl_80080130
-	mr       r30, r28
-	mr       r29, r28
-	li       r28, 0
-
-lbl_80080184:
-	mr       r3, r31
-	mr       r4, r28
-	lwz      r12, 0(r31)
-	lwz      r12, 0xa4(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 1(r3)
-	mr       r4, r28
-	stb      r0, 0x39(r30)
-	lbz      r0, 2(r3)
-	stb      r0, 0x3a(r30)
-	lbz      r0, 3(r3)
-	stb      r0, 0x3b(r30)
-	lbz      r0, 5(r3)
-	stb      r0, 0x3d(r30)
-	lbz      r0, 6(r3)
-	stb      r0, 0x3e(r30)
-	lbz      r0, 7(r3)
-	mr       r3, r31
-	stb      r0, 0x3f(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xc4(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0(r3)
-	addi     r28, r28, 1
-	cmplwi   r28, 8
-	addi     r30, r30, 8
-	stw      r0, 0x78(r29)
-	addi     r29, r29, 4
-	blt      lbl_80080184
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	lwz      r28, 0x10(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	mStageNum = block->getTevStageNum();
+	for (u32 i = 0; i < 8; i++) {
+		mTexIndices[i] = block->getTexNo(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mColors[i] = *block->getTevColor(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mKColors[i] = *block->getTevKColor(i);
+	}
+	for (u32 i = 0; i < 8; i++) {
+		mStages[i]    = *block->getTevStage(i);
+		mIndStages[i] = *block->getIndTevStage(i);
+	}
 }
 
 /*
@@ -11831,6 +10677,7 @@ lbl_80080184:
  */
 void J3DTevBlock1::reset(J3DTevBlock*)
 {
+
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -11898,210 +10745,30 @@ void J3DTevBlock1::reset(J3DTevBlock*)
  * Address:	80080308
  * Size:	000308
  */
-void J3DTevBlock2::reset(J3DTevBlock*)
+void J3DTevBlock2::reset(J3DTevBlock* block)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	mr       r31, r4
-	stw      r30, 0x18(r1)
-	mr       r30, r3
-	mr       r3, r31
-	stw      r29, 0x14(r1)
-	stw      r28, 0x10(r1)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x98(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x34(r30)
-	mr       r3, r31
-	li       r4, 0
-	lwz      r12, 0(r31)
-	lwz      r12, 0x50(r12)
-	mtctr    r12
-	bctrl
-	sth      r3, 8(r30)
-	mr       r3, r31
-	li       r4, 1
-	lwz      r12, 0(r31)
-	lwz      r12, 0x50(r12)
-	mtctr    r12
-	bctrl
-	sth      r3, 0xa(r30)
-	mr       r3, r31
-	li       r4, 0
-	lwz      r12, 0(r31)
-	lwz      r12, 0xa4(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 1(r3)
-	li       r4, 1
-	stb      r0, 0x36(r30)
-	lbz      r0, 2(r3)
-	stb      r0, 0x37(r30)
-	lbz      r0, 3(r3)
-	stb      r0, 0x38(r30)
-	lbz      r0, 5(r3)
-	stb      r0, 0x3a(r30)
-	lbz      r0, 6(r3)
-	stb      r0, 0x3b(r30)
-	lbz      r0, 7(r3)
-	mr       r3, r31
-	stb      r0, 0x3c(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xa4(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 1(r3)
-	li       r4, 0
-	stb      r0, 0x3e(r30)
-	lbz      r0, 2(r3)
-	stb      r0, 0x3f(r30)
-	lbz      r0, 3(r3)
-	stb      r0, 0x40(r30)
-	lbz      r0, 5(r3)
-	stb      r0, 0x42(r30)
-	lbz      r0, 6(r3)
-	stb      r0, 0x43(r30)
-	lbz      r0, 7(r3)
-	mr       r3, r31
-	stb      r0, 0x44(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xc4(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0(r3)
-	mr       r3, r31
-	li       r4, 1
-	stw      r0, 0x60(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xc4(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0(r3)
-	mr       r3, r31
-	li       r4, 0
-	stw      r0, 0x64(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x5c(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	li       r4, 1
-	stb      r0, 0xc(r30)
-	lbz      r0, 1(r3)
-	stb      r0, 0xd(r30)
-	lbz      r0, 2(r3)
-	mr       r3, r31
-	stb      r0, 0xe(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x5c(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	li       r4, 0
-	stb      r0, 0x10(r30)
-	lbz      r0, 1(r3)
-	stb      r0, 0x11(r30)
-	lbz      r0, 2(r3)
-	mr       r3, r31
-	stb      r0, 0x12(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x80(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x55(r30)
-	mr       r3, r31
-	li       r4, 1
-	lwz      r12, 0(r31)
-	lwz      r12, 0x80(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x56(r30)
-	mr       r3, r31
-	li       r4, 0
-	lwz      r12, 0(r31)
-	lwz      r12, 0x8c(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x57(r30)
-	mr       r3, r31
-	li       r4, 1
-	lwz      r12, 0(r31)
-	lwz      r12, 0x8c(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x58(r30)
-	mr       r29, r30
-	li       r28, 0
-
-lbl_80080524:
-	mr       r3, r31
-	mr       r4, r28
-	lwz      r12, 0(r31)
-	lwz      r12, 0x68(r12)
-	mtctr    r12
-	bctrl
-	lha      r0, 0(r3)
-	addi     r28, r28, 1
-	cmplwi   r28, 4
-	sth      r0, 0x14(r29)
-	lha      r0, 2(r3)
-	sth      r0, 0x16(r29)
-	lha      r0, 4(r3)
-	sth      r0, 0x18(r29)
-	lha      r0, 6(r3)
-	sth      r0, 0x1a(r29)
-	addi     r29, r29, 8
-	blt      lbl_80080524
-	li       r28, 0
-	mr       r29, r30
-
-lbl_80080574:
-	mr       r3, r31
-	mr       r4, r28
-	lwz      r12, 0(r31)
-	lwz      r12, 0x74(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	addi     r28, r28, 1
-	cmplwi   r28, 4
-	stb      r0, 0x45(r29)
-	lbz      r0, 1(r3)
-	stb      r0, 0x46(r29)
-	lbz      r0, 2(r3)
-	stb      r0, 0x47(r29)
-	lbz      r0, 3(r3)
-	stb      r0, 0x48(r29)
-	addi     r29, r29, 4
-	blt      lbl_80080574
-	li       r28, 0
-
-lbl_800805C0:
-	mr       r3, r31
-	mr       r4, r28
-	lwz      r12, 0(r31)
-	lwz      r12, 0xb8(r12)
-	mtctr    r12
-	bctrl
-	addi     r0, r28, 0x59
-	lbz      r3, 0(r3)
-	addi     r28, r28, 1
-	cmplwi   r28, 4
-	stbx     r3, r30, r0
-	blt      lbl_800805C0
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	lwz      r28, 0x10(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	mStageNum      = block->getTevStageNum();
+	mTexIndices[0] = block->getTexNo(0);
+	mTexIndices[1] = block->getTexNo(1);
+	mStages[0]     = *block->getTevStage(0);
+	mStages[1]     = *block->getTevStage(1);
+	mIndStages[0]  = *block->getIndTevStage(0);
+	mIndStages[1]  = *block->getIndTevStage(1);
+	mOrders[0]     = *block->getTevOrder(0);
+	mOrders[1]     = *block->getTevOrder(1);
+	mKColorSels[0] = block->getTevKColorSel(0);
+	mKColorSels[1] = block->getTevKColorSel(1);
+	mKAlphaSels[0] = block->getTevKAlphaSel(0);
+	mKAlphaSels[1] = block->getTevKAlphaSel(1);
+	for (u32 i = 0; i < 4; i++) {
+		mColors[i] = *block->getTevColor(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mKColors[i] = *block->getTevKColor(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mSwapModeTables[i] = *block->getTevSwapModeTable(i);
+	}
 }
 
 /*
@@ -12109,328 +10776,42 @@ lbl_800805C0:
  * Address:	80080610
  * Size:	0004E0
  */
-void J3DTevBlock4::reset(J3DTevBlock*)
+void J3DTevBlock4::reset(J3DTevBlock* block)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	mr       r31, r4
-	stw      r30, 0x18(r1)
-	mr       r30, r3
-	mr       r3, r31
-	stw      r29, 0x14(r1)
-	stw      r28, 0x10(r1)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x98(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x20(r30)
-	mr       r3, r31
-	li       r4, 0
-	lwz      r12, 0(r31)
-	lwz      r12, 0x50(r12)
-	mtctr    r12
-	bctrl
-	sth      r3, 8(r30)
-	mr       r3, r31
-	li       r4, 1
-	lwz      r12, 0(r31)
-	lwz      r12, 0x50(r12)
-	mtctr    r12
-	bctrl
-	sth      r3, 0xa(r30)
-	mr       r3, r31
-	li       r4, 2
-	lwz      r12, 0(r31)
-	lwz      r12, 0x50(r12)
-	mtctr    r12
-	bctrl
-	sth      r3, 0xc(r30)
-	mr       r3, r31
-	li       r4, 3
-	lwz      r12, 0(r31)
-	lwz      r12, 0x50(r12)
-	mtctr    r12
-	bctrl
-	sth      r3, 0xe(r30)
-	mr       r3, r31
-	li       r4, 0
-	lwz      r12, 0(r31)
-	lwz      r12, 0xa4(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 1(r3)
-	li       r4, 1
-	stb      r0, 0x22(r30)
-	lbz      r0, 2(r3)
-	stb      r0, 0x23(r30)
-	lbz      r0, 3(r3)
-	stb      r0, 0x24(r30)
-	lbz      r0, 5(r3)
-	stb      r0, 0x26(r30)
-	lbz      r0, 6(r3)
-	stb      r0, 0x27(r30)
-	lbz      r0, 7(r3)
-	mr       r3, r31
-	stb      r0, 0x28(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xa4(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 1(r3)
-	li       r4, 2
-	stb      r0, 0x2a(r30)
-	lbz      r0, 2(r3)
-	stb      r0, 0x2b(r30)
-	lbz      r0, 3(r3)
-	stb      r0, 0x2c(r30)
-	lbz      r0, 5(r3)
-	stb      r0, 0x2e(r30)
-	lbz      r0, 6(r3)
-	stb      r0, 0x2f(r30)
-	lbz      r0, 7(r3)
-	mr       r3, r31
-	stb      r0, 0x30(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xa4(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 1(r3)
-	li       r4, 3
-	stb      r0, 0x32(r30)
-	lbz      r0, 2(r3)
-	stb      r0, 0x33(r30)
-	lbz      r0, 3(r3)
-	stb      r0, 0x34(r30)
-	lbz      r0, 5(r3)
-	stb      r0, 0x36(r30)
-	lbz      r0, 6(r3)
-	stb      r0, 0x37(r30)
-	lbz      r0, 7(r3)
-	mr       r3, r31
-	stb      r0, 0x38(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xa4(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 1(r3)
-	li       r4, 0
-	stb      r0, 0x3a(r30)
-	lbz      r0, 2(r3)
-	stb      r0, 0x3b(r30)
-	lbz      r0, 3(r3)
-	stb      r0, 0x3c(r30)
-	lbz      r0, 5(r3)
-	stb      r0, 0x3e(r30)
-	lbz      r0, 6(r3)
-	stb      r0, 0x3f(r30)
-	lbz      r0, 7(r3)
-	mr       r3, r31
-	stb      r0, 0x40(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xc4(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0(r3)
-	mr       r3, r31
-	li       r4, 1
-	stw      r0, 0x80(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xc4(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0(r3)
-	mr       r3, r31
-	li       r4, 2
-	stw      r0, 0x84(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xc4(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0(r3)
-	mr       r3, r31
-	li       r4, 3
-	stw      r0, 0x88(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xc4(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0(r3)
-	mr       r3, r31
-	li       r4, 0
-	stw      r0, 0x8c(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x5c(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	li       r4, 1
-	stb      r0, 0x10(r30)
-	lbz      r0, 1(r3)
-	stb      r0, 0x11(r30)
-	lbz      r0, 2(r3)
-	mr       r3, r31
-	stb      r0, 0x12(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x5c(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	li       r4, 2
-	stb      r0, 0x14(r30)
-	lbz      r0, 1(r3)
-	stb      r0, 0x15(r30)
-	lbz      r0, 2(r3)
-	mr       r3, r31
-	stb      r0, 0x16(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x5c(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	li       r4, 3
-	stb      r0, 0x18(r30)
-	lbz      r0, 1(r3)
-	stb      r0, 0x19(r30)
-	lbz      r0, 2(r3)
-	mr       r3, r31
-	stb      r0, 0x1a(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x5c(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	li       r4, 0
-	stb      r0, 0x1c(r30)
-	lbz      r0, 1(r3)
-	stb      r0, 0x1d(r30)
-	lbz      r0, 2(r3)
-	mr       r3, r31
-	stb      r0, 0x1e(r30)
-	lwz      r12, 0(r31)
-	lwz      r12, 0x80(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x72(r30)
-	mr       r3, r31
-	li       r4, 1
-	lwz      r12, 0(r31)
-	lwz      r12, 0x80(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x73(r30)
-	mr       r3, r31
-	li       r4, 2
-	lwz      r12, 0(r31)
-	lwz      r12, 0x80(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x74(r30)
-	mr       r3, r31
-	li       r4, 3
-	lwz      r12, 0(r31)
-	lwz      r12, 0x80(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x75(r30)
-	mr       r3, r31
-	li       r4, 0
-	lwz      r12, 0(r31)
-	lwz      r12, 0x8c(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x76(r30)
-	mr       r3, r31
-	li       r4, 1
-	lwz      r12, 0(r31)
-	lwz      r12, 0x8c(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x77(r30)
-	mr       r3, r31
-	li       r4, 2
-	lwz      r12, 0(r31)
-	lwz      r12, 0x8c(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x78(r30)
-	mr       r3, r31
-	li       r4, 3
-	lwz      r12, 0(r31)
-	lwz      r12, 0x8c(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x79(r30)
-	mr       r29, r30
-	li       r28, 0
-
-lbl_80080A04:
-	mr       r3, r31
-	mr       r4, r28
-	lwz      r12, 0(r31)
-	lwz      r12, 0x68(r12)
-	mtctr    r12
-	bctrl
-	lha      r0, 0(r3)
-	addi     r28, r28, 1
-	cmplwi   r28, 4
-	sth      r0, 0x42(r29)
-	lha      r0, 2(r3)
-	sth      r0, 0x44(r29)
-	lha      r0, 4(r3)
-	sth      r0, 0x46(r29)
-	lha      r0, 6(r3)
-	sth      r0, 0x48(r29)
-	addi     r29, r29, 8
-	blt      lbl_80080A04
-	li       r28, 0
-	mr       r29, r30
-
-lbl_80080A54:
-	mr       r3, r31
-	mr       r4, r28
-	lwz      r12, 0(r31)
-	lwz      r12, 0x74(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	addi     r28, r28, 1
-	cmplwi   r28, 4
-	stb      r0, 0x62(r29)
-	lbz      r0, 1(r3)
-	stb      r0, 0x63(r29)
-	lbz      r0, 2(r3)
-	stb      r0, 0x64(r29)
-	lbz      r0, 3(r3)
-	stb      r0, 0x65(r29)
-	addi     r29, r29, 4
-	blt      lbl_80080A54
-	li       r28, 0
-
-lbl_80080AA0:
-	mr       r3, r31
-	mr       r4, r28
-	lwz      r12, 0(r31)
-	lwz      r12, 0xb8(r12)
-	mtctr    r12
-	bctrl
-	addi     r0, r28, 0x7a
-	lbz      r3, 0(r3)
-	addi     r28, r28, 1
-	cmplwi   r28, 4
-	stbx     r3, r30, r0
-	blt      lbl_80080AA0
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	lwz      r28, 0x10(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	mStageNum      = block->getTevStageNum();
+	mTexIndices[0] = block->getTexNo(0);
+	mTexIndices[1] = block->getTexNo(1);
+	mTexIndices[2] = block->getTexNo(2);
+	mTexIndices[3] = block->getTexNo(3);
+	mStages[0]     = *block->getTevStage(0);
+	mStages[1]     = *block->getTevStage(1);
+	mStages[2]     = *block->getTevStage(2);
+	mStages[3]     = *block->getTevStage(3);
+	mIndStages[0]  = *block->getIndTevStage(0);
+	mIndStages[1]  = *block->getIndTevStage(1);
+	mIndStages[2]  = *block->getIndTevStage(2);
+	mIndStages[3]  = *block->getIndTevStage(3);
+	mOrders[0]     = *block->getTevOrder(0);
+	mOrders[1]     = *block->getTevOrder(1);
+	mOrders[2]     = *block->getTevOrder(2);
+	mOrders[3]     = *block->getTevOrder(3);
+	mKColorSels[0] = block->getTevKColorSel(0);
+	mKColorSels[1] = block->getTevKColorSel(1);
+	mKColorSels[2] = block->getTevKColorSel(2);
+	mKColorSels[3] = block->getTevKColorSel(3);
+	mKAlphaSels[0] = block->getTevKAlphaSel(0);
+	mKAlphaSels[1] = block->getTevKAlphaSel(1);
+	mKAlphaSels[2] = block->getTevKAlphaSel(2);
+	mKAlphaSels[3] = block->getTevKAlphaSel(3);
+	for (u32 i = 0; i < 4; i++) {
+		mColors[i] = *block->getTevColor(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mKColors[i] = *block->getTevKColor(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mSwapModeTables[i] = *block->getTevSwapModeTable(i);
+	}
 }
 
 /*
@@ -12438,185 +10819,34 @@ lbl_80080AA0:
  * Address:	80080AF0
  * Size:	00027C
  */
-void J3DTevBlock16::reset(J3DTevBlock*)
+void J3DTevBlock16::reset(J3DTevBlock* block)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stmw     r27, 0xc(r1)
-	mr       r31, r4
-	mr       r30, r3
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x98(r12)
-	mtctr    r12
-	bctrl
-	stb      r3, 0x58(r30)
-	mr       r29, r30
-	li       r28, 0
-
-lbl_80080B28:
-	mr       r3, r31
-	mr       r4, r28
-	lwz      r12, 0(r31)
-	lwz      r12, 0x50(r12)
-	mtctr    r12
-	bctrl
-	addi     r28, r28, 1
-	sth      r3, 8(r29)
-	cmplwi   r28, 8
-	addi     r29, r29, 2
-	blt      lbl_80080B28
-	li       r28, 0
-	mr       r29, r30
-
-lbl_80080B5C:
-	mr       r3, r31
-	mr       r4, r28
-	lwz      r12, 0(r31)
-	lwz      r12, 0x5c(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	addi     r28, r28, 1
-	cmplwi   r28, 0x10
-	stb      r0, 0x18(r29)
-	lbz      r0, 1(r3)
-	stb      r0, 0x19(r29)
-	lbz      r0, 2(r3)
-	stb      r0, 0x1a(r29)
-	addi     r29, r29, 4
-	blt      lbl_80080B5C
-	mr       r29, r30
-	mr       r28, r30
-	li       r27, 0
-
-lbl_80080BA8:
-	mr       r3, r31
-	mr       r4, r27
-	lwz      r12, 0(r31)
-	lwz      r12, 0xa4(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 1(r3)
-	mr       r4, r27
-	stb      r0, 0x5a(r29)
-	lbz      r0, 2(r3)
-	stb      r0, 0x5b(r29)
-	lbz      r0, 3(r3)
-	stb      r0, 0x5c(r29)
-	lbz      r0, 5(r3)
-	stb      r0, 0x5e(r29)
-	lbz      r0, 6(r3)
-	stb      r0, 0x5f(r29)
-	lbz      r0, 7(r3)
-	mr       r3, r31
-	stb      r0, 0x60(r29)
-	lwz      r12, 0(r31)
-	lwz      r12, 0xc4(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0(r3)
-	addi     r27, r27, 1
-	cmplwi   r27, 0x10
-	addi     r29, r29, 8
-	stw      r0, 0x130(r28)
-	addi     r28, r28, 4
-	blt      lbl_80080BA8
-	li       r27, 0
-	mr       r28, r30
-
-lbl_80080C2C:
-	mr       r3, r31
-	mr       r4, r27
-	lwz      r12, 0(r31)
-	lwz      r12, 0x68(r12)
-	mtctr    r12
-	bctrl
-	lha      r0, 0(r3)
-	addi     r27, r27, 1
-	cmplwi   r27, 4
-	sth      r0, 0xda(r28)
-	lha      r0, 2(r3)
-	sth      r0, 0xdc(r28)
-	lha      r0, 4(r3)
-	sth      r0, 0xde(r28)
-	lha      r0, 6(r3)
-	sth      r0, 0xe0(r28)
-	addi     r28, r28, 8
-	blt      lbl_80080C2C
-	li       r27, 0
-	mr       r28, r30
-
-lbl_80080C7C:
-	mr       r3, r31
-	mr       r4, r27
-	lwz      r12, 0(r31)
-	lwz      r12, 0x74(r12)
-	mtctr    r12
-	bctrl
-	lbz      r0, 0(r3)
-	addi     r27, r27, 1
-	cmplwi   r27, 4
-	stb      r0, 0xfa(r28)
-	lbz      r0, 1(r3)
-	stb      r0, 0xfb(r28)
-	lbz      r0, 2(r3)
-	stb      r0, 0xfc(r28)
-	lbz      r0, 3(r3)
-	stb      r0, 0xfd(r28)
-	addi     r28, r28, 4
-	blt      lbl_80080C7C
-	li       r27, 0
-
-lbl_80080CC8:
-	mr       r3, r31
-	mr       r4, r27
-	lwz      r12, 0(r31)
-	lwz      r12, 0x80(r12)
-	mtctr    r12
-	bctrl
-	addi     r0, r27, 0x10a
-	addi     r27, r27, 1
-	cmplwi   r27, 0x10
-	stbx     r3, r30, r0
-	blt      lbl_80080CC8
-	li       r27, 0
-
-lbl_80080CF8:
-	mr       r3, r31
-	mr       r4, r27
-	lwz      r12, 0(r31)
-	lwz      r12, 0x8c(r12)
-	mtctr    r12
-	bctrl
-	addi     r0, r27, 0x11a
-	addi     r27, r27, 1
-	cmplwi   r27, 0x10
-	stbx     r3, r30, r0
-	blt      lbl_80080CF8
-	li       r27, 0
-
-lbl_80080D28:
-	mr       r3, r31
-	mr       r4, r27
-	lwz      r12, 0(r31)
-	lwz      r12, 0xb8(r12)
-	mtctr    r12
-	bctrl
-	addi     r0, r27, 0x12a
-	lbz      r3, 0(r3)
-	addi     r27, r27, 1
-	cmplwi   r27, 4
-	stbx     r3, r30, r0
-	blt      lbl_80080D28
-	lmw      r27, 0xc(r1)
-	lwz      r0, 0x24(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	mStageNum = block->getTevStageNum();
+	for (u32 i = 0; i < 8; i++) {
+		mTexIndices[i] = block->getTexNo(i);
+	}
+	for (u32 i = 0; i < 0x10; i++) {
+		mOrders[i] = *block->getTevOrder(i);
+	}
+	for (u32 i = 0; i < 0x10; i++) {
+		mStages[i]    = *block->getTevStage(i);
+		mIndStages[i] = *block->getIndTevStage(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mColors[i] = *block->getTevColor(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mKColors[i] = *block->getTevKColor(i);
+	}
+	for (u32 i = 0; i < 0x10; i++) {
+		mKColorSels[i] = block->getTevKColorSel(i);
+	}
+	for (u32 i = 0; i < 0x10; i++) {
+		mKAlphaSels[i] = block->getTevKAlphaSel(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mSwapModeTables[i] = *block->getTevSwapModeTable(i);
+	}
 }
 
 /*
@@ -12624,8 +10854,18 @@ lbl_80080D28:
  * Address:	80080D6C
  * Size:	000144
  */
-void J3DIndBlockFull::reset(J3DIndBlock*)
+void J3DIndBlockFull::reset(J3DIndBlock* block)
 {
+	mIndTexStageNum = block->getIndTexStageNum();
+	for (u32 i = 0; i < 4; i++) {
+		mOrders[i] = *block->getIndTexOrder(i);
+	}
+	for (u32 i = 0; i < 3; i++) {
+		mTexMtxs[i] = *block->getIndTexMtx(i);
+	}
+	for (u32 i = 0; i < 4; i++) {
+		mCoordScales[i] = *block->getIndTexCoordScale(i);
+	}
 	/*
 	stwu     r1, -0x20(r1)
 	mflr     r0
@@ -13408,244 +11648,93 @@ lbl_800816A0:
  * Address:	800816D0
  * Size:	00000C
  */
-void J3DPEBlockFull::getType()
-{
-	/*
-	lis      r3, 0x5045464C@ha
-	addi     r3, r3, 0x5045464C@l
-	blr
-	*/
-}
+// void J3DPEBlockFull::getType()
+// {
+// 	/*
+// 	lis      r3, 0x5045464C@ha
+// 	addi     r3, r3, 0x5045464C@l
+// 	blr
+// 	*/
+// }
 
 /*
  * --INFO--
  * Address:	800816DC
  * Size:	0000AC
+ * setFog__14J3DPEBlockFullFP6J3DFog
  */
-void J3DPEBlockFull::setFog(J3DFog*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 4(r3)
-	lbz      r0, 1(r4)
-	stb      r0, 5(r3)
-	lhz      r0, 2(r4)
-	sth      r0, 6(r3)
-	lfs      f0, 4(r4)
-	stfs     f0, 8(r3)
-	lfs      f0, 8(r4)
-	stfs     f0, 0xc(r3)
-	lfs      f0, 0xc(r4)
-	stfs     f0, 0x10(r3)
-	lfs      f0, 0x10(r4)
-	stfs     f0, 0x14(r3)
-	lbz      r0, 0x14(r4)
-	stb      r0, 0x18(r3)
-	lbz      r0, 0x15(r4)
-	stb      r0, 0x19(r3)
-	lbz      r0, 0x16(r4)
-	stb      r0, 0x1a(r3)
-	lbz      r0, 0x17(r4)
-	stb      r0, 0x1b(r3)
-	lhz      r0, 0x18(r4)
-	sth      r0, 0x1c(r3)
-	lhz      r0, 0x1a(r4)
-	sth      r0, 0x1e(r3)
-	lhz      r0, 0x1c(r4)
-	sth      r0, 0x20(r3)
-	lhz      r0, 0x1e(r4)
-	sth      r0, 0x22(r3)
-	lhz      r0, 0x20(r4)
-	sth      r0, 0x24(r3)
-	lhz      r0, 0x22(r4)
-	sth      r0, 0x26(r3)
-	lhz      r0, 0x24(r4)
-	sth      r0, 0x28(r3)
-	lhz      r0, 0x26(r4)
-	sth      r0, 0x2a(r3)
-	lhz      r0, 0x28(r4)
-	sth      r0, 0x2c(r3)
-	lhz      r0, 0x2a(r4)
-	sth      r0, 0x2e(r3)
-	blr
-	*/
-}
+void J3DPEBlockFull::setFog(J3DFog* fog) { mFog = *fog; }
 
 /*
  * --INFO--
  * Address:	80081788
  * Size:	0000AC
+ * setFog__14J3DPEBlockFullF6J3DFog
  */
-void J3DPEBlockFull::setFog(J3DFog)
-{
-	/*
-	lbz      r0, 0(r4)
-	lbz      r5, 1(r4)
-	stb      r0, 4(r3)
-	lhz      r0, 2(r4)
-	stb      r5, 5(r3)
-	lfs      f1, 4(r4)
-	sth      r0, 6(r3)
-	lfs      f0, 8(r4)
-	stfs     f1, 8(r3)
-	lfs      f1, 0xc(r4)
-	stfs     f0, 0xc(r3)
-	lfs      f0, 0x10(r4)
-	stfs     f1, 0x10(r3)
-	lbz      r5, 0x14(r4)
-	stfs     f0, 0x14(r3)
-	lbz      r0, 0x15(r4)
-	stb      r5, 0x18(r3)
-	lbz      r5, 0x16(r4)
-	stb      r0, 0x19(r3)
-	lbz      r0, 0x17(r4)
-	stb      r5, 0x1a(r3)
-	lhz      r6, 0x18(r4)
-	stb      r0, 0x1b(r3)
-	lhz      r5, 0x1a(r4)
-	sth      r6, 0x1c(r3)
-	lhz      r0, 0x1c(r4)
-	sth      r5, 0x1e(r3)
-	lhz      r5, 0x1e(r4)
-	sth      r0, 0x20(r3)
-	lhz      r0, 0x20(r4)
-	sth      r5, 0x22(r3)
-	lhz      r6, 0x22(r4)
-	sth      r0, 0x24(r3)
-	lhz      r5, 0x24(r4)
-	sth      r6, 0x26(r3)
-	lhz      r0, 0x26(r4)
-	sth      r5, 0x28(r3)
-	lhz      r5, 0x28(r4)
-	sth      r0, 0x2a(r3)
-	lhz      r0, 0x2a(r4)
-	sth      r5, 0x2c(r3)
-	sth      r0, 0x2e(r3)
-	blr
-	*/
-}
+void J3DPEBlockFull::setFog(J3DFog fog) { mFog = fog; }
 
 /*
  * --INFO--
  * Address:	80081834
  * Size:	000008
+ * getFog__14J3DPEBlockFullFv
  */
-void J3DPEBlockFull::getFog()
-{
-	/*
-	addi     r3, r3, 4
-	blr
-	*/
-}
+J3DFog* J3DPEBlockFull::getFog() { return &mFog; }
 
 /*
  * --INFO--
  * Address:	8008183C
  * Size:	00001C
+ * setAlphaComp__14J3DPEBlockFullFRC12J3DAlphaComp
  */
-void J3DPEBlockFull::setAlphaComp(const J3DAlphaComp&)
-{
-	/*
-	lhz      r0, 0(r4)
-	lbz      r5, 2(r4)
-	sth      r0, 0x30(r3)
-	lbz      r0, 3(r4)
-	stb      r5, 0x32(r3)
-	stb      r0, 0x33(r3)
-	blr
-	*/
-}
+void J3DPEBlockFull::setAlphaComp(const J3DAlphaComp& alphaComp) { mAlphaComp = alphaComp; }
 
 /*
  * --INFO--
  * Address:	80081858
  * Size:	00001C
+ * setAlphaComp__14J3DPEBlockFullFPC12J3DAlphaComp
  */
-void J3DPEBlockFull::setAlphaComp(const J3DAlphaComp*)
-{
-	/*
-	lhz      r0, 0(r4)
-	lbz      r5, 2(r4)
-	sth      r0, 0x30(r3)
-	lbz      r0, 3(r4)
-	stb      r5, 0x32(r3)
-	stb      r0, 0x33(r3)
-	blr
-	*/
-}
+void J3DPEBlockFull::setAlphaComp(const J3DAlphaComp* alphaComp) { mAlphaComp = *alphaComp; }
 
 /*
  * --INFO--
  * Address:	80081874
  * Size:	000008
+ * getAlphaComp__14J3DPEBlockFullFv
  */
-void J3DPEBlockFull::getAlphaComp()
-{
-	/*
-	addi     r3, r3, 0x30
-	blr
-	*/
-}
+J3DAlphaComp* J3DPEBlockFull::getAlphaComp() { return &mAlphaComp; }
 
 /*
  * --INFO--
  * Address:	8008187C
  * Size:	000024
+ * setBlend__14J3DPEBlockFullFRC8J3DBlend
  */
-void J3DPEBlockFull::setBlend(const J3DBlend&)
-{
-	/*
-	lbz      r5, 0(r4)
-	lbz      r0, 1(r4)
-	stb      r5, 0x34(r3)
-	lbz      r5, 2(r4)
-	stb      r0, 0x35(r3)
-	lbz      r0, 3(r4)
-	stb      r5, 0x36(r3)
-	stb      r0, 0x37(r3)
-	blr
-	*/
-}
+void J3DPEBlockFull::setBlend(const J3DBlend& blend) { mBlend = blend; }
 
 /*
  * --INFO--
  * Address:	800818A0
  * Size:	000024
+ * setBlend__14J3DPEBlockFullFPC8J3DBlend
  */
-void J3DPEBlockFull::setBlend(const J3DBlend*)
-{
-	/*
-	lbz      r5, 0(r4)
-	lbz      r0, 1(r4)
-	stb      r5, 0x34(r3)
-	lbz      r5, 2(r4)
-	stb      r0, 0x35(r3)
-	lbz      r0, 3(r4)
-	stb      r5, 0x36(r3)
-	stb      r0, 0x37(r3)
-	blr
-	*/
-}
+void J3DPEBlockFull::setBlend(const J3DBlend* blend) { mBlend = *blend; }
 
 /*
  * --INFO--
  * Address:	800818C4
  * Size:	000008
+ * getBlend__14J3DPEBlockFullFv
  */
-void J3DPEBlockFull::getBlend()
-{
-	/*
-	addi     r3, r3, 0x34
-	blr
-	*/
-}
+J3DBlend* J3DPEBlockFull::getBlend() { return &mBlend; }
 
 /*
  * --INFO--
  * Address:	800818CC
  * Size:	00000C
  */
-void J3DPEBlockFull::setZMode(J3DZMode)
+void J3DPEBlockFull::setZMode(J3DZMode zMode)
 {
 	/*
 	lhz      r0, 0(r4)
@@ -13659,7 +11748,7 @@ void J3DPEBlockFull::setZMode(J3DZMode)
  * Address:	800818D8
  * Size:	00000C
  */
-void J3DPEBlockFull::setZMode(const J3DZMode*)
+void J3DPEBlockFull::setZMode(const J3DZMode* zMode)
 {
 	/*
 	lhz      r0, 0(r4)
@@ -13673,151 +11762,129 @@ void J3DPEBlockFull::setZMode(const J3DZMode*)
  * Address:	800818E4
  * Size:	000008
  */
-void J3DPEBlockFull::getZMode()
-{
-	/*
-	addi     r3, r3, 0x38
-	blr
-	*/
-}
+J3DZMode* J3DPEBlockFull::getZMode() { return &mZMode; }
 
 /*
  * --INFO--
  * Address:	800818EC
  * Size:	000008
  */
-void J3DPEBlockFull::setZCompLoc(unsigned char a1)
-{
-	// Generated from stb r4, 0x3A(r3)
-	_3A = a1;
-}
+void J3DPEBlockFull::setZCompLoc(unsigned char zCompLoc) { _3A = zCompLoc; }
 
 /*
  * --INFO--
  * Address:	800818F4
  * Size:	00000C
  */
-void J3DPEBlockFull::setZCompLoc(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0x3a(r3)
-	blr
-	*/
-}
+void J3DPEBlockFull::setZCompLoc(const unsigned char* zCompLoc) { _3A = *zCompLoc; }
 
 /*
  * --INFO--
  * Address:	80081900
  * Size:	000008
  */
-void J3DPEBlockFull::getZCompLoc() const
-{
-	/*
-	lbz      r3, 0x3a(r3)
-	blr
-	*/
-}
+u8 J3DPEBlockFull::getZCompLoc() const { return _3A; }
 
 /*
  * --INFO--
  * Address:	80081908
  * Size:	000008
  */
-void J3DPEBlockFull::setDither(unsigned char a1)
-{
-	// Generated from stb r4, 0x3B(r3)
-	_3B = a1;
-}
+// void J3DPEBlockFull::setDither(unsigned char a1)
+// {
+// 	// Generated from stb r4, 0x3B(r3)
+// 	_3B = a1;
+// }
 
 /*
  * --INFO--
  * Address:	80081910
  * Size:	00000C
  */
-void J3DPEBlockFull::setDither(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0x3b(r3)
-	blr
-	*/
-}
+// void J3DPEBlockFull::setDither(const unsigned char*)
+// {
+// 	/*
+// 	lbz      r0, 0(r4)
+// 	stb      r0, 0x3b(r3)
+// 	blr
+// 	*/
+// }
 
 /*
  * --INFO--
  * Address:	8008191C
  * Size:	000008
  */
-void J3DPEBlockFull::getDither() const
-{
-	/*
-	lbz      r3, 0x3b(r3)
-	blr
-	*/
-}
+// void J3DPEBlockFull::getDither() const
+// {
+// 	/*
+// 	lbz      r3, 0x3b(r3)
+// 	blr
+// 	*/
+// }
 
 /*
  * --INFO--
  * Address:	80081924
  * Size:	000008
  */
-void J3DPEBlockFull::getFogOffset() const
-{
-	/*
-	lwz      r3, 0x3c(r3)
-	blr
-	*/
-}
+// void J3DPEBlockFull::getFogOffset() const
+// {
+// 	/*
+// 	lwz      r3, 0x3c(r3)
+// 	blr
+// 	*/
+// }
 
 /*
  * --INFO--
  * Address:	8008192C
  * Size:	000008
  */
-void J3DPEBlockFull::setFogOffset(unsigned long a1)
-{
-	// Generated from stw r4, 0x3C(r3)
-	_3C = a1;
-}
+// void J3DPEBlockFull::setFogOffset(unsigned long a1)
+// {
+// 	// Generated from stw r4, 0x3C(r3)
+// 	_3C = a1;
+// }
 
 /*
  * --INFO--
  * Address:	80081934
  * Size:	00005C
+ * __dt__14J3DPEBlockFullFv
  */
-J3DPEBlockFull::~J3DPEBlockFull()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_80081978
-	lis      r3, __vt__14J3DPEBlockFull@ha
-	addi     r0, r3, __vt__14J3DPEBlockFull@l
-	stw      r0, 0(r31)
-	beq      lbl_80081968
-	lis      r3, __vt__10J3DPEBlock@ha
-	addi     r0, r3, __vt__10J3DPEBlock@l
-	stw      r0, 0(r31)
+// J3DPEBlockFull::~J3DPEBlockFull()
+// {
+// 	/*
+// 	stwu     r1, -0x10(r1)
+// 	mflr     r0
+// 	stw      r0, 0x14(r1)
+// 	stw      r31, 0xc(r1)
+// 	or.      r31, r3, r3
+// 	beq      lbl_80081978
+// 	lis      r3, __vt__14J3DPEBlockFull@ha
+// 	addi     r0, r3, __vt__14J3DPEBlockFull@l
+// 	stw      r0, 0(r31)
+// 	beq      lbl_80081968
+// 	lis      r3, __vt__10J3DPEBlock@ha
+// 	addi     r0, r3, __vt__10J3DPEBlock@l
+// 	stw      r0, 0(r31)
 
-lbl_80081968:
-	extsh.   r0, r4
-	ble      lbl_80081978
-	mr       r3, r31
-	bl       __dl__FPv
+// lbl_80081968:
+// 	extsh.   r0, r4
+// 	ble      lbl_80081978
+// 	mr       r3, r31
+// 	bl       __dl__FPv
 
-lbl_80081978:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// lbl_80081978:
+// 	lwz      r0, 0x14(r1)
+// 	mr       r3, r31
+// 	lwz      r31, 0xc(r1)
+// 	mtlr     r0
+// 	addi     r1, r1, 0x10
+// 	blr
+// 	*/
+// }
 
 /*
  * --INFO--
@@ -13850,123 +11917,56 @@ lbl_800819B4:
  * Address:	800819C4
  * Size:	00000C
  */
-void J3DPEBlockFogOff::getType()
-{
-	/*
-	lis      r3, 0x50454647@ha
-	addi     r3, r3, 0x50454647@l
-	blr
-	*/
-}
+JBlockType J3DPEBlockFogOff::getType() { return JBT_PEFogOff; }
 
 /*
  * --INFO--
  * Address:	800819D0
  * Size:	00001C
  */
-void J3DPEBlockFogOff::setAlphaComp(const J3DAlphaComp&)
-{
-	/*
-	lhz      r0, 0(r4)
-	lbz      r5, 2(r4)
-	sth      r0, 4(r3)
-	lbz      r0, 3(r4)
-	stb      r5, 6(r3)
-	stb      r0, 7(r3)
-	blr
-	*/
-}
+void J3DPEBlockFogOff::setAlphaComp(const J3DAlphaComp& alphaComp) { mAlphaComp = alphaComp; }
 
 /*
  * --INFO--
  * Address:	800819EC
  * Size:	00001C
  */
-void J3DPEBlockFogOff::setAlphaComp(const J3DAlphaComp*)
-{
-	/*
-	lhz      r0, 0(r4)
-	lbz      r5, 2(r4)
-	sth      r0, 4(r3)
-	lbz      r0, 3(r4)
-	stb      r5, 6(r3)
-	stb      r0, 7(r3)
-	blr
-	*/
-}
+void J3DPEBlockFogOff::setAlphaComp(const J3DAlphaComp* alphaComp) { mAlphaComp = *alphaComp; }
 
 /*
  * --INFO--
  * Address:	80081A08
  * Size:	000008
  */
-void J3DPEBlockFogOff::getAlphaComp()
-{
-	/*
-	addi     r3, r3, 4
-	blr
-	*/
-}
+J3DAlphaComp* J3DPEBlockFogOff::getAlphaComp() { return &mAlphaComp; }
 
 /*
  * --INFO--
  * Address:	80081A10
  * Size:	000024
  */
-void J3DPEBlockFogOff::setBlend(const J3DBlend&)
-{
-	/*
-	lbz      r5, 0(r4)
-	lbz      r0, 1(r4)
-	stb      r5, 8(r3)
-	lbz      r5, 2(r4)
-	stb      r0, 9(r3)
-	lbz      r0, 3(r4)
-	stb      r5, 0xa(r3)
-	stb      r0, 0xb(r3)
-	blr
-	*/
-}
+void J3DPEBlockFogOff::setBlend(const J3DBlend& blend) { mBlend = blend; }
 
 /*
  * --INFO--
  * Address:	80081A34
  * Size:	000024
  */
-void J3DPEBlockFogOff::setBlend(const J3DBlend*)
-{
-	/*
-	lbz      r5, 0(r4)
-	lbz      r0, 1(r4)
-	stb      r5, 8(r3)
-	lbz      r5, 2(r4)
-	stb      r0, 9(r3)
-	lbz      r0, 3(r4)
-	stb      r5, 0xa(r3)
-	stb      r0, 0xb(r3)
-	blr
-	*/
-}
+void J3DPEBlockFogOff::setBlend(const J3DBlend* blend) { mBlend = *blend; }
 
 /*
  * --INFO--
  * Address:	80081A58
  * Size:	000008
  */
-void J3DPEBlockFogOff::getBlend()
-{
-	/*
-	addi     r3, r3, 8
-	blr
-	*/
-}
+J3DBlend* J3DPEBlockFogOff::getBlend() { return &mBlend; }
 
 /*
  * --INFO--
  * Address:	80081A60
  * Size:	00000C
  */
-void J3DPEBlockFogOff::setZMode(J3DZMode)
+void J3DPEBlockFogOff::setZMode(J3DZMode zMode)
 {
 	/*
 	lhz      r0, 0(r4)
@@ -13980,7 +11980,7 @@ void J3DPEBlockFogOff::setZMode(J3DZMode)
  * Address:	80081A6C
  * Size:	00000C
  */
-void J3DPEBlockFogOff::setZMode(const J3DZMode*)
+void J3DPEBlockFogOff::setZMode(const J3DZMode* zMode)
 {
 	/*
 	lhz      r0, 0(r4)
@@ -13994,13 +11994,7 @@ void J3DPEBlockFogOff::setZMode(const J3DZMode*)
  * Address:	80081A78
  * Size:	000008
  */
-void J3DPEBlockFogOff::getZMode()
-{
-	/*
-	addi     r3, r3, 0xc
-	blr
-	*/
-}
+J3DZMode* J3DPEBlockFogOff::getZMode() { return &mZMode; }
 
 /*
  * --INFO--
@@ -14018,37 +12012,24 @@ void J3DPEBlockFogOff::setZCompLoc(unsigned char a1)
  * Address:	80081A88
  * Size:	00000C
  */
-void J3DPEBlockFogOff::setZCompLoc(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0xe(r3)
-	blr
-	*/
-}
+void J3DPEBlockFogOff::setZCompLoc(const unsigned char* zCompLoc) { _0E = *zCompLoc; }
 
 /*
  * --INFO--
  * Address:	80081A94
  * Size:	000008
  */
-void J3DPEBlockFogOff::getZCompLoc() const
-{
-	/*
-	lbz      r3, 0xe(r3)
-	blr
-	*/
-}
+u8 J3DPEBlockFogOff::getZCompLoc() const { return _0E; }
 
 /*
  * --INFO--
  * Address:	80081A9C
  * Size:	000008
  */
-void J3DPEBlockFogOff::setDither(unsigned char a1)
+void J3DPEBlockFogOff::setDither(unsigned char dither)
 {
 	// Generated from stb r4, 0xF(r3)
-	_0F = a1;
+	mDither = dither;
 }
 
 /*
@@ -14056,65 +12037,21 @@ void J3DPEBlockFogOff::setDither(unsigned char a1)
  * Address:	80081AA4
  * Size:	00000C
  */
-void J3DPEBlockFogOff::setDither(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0xf(r3)
-	blr
-	*/
-}
+void J3DPEBlockFogOff::setDither(const unsigned char* dither) { mDither = *dither; }
 
 /*
  * --INFO--
  * Address:	80081AB0
  * Size:	000008
  */
-void J3DPEBlockFogOff::getDither() const
-{
-	/*
-	lbz      r3, 0xf(r3)
-	blr
-	*/
-}
+u8 J3DPEBlockFogOff::getDither() const { return mDither; }
 
 /*
  * --INFO--
  * Address:	80081AB8
  * Size:	00005C
  */
-J3DPEBlockFogOff::~J3DPEBlockFogOff()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_80081AFC
-	lis      r3, __vt__16J3DPEBlockFogOff@ha
-	addi     r0, r3, __vt__16J3DPEBlockFogOff@l
-	stw      r0, 0(r31)
-	beq      lbl_80081AEC
-	lis      r3, __vt__10J3DPEBlock@ha
-	addi     r0, r3, __vt__10J3DPEBlock@l
-	stw      r0, 0(r31)
-
-lbl_80081AEC:
-	extsh.   r0, r4
-	ble      lbl_80081AFC
-	mr       r3, r31
-	bl       __dl__FPv
-
-lbl_80081AFC:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// J3DPEBlockFogOff::~J3DPEBlockFogOff() { }
 
 /*
  * --INFO--
@@ -14176,435 +12113,182 @@ lbl_80081B84:
  * Address:	80081BB4
  * Size:	00000C
  */
-void J3DTevBlock16::getType()
-{
-	/*
-	lis      r3, 0x54563136@ha
-	addi     r3, r3, 0x54563136@l
-	blr
-	*/
-}
+JBlockType J3DTevBlock16::getType() { return JBT_Tev16; }
 
 /*
  * --INFO--
  * Address:	80081BC0
  * Size:	000010
  */
-void J3DTevBlock16::setTexNo(unsigned long, unsigned short)
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	sth      r5, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setTexNo(unsigned long index, unsigned short texNo) { mTexIndices[index] = texNo; }
 
 /*
  * --INFO--
  * Address:	80081BD0
  * Size:	000014
  */
-void J3DTevBlock16::setTexNo(unsigned long, const unsigned short*)
-{
-	/*
-	slwi     r0, r4, 1
-	lhz      r4, 0(r5)
-	add      r3, r3, r0
-	sth      r4, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setTexNo(unsigned long index, const unsigned short* texNo) { mTexIndices[index] = *texNo; }
 
 /*
  * --INFO--
  * Address:	80081BE4
  * Size:	000010
  */
-void J3DTevBlock16::getTexNo(unsigned long) const
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	lhz      r3, 8(r3)
-	blr
-	*/
-}
+u16 J3DTevBlock16::getTexNo(unsigned long index) const { return mTexIndices[index]; }
 
 /*
  * --INFO--
  * Address:	80081BF4
  * Size:	000024
  */
-void J3DTevBlock16::setTevOrder(unsigned long, J3DTevOrder)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0x18(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0x19(r4)
-	stb      r0, 0x1a(r4)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevOrder(unsigned long index, J3DTevOrder order) { mOrders[index] = order; }
 
 /*
  * --INFO--
  * Address:	80081C18
  * Size:	000024
  */
-void J3DTevBlock16::setTevOrder(unsigned long, const J3DTevOrder*)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0x18(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0x19(r4)
-	stb      r0, 0x1a(r4)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevOrder(unsigned long index, const J3DTevOrder* order) { mOrders[index] = *order; }
 
 /*
  * --INFO--
  * Address:	80081C3C
  * Size:	000014
  */
-void J3DTevBlock16::getTevOrder(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x18
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevOrder* J3DTevBlock16::getTevOrder(unsigned long index) { return mOrders + index; }
 
 /*
  * --INFO--
  * Address:	80081C50
  * Size:	00002C
  */
-void J3DTevBlock16::setTevColor(unsigned long, J3DGXColorS10)
-{
-	/*
-	slwi     r0, r4, 3
-	lha      r6, 0(r5)
-	add      r4, r3, r0
-	lha      r0, 2(r5)
-	sth      r6, 0xda(r4)
-	lha      r3, 4(r5)
-	sth      r0, 0xdc(r4)
-	lha      r0, 6(r5)
-	sth      r3, 0xde(r4)
-	sth      r0, 0xe0(r4)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevColor(unsigned long index, J3DGXColorS10 color) { mColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	80081C7C
  * Size:	00002C
  */
-void J3DTevBlock16::setTevColor(unsigned long, const J3DGXColorS10*)
-{
-	/*
-	slwi     r0, r4, 3
-	lha      r6, 0(r5)
-	add      r4, r3, r0
-	lha      r0, 2(r5)
-	sth      r6, 0xda(r4)
-	lha      r3, 4(r5)
-	sth      r0, 0xdc(r4)
-	lha      r0, 6(r5)
-	sth      r3, 0xde(r4)
-	sth      r0, 0xe0(r4)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevColor(unsigned long index, const J3DGXColorS10* color) { mColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	80081CA8
  * Size:	000014
  */
-void J3DTevBlock16::getTevColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 3
-	mr       r0, r3
-	addi     r3, r4, 0xda
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColorS10* J3DTevBlock16::getTevColor(unsigned long index) { return mColors + index; }
 
 /*
  * --INFO--
  * Address:	80081CBC
  * Size:	00002C
  */
-void J3DTevBlock16::setTevKColor(unsigned long, J3DGXColor)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0xfa(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0xfb(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0xfc(r4)
-	stb      r0, 0xfd(r4)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevKColor(unsigned long index, J3DGXColor color) { mKColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	80081CE8
  * Size:	00002C
  */
-void J3DTevBlock16::setTevKColor(unsigned long, const J3DGXColor*)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0xfa(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0xfb(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0xfc(r4)
-	stb      r0, 0xfd(r4)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevKColor(unsigned long index, const J3DGXColor* color) { mKColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	80081D14
  * Size:	000014
  */
-void J3DTevBlock16::getTevKColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0xfa
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColor* J3DTevBlock16::getTevKColor(unsigned long index) { return mKColors + index; }
 
 /*
  * --INFO--
  * Address:	80081D28
  * Size:	00000C
  */
-void J3DTevBlock16::setTevKColorSel(unsigned long, unsigned char)
-{
-	/*
-	add      r3, r3, r4
-	stb      r5, 0x10a(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevKColorSel(unsigned long index, unsigned char sel) { mKColorSels[index] = sel; }
 
 /*
  * --INFO--
  * Address:	80081D34
  * Size:	000010
  */
-void J3DTevBlock16::setTevKColorSel(unsigned long, const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0x10a(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevKColorSel(unsigned long index, const unsigned char* sel) { mKColorSels[index] = *sel; }
 
 /*
  * --INFO--
  * Address:	80081D44
  * Size:	00000C
  */
-void J3DTevBlock16::getTevKColorSel(unsigned long)
-{
-	/*
-	add      r3, r3, r4
-	lbz      r3, 0x10a(r3)
-	blr
-	*/
-}
+GXTevKColorSel J3DTevBlock16::getTevKColorSel(unsigned long index) { return (GXTevKColorSel)mKColorSels[index]; }
 
 /*
  * --INFO--
  * Address:	80081D50
  * Size:	00000C
  */
-void J3DTevBlock16::setTevKAlphaSel(unsigned long, unsigned char)
-{
-	/*
-	add      r3, r3, r4
-	stb      r5, 0x11a(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevKAlphaSel(unsigned long index, unsigned char sel) { mKAlphaSels[index] = sel; }
 
 /*
  * --INFO--
  * Address:	80081D5C
  * Size:	000010
  */
-void J3DTevBlock16::setTevKAlphaSel(unsigned long, const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0x11a(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevKAlphaSel(unsigned long index, const unsigned char* sel) { mKAlphaSels[index] = *sel; }
 
 /*
  * --INFO--
  * Address:	80081D6C
  * Size:	00000C
  */
-void J3DTevBlock16::getTevKAlphaSel(unsigned long)
-{
-	/*
-	add      r3, r3, r4
-	lbz      r3, 0x11a(r3)
-	blr
-	*/
-}
+u8 J3DTevBlock16::getTevKAlphaSel(unsigned long index) { return mKAlphaSels[index]; }
 
 /*
  * --INFO--
  * Address:	80081D78
  * Size:	000008
  */
-void J3DTevBlock16::setTevStageNum(unsigned char a1)
-{
-	// Generated from stb r4, 0x58(r3)
-	_58 = a1;
-}
+void J3DTevBlock16::setTevStageNum(unsigned char stageNum) { mStageNum = stageNum; }
 
 /*
  * --INFO--
  * Address:	80081D80
  * Size:	00000C
  */
-void J3DTevBlock16::setTevStageNum(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0x58(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevStageNum(const unsigned char* stageNum) { mStageNum = *stageNum; }
 
 /*
  * --INFO--
  * Address:	80081D8C
  * Size:	000008
  */
-void J3DTevBlock16::getTevStageNum() const
-{
-	/*
-	lbz      r3, 0x58(r3)
-	blr
-	*/
-}
+u8 J3DTevBlock16::getTevStageNum() const { return mStageNum; }
 
 /*
  * --INFO--
  * Address:	80081D94
  * Size:	00003C
  */
-void J3DTevBlock16::setTevStage(unsigned long, J3DTevStage)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0x5a(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x5b(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x5c(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x5e(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x5f(r4)
-	stb      r0, 0x60(r4)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevStage(unsigned long index, J3DTevStage stage) { mStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	80081DD0
  * Size:	00003C
  */
-void J3DTevBlock16::setTevStage(unsigned long, const J3DTevStage*)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0x5a(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x5b(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x5c(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x5e(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x5f(r4)
-	stb      r0, 0x60(r4)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevStage(unsigned long index, const J3DTevStage* stage) { mStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	80081E0C
  * Size:	000014
  */
-void J3DTevBlock16::getTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 3
-	mr       r0, r3
-	addi     r3, r4, 0x59
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevStage* J3DTevBlock16::getTevStage(unsigned long index) { return mStages + index; }
 
 /*
  * --INFO--
  * Address:	80081E20
  * Size:	000038
  */
-void J3DTevBlock16::setTevSwapModeInfo(unsigned long, J3DTevSwapModeInfo)
+void J3DTevBlock16::setTevSwapModeInfo(unsigned long index, J3DTevSwapModeInfo info)
 {
 	/*
 	slwi     r0, r4, 3
@@ -14629,7 +12313,7 @@ void J3DTevBlock16::setTevSwapModeInfo(unsigned long, J3DTevSwapModeInfo)
  * Address:	80081E58
  * Size:	000038
  */
-void J3DTevBlock16::setTevSwapModeInfo(unsigned long, const J3DTevSwapModeInfo*)
+void J3DTevBlock16::setTevSwapModeInfo(unsigned long index, const J3DTevSwapModeInfo* info)
 {
 	/*
 	slwi     r0, r4, 3
@@ -14654,102 +12338,51 @@ void J3DTevBlock16::setTevSwapModeInfo(unsigned long, const J3DTevSwapModeInfo*)
  * Address:	80081E90
  * Size:	000010
  */
-void J3DTevBlock16::setTevSwapModeTable(unsigned long, J3DTevSwapModeTable)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0x12a(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setTevSwapModeTable(unsigned long index, J3DTevSwapModeTable table) { mSwapModeTables[index] = table; }
 
 /*
  * --INFO--
  * Address:	80081EA0
  * Size:	000010
  */
-void J3DTevBlock16::setTevSwapModeTable(unsigned long, const J3DTevSwapModeTable*)
-{
-	/*
-	.loc_0x0:
-	  lbz       r0, 0x0(r5)
-	  add       r3, r3, r4
-	  stb       r0, 0x12A(r3)
-	  blr
-	*/
-}
+void J3DTevBlock16::setTevSwapModeTable(unsigned long index, const J3DTevSwapModeTable* table) { mSwapModeTables[index] = *table; }
 
 /*
  * --INFO--
  * Address:	80081EB0
  * Size:	000010
  */
-void J3DTevBlock16::getTevSwapModeTable(unsigned long)
-{
-	/*
-	mr       r0, r3
-	addi     r3, r4, 0x12a
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevSwapModeTable* J3DTevBlock16::getTevSwapModeTable(unsigned long index) { return mSwapModeTables + index; }
 
 /*
  * --INFO--
  * Address:	80081EC0
  * Size:	000014
  */
-void J3DTevBlock16::setIndTevStage(unsigned long, J3DIndTevStage)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x130(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setIndTevStage(unsigned long index, J3DIndTevStage stage) { mIndStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	80081ED4
  * Size:	000014
  */
-void J3DTevBlock16::setIndTevStage(unsigned long, const J3DIndTevStage*)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x130(r3)
-	blr
-	*/
-}
+void J3DTevBlock16::setIndTevStage(unsigned long index, const J3DIndTevStage* stage) { mIndStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	80081EE8
  * Size:	000014
  */
-void J3DTevBlock16::getIndTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x130
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DIndTevStage* J3DTevBlock16::getIndTevStage(unsigned long index) { return mIndStages + index; }
 
 /*
  * --INFO--
  * Address:	80081EFC
  * Size:	000008
  */
-void J3DTevBlock16::getTexNoOffset() const
+u32 J3DTevBlock16::getTexNoOffset() const
 {
+	return mTexNoOffset;
 	/*
 	lwz      r3, 4(r3)
 	blr
@@ -14761,8 +12394,9 @@ void J3DTevBlock16::getTexNoOffset() const
  * Address:	80081F04
  * Size:	000008
  */
-void J3DTevBlock16::getTevRegOffset() const
+u32 J3DTevBlock16::getTevRegOffset() const
 {
+	return mRegOffset;
 	/*
 	lwz      r3, 0x170(r3)
 	blr
@@ -14774,10 +12408,10 @@ void J3DTevBlock16::getTevRegOffset() const
  * Address:	80081F0C
  * Size:	000008
  */
-void J3DTevBlock16::setTevRegOffset(unsigned long a1)
+void J3DTevBlock16::setTevRegOffset(unsigned long offset)
 {
 	// Generated from stw r4, 0x170(r3)
-	_170 = a1;
+	mRegOffset = offset;
 }
 
 /*
@@ -14885,435 +12519,182 @@ lbl_80081FE4:
  * Address:	80082014
  * Size:	00000C
  */
-void J3DTevBlock4::getType()
-{
-	/*
-	lis      r3, 0x54564234@ha
-	addi     r3, r3, 0x54564234@l
-	blr
-	*/
-}
+JBlockType J3DTevBlock4::getType() { return JBT_Tev4; }
 
 /*
  * --INFO--
  * Address:	80082020
  * Size:	000010
  */
-void J3DTevBlock4::setTexNo(unsigned long, unsigned short)
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	sth      r5, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setTexNo(unsigned long index, unsigned short texNo) { mTexIndices[index] = texNo; }
 
 /*
  * --INFO--
  * Address:	80082030
  * Size:	000014
  */
-void J3DTevBlock4::setTexNo(unsigned long, const unsigned short*)
-{
-	/*
-	slwi     r0, r4, 1
-	lhz      r4, 0(r5)
-	add      r3, r3, r0
-	sth      r4, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setTexNo(unsigned long index, const unsigned short* texNo) { mTexIndices[index] = *texNo; }
 
 /*
  * --INFO--
  * Address:	80082044
  * Size:	000010
  */
-void J3DTevBlock4::getTexNo(unsigned long) const
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	lhz      r3, 8(r3)
-	blr
-	*/
-}
+u16 J3DTevBlock4::getTexNo(unsigned long index) const { return mTexIndices[index]; }
 
 /*
  * --INFO--
  * Address:	80082054
  * Size:	000024
  */
-void J3DTevBlock4::setTevOrder(unsigned long, J3DTevOrder)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0x10(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0x11(r4)
-	stb      r0, 0x12(r4)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevOrder(unsigned long index, J3DTevOrder order) { mOrders[index] = order; }
 
 /*
  * --INFO--
  * Address:	80082078
  * Size:	000024
  */
-void J3DTevBlock4::setTevOrder(unsigned long, const J3DTevOrder*)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0x10(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0x11(r4)
-	stb      r0, 0x12(r4)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevOrder(unsigned long index, const J3DTevOrder* order) { mOrders[index] = *order; }
 
 /*
  * --INFO--
  * Address:	8008209C
  * Size:	000014
  */
-void J3DTevBlock4::getTevOrder(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x10
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevOrder* J3DTevBlock4::getTevOrder(unsigned long index) { return mOrders + index; }
 
 /*
  * --INFO--
  * Address:	800820B0
  * Size:	00002C
  */
-void J3DTevBlock4::setTevColor(unsigned long, J3DGXColorS10)
-{
-	/*
-	slwi     r0, r4, 3
-	lha      r6, 0(r5)
-	add      r4, r3, r0
-	lha      r0, 2(r5)
-	sth      r6, 0x42(r4)
-	lha      r3, 4(r5)
-	sth      r0, 0x44(r4)
-	lha      r0, 6(r5)
-	sth      r3, 0x46(r4)
-	sth      r0, 0x48(r4)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevColor(unsigned long index, J3DGXColorS10 color) { mColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	800820DC
  * Size:	00002C
  */
-void J3DTevBlock4::setTevColor(unsigned long, const J3DGXColorS10*)
-{
-	/*
-	slwi     r0, r4, 3
-	lha      r6, 0(r5)
-	add      r4, r3, r0
-	lha      r0, 2(r5)
-	sth      r6, 0x42(r4)
-	lha      r3, 4(r5)
-	sth      r0, 0x44(r4)
-	lha      r0, 6(r5)
-	sth      r3, 0x46(r4)
-	sth      r0, 0x48(r4)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevColor(unsigned long index, const J3DGXColorS10* color) { mColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	80082108
  * Size:	000014
  */
-void J3DTevBlock4::getTevColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 3
-	mr       r0, r3
-	addi     r3, r4, 0x42
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColorS10* J3DTevBlock4::getTevColor(unsigned long index) { return mColors + index; }
 
 /*
  * --INFO--
  * Address:	8008211C
  * Size:	00002C
  */
-void J3DTevBlock4::setTevKColor(unsigned long, J3DGXColor)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0x62(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0x63(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0x64(r4)
-	stb      r0, 0x65(r4)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevKColor(unsigned long index, J3DGXColor color) { mKColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	80082148
  * Size:	00002C
  */
-void J3DTevBlock4::setTevKColor(unsigned long, const J3DGXColor*)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0x62(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0x63(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0x64(r4)
-	stb      r0, 0x65(r4)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevKColor(unsigned long index, const J3DGXColor* color) { mKColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	80082174
  * Size:	000014
  */
-void J3DTevBlock4::getTevKColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x62
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColor* J3DTevBlock4::getTevKColor(unsigned long index) { return mKColors + index; }
 
 /*
  * --INFO--
  * Address:	80082188
  * Size:	00000C
  */
-void J3DTevBlock4::setTevKColorSel(unsigned long, unsigned char)
-{
-	/*
-	add      r3, r3, r4
-	stb      r5, 0x72(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevKColorSel(unsigned long index, unsigned char sel) { mKColorSels[index] = sel; }
 
 /*
  * --INFO--
  * Address:	80082194
  * Size:	000010
  */
-void J3DTevBlock4::setTevKColorSel(unsigned long, const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0x72(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevKColorSel(unsigned long index, const unsigned char* sel) { mKColorSels[index] = *sel; }
 
 /*
  * --INFO--
  * Address:	800821A4
  * Size:	00000C
  */
-void J3DTevBlock4::getTevKColorSel(unsigned long)
-{
-	/*
-	add      r3, r3, r4
-	lbz      r3, 0x72(r3)
-	blr
-	*/
-}
+GXTevKColorSel J3DTevBlock4::getTevKColorSel(unsigned long index) { return (GXTevKColorSel)mKColorSels[index]; }
 
 /*
  * --INFO--
  * Address:	800821B0
  * Size:	00000C
  */
-void J3DTevBlock4::setTevKAlphaSel(unsigned long, unsigned char)
-{
-	/*
-	add      r3, r3, r4
-	stb      r5, 0x76(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevKAlphaSel(unsigned long index, unsigned char sel) { mKAlphaSels[index] = sel; }
 
 /*
  * --INFO--
  * Address:	800821BC
  * Size:	000010
  */
-void J3DTevBlock4::setTevKAlphaSel(unsigned long, const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0x76(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevKAlphaSel(unsigned long index, const unsigned char* sel) { mKAlphaSels[index] = *sel; }
 
 /*
  * --INFO--
  * Address:	800821CC
  * Size:	00000C
  */
-void J3DTevBlock4::getTevKAlphaSel(unsigned long)
-{
-	/*
-	add      r3, r3, r4
-	lbz      r3, 0x76(r3)
-	blr
-	*/
-}
+u8 J3DTevBlock4::getTevKAlphaSel(unsigned long index) { return mKAlphaSels[index]; }
 
 /*
  * --INFO--
  * Address:	800821D8
  * Size:	000008
  */
-void J3DTevBlock4::setTevStageNum(unsigned char a1)
-{
-	// Generated from stb r4, 0x20(r3)
-	_20 = a1;
-}
+void J3DTevBlock4::setTevStageNum(unsigned char stageNum) { mStageNum = stageNum; }
 
 /*
  * --INFO--
  * Address:	800821E0
  * Size:	00000C
  */
-void J3DTevBlock4::setTevStageNum(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0x20(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevStageNum(const unsigned char* stageNum) { mStageNum = *stageNum; }
 
 /*
  * --INFO--
  * Address:	800821EC
  * Size:	000008
  */
-void J3DTevBlock4::getTevStageNum() const
-{
-	/*
-	lbz      r3, 0x20(r3)
-	blr
-	*/
-}
+u8 J3DTevBlock4::getTevStageNum() const { return mStageNum; }
 
 /*
  * --INFO--
  * Address:	800821F4
  * Size:	00003C
  */
-void J3DTevBlock4::setTevStage(unsigned long, J3DTevStage)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0x22(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x23(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x24(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x26(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x27(r4)
-	stb      r0, 0x28(r4)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevStage(unsigned long index, J3DTevStage stage) { mStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	80082230
  * Size:	00003C
  */
-void J3DTevBlock4::setTevStage(unsigned long, const J3DTevStage*)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0x22(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x23(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x24(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x26(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x27(r4)
-	stb      r0, 0x28(r4)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevStage(unsigned long index, const J3DTevStage* stage) { mStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	8008226C
  * Size:	000014
  */
-void J3DTevBlock4::getTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 3
-	mr       r0, r3
-	addi     r3, r4, 0x21
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevStage* J3DTevBlock4::getTevStage(unsigned long index) { return mStages + index; }
 
 /*
  * --INFO--
  * Address:	80082280
  * Size:	000038
  */
-void J3DTevBlock4::setTevSwapModeInfo(unsigned long, J3DTevSwapModeInfo)
+void J3DTevBlock4::setTevSwapModeInfo(unsigned long index, J3DTevSwapModeInfo info)
 {
 	/*
 	slwi     r0, r4, 3
@@ -15338,7 +12719,7 @@ void J3DTevBlock4::setTevSwapModeInfo(unsigned long, J3DTevSwapModeInfo)
  * Address:	800822B8
  * Size:	000038
  */
-void J3DTevBlock4::setTevSwapModeInfo(unsigned long, const J3DTevSwapModeInfo*)
+void J3DTevBlock4::setTevSwapModeInfo(unsigned long index, const J3DTevSwapModeInfo* info)
 {
 	/*
 	slwi     r0, r4, 3
@@ -15363,131 +12744,63 @@ void J3DTevBlock4::setTevSwapModeInfo(unsigned long, const J3DTevSwapModeInfo*)
  * Address:	800822F0
  * Size:	000010
  */
-void J3DTevBlock4::setTevSwapModeTable(unsigned long, J3DTevSwapModeTable)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0x7a(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setTevSwapModeTable(unsigned long index, J3DTevSwapModeTable table) { mSwapModeTables[index] = table; }
 
 /*
  * --INFO--
  * Address:	80082300
  * Size:	000010
  */
-void J3DTevBlock4::setTevSwapModeTable(unsigned long, const J3DTevSwapModeTable*)
-{
-	/*
-	.loc_0x0:
-	  lbz       r0, 0x0(r5)
-	  add       r3, r3, r4
-	  stb       r0, 0x7A(r3)
-	  blr
-	*/
-}
+void J3DTevBlock4::setTevSwapModeTable(unsigned long index, const J3DTevSwapModeTable* table) { mSwapModeTables[index] = *table; }
 
 /*
  * --INFO--
  * Address:	80082310
  * Size:	000010
  */
-void J3DTevBlock4::getTevSwapModeTable(unsigned long)
-{
-	/*
-	mr       r0, r3
-	addi     r3, r4, 0x7a
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevSwapModeTable* J3DTevBlock4::getTevSwapModeTable(unsigned long index) { return mSwapModeTables + index; }
 
 /*
  * --INFO--
  * Address:	80082320
  * Size:	000014
  */
-void J3DTevBlock4::setIndTevStage(unsigned long, J3DIndTevStage)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x80(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setIndTevStage(unsigned long index, J3DIndTevStage stage) { mIndStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	80082334
  * Size:	000014
  */
-void J3DTevBlock4::setIndTevStage(unsigned long, const J3DIndTevStage*)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x80(r3)
-	blr
-	*/
-}
+void J3DTevBlock4::setIndTevStage(unsigned long index, const J3DIndTevStage* stage) { mIndStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	80082348
  * Size:	000014
  */
-void J3DTevBlock4::getIndTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x80
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DIndTevStage* J3DTevBlock4::getIndTevStage(unsigned long index) { return mIndStages + index; }
 
 /*
  * --INFO--
  * Address:	8008235C
  * Size:	000008
  */
-void J3DTevBlock4::getTexNoOffset() const
-{
-	/*
-	lwz      r3, 4(r3)
-	blr
-	*/
-}
+u32 J3DTevBlock4::getTexNoOffset() const { return mTexNoOffset; }
 
 /*
  * --INFO--
  * Address:	80082364
  * Size:	000008
  */
-void J3DTevBlock4::getTevRegOffset() const
-{
-	/*
-	lwz      r3, 0x90(r3)
-	blr
-	*/
-}
+u32 J3DTevBlock4::getTevRegOffset() const { return mRegOffset; }
 
 /*
  * --INFO--
  * Address:	8008236C
  * Size:	000008
  */
-void J3DTevBlock4::setTevRegOffset(unsigned long a1)
-{
-	// Generated from stw r4, 0x90(r3)
-	_90 = a1;
-}
+void J3DTevBlock4::setTevRegOffset(unsigned long offset) { mRegOffset = offset; }
 
 /*
  * --INFO--
@@ -15594,435 +12907,182 @@ lbl_80082444:
  * Address:	80082474
  * Size:	00000C
  */
-void J3DTevBlock2::getType()
-{
-	/*
-	lis      r3, 0x54564232@ha
-	addi     r3, r3, 0x54564232@l
-	blr
-	*/
-}
+JBlockType J3DTevBlock2::getType() { return JBT_Tev2; }
 
 /*
  * --INFO--
  * Address:	80082480
  * Size:	000010
  */
-void J3DTevBlock2::setTexNo(unsigned long, unsigned short)
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	sth      r5, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setTexNo(unsigned long index, unsigned short texNo) { mTexIndices[index] = texNo; }
 
 /*
  * --INFO--
  * Address:	80082490
  * Size:	000014
  */
-void J3DTevBlock2::setTexNo(unsigned long, const unsigned short*)
-{
-	/*
-	slwi     r0, r4, 1
-	lhz      r4, 0(r5)
-	add      r3, r3, r0
-	sth      r4, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setTexNo(unsigned long index, const unsigned short* texNo) { mTexIndices[index] = *texNo; }
 
 /*
  * --INFO--
  * Address:	800824A4
  * Size:	000010
  */
-void J3DTevBlock2::getTexNo(unsigned long) const
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	lhz      r3, 8(r3)
-	blr
-	*/
-}
+u16 J3DTevBlock2::getTexNo(unsigned long index) const { return mTexIndices[index]; }
 
 /*
  * --INFO--
  * Address:	800824B4
  * Size:	000024
  */
-void J3DTevBlock2::setTevOrder(unsigned long, J3DTevOrder)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0xc(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0xd(r4)
-	stb      r0, 0xe(r4)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevOrder(unsigned long index, J3DTevOrder order) { mOrders[index] = order; }
 
 /*
  * --INFO--
  * Address:	800824D8
  * Size:	000024
  */
-void J3DTevBlock2::setTevOrder(unsigned long, const J3DTevOrder*)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0xc(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0xd(r4)
-	stb      r0, 0xe(r4)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevOrder(unsigned long index, const J3DTevOrder* order) { mOrders[index] = *order; }
 
 /*
  * --INFO--
  * Address:	800824FC
  * Size:	000014
  */
-void J3DTevBlock2::getTevOrder(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0xc
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevOrder* J3DTevBlock2::getTevOrder(unsigned long index) { return mOrders + index; }
 
 /*
  * --INFO--
  * Address:	80082510
  * Size:	00002C
  */
-void J3DTevBlock2::setTevColor(unsigned long, J3DGXColorS10)
-{
-	/*
-	slwi     r0, r4, 3
-	lha      r6, 0(r5)
-	add      r4, r3, r0
-	lha      r0, 2(r5)
-	sth      r6, 0x14(r4)
-	lha      r3, 4(r5)
-	sth      r0, 0x16(r4)
-	lha      r0, 6(r5)
-	sth      r3, 0x18(r4)
-	sth      r0, 0x1a(r4)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevColor(unsigned long index, J3DGXColorS10 color) { mColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	8008253C
  * Size:	00002C
  */
-void J3DTevBlock2::setTevColor(unsigned long, const J3DGXColorS10*)
-{
-	/*
-	slwi     r0, r4, 3
-	lha      r6, 0(r5)
-	add      r4, r3, r0
-	lha      r0, 2(r5)
-	sth      r6, 0x14(r4)
-	lha      r3, 4(r5)
-	sth      r0, 0x16(r4)
-	lha      r0, 6(r5)
-	sth      r3, 0x18(r4)
-	sth      r0, 0x1a(r4)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevColor(unsigned long index, const J3DGXColorS10* color) { mColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	80082568
  * Size:	000014
  */
-void J3DTevBlock2::getTevColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 3
-	mr       r0, r3
-	addi     r3, r4, 0x14
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColorS10* J3DTevBlock2::getTevColor(unsigned long index) { return mColors + index; }
 
 /*
  * --INFO--
  * Address:	8008257C
  * Size:	00002C
  */
-void J3DTevBlock2::setTevKColor(unsigned long, J3DGXColor)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0x45(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0x46(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0x47(r4)
-	stb      r0, 0x48(r4)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevKColor(unsigned long index, J3DGXColor color) { mKColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	800825A8
  * Size:	00002C
  */
-void J3DTevBlock2::setTevKColor(unsigned long, const J3DGXColor*)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0x45(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0x46(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0x47(r4)
-	stb      r0, 0x48(r4)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevKColor(unsigned long index, const J3DGXColor* color) { mKColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	800825D4
  * Size:	000014
  */
-void J3DTevBlock2::getTevKColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x45
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColor* J3DTevBlock2::getTevKColor(unsigned long index) { return mKColors + index; }
 
 /*
  * --INFO--
  * Address:	800825E8
  * Size:	00000C
  */
-void J3DTevBlock2::setTevKColorSel(unsigned long, unsigned char)
-{
-	/*
-	add      r3, r3, r4
-	stb      r5, 0x55(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevKColorSel(unsigned long index, unsigned char sel) { mKColorSels[index] = sel; }
 
 /*
  * --INFO--
  * Address:	800825F4
  * Size:	000010
  */
-void J3DTevBlock2::setTevKColorSel(unsigned long, const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0x55(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevKColorSel(unsigned long index, const unsigned char* sel) { mKColorSels[index] = *sel; }
 
 /*
  * --INFO--
  * Address:	80082604
  * Size:	00000C
  */
-void J3DTevBlock2::getTevKColorSel(unsigned long)
-{
-	/*
-	add      r3, r3, r4
-	lbz      r3, 0x55(r3)
-	blr
-	*/
-}
+GXTevKColorSel J3DTevBlock2::getTevKColorSel(unsigned long index) { return (GXTevKColorSel)mKColorSels[index]; }
 
 /*
  * --INFO--
  * Address:	80082610
  * Size:	00000C
  */
-void J3DTevBlock2::setTevKAlphaSel(unsigned long, unsigned char)
-{
-	/*
-	add      r3, r3, r4
-	stb      r5, 0x57(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevKAlphaSel(unsigned long index, unsigned char sel) { mKAlphaSels[index] = sel; }
 
 /*
  * --INFO--
  * Address:	8008261C
  * Size:	000010
  */
-void J3DTevBlock2::setTevKAlphaSel(unsigned long, const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0x57(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevKAlphaSel(unsigned long index, const unsigned char* sel) { mKAlphaSels[index] = *sel; }
 
 /*
  * --INFO--
  * Address:	8008262C
  * Size:	00000C
  */
-void J3DTevBlock2::getTevKAlphaSel(unsigned long)
-{
-	/*
-	add      r3, r3, r4
-	lbz      r3, 0x57(r3)
-	blr
-	*/
-}
+u8 J3DTevBlock2::getTevKAlphaSel(unsigned long index) { return mKAlphaSels[index]; }
 
 /*
  * --INFO--
  * Address:	80082638
  * Size:	000008
  */
-void J3DTevBlock2::setTevStageNum(unsigned char a1)
-{
-	// Generated from stb r4, 0x34(r3)
-	_34 = a1;
-}
+void J3DTevBlock2::setTevStageNum(unsigned char stageNum) { mStageNum = stageNum; }
 
 /*
  * --INFO--
  * Address:	80082640
  * Size:	00000C
  */
-void J3DTevBlock2::setTevStageNum(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0x34(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevStageNum(const unsigned char* stageNum) { mStageNum = *stageNum; }
 
 /*
  * --INFO--
  * Address:	8008264C
  * Size:	000008
  */
-void J3DTevBlock2::getTevStageNum() const
-{
-	/*
-	lbz      r3, 0x34(r3)
-	blr
-	*/
-}
+u8 J3DTevBlock2::getTevStageNum() const { return mStageNum; }
 
 /*
  * --INFO--
  * Address:	80082654
  * Size:	00003C
  */
-void J3DTevBlock2::setTevStage(unsigned long, J3DTevStage)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0x36(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x37(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x38(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x3a(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x3b(r4)
-	stb      r0, 0x3c(r4)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevStage(unsigned long index, J3DTevStage stage) { mStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	80082690
  * Size:	00003C
  */
-void J3DTevBlock2::setTevStage(unsigned long, const J3DTevStage*)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0x36(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x37(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x38(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x3a(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x3b(r4)
-	stb      r0, 0x3c(r4)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevStage(unsigned long index, const J3DTevStage* stage) { mStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	800826CC
  * Size:	000014
  */
-void J3DTevBlock2::getTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 3
-	mr       r0, r3
-	addi     r3, r4, 0x35
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevStage* J3DTevBlock2::getTevStage(unsigned long index) { return mStages + index; }
 
 /*
  * --INFO--
  * Address:	800826E0
  * Size:	000038
  */
-void J3DTevBlock2::setTevSwapModeInfo(unsigned long, J3DTevSwapModeInfo)
+void J3DTevBlock2::setTevSwapModeInfo(unsigned long index, J3DTevSwapModeInfo info)
 {
 	/*
 	slwi     r0, r4, 3
@@ -16047,7 +13107,7 @@ void J3DTevBlock2::setTevSwapModeInfo(unsigned long, J3DTevSwapModeInfo)
  * Address:	80082718
  * Size:	000038
  */
-void J3DTevBlock2::setTevSwapModeInfo(unsigned long, const J3DTevSwapModeInfo*)
+void J3DTevBlock2::setTevSwapModeInfo(unsigned long index, const J3DTevSwapModeInfo* info)
 {
 	/*
 	slwi     r0, r4, 3
@@ -16072,102 +13132,51 @@ void J3DTevBlock2::setTevSwapModeInfo(unsigned long, const J3DTevSwapModeInfo*)
  * Address:	80082750
  * Size:	000010
  */
-void J3DTevBlock2::setTevSwapModeTable(unsigned long, J3DTevSwapModeTable)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0x59(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setTevSwapModeTable(unsigned long index, J3DTevSwapModeTable table) { mSwapModeTables[index] = table; }
 
 /*
  * --INFO--
  * Address:	80082760
  * Size:	000010
  */
-void J3DTevBlock2::setTevSwapModeTable(unsigned long, const J3DTevSwapModeTable*)
-{
-	/*
-	.loc_0x0:
-	  lbz       r0, 0x0(r5)
-	  add       r3, r3, r4
-	  stb       r0, 0x59(r3)
-	  blr
-	*/
-}
+void J3DTevBlock2::setTevSwapModeTable(unsigned long index, const J3DTevSwapModeTable* table) { mSwapModeTables[index] = *table; }
 
 /*
  * --INFO--
  * Address:	80082770
  * Size:	000010
  */
-void J3DTevBlock2::getTevSwapModeTable(unsigned long)
-{
-	/*
-	mr       r0, r3
-	addi     r3, r4, 0x59
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevSwapModeTable* J3DTevBlock2::getTevSwapModeTable(unsigned long index) { return mSwapModeTables + index; }
 
 /*
  * --INFO--
  * Address:	80082780
  * Size:	000014
  */
-void J3DTevBlock2::setIndTevStage(unsigned long, J3DIndTevStage)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x60(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setIndTevStage(unsigned long index, J3DIndTevStage stage) { mIndStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	80082794
  * Size:	000014
  */
-void J3DTevBlock2::setIndTevStage(unsigned long, const J3DIndTevStage*)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x60(r3)
-	blr
-	*/
-}
+void J3DTevBlock2::setIndTevStage(unsigned long index, const J3DIndTevStage* stage) { mIndStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	800827A8
  * Size:	000014
  */
-void J3DTevBlock2::getIndTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x60
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DIndTevStage* J3DTevBlock2::getIndTevStage(unsigned long index) { return mIndStages + index; }
 
 /*
  * --INFO--
  * Address:	800827BC
  * Size:	000008
  */
-void J3DTevBlock2::getTexNoOffset() const
+u32 J3DTevBlock2::getTexNoOffset() const
 {
+	return mTexNoOffset;
 	/*
 	lwz      r3, 4(r3)
 	blr
@@ -16179,8 +13188,9 @@ void J3DTevBlock2::getTexNoOffset() const
  * Address:	800827C4
  * Size:	000008
  */
-void J3DTevBlock2::getTevRegOffset() const
+u32 J3DTevBlock2::getTevRegOffset() const
 {
+	return mRegOffset;
 	/*
 	lwz      r3, 0x68(r3)
 	blr
@@ -16195,7 +13205,7 @@ void J3DTevBlock2::getTevRegOffset() const
 void J3DTevBlock2::setTevRegOffset(unsigned long a1)
 {
 	// Generated from stw r4, 0x68(r3)
-	_68 = a1;
+	mRegOffset = a1;
 }
 
 /*
@@ -16303,116 +13313,49 @@ lbl_800828A4:
  * Address:	800828D4
  * Size:	00000C
  */
-void J3DTevBlock1::getType()
-{
-	/*
-	lis      r3, 0x54564231@ha
-	addi     r3, r3, 0x54564231@l
-	blr
-	*/
-}
+JBlockType J3DTevBlock1::getType() { return JBT_Tev1; }
 
 /*
  * --INFO--
  * Address:	800828E0
  * Size:	000010
  */
-void J3DTevBlock1::setTexNo(unsigned long, unsigned short)
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	sth      r5, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlock1::setTexNo(unsigned long index, unsigned short texNo) { mTexIndices[index] = texNo; }
 
 /*
  * --INFO--
  * Address:	800828F0
  * Size:	000014
  */
-void J3DTevBlock1::setTexNo(unsigned long, const unsigned short*)
-{
-	/*
-	slwi     r0, r4, 1
-	lhz      r4, 0(r5)
-	add      r3, r3, r0
-	sth      r4, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlock1::setTexNo(unsigned long index, const unsigned short* texNo) { mTexIndices[index] = *texNo; }
 
 /*
  * --INFO--
  * Address:	80082904
  * Size:	000010
  */
-void J3DTevBlock1::getTexNo(unsigned long) const
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	lhz      r3, 8(r3)
-	blr
-	*/
-}
+u16 J3DTevBlock1::getTexNo(unsigned long index) const { return mTexIndices[index]; }
 
 /*
  * --INFO--
  * Address:	80082914
  * Size:	000024
  */
-void J3DTevBlock1::setTevOrder(unsigned long, J3DTevOrder)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0xa(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0xb(r4)
-	stb      r0, 0xc(r4)
-	blr
-	*/
-}
+void J3DTevBlock1::setTevOrder(unsigned long index, J3DTevOrder order) { mOrders[index] = order; }
 
 /*
  * --INFO--
  * Address:	80082938
  * Size:	000024
  */
-void J3DTevBlock1::setTevOrder(unsigned long, const J3DTevOrder*)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0xa(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0xb(r4)
-	stb      r0, 0xc(r4)
-	blr
-	*/
-}
+void J3DTevBlock1::setTevOrder(unsigned long index, const J3DTevOrder* order) { mOrders[index] = *order; }
 
 /*
  * --INFO--
  * Address:	8008295C
  * Size:	000014
  */
-void J3DTevBlock1::getTevOrder(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0xa
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevOrder* J3DTevBlock1::getTevOrder(unsigned long index) { return mOrders + index; }
 
 /*
  * --INFO--
@@ -16433,131 +13376,58 @@ void J3DTevBlock1::setTevStageNum(const unsigned char*) { }
  * Address:	80082978
  * Size:	000008
  */
-u32 J3DTevBlock1::getTevStageNum() const { return 0x1; }
+u8 J3DTevBlock1::getTevStageNum() const { return 0x1; }
 
 /*
  * --INFO--
  * Address:	80082980
  * Size:	00003C
  */
-void J3DTevBlock1::setTevStage(unsigned long, J3DTevStage)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0xf(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x10(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x11(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x13(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x14(r4)
-	stb      r0, 0x15(r4)
-	blr
-	*/
-}
+void J3DTevBlock1::setTevStage(unsigned long index, J3DTevStage stage) { mStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	800829BC
  * Size:	00003C
  */
-void J3DTevBlock1::setTevStage(unsigned long, const J3DTevStage*)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0xf(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x10(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x11(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x13(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x14(r4)
-	stb      r0, 0x15(r4)
-	blr
-	*/
-}
+void J3DTevBlock1::setTevStage(unsigned long index, const J3DTevStage* stage) { mStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	800829F8
  * Size:	000014
  */
-void J3DTevBlock1::getTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 3
-	mr       r0, r3
-	addi     r3, r4, 0xe
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevStage* J3DTevBlock1::getTevStage(unsigned long index) { return mStages + index; }
 
 /*
  * --INFO--
  * Address:	80082A0C
  * Size:	000014
  */
-void J3DTevBlock1::setIndTevStage(unsigned long, J3DIndTevStage)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x18(r3)
-	blr
-	*/
-}
+void J3DTevBlock1::setIndTevStage(unsigned long index, J3DIndTevStage stage) { mIndStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	80082A20
  * Size:	000014
  */
-void J3DTevBlock1::setIndTevStage(unsigned long, const J3DIndTevStage*)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x18(r3)
-	blr
-	*/
-}
+void J3DTevBlock1::setIndTevStage(unsigned long index, const J3DIndTevStage* stage) { mIndStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	80082A34
  * Size:	000014
  */
-void J3DTevBlock1::getIndTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x18
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DIndTevStage* J3DTevBlock1::getIndTevStage(unsigned long index) { return mIndStages + index; }
 
 /*
  * --INFO--
  * Address:	80082A48
  * Size:	000008
  */
-void J3DTevBlock1::getTexNoOffset() const
+u32 J3DTevBlock1::getTexNoOffset() const
 {
+	return mTexNoOffset;
 	/*
 	lwz      r3, 4(r3)
 	blr
@@ -16669,470 +13539,196 @@ lbl_80082B20:
  * Address:	80082B50
  * Size:	00000C
  */
-void J3DTevBlockPatched::getType()
-{
-	/*
-	lis      r3, 0x54565054@ha
-	addi     r3, r3, 0x54565054@l
-	blr
-	*/
-}
+JBlockType J3DTevBlockPatched::getType() { return JBT_TevPatched; }
 
 /*
  * --INFO--
  * Address:	80082B5C
  * Size:	000008
  */
-void J3DTevBlockPatched::setTevStageNum(unsigned char a1)
-{
-	// Generated from stb r4, 0xD0(r3)
-	_D0 = a1;
-}
+void J3DTevBlockPatched::setTevStageNum(unsigned char stageNum) { mStageNum = stageNum; }
 
 /*
  * --INFO--
  * Address:	80082B64
  * Size:	00000C
  */
-void J3DTevBlockPatched::setTevStageNum(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0xd0(r3)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevStageNum(const unsigned char* stageNum) { mStageNum = *stageNum; }
 
 /*
  * --INFO--
  * Address:	80082B70
  * Size:	000008
  */
-void J3DTevBlockPatched::getTevStageNum() const
-{
-	/*
-	lbz      r3, 0xd0(r3)
-	blr
-	*/
-}
+u8 J3DTevBlockPatched::getTevStageNum() const { return mStageNum; }
 
 /*
  * --INFO--
  * Address:	80082B78
  * Size:	000010
  */
-void J3DTevBlockPatched::setTexNo(unsigned long, unsigned short)
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	sth      r5, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTexNo(unsigned long index, unsigned short texNo) { mTexIndices[index] = texNo; }
 
 /*
  * --INFO--
  * Address:	80082B88
  * Size:	000014
  */
-void J3DTevBlockPatched::setTexNo(unsigned long, const unsigned short*)
-{
-	/*
-	slwi     r0, r4, 1
-	lhz      r4, 0(r5)
-	add      r3, r3, r0
-	sth      r4, 8(r3)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTexNo(unsigned long index, const unsigned short* texNo) { mTexIndices[index] = *texNo; }
 
 /*
  * --INFO--
  * Address:	80082B9C
  * Size:	000010
  */
-void J3DTevBlockPatched::getTexNo(unsigned long) const
-{
-	/*
-	slwi     r0, r4, 1
-	add      r3, r3, r0
-	lhz      r3, 8(r3)
-	blr
-	*/
-}
+u16 J3DTevBlockPatched::getTexNo(unsigned long index) const { return mTexIndices[index]; }
 
 /*
  * --INFO--
  * Address:	80082BAC
  * Size:	000024
  */
-void J3DTevBlockPatched::setTevOrder(unsigned long, J3DTevOrder)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0x18(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0x19(r4)
-	stb      r0, 0x1a(r4)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevOrder(unsigned long index, J3DTevOrder order) { mOrders[index] = order; }
 
 /*
  * --INFO--
  * Address:	80082BD0
  * Size:	000024
  */
-void J3DTevBlockPatched::setTevOrder(unsigned long, const J3DTevOrder*)
-{
-	/*
-	slwi     r4, r4, 2
-	lbz      r0, 0(r5)
-	add      r4, r3, r4
-	lbz      r3, 1(r5)
-	stb      r0, 0x18(r4)
-	lbz      r0, 2(r5)
-	stb      r3, 0x19(r4)
-	stb      r0, 0x1a(r4)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevOrder(unsigned long index, const J3DTevOrder* order) { mOrders[index] = *order; }
 
 /*
  * --INFO--
  * Address:	80082BF4
  * Size:	000014
  */
-void J3DTevBlockPatched::getTevOrder(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x18
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevOrder* J3DTevBlockPatched::getTevOrder(unsigned long index) { return mOrders + index; }
 
 /*
  * --INFO--
  * Address:	80082C08
  * Size:	00003C
  */
-void J3DTevBlockPatched::setTevStage(unsigned long, J3DTevStage)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0x39(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x3a(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x3b(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x3d(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x3e(r4)
-	stb      r0, 0x3f(r4)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevStage(unsigned long index, J3DTevStage stage) { mStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	80082C44
  * Size:	00003C
  */
-void J3DTevBlockPatched::setTevStage(unsigned long, const J3DTevStage*)
-{
-	/*
-	slwi     r0, r4, 3
-	lbz      r6, 1(r5)
-	add      r4, r3, r0
-	lbz      r0, 2(r5)
-	stb      r6, 0x39(r4)
-	lbz      r3, 3(r5)
-	stb      r0, 0x3a(r4)
-	lbz      r0, 5(r5)
-	stb      r3, 0x3b(r4)
-	lbz      r3, 6(r5)
-	stb      r0, 0x3d(r4)
-	lbz      r0, 7(r5)
-	stb      r3, 0x3e(r4)
-	stb      r0, 0x3f(r4)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevStage(unsigned long index, const J3DTevStage* stage) { mStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	80082C80
  * Size:	000014
  */
-void J3DTevBlockPatched::getTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 3
-	mr       r0, r3
-	addi     r3, r4, 0x38
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DTevStage* J3DTevBlockPatched::getTevStage(unsigned long index) { return mStages + index; }
 
 /*
  * --INFO--
  * Address:	80082C94
  * Size:	000014
  */
-void J3DTevBlockPatched::setIndTevStage(unsigned long, J3DIndTevStage)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x78(r3)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setIndTevStage(unsigned long index, J3DIndTevStage stage) { mIndStages[index] = stage; }
 
 /*
  * --INFO--
  * Address:	80082CA8
  * Size:	000014
  */
-void J3DTevBlockPatched::setIndTevStage(unsigned long, const J3DIndTevStage*)
-{
-	/*
-	slwi     r0, r4, 2
-	lwz      r4, 0(r5)
-	add      r3, r3, r0
-	stw      r4, 0x78(r3)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setIndTevStage(unsigned long index, const J3DIndTevStage* stage) { mIndStages[index] = *stage; }
 
 /*
  * --INFO--
  * Address:	80082CBC
  * Size:	000014
  */
-void J3DTevBlockPatched::getIndTevStage(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x78
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DIndTevStage* J3DTevBlockPatched::getIndTevStage(unsigned long index) { return mIndStages + index; }
 
 /*
  * --INFO--
  * Address:	80082CD0
  * Size:	00002C
  */
-void J3DTevBlockPatched::setTevColor(unsigned long, J3DGXColorS10)
-{
-	/*
-	slwi     r0, r4, 3
-	lha      r6, 0(r5)
-	add      r4, r3, r0
-	lha      r0, 2(r5)
-	sth      r6, 0x98(r4)
-	lha      r3, 4(r5)
-	sth      r0, 0x9a(r4)
-	lha      r0, 6(r5)
-	sth      r3, 0x9c(r4)
-	sth      r0, 0x9e(r4)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevColor(unsigned long index, J3DGXColorS10 color) { mColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	80082CFC
  * Size:	00002C
  */
-void J3DTevBlockPatched::setTevColor(unsigned long, const J3DGXColorS10*)
-{
-	/*
-	slwi     r0, r4, 3
-	lha      r6, 0(r5)
-	add      r4, r3, r0
-	lha      r0, 2(r5)
-	sth      r6, 0x98(r4)
-	lha      r3, 4(r5)
-	sth      r0, 0x9a(r4)
-	lha      r0, 6(r5)
-	sth      r3, 0x9c(r4)
-	sth      r0, 0x9e(r4)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevColor(unsigned long index, const J3DGXColorS10* color) { mColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	80082D28
  * Size:	000014
  */
-void J3DTevBlockPatched::getTevColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 3
-	mr       r0, r3
-	addi     r3, r4, 0x98
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColorS10* J3DTevBlockPatched::getTevColor(unsigned long index) { return mColors + index; }
 
 /*
  * --INFO--
  * Address:	80082D3C
  * Size:	00002C
  */
-void J3DTevBlockPatched::setTevKColor(unsigned long, J3DGXColor)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0xb8(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0xb9(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0xba(r4)
-	stb      r0, 0xbb(r4)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevKColor(unsigned long index, J3DGXColor color) { mKColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	80082D68
  * Size:	00002C
  */
-void J3DTevBlockPatched::setTevKColor(unsigned long, const J3DGXColor*)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0xb8(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0xb9(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0xba(r4)
-	stb      r0, 0xbb(r4)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevKColor(unsigned long index, const J3DGXColor* color) { mKColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	80082D94
  * Size:	000014
  */
-void J3DTevBlockPatched::getTevKColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0xb8
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColor* J3DTevBlockPatched::getTevKColor(unsigned long index) { return mKColors + index; }
 
 /*
  * --INFO--
  * Address:	80082DA8
  * Size:	00000C
  */
-void J3DTevBlockPatched::setTevKColorSel(unsigned long, unsigned char)
-{
-	/*
-	add      r3, r3, r4
-	stb      r5, 0xc8(r3)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevKColorSel(unsigned long index, unsigned char sel) { _C8[index] = sel; }
 
 /*
  * --INFO--
  * Address:	80082DB4
  * Size:	000010
  */
-void J3DTevBlockPatched::setTevKColorSel(unsigned long, const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r5)
-	add      r3, r3, r4
-	stb      r0, 0xc8(r3)
-	blr
-	*/
-}
+void J3DTevBlockPatched::setTevKColorSel(unsigned long index, const unsigned char* sel) { _C8[index] = *sel; }
 
 /*
  * --INFO--
  * Address:	80082DC4
  * Size:	00000C
  */
-void J3DTevBlockPatched::getTevKColorSel(unsigned long)
-{
-	/*
-	add      r3, r3, r4
-	lbz      r3, 0xc8(r3)
-	blr
-	*/
-}
+GXTevKColorSel J3DTevBlockPatched::getTevKColorSel(unsigned long index) { return (GXTevKColorSel)_C8[index]; }
 
 /*
  * --INFO--
  * Address:	80082DD0
  * Size:	000008
  */
-void J3DTevBlockPatched::getTexNoOffset() const
-{
-	/*
-	lwz      r3, 4(r3)
-	blr
-	*/
-}
+u32 J3DTevBlockPatched::getTexNoOffset() const { return mTexNoOffset; }
 
 /*
  * --INFO--
  * Address:	80082DD8
  * Size:	000008
  */
-void J3DTevBlockPatched::getTevRegOffset() const
-{
-	/*
-	lwz      r3, 0xd4(r3)
-	blr
-	*/
-}
+u32 J3DTevBlockPatched::getTevRegOffset() const { return mRegOffset; }
 
 /*
  * --INFO--
  * Address:	80082DE0
  * Size:	000008
  */
-void J3DTevBlockPatched::setTevRegOffset(unsigned long a1)
-{
-	// Generated from stw r4, 0xD4(r3)
-	_D4 = a1;
-}
+void J3DTevBlockPatched::setTevRegOffset(unsigned long offset) { mRegOffset = offset; }
 
 /*
  * --INFO--
@@ -17177,154 +13773,63 @@ lbl_80082E2C:
  * Address:	80082E44
  * Size:	00000C
  */
-void J3DTexGenBlockBasic::getType()
-{
-	/*
-	lis      r3, 0x54474243@ha
-	addi     r3, r3, 0x54474243@l
-	blr
-	*/
-}
+JBlockType J3DTexGenBlockBasic::getType() { return JBT_TexGenBasic; }
 
 /*
  * --INFO--
  * Address:	80082E50
  * Size:	000024
  */
-void J3DTexGenBlockBasic::setNBTScale(J3DNBTScale)
-{
-	/*
-	lbz      r0, 0(r4)
-	lfs      f0, 4(r4)
-	stb      r0, 0x5c(r3)
-	lfs      f1, 8(r4)
-	stfs     f0, 0x60(r3)
-	lfs      f0, 0xc(r4)
-	stfs     f1, 0x64(r3)
-	stfs     f0, 0x68(r3)
-	blr
-	*/
-}
+void J3DTexGenBlockBasic::setNBTScale(J3DNBTScale scale) { mNbtScale = scale; }
 
 /*
  * --INFO--
  * Address:	80082E74
  * Size:	000024
  */
-void J3DTexGenBlockBasic::setNBTScale(const J3DNBTScale*)
-{
-	/*
-	lbz      r0, 0(r4)
-	lfs      f0, 4(r4)
-	stb      r0, 0x5c(r3)
-	lfs      f1, 8(r4)
-	stfs     f0, 0x60(r3)
-	lfs      f0, 0xc(r4)
-	stfs     f1, 0x64(r3)
-	stfs     f0, 0x68(r3)
-	blr
-	*/
-}
+void J3DTexGenBlockBasic::setNBTScale(const J3DNBTScale* scale) { mNbtScale = *scale; }
 
 /*
  * --INFO--
  * Address:	80082E98
  * Size:	000008
  */
-void J3DTexGenBlockBasic::getNBTScale()
-{
-	/*
-	addi     r3, r3, 0x5c
-	blr
-	*/
-}
+J3DNBTScale* J3DTexGenBlockBasic::getNBTScale() { return &mNbtScale; }
 
 /*
  * --INFO--
  * Address:	80082EA0
  * Size:	00006C
  */
-J3DTexGenBlockBasic::~J3DTexGenBlockBasic()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_80082EF4
-	lis      r3, __vt__19J3DTexGenBlockBasic@ha
-	addi     r0, r3, __vt__19J3DTexGenBlockBasic@l
-	stw      r0, 0(r31)
-	beq      lbl_80082EE4
-	lis      r3, __vt__21J3DTexGenBlockPatched@ha
-	addi     r0, r3, __vt__21J3DTexGenBlockPatched@l
-	stw      r0, 0(r31)
-	beq      lbl_80082EE4
-	lis      r3, __vt__14J3DTexGenBlock@ha
-	addi     r0, r3, __vt__14J3DTexGenBlock@l
-	stw      r0, 0(r31)
-
-lbl_80082EE4:
-	extsh.   r0, r4
-	ble      lbl_80082EF4
-	mr       r3, r31
-	bl       __dl__FPv
-
-lbl_80082EF4:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// J3DTexGenBlockBasic::~J3DTexGenBlockBasic() { }
 
 /*
  * --INFO--
  * Address:	80082F0C
  * Size:	000008
  */
-void J3DTexGenBlockPatched::setTexGenNum(unsigned long a1)
-{
-	// Generated from stw r4, 0x4(r3)
-	_04 = a1;
-}
+void J3DTexGenBlockPatched::setTexGenNum(unsigned long texGenNum) { mTexgenCnt = texGenNum; }
 
 /*
  * --INFO--
  * Address:	80082F14
  * Size:	00000C
  */
-void J3DTexGenBlockPatched::setTexGenNum(const unsigned long*)
-{
-	/*
-	lwz      r0, 0(r4)
-	stw      r0, 4(r3)
-	blr
-	*/
-}
+void J3DTexGenBlockPatched::setTexGenNum(const unsigned long* texGenNum) { mTexgenCnt = *texGenNum; }
 
 /*
  * --INFO--
  * Address:	80082F20
  * Size:	000008
  */
-void J3DTexGenBlockPatched::getTexGenNum() const
-{
-	/*
-	lwz      r3, 4(r3)
-	blr
-	*/
-}
+u32 J3DTexGenBlockPatched::getTexGenNum() const { return mTexgenCnt; }
 
 /*
  * --INFO--
  * Address:	80082F28
  * Size:	000024
  */
-void J3DTexGenBlockPatched::setTexCoord(unsigned long, const J3DTexCoord*)
+void J3DTexGenBlockPatched::setTexCoord(unsigned long index, const J3DTexCoord* coord)
 {
 	/*
 	mulli    r7, r4, 6
@@ -17344,7 +13849,7 @@ void J3DTexGenBlockPatched::setTexCoord(unsigned long, const J3DTexCoord*)
  * Address:	80082F4C
  * Size:	000014
  */
-void J3DTexGenBlockPatched::getTexCoord(unsigned long)
+J3DTexCoord* J3DTexGenBlockPatched::getTexCoord(unsigned long index)
 {
 	/*
 	mulli    r4, r4, 6
@@ -17360,7 +13865,7 @@ void J3DTexGenBlockPatched::getTexCoord(unsigned long)
  * Address:	80082F60
  * Size:	000010
  */
-void J3DTexGenBlockPatched::setTexMtx(unsigned long, J3DTexMtx*)
+void J3DTexGenBlockPatched::setTexMtx(unsigned long index, J3DTexMtx* texMtx)
 {
 	/*
 	slwi     r0, r4, 2
@@ -17375,7 +13880,7 @@ void J3DTexGenBlockPatched::setTexMtx(unsigned long, J3DTexMtx*)
  * Address:	80082F70
  * Size:	000010
  */
-void J3DTexGenBlockPatched::getTexMtx(unsigned long)
+J3DTexMtx* J3DTexGenBlockPatched::getTexMtx(unsigned long index)
 {
 	/*
 	slwi     r0, r4, 2
@@ -17390,133 +13895,49 @@ void J3DTexGenBlockPatched::getTexMtx(unsigned long)
  * Address:	80082F80
  * Size:	000008
  */
-void J3DTexGenBlockPatched::getTexMtxOffset() const
-{
-	/*
-	lwz      r3, 0x58(r3)
-	blr
-	*/
-}
+u32 J3DTexGenBlockPatched::getTexMtxOffset() const { return mDlistOffs; }
 
 /*
  * --INFO--
  * Address:	80082F88
  * Size:	000008
  */
-void J3DTexGenBlockPatched::setTexMtxOffset(unsigned long a1)
-{
-	// Generated from stw r4, 0x58(r3)
-	_58 = a1;
-}
+void J3DTexGenBlockPatched::setTexMtxOffset(unsigned long offset) { mDlistOffs = offset; }
 
 /*
  * --INFO--
  * Address:	80082F90
  * Size:	00000C
  */
-void J3DTexGenBlock4::getType()
-{
-	/*
-	lis      r3, 0x54474234@ha
-	addi     r3, r3, 0x54474234@l
-	blr
-	*/
-}
+JBlockType J3DTexGenBlock4::getType() { return JBT_TexGen4; }
 
 /*
  * --INFO--
  * Address:	80082F9C
  * Size:	000024
  */
-void J3DTexGenBlock4::setNBTScale(J3DNBTScale)
-{
-	/*
-	lbz      r0, 0(r4)
-	lfs      f0, 4(r4)
-	stb      r0, 0x5c(r3)
-	lfs      f1, 8(r4)
-	stfs     f0, 0x60(r3)
-	lfs      f0, 0xc(r4)
-	stfs     f1, 0x64(r3)
-	stfs     f0, 0x68(r3)
-	blr
-	*/
-}
+void J3DTexGenBlock4::setNBTScale(J3DNBTScale scale) { mNbtScale = scale; }
 
 /*
  * --INFO--
  * Address:	80082FC0
  * Size:	000024
  */
-void J3DTexGenBlock4::setNBTScale(const J3DNBTScale*)
-{
-	/*
-	lbz      r0, 0(r4)
-	lfs      f0, 4(r4)
-	stb      r0, 0x5c(r3)
-	lfs      f1, 8(r4)
-	stfs     f0, 0x60(r3)
-	lfs      f0, 0xc(r4)
-	stfs     f1, 0x64(r3)
-	stfs     f0, 0x68(r3)
-	blr
-	*/
-}
+void J3DTexGenBlock4::setNBTScale(const J3DNBTScale* scale) { mNbtScale = *scale; }
 
 /*
  * --INFO--
  * Address:	80082FE4
  * Size:	000008
  */
-void J3DTexGenBlock4::getNBTScale()
-{
-	/*
-	addi     r3, r3, 0x5c
-	blr
-	*/
-}
+J3DNBTScale* J3DTexGenBlock4::getNBTScale() { return &mNbtScale; }
 
 /*
  * --INFO--
  * Address:	80082FEC
  * Size:	00006C
  */
-J3DTexGenBlock4::~J3DTexGenBlock4()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_80083040
-	lis      r3, __vt__15J3DTexGenBlock4@ha
-	addi     r0, r3, __vt__15J3DTexGenBlock4@l
-	stw      r0, 0(r31)
-	beq      lbl_80083030
-	lis      r3, __vt__21J3DTexGenBlockPatched@ha
-	addi     r0, r3, __vt__21J3DTexGenBlockPatched@l
-	stw      r0, 0(r31)
-	beq      lbl_80083030
-	lis      r3, __vt__14J3DTexGenBlock@ha
-	addi     r0, r3, __vt__14J3DTexGenBlock@l
-	stw      r0, 0(r31)
-
-lbl_80083030:
-	extsh.   r0, r4
-	ble      lbl_80083040
-	mr       r3, r31
-	bl       __dl__FPv
-
-lbl_80083040:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// J3DTexGenBlock4::~J3DTexGenBlock4() { }
 
 /*
  * --INFO--
@@ -17530,938 +13951,387 @@ void J3DTexGenBlockPatched::load() { }
  * Address:	8008305C
  * Size:	00000C
  */
-void J3DTexGenBlockPatched::getType()
-{
-	/*
-	lis      r3, 0x54475054@ha
-	addi     r3, r3, 0x54475054@l
-	blr
-	*/
-}
+JBlockType J3DTexGenBlockPatched::getType() { return JBT_TexGenPatched; }
 
 /*
  * --INFO--
  * Address:	80083068
  * Size:	00000C
  */
-void J3DColorBlockLightOn::getType()
-{
-	/*
-	lis      r3, 0x434C4F4E@ha
-	addi     r3, r3, 0x434C4F4E@l
-	blr
-	*/
-}
+JBlockType J3DColorBlockLightOn::getType() { return JBT_ColorLightOn; }
 
 /*
  * --INFO--
  * Address:	80083074
  * Size:	00002C
  */
-void J3DColorBlockLightOn::setMatColor(unsigned long, J3DGXColor)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 4(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 5(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 6(r4)
-	stb      r0, 7(r4)
-	blr
-	*/
-}
+void J3DColorBlockLightOn::setMatColor(unsigned long index, J3DGXColor color) { mMaterialColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	800830A0
  * Size:	00002C
  */
-void J3DColorBlockLightOn::setMatColor(unsigned long, const J3DGXColor*)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 4(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 5(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 6(r4)
-	stb      r0, 7(r4)
-	blr
-	*/
-}
+void J3DColorBlockLightOn::setMatColor(unsigned long index, const J3DGXColor* color) { mMaterialColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	800830CC
  * Size:	000014
  */
-void J3DColorBlockLightOn::getMatColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 4
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColor* J3DColorBlockLightOn::getMatColor(unsigned long index) { return mMaterialColors + index; }
 
 /*
  * --INFO--
  * Address:	800830E0
  * Size:	00002C
  */
-void J3DColorBlockLightOn::setAmbColor(unsigned long, J3DGXColor)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0xc(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0xd(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0xe(r4)
-	stb      r0, 0xf(r4)
-	blr
-	*/
-}
+void J3DColorBlockLightOn::setAmbColor(unsigned long index, J3DGXColor color) { mAmbientColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	8008310C
  * Size:	00002C
  */
-void J3DColorBlockLightOn::setAmbColor(unsigned long, const J3DGXColor*)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0xc(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0xd(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0xe(r4)
-	stb      r0, 0xf(r4)
-	blr
-	*/
-}
+void J3DColorBlockLightOn::setAmbColor(unsigned long index, const J3DGXColor* color) { mAmbientColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	80083138
  * Size:	000014
  */
-void J3DColorBlockLightOn::getAmbColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0xc
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColor* J3DColorBlockLightOn::getAmbColor(unsigned long index) { return mAmbientColors + index; }
 
 /*
  * --INFO--
  * Address:	8008314C
  * Size:	00000C
  */
-void J3DColorBlockLightOn::setColorChanNum(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0x14(r3)
-	blr
-	*/
-}
+void J3DColorBlockLightOn::setColorChanNum(const unsigned char* colorChanNum) { mColorChannelNum = *colorChanNum; }
 
 /*
  * --INFO--
  * Address:	80083158
  * Size:	000008
  */
-void J3DColorBlockLightOn::setColorChanNum(unsigned char a1)
-{
-	// Generated from stb r4, 0x14(r3)
-	_14 = a1;
-}
+void J3DColorBlockLightOn::setColorChanNum(unsigned char colorChanNum) { mColorChannelNum = colorChanNum; }
 
 /*
  * --INFO--
  * Address:	80083160
  * Size:	000008
  */
-void J3DColorBlockLightOn::getColorChanNum() const
-{
-	/*
-	lbz      r3, 0x14(r3)
-	blr
-	*/
-}
+u8 J3DColorBlockLightOn::getColorChanNum() const { return mColorChannelNum; }
 
 /*
  * --INFO--
  * Address:	80083168
  * Size:	000014
  */
-void J3DColorBlockLightOn::setColorChan(unsigned long, const J3DColorChan*)
-{
-	/*
-	slwi     r0, r4, 1
-	lhz      r4, 0(r5)
-	add      r3, r3, r0
-	sth      r4, 0x16(r3)
-	blr
-	*/
-}
+void J3DColorBlockLightOn::setColorChan(unsigned long index, const J3DColorChan* colorChan) { mColorChannels[index] = *colorChan; }
 
 /*
  * --INFO--
  * Address:	8008317C
  * Size:	000014
  */
-void J3DColorBlockLightOn::setColorChan(unsigned long, const J3DColorChan&)
-{
-	/*
-	slwi     r0, r4, 1
-	lhz      r4, 0(r5)
-	add      r3, r3, r0
-	sth      r4, 0x16(r3)
-	blr
-	*/
-}
+void J3DColorBlockLightOn::setColorChan(unsigned long index, const J3DColorChan& colorChan) { mColorChannels[index] = colorChan; }
 
 /*
  * --INFO--
  * Address:	80083190
  * Size:	000014
  */
-void J3DColorBlockLightOn::getColorChan(unsigned long)
-{
-	/*
-	slwi     r4, r4, 1
-	mr       r0, r3
-	addi     r3, r4, 0x16
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DColorChan* J3DColorBlockLightOn::getColorChan(unsigned long index) { return mColorChannels + index; }
 
 /*
  * --INFO--
  * Address:	800831A4
  * Size:	000010
  */
-void J3DColorBlockLightOn::setLight(unsigned long, J3DLightObj*)
-{
-	/*
-	slwi     r0, r4, 2
-	add      r3, r3, r0
-	stw      r5, 0x20(r3)
-	blr
-	*/
-}
+void J3DColorBlockLightOn::setLight(unsigned long index, J3DLightObj* light) { mLights[index] = light; }
 
 /*
  * --INFO--
  * Address:	800831B4
  * Size:	000010
  */
-void J3DColorBlockLightOn::getLight(unsigned long)
-{
-	/*
-	slwi     r0, r4, 2
-	add      r3, r3, r0
-	lwz      r3, 0x20(r3)
-	blr
-	*/
-}
+J3DLightObj* J3DColorBlockLightOn::getLight(unsigned long index) { return mLights[index]; }
 
 /*
  * --INFO--
  * Address:	800831C4
  * Size:	000008
  */
-void J3DColorBlockLightOn::setCullMode(unsigned char a1)
-{
-	// Generated from stb r4, 0x40(r3)
-	_40 = a1;
-}
+void J3DColorBlockLightOn::setCullMode(unsigned char cullMode) { mCullMode = cullMode; }
 
 /*
  * --INFO--
  * Address:	800831CC
  * Size:	00000C
  */
-void J3DColorBlockLightOn::setCullMode(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0x40(r3)
-	blr
-	*/
-}
+void J3DColorBlockLightOn::setCullMode(const unsigned char* cullMode) { mCullMode = *cullMode; }
 
 /*
  * --INFO--
  * Address:	800831D8
  * Size:	000008
  */
-void J3DColorBlockLightOn::getCullMode() const
-{
-	/*
-	lbz      r3, 0x40(r3)
-	blr
-	*/
-}
+u8 J3DColorBlockLightOn::getCullMode() const { return mCullMode; }
 
 /*
  * --INFO--
  * Address:	800831E0
  * Size:	000008
  */
-void J3DColorBlockLightOn::getMatColorOffset() const
-{
-	/*
-	lwz      r3, 0x44(r3)
-	blr
-	*/
-}
+u32 J3DColorBlockLightOn::getMatColorOffset() const { return mMaterialColorOffset; }
 
 /*
  * --INFO--
  * Address:	800831E8
  * Size:	000008
  */
-void J3DColorBlockLightOn::getColorChanOffset() const
-{
-	/*
-	lwz      r3, 0x48(r3)
-	blr
-	*/
-}
+u32 J3DColorBlockLightOn::getColorChanOffset() const { return mColorChannelOffset; }
 
 /*
  * --INFO--
  * Address:	800831F0
  * Size:	000008
  */
-void J3DColorBlockLightOn::setMatColorOffset(unsigned long a1)
-{
-	// Generated from stw r4, 0x44(r3)
-	_44 = a1;
-}
+void J3DColorBlockLightOn::setMatColorOffset(unsigned long offset) { mMaterialColorOffset = offset; }
 
 /*
  * --INFO--
  * Address:	800831F8
  * Size:	000008
  */
-void J3DColorBlockLightOn::setColorChanOffset(unsigned long a1)
-{
-	// Generated from stw r4, 0x48(r3)
-	_48 = a1;
-}
+void J3DColorBlockLightOn::setColorChanOffset(unsigned long offset) { mColorChannelOffset = offset; }
 
 /*
  * --INFO--
  * Address:	80083200
  * Size:	00005C
  */
-J3DColorBlockLightOn::~J3DColorBlockLightOn()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_80083244
-	lis      r3, __vt__20J3DColorBlockLightOn@ha
-	addi     r0, r3, __vt__20J3DColorBlockLightOn@l
-	stw      r0, 0(r31)
-	beq      lbl_80083234
-	lis      r3, __vt__13J3DColorBlock@ha
-	addi     r0, r3, __vt__13J3DColorBlock@l
-	stw      r0, 0(r31)
-
-lbl_80083234:
-	extsh.   r0, r4
-	ble      lbl_80083244
-	mr       r3, r31
-	bl       __dl__FPv
-
-lbl_80083244:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// J3DColorBlockLightOn::~J3DColorBlockLightOn() { }
 
 /*
  * --INFO--
  * Address:	8008325C
  * Size:	00000C
  */
-void J3DColorBlockAmbientOn::getType()
-{
-	/*
-	lis      r3, 0x434C4142@ha
-	addi     r3, r3, 0x434C4142@l
-	blr
-	*/
-}
+JBlockType J3DColorBlockAmbientOn::getType() { return JBT_ColorAmbientOn; }
 
 /*
  * --INFO--
  * Address:	80083268
  * Size:	00002C
  */
-void J3DColorBlockAmbientOn::setAmbColor(unsigned long, J3DGXColor)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0x20(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0x21(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0x22(r4)
-	stb      r0, 0x23(r4)
-	blr
-	*/
-}
+void J3DColorBlockAmbientOn::setAmbColor(unsigned long index, J3DGXColor color) { mAmbientColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	80083294
  * Size:	00002C
  */
-void J3DColorBlockAmbientOn::setAmbColor(unsigned long, const J3DGXColor*)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 0x20(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 0x21(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 0x22(r4)
-	stb      r0, 0x23(r4)
-	blr
-	*/
-}
+void J3DColorBlockAmbientOn::setAmbColor(unsigned long index, const J3DGXColor* color) { mAmbientColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	800832C0
  * Size:	000014
  */
-void J3DColorBlockAmbientOn::getAmbColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x20
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColor* J3DColorBlockAmbientOn::getAmbColor(unsigned long index) { return mAmbientColors + index; }
 
 /*
  * --INFO--
  * Address:	800832D4
  * Size:	00006C
  */
-J3DColorBlockAmbientOn::~J3DColorBlockAmbientOn()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_80083328
-	lis      r3, __vt__22J3DColorBlockAmbientOn@ha
-	addi     r0, r3, __vt__22J3DColorBlockAmbientOn@l
-	stw      r0, 0(r31)
-	beq      lbl_80083318
-	lis      r3, __vt__21J3DColorBlockLightOff@ha
-	addi     r0, r3, __vt__21J3DColorBlockLightOff@l
-	stw      r0, 0(r31)
-	beq      lbl_80083318
-	lis      r3, __vt__13J3DColorBlock@ha
-	addi     r0, r3, __vt__13J3DColorBlock@l
-	stw      r0, 0(r31)
-
-lbl_80083318:
-	extsh.   r0, r4
-	ble      lbl_80083328
-	mr       r3, r31
-	bl       __dl__FPv
-
-lbl_80083328:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// J3DColorBlockAmbientOn::~J3DColorBlockAmbientOn() { }
 
 /*
  * --INFO--
  * Address:	80083340
  * Size:	00002C
  */
-void J3DColorBlockLightOff::setMatColor(unsigned long, J3DGXColor)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 4(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 5(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 6(r4)
-	stb      r0, 7(r4)
-	blr
-	*/
-}
+void J3DColorBlockLightOff::setMatColor(unsigned long index, J3DGXColor color) { mMaterialColors[index] = color; }
 
 /*
  * --INFO--
  * Address:	8008336C
  * Size:	00002C
  */
-void J3DColorBlockLightOff::setMatColor(unsigned long, const J3DGXColor*)
-{
-	/*
-	slwi     r0, r4, 2
-	lbz      r6, 0(r5)
-	add      r4, r3, r0
-	lbz      r0, 1(r5)
-	stb      r6, 4(r4)
-	lbz      r3, 2(r5)
-	stb      r0, 5(r4)
-	lbz      r0, 3(r5)
-	stb      r3, 6(r4)
-	stb      r0, 7(r4)
-	blr
-	*/
-}
+void J3DColorBlockLightOff::setMatColor(unsigned long index, const J3DGXColor* color) { mMaterialColors[index] = *color; }
 
 /*
  * --INFO--
  * Address:	80083398
  * Size:	000014
  */
-void J3DColorBlockLightOff::getMatColor(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 4
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DGXColor* J3DColorBlockLightOff::getMatColor(unsigned long index) { return mMaterialColors + index; }
 
 /*
  * --INFO--
  * Address:	800833AC
  * Size:	00000C
  */
-void J3DColorBlockLightOff::setColorChanNum(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0xc(r3)
-	blr
-	*/
-}
+void J3DColorBlockLightOff::setColorChanNum(const unsigned char* colorChanNum) { mColorChannelNum = *colorChanNum; }
 
 /*
  * --INFO--
  * Address:	800833B8
  * Size:	000008
  */
-void J3DColorBlockLightOff::setColorChanNum(unsigned char a1)
-{
-	// Generated from stb r4, 0xC(r3)
-	_0C = a1;
-}
+void J3DColorBlockLightOff::setColorChanNum(unsigned char colorChanNum) { mColorChannelNum = colorChanNum; }
 
 /*
  * --INFO--
  * Address:	800833C0
  * Size:	000008
  */
-void J3DColorBlockLightOff::getColorChanNum() const
-{
-	/*
-	lbz      r3, 0xc(r3)
-	blr
-	*/
-}
+u8 J3DColorBlockLightOff::getColorChanNum() const { return mColorChannelNum; }
 
 /*
  * --INFO--
  * Address:	800833C8
  * Size:	000014
  */
-void J3DColorBlockLightOff::setColorChan(unsigned long, const J3DColorChan*)
-{
-	/*
-	slwi     r0, r4, 1
-	lhz      r4, 0(r5)
-	add      r3, r3, r0
-	sth      r4, 0xe(r3)
-	blr
-	*/
-}
+void J3DColorBlockLightOff::setColorChan(unsigned long index, const J3DColorChan* colorChan) { mColorChannels[index] = *colorChan; }
 
 /*
  * --INFO--
  * Address:	800833DC
  * Size:	000014
  */
-void J3DColorBlockLightOff::setColorChan(unsigned long, const J3DColorChan&)
-{
-	/*
-	slwi     r0, r4, 1
-	lhz      r4, 0(r5)
-	add      r3, r3, r0
-	sth      r4, 0xe(r3)
-	blr
-	*/
-}
+void J3DColorBlockLightOff::setColorChan(unsigned long index, const J3DColorChan& colorChan) { mColorChannels[index] = colorChan; }
 
 /*
  * --INFO--
  * Address:	800833F0
  * Size:	000014
  */
-void J3DColorBlockLightOff::getColorChan(unsigned long)
-{
-	/*
-	slwi     r4, r4, 1
-	mr       r0, r3
-	addi     r3, r4, 0xe
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DColorChan* J3DColorBlockLightOff::getColorChan(unsigned long index) { return mColorChannels + index; }
 
 /*
  * --INFO--
  * Address:	80083404
  * Size:	000008
  */
-void J3DColorBlockLightOff::setCullMode(unsigned char a1)
-{
-	// Generated from stb r4, 0x16(r3)
-	_16 = a1;
-}
+void J3DColorBlockLightOff::setCullMode(unsigned char cullMode) { mCullMode = cullMode; }
 
 /*
  * --INFO--
  * Address:	8008340C
  * Size:	00000C
  */
-void J3DColorBlockLightOff::setCullMode(const unsigned char*)
-{
-	/*
-	lbz      r0, 0(r4)
-	stb      r0, 0x16(r3)
-	blr
-	*/
-}
+void J3DColorBlockLightOff::setCullMode(const unsigned char* cullMode) { mCullMode = *cullMode; }
 
 /*
  * --INFO--
  * Address:	80083418
  * Size:	000008
  */
-void J3DColorBlockLightOff::getCullMode() const
-{
-	/*
-	lbz      r3, 0x16(r3)
-	blr
-	*/
-}
+u8 J3DColorBlockLightOff::getCullMode() const { return mCullMode; }
 
 /*
  * --INFO--
  * Address:	80083420
  * Size:	000008
  */
-void J3DColorBlockLightOff::getMatColorOffset() const
-{
-	/*
-	lwz      r3, 0x18(r3)
-	blr
-	*/
-}
+u32 J3DColorBlockLightOff::getMatColorOffset() const { return mMaterialColorOffset; }
 
 /*
  * --INFO--
  * Address:	80083428
  * Size:	000008
  */
-void J3DColorBlockLightOff::getColorChanOffset() const
-{
-	/*
-	lwz      r3, 0x1c(r3)
-	blr
-	*/
-}
+u32 J3DColorBlockLightOff::getColorChanOffset() const { return mColorChannelOffset; }
 
 /*
  * --INFO--
  * Address:	80083430
  * Size:	000008
  */
-void J3DColorBlockLightOff::setMatColorOffset(unsigned long a1)
-{
-	// Generated from stw r4, 0x18(r3)
-	_18 = a1;
-}
+void J3DColorBlockLightOff::setMatColorOffset(unsigned long offset) { mMaterialColorOffset = offset; }
 
 /*
  * --INFO--
  * Address:	80083438
  * Size:	000008
  */
-void J3DColorBlockLightOff::setColorChanOffset(unsigned long a1)
-{
-	// Generated from stw r4, 0x1C(r3)
-	_1C = a1;
-}
+void J3DColorBlockLightOff::setColorChanOffset(unsigned long offset) { mColorChannelOffset = offset; }
 
 /*
  * --INFO--
  * Address:	80083440
  * Size:	00000C
  */
-void J3DPEBlockXlu::getType()
-{
-	/*
-	lis      r3, 0x5045584C@ha
-	addi     r3, r3, 0x5045584C@l
-	blr
-	*/
-}
+JBlockType J3DPEBlockXlu::getType() { return JBT_PEXlu; }
 
 /*
  * --INFO--
  * Address:	8008344C
  * Size:	00005C
  */
-J3DPEBlockXlu::~J3DPEBlockXlu()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_80083490
-	lis      r3, __vt__13J3DPEBlockXlu@ha
-	addi     r0, r3, __vt__13J3DPEBlockXlu@l
-	stw      r0, 0(r31)
-	beq      lbl_80083480
-	lis      r3, __vt__10J3DPEBlock@ha
-	addi     r0, r3, __vt__10J3DPEBlock@l
-	stw      r0, 0(r31)
-
-lbl_80083480:
-	extsh.   r0, r4
-	ble      lbl_80083490
-	mr       r3, r31
-	bl       __dl__FPv
-
-lbl_80083490:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// J3DPEBlockXlu::~J3DPEBlockXlu() { }
 
 /*
  * --INFO--
  * Address:	800834A8
  * Size:	00000C
  */
-void J3DPEBlockTexEdge::getType()
-{
-	/*
-	lis      r3, 0x50454544@ha
-	addi     r3, r3, 0x50454544@l
-	blr
-	*/
-}
+JBlockType J3DPEBlockTexEdge::getType() { return JBT_PETexEdge; }
 
 /*
  * --INFO--
  * Address:	800834B4
  * Size:	00005C
  */
-J3DPEBlockTexEdge::~J3DPEBlockTexEdge()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_800834F8
-	lis      r3, __vt__17J3DPEBlockTexEdge@ha
-	addi     r0, r3, __vt__17J3DPEBlockTexEdge@l
-	stw      r0, 0(r31)
-	beq      lbl_800834E8
-	lis      r3, __vt__10J3DPEBlock@ha
-	addi     r0, r3, __vt__10J3DPEBlock@l
-	stw      r0, 0(r31)
-
-lbl_800834E8:
-	extsh.   r0, r4
-	ble      lbl_800834F8
-	mr       r3, r31
-	bl       __dl__FPv
-
-lbl_800834F8:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// J3DPEBlockTexEdge::~J3DPEBlockTexEdge() { }
 
 /*
  * --INFO--
  * Address:	80083510
  * Size:	00000C
  */
-void J3DPEBlockOpa::getType()
-{
-	/*
-	lis      r3, 0x50454F50@ha
-	addi     r3, r3, 0x50454F50@l
-	blr
-	*/
-}
+JBlockType J3DPEBlockOpa::getType() { return JBT_PEOpa; }
 
 /*
  * --INFO--
  * Address:	8008351C
  * Size:	00005C
  */
-J3DPEBlockOpa::~J3DPEBlockOpa()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	or.      r31, r3, r3
-	beq      lbl_80083560
-	lis      r3, __vt__13J3DPEBlockOpa@ha
-	addi     r0, r3, __vt__13J3DPEBlockOpa@l
-	stw      r0, 0(r31)
-	beq      lbl_80083550
-	lis      r3, __vt__10J3DPEBlock@ha
-	addi     r0, r3, __vt__10J3DPEBlock@l
-	stw      r0, 0(r31)
-
-lbl_80083550:
-	extsh.   r0, r4
-	ble      lbl_80083560
-	mr       r3, r31
-	bl       __dl__FPv
-
-lbl_80083560:
-	lwz      r0, 0x14(r1)
-	mr       r3, r31
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+// J3DPEBlockOpa::~J3DPEBlockOpa() { }
 
 /*
  * --INFO--
  * Address:	80083578
  * Size:	00000C
  */
-void J3DIndBlockFull::getType()
-{
-	/*
-	lis      r3, 0x49424C46@ha
-	addi     r3, r3, 0x49424C46@l
-	blr
-	*/
-}
+JBlockType J3DIndBlockFull::getType() { return JBT_IndFull; }
 
 /*
  * --INFO--
  * Address:	80083584
  * Size:	000008
  */
-void J3DIndBlockFull::setIndTexStageNum(unsigned char a1)
-{
-	// Generated from stb r4, 0x4(r3)
-	_04 = a1;
-}
+void J3DIndBlockFull::setIndTexStageNum(unsigned char stageNum) { mIndTexStageNum = stageNum; }
 
 /*
  * --INFO--
  * Address:	8008358C
  * Size:	000008
  */
-void J3DIndBlockFull::getIndTexStageNum() const
-{
-	/*
-	lbz      r3, 4(r3)
-	blr
-	*/
-}
+u8 J3DIndBlockFull::getIndTexStageNum() const { return mIndTexStageNum; }
 
 /*
  * --INFO--
  * Address:	80083594
  * Size:	00001C
  */
-void J3DIndBlockFull::setIndTexOrder(unsigned long, J3DIndTexOrder)
+void J3DIndBlockFull::setIndTexOrder(unsigned long index, J3DIndTexOrder order)
 {
+	// mOrders[index] = order;
 	/*
 	slwi     r0, r4, 2
 	lbz      r4, 0(r5)
@@ -18478,7 +14348,7 @@ void J3DIndBlockFull::setIndTexOrder(unsigned long, J3DIndTexOrder)
  * Address:	800835B0
  * Size:	00001C
  */
-void J3DIndBlockFull::setIndTexOrder(unsigned long, const J3DIndTexOrder*)
+void J3DIndBlockFull::setIndTexOrder(unsigned long index, const J3DIndTexOrder* order)
 {
 	/*
 	slwi     r0, r4, 2
@@ -18496,23 +14366,14 @@ void J3DIndBlockFull::setIndTexOrder(unsigned long, const J3DIndTexOrder*)
  * Address:	800835CC
  * Size:	000014
  */
-void J3DIndBlockFull::getIndTexOrder(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 5
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DIndTexOrder* J3DIndBlockFull::getIndTexOrder(unsigned long index) { return mOrders + index; }
 
 /*
  * --INFO--
  * Address:	800835E0
  * Size:	000044
  */
-void J3DIndBlockFull::setIndTexMtx(unsigned long, J3DIndTexMtx)
+void J3DIndBlockFull::setIndTexMtx(unsigned long index, J3DIndTexMtx texMtx)
 {
 	/*
 	mulli    r0, r4, 0x1c
@@ -18540,7 +14401,7 @@ void J3DIndBlockFull::setIndTexMtx(unsigned long, J3DIndTexMtx)
  * Address:	80083624
  * Size:	000044
  */
-void J3DIndBlockFull::setIndTexMtx(unsigned long, const J3DIndTexMtx*)
+void J3DIndBlockFull::setIndTexMtx(unsigned long index, const J3DIndTexMtx* texMtx)
 {
 	/*
 	mulli    r0, r4, 0x1c
@@ -18568,23 +14429,14 @@ void J3DIndBlockFull::setIndTexMtx(unsigned long, const J3DIndTexMtx*)
  * Address:	80083668
  * Size:	000014
  */
-void J3DIndBlockFull::getIndTexMtx(unsigned long)
-{
-	/*
-	mulli    r4, r4, 0x1c
-	mr       r0, r3
-	addi     r3, r4, 0x18
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DIndTexMtx* J3DIndBlockFull::getIndTexMtx(unsigned long index) { return mTexMtxs + index; }
 
 /*
  * --INFO--
  * Address:	8008367C
  * Size:	00001C
  */
-void J3DIndBlockFull::setIndTexCoordScale(unsigned long, J3DIndTexCoordScale)
+void J3DIndBlockFull::setIndTexCoordScale(unsigned long index, J3DIndTexCoordScale scale)
 {
 	/*
 	slwi     r0, r4, 2
@@ -18602,7 +14454,7 @@ void J3DIndBlockFull::setIndTexCoordScale(unsigned long, J3DIndTexCoordScale)
  * Address:	80083698
  * Size:	00001C
  */
-void J3DIndBlockFull::setIndTexCoordScale(unsigned long, const J3DIndTexCoordScale*)
+void J3DIndBlockFull::setIndTexCoordScale(unsigned long index, const J3DIndTexCoordScale* scale)
 {
 	/*
 	.loc_0x0:
@@ -18621,91 +14473,28 @@ void J3DIndBlockFull::setIndTexCoordScale(unsigned long, const J3DIndTexCoordSca
  * Address:	800836B4
  * Size:	000014
  */
-void J3DIndBlockFull::getIndTexCoordScale(unsigned long)
-{
-	/*
-	slwi     r4, r4, 2
-	mr       r0, r3
-	addi     r3, r4, 0x6c
-	add      r3, r0, r3
-	blr
-	*/
-}
+J3DIndTexCoordScale* J3DIndBlockFull::getIndTexCoordScale(unsigned long index) { return mCoordScales + index; }
 
 /*
  * --INFO--
  * Address:	800836C8
  * Size:	00009C
  */
-J3DIndBlockFull::~J3DIndBlockFull()
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	or.      r30, r3, r3
-	beq      lbl_80083748
-	lis      r3, __vt__15J3DIndBlockFull@ha
-	lis      r4, __dt__19J3DIndTexCoordScaleFv@ha
-	addi     r0, r3, __vt__15J3DIndBlockFull@l
-	li       r5, 4
-	stw      r0, 0(r30)
-	addi     r3, r30, 0x6c
-	addi     r4, r4, __dt__19J3DIndTexCoordScaleFv@l
-	li       r6, 4
-	bl       __destroy_arr
-	lis      r4, __dt__12J3DIndTexMtxFv@ha
-	addi     r3, r30, 0x18
-	addi     r4, r4, __dt__12J3DIndTexMtxFv@l
-	li       r5, 0x1c
-	li       r6, 3
-	bl       __destroy_arr
-	cmplwi   r30, 0
-	beq      lbl_80083738
-	lis      r3, __vt__11J3DIndBlock@ha
-	addi     r0, r3, __vt__11J3DIndBlock@l
-	stw      r0, 0(r30)
-
-lbl_80083738:
-	extsh.   r0, r31
-	ble      lbl_80083748
-	mr       r3, r30
-	bl       __dl__FPv
-
-lbl_80083748:
-	lwz      r0, 0x14(r1)
-	mr       r3, r30
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+J3DIndBlockFull::~J3DIndBlockFull() { }
 
 /*
  * --INFO--
  * Address:	80083764
  * Size:	00000C
  */
-void J3DColorBlockLightOff::getType()
-{
-	/*
-	lis      r3, 0x434C4F46@ha
-	addi     r3, r3, 0x434C4F46@l
-	blr
-	*/
-}
+JBlockType J3DColorBlockLightOff::getType() { return JBT_ColorLightOff; }
 
 /*
  * --INFO--
  * Address:	80083770
  * Size:	000024
  */
-void __sinit_J3DMatBlock_cpp(void)
+void __sinit_J3DMatBlock_cpp()
 {
 	/*
 	lwz      r3, SizeOfLoadColorChans@sda21(r13)

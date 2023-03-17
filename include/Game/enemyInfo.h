@@ -6,21 +6,21 @@
 namespace Game {
 
 struct EnemyInfo {
-	char* m_name;        // _00
-	char m_id;           // _04
-	char m_parentID;     // _05
-	char m_members;      // _06
-	u16 m_flags;         // _07
-	char* m_modelName;   // _0C
-	char* m_animName;    // _10
-	char* m_animMgrName; // _14
-	char* m_textureName; // _18
-	char* m_paramName;   // _1C
-	char* m_collName;    // _20
-	char* m_stoneName;   // _24
-	int m_childID;       // _28
-	int m_childNum;      // _2C
-	char m_bitterDrops;  // _30
+	char* mName;        // _00
+	char mId;           // _04
+	char mParentID;     // _05
+	char mMembers;      // _06
+	u16 mFlags;         // _08
+	char* mModelName;   // _0C
+	char* mAnimName;    // _10
+	char* mAnimMgrName; // _14
+	char* mTextureName; // _18
+	char* mParamName;   // _1C
+	char* mCollName;    // _20
+	char* mStoneName;   // _24
+	int mChildID;       // _28
+	int mChildNum;      // _2C
+	char mBitterDrops;  // _30
 };
 
 enum EBitterDropType { // ID
@@ -38,6 +38,7 @@ enum EBitterDropType { // ID
 struct EnemyTypeID {
 	// clang-format off
 enum EEnemyTypeID {//ID      Common Name
+    EnemyID_NULL           = -1,  // ID not set
     EnemyID_Pelplant       = 0,	  // Pellet Posy
     EnemyID_Kochappy       = 1,	  // Dwarf Red Bulborb
     EnemyID_Chappy         = 2,	  // Red Bulborb
@@ -140,21 +141,43 @@ enum EEnemyTypeID {//ID      Common Name
     EnemyID_BlackMan       = 99,  // Waterwraith
     EnemyID_UmiMushiBase   = 100, // Bloyster base (crashes)
     EnemyID_UmiMushiBlind  = 101, // Toady Bloyster
+    EnemyID_COUNT,
 };
-EEnemyTypeID m_enemyID; // _00
+EEnemyTypeID mEnemyID; // _00
+u8 mCount;    // _04
 };
 // clang-format on
 
-extern EnemyInfo gEnemyInfo[100];
+extern EnemyInfo gEnemyInfo[];
 
 extern int gEnemyInfoNum;
 
 namespace EnemyInfoFunc {
-EnemyInfo* getEnemyInfo(int, int);
-char* getEnemyName(int, int);
-char* getEnemyResName(int, int);
-char getEnemyMember(int, int);
-int getEnemyID(char*, int);
+EnemyInfo* getEnemyInfo(int id, int flags);
+char* getEnemyName(int id, int flags);
+char* getEnemyResName(int id, int flags);
+char getEnemyMember(int id, int flags);
+int getEnemyID(char* name, int flags);
 } // namespace EnemyInfoFunc
+
+inline int getEnemyMgrID(int enemyID)
+{
+	int idx = -1;
+	for (int i = 0; i < gEnemyInfoNum; i++) {
+		char id = gEnemyInfo[i].mId;
+		if (id == enemyID) {
+			idx = (gEnemyInfo[i].mFlags & 1) ? enemyID : gEnemyInfo[i].mParentID;
+		}
+	}
+	return idx;
+}
+
+#define IS_ENEMY_BOSS(id)                                                                                                        \
+	(id == EnemyTypeID::EnemyID_Queen || id == EnemyTypeID::EnemyID_SnakeCrow || id == EnemyTypeID::EnemyID_KingChappy           \
+	 || id == EnemyTypeID::EnemyID_Damagumo || id == EnemyTypeID::EnemyID_OoPanModoki || id == EnemyTypeID::EnemyID_Houdai       \
+	 || id == EnemyTypeID::EnemyID_UmiMushiBlind || id == EnemyTypeID::EnemyID_BlackMan || id == EnemyTypeID::EnemyID_DangoMushi \
+	 || id == EnemyTypeID::EnemyID_BigFoot || id == EnemyTypeID::EnemyID_SnakeWhole || id == EnemyTypeID::EnemyID_UmiMushi       \
+	 || id == EnemyTypeID::EnemyID_BigTreasure)
+
 } // namespace Game
 #endif

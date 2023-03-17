@@ -5,50 +5,44 @@ lbl_constructor:
 
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-.global lbl_80482598
-lbl_80482598:
-	.4byte 0x7330325F
-	.4byte 0x64617965
-	.4byte 0x6E645F72
-	.4byte 0x6573756C
-	.4byte 0x74000000
-	.4byte 0x00000000
+.obj lbl_80482598, local
+	.asciz "s02_dayend_result"
+.endobj lbl_80482598
 
 .section .data, "wa"  # 0x8049E220 - 0x804EFC20
 .balign 8
-.global lbl_804C0648
-lbl_804C0648:
-	.4byte 0x00000000
-	.4byte 0x00000000
-	.4byte 0x00000000
-.global lbl_804C0654
-lbl_804C0654:
+.obj govNAN___Q24Game5P2JST, local
+	.float 0.0
+	.float 0.0
+	.float 0.0
+.endobj govNAN___Q24Game5P2JST
+.obj lbl_804C0654, local
 	.4byte 0x00000000
 	.4byte 0xFFFFFFFF
 	.4byte loadResource__Q34Game10SingleGame15MainResultStateFv
-.global lbl_804C0660
-lbl_804C0660:
+.endobj lbl_804C0654
+.obj lbl_804C0660, local
 	.4byte 0x00000000
 	.4byte 0xFFFFFFFF
 	.4byte beforeSave__Q34Game10SingleGame15MainResultStateFv
-.global __vt__Q32kh6Screen20DispDayEndResultTitl
-__vt__Q32kh6Screen20DispDayEndResultTitl:
+.endobj lbl_804C0660
+.obj __vt__Q32kh6Screen20DispDayEndResultTitl, weak
 	.4byte 0
 	.4byte 0
 	.4byte getSize__Q32kh6Screen20DispDayEndResultTitlFv
 	.4byte getOwnerID__Q32kh6Screen20DispDayEndResultTitlFv
 	.4byte getMemberID__Q32kh6Screen20DispDayEndResultTitlFv
 	.4byte doSetSubMemberAll__Q32og6Screen14DispMemberBaseFv
-.global __vt__Q32kh6Screen16DispDayEndResult
-__vt__Q32kh6Screen16DispDayEndResult:
+.endobj __vt__Q32kh6Screen20DispDayEndResultTitl
+.obj __vt__Q32kh6Screen16DispDayEndResult, weak
 	.4byte 0
 	.4byte 0
 	.4byte getSize__Q32kh6Screen16DispDayEndResultFv
 	.4byte getOwnerID__Q32kh6Screen16DispDayEndResultFv
 	.4byte getMemberID__Q32kh6Screen16DispDayEndResultFv
 	.4byte doSetSubMemberAll__Q32kh6Screen16DispDayEndResultFv
-.global __vt__Q34Game10SingleGame15MainResultState
-__vt__Q34Game10SingleGame15MainResultState:
+.endobj __vt__Q32kh6Screen16DispDayEndResult
+.obj __vt__Q34Game10SingleGame15MainResultState, global
 	.4byte 0
 	.4byte 0
 	.4byte init__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game8StateArg
@@ -67,44 +61,42 @@ __vt__Q34Game10SingleGame15MainResultState:
 	.4byte onFountainReturn__Q34Game10SingleGame5StateFPQ24Game17SingleGameSectionPQ34Game15ItemBigFountain4Item
 	.4byte on_section_fadeout__Q34Game10SingleGame5StateFPQ24Game17SingleGameSection
 	.4byte on_demo_timer__Q34Game10SingleGame5StateFPQ24Game17SingleGameSectionUl
-.global __vt__Q34Game6Result5TNode
-__vt__Q34Game6Result5TNode:
+.endobj __vt__Q34Game10SingleGame15MainResultState
+.obj __vt__Q34Game6Result5TNode, weak
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q34Game6Result5TNodeFv
 	.4byte getChildCount__Q24Game5DNodeFv
-.global "__vt__46Delegate<Q34Game10SingleGame15MainResultState>"
-"__vt__46Delegate<Q34Game10SingleGame15MainResultState>":
+.endobj __vt__Q34Game6Result5TNode
+.obj "__vt__46Delegate<Q34Game10SingleGame15MainResultState>", weak
 	.4byte 0
 	.4byte 0
 	.4byte "invoke__46Delegate<Q34Game10SingleGame15MainResultState>Fv"
+.endobj "__vt__46Delegate<Q34Game10SingleGame15MainResultState>"
 
 .section .sbss # 0x80514D80 - 0x80516360
 .balign 8
-.global lbl_80515BF8
-lbl_80515BF8:
+.obj gu32NAN___Q24Game5P2JST, local
 	.skip 0x4
-.global lbl_80515BFC
-lbl_80515BFC:
+.endobj gu32NAN___Q24Game5P2JST
+.obj gfNAN___Q24Game5P2JST, local
 	.skip 0x4
-.global theTekiHeap
-theTekiHeap:
-	.skip 0x8
+.endobj gfNAN___Q24Game5P2JST
+.obj theTekiHeap, local
+	.skip 0x4
+.endobj theTekiHeap
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-.global lbl_8051A038
-lbl_8051A038:
-	.4byte 0x00000000
-.global lbl_8051A03C
-lbl_8051A03C:
-	.4byte 0x6D725F6C
-	.4byte 0x6F616400
-	.4byte 0x00000000
+.obj lbl_8051A038, local
+	.float 0.0
+.endobj lbl_8051A038
+.obj lbl_8051A03C, local
+	.asciz "mr_load"
+.endobj lbl_8051A03C
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__Q34Game10SingleGame15MainResultStateFv
-__ct__Q34Game10SingleGame15MainResultStateFv:
+.fn __ct__Q34Game10SingleGame15MainResultStateFv, global
 /* 80219F48 00216E88  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 80219F4C 00216E8C  7C 08 02 A6 */	mflr r0
 /* 80219F50 00216E90  3C 80 80 4B */	lis r4, "__vt__Q24Game36FSMState<Q24Game17SingleGameSection>"@ha
@@ -132,16 +124,16 @@ __ct__Q34Game10SingleGame15MainResultStateFv:
 /* 80219FA8 00216EE8  38 60 00 B0 */	li r3, 0xb0
 /* 80219FAC 00216EEC  4B E0 9E F9 */	bl __nw__FUl
 /* 80219FB0 00216EF0  7C 60 1B 79 */	or. r0, r3, r3
-/* 80219FB4 00216EF4  41 82 00 10 */	beq lbl_80219FC4
+/* 80219FB4 00216EF4  41 82 00 10 */	beq .L_80219FC4
 /* 80219FB8 00216EF8  38 80 00 00 */	li r4, 0
 /* 80219FBC 00216EFC  48 20 AE 99 */	bl __ct__10ControllerFQ210JUTGamePad8EPadPort
 /* 80219FC0 00216F00  7C 60 1B 78 */	mr r0, r3
-lbl_80219FC4:
+.L_80219FC4:
 /* 80219FC4 00216F04  90 1F 00 18 */	stw r0, 0x18(r31)
 /* 80219FC8 00216F08  38 60 00 14 */	li r3, 0x14
 /* 80219FCC 00216F0C  4B E0 9E D9 */	bl __nw__FUl
 /* 80219FD0 00216F10  28 03 00 00 */	cmplwi r3, 0
-/* 80219FD4 00216F14  41 82 00 4C */	beq lbl_8021A020
+/* 80219FD4 00216F14  41 82 00 4C */	beq .L_8021A020
 /* 80219FD8 00216F18  3C 80 80 4C */	lis r4, lbl_804C0654@ha
 /* 80219FDC 00216F1C  3C A0 80 4B */	lis r5, __vt__9IDelegate@ha
 /* 80219FE0 00216F20  39 04 06 54 */	addi r8, r4, lbl_804C0654@l
@@ -160,12 +152,12 @@ lbl_80219FC4:
 /* 8021A014 00216F54  90 C1 00 18 */	stw r6, 0x18(r1)
 /* 8021A018 00216F58  90 81 00 1C */	stw r4, 0x1c(r1)
 /* 8021A01C 00216F5C  90 83 00 10 */	stw r4, 0x10(r3)
-lbl_8021A020:
+.L_8021A020:
 /* 8021A020 00216F60  90 7F 00 C8 */	stw r3, 0xc8(r31)
 /* 8021A024 00216F64  38 60 00 14 */	li r3, 0x14
 /* 8021A028 00216F68  4B E0 9E 7D */	bl __nw__FUl
 /* 8021A02C 00216F6C  28 03 00 00 */	cmplwi r3, 0
-/* 8021A030 00216F70  41 82 00 4C */	beq lbl_8021A07C
+/* 8021A030 00216F70  41 82 00 4C */	beq .L_8021A07C
 /* 8021A034 00216F74  3C 80 80 4C */	lis r4, lbl_804C0660@ha
 /* 8021A038 00216F78  3C A0 80 4B */	lis r5, __vt__9IDelegate@ha
 /* 8021A03C 00216F7C  39 04 06 60 */	addi r8, r4, lbl_804C0660@l
@@ -184,7 +176,7 @@ lbl_8021A020:
 /* 8021A070 00216FB0  90 C1 00 0C */	stw r6, 0xc(r1)
 /* 8021A074 00216FB4  90 81 00 10 */	stw r4, 0x10(r1)
 /* 8021A078 00216FB8  90 83 00 10 */	stw r4, 0x10(r3)
-lbl_8021A07C:
+.L_8021A07C:
 /* 8021A07C 00216FBC  90 7F 01 3C */	stw r3, 0x13c(r31)
 /* 8021A080 00216FC0  7F E3 FB 78 */	mr r3, r31
 /* 8021A084 00216FC4  80 01 00 34 */	lwz r0, 0x34(r1)
@@ -192,9 +184,9 @@ lbl_8021A07C:
 /* 8021A08C 00216FCC  7C 08 03 A6 */	mtlr r0
 /* 8021A090 00216FD0  38 21 00 30 */	addi r1, r1, 0x30
 /* 8021A094 00216FD4  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game10SingleGame15MainResultStateFv
 
-.global __dt__Q34Game6Result5TNodeFv
-__dt__Q34Game6Result5TNodeFv:
+.fn __dt__Q34Game6Result5TNodeFv, weak
 /* 8021A098 00216FD8  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8021A09C 00216FDC  7C 08 02 A6 */	mflr r0
 /* 8021A0A0 00216FE0  90 01 00 14 */	stw r0, 0x14(r1)
@@ -202,17 +194,17 @@ __dt__Q34Game6Result5TNodeFv:
 /* 8021A0A8 00216FE8  7C 9F 23 78 */	mr r31, r4
 /* 8021A0AC 00216FEC  93 C1 00 08 */	stw r30, 8(r1)
 /* 8021A0B0 00216FF0  7C 7E 1B 79 */	or. r30, r3, r3
-/* 8021A0B4 00216FF4  41 82 00 28 */	beq lbl_8021A0DC
+/* 8021A0B4 00216FF4  41 82 00 28 */	beq .L_8021A0DC
 /* 8021A0B8 00216FF8  3C A0 80 4C */	lis r5, __vt__Q34Game6Result5TNode@ha
 /* 8021A0BC 00216FFC  38 80 00 00 */	li r4, 0
 /* 8021A0C0 00217000  38 05 06 E4 */	addi r0, r5, __vt__Q34Game6Result5TNode@l
 /* 8021A0C4 00217004  90 1E 00 00 */	stw r0, 0(r30)
 /* 8021A0C8 00217008  48 00 DB 61 */	bl __dt__Q24Game5DNodeFv
 /* 8021A0CC 0021700C  7F E0 07 35 */	extsh. r0, r31
-/* 8021A0D0 00217010  40 81 00 0C */	ble lbl_8021A0DC
+/* 8021A0D0 00217010  40 81 00 0C */	ble .L_8021A0DC
 /* 8021A0D4 00217014  7F C3 F3 78 */	mr r3, r30
 /* 8021A0D8 00217018  4B E0 9F DD */	bl __dl__FPv
-lbl_8021A0DC:
+.L_8021A0DC:
 /* 8021A0DC 0021701C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8021A0E0 00217020  7F C3 F3 78 */	mr r3, r30
 /* 8021A0E4 00217024  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -220,9 +212,9 @@ lbl_8021A0DC:
 /* 8021A0EC 0021702C  7C 08 03 A6 */	mtlr r0
 /* 8021A0F0 00217030  38 21 00 10 */	addi r1, r1, 0x10
 /* 8021A0F4 00217034  4E 80 00 20 */	blr 
+.endfn __dt__Q34Game6Result5TNodeFv
 
-.global init__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game8StateArg
-init__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game8StateArg:
+.fn init__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game8StateArg, global
 /* 8021A0F8 00217038  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8021A0FC 0021703C  7C 08 02 A6 */	mflr r0
 /* 8021A100 00217040  90 01 00 14 */	stw r0, 0x14(r1)
@@ -265,10 +257,10 @@ init__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game8S
 /* 8021A194 002170D4  80 0D 91 D8 */	lwz r0, farmMgr__Q24Game4Farm@sda21(r13)
 /* 8021A198 002170D8  90 6D 95 80 */	stw r3, theTekiHeap@sda21(r13)
 /* 8021A19C 002170DC  28 00 00 00 */	cmplwi r0, 0
-/* 8021A1A0 002170E0  41 82 00 0C */	beq lbl_8021A1AC
+/* 8021A1A0 002170E0  41 82 00 0C */	beq .L_8021A1AC
 /* 8021A1A4 002170E4  7C 03 03 78 */	mr r3, r0
 /* 8021A1A8 002170E8  4B F0 A4 DD */	bl initAllFarmObjectNodes__Q34Game4Farm7FarmMgrFv
-lbl_8021A1AC:
+.L_8021A1AC:
 /* 8021A1AC 002170EC  80 6D 92 E0 */	lwz r3, naviMgr__4Game@sda21(r13)
 /* 8021A1B0 002170F0  81 83 00 00 */	lwz r12, 0(r3)
 /* 8021A1B4 002170F4  81 8C 00 98 */	lwz r12, 0x98(r12)
@@ -278,9 +270,9 @@ lbl_8021A1AC:
 /* 8021A1C4 00217104  4B FC B0 81 */	bl killAllExceptOnyonMgr__Q24Game7ItemMgrFv
 /* 8021A1C8 00217108  80 8D 93 20 */	lwz r4, pelletMgr__4Game@sda21(r13)
 /* 8021A1CC 0021710C  28 04 00 00 */	cmplwi r4, 0
-/* 8021A1D0 00217110  41 82 00 08 */	beq lbl_8021A1D8
+/* 8021A1D0 00217110  41 82 00 08 */	beq .L_8021A1D8
 /* 8021A1D4 00217114  38 84 00 1C */	addi r4, r4, 0x1c
-lbl_8021A1D8:
+.L_8021A1D8:
 /* 8021A1D8 00217118  80 6D 93 E8 */	lwz r3, gameSystem__4Game@sda21(r13)
 /* 8021A1DC 0021711C  4B F9 BE 1D */	bl detachObjectMgr_reuse__Q24Game10GameSystemFP16GenericObjectMgr
 /* 8021A1E0 00217120  90 7E 00 C4 */	stw r3, 0xc4(r30)
@@ -290,9 +282,9 @@ lbl_8021A1D8:
 /* 8021A1F0 00217130  7C 08 03 A6 */	mtlr r0
 /* 8021A1F4 00217134  38 21 00 10 */	addi r1, r1, 0x10
 /* 8021A1F8 00217138  4E 80 00 20 */	blr 
+.endfn init__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game8StateArg
 
-.global beforeSave__Q34Game10SingleGame15MainResultStateFv
-beforeSave__Q34Game10SingleGame15MainResultStateFv:
+.fn beforeSave__Q34Game10SingleGame15MainResultStateFv, global
 /* 8021A1FC 0021713C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8021A200 00217140  7C 08 02 A6 */	mflr r0
 /* 8021A204 00217144  90 01 00 14 */	stw r0, 0x14(r1)
@@ -302,9 +294,9 @@ beforeSave__Q34Game10SingleGame15MainResultStateFv:
 /* 8021A214 00217154  7C 08 03 A6 */	mtlr r0
 /* 8021A218 00217158  38 21 00 10 */	addi r1, r1, 0x10
 /* 8021A21C 0021715C  4E 80 00 20 */	blr 
+.endfn beforeSave__Q34Game10SingleGame15MainResultStateFv
 
-.global loadResource__Q34Game10SingleGame15MainResultStateFv
-loadResource__Q34Game10SingleGame15MainResultStateFv:
+.fn loadResource__Q34Game10SingleGame15MainResultStateFv, global
 /* 8021A220 00217160  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 8021A224 00217164  7C 08 02 A6 */	mflr r0
 /* 8021A228 00217168  38 A0 00 00 */	li r5, 0
@@ -339,10 +331,10 @@ loadResource__Q34Game10SingleGame15MainResultStateFv:
 /* 8021A29C 002171DC  7C 08 03 A6 */	mtlr r0
 /* 8021A2A0 002171E0  38 21 00 20 */	addi r1, r1, 0x20
 /* 8021A2A4 002171E4  4E 80 00 20 */	blr 
+.endfn loadResource__Q34Game10SingleGame15MainResultStateFv
 
 .if version == 1
-.global exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection
-exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection:
+.fn exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection, global
 /* 8021A2A8 002171E8  94 21 FF 40 */	stwu r1, -0xc0(r1)
 /* 8021A2AC 002171EC  7C 08 02 A6 */	mflr r0
 /* 8021A2B0 002171F0  90 01 00 C4 */	stw r0, 0xc4(r1)
@@ -351,21 +343,21 @@ exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection:
 /* 8021A2BC 002171FC  7C 9F 23 78 */	mr r31, r4
 /* 8021A2C0 00217200  A0 03 00 10 */	lhz r0, 0x10(r3)
 /* 8021A2C4 00217204  2C 00 00 02 */	cmpwi r0, 2
-/* 8021A2C8 00217208  41 82 00 E8 */	beq lbl_8021A3B0
-/* 8021A2CC 0021720C  40 80 00 14 */	bge lbl_8021A2E0
+/* 8021A2C8 00217208  41 82 00 E8 */	beq .L_8021A3B0
+/* 8021A2CC 0021720C  40 80 00 14 */	bge .L_8021A2E0
 /* 8021A2D0 00217210  2C 00 00 00 */	cmpwi r0, 0
-/* 8021A2D4 00217214  41 82 00 1C */	beq lbl_8021A2F0
-/* 8021A2D8 00217218  40 80 00 A8 */	bge lbl_8021A380
-/* 8021A2DC 0021721C  48 00 02 DC */	b lbl_8021A5B8
-lbl_8021A2E0:
+/* 8021A2D4 00217214  41 82 00 1C */	beq .L_8021A2F0
+/* 8021A2D8 00217218  40 80 00 A8 */	bge .L_8021A380
+/* 8021A2DC 0021721C  48 00 02 DC */	b .L_8021A5B8
+.L_8021A2E0:
 /* 8021A2E0 00217220  2C 00 00 04 */	cmpwi r0, 4
-/* 8021A2E4 00217224  41 82 02 6C */	beq lbl_8021A550
-/* 8021A2E8 00217228  40 80 02 D0 */	bge lbl_8021A5B8
-/* 8021A2EC 0021722C  48 00 01 FC */	b lbl_8021A4E8
-lbl_8021A2F0:
+/* 8021A2E4 00217224  41 82 02 6C */	beq .L_8021A550
+/* 8021A2E8 00217228  40 80 02 D0 */	bge .L_8021A5B8
+/* 8021A2EC 0021722C  48 00 01 FC */	b .L_8021A4E8
+.L_8021A2F0:
 /* 8021A2F0 00217230  80 1E 00 E4 */	lwz r0, 0xe4(r30)
 /* 8021A2F4 00217234  2C 00 00 02 */	cmpwi r0, 2
-/* 8021A2F8 00217238  40 82 00 7C */	bne lbl_8021A374
+/* 8021A2F8 00217238  40 82 00 7C */	bne .L_8021A374
 /* 8021A2FC 0021723C  38 00 00 02 */	li r0, 2
 /* 8021A300 00217240  3C 60 80 48 */	lis r3, lbl_80482598@ha
 /* 8021A304 00217244  B0 1E 00 10 */	sth r0, 0x10(r30)
@@ -396,11 +388,11 @@ lbl_8021A2F0:
 /* 8021A368 002172A8  4B F9 AC 2D */	bl setPause__Q24Game10GameSystemFbPci
 /* 8021A36C 002172AC  38 00 00 00 */	li r0, 0
 /* 8021A370 002172B0  90 1E 00 20 */	stw r0, 0x20(r30)
-lbl_8021A374:
+.L_8021A374:
 /* 8021A374 002172B4  7F E3 FB 78 */	mr r3, r31
 /* 8021A378 002172B8  4B F4 AC 31 */	bl doUpdate__Q24Game14BaseHIOSectionFv
-/* 8021A37C 002172BC  48 00 03 00 */	b lbl_8021A67C
-lbl_8021A380:
+/* 8021A37C 002172BC  48 00 03 00 */	b .L_8021A67C
+.L_8021A380:
 /* 8021A380 002172C0  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 8021A384 002172C4  C0 5E 00 14 */	lfs f2, 0x14(r30)
 /* 8021A388 002172C8  C0 23 00 54 */	lfs f1, 0x54(r3)
@@ -409,21 +401,21 @@ lbl_8021A380:
 /* 8021A394 002172D4  D0 3E 00 14 */	stfs f1, 0x14(r30)
 /* 8021A398 002172D8  C0 3E 00 14 */	lfs f1, 0x14(r30)
 /* 8021A39C 002172DC  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8021A3A0 002172E0  40 80 02 18 */	bge lbl_8021A5B8
+/* 8021A3A0 002172E0  40 80 02 18 */	bge .L_8021A5B8
 /* 8021A3A4 002172E4  38 00 00 03 */	li r0, 3
 /* 8021A3A8 002172E8  B0 1E 00 10 */	sth r0, 0x10(r30)
-/* 8021A3AC 002172EC  48 00 02 0C */	b lbl_8021A5B8
-lbl_8021A3B0:
+/* 8021A3AC 002172EC  48 00 02 0C */	b .L_8021A5B8
+.L_8021A3B0:
 /* 8021A3B0 002172F0  80 7E 00 20 */	lwz r3, 0x20(r30)
 /* 8021A3B4 002172F4  38 03 00 01 */	addi r0, r3, 1
 /* 8021A3B8 002172F8  2C 00 00 C7 */	cmpwi r0, 0xc7
 /* 8021A3BC 002172FC  90 1E 00 20 */	stw r0, 0x20(r30)
-/* 8021A3C0 00217300  40 80 00 14 */	bge lbl_8021A3D4
+/* 8021A3C0 00217300  40 80 00 14 */	bge .L_8021A3D4
 /* 8021A3C4 00217304  80 7E 00 18 */	lwz r3, 0x18(r30)
 /* 8021A3C8 00217308  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 8021A3CC 0021730C  54 00 05 EF */	rlwinm. r0, r0, 0, 0x17, 0x17
-/* 8021A3D0 00217310  41 82 01 E8 */	beq lbl_8021A5B8
-lbl_8021A3D4:
+/* 8021A3D0 00217310  41 82 01 E8 */	beq .L_8021A5B8
+.L_8021A3D4:
 /* 8021A3D4 00217314  38 00 00 03 */	li r0, 3
 /* 8021A3D8 00217318  B0 1E 00 10 */	sth r0, 0x10(r30)
 /* 8021A3DC 0021731C  80 6D 94 90 */	lwz r3, playData__4Game@sda21(r13)
@@ -436,38 +428,38 @@ lbl_8021A3D4:
 /* 8021A3F8 00217338  80 8D 94 90 */	lwz r4, playData__4Game@sda21(r13)
 /* 8021A3FC 0021733C  80 C4 00 E8 */	lwz r6, 0xe8(r4)
 /* 8021A400 00217340  2C 06 0B B8 */	cmpwi r6, 0xbb8
-/* 8021A404 00217344  40 80 00 0C */	bge lbl_8021A410
+/* 8021A404 00217344  40 80 00 0C */	bge .L_8021A410
 /* 8021A408 00217348  3B A0 00 31 */	li r29, 0x31
-/* 8021A40C 0021734C  48 00 00 5C */	b lbl_8021A468
-lbl_8021A410:
+/* 8021A40C 0021734C  48 00 00 5C */	b .L_8021A468
+.L_8021A410:
 /* 8021A410 00217350  2C 06 13 88 */	cmpwi r6, 0x1388
-/* 8021A414 00217354  40 80 00 0C */	bge lbl_8021A420
+/* 8021A414 00217354  40 80 00 0C */	bge .L_8021A420
 /* 8021A418 00217358  3B A0 00 32 */	li r29, 0x32
-/* 8021A41C 0021735C  48 00 00 4C */	b lbl_8021A468
-lbl_8021A420:
+/* 8021A41C 0021735C  48 00 00 4C */	b .L_8021A468
+.L_8021A420:
 /* 8021A420 00217360  2C 06 1F 40 */	cmpwi r6, 0x1f40
-/* 8021A424 00217364  40 80 00 0C */	bge lbl_8021A430
+/* 8021A424 00217364  40 80 00 0C */	bge .L_8021A430
 /* 8021A428 00217368  3B A0 00 33 */	li r29, 0x33
-/* 8021A42C 0021736C  48 00 00 3C */	b lbl_8021A468
-lbl_8021A430:
+/* 8021A42C 0021736C  48 00 00 3C */	b .L_8021A468
+.L_8021A430:
 /* 8021A430 00217370  2C 06 27 10 */	cmpwi r6, 0x2710
-/* 8021A434 00217374  40 80 00 0C */	bge lbl_8021A440
+/* 8021A434 00217374  40 80 00 0C */	bge .L_8021A440
 /* 8021A438 00217378  3B A0 00 34 */	li r29, 0x34
-/* 8021A43C 0021737C  48 00 00 2C */	b lbl_8021A468
-lbl_8021A440:
+/* 8021A43C 0021737C  48 00 00 2C */	b .L_8021A468
+.L_8021A440:
 /* 8021A440 00217380  88 64 00 2F */	lbz r3, 0x2f(r4)
 /* 8021A444 00217384  54 60 07 BD */	rlwinm. r0, r3, 0, 0x1e, 0x1e
-/* 8021A448 00217388  41 82 00 0C */	beq lbl_8021A454
+/* 8021A448 00217388  41 82 00 0C */	beq .L_8021A454
 /* 8021A44C 0021738C  3B A0 00 37 */	li r29, 0x37
-/* 8021A450 00217390  48 00 00 18 */	b lbl_8021A468
-lbl_8021A454:
+/* 8021A450 00217390  48 00 00 18 */	b .L_8021A468
+.L_8021A454:
 /* 8021A454 00217394  54 60 07 7B */	rlwinm. r0, r3, 0, 0x1d, 0x1d
-/* 8021A458 00217398  41 82 00 0C */	beq lbl_8021A464
+/* 8021A458 00217398  41 82 00 0C */	beq .L_8021A464
 /* 8021A45C 0021739C  3B A0 00 36 */	li r29, 0x36
-/* 8021A460 002173A0  48 00 00 08 */	b lbl_8021A468
-lbl_8021A464:
+/* 8021A460 002173A0  48 00 00 08 */	b .L_8021A468
+.L_8021A464:
 /* 8021A464 002173A4  3B A0 00 35 */	li r29, 0x35
-lbl_8021A468:
+.L_8021A468:
 /* 8021A468 002173A8  88 04 00 2F */	lbz r0, 0x2f(r4)
 /* 8021A46C 002173AC  3C 60 80 4B */	lis r3, __vt__Q32og6Screen14DispMemberBase@ha
 /* 8021A470 002173B0  80 A4 00 BC */	lwz r5, 0xbc(r4)
@@ -499,23 +491,23 @@ lbl_8021A468:
 /* 8021A4D8 00217418  80 6D 9A A0 */	lwz r3, gGame2DMgr__6Screen@sda21(r13)
 /* 8021A4DC 0021741C  38 81 00 3C */	addi r4, r1, 0x3c
 /* 8021A4E0 00217420  48 1E 3F 65 */	bl open_DayEndResult__Q26Screen9Game2DMgrFRQ32kh6Screen16DispDayEndResult
-/* 8021A4E4 00217424  48 00 00 D4 */	b lbl_8021A5B8
-lbl_8021A4E8:
+/* 8021A4E4 00217424  48 00 00 D4 */	b .L_8021A5B8
+.L_8021A4E8:
 /* 8021A4E8 00217428  80 6D 9A A0 */	lwz r3, gGame2DMgr__6Screen@sda21(r13)
 /* 8021A4EC 0021742C  48 1E 40 05 */	bl check_DayEndResult__Q26Screen9Game2DMgrCFv
 /* 8021A4F0 00217430  2C 03 00 02 */	cmpwi r3, 2
-/* 8021A4F4 00217434  41 82 00 28 */	beq lbl_8021A51C
-/* 8021A4F8 00217438  40 80 00 C0 */	bge lbl_8021A5B8
+/* 8021A4F4 00217434  41 82 00 28 */	beq .L_8021A51C
+/* 8021A4F8 00217438  40 80 00 C0 */	bge .L_8021A5B8
 /* 8021A4FC 0021743C  2C 03 00 01 */	cmpwi r3, 1
-/* 8021A500 00217440  40 80 00 08 */	bge lbl_8021A508
-/* 8021A504 00217444  48 00 00 B4 */	b lbl_8021A5B8
-lbl_8021A508:
+/* 8021A500 00217440  40 80 00 08 */	bge .L_8021A508
+/* 8021A504 00217444  48 00 00 B4 */	b .L_8021A5B8
+.L_8021A508:
 /* 8021A508 00217448  80 6D 9B 54 */	lwz r3, moviePlayer__4Game@sda21(r13)
 /* 8021A50C 0021744C  38 80 00 01 */	li r4, 1
 /* 8021A510 00217450  38 A0 00 00 */	li r5, 0
 /* 8021A514 00217454  48 21 3E 75 */	bl unsuspend__Q24Game11MoviePlayerFlb
-/* 8021A518 00217458  48 00 00 A0 */	b lbl_8021A5B8
-lbl_8021A51C:
+/* 8021A518 00217458  48 00 00 A0 */	b .L_8021A5B8
+.L_8021A51C:
 /* 8021A51C 0021745C  80 6D 9B 54 */	lwz r3, moviePlayer__4Game@sda21(r13)
 /* 8021A520 00217460  48 21 3A 25 */	bl stop__Q24Game11MoviePlayerFv
 /* 8021A524 00217464  7F E3 FB 78 */	mr r3, r31
@@ -528,8 +520,8 @@ lbl_8021A51C:
 /* 8021A540 00217480  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 8021A544 00217484  7D 89 03 A6 */	mtctr r12
 /* 8021A548 00217488  4E 80 04 21 */	bctrl 
-/* 8021A54C 0021748C  48 00 01 30 */	b lbl_8021A67C
-lbl_8021A550:
+/* 8021A54C 0021748C  48 00 01 30 */	b .L_8021A67C
+.L_8021A550:
 /* 8021A550 00217490  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 8021A554 00217494  C0 5E 00 14 */	lfs f2, 0x14(r30)
 /* 8021A558 00217498  C0 23 00 54 */	lfs f1, 0x54(r3)
@@ -538,16 +530,16 @@ lbl_8021A550:
 /* 8021A564 002174A4  D0 3E 00 14 */	stfs f1, 0x14(r30)
 /* 8021A568 002174A8  C0 3E 00 14 */	lfs f1, 0x14(r30)
 /* 8021A56C 002174AC  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8021A570 002174B0  40 80 01 0C */	bge lbl_8021A67C
+/* 8021A570 002174B0  40 80 01 0C */	bge .L_8021A67C
 /* 8021A574 002174B4  7F E3 FB 78 */	mr r3, r31
 /* 8021A578 002174B8  4B F3 58 2D */	bl clearHeap__Q24Game15BaseGameSectionFv
 /* 8021A57C 002174BC  80 7E 00 8C */	lwz r3, 0x8c(r30)
-/* 8021A580 002174C0  48 00 00 08 */	b lbl_8021A588
-lbl_8021A584:
+/* 8021A580 002174C0  48 00 00 08 */	b .L_8021A588
+.L_8021A584:
 /* 8021A584 002174C4  80 63 00 18 */	lwz r3, 0x18(r3)
-lbl_8021A588:
+.L_8021A588:
 /* 8021A588 002174C8  28 03 00 00 */	cmplwi r3, 0
-/* 8021A58C 002174CC  40 82 FF F8 */	bne lbl_8021A584
+/* 8021A58C 002174CC  40 82 FF F8 */	bne .L_8021A584
 /* 8021A590 002174D0  7F C3 F3 78 */	mr r3, r30
 /* 8021A594 002174D4  7F E4 FB 78 */	mr r4, r31
 /* 8021A598 002174D8  81 9E 00 00 */	lwz r12, 0(r30)
@@ -556,9 +548,9 @@ lbl_8021A588:
 /* 8021A5A4 002174E4  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 8021A5A8 002174E8  7D 89 03 A6 */	mtctr r12
 /* 8021A5AC 002174EC  4E 80 04 21 */	bctrl 
-/* 8021A5B0 002174F0  48 00 00 CC */	b lbl_8021A67C
-/* 8021A5B4 002174F4  48 00 00 C8 */	b lbl_8021A67C
-lbl_8021A5B8:
+/* 8021A5B0 002174F0  48 00 00 CC */	b .L_8021A67C
+/* 8021A5B4 002174F4  48 00 00 C8 */	b .L_8021A67C
+.L_8021A5B8:
 /* 8021A5B8 002174F8  80 6D 93 30 */	lwz r3, mgr__Q24Game9ItemOnyon@sda21(r13)
 /* 8021A5BC 002174FC  81 83 00 00 */	lwz r12, 0(r3)
 /* 8021A5C0 00217500  81 8C 00 08 */	lwz r12, 8(r12)
@@ -590,17 +582,17 @@ lbl_8021A5B8:
 /* 8021A628 00217568  48 21 30 41 */	bl update__Q24Game11MoviePlayerFP10ControllerP10Controller
 /* 8021A62C 0021756C  80 6D 9A 08 */	lwz r3, particle2dMgr@sda21(r13)
 /* 8021A630 00217570  28 03 00 00 */	cmplwi r3, 0
-/* 8021A634 00217574  41 82 00 08 */	beq lbl_8021A63C
+/* 8021A634 00217574  41 82 00 08 */	beq .L_8021A63C
 /* 8021A638 00217578  48 19 EF 79 */	bl update__14TParticle2dMgrFv
-lbl_8021A63C:
+.L_8021A63C:
 /* 8021A63C 0021757C  80 6D 9A 18 */	lwz r3, particleMgr@sda21(r13)
 /* 8021A640 00217580  28 03 00 00 */	cmplwi r3, 0
-/* 8021A644 00217584  41 82 00 14 */	beq lbl_8021A658
+/* 8021A644 00217584  41 82 00 14 */	beq .L_8021A658
 /* 8021A648 00217588  81 83 00 00 */	lwz r12, 0(r3)
 /* 8021A64C 0021758C  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 8021A650 00217590  7D 89 03 A6 */	mtctr r12
 /* 8021A654 00217594  4E 80 04 21 */	bctrl 
-lbl_8021A658:
+.L_8021A658:
 /* 8021A658 00217598  80 6D 9A A0 */	lwz r3, gGame2DMgr__6Screen@sda21(r13)
 /* 8021A65C 0021759C  48 1E 19 D1 */	bl update__Q26Screen9Game2DMgrFv
 /* 8021A660 002175A0  80 7F 01 28 */	lwz r3, 0x148(r31)
@@ -610,15 +602,15 @@ lbl_8021A658:
 /* 8021A670 002175B0  4E 80 04 21 */	bctrl 
 /* 8021A674 002175B4  7F E3 FB 78 */	mr r3, r31
 /* 8021A678 002175B8  4B F4 A9 31 */	bl doUpdate__Q24Game14BaseHIOSectionFv
-lbl_8021A67C:
+.L_8021A67C:
 /* 8021A67C 002175BC  BB 61 00 AC */	lmw r27, 0xac(r1)
 /* 8021A680 002175C0  80 01 00 C4 */	lwz r0, 0xc4(r1)
 /* 8021A684 002175C4  7C 08 03 A6 */	mtlr r0
 /* 8021A688 002175C8  38 21 00 C0 */	addi r1, r1, 0xc0
 /* 8021A68C 002175CC  4E 80 00 20 */	blr 
+.endfn exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection
 .else
-.global exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection
-exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection:
+.fn exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection, global
 /* 8021A2A8 002171E8  94 21 FF 40 */	stwu r1, -0xc0(r1)
 /* 8021A2AC 002171EC  7C 08 02 A6 */	mflr r0
 /* 8021A2B0 002171F0  90 01 00 C4 */	stw r0, 0xc4(r1)
@@ -627,21 +619,21 @@ exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection:
 /* 8021A2BC 002171FC  7C 9F 23 78 */	mr r31, r4
 /* 8021A2C0 00217200  A0 03 00 10 */	lhz r0, 0x10(r3)
 /* 8021A2C4 00217204  2C 00 00 02 */	cmpwi r0, 2
-/* 8021A2C8 00217208  41 82 00 E8 */	beq lbl_8021A3B0
-/* 8021A2CC 0021720C  40 80 00 14 */	bge lbl_8021A2E0
+/* 8021A2C8 00217208  41 82 00 E8 */	beq .L_8021A3B0
+/* 8021A2CC 0021720C  40 80 00 14 */	bge .L_8021A2E0
 /* 8021A2D0 00217210  2C 00 00 00 */	cmpwi r0, 0
-/* 8021A2D4 00217214  41 82 00 1C */	beq lbl_8021A2F0
-/* 8021A2D8 00217218  40 80 00 A8 */	bge lbl_8021A380
-/* 8021A2DC 0021721C  48 00 02 DC */	b lbl_8021A5B8
-lbl_8021A2E0:
+/* 8021A2D4 00217214  41 82 00 1C */	beq .L_8021A2F0
+/* 8021A2D8 00217218  40 80 00 A8 */	bge .L_8021A380
+/* 8021A2DC 0021721C  48 00 02 DC */	b .L_8021A5B8
+.L_8021A2E0:
 /* 8021A2E0 00217220  2C 00 00 04 */	cmpwi r0, 4
-/* 8021A2E4 00217224  41 82 02 6C */	beq lbl_8021A550
-/* 8021A2E8 00217228  40 80 02 D0 */	bge lbl_8021A5B8
-/* 8021A2EC 0021722C  48 00 01 FC */	b lbl_8021A4E8
-lbl_8021A2F0:
+/* 8021A2E4 00217224  41 82 02 6C */	beq .L_8021A550
+/* 8021A2E8 00217228  40 80 02 D0 */	bge .L_8021A5B8
+/* 8021A2EC 0021722C  48 00 01 FC */	b .L_8021A4E8
+.L_8021A2F0:
 /* 8021A2F0 00217230  80 1E 00 E4 */	lwz r0, 0xe4(r30)
 /* 8021A2F4 00217234  2C 00 00 02 */	cmpwi r0, 2
-/* 8021A2F8 00217238  40 82 00 7C */	bne lbl_8021A374
+/* 8021A2F8 00217238  40 82 00 7C */	bne .L_8021A374
 /* 8021A2FC 0021723C  38 00 00 02 */	li r0, 2
 /* 8021A300 00217240  3C 60 80 48 */	lis r3, lbl_80482598@ha
 /* 8021A304 00217244  B0 1E 00 10 */	sth r0, 0x10(r30)
@@ -672,11 +664,11 @@ lbl_8021A2F0:
 /* 8021A368 002172A8  4B F9 AC 2D */	bl setPause__Q24Game10GameSystemFbPci
 /* 8021A36C 002172AC  38 00 00 00 */	li r0, 0
 /* 8021A370 002172B0  90 1E 00 20 */	stw r0, 0x20(r30)
-lbl_8021A374:
+.L_8021A374:
 /* 8021A374 002172B4  7F E3 FB 78 */	mr r3, r31
 /* 8021A378 002172B8  4B F4 AC 31 */	bl doUpdate__Q24Game14BaseHIOSectionFv
-/* 8021A37C 002172BC  48 00 03 00 */	b lbl_8021A67C
-lbl_8021A380:
+/* 8021A37C 002172BC  48 00 03 00 */	b .L_8021A67C
+.L_8021A380:
 /* 8021A380 002172C0  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 8021A384 002172C4  C0 5E 00 14 */	lfs f2, 0x14(r30)
 /* 8021A388 002172C8  C0 23 00 54 */	lfs f1, 0x54(r3)
@@ -685,21 +677,21 @@ lbl_8021A380:
 /* 8021A394 002172D4  D0 3E 00 14 */	stfs f1, 0x14(r30)
 /* 8021A398 002172D8  C0 3E 00 14 */	lfs f1, 0x14(r30)
 /* 8021A39C 002172DC  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8021A3A0 002172E0  40 80 02 18 */	bge lbl_8021A5B8
+/* 8021A3A0 002172E0  40 80 02 18 */	bge .L_8021A5B8
 /* 8021A3A4 002172E4  38 00 00 03 */	li r0, 3
 /* 8021A3A8 002172E8  B0 1E 00 10 */	sth r0, 0x10(r30)
-/* 8021A3AC 002172EC  48 00 02 0C */	b lbl_8021A5B8
-lbl_8021A3B0:
+/* 8021A3AC 002172EC  48 00 02 0C */	b .L_8021A5B8
+.L_8021A3B0:
 /* 8021A3B0 002172F0  80 7E 00 20 */	lwz r3, 0x20(r30)
 /* 8021A3B4 002172F4  38 03 00 01 */	addi r0, r3, 1
 /* 8021A3B8 002172F8  2C 00 00 C7 */	cmpwi r0, 0xc7
 /* 8021A3BC 002172FC  90 1E 00 20 */	stw r0, 0x20(r30)
-/* 8021A3C0 00217300  40 80 00 14 */	bge lbl_8021A3D4
+/* 8021A3C0 00217300  40 80 00 14 */	bge .L_8021A3D4
 /* 8021A3C4 00217304  80 7E 00 18 */	lwz r3, 0x18(r30)
 /* 8021A3C8 00217308  80 03 00 1C */	lwz r0, 0x1c(r3)
 /* 8021A3CC 0021730C  54 00 05 EF */	rlwinm. r0, r0, 0, 0x17, 0x17
-/* 8021A3D0 00217310  41 82 01 E8 */	beq lbl_8021A5B8
-lbl_8021A3D4:
+/* 8021A3D0 00217310  41 82 01 E8 */	beq .L_8021A5B8
+.L_8021A3D4:
 /* 8021A3D4 00217314  38 00 00 03 */	li r0, 3
 /* 8021A3D8 00217318  B0 1E 00 10 */	sth r0, 0x10(r30)
 /* 8021A3DC 0021731C  80 6D 94 90 */	lwz r3, playData__4Game@sda21(r13)
@@ -712,38 +704,38 @@ lbl_8021A3D4:
 /* 8021A3F8 00217338  80 8D 94 90 */	lwz r4, playData__4Game@sda21(r13)
 /* 8021A3FC 0021733C  80 C4 00 E8 */	lwz r6, 0xe8(r4)
 /* 8021A400 00217340  2C 06 0B B8 */	cmpwi r6, 0xbb8
-/* 8021A404 00217344  40 80 00 0C */	bge lbl_8021A410
+/* 8021A404 00217344  40 80 00 0C */	bge .L_8021A410
 /* 8021A408 00217348  3B A0 00 31 */	li r29, 0x31
-/* 8021A40C 0021734C  48 00 00 5C */	b lbl_8021A468
-lbl_8021A410:
+/* 8021A40C 0021734C  48 00 00 5C */	b .L_8021A468
+.L_8021A410:
 /* 8021A410 00217350  2C 06 13 88 */	cmpwi r6, 0x1388
-/* 8021A414 00217354  40 80 00 0C */	bge lbl_8021A420
+/* 8021A414 00217354  40 80 00 0C */	bge .L_8021A420
 /* 8021A418 00217358  3B A0 00 32 */	li r29, 0x32
-/* 8021A41C 0021735C  48 00 00 4C */	b lbl_8021A468
-lbl_8021A420:
+/* 8021A41C 0021735C  48 00 00 4C */	b .L_8021A468
+.L_8021A420:
 /* 8021A420 00217360  2C 06 1F 40 */	cmpwi r6, 0x1f40
-/* 8021A424 00217364  40 80 00 0C */	bge lbl_8021A430
+/* 8021A424 00217364  40 80 00 0C */	bge .L_8021A430
 /* 8021A428 00217368  3B A0 00 33 */	li r29, 0x33
-/* 8021A42C 0021736C  48 00 00 3C */	b lbl_8021A468
-lbl_8021A430:
+/* 8021A42C 0021736C  48 00 00 3C */	b .L_8021A468
+.L_8021A430:
 /* 8021A430 00217370  2C 06 27 10 */	cmpwi r6, 0x2710
-/* 8021A434 00217374  40 80 00 0C */	bge lbl_8021A440
+/* 8021A434 00217374  40 80 00 0C */	bge .L_8021A440
 /* 8021A438 00217378  3B A0 00 34 */	li r29, 0x34
-/* 8021A43C 0021737C  48 00 00 2C */	b lbl_8021A468
-lbl_8021A440:
+/* 8021A43C 0021737C  48 00 00 2C */	b .L_8021A468
+.L_8021A440:
 /* 8021A440 00217380  88 64 00 2F */	lbz r3, 0x2f(r4)
 /* 8021A444 00217384  54 60 07 BD */	rlwinm. r0, r3, 0, 0x1e, 0x1e
-/* 8021A448 00217388  41 82 00 0C */	beq lbl_8021A454
+/* 8021A448 00217388  41 82 00 0C */	beq .L_8021A454
 /* 8021A44C 0021738C  3B A0 00 37 */	li r29, 0x37
-/* 8021A450 00217390  48 00 00 18 */	b lbl_8021A468
-lbl_8021A454:
+/* 8021A450 00217390  48 00 00 18 */	b .L_8021A468
+.L_8021A454:
 /* 8021A454 00217394  54 60 07 7B */	rlwinm. r0, r3, 0, 0x1d, 0x1d
-/* 8021A458 00217398  41 82 00 0C */	beq lbl_8021A464
+/* 8021A458 00217398  41 82 00 0C */	beq .L_8021A464
 /* 8021A45C 0021739C  3B A0 00 36 */	li r29, 0x36
-/* 8021A460 002173A0  48 00 00 08 */	b lbl_8021A468
-lbl_8021A464:
+/* 8021A460 002173A0  48 00 00 08 */	b .L_8021A468
+.L_8021A464:
 /* 8021A464 002173A4  3B A0 00 35 */	li r29, 0x35
-lbl_8021A468:
+.L_8021A468:
 /* 8021A468 002173A8  88 04 00 2F */	lbz r0, 0x2f(r4)
 /* 8021A46C 002173AC  3C 60 80 4B */	lis r3, __vt__Q32og6Screen14DispMemberBase@ha
 /* 8021A470 002173B0  80 A4 00 BC */	lwz r5, 0xbc(r4)
@@ -775,23 +767,23 @@ lbl_8021A468:
 /* 8021A4D8 00217418  80 6D 9A A0 */	lwz r3, gGame2DMgr__6Screen@sda21(r13)
 /* 8021A4DC 0021741C  38 81 00 3C */	addi r4, r1, 0x3c
 /* 8021A4E0 00217420  48 1E 3F 65 */	bl open_DayEndResult__Q26Screen9Game2DMgrFRQ32kh6Screen16DispDayEndResult
-/* 8021A4E4 00217424  48 00 00 D4 */	b lbl_8021A5B8
-lbl_8021A4E8:
+/* 8021A4E4 00217424  48 00 00 D4 */	b .L_8021A5B8
+.L_8021A4E8:
 /* 8021A4E8 00217428  80 6D 9A A0 */	lwz r3, gGame2DMgr__6Screen@sda21(r13)
 /* 8021A4EC 0021742C  48 1E 40 05 */	bl check_DayEndResult__Q26Screen9Game2DMgrCFv
 /* 8021A4F0 00217430  2C 03 00 02 */	cmpwi r3, 2
-/* 8021A4F4 00217434  41 82 00 28 */	beq lbl_8021A51C
-/* 8021A4F8 00217438  40 80 00 C0 */	bge lbl_8021A5B8
+/* 8021A4F4 00217434  41 82 00 28 */	beq .L_8021A51C
+/* 8021A4F8 00217438  40 80 00 C0 */	bge .L_8021A5B8
 /* 8021A4FC 0021743C  2C 03 00 01 */	cmpwi r3, 1
-/* 8021A500 00217440  40 80 00 08 */	bge lbl_8021A508
-/* 8021A504 00217444  48 00 00 B4 */	b lbl_8021A5B8
-lbl_8021A508:
+/* 8021A500 00217440  40 80 00 08 */	bge .L_8021A508
+/* 8021A504 00217444  48 00 00 B4 */	b .L_8021A5B8
+.L_8021A508:
 /* 8021A508 00217448  80 6D 9B 54 */	lwz r3, moviePlayer__4Game@sda21(r13)
 /* 8021A50C 0021744C  38 80 00 01 */	li r4, 1
 /* 8021A510 00217450  38 A0 00 00 */	li r5, 0
 /* 8021A514 00217454  48 21 3E 75 */	bl unsuspend__Q24Game11MoviePlayerFlb
-/* 8021A518 00217458  48 00 00 A0 */	b lbl_8021A5B8
-lbl_8021A51C:
+/* 8021A518 00217458  48 00 00 A0 */	b .L_8021A5B8
+.L_8021A51C:
 /* 8021A51C 0021745C  80 6D 9B 54 */	lwz r3, moviePlayer__4Game@sda21(r13)
 /* 8021A520 00217460  48 21 3A 25 */	bl stop__Q24Game11MoviePlayerFv
 /* 8021A524 00217464  7F E3 FB 78 */	mr r3, r31
@@ -804,8 +796,8 @@ lbl_8021A51C:
 /* 8021A540 00217480  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 8021A544 00217484  7D 89 03 A6 */	mtctr r12
 /* 8021A548 00217488  4E 80 04 21 */	bctrl 
-/* 8021A54C 0021748C  48 00 01 30 */	b lbl_8021A67C
-lbl_8021A550:
+/* 8021A54C 0021748C  48 00 01 30 */	b .L_8021A67C
+.L_8021A550:
 /* 8021A550 00217490  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 8021A554 00217494  C0 5E 00 14 */	lfs f2, 0x14(r30)
 /* 8021A558 00217498  C0 23 00 54 */	lfs f1, 0x54(r3)
@@ -814,16 +806,16 @@ lbl_8021A550:
 /* 8021A564 002174A4  D0 3E 00 14 */	stfs f1, 0x14(r30)
 /* 8021A568 002174A8  C0 3E 00 14 */	lfs f1, 0x14(r30)
 /* 8021A56C 002174AC  FC 01 00 40 */	fcmpo cr0, f1, f0
-/* 8021A570 002174B0  40 80 01 0C */	bge lbl_8021A67C
+/* 8021A570 002174B0  40 80 01 0C */	bge .L_8021A67C
 /* 8021A574 002174B4  7F E3 FB 78 */	mr r3, r31
 /* 8021A578 002174B8  4B F3 58 2D */	bl clearHeap__Q24Game15BaseGameSectionFv
 /* 8021A57C 002174BC  80 7E 00 8C */	lwz r3, 0x8c(r30)
-/* 8021A580 002174C0  48 00 00 08 */	b lbl_8021A588
-lbl_8021A584:
+/* 8021A580 002174C0  48 00 00 08 */	b .L_8021A588
+.L_8021A584:
 /* 8021A584 002174C4  80 63 00 18 */	lwz r3, 0x18(r3)
-lbl_8021A588:
+.L_8021A588:
 /* 8021A588 002174C8  28 03 00 00 */	cmplwi r3, 0
-/* 8021A58C 002174CC  40 82 FF F8 */	bne lbl_8021A584
+/* 8021A58C 002174CC  40 82 FF F8 */	bne .L_8021A584
 /* 8021A590 002174D0  7F C3 F3 78 */	mr r3, r30
 /* 8021A594 002174D4  7F E4 FB 78 */	mr r4, r31
 /* 8021A598 002174D8  81 9E 00 00 */	lwz r12, 0(r30)
@@ -832,9 +824,9 @@ lbl_8021A588:
 /* 8021A5A4 002174E4  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 8021A5A8 002174E8  7D 89 03 A6 */	mtctr r12
 /* 8021A5AC 002174EC  4E 80 04 21 */	bctrl 
-/* 8021A5B0 002174F0  48 00 00 CC */	b lbl_8021A67C
-/* 8021A5B4 002174F4  48 00 00 C8 */	b lbl_8021A67C
-lbl_8021A5B8:
+/* 8021A5B0 002174F0  48 00 00 CC */	b .L_8021A67C
+/* 8021A5B4 002174F4  48 00 00 C8 */	b .L_8021A67C
+.L_8021A5B8:
 /* 8021A5B8 002174F8  80 6D 93 30 */	lwz r3, mgr__Q24Game9ItemOnyon@sda21(r13)
 /* 8021A5BC 002174FC  81 83 00 00 */	lwz r12, 0(r3)
 /* 8021A5C0 00217500  81 8C 00 08 */	lwz r12, 8(r12)
@@ -866,17 +858,17 @@ lbl_8021A5B8:
 /* 8021A628 00217568  48 21 30 41 */	bl update__Q24Game11MoviePlayerFP10ControllerP10Controller
 /* 8021A62C 0021756C  80 6D 9A 08 */	lwz r3, particle2dMgr@sda21(r13)
 /* 8021A630 00217570  28 03 00 00 */	cmplwi r3, 0
-/* 8021A634 00217574  41 82 00 08 */	beq lbl_8021A63C
+/* 8021A634 00217574  41 82 00 08 */	beq .L_8021A63C
 /* 8021A638 00217578  48 19 EF 79 */	bl update__14TParticle2dMgrFv
-lbl_8021A63C:
+.L_8021A63C:
 /* 8021A63C 0021757C  80 6D 9A 18 */	lwz r3, particleMgr@sda21(r13)
 /* 8021A640 00217580  28 03 00 00 */	cmplwi r3, 0
-/* 8021A644 00217584  41 82 00 14 */	beq lbl_8021A658
+/* 8021A644 00217584  41 82 00 14 */	beq .L_8021A658
 /* 8021A648 00217588  81 83 00 00 */	lwz r12, 0(r3)
 /* 8021A64C 0021758C  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 8021A650 00217590  7D 89 03 A6 */	mtctr r12
 /* 8021A654 00217594  4E 80 04 21 */	bctrl 
-lbl_8021A658:
+.L_8021A658:
 /* 8021A658 00217598  80 6D 9A A0 */	lwz r3, gGame2DMgr__6Screen@sda21(r13)
 /* 8021A65C 0021759C  48 1E 19 D1 */	bl update__Q26Screen9Game2DMgrFv
 /* 8021A660 002175A0  80 7F 01 28 */	lwz r3, 0x128(r31)
@@ -886,16 +878,16 @@ lbl_8021A658:
 /* 8021A670 002175B0  4E 80 04 21 */	bctrl 
 /* 8021A674 002175B4  7F E3 FB 78 */	mr r3, r31
 /* 8021A678 002175B8  4B F4 A9 31 */	bl doUpdate__Q24Game14BaseHIOSectionFv
-lbl_8021A67C:
+.L_8021A67C:
 /* 8021A67C 002175BC  BB 61 00 AC */	lmw r27, 0xac(r1)
 /* 8021A680 002175C0  80 01 00 C4 */	lwz r0, 0xc4(r1)
 /* 8021A684 002175C4  7C 08 03 A6 */	mtlr r0
 /* 8021A688 002175C8  38 21 00 C0 */	addi r1, r1, 0xc0
 /* 8021A68C 002175CC  4E 80 00 20 */	blr 
+.endfn exec__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection
 .endif
 
-.global onMovieDone__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game11MovieConfigUlUl
-onMovieDone__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game11MovieConfigUlUl:
+.fn onMovieDone__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game11MovieConfigUlUl, global
 /* 8021A690 002175D0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8021A694 002175D4  7C 08 02 A6 */	mflr r0
 /* 8021A698 002175D8  C0 02 BC D8 */	lfs f0, lbl_8051A038@sda21(r2)
@@ -908,9 +900,9 @@ onMovieDone__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ2
 /* 8021A6B4 002175F4  7C 08 03 A6 */	mtlr r0
 /* 8021A6B8 002175F8  38 21 00 10 */	addi r1, r1, 0x10
 /* 8021A6BC 002175FC  4E 80 00 20 */	blr 
+.endfn onMovieDone__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionPQ24Game11MovieConfigUlUl
 
-.global createResultNodes__Q34Game10SingleGame15MainResultStateFv
-createResultNodes__Q34Game10SingleGame15MainResultStateFv:
+.fn createResultNodes__Q34Game10SingleGame15MainResultStateFv, global
 /* 8021A6C0 00217600  94 21 FF C0 */	stwu r1, -0x40(r1)
 /* 8021A6C4 00217604  7C 08 02 A6 */	mflr r0
 /* 8021A6C8 00217608  90 01 00 44 */	stw r0, 0x44(r1)
@@ -924,14 +916,14 @@ createResultNodes__Q34Game10SingleGame15MainResultStateFv:
 /* 8021A6E8 00217628  83 AD 95 28 */	lwz r29, mgr__Q24Game10PelletItem@sda21(r13)
 /* 8021A6EC 0021762C  83 83 00 B4 */	lwz r28, 0xb4(r3)
 /* 8021A6F0 00217630  3B 7C 00 0C */	addi r27, r28, 0xc
-/* 8021A6F4 00217634  48 00 00 E4 */	b lbl_8021A7D8
-lbl_8021A6F8:
+/* 8021A6F4 00217634  48 00 00 E4 */	b .L_8021A7D8
+.L_8021A6F8:
 /* 8021A6F8 00217638  7F 63 DB 78 */	mr r3, r27
 /* 8021A6FC 0021763C  7F 44 D3 78 */	mr r4, r26
 /* 8021A700 00217640  4B FC AD 01 */	bl __cl__Q24Game11KindCounterFi
 /* 8021A704 00217644  88 03 00 00 */	lbz r0, 0(r3)
 /* 8021A708 00217648  28 00 00 00 */	cmplwi r0, 0
-/* 8021A70C 0021764C  41 82 00 C8 */	beq lbl_8021A7D4
+/* 8021A70C 0021764C  41 82 00 C8 */	beq .L_8021A7D4
 /* 8021A710 00217650  7F A3 EB 78 */	mr r3, r29
 /* 8021A714 00217654  7F 44 D3 78 */	mr r4, r26
 /* 8021A718 00217658  4B F5 16 71 */	bl getPelletConfig__Q24Game13BasePelletMgrFi
@@ -946,10 +938,10 @@ lbl_8021A6F8:
 /* 8021A73C 0021767C  7C 15 03 78 */	mr r21, r0
 /* 8021A740 00217680  4B E0 97 65 */	bl __nw__FUl
 /* 8021A744 00217684  7C 77 1B 79 */	or. r23, r3, r3
-/* 8021A748 00217688  41 82 00 0C */	beq lbl_8021A754
+/* 8021A748 00217688  41 82 00 0C */	beq .L_8021A754
 /* 8021A74C 0021768C  48 00 D2 BD */	bl __ct__Q34Game6Result5TNodeFv
 /* 8021A750 00217690  7C 77 1B 78 */	mr r23, r3
-lbl_8021A754:
+.L_8021A754:
 /* 8021A754 00217694  82 D8 01 70 */	lwz r22, 0x170(r24)
 /* 8021A758 00217698  7F 63 DB 78 */	mr r3, r27
 /* 8021A75C 0021769C  7F 44 D3 78 */	mr r4, r26
@@ -982,23 +974,23 @@ lbl_8021A754:
 /* 8021A7C8 00217708  80 04 00 BC */	lwz r0, 0xbc(r4)
 /* 8021A7CC 0021770C  7C 00 1A 14 */	add r0, r0, r3
 /* 8021A7D0 00217710  90 04 00 BC */	stw r0, 0xbc(r4)
-lbl_8021A7D4:
+.L_8021A7D4:
 /* 8021A7D4 00217714  3B 5A 00 01 */	addi r26, r26, 1
-lbl_8021A7D8:
+.L_8021A7D8:
 /* 8021A7D8 00217718  A0 1B 00 00 */	lhz r0, 0(r27)
 /* 8021A7DC 0021771C  7C 1A 00 00 */	cmpw r26, r0
-/* 8021A7E0 00217720  41 80 FF 18 */	blt lbl_8021A6F8
+/* 8021A7E0 00217720  41 80 FF 18 */	blt .L_8021A6F8
 /* 8021A7E4 00217724  83 AD 95 20 */	lwz r29, mgr__Q24Game13PelletOtakara@sda21(r13)
 /* 8021A7E8 00217728  3B 5C 00 04 */	addi r26, r28, 4
 /* 8021A7EC 0021772C  3B 60 00 00 */	li r27, 0
-/* 8021A7F0 00217730  48 00 00 E4 */	b lbl_8021A8D4
-lbl_8021A7F4:
+/* 8021A7F0 00217730  48 00 00 E4 */	b .L_8021A8D4
+.L_8021A7F4:
 /* 8021A7F4 00217734  7F 43 D3 78 */	mr r3, r26
 /* 8021A7F8 00217738  7F 64 DB 78 */	mr r4, r27
 /* 8021A7FC 0021773C  4B FC AC 05 */	bl __cl__Q24Game11KindCounterFi
 /* 8021A800 00217740  88 03 00 00 */	lbz r0, 0(r3)
 /* 8021A804 00217744  28 00 00 00 */	cmplwi r0, 0
-/* 8021A808 00217748  41 82 00 C8 */	beq lbl_8021A8D0
+/* 8021A808 00217748  41 82 00 C8 */	beq .L_8021A8D0
 /* 8021A80C 0021774C  7F A3 EB 78 */	mr r3, r29
 /* 8021A810 00217750  7F 64 DB 78 */	mr r4, r27
 /* 8021A814 00217754  4B F5 15 75 */	bl getPelletConfig__Q24Game13BasePelletMgrFi
@@ -1013,10 +1005,10 @@ lbl_8021A7F4:
 /* 8021A838 00217778  7C 14 03 78 */	mr r20, r0
 /* 8021A83C 0021777C  4B E0 96 69 */	bl __nw__FUl
 /* 8021A840 00217780  7C 77 1B 79 */	or. r23, r3, r3
-/* 8021A844 00217784  41 82 00 0C */	beq lbl_8021A850
+/* 8021A844 00217784  41 82 00 0C */	beq .L_8021A850
 /* 8021A848 00217788  48 00 D1 C1 */	bl __ct__Q34Game6Result5TNodeFv
 /* 8021A84C 0021778C  7C 77 1B 78 */	mr r23, r3
-lbl_8021A850:
+.L_8021A850:
 /* 8021A850 00217790  82 D8 01 70 */	lwz r22, 0x170(r24)
 /* 8021A854 00217794  7F 43 D3 78 */	mr r3, r26
 /* 8021A858 00217798  7F 64 DB 78 */	mr r4, r27
@@ -1049,25 +1041,25 @@ lbl_8021A850:
 /* 8021A8C4 00217804  80 04 00 BC */	lwz r0, 0xbc(r4)
 /* 8021A8C8 00217808  7C 00 1A 14 */	add r0, r0, r3
 /* 8021A8CC 0021780C  90 04 00 BC */	stw r0, 0xbc(r4)
-lbl_8021A8D0:
+.L_8021A8D0:
 /* 8021A8D0 00217810  3B 7B 00 01 */	addi r27, r27, 1
-lbl_8021A8D4:
+.L_8021A8D4:
 /* 8021A8D4 00217814  A0 1A 00 00 */	lhz r0, 0(r26)
 /* 8021A8D8 00217818  7C 1B 00 00 */	cmpw r27, r0
-/* 8021A8DC 0021781C  41 80 FF 18 */	blt lbl_8021A7F4
+/* 8021A8DC 0021781C  41 80 FF 18 */	blt .L_8021A7F4
 /* 8021A8E0 00217820  82 CD 95 00 */	lwz r22, mgr__Q24Game13PelletCarcass@sda21(r13)
 /* 8021A8E4 00217824  3A 9C 00 14 */	addi r20, r28, 0x14
 /* 8021A8E8 00217828  3B 40 00 00 */	li r26, 0
 /* 8021A8EC 0021782C  3B 60 00 00 */	li r27, 0
 /* 8021A8F0 00217830  3A A0 00 00 */	li r21, 0
-/* 8021A8F4 00217834  48 00 00 60 */	b lbl_8021A954
-lbl_8021A8F8:
+/* 8021A8F4 00217834  48 00 00 60 */	b .L_8021A954
+.L_8021A8F8:
 /* 8021A8F8 00217838  7E 83 A3 78 */	mr r3, r20
 /* 8021A8FC 0021783C  7E A4 AB 78 */	mr r4, r21
 /* 8021A900 00217840  4B FC AB 01 */	bl __cl__Q24Game11KindCounterFi
 /* 8021A904 00217844  88 03 00 00 */	lbz r0, 0(r3)
 /* 8021A908 00217848  28 00 00 00 */	cmplwi r0, 0
-/* 8021A90C 0021784C  41 82 00 44 */	beq lbl_8021A950
+/* 8021A90C 0021784C  41 82 00 44 */	beq .L_8021A950
 /* 8021A910 00217850  7E C3 B3 78 */	mr r3, r22
 /* 8021A914 00217854  7E A4 AB 78 */	mr r4, r21
 /* 8021A918 00217858  4B F5 14 71 */	bl getPelletConfig__Q24Game13BasePelletMgrFi
@@ -1084,14 +1076,14 @@ lbl_8021A8F8:
 /* 8021A944 00217884  88 03 00 00 */	lbz r0, 0(r3)
 /* 8021A948 00217888  7C 00 B9 D6 */	mullw r0, r0, r23
 /* 8021A94C 0021788C  7F 5A 02 14 */	add r26, r26, r0
-lbl_8021A950:
+.L_8021A950:
 /* 8021A950 00217890  3A B5 00 01 */	addi r21, r21, 1
-lbl_8021A954:
+.L_8021A954:
 /* 8021A954 00217894  A0 14 00 00 */	lhz r0, 0(r20)
 /* 8021A958 00217898  7C 15 00 00 */	cmpw r21, r0
-/* 8021A95C 0021789C  41 80 FF 9C */	blt lbl_8021A8F8
+/* 8021A95C 0021789C  41 80 FF 9C */	blt .L_8021A8F8
 /* 8021A960 002178A0  2C 1B 00 00 */	cmpwi r27, 0
-/* 8021A964 002178A4  40 81 00 60 */	ble lbl_8021A9C4
+/* 8021A964 002178A4  40 81 00 60 */	ble .L_8021A9C4
 /* 8021A968 002178A8  80 8D 94 90 */	lwz r4, playData__4Game@sda21(r13)
 /* 8021A96C 002178AC  38 60 00 50 */	li r3, 0x50
 /* 8021A970 002178B0  80 04 00 BC */	lwz r0, 0xbc(r4)
@@ -1099,10 +1091,10 @@ lbl_8021A954:
 /* 8021A978 002178B8  90 04 00 BC */	stw r0, 0xbc(r4)
 /* 8021A97C 002178BC  4B E0 95 29 */	bl __nw__FUl
 /* 8021A980 002178C0  7C 77 1B 79 */	or. r23, r3, r3
-/* 8021A984 002178C4  41 82 00 0C */	beq lbl_8021A990
+/* 8021A984 002178C4  41 82 00 0C */	beq .L_8021A990
 /* 8021A988 002178C8  48 00 D0 81 */	bl __ct__Q34Game6Result5TNodeFv
 /* 8021A98C 002178CC  7C 77 1B 78 */	mr r23, r3
-lbl_8021A990:
+.L_8021A990:
 /* 8021A990 002178D0  38 7F 00 24 */	addi r3, r31, 0x24
 /* 8021A994 002178D4  48 00 CF 75 */	bl getCarcassTexture__Q34Game12ResultTexMgr3MgrFv
 /* 8021A998 002178D8  7C 67 1B 78 */	mr r7, r3
@@ -1116,17 +1108,17 @@ lbl_8021A990:
 /* 8021A9B8 002178F8  7E E4 BB 78 */	mr r4, r23
 /* 8021A9BC 002178FC  38 7F 00 68 */	addi r3, r31, 0x68
 /* 8021A9C0 00217900  48 00 D1 B9 */	bl add__Q24Game5DNodeFPQ24Game5DNode
-lbl_8021A9C4:
+.L_8021A9C4:
 /* 8021A9C4 00217904  80 6D 94 90 */	lwz r3, playData__4Game@sda21(r13)
 /* 8021A9C8 00217908  80 63 00 B4 */	lwz r3, 0xb4(r3)
 /* 8021A9CC 0021790C  4B FC AE 75 */	bl clear__Q24Game16PelletCropMemoryFv
 /* 8021A9D0 00217910  38 60 00 74 */	li r3, 0x74
 /* 8021A9D4 00217914  4B E0 94 D1 */	bl __nw__FUl
 /* 8021A9D8 00217918  7C 60 1B 79 */	or. r0, r3, r3
-/* 8021A9DC 0021791C  41 82 00 0C */	beq lbl_8021A9E8
+/* 8021A9DC 0021791C  41 82 00 0C */	beq .L_8021A9E8
 /* 8021A9E0 00217920  48 1E 7E F9 */	bl __ct__Q32kh6Screen4IncPFv
 /* 8021A9E4 00217924  7C 60 1B 78 */	mr r0, r3
-lbl_8021A9E8:
+.L_8021A9E8:
 /* 8021A9E8 00217928  90 1F 00 B8 */	stw r0, 0xb8(r31)
 /* 8021A9EC 0021792C  38 00 00 00 */	li r0, 0
 /* 8021A9F0 00217930  98 1F 00 1C */	stb r0, 0x1c(r31)
@@ -1140,9 +1132,9 @@ lbl_8021A9E8:
 /* 8021AA10 00217950  7C 08 03 A6 */	mtlr r0
 /* 8021AA14 00217954  38 21 00 40 */	addi r1, r1, 0x40
 /* 8021AA18 00217958  4E 80 00 20 */	blr 
+.endfn createResultNodes__Q34Game10SingleGame15MainResultStateFv
 
-.global draw__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionR8Graphics
-draw__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionR8Graphics:
+.fn draw__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionR8Graphics, global
 /* 8021AA1C 0021795C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8021AA20 00217960  7C 08 02 A6 */	mflr r0
 /* 8021AA24 00217964  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1152,12 +1144,12 @@ draw__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionR8Graphics
 /* 8021AA34 00217974  7C 9E 23 78 */	mr r30, r4
 /* 8021AA38 00217978  A0 03 00 10 */	lhz r0, 0x10(r3)
 /* 8021AA3C 0021797C  28 00 00 02 */	cmplwi r0, 2
-/* 8021AA40 00217980  41 82 00 14 */	beq lbl_8021AA54
+/* 8021AA40 00217980  41 82 00 14 */	beq .L_8021AA54
 /* 8021AA44 00217984  28 00 00 03 */	cmplwi r0, 3
-/* 8021AA48 00217988  41 82 00 0C */	beq lbl_8021AA54
+/* 8021AA48 00217988  41 82 00 0C */	beq .L_8021AA54
 /* 8021AA4C 0021798C  28 00 00 04 */	cmplwi r0, 4
-/* 8021AA50 00217990  40 82 00 48 */	bne lbl_8021AA98
-lbl_8021AA54:
+/* 8021AA50 00217990  40 82 00 48 */	bne .L_8021AA98
+.L_8021AA54:
 /* 8021AA54 00217994  80 6D 96 A0 */	lwz r3, cameraMgr__4Game@sda21(r13)
 /* 8021AA58 00217998  48 03 76 75 */	bl update__Q24Game9CameraMgrFv
 /* 8021AA5C 0021799C  7F C3 F3 78 */	mr r3, r30
@@ -1175,17 +1167,17 @@ lbl_8021AA54:
 /* 8021AA8C 002179CC  81 8C 01 10 */	lwz r12, 0x110(r12)
 /* 8021AA90 002179D0  7D 89 03 A6 */	mtctr r12
 /* 8021AA94 002179D4  4E 80 04 21 */	bctrl 
-lbl_8021AA98:
+.L_8021AA98:
 /* 8021AA98 002179D8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 8021AA9C 002179DC  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 8021AAA0 002179E0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 8021AAA4 002179E4  7C 08 03 A6 */	mtlr r0
 /* 8021AAA8 002179E8  38 21 00 10 */	addi r1, r1, 0x10
 /* 8021AAAC 002179EC  4E 80 00 20 */	blr 
+.endfn draw__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSectionR8Graphics
 
 .if version == 1
-.global cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection
-cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection:
+.fn cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection, global
 /* 8021AAB0 002179F0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8021AAB4 002179F4  7C 08 02 A6 */	mflr r0
 /* 8021AAB8 002179F8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1202,10 +1194,10 @@ cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection:
 /* 8021AAE4 00217A24  4B FC AD 5D */	bl clear__Q24Game16PelletCropMemoryFv
 /* 8021AAE8 00217A28  80 9F 00 C4 */	lwz r4, 0xc4(r31)
 /* 8021AAEC 00217A2C  28 04 00 00 */	cmplwi r4, 0
-/* 8021AAF0 00217A30  41 82 00 0C */	beq lbl_8021AAFC
+/* 8021AAF0 00217A30  41 82 00 0C */	beq .L_8021AAFC
 /* 8021AAF4 00217A34  80 6D 93 E8 */	lwz r3, gameSystem__4Game@sda21(r13)
 /* 8021AAF8 00217A38  4B F9 B4 DD */	bl "addObjectMgr_reuse__Q24Game10GameSystemFP31TObjectNode<16GenericObjectMgr>"
-lbl_8021AAFC:
+.L_8021AAFC:
 /* 8021AAFC 00217A3C  80 7F 01 38 */	lwz r3, 0x138(r31)
 /* 8021AB00 00217A40  38 00 00 00 */	li r0, 0
 /* 8021AB04 00217A44  90 03 01 68 */	stw r0, 0x188(r3)
@@ -1218,9 +1210,9 @@ lbl_8021AAFC:
 /* 8021AB20 00217A60  7C 08 03 A6 */	mtlr r0
 /* 8021AB24 00217A64  38 21 00 10 */	addi r1, r1, 0x10
 /* 8021AB28 00217A68  4E 80 00 20 */	blr 
+.endfn cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection
 .else
-.global cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection
-cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection:
+.fn cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection, global
 /* 8021AAB0 002179F0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8021AAB4 002179F4  7C 08 02 A6 */	mflr r0
 /* 8021AAB8 002179F8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1237,10 +1229,10 @@ cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection:
 /* 8021AAE4 00217A24  4B FC AD 5D */	bl clear__Q24Game16PelletCropMemoryFv
 /* 8021AAE8 00217A28  80 9F 00 C4 */	lwz r4, 0xc4(r31)
 /* 8021AAEC 00217A2C  28 04 00 00 */	cmplwi r4, 0
-/* 8021AAF0 00217A30  41 82 00 0C */	beq lbl_8021AAFC
+/* 8021AAF0 00217A30  41 82 00 0C */	beq .L_8021AAFC
 /* 8021AAF4 00217A34  80 6D 93 E8 */	lwz r3, gameSystem__4Game@sda21(r13)
 /* 8021AAF8 00217A38  4B F9 B4 DD */	bl "addObjectMgr_reuse__Q24Game10GameSystemFP31TObjectNode<16GenericObjectMgr>"
-lbl_8021AAFC:
+.L_8021AAFC:
 /* 8021AAFC 00217A3C  80 7F 01 38 */	lwz r3, 0x138(r31)
 /* 8021AB00 00217A40  38 00 00 00 */	li r0, 0
 /* 8021AB04 00217A44  90 03 01 68 */	stw r0, 0x168(r3)
@@ -1253,46 +1245,46 @@ lbl_8021AAFC:
 /* 8021AB20 00217A60  7C 08 03 A6 */	mtlr r0
 /* 8021AB24 00217A64  38 21 00 10 */	addi r1, r1, 0x10
 /* 8021AB28 00217A68  4E 80 00 20 */	blr 
+.endfn cleanup__Q34Game10SingleGame15MainResultStateFPQ24Game17SingleGameSection
 .endif
 
-.global getSize__Q32kh6Screen20DispDayEndResultTitlFv
-getSize__Q32kh6Screen20DispDayEndResultTitlFv:
+.fn getSize__Q32kh6Screen20DispDayEndResultTitlFv, weak
 /* 8021AB2C 00217A6C  38 60 00 08 */	li r3, 8
 /* 8021AB30 00217A70  4E 80 00 20 */	blr 
+.endfn getSize__Q32kh6Screen20DispDayEndResultTitlFv
 
-.global getOwnerID__Q32kh6Screen20DispDayEndResultTitlFv
-getOwnerID__Q32kh6Screen20DispDayEndResultTitlFv:
+.fn getOwnerID__Q32kh6Screen20DispDayEndResultTitlFv, weak
 /* 8021AB34 00217A74  38 60 4B 48 */	li r3, 0x4b48
 /* 8021AB38 00217A78  4E 80 00 20 */	blr 
+.endfn getOwnerID__Q32kh6Screen20DispDayEndResultTitlFv
 
-.global getMemberID__Q32kh6Screen20DispDayEndResultTitlFv
-getMemberID__Q32kh6Screen20DispDayEndResultTitlFv:
+.fn getMemberID__Q32kh6Screen20DispDayEndResultTitlFv, weak
 /* 8021AB3C 00217A7C  3C 80 54 49 */	lis r4, 0x5449544C@ha
 /* 8021AB40 00217A80  3C 60 44 45 */	lis r3, 0x4445525F@ha
 /* 8021AB44 00217A84  38 84 54 4C */	addi r4, r4, 0x5449544C@l
 /* 8021AB48 00217A88  38 63 52 5F */	addi r3, r3, 0x4445525F@l
 /* 8021AB4C 00217A8C  4E 80 00 20 */	blr 
+.endfn getMemberID__Q32kh6Screen20DispDayEndResultTitlFv
 
-.global getSize__Q32kh6Screen16DispDayEndResultFv
-getSize__Q32kh6Screen16DispDayEndResultFv:
+.fn getSize__Q32kh6Screen16DispDayEndResultFv, weak
 /* 8021AB50 00217A90  38 60 00 68 */	li r3, 0x68
 /* 8021AB54 00217A94  4E 80 00 20 */	blr 
+.endfn getSize__Q32kh6Screen16DispDayEndResultFv
 
-.global getOwnerID__Q32kh6Screen16DispDayEndResultFv
-getOwnerID__Q32kh6Screen16DispDayEndResultFv:
+.fn getOwnerID__Q32kh6Screen16DispDayEndResultFv, weak
 /* 8021AB58 00217A98  38 60 4B 48 */	li r3, 0x4b48
 /* 8021AB5C 00217A9C  4E 80 00 20 */	blr 
+.endfn getOwnerID__Q32kh6Screen16DispDayEndResultFv
 
-.global getMemberID__Q32kh6Screen16DispDayEndResultFv
-getMemberID__Q32kh6Screen16DispDayEndResultFv:
+.fn getMemberID__Q32kh6Screen16DispDayEndResultFv, weak
 /* 8021AB60 00217AA0  3C 80 52 53 */	lis r4, 0x52534C54@ha
 /* 8021AB64 00217AA4  3C 60 00 44 */	lis r3, 0x0044455F@ha
 /* 8021AB68 00217AA8  38 84 4C 54 */	addi r4, r4, 0x52534C54@l
 /* 8021AB6C 00217AAC  38 63 45 5F */	addi r3, r3, 0x0044455F@l
 /* 8021AB70 00217AB0  4E 80 00 20 */	blr 
+.endfn getMemberID__Q32kh6Screen16DispDayEndResultFv
 
-.global doSetSubMemberAll__Q32kh6Screen16DispDayEndResultFv
-doSetSubMemberAll__Q32kh6Screen16DispDayEndResultFv:
+.fn doSetSubMemberAll__Q32kh6Screen16DispDayEndResultFv, weak
 /* 8021AB74 00217AB4  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8021AB78 00217AB8  7C 08 02 A6 */	mflr r0
 /* 8021AB7C 00217ABC  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1314,9 +1306,9 @@ doSetSubMemberAll__Q32kh6Screen16DispDayEndResultFv:
 /* 8021ABBC 00217AFC  7C 08 03 A6 */	mtlr r0
 /* 8021ABC0 00217B00  38 21 00 10 */	addi r1, r1, 0x10
 /* 8021ABC4 00217B04  4E 80 00 20 */	blr 
+.endfn doSetSubMemberAll__Q32kh6Screen16DispDayEndResultFv
 
-.global "invoke__46Delegate<Q34Game10SingleGame15MainResultState>Fv"
-"invoke__46Delegate<Q34Game10SingleGame15MainResultState>Fv":
+.fn "invoke__46Delegate<Q34Game10SingleGame15MainResultState>Fv", weak
 /* 8021ABC8 00217B08  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8021ABCC 00217B0C  7C 08 02 A6 */	mflr r0
 /* 8021ABD0 00217B10  7C 64 1B 78 */	mr r4, r3
@@ -1329,16 +1321,17 @@ doSetSubMemberAll__Q32kh6Screen16DispDayEndResultFv:
 /* 8021ABEC 00217B2C  7C 08 03 A6 */	mtlr r0
 /* 8021ABF0 00217B30  38 21 00 10 */	addi r1, r1, 0x10
 /* 8021ABF4 00217B34  4E 80 00 20 */	blr 
+.endfn "invoke__46Delegate<Q34Game10SingleGame15MainResultState>Fv"
 
-.global __sinit_singleGS_MainResult_cpp
-__sinit_singleGS_MainResult_cpp:
+.fn __sinit_singleGS_MainResult_cpp, local
 /* 8021ABF8 00217B38  3C 80 80 51 */	lis r4, __float_nan@ha
 /* 8021ABFC 00217B3C  38 00 FF FF */	li r0, -1
 /* 8021AC00 00217B40  C0 04 48 B0 */	lfs f0, __float_nan@l(r4)
-/* 8021AC04 00217B44  3C 60 80 4C */	lis r3, lbl_804C0648@ha
-/* 8021AC08 00217B48  90 0D 95 78 */	stw r0, lbl_80515BF8@sda21(r13)
-/* 8021AC0C 00217B4C  D4 03 06 48 */	stfsu f0, lbl_804C0648@l(r3)
-/* 8021AC10 00217B50  D0 0D 95 7C */	stfs f0, lbl_80515BFC@sda21(r13)
+/* 8021AC04 00217B44  3C 60 80 4C */	lis r3, govNAN___Q24Game5P2JST@ha
+/* 8021AC08 00217B48  90 0D 95 78 */	stw r0, gu32NAN___Q24Game5P2JST@sda21(r13)
+/* 8021AC0C 00217B4C  D4 03 06 48 */	stfsu f0, govNAN___Q24Game5P2JST@l(r3)
+/* 8021AC10 00217B50  D0 0D 95 7C */	stfs f0, gfNAN___Q24Game5P2JST@sda21(r13)
 /* 8021AC14 00217B54  D0 03 00 04 */	stfs f0, 4(r3)
 /* 8021AC18 00217B58  D0 03 00 08 */	stfs f0, 8(r3)
 /* 8021AC1C 00217B5C  4E 80 00 20 */	blr 
+.endfn __sinit_singleGS_MainResult_cpp

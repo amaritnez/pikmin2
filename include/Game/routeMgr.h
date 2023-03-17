@@ -1,21 +1,16 @@
 #ifndef _GAME_ROUTEMGR_H
 #define _GAME_ROUTEMGR_H
 
-#include "JSystem/JKR/JKRDisposer.h"
+#include "JSystem/JKernel/JKRDisposer.h"
 #include "Vector3.h"
 #include "types.h"
 #include "Container.h"
+#include "Condition.h"
 
 struct Graphics;
 struct Plane;
 
 namespace Game {
-struct WPSearchArg {
-};
-
-struct WPEdgeSearchArg {
-};
-
 enum WayPointFlags {
 	WPF_Unset    = 0x00,
 	WPF_Closed   = 0x01,
@@ -33,20 +28,22 @@ enum WayPointFlags {
 struct WayPoint : public JKRDisposer {
 	struct RoomList : public CNode {
 		inline RoomList()
-		    : CNode()
+		    : _18(-1)
 		{
-			_18 = -1;
 		}
-		virtual ~RoomList(); // _00
 
-		short _18;
+		virtual ~RoomList(); // _08 (weak)
+
+		// _00     = VTBL
+		// _00-_18 = CNode
+		s16 _18; // _18, possibly count?
 	};
 
 	WayPoint();
 
-	virtual ~WayPoint();                       // _00
-	virtual void directDraw(Graphics&);        // _04
-	virtual void directDraw_Simple(Graphics&); // _08
+	virtual ~WayPoint();                       // _08
+	virtual void directDraw(Graphics&);        // _0C
+	virtual void directDraw_Simple(Graphics&); // _10
 
 	void reset();
 	void setOpen(bool);
@@ -55,30 +52,32 @@ struct WayPoint : public JKRDisposer {
 
 	// Unused/inlined:
 	void getLink(int);
-	void includeRoom(short);
+	void includeRoom(s16);
 	void setVisit(bool);
 	void setVsColor(int);
-	bool hasLinkTo(short);
-	void addLink(short);
-	void killLink(short);
+	bool hasLinkTo(s16);
+	void addLink(s16);
+	void killLink(s16);
 	void read(Stream&);
 	void write(Stream&);
 	void createOffPlane(Plane&, WayPoint*);
 
-	RoomList m_roomList;  // _18
-	u8 m_flags;           // _34
-	short m_index;        // _36
-	short m_numFromLinks; // _38
-	short m_fromLinks[8]; // _3A
-	Vector3f m_position;  // _4C
-	float m_radius;       // _58
-	short m_numToLinks;   // _5C
-	short m_toLinks[8];   // _5E
-	u8 m_doFloorSnap;     // _6E
+	inline Vector3f getPosition() { return mPosition; }
+
+	RoomList mRoomList; // _18
+	u8 mFlags;          // _34
+	s16 mIndex;         // _36
+	s16 mNumFromLinks;  // _38
+	s16 mFromLinks[8];  // _3A
+	Vector3f mPosition; // _4C
+	f32 mRadius;        // _58
+	s16 mNumToLinks;    // _5C
+	s16 mToLinks[8];    // _5E
+	u8 mDoFloorSnap;    // _6E
 	u32 : 0;
 	u8 _70[4]; // _70
 	u8 _74;    // _74
-	short _76; // _76
+	s16 _76;   // _76
 };
 
 struct WayPointIterator {
@@ -91,9 +90,47 @@ struct WayPointIterator {
 	void next();
 	bool isDone();
 
-	s32 m_index;          // _00
-	WayPoint* m_wayPoint; // _04
-	bool _08;             // _08
+	s32 mIndex;          // _00
+	WayPoint* mWayPoint; // _04
+	bool _08;            // _08
+};
+
+struct WPCondition : public Condition<WayPoint> {
+	virtual bool satisfy(WayPoint*) = 0; // _08
+};
+
+struct WPSearchArg {
+	WPSearchArg(Vector3f& position, WPCondition* condition, u8 arg3, f32 arg4)
+	{
+		mPosition  = position;
+		mCondition = condition;
+		_10        = arg3;
+		_14        = arg4;
+	}
+
+	Vector3f mPosition;      // _00
+	WPCondition* mCondition; // _0C
+	u8 _10;                  // _10
+	f32 _14;                 // _14, radius maybe?
+};
+
+struct WPEdgeSearchArg {
+	WPEdgeSearchArg(Vector3f& startPos)
+	{
+		mWp2           = nullptr;
+		mWp1           = nullptr;
+		mInWater       = 0;
+		mRoomID        = -1;
+		mHandles       = nullptr;
+		mStartPosition = startPos;
+	}
+
+	Vector3f mStartPosition; // _00
+	bool mInWater;           // _0C
+	short* mHandles;         // _10
+	s16 mRoomID;             // _14
+	WayPoint* mWp1;          // _18
+	WayPoint* mWp2;          // _1C
 };
 
 struct RouteMgr : public Container<WayPoint> {
@@ -102,69 +139,83 @@ struct RouteMgr : public Container<WayPoint> {
 
 	RouteMgr();
 
-	virtual ~RouteMgr();                      // _00
-	virtual WayPoint* getWayPoint(short) = 0; // _24
-	virtual void read(Stream&)           = 0; // _28
-	virtual void write(Stream&);              // _2C
+	virtual ~RouteMgr();                    // _08
+	virtual WayPoint* getWayPoint(s16) = 0; // _2C
+	virtual void read(Stream&)         = 0; // _30
+	virtual void write(Stream&);            // _34
 
 	void makeInvertLinks();
 	bool linkable(WayPoint*, WayPoint*);
 	void refreshWater();
-	void getNearestWayPoint(WPSearchArg&);
-	void getNearestEdge(WPEdgeSearchArg&);
+	WayPoint* getNearestWayPoint(WPSearchArg&);
+	bool getNearestEdge(WPEdgeSearchArg&);
 	void setCloseAll();
-	void openRoom(short);
+	void openRoom(s16);
 	void directDraw(Graphics&, WayPoint*, WayPoint*);
 
 	// Unused/inlined:
 	void sonarCheck(SonarArg&);
-	void directDraw(Graphics&, WayPoint*, WayPoint*, int, short*);
+	void directDraw(Graphics&, WayPoint*, WayPoint*, int, s16*);
 
-	u16 m_count; // _1C
+	// _00     = VTBL
+	// _00-_1C = Container
+	u16 mCount; // _1C
 };
 
 struct EditorRouteMgr : public RouteMgr {
 	struct WPNode : public CNode {
 		WPNode()
-		    : CNode()
+		    : mWayPoint(nullptr)
 		{
-			m_wayPoint = nullptr;
 		}
-		virtual ~WPNode(); // _00
 
-		WayPoint* m_wayPoint; // _18
+		virtual ~WPNode(); // _08 (weak)
+
+		// _00     = VTBL
+		// _00-_18 = CNode
+		WayPoint* mWayPoint; // _18
 	};
 
 	EditorRouteMgr();
 
-	virtual ~EditorRouteMgr();            // _00
-	virtual void* getNext(void*);         // _0C
-	virtual void* getStart();             // _10
-	virtual void* getEnd();               // _14
-	virtual WayPoint* get(void*);         // _18
-	virtual WayPoint* getWayPoint(short); // _24
-	virtual void read(Stream&);           // _28
+	virtual ~EditorRouteMgr();          // _08 (weak)
+	virtual void* getNext(void*);       // _14
+	virtual void* getStart();           // _18
+	virtual void* getEnd();             // _1C
+	virtual WayPoint* get(void*);       // _20
+	virtual WayPoint* getWayPoint(s16); // _2C
+	virtual void read(Stream&);         // _30
 
 	void addWayPoint(WayPoint*);
 	void delWayPoint(WayPoint*);
 
-	WPNode m_node; // _20
+	// _00     = VTBL
+	// _00-_20 = RouteMgr
+	WPNode mNode; // _20
 };
 
 struct GameRouteMgr : public RouteMgr {
 	GameRouteMgr();
 
-	virtual ~GameRouteMgr();              // _00
-	virtual void* getNext(void*);         // _0C
-	virtual void* getStart();             // _10
-	virtual void* getEnd();               // _14
-	virtual WayPoint* get(void*);         // _18
-	virtual WayPoint* getWayPoint(short); // _24
-	virtual void read(Stream&);           // _28
+	virtual ~GameRouteMgr();              // _08
+	virtual void* getNext(void*);         // _14
+	virtual void* getStart();             // _18
+	virtual void* getEnd();               // _1C
+	virtual WayPoint* get(void*);         // _20
+	virtual WayPoint* getWayPoint(short); // _2C
+	virtual void read(Stream&);           // _30
 
-	WayPoint* m_wayPoints; // _20
+	WayPoint* mWayPoints; // _20
 };
 
 } // namespace Game
+
+struct WPExcludeSpot : public Game::WPCondition {
+	virtual bool satisfy(Game::WayPoint*); // _08 (weak)
+};
+
+struct WPFindCond : public Game::WPCondition {
+	virtual bool satisfy(Game::WayPoint*); // _08 (weak)
+};
 
 #endif

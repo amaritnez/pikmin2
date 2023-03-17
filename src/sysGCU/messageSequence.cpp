@@ -2,7 +2,7 @@
 #include "P2JME/TSequenceProcessor.h"
 #include "P2JME/P2JME.h"
 #include "System.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "PSSystem/PSSystemIF.h"
 
 /*
@@ -101,7 +101,7 @@ TSequenceProcessor::TSequenceProcessor(const JMessage::TReference* ref, JMessage
     , _64(0)
 {
 	for (int i = 0; i < 4; i++) {
-		_68.byteView[i] = 0;
+		mFlags.byteView[i] = 0;
 	}
 
 	_4C = 0.11f;
@@ -114,7 +114,7 @@ TSequenceProcessor::TSequenceProcessor(const JMessage::TReference* ref, JMessage
  */
 void TSequenceProcessor::do_begin(const void* arg0, const char* arg1)
 {
-	_68.typeView &= 0xFFFFFFF7;
+	mFlags.typeView &= 0xFFFFFFF7;
 	_4C = 0.11f;
 	_50 = _4C;
 	_5C = 0;
@@ -223,7 +223,7 @@ bool TSequenceProcessor::do_systemTagCode(u16, const void*, u32) { return false;
  */
 bool TSequenceProcessor::do_isReady()
 {
-	u32 flags  = _68.typeView;
+	u32 flags  = mFlags.typeView;
 	bool check = false;
 
 	if (flags & 1) {
@@ -231,14 +231,14 @@ bool TSequenceProcessor::do_isReady()
 	}
 
 	if (flags & 2) {
-		_50 -= sys->m_secondsPerFrame;
+		_50 -= sys->mDeltaTime;
 		if (_50 <= 0.0f) {
 			bool checkVars = (_54 || _58);
 			P2ASSERTLINE(381, checkVars);
 
-			if ((_54 && (_54->m_padButton.m_buttonDown & PAD_BUTTON_A)) || (_58 && (_58->m_padButton.m_buttonDown & PAD_BUTTON_A))) {
+			if ((_54 && (_54->mButton.mButtonDown & PAD_BUTTON_A)) || (_58 && (_58->mButton.mButtonDown & PAD_BUTTON_A))) {
 				resetAbtnWait();
-				_68.typeView &= 0xFFFFFFF7;
+				mFlags.typeView &= 0xFFFFFFF7;
 			}
 		}
 	} else {
@@ -246,15 +246,15 @@ bool TSequenceProcessor::do_isReady()
 		if (flags & 8) {
 			frameCount = 10.0f;
 		} else {
-			if ((_54 && (_54->m_padButton.m_buttonDown & PAD_BUTTON_B)) || (_58 && (_58->m_padButton.m_buttonDown & PAD_BUTTON_B))) {
+			if ((_54 && (_54->mButton.mButtonDown & PAD_BUTTON_B)) || (_58 && (_58->mButton.mButtonDown & PAD_BUTTON_B))) {
 				doFastForwardSE();
-				_68.typeView |= 8;
-			} else if ((_54 && (_54->m_padButton.m_mask & PAD_BUTTON_A)) || (_58 && (_58->m_padButton.m_mask & PAD_BUTTON_A))) {
+				mFlags.typeView |= 8;
+			} else if ((_54 && (_54->getButton() & PAD_BUTTON_A)) || (_58 && (_58->getButton() & PAD_BUTTON_A))) {
 				frameCount = 2.5f;
 			}
 		}
 
-		_50 = -((frameCount * sys->m_secondsPerFrame) - _50);
+		_50 = -((frameCount * sys->mDeltaTime) - _50);
 		if (_50 <= 0.0f) {
 			check = true;
 		}
@@ -387,9 +387,9 @@ bool TSequenceProcessor::tagControl(u16 arg0, const void* arg1, u32 arg2)
  */
 void TSequenceProcessor::setAbtnWait()
 {
-	_68.typeView |= 2;
+	mFlags.typeView |= 2;
 	_50 = 0.5f;
-	_68.typeView &= 0xFFFFFFFB;
+	mFlags.typeView &= 0xFFFFFFFB;
 	doCharacterSEEnd();
 }
 
@@ -399,7 +399,7 @@ void TSequenceProcessor::setAbtnWait()
  * Size:	000004
  */
 // WEAK - in header.
-// void TSequenceProcessor::doCharacterSEEnd(void) { }
+// void TSequenceProcessor::doCharacterSEEnd() { }
 
 /*
  * --INFO--
@@ -409,9 +409,9 @@ void TSequenceProcessor::setAbtnWait()
 void TSequenceProcessor::resetAbtnWait()
 {
 	doResetAbtnWaitSE();
-	_68.typeView &= 0xFFFFFFFD;
+	mFlags.typeView &= 0xFFFFFFFD;
 	_50 = _4C;
-	_68.typeView |= 4;
+	mFlags.typeView |= 4;
 	_5C = 0;
 }
 
@@ -430,7 +430,7 @@ void TSequenceProcessor::doResetAbtnWaitSE() { PSSystem::spSysIF->playSystemSe(0
 void TSequenceProcessor::reset()
 {
 	for (int i = 0; i < 4; i++) {
-		_68.byteView[i] = 0;
+		mFlags.byteView[i] = 0;
 	}
 }
 

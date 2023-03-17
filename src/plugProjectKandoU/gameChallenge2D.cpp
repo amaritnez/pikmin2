@@ -11,7 +11,7 @@ namespace Game {
 Challenge2D_TitleInfo::Challenge2D_TitleInfo(int count)
 {
 	pInfoArray = new Info[count];
-	m_count    = count;
+	mCount     = count;
 }
 
 /*
@@ -19,18 +19,17 @@ Challenge2D_TitleInfo::Challenge2D_TitleInfo(int count)
  * Address:	80235104
  * Size:	000030
  */
-Challenge2D_TitleInfo::Info::Info(void)
+Challenge2D_TitleInfo::Info::Info()
 {
-	m_bool           = false;
-	m_floorCount     = 0;
-	m_sprayCounts[1] = 0;
-	m_sprayCounts[0] = 0;
-	m_0C             = 0;
-	m_pPikiContainer = nullptr;
-	m_pHighscore2    = nullptr;
-	m_pHighscore1    = nullptr;
-	m_1C             = 0;
-	m_bool           = false;
+	mFloorCount     = 0;
+	mSprayCounts[1] = 0;
+	mSprayCounts[0] = 0;
+	mTimeLimit      = 0;
+	mPikiContainer  = nullptr;
+	mHighscore2     = nullptr;
+	mHighscore1     = nullptr;
+	mStageIndex     = 0;
+	mDisplayFlag.clear();
 }
 
 /*
@@ -40,7 +39,7 @@ Challenge2D_TitleInfo::Info::Info(void)
  */
 Challenge2D_TitleInfo::Info* Challenge2D_TitleInfo::operator()(int count)
 {
-	P2ASSERTBOUNDSLINE(31, 0, count, m_count);
+	P2ASSERTBOUNDSLINE(31, 0, count, mCount);
 	return &pInfoArray[count];
 }
 
@@ -51,8 +50,8 @@ Challenge2D_TitleInfo::Info* Challenge2D_TitleInfo::operator()(int count)
  */
 Vs2D_TitleInfo::Vs2D_TitleInfo(int count)
 {
-	pInfoArray  = new Info[count];
-	m_infoCount = count;
+	pInfoArray = new Info[count];
+	mInfoCount = count;
 }
 
 /*
@@ -60,7 +59,7 @@ Vs2D_TitleInfo::Vs2D_TitleInfo(int count)
  * Address:	80235214
  * Size:	00000C
  */
-Vs2D_TitleInfo::Info::Info(void) { m_info = 0; }
+Vs2D_TitleInfo::Info::Info() { mInfo = 0; }
 
 /*
  * --INFO--
@@ -70,8 +69,8 @@ Vs2D_TitleInfo::Info::Info(void) { m_info = 0; }
 Vs2D_TitleInfo::Info* Vs2D_TitleInfo::operator()(int infoIndex)
 {
 	bool amLegal = ((infoIndex >= 0));
-	JUT_ASSERTLINE(52, (amLegal && (infoIndex < m_infoCount)), "ZANNEN\n");
-	P2ASSERTBOUNDSLINE(54, 0, infoIndex, m_infoCount);
+	JUT_ASSERTLINE(52, (amLegal && (infoIndex < mInfoCount)), "ZANNEN\n");
+	P2ASSERTBOUNDSLINE(54, 0, infoIndex, mInfoCount);
 	return &pInfoArray[infoIndex];
 }
 
@@ -80,15 +79,14 @@ Vs2D_TitleInfo::Info* Vs2D_TitleInfo::operator()(int infoIndex)
  * Address:	802352C8
  * Size:	000028
  */
-Challenge2D_ResultInfo::Challenge2D_ResultInfo(void)
+Challenge2D_ResultInfo::Challenge2D_ResultInfo()
 {
-	m_bool = false;
-	m_bool = false;
-	m_08   = 0;
-	m_0C   = 0;
-	m_10   = 0;
-	m_14   = 0;
-	m_1C   = 0;
-	m_18   = 0;
+	mDisplayFlag.clear();
+	mTimeLeft     = 0;
+	mPokos        = 0;
+	mPikminLeft   = 0;
+	mScore        = 0;
+	mHighScore    = nullptr;
+	mDisplayIndex = 0;
 }
 } // namespace Game

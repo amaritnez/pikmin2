@@ -1,420 +1,119 @@
-#include "types.h"
-#include "JSystem/JKR/JKRDisposer.h"
-// #include "PSGame/PSGame.h"
-#include "PSSystem/PSScene.h"
+#include "PSM/Demo.h"
 #include "SoundID.h"
+#include "utilityU.h"
+#include "PSM/Scene.h"
+#include "PSSystem/PSGame.h"
+#include "PSM/ObjCalc.h"
+
+static inline bool streq(const char* a, const char* b)
+{
+	if (a == nullptr || b == nullptr)
+		return false;
+	if (strcmp(a, b) == 0)
+		return true;
+	else
+		return false;
+}
 
 namespace PSM {
-class Demo : public JKRDisposer { /* #Extends(JKRDisposer) #Size(0x2c) (see
-	                                 Game::MoviePlayer::loadResource) */
-	s8 unknown1_0x18;
-	u8 doStartWithAudio; /* From PikDecomp. */
-	u8 field5_0x1a;
-	u8 field6_0x1b;
-	enum SoundID soundID;  /* From PikDecomp. */
-	enum SoundID systemSE; /* Name from PikDecomp. */
-	void* (*funcptr)(void);
-	char* currentDemoName; /* Name from PikDecomp. */
-
-	virtual ~Demo();
-	// virtual init(Vec *,Vec *,float *[][][][], PSM::DemoArg)
-	Demo();
-};
-} // namespace PSM
 
 /*
-    Generated from dpostproc
+ * --INFO--
+ * Address:	........
+ * Size:	000078
+ */
+void DemoInitiator::equalSet(const char*, const char*, u8)
+{
+	// UNUSED FUNCTION
+}
 
-    .section .rodata  # 0x804732E0 - 0x8049E220
-    .balign 8
-    lbl_8049D080:
-        .asciz "PSMainSide_Demo.cpp"
-    .balign 4
-    lbl_8049D094:
-        .asciz "P2Assert"
-    .balign 4
-    lbl_8049D0A0:
-        .asciz "PSGame.h"
-    .balign 4
-    lbl_8049D0AC:
-        .asciz "PSScene.h"
-    .balign 4
-    lbl_8049D0B8:
-        .asciz "get sound scene at\ninvalid timming\n"
-    .balign 4
-    lbl_8049D0DC:
-        .asciz "s21_dayend_takeoff"
-    .balign 4
-    audio_info: # unnamed rodata struct formatted as u32 array at 0x8049D0F0
-        .4byte 0
-        .4byte 0x7F030000
-        .float 1.0
-        .float 0.0078125
-    .balign 4
-    lbl_8049D100:
-        .asciz "s02_dayend_result"
-    .balign 4
-    lbl_8049D114:
-        .asciz "s01_dayend"
-    .balign 4
-    lbl_8049D120:
-        .asciz "s03_orimadown"
-    .balign 4
-    lbl_8049D130:
-        .asciz "s05_pikminzero"
-    .balign 4
-    lbl_8049D140:
-        .asciz "s11_dope_first_b"
-    .balign 4
-    lbl_8049D154:
-        .asciz "s11_dope_first_r"
-    .balign 4
-    lbl_8049D168:
-        .asciz "s11_dopebin_first_b"
-    .balign 4
-    lbl_8049D17C:
-        .asciz "s11_dopebin_first_r"
-    .balign 4
-    lbl_8049D190:
-        .asciz "s17_suck_equipment"
-    .balign 4
-    lbl_8049D1A4:
-        .asciz "s22_cv_suck_equipment"
-    .balign 4
-    lbl_8049D1BC:
-        .asciz "s10_suck_treasure"
-    .balign 4
-    lbl_8049D1D0:
-        .asciz "s22_cv_suck_treasure"
-    .balign 4
-    lbl_8049D1E8:
-        .asciz "s04_dayend_orimadown"
-    .balign 4
-    lbl_8049D200:
-        .asciz "s06_dayend_pikminzero"
-    .balign 4
-    lbl_8049D218:
-        .asciz "g1A_red_doping"
-    .balign 4
-    lbl_8049D228:
-        .asciz "g1B_black_doping"
-    .balign 4
-    lbl_8049D23C:
-        .asciz "g02_boot_onyonR"
-    .balign 4
-    lbl_8049D24C:
-        .asciz "g1E_boot_onyonY"
-    .balign 4
-    lbl_8049D25C:
-        .asciz "g20_boot_onyonB"
-    .balign 4
-    lbl_8049D26C:
-        .asciz "g03_meet_redpikmin"
-    .balign 4
-    lbl_8049D280:
-        .asciz "g1F_meet_yellowpikmin"
-    .balign 4
-    lbl_8049D298:
-        .asciz "g21_meet_bluepikmin"
-    .balign 4
-    lbl_8049D2AC:
-        .asciz "g24_meet_blackpikmin"
-    .balign 4
-    lbl_8049D2C4:
-        .asciz "g27_meet_whitepikmin"
-    .balign 4
-    lbl_8049D2DC:
-        .asciz "g33_camera_demo"
-    .balign 4
-    lbl_8049D2EC:
-        .asciz "s09_holein"
-    .balign 4
-    lbl_8049D2F8:
-        .asciz "s16_find_item_00"
-    .balign 4
-    lbl_8049D30C:
-        .asciz "s16_find_item_01"
-    .balign 4
-    lbl_8049D320:
-        .asciz "s16_find_item_02"
-    .balign 4
-    lbl_8049D334:
-        .asciz "s16_find_item_03"
-    .balign 4
-    lbl_8049D348:
-        .asciz "s16_find_item_04"
-    .balign 4
-    lbl_8049D35C:
-        .asciz "s16_find_item_05"
-    .balign 4
-    lbl_8049D370:
-        .asciz "s16_find_item_06"
-    .balign 4
-    lbl_8049D384:
-        .asciz "s16_find_item_07"
-    .balign 4
-    lbl_8049D398:
-        .asciz "s16_find_item_08"
-    .balign 4
-    lbl_8049D3AC:
-        .asciz "s16_find_item_09"
-    .balign 4
-    lbl_8049D3C0:
-        .asciz "s16_find_item_10"
-    .balign 4
-    lbl_8049D3D4:
-        .asciz "s16_find_item_11"
-    .balign 4
-    lbl_8049D3E8:
-        .asciz "s16_find_item_12"
-    .balign 4
-    lbl_8049D3FC:
-        .asciz "s0C_cv_escape"
-    .balign 4
-    lbl_8049D40C:
-        .asciz "g01_pick_me"
-    .balign 4
-    lbl_8049D418:
-        .asciz "g04_find_treasure"
-    .balign 4
-    lbl_8049D42C:
-        .asciz "g05_find_cave_f_01"
-    .balign 4
-    lbl_8049D440:
-        .asciz "g05_find_cave_f_02"
-    .balign 4
-    lbl_8049D454:
-        .asciz "g05_find_cave_f_03"
-    .balign 4
-    lbl_8049D468:
-        .asciz "g05_find_cave_f_04"
-    .balign 4
-    lbl_8049D47C:
-        .asciz "g05_find_cave_l_01"
-    .balign 4
-    lbl_8049D490:
-        .asciz "g05_find_cave_l_02"
-    .balign 4
-    lbl_8049D4A4:
-        .asciz "g05_find_cave_l_03"
-    .balign 4
-    lbl_8049D4B8:
-        .asciz "g05_find_cave_t_01"
-    .balign 4
-    lbl_8049D4CC:
-        .asciz "g05_find_cave_t_02"
-    .balign 4
-    lbl_8049D4E0:
-        .asciz "g05_find_cave_t_03"
-    .balign 4
-    lbl_8049D4F4:
-        .asciz "g05_find_cave_y_01"
-    .balign 4
-    lbl_8049D508:
-        .asciz "g05_find_cave_y_02"
-    .balign 4
-    lbl_8049D51C:
-        .asciz "g05_find_cave_y_03"
-    .balign 4
-    lbl_8049D530:
-        .asciz "g05_find_cave_y_04"
-    .balign 4
-    lbl_8049D544:
-        .asciz "g0A_cv_find_hole"
-    .balign 4
-    lbl_8049D558:
-        .asciz "g0B_cv_find_fountain"
-    .balign 4
-    lbl_8049D570:
-        .asciz "g18_find_gate"
-    .balign 4
-    lbl_8049D580:
-        .asciz "g19_find_rock"
-    .balign 4
-    lbl_8049D590:
-        .asciz "g2D_red_extract"
-    .balign 4
-    lbl_8049D5A0:
-        .asciz "g2E_black_extract"
-    .balign 4
-    lbl_8049D5B4:
-        .asciz "g34_yellow_extract"
-    .balign 4
-    lbl_8049D5C8:
-        .asciz "g37_get_louie"
-    .balign 4
-    lbl_8049D5D8:
-        .asciz "g38_find_whitepom"
-    .balign 4
-    lbl_8049D5EC:
-        .asciz "g39_find_blackpom"
-    .balign 4
-    lbl_8049D600:
-        .asciz "x01_gamestart"
-    .balign 4
-    lbl_8049D610:
-        .asciz "x02_watch_red_pikmin"
-    .balign 4
-    lbl_8049D628:
-        .asciz "x06_join"
-    .balign 4
-    lbl_8049D634:
-        .asciz "x12_drain_water"
-    .balign 4
-    lbl_8049D644:
-        .asciz "x10_find_yellow_onyon"
-    .balign 4
-    lbl_8049D65C:
-        .asciz "x11_find_blue_onyon"
-    .balign 4
-    lbl_8049D670:
-        .asciz "x16_hiba"
-    .balign 4
-    lbl_8049D67C:
-        .asciz "x13_exp_leafchappy"
-    .balign 4
-    lbl_8049D690:
-        .asciz "x20_blackman"
-    .balign 4
-    lbl_8049D6A0:
-        .asciz "s13_pikmin_supply"
-    .balign 4
-    lbl_8049D6B4:
-        .asciz "s0B_cv_coursein"
-    .balign 4
-    lbl_8049D6C4:
-        .asciz "s0E_return_cave"
-    .balign 4
-    lbl_8049D6D4:
-        .asciz "e00_E3_cavestart"
-    .balign 4
-    lbl_8049D6E8:
-        .asciz "g07_cv_gamestart"
-    .balign 4
-    lbl_8049D6FC:
-        .asciz "g08_first_return"
-    .balign 4
-    lbl_8049D710:
-        .asciz "g09_first_sunset"
-    .balign 4
-    lbl_8049D724:
-        .asciz "g16_100_pikmin"
-    .balign 4
-    lbl_8049D734:
-        .asciz "g16_95_pikmin"
-    .balign 4
-    lbl_8049D744:
-        .asciz "g26_inout_black"
-    .balign 4
-    lbl_8049D754:
-        .asciz "g29_inout_white"
-    .balign 4
-    lbl_8049D764:
-        .asciz "g2B_white_poison"
-    .balign 4
-    lbl_8049D778:
-        .asciz "g2C_inout_red"
-    .balign 4
-    lbl_8049D788:
-        .asciz "g36_find_louie"
-    .balign 4
-    lbl_8049D798:
-        .asciz "x01_coursein_forest"
-    .balign 4
-    lbl_8049D7AC:
-        .asciz "x01_coursein_yakushima"
-    .balign 4
-    lbl_8049D7C4:
-        .asciz "x01_coursein_last"
-    .balign 4
-    lbl_8049D7D8:
-        .asciz "x04_exp_y"
-    .balign 4
-    lbl_8049D7E4:
-        .asciz "x05_louiestart"
-    .balign 4
-    lbl_8049D7F4:
-        .asciz "x07_first_recovery"
-    .balign 4
-    lbl_8049D808:
-        .asciz "x08_cv_suck_carcass"
-    .balign 4
-    lbl_8049D81C:
-        .asciz "x09_exp_detector"
-    .balign 4
-    lbl_8049D830:
-        .asciz "x14_white_dig"
-    .balign 4
-    lbl_8049D840:
-        .asciz "g32_get_map"
-    .balign 4
-    lbl_8049D84C:
-        .asciz "g35_president_gamestart"
-    .balign 4
-    lbl_8049D864:
-        .asciz "x15_exp_x"
-    .balign 4
-    lbl_8049D870:
-        .asciz "x17_join_guide"
-    .balign 4
-    lbl_8049D880:
-        .asciz "x18_exp_pellet"
-    .balign 4
-    lbl_8049D890:
-        .asciz "x03_find_red_onyon"
-    .balign 4
-    lbl_8049D8A4:
-        .asciz "x19_vs_bedama"
-    .balign 4
-    lbl_8049D8B4:
-        .asciz "g2F_appear_hole"
-    .balign 4
-    lbl_8049D8C4:
-        .asciz "g30_appear_fountain"
-    .balign 4
-    lbl_8049D8D8:
-        .asciz "PSMainSide_Scene.h"
-    .balign 4
-    lbl_8049D8EC:
-        .asciz "PSCommon.h"
-    .balign 4
-    lbl_8049D8F8:
-        .asciz "s12_cv_giveup"
+/*
+ * --INFO--
+ * Address:	........
+ * Size:	000074
+ */
+void DemoInitiator::equalSetStream(const char* buffer, u32 AST_ID, u8 byte)
+{
+	mSongChosen = false;
+	bool check  = false;
+	if (mByte && mName) {
+		check = true;
+	}
+	P2ASSERTLINE(41, check);
 
-    .section .data, "wa"  # 0x8049E220 - 0x804EFC20
-    .balign 8
-    .global __vt__Q23PSM4Demo
-    __vt__Q23PSM4Demo:
-        .4byte 0
-        .4byte 0
-        .4byte __dt__Q23PSM4DemoFv
-        .4byte init__Q23PSM4DemoFP3VecP3VecPA4_fQ23PSM7DemoArg
-        .4byte initiate__Q23PSM4DemoFQ23PSM7DemoArgPUc
-        .4byte initDemoScene__Q23PSM4DemoFRQ23PSM7DemoArgPQ23PSM10Scene_Demo
+	*mAST_ID = AST_ID;
+	strcpy((char*)buffer, "");
+	*mByte = byte;
+}
 
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .balign 8
-    lbl_80520C90:
-        .asciz ""
-    .balign 4
-    lbl_80520C94:
-        .asciz "key"
-*/
+/*
+ * --INFO--
+ * Address:	........
+ * Size:	000080
+ */
+void DemoInitiator::equalSetEx(const char*)
+{
+	// UNUSED FUNCTION
+}
 
-namespace PSM {
+/*
+ * --INFO--
+ * Address:	........
+ * Size:	00007C
+ */
+void DemoInitiator::equalSetExStream(const char*, bool, u32, u8)
+{
+	// UNUSED FUNCTION
+}
+
+/*
+ * --INFO--
+ * Address:	........
+ * Size:	000058
+ */
+void DemoInitiator::is(const char*)
+{
+	// UNUSED FUNCTION
+}
+
+/*
+ * --INFO--
+ * Address:	........
+ * Size:	00007C
+ */
+void DemoInitiator::numberSet(const char*, const char*, u8)
+{
+	// UNUSED FUNCTION
+}
+
+/*
+ * --INFO--
+ * Address:	........
+ * Size:	00004C
+ */
+void DemoInitiator::setDefault(const char* comp, u8 byte, u32 id)
+{
+	if (!mSongChosen) {
+		if (strcmp(mName, comp) == 0) {
+			mSongChosen = true;
+			*mAST_ID    = id;
+			*mByte      = byte;
+		}
+	}
+}
 
 /*
  * --INFO--
  * Address:	80463FE8
  * Size:	00005C
  */
-Demo::Demo() // matches
+Demo::Demo()
 {
-	unknown1_0x18    = 0;
-	doStartWithAudio = 1;
-	soundID          = _PSSE_FORCE_UINT;
-	systemSE         = _PSSE_FORCE_UINT;
-	funcptr          = nullptr;
+	_18               = 0;
+	mDoStartWithAudio = 1;
+	mSoundID          = (SoundID)-1;
+	mSystemSE         = (SoundID)-1;
+	mFuncptr          = nullptr;
 };
 
 /*
@@ -422,7 +121,7 @@ Demo::Demo() // matches
  * Address:	80464044
  * Size:	00020C
  */
-void Demo::init(Vec*, Vec*, float (*)[4], PSM::DemoArg)
+void Demo::init(Vec*, Vec*, Mtx, PSM::DemoArg)
 {
 	/*
 	stwu     r1, -0x40(r1)
@@ -689,755 +388,242 @@ lbl_80464370:
 	*/
 }
 
+const char* filler3 = "PSGame.h";
+const char* filler4 = "PSScene.h";
+const char* filler5 = "get sound scene at\ninvalid timming\n";
+const char* filler6 = "s21_dayend_takeoff";
+
 /*
  * --INFO--
  * Address:	80464384
  * Size:	001DA4
  */
-#undef __FILE__
-#define __FILE__ "PSMainSide_Demo.cpp"
-
-const char* filler1          = "PSMainSide_Demo.cpp";
-const char* filler2          = "P2Assert";
-const char* filler3          = "PSGame.h";
-const char* filler4          = "PSScene.h";
-const char* filler5          = "get sound scene at\ninvalid timming\n";
-const char* filler6          = "s21_dayend_takeoff";
-const u32 audio_info_data[4] = { 0.0f, 0x7F030000, 1.0f, 0.0078125f };
-static inline bool streq(char* a, char* b)
+PSSystem::BgmSeq* Demo::initiate(DemoArg demoArg, u8* unk)
 {
-	if (a == nullptr || b == nullptr)
-		return 0;
-	if (strcmp(a, b) == 0)
-		return 1;
-	else
-		return 0;
-}
+	DemoInitiator init            = DemoInitiator(unk, demoArg.mName);
+	JAInter::SoundInfo audio_info = { 0x00000000, 0x7F030000, 0x3F800000, 0x3C000000 };
 
-// extern JAIStream* PSChangeBgm_ChallengeGame();
-extern void* PSChangeBgm_ChallengeGame();
-// struct StreamBgm* newStreamBgm(unsigned long,JAInter::SoundInfo &); real
-struct StreamBgm* newStreamBgm(unsigned long, JAInter::SoundInfo&);
-struct SceneBase* PSMGetGameSceneA();
-namespace PSSystem {
-extern const struct SceneMgr* spSceneMgr;
-};
-BgmSeq* Demo::initiate(DemoArg* param_1, unsigned char* unk)
-{
-	char* pellet_name;
-	bool is_key;
-	struct SceneBase* hole_in;
-	bool is_cave;
-	int comp;
-	struct BgmSeq* seq;
-	char* demo_name;
-	unsigned long demo_arg; // DemoArg
-	volatile unsigned long AST_ID;
-	struct JAInter::SoundInfo audio_info;
-	char local_54[44];
-	bool isSongChosen;
-	struct SceneMgr* scene_mgr;
-	bool day_end;
+	char buffer[0x20];
+	buffer[0]  = '\0';
+	u32 AST_ID = -1;
 
-	demo_name            = param_1->name;
-	seq                  = nullptr;
-	audio_info.unk1      = audio_info_data[0];
-	audio_info.count     = audio_info_data[1];
-	audio_info.pitch     = audio_info_data[2];
-	audio_info.volume.v1 = audio_info_data[3];
-	local_54[0]          = 0xff;
-#line 256 "PSMainSide_Demo.cpp"
-	P2ASSERT(demo_name != nullptr);
-	isSongChosen = false;
-	if ((unk != nullptr) && (demo_name != nullptr)) {
-		isSongChosen = true;
-	}
-#line 41 "PSMainSide_Demo.cpp"
-	P2ASSERT(isSongChosen);
-	AST_ID = 0xffffffff;
-	strcpy(local_54, ""); // \0\0\0\0
-	*unk = 0xff;
+	PSSystem::BgmSeq* seq = nullptr;
+	P2ASSERTLINE(256, init.mName);
 
-	// isSongChosen = 0;
-	if (strcmp(demo_name, "s02_dayend_result") == 0) {
-		isSongChosen = true;
-		*unk         = 0xff;
-		AST_ID       = 0xc0011012;
-	}
-	demo_arg = param_1->bgmID;
-	if ((!isSongChosen) && (strcmp(demo_name, "s01_dayend") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = demo_arg;
-		// OSReport("demo_arg is value: %lu\n", demo_arg);
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "s03_orimadown") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011005;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "s05_pikminzero") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011006;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "s11_dope_first_b") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011001;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "s11_dope_first_r") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011001;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "s11_dopebin_first_b") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011008;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "s11_dopebin_first_r") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011008;
-	}
-	if (demo_name == nullptr) { // asm{nop};
-		day_end = false;
-	}
-	if (!streq("s01_dayend", demo_name)) {
+	// TODO
+	init.mAST_ID = &AST_ID;
+	init.equalSetStream(buffer, -1, -1);
 
-		pellet_name = param_1->pelletname;
-		is_key      = (pellet_name != nullptr) && streq(pellet_name, "key"); // r29
-		bool r31    = !is_key;                                               // r31
-		// OSReport("Appraising pellet: %s\n", pellet_name);
-		demo_arg = param_1->bgmID;
+	init.setDefault("s02_dayend_result", -1, 0xc0011012);
+	init.setDefault("s01_dayend", -1, demoArg.mBgmID);
+	init.setDefault("s03_orimadown", -1, 0xc0011005);
+	init.setDefault("s05_pikminzero", -1, 0xc0011006);
+	init.setDefault("s11_dope_first_b", -1, 0xc0011001);
+	init.setDefault("s11_dope_first_r", -1, 0xc0011001);
+	init.setDefault("s11_dopebin_first_b", -1, 0xc0011008);
+	init.setDefault("s11_dopebin_first_r", -1, 0xc0011008);
 
-		if (((r31) && (!isSongChosen)) && (strcmp(demo_name, "s17_suck_equipment") == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = demo_arg; // upgrade appraisal
-			                         // OSReport("demo_arg is value: %lu\n", demo_arg);
+	if (!streq("s01_dayend", init.mName)) {
+		bool is_key     = (demoArg.mPelletName != nullptr) && streq(demoArg.mPelletName, "key");
+		bool not_is_key = !is_key;
+
+		u32 demo_arg = demoArg.mBgmID;
+		if (not_is_key) {
+			init.setDefault("s17_suck_equipment", -1, demo_arg);
 		}
-		if (((is_key) && (!isSongChosen)) && (strcmp(demo_name, "s17_suck_equipment") == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = 0xc0011007; // key appraisal
-			                           // OSReport("AST_ID is value: %x\n", AST_ID);
+		if (is_key) {
+			init.setDefault("s17_suck_equipment", -1, 0xc0011007);
 		}
-		demo_arg = param_1->bgmID;
-		if (((r31) && (!isSongChosen)) && (strcmp(demo_name, "s22_cv_suck_equipment") == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = demo_arg; // upgrade appraisal
-			                         // OSReport("demo_arg is value: %lu\n", demo_arg);
+
+		demo_arg = demoArg.mBgmID;
+		if (not_is_key) {
+			init.setDefault("s22_cv_suck_equipment", -1, demo_arg);
 		}
-		if (((is_key) && (!isSongChosen)) && (strcmp(demo_name, "s22_cv_suck_equipment") == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = 0xc0011007; // key appraisal
-			                           // OSReport("AST_ID is value: %x\n", AST_ID);
+		if (is_key) {
+			init.setDefault("s22_cv_suck_equipment", -1, 0xc0011007);
 		}
-		if (((r31) && (!isSongChosen)) && (strcmp(demo_name, "s10_suck_treasure") == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = 0xc0011001; // treasure appraisal
-			                           // OSReport("AST_ID is value: %x\n", AST_ID);
+
+		if (not_is_key) {
+			init.setDefault("s10_suck_treasure", -1, 0xc0011001);
 		}
-		if (((is_key) && (!isSongChosen)) && (strcmp(demo_name, "s10_suck_treasure") == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = 0xc0011007; // key appraisal
-			                           // OSReport("AST_ID is value: %x\n", AST_ID);
+		if (is_key) {
+			init.setDefault("s10_suck_treasure", -1, 0xc0011007);
 		}
-		if (((is_key) && (!isSongChosen)) && (strcmp(demo_name, "s22_cv_suck_treasure") == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = 0xc0011007; // key appraisal
-			                           // OSReport("AST_ID is value: %x\n", AST_ID);
+
+		if (is_key) {
+			init.setDefault("s22_cv_suck_treasure", -1, 0xc0011007);
 		}
-		if (((r31) && (!isSongChosen)) && (strcmp(demo_name, "s22_cv_suck_treasure") == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = 0xc0011001; // treasure appraisal
-			                           // OSReport("AST_ID is value: %x\n", AST_ID);
+		if (not_is_key) {
+			init.setDefault("s22_cv_suck_treasure", -1, 0xc0011001);
 		}
 	}
-	if ((!isSongChosen) && (strcmp(demo_name, "s04_dayend_orimadown") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001101d;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "s06_dayend_pikminzero") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001101d;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g1A_red_doping") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011009;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g1A_red_doping") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011009;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g1B_black_doping") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011047;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g02_boot_onyonR") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001100c;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g1E_boot_onyonY") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001100c;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g20_boot_onyonB") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001100c;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g03_meet_redpikmin") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001100d;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g1F_meet_yellowpikmin") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001100d;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g21_meet_bluepikmin") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001100d;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g24_meet_blackpikmin") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001100d;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g27_meet_whitepikmin") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001100d;
-	}
-	if ((!isSongChosen) && (strcmp(demo_name, "g33_camera_demo") == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011024;
-	}
-	hole_in = PSMGetGameSceneA();
-	// cVar7 = (**(code **)(*piVar6 + 0x58))(); // ????
-	is_cave = (hole_in->isCave());
-	/* int** p_hole_in = hole_in;
-	is_cave = ((int(*)())p_hole_in[0][22])();  */
-	// vt_base(_this, _offset, _type, _vtoffset) m(m(_this, _vtoffset,
-	// void*), _offset, _type*)
-	// is_cave = hole_in->SceneInfo->caveIndex1;
-	// OSReport("caveIndex1 is value: 0x%x\n", is_cave);
-	if (is_cave) {
-		if ((!isSongChosen) && (comp = strcmp(demo_name, "s09_holein"), comp == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = 0xc0011026;
-		}
+
+	init.setDefault("s04_dayend_orimadown", -1, 0xc001101d);
+	init.setDefault("s06_dayend_pikminzero", -1, 0xc001101d);
+
+	init.setDefault("g1A_red_doping", -1, 0xc0011009);
+	init.setDefault("g1A_red_doping", -1, 0xc0011009);
+	init.setDefault("g1B_black_doping", -1, 0xc0011047);
+	init.setDefault("g02_boot_onyonR", -1, 0xc001100c);
+	init.setDefault("g1E_boot_onyonY", -1, 0xc001100c);
+	init.setDefault("g20_boot_onyonB", -1, 0xc001100c);
+	init.setDefault("g03_meet_redpikmin", -1, 0xc001100d);
+	init.setDefault("g1F_meet_yellowpikmin", -1, 0xc001100d);
+	init.setDefault("g21_meet_bluepikmin", -1, 0xc001100d);
+	init.setDefault("g24_meet_blackpikmin", -1, 0xc001100d);
+	init.setDefault("g27_meet_whitepikmin", -1, 0xc001100d);
+	init.setDefault("g33_camera_demo", -1, 0xc0011024);
+
+	if (PSMGetGameSceneA()->isCave()) {
+		init.setDefault("s09_holein", -1, 0xc0011046);
 	} else {
-		/*
-		is_cave = hole_in->SceneInfo->SceneMode;
-		OSReport("SceneMode is value: 0x%x\n", is_cave);
-		is_cave = hole_in->SceneInfo->caveIndex1;
-		OSReport("caveIndex1 is value: 0x%x\n", is_cave);
-		is_cave = hole_in->SceneInfo->CaveID_Full;
-		OSReport("CaveID_Full is value: 0x%x\n", is_cave);
-		is_cave = hole_in->SceneInfo->CaveID_lastDigit;
-		OSReport("CaveID_lastDigit is value: 0x%x\n", is_cave);
-		*/
-		if ((!isSongChosen) && (comp = strcmp(demo_name, "s09_holein"), comp == 0)) {
-			*unk         = 0xff;
-			isSongChosen = true;
-			AST_ID       = 0xc0011046;
-		}
+		init.setDefault("s09_holein", -1, 0xc0011026);
 	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_00"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_01"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_02"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_03"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_04"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_05"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_06"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_07"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_08"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_09"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_10"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_11"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s16_find_item_12"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s0C_cv_escape"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011028;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g01_pick_me"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g04_find_treasure"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_f_01"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_f_02"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_f_03"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_f_04"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_l_01"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_l_02"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_l_03"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_t_01"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_t_02"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_t_03"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_y_01"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_y_02"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_y_03"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g05_find_cave_y_04"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g0A_cv_find_hole"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g0B_cv_find_fountain"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g18_find_gate"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001102a;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g19_find_rock"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g2D_red_extract"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g2E_black_extract"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g34_yellow_extract"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001102b;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g37_get_louie"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011027;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g38_find_whitepom"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g39_find_blackpom"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011029;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x01_gamestart"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001102c;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x02_watch_red_pikmin"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001102d;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x06_join"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001102e;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x12_drain_water"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001102a;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x10_find_yellow_onyon"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001102f;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x11_find_blue_onyon"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011030;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x16_hiba"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011031;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x13_exp_leafchappy"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001102a;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x20_blackman"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011032;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s13_pikmin_supply"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s0B_cv_coursein"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011036;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "s0E_return_cave"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011037;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "e00_E3_cavestart"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011039;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g07_cv_gamestart"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001103a;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g08_first_return"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001103b;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g09_first_sunset"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g16_100_pikmin"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g16_95_pikmin"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g26_inout_black"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc001104a;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g29_inout_white"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011048;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g2B_white_poison"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011031;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g2C_inout_red"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g36_find_louie"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011031;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x01_coursein_forest"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011034;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x01_coursein_yakushima"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011034;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x01_coursein_last"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011034;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x04_exp_y"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011049;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x05_louiestart"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011035;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x07_first_recovery"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011049;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x08_cv_suck_carcass"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x09_exp_detector"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x14_white_dig"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g32_get_map"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011048;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "g35_president_gamestart"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x15_exp_x"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x17_join_guide"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x18_exp_pellet"), comp == 0)) {
-		*unk         = 0xff;
-		isSongChosen = true;
-		AST_ID       = 0xc0011033;
-	}
-	if ((!isSongChosen) && (comp = strcmp(demo_name, "x03_find_red_onyon"), comp == 0)) {
-		*unk = 0xff;
-		// no isSongChosen????
-		AST_ID = 0xc001103c;
-	}
-	if (!(volatile int)"s02_dayend_result" || demo_name == nullptr) {
-		isSongChosen = false;
-	} else {
-		comp = strcmp("s02_dayend_result", demo_name);
-		if (comp == 0) {
-			isSongChosen = true;
-		} else {
-			isSongChosen = false;
-		}
-	}
-	if (isSongChosen) {
-		audio_info.volume.v2 = (audio_info.volume.v2 - 0xf);
-		// third use of volume is unsigned char
-		// OSReport("volume thing is value: %f\n", stack0xffffffa8);
-	}
-	/*
-	if (demo_name == nullptr) {
-	    isSongChosen = false;
-	} else {
-	    comp = strcmp("s10_suck_treasure", demo_name);
-	    if (comp == 0) {
-	        isSongChosen = true;
-	    } else {
-	        isSongChosen = false;
-	    }
-	}
-	*/
-	// asm{nop};
-	if (streq("s10_suck_treasure", demo_name) || streq("s11_dope_first_b", demo_name) || streq("s11_dope_first_r", demo_name)
-	    || streq("s11_dopebin_first_b", demo_name) || streq("s11_dopebin_first_r", demo_name) || streq("s17_suck_equipment", demo_name)
-	    || streq("s22_cv_suck_equipment", demo_name) || streq("s22_cv_suck_treasure", demo_name) || streq("x19_vs_bedama", demo_name)) {
-		doStartWithAudio = false;
-		soundID          = PSSE_EV_HOME_PELLET_BACUUM;
-	} else if (streq("g2F_appear_hole", demo_name)) {
 
-		soundID = PSSE_SY_WORK_FINISH;
-		funcptr = PSChangeBgm_ChallengeGame;
-	} else if (streq("g30_appear_fountain", demo_name))
-		funcptr = PSChangeBgm_ChallengeGame;
-	else if (streq("x20_blackman", demo_name) || streq("x03_find_red_onyon", demo_name)) {
-		doStartWithAudio = 0;
-	} else if (streq("s01_dayend", demo_name)) {
-		switch ((u32)param_1->pelletname) {
+	init.setDefault("s16_find_item_00", -1, 0xc0011027);
+	init.setDefault("s16_find_item_01", -1, 0xc0011027);
+	init.setDefault("s16_find_item_02", -1, 0xc0011027);
+	init.setDefault("s16_find_item_03", -1, 0xc0011027);
+	init.setDefault("s16_find_item_04", -1, 0xc0011027);
+	init.setDefault("s16_find_item_05", -1, 0xc0011027);
+	init.setDefault("s16_find_item_06", -1, 0xc0011027);
+	init.setDefault("s16_find_item_07", -1, 0xc0011027);
+	init.setDefault("s16_find_item_08", -1, 0xc0011027);
+	init.setDefault("s16_find_item_09", -1, 0xc0011027);
+	init.setDefault("s16_find_item_10", -1, 0xc0011027);
+	init.setDefault("s16_find_item_11", -1, 0xc0011027);
+	init.setDefault("s16_find_item_12", -1, 0xc0011027);
+
+	init.setDefault("s0C_cv_escape", -1, 0xc0011028);
+
+	init.setDefault("g01_pick_me", -1, 0xc0011029);
+
+	init.setDefault("g04_find_treasure", -1, 0xc0011027);
+
+	init.setDefault("g05_find_cave_f_01", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_f_02", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_f_03", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_f_04", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_l_01", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_l_02", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_l_03", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_t_01", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_t_02", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_t_03", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_y_01", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_y_02", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_y_03", -1, 0xc0011029);
+	init.setDefault("g05_find_cave_y_04", -1, 0xc0011029);
+
+	init.setDefault("g0A_cv_find_hole", -1, 0xc0011029);
+	init.setDefault("g0B_cv_find_fountain", -1, 0xc0011029);
+
+	init.setDefault("g18_find_gate", -1, 0xc001102a);
+	init.setDefault("g19_find_rock", -1, 0xc0011029);
+	init.setDefault("g2D_red_extract", -1, 0xc0011027);
+	init.setDefault("g2E_black_extract", -1, 0xc0011027);
+	init.setDefault("g34_yellow_extract", -1, 0xc001102b);
+	init.setDefault("g37_get_louie", -1, 0xc0011027);
+	init.setDefault("g38_find_whitepom", -1, 0xc0011029);
+	init.setDefault("g39_find_blackpom", -1, 0xc0011029);
+
+	init.setDefault("x01_gamestart", -1, 0xc001102c);
+	init.setDefault("x02_watch_red_pikmin", -1, 0xc001102d);
+	init.setDefault("x06_join", -1, 0xc001102e);
+	init.setDefault("x12_drain_water", -1, 0xc001102a);
+	init.setDefault("x10_find_yellow_onyon", -1, 0xc001102f);
+	init.setDefault("x11_find_blue_onyon", -1, 0xc0011030);
+	init.setDefault("x16_hiba", -1, 0xc0011031);
+	init.setDefault("x13_exp_leafchappy", -1, 0xc001102a);
+	init.setDefault("x20_blackman", -1, 0xc0011032);
+
+	init.setDefault("s13_pikmin_supply", -1, 0xc0011033);
+	init.setDefault("s0B_cv_coursein", -1, 0xc0011036);
+	init.setDefault("s0E_return_cave", -1, 0xc0011037);
+
+	init.setDefault("e00_E3_cavestart", -1, 0xc0011039);
+
+	init.setDefault("g07_cv_gamestart", -1, 0xc001103a);
+	init.setDefault("g08_first_return", -1, 0xc001103b);
+	init.setDefault("g09_first_sunset", -1, 0xc0011033);
+	init.setDefault("g16_100_pikmin", -1, 0xc0011033);
+	init.setDefault("g16_95_pikmin", -1, 0xc0011033);
+	init.setDefault("g26_inout_black", -1, 0xc001104a);
+	init.setDefault("g29_inout_white", -1, 0xc0011048);
+	init.setDefault("g2B_white_poison", -1, 0xc0011031);
+	init.setDefault("g2C_inout_red", -1, 0xc0011033);
+	init.setDefault("g36_find_louie", -1, 0xc0011031);
+
+	init.setDefault("x01_coursein_forest", -1, 0xc0011034);
+	init.setDefault("x01_coursein_yakushima", -1, 0xc0011034);
+	init.setDefault("x01_coursein_last", -1, 0xc0011034);
+	init.setDefault("x04_exp_y", -1, 0xc0011049);
+	init.setDefault("x05_louiestart", -1, 0xc0011035);
+	init.setDefault("x07_first_recovery", -1, 0xc0011049);
+	init.setDefault("x08_cv_suck_carcass", -1, 0xc0011033);
+	init.setDefault("x09_exp_detector", -1, 0xc0011033);
+	init.setDefault("x14_white_dig", -1, 0xc0011033);
+
+	init.setDefault("g32_get_map", -1, 0xc0011048);
+	init.setDefault("g35_president_gamestart", -1, 0xc0011033);
+
+	init.setDefault("x15_exp_x", -1, 0xc0011033);
+	init.setDefault("x17_join_guide", -1, 0xc0011033);
+	init.setDefault("x18_exp_pellet", -1, 0xc0011033);
+
+	init.setDefault("x03_find_red_onyon", -1, 0xc001103c);
+
+	init.mSongChosen = streq("s02_dayend_result", init.mName);
+	if (init.mSongChosen) {
+		audio_info.volume.v2 -= 0xf;
+	}
+
+	if (streq("s10_suck_treasure", init.mName) || streq("s11_dope_first_b", init.mName) || streq("s11_dope_first_r", init.mName)
+	    || streq("s11_dopebin_first_b", init.mName) || streq("s11_dopebin_first_r", init.mName) || streq("s17_suck_equipment", init.mName)
+	    || streq("s22_cv_suck_equipment", init.mName) || streq("s22_cv_suck_treasure", init.mName) || streq("x19_vs_bedama", init.mName)) {
+		mDoStartWithAudio = false;
+		mSoundID          = PSSE_EV_HOME_PELLET_BACUUM;
+	} else if (streq("g2F_appear_hole", init.mName)) {
+		mSoundID = PSSE_SY_WORK_FINISH;
+		mFuncptr = PSChangeBgm_ChallengeGame;
+	} else if (streq("g30_appear_fountain", init.mName)) {
+		mFuncptr = PSChangeBgm_ChallengeGame;
+	} else if (streq("x20_blackman", init.mName) || streq("x03_find_red_onyon", init.mName)) {
+		mDoStartWithAudio = false;
+	} else if (streq("s01_dayend", init.mName)) {
+		switch ((u32)demoArg.mPelletName) {
 		case 1:
-			soundID = PSSE_PL_DAYEND_KAISAN_LUI;
+			mSoundID = PSSE_PL_DAYEND_KAISAN_LUI;
 			break;
 		case 2:
-			soundID = PSSE_PL_DAYEND_KAISAN_SHA;
+			mSoundID = PSSE_PL_DAYEND_KAISAN_SHA;
 			break;
 		default:
 		case 0:
-			soundID = PSSE_PL_DAYEND_KAISAN_ORI;
+			mSoundID = PSSE_PL_DAYEND_KAISAN_ORI;
 			break;
 		}
 	}
-	if (streq("x20_blackman", demo_name))
-		soundID = PSSE_EN_TIRE_FALL;
-	if (!(AST_ID == 0xffffffff)) {
-// OSReport("AST_ID is value: %x\n", AST_ID);
-#line 467 "PSGame.h"
-		P2ASSERT(PSSystem::spSceneMgr != nullptr);
-		// scene_mgr = SCENEMGR;
-		struct PSGame::PikSceneMgr* scene_mgr = (PSGame::PikSceneMgr*)PSSystem::spSceneMgr;
-#line 476 "PSGame.h"
-		P2ASSERT(scene_mgr != nullptr);
-		// seq = (struct BgmSeq*)newStreamBgm(AST_ID, audio_info);
 
-		seq    = scene_mgr->newStreamBgm(AST_ID, audio_info);
-		unk[0] = 0xFF;
-
-	} else if (local_54[0] != '\0') {
-#line 467 "PSGame.h"
-		P2ASSERT(PSSystem::spSceneMgr != nullptr);
-		// scene_mgr = SCENEMGR;
-		struct PSGame::PikSceneMgr* scene_mgr = (PSGame::PikSceneMgr*)PSSystem::spSceneMgr;
-#line 476 "PSGame.h"
-		P2ASSERT(scene_mgr != nullptr);
-
-		seq = scene_mgr->newBgmSeq(local_54, audio_info);
-#line 632 "PSMainSide_Demo.cpp"
-		P2ASSERT(seq != nullptr);
+	if (streq("x20_blackman", init.mName)) {
+		mSoundID = PSSE_EN_TIRE_FALL;
 	}
-	// OSReport("volume thing is value: %f\n", stack0xffffffa8);
-	// OSReport("real volume thing is value: %d\n", audio_info.volume);
+
+	if (AST_ID != -1) {
+		PSGame::PikSceneMgr* scene_mgr = (PSGame::PikSceneMgr*)PSSystem::getSceneMgr();
+		PSSystem::checkSceneMgr(scene_mgr);
+
+		seq  = scene_mgr->newStreamBgm(AST_ID, audio_info);
+		*unk = -1;
+
+	} else if (buffer[0] != 0) {
+		PSGame::PikSceneMgr* scene_mgr = (PSGame::PikSceneMgr*)PSSystem::getSceneMgr();
+		PSSystem::checkSceneMgr(scene_mgr);
+
+		seq = scene_mgr->newBgmSeq(buffer, audio_info);
+		P2ASSERTLINE(632, seq);
+	}
+
 	return seq;
 }
 /*
@@ -3748,7 +2934,6 @@ BgmSeq* Demo::initiate(DemoArg* param_1, unsigned char* unk)
   addi      r1, r1, 0x70
   blr
 */
-} // namespace PSM
 
 /*
  * --INFO--
@@ -5339,7 +4524,7 @@ lbl_80467504:
  * Address:	8046751C
  * Size:	0000EC
  */
-void PSMGetGameSceneA()
+PSM::Scene_Game* PSMGetGameSceneA()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -5414,15 +4599,14 @@ lbl_804675EC:
 	*/
 }
 
-namespace PSM {
-
 /*
  * --INFO--
  * Address:	80467608
  * Size:	000018
  */
-void Scene_Cave::isPollutUp()
+bool PSM::Scene_Cave::isPollutUp()
 {
+	return (mPollutUpTimer != -1);
 	/*
 	lwz      r4, 0x64(r3)
 	subfic   r3, r4, -1
@@ -5438,16 +4622,11 @@ void Scene_Cave::isPollutUp()
  * Address:	80467620
  * Size:	000008
  */
-u32 SceneBase::getEnvSe() { return 0x0; }
+PSSystem::EnvSeBase* PSM::SceneBase::getEnvSe() { return nullptr; }
 
 /*
  * --INFO--
  * Address:	80467628
  * Size:	000008
  */
-void ObjCalcBase::setMode(PSM::ObjCalcBase::Mode a1)
-{
-	// Generated from stw r4, 0x4(r3)
-	_04 = a1;
-}
-} // namespace PSM
+void PSM::ObjCalcBase::setMode(PSM::ObjCalcBase::Mode mode) { mMode = mode; }

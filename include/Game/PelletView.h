@@ -5,8 +5,6 @@
 #include "Matrixf.h"
 #include "types.h"
 
-const float PELLETVIEW_BASE_SCALE = 1.0f;
-
 namespace SysShape {
 struct Model;
 }
@@ -19,24 +17,24 @@ struct EnemyBase;
 struct PelletViewArg {
 	PelletViewArg();
 
-	char* m_enemyName;   // _00
-	Vector3f m_position; // _04
-	Matrixf* m_matrix;   // _10
-	EnemyBase* m_enemy;  // _14
-	Vector3f _18;        // _18
+	char* mEnemyName;   // _00
+	Vector3f mPosition; // _04
+	Matrixf* mMatrix;   // _10
+	EnemyBase* mEnemy;  // _14
+	Vector3f _18;       // _18
 };
 
 // @trait
 struct PelletView {
 	inline PelletView()
-	    : m_pellet(nullptr)
-	    , m_creature(nullptr)
+	    : mPellet(nullptr)
+	    , mCreature(nullptr)
 	{
 	}
 
-	virtual float viewGetBaseScale() // _08 (weak)
+	virtual f32 viewGetBaseScale() // _08 (weak)
 	{
-		return PELLETVIEW_BASE_SCALE;
+		return 1.0f;
 	}
 	virtual SysShape::Model* viewGetShape() = 0; // _0C
 	virtual int viewGetCollTreeJointIndex()      // _10 (weak)
@@ -54,12 +52,12 @@ struct PelletView {
 	virtual void viewOnPelletKilled() { }                // _28 (weak)
 	virtual void viewEntryShape(Matrixf&, Vector3f&) { } // _2C (weak)
 
-	void becomePellet(PelletViewArg*);
+	Pellet* becomePellet(PelletViewArg*);
 	void viewMakeMatrix(Matrixf&);
 
 	// vtable _00
-	Pellet* m_pellet;     // _04
-	Creature* m_creature; // _08
+	Pellet* mPellet;     // _04
+	Creature* mCreature; // _08
 };
 } // namespace Game
 

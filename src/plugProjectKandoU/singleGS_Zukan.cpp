@@ -1005,7 +1005,7 @@ void IllustratedBook::Camera::debugDraw(Graphics&)
  * Address:	80221484
  * Size:	000088
  */
-void move__Q34Game15IllustratedBook6CameraFRC10Vector3f(void)
+void move__Q34Game15IllustratedBook6CameraFRC10Vector3f()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -1327,7 +1327,7 @@ void IllustratedBook::Camera::setAtOffset(const Vector3f&) const
  * Address:	802218A8
  * Size:	000904
  */
-void IllustratedBook::Camera::doUpdate(void)
+void IllustratedBook::Camera::doUpdate()
 {
 	/*
 	stwu     r1, -0x120(r1)
@@ -2176,7 +2176,7 @@ lbl_80222460:
  * Address:	........
  * Size:	000020
  */
-unknown IllustratedBook::Camera::getFocus(void)
+unknown IllustratedBook::Camera::getFocus()
 {
 	// UNUSED FUNCTION
 }
@@ -5141,7 +5141,7 @@ unknown SingleGame::ZukanState::debugDraw(Graphics&)
  * Address:	80224B4C
  * Size:	000994
  */
-unknown SingleGame::ZukanState::dvdloadA(void)
+unknown SingleGame::ZukanState::dvdloadA()
 {
 	/*
 	stwu     r1, -0x700(r1)
@@ -5928,7 +5928,7 @@ void SingleGame::ZukanState::createPellet(int)
  * Address:	........
  * Size:	0000E4
  */
-void SingleGame::ZukanState::dvdloadB_common(void)
+void SingleGame::ZukanState::dvdloadB_common()
 {
 	// UNUSED FUNCTION
 }
@@ -5938,7 +5938,7 @@ void SingleGame::ZukanState::dvdloadB_common(void)
  * Address:	80225604
  * Size:	000CDC
  */
-void SingleGame::ZukanState::dvdloadB_teki(void)
+void SingleGame::ZukanState::dvdloadB_teki()
 {
 	/*
 	stwu     r1, -0x180(r1)
@@ -6893,7 +6893,7 @@ lbl_8022629C:
  * Address:	802262E0
  * Size:	0004B0
  */
-void SingleGame::ZukanState::dvdloadB_pellet(void)
+void SingleGame::ZukanState::dvdloadB_pellet()
 {
 	/*
 	stwu     r1, -0x80(r1)
@@ -7234,7 +7234,7 @@ lbl_802266F0:
  * Address:	80226790
  * Size:	000090
  */
-void SingleGame::ZukanState::clearHeapB_common(void)
+void SingleGame::ZukanState::clearHeapB_common()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -7283,7 +7283,7 @@ lbl_802267B8:
  * Address:	80226820
  * Size:	0003BC
  */
-void SingleGame::ZukanState::clearHeapB_teki(void)
+void SingleGame::ZukanState::clearHeapB_teki()
 {
 	/*
 	stwu     r1, -0x690(r1)
@@ -7573,7 +7573,7 @@ lbl_80226BC0:
  * Address:	80226BDC
  * Size:	000174
  */
-void SingleGame::ZukanState::clearHeapB_pellet(void)
+void SingleGame::ZukanState::clearHeapB_pellet()
 {
 	/*
 	stwu     r1, -0x350(r1)
@@ -8033,14 +8033,14 @@ lbl_80227190:
  * Address:	802271A4
  * Size:	000008
  */
-u32 Morimura::DispMemberZukanItem::getSize(void) { return sizeof(DispMemberZukanItem); }
+u32 Morimura::DispMemberZukanItem::getSize() { return sizeof(DispMemberZukanItem); }
 
 /*
  * --INFO--
  * Address:	802271AC
  * Size:	00000C
  */
-void Morimura::DispMemberZukanItem::getOwnerID(void)
+void Morimura::DispMemberZukanItem::getOwnerID()
 {
 	/*
 	lis      r3, 0x4D524D52@ha
@@ -8054,7 +8054,7 @@ void Morimura::DispMemberZukanItem::getOwnerID(void)
  * Address:	802271B8
  * Size:	000010
  */
-void Morimura::DispMemberZukanItem::getMemberID(void)
+void Morimura::DispMemberZukanItem::getMemberID()
 {
 	/*
 	lis      r4, 0x4954454D@ha
@@ -8069,14 +8069,14 @@ void Morimura::DispMemberZukanItem::getMemberID(void)
  * Address:	802271C8
  * Size:	000008
  */
-u32 Morimura::DispMemberZukanEnemy::getSize(void) { return 0x20; }
+u32 Morimura::DispMemberZukanEnemy::getSize() { return 0x20; }
 
 /*
  * --INFO--
  * Address:	802271D0
  * Size:	00000C
  */
-void Morimura::DispMemberZukanEnemy::getOwnerID(void)
+void Morimura::DispMemberZukanEnemy::getOwnerID()
 {
 	/*
 	lis      r3, 0x4D524D52@ha
@@ -8090,7 +8090,7 @@ void Morimura::DispMemberZukanEnemy::getOwnerID(void)
  * Address:	802271DC
  * Size:	000010
  */
-void Morimura::DispMemberZukanEnemy::getMemberID(void)
+void Morimura::DispMemberZukanEnemy::getMemberID()
 {
 	/*
 	lis      r4, 0x4E454D59@ha
@@ -8107,7 +8107,7 @@ namespace Game {
  * Address:	802271EC
  * Size:	0000D0
  */
-IllustratedBook::Camera::~Camera(void)
+IllustratedBook::Camera::~Camera()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -8229,7 +8229,7 @@ namespace Game {
  * Address:	802272F0
  * Size:	000070
  */
-IllustratedBook::EnemyTexMgr::~EnemyTexMgr(void)
+IllustratedBook::EnemyTexMgr::~EnemyTexMgr()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -8270,7 +8270,7 @@ lbl_80227344:
  * Address:	80227360
  * Size:	000060
  */
-IllustratedBook::DebugParms::~DebugParms(void)
+IllustratedBook::DebugParms::~DebugParms()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -8323,27 +8323,6 @@ void Delegate<Game::SingleGame::ZukanState>::invoke()
 	lwz      r0, 0x14(r1)
 	mtlr     r0
 	addi     r1, r1, 0x10
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	802273F0
- * Size:	000028
- */
-void __sinit_singleGS_Zukan_cpp(void)
-{
-	/*
-	lis      r4, __float_nan@ha
-	li       r0, -1
-	lfs      f0, __float_nan@l(r4)
-	lis      r3, lbl_804C0A40@ha
-	stw      r0, lbl_80515C48@sda21(r13)
-	stfsu    f0, lbl_804C0A40@l(r3)
-	stfs     f0, lbl_80515C4C@sda21(r13)
-	stfs     f0, 4(r3)
-	stfs     f0, 8(r3)
 	blr
 	*/
 }

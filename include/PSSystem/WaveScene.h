@@ -2,13 +2,15 @@
 #define _PSSYSTEM_WAVESCENE_H
 
 #include "types.h"
-#include "JSystem/JKR/JKRDisposer.h"
+#include "JSystem/JKernel/JKRDisposer.h"
 #include "PSSystem/PSBgmTask.h"
 
 namespace PSSystem {
 
 struct WaveScene : public JKRDisposer {
-	struct AreaArg;
+	enum AreaArg {
+
+	};
 
 	struct WaveArea {
 		WaveArea();
@@ -22,7 +24,7 @@ struct WaveScene : public JKRDisposer {
 		TaskChecker* _04; // _04
 		u16 _08;          // _08
 		u16 _0A;          // _0A
-		u8 _0C[0x4];      // _0C - unknown
+		u8 _0C;           // _0C
 		int _10;          // _10
 	};
 
@@ -36,10 +38,10 @@ struct WaveScene : public JKRDisposer {
 struct WaveLoader {
 	virtual void loadWave(TaskChecker*, WaveScene::AreaArg); // _08
 
-	u8 _04;                // _04
-	u8 _05;                // _05
-	u8 _06[0x2];           // _06 - unknown, could be padding
-	WaveScene m_waveScene; // _08
+	u8 _04;               // _04
+	u8 _05;               // _05
+	u8 _06[0x2];          // _06 - unknown, could be padding
+	WaveScene mWaveScene; // _08
 };
 
 } // namespace PSSystem

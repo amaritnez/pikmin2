@@ -11,22 +11,24 @@ struct TagParm;
 struct TagParameters : public CNode {
 	TagParameters(char*);
 
-	virtual ~TagParameters() { } // _00
+	virtual ~TagParameters() { } // _08 (weak)
 
 	void read(Stream&);
 
 	// Unused/inlined:
 	bool isEndToken(char* token)
 	{
-		// UNUSED FUNCTION
 		int strLen = strlen("end");
 		return (strncmp("end", token, strLen)) == 0;
 	}
+
 	void add(TagParm*);
 	void write(Stream&);
 	void dump();
 
-	TagParm* m_head; // _18
+	// _00     = VTBL
+	// _00-_18 = CNode
+	TagParm* mHead; // _18
 };
 
 struct TagParm {
@@ -59,8 +61,8 @@ struct TagParm {
 	void dump();
 
 	// _00 VTBL
-	char* m_name;    // _04
-	TagParm* m_next; // _08
+	char* mName;    // _04
+	TagParm* mNext; // _08
 };
 
 struct StringTagParm : public TagParm {
@@ -71,10 +73,11 @@ struct StringTagParm : public TagParm {
 	virtual void flushValue();     // _08
 	virtual void doDump();         // _0C
 
-	char* m_data; // _0C
+	char* mData; // _0C
 };
 
-template <typename T> struct PrimTagParm : public TagParm {
+template <typename T>
+struct PrimTagParm : public TagParm {
 	PrimTagParm(TagParameters* a, char* name)
 	    : TagParm(a, name)
 	{
@@ -84,7 +87,7 @@ template <typename T> struct PrimTagParm : public TagParm {
 	virtual void doRead(Stream&);  // _04
 	virtual void doDump();         // _0C
 
-	T m_data; // _0C
+	T mData; // _0C
 };
 
 #endif

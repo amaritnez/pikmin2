@@ -1,159 +1,213 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-lbl_8048C968:
+.obj lbl_8048C968, local
 	.asciz "246-BigTreasureShadow"
+.endobj lbl_8048C968
 .balign 4
-lbl_8048C980:
+.obj lbl_8048C980, local
 	.asciz "rhand1jnt"
+.endobj lbl_8048C980
 .balign 4
-lbl_8048C98C:
+.obj lbl_8048C98C, local
 	.asciz "rhand2jnt"
+.endobj lbl_8048C98C
 .balign 4
-lbl_8048C998:
+.obj lbl_8048C998, local
 	.asciz "rhand3jnt"
+.endobj lbl_8048C998
 .balign 4
-lbl_8048C9A4:
+.obj lbl_8048C9A4, local
 	.asciz "lhand1jnt"
+.endobj lbl_8048C9A4
 .balign 4
-lbl_8048C9B0:
+.obj lbl_8048C9B0, local
 	.asciz "lhand2jnt"
+.endobj lbl_8048C9B0
 .balign 4
-lbl_8048C9BC:
+.obj lbl_8048C9BC, local
 	.asciz "lhand3jnt"
+.endobj lbl_8048C9BC
 .balign 4
-lbl_8048C9C8:
+.obj lbl_8048C9C8, local
 	.asciz "rfoot1jnt"
+.endobj lbl_8048C9C8
 .balign 4
-lbl_8048C9D4:
+.obj lbl_8048C9D4, local
 	.asciz "rfoot2jnt"
+.endobj lbl_8048C9D4
 .balign 4
-lbl_8048C9E0:
+.obj lbl_8048C9E0, local
 	.asciz "rfoot3jnt"
+.endobj lbl_8048C9E0
 .balign 4
-lbl_8048C9EC:
+.obj lbl_8048C9EC, local
 	.asciz "lfoot1jnt"
+.endobj lbl_8048C9EC
 .balign 4
-lbl_8048C9F8:
+.obj lbl_8048C9F8, local
 	.asciz "lfoot2jnt"
+.endobj lbl_8048C9F8
 .balign 4
-lbl_8048CA04:
+.obj lbl_8048CA04, local
 	.asciz "lfoot3jnt"
+.endobj lbl_8048CA04
 .balign 4
-lbl_8048CA10:
+.obj lbl_8048CA10, local
 	.asciz "otakara_elec"
+.endobj lbl_8048CA10
 .balign 4
-lbl_8048CA20:
+.obj lbl_8048CA20, local
 	.asciz "otakara_fire"
+.endobj lbl_8048CA20
 .balign 4
-lbl_8048CA30:
+.obj lbl_8048CA30, local
 	.asciz "otakara_gas"
+.endobj lbl_8048CA30
 .balign 4
-lbl_8048CA3C:
+.obj lbl_8048CA3C, local
 	.asciz "otakara_water"
+.endobj lbl_8048CA3C
 .balign 4
-lbl_8048CA4C:
+.obj lbl_8048CA4C, local
 	.asciz "lantenna1"
+.endobj lbl_8048CA4C
 .balign 4
-lbl_8048CA58:
+.obj lbl_8048CA58, local
 	.asciz "lantenna2"
+.endobj lbl_8048CA58
 .balign 4
-lbl_8048CA64:
+.obj lbl_8048CA64, local
 	.asciz "rantenna1"
+.endobj lbl_8048CA64
 .balign 4
-lbl_8048CA70:
+.obj lbl_8048CA70, local
 	.asciz "rantenna2"
+.endobj lbl_8048CA70
 
 .section .data, "wa"  # 0x8049E220 - 0x804EFC20
 .balign 8
-.global __vt__Q24Game17TubeShadowPosNode
-__vt__Q24Game17TubeShadowPosNode:
+.obj __vt__Q24Game17TubeShadowPosNode, weak
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q24Game17TubeShadowPosNodeFv
 	.4byte getChildCount__5CNodeFv
+.endobj __vt__Q24Game17TubeShadowPosNode
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_8051CB88:
+.obj lbl_8051CB88, local
 	.asciz "kosi"
+.endobj lbl_8051CB88
 .balign 4
-lbl_8051CB90:
+.obj lbl_8051CB90, local
 	.asciz "larm1"
+.endobj lbl_8051CB90
 .balign 4
-lbl_8051CB98:
+.obj lbl_8051CB98, local
 	.asciz "larm2"
+.endobj lbl_8051CB98
 .balign 4
-lbl_8051CBA0:
+.obj lbl_8051CBA0, local
 	.asciz "larm3"
+.endobj lbl_8051CBA0
 .balign 4
-lbl_8051CBA8:
+.obj lbl_8051CBA8, local
 	.asciz "rarm1"
+.endobj lbl_8051CBA8
 .balign 4
-lbl_8051CBB0:
+.obj lbl_8051CBB0, local
 	.asciz "rarm2"
+.endobj lbl_8051CBB0
 .balign 4
-lbl_8051CBB8:
+.obj lbl_8051CBB8, local
 	.asciz "rarm3"
+.endobj lbl_8051CBB8
 .balign 4
-lbl_8051CBC0:
+.obj lbl_8051CBC0, local
 	.float 0.5
-lbl_8051CBC4:
+.endobj lbl_8051CBC0
+.obj lbl_8051CBC4, local
 	.float 3.0
-lbl_8051CBC8:
+.endobj lbl_8051CBC4
+.obj lbl_8051CBC8, local
 	.float 0.0
-lbl_8051CBCC:
+.endobj lbl_8051CBC8
+.obj lbl_8051CBCC, local
 	.float 1.0
-lbl_8051CBD0:
+.endobj lbl_8051CBCC
+.obj lbl_8051CBD0, local
 	.float -20.0
-lbl_8051CBD4:
+.endobj lbl_8051CBD0
+.obj lbl_8051CBD4, local
 	.float 5.0
-lbl_8051CBD8:
+.endobj lbl_8051CBD4
+.obj lbl_8051CBD8, local
 	.float 2.5
-lbl_8051CBDC:
+.endobj lbl_8051CBD8
+.obj lbl_8051CBDC, local
 	.float 325.9493
-lbl_8051CBE0:
+.endobj lbl_8051CBDC
+.obj lbl_8051CBE0, local
 	.float -325.9493
-lbl_8051CBE4:
+.endobj lbl_8051CBE0
+.obj lbl_8051CBE4, local
 	.float 20.0
-lbl_8051CBE8:
+.endobj lbl_8051CBE4
+.obj lbl_8051CBE8, local
 	.float -75.0
-lbl_8051CBEC:
+.endobj lbl_8051CBE8
+.obj lbl_8051CBEC, local
 	.float -10.0
-lbl_8051CBF0:
+.endobj lbl_8051CBEC
+.obj lbl_8051CBF0, local
 	.float 27.0
-lbl_8051CBF4:
+.endobj lbl_8051CBF0
+.obj lbl_8051CBF4, local
 	.float 92.5
-lbl_8051CBF8:
+.endobj lbl_8051CBF4
+.obj lbl_8051CBF8, local
 	.float -62.5
-lbl_8051CBFC:
+.endobj lbl_8051CBF8
+.obj lbl_8051CBFC, local
 	.float 95.0
-lbl_8051CC00:
+.endobj lbl_8051CBFC
+.obj lbl_8051CC00, local
 	.float 30.0
-lbl_8051CC04:
+.endobj lbl_8051CC00
+.obj lbl_8051CC04, local
 	.float -35.0
-lbl_8051CC08:
+.endobj lbl_8051CC04
+.obj lbl_8051CC08, local
 	.float 4.0
-lbl_8051CC0C:
+.endobj lbl_8051CC08
+.obj lbl_8051CC0C, local
 	.float 50.0
-lbl_8051CC10:
+.endobj lbl_8051CC0C
+.obj lbl_8051CC10, local
 	.float -7.5
-lbl_8051CC14:
+.endobj lbl_8051CC10
+.obj lbl_8051CC14, local
 	.float 2.0
-lbl_8051CC18:
+.endobj lbl_8051CC14
+.obj lbl_8051CC18, local
 	.float 35.0
-lbl_8051CC1C:
+.endobj lbl_8051CC18
+.obj lbl_8051CC1C, local
 	.float 55.0
-lbl_8051CC20:
+.endobj lbl_8051CC1C
+.obj lbl_8051CC20, local
 	.float 37.5
-lbl_8051CC24:
+.endobj lbl_8051CC20
+.obj lbl_8051CC24, local
 	.float -30.0
-lbl_8051CC28:
+.endobj lbl_8051CC24
+.obj lbl_8051CC28, local
 	.float 40.0
+.endobj lbl_8051CC28
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__Q34Game11BigTreasure20BigTreasureShadowMgrFPQ34Game11BigTreasure3Obj
-__ct__Q34Game11BigTreasure20BigTreasureShadowMgrFPQ34Game11BigTreasure3Obj:
+.fn __ct__Q34Game11BigTreasure20BigTreasureShadowMgrFPQ34Game11BigTreasure3Obj, global
 /* 802DA5C8 002D7508  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 802DA5CC 002D750C  7C 08 02 A6 */	mflr r0
 /* 802DA5D0 002D7510  90 01 00 34 */	stw r0, 0x34(r1)
@@ -164,33 +218,33 @@ __ct__Q34Game11BigTreasure20BigTreasureShadowMgrFPQ34Game11BigTreasure3Obj:
 /* 802DA5E4 002D7524  38 60 00 20 */	li r3, 0x20
 /* 802DA5E8 002D7528  4B D4 98 BD */	bl __nw__FUl
 /* 802DA5EC 002D752C  7C 60 1B 79 */	or. r0, r3, r3
-/* 802DA5F0 002D7530  41 82 00 10 */	beq lbl_802DA600
+/* 802DA5F0 002D7530  41 82 00 10 */	beq .L_802DA600
 /* 802DA5F4 002D7534  7F 04 C3 78 */	mr r4, r24
 /* 802DA5F8 002D7538  4B F6 6C 85 */	bl __ct__Q24Game19JointShadowRootNodeFPQ24Game8Creature
 /* 802DA5FC 002D753C  7C 60 1B 78 */	mr r0, r3
-lbl_802DA600:
+.L_802DA600:
 /* 802DA600 002D7540  90 1C 00 84 */	stw r0, 0x84(r28)
 /* 802DA604 002D7544  38 60 00 24 */	li r3, 0x24
 /* 802DA608 002D7548  4B D4 98 9D */	bl __nw__FUl
 /* 802DA60C 002D754C  7C 7B 1B 79 */	or. r27, r3, r3
-/* 802DA610 002D7550  41 82 00 18 */	beq lbl_802DA628
+/* 802DA610 002D7550  41 82 00 18 */	beq .L_802DA628
 /* 802DA614 002D7554  38 80 00 02 */	li r4, 2
 /* 802DA618 002D7558  4B F6 6C C5 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA61C 002D755C  3C 60 80 4D */	lis r3, __vt__Q24Game16SphereShadowNode@ha
 /* 802DA620 002D7560  38 03 DE D8 */	addi r0, r3, __vt__Q24Game16SphereShadowNode@l
 /* 802DA624 002D7564  90 1B 00 00 */	stw r0, 0(r27)
-lbl_802DA628:
+.L_802DA628:
 /* 802DA628 002D7568  93 7C 00 88 */	stw r27, 0x88(r28)
 /* 802DA62C 002D756C  38 60 00 24 */	li r3, 0x24
 /* 802DA630 002D7570  4B D4 98 75 */	bl __nw__FUl
 /* 802DA634 002D7574  7C 7B 1B 79 */	or. r27, r3, r3
-/* 802DA638 002D7578  41 82 00 18 */	beq lbl_802DA650
+/* 802DA638 002D7578  41 82 00 18 */	beq .L_802DA650
 /* 802DA63C 002D757C  38 80 00 02 */	li r4, 2
 /* 802DA640 002D7580  4B F6 6C 9D */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA644 002D7584  3C 60 80 4D */	lis r3, __vt__Q24Game16SphereShadowNode@ha
 /* 802DA648 002D7588  38 03 DE D8 */	addi r0, r3, __vt__Q24Game16SphereShadowNode@l
 /* 802DA64C 002D758C  90 1B 00 00 */	stw r0, 0(r27)
-lbl_802DA650:
+.L_802DA650:
 /* 802DA650 002D7590  93 7C 00 8C */	stw r27, 0x8c(r28)
 /* 802DA654 002D7594  80 7C 00 84 */	lwz r3, 0x84(r28)
 /* 802DA658 002D7598  80 9C 00 88 */	lwz r4, 0x88(r28)
@@ -201,11 +255,11 @@ lbl_802DA650:
 /* 802DA66C 002D75AC  7F 9F E3 78 */	mr r31, r28
 /* 802DA670 002D75B0  7F 9E E3 78 */	mr r30, r28
 /* 802DA674 002D75B4  3B A0 00 00 */	li r29, 0
-lbl_802DA678:
+.L_802DA678:
 /* 802DA678 002D75B8  38 60 00 28 */	li r3, 0x28
 /* 802DA67C 002D75BC  4B D4 98 29 */	bl __nw__FUl
 /* 802DA680 002D75C0  7C 7B 1B 79 */	or. r27, r3, r3
-/* 802DA684 002D75C4  41 82 00 20 */	beq lbl_802DA6A4
+/* 802DA684 002D75C4  41 82 00 20 */	beq .L_802DA6A4
 /* 802DA688 002D75C8  38 80 00 02 */	li r4, 2
 /* 802DA68C 002D75CC  4B F6 6C 51 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA690 002D75D0  3C 60 80 4D */	lis r3, __vt__Q24Game17TubeShadowSetNode@ha
@@ -213,12 +267,12 @@ lbl_802DA678:
 /* 802DA698 002D75D8  38 63 DE B8 */	addi r3, r3, __vt__Q24Game17TubeShadowSetNode@l
 /* 802DA69C 002D75DC  90 7B 00 00 */	stw r3, 0(r27)
 /* 802DA6A0 002D75E0  90 1B 00 24 */	stw r0, 0x24(r27)
-lbl_802DA6A4:
+.L_802DA6A4:
 /* 802DA6A4 002D75E4  93 7F 00 90 */	stw r27, 0x90(r31)
 /* 802DA6A8 002D75E8  38 60 00 28 */	li r3, 0x28
 /* 802DA6AC 002D75EC  4B D4 97 F9 */	bl __nw__FUl
 /* 802DA6B0 002D75F0  7C 7B 1B 79 */	or. r27, r3, r3
-/* 802DA6B4 002D75F4  41 82 00 20 */	beq lbl_802DA6D4
+/* 802DA6B4 002D75F4  41 82 00 20 */	beq .L_802DA6D4
 /* 802DA6B8 002D75F8  38 80 00 02 */	li r4, 2
 /* 802DA6BC 002D75FC  4B F6 6C 21 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA6C0 002D7600  3C 60 80 4D */	lis r3, __vt__Q24Game17TubeShadowSetNode@ha
@@ -226,12 +280,12 @@ lbl_802DA6A4:
 /* 802DA6C8 002D7608  38 63 DE B8 */	addi r3, r3, __vt__Q24Game17TubeShadowSetNode@l
 /* 802DA6CC 002D760C  90 7B 00 00 */	stw r3, 0(r27)
 /* 802DA6D0 002D7610  90 1B 00 24 */	stw r0, 0x24(r27)
-lbl_802DA6D4:
+.L_802DA6D4:
 /* 802DA6D4 002D7614  93 7F 00 A0 */	stw r27, 0xa0(r31)
 /* 802DA6D8 002D7618  38 60 00 28 */	li r3, 0x28
 /* 802DA6DC 002D761C  4B D4 97 C9 */	bl __nw__FUl
 /* 802DA6E0 002D7620  7C 7B 1B 79 */	or. r27, r3, r3
-/* 802DA6E4 002D7624  41 82 00 20 */	beq lbl_802DA704
+/* 802DA6E4 002D7624  41 82 00 20 */	beq .L_802DA704
 /* 802DA6E8 002D7628  38 80 00 02 */	li r4, 2
 /* 802DA6EC 002D762C  4B F6 6B F1 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA6F0 002D7630  3C 60 80 4D */	lis r3, __vt__Q24Game17TubeShadowSetNode@ha
@@ -239,12 +293,12 @@ lbl_802DA6D4:
 /* 802DA6F8 002D7638  38 63 DE B8 */	addi r3, r3, __vt__Q24Game17TubeShadowSetNode@l
 /* 802DA6FC 002D763C  90 7B 00 00 */	stw r3, 0(r27)
 /* 802DA700 002D7640  90 1B 00 24 */	stw r0, 0x24(r27)
-lbl_802DA704:
+.L_802DA704:
 /* 802DA704 002D7644  93 7F 00 B0 */	stw r27, 0xb0(r31)
 /* 802DA708 002D7648  38 60 00 28 */	li r3, 0x28
 /* 802DA70C 002D764C  4B D4 97 99 */	bl __nw__FUl
 /* 802DA710 002D7650  7C 7B 1B 79 */	or. r27, r3, r3
-/* 802DA714 002D7654  41 82 00 20 */	beq lbl_802DA734
+/* 802DA714 002D7654  41 82 00 20 */	beq .L_802DA734
 /* 802DA718 002D7658  38 80 00 02 */	li r4, 2
 /* 802DA71C 002D765C  4B F6 6B C1 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA720 002D7660  3C 60 80 4D */	lis r3, __vt__Q24Game17TubeShadowSetNode@ha
@@ -252,40 +306,40 @@ lbl_802DA704:
 /* 802DA728 002D7668  38 63 DE B8 */	addi r3, r3, __vt__Q24Game17TubeShadowSetNode@l
 /* 802DA72C 002D766C  90 7B 00 00 */	stw r3, 0(r27)
 /* 802DA730 002D7670  90 1B 00 24 */	stw r0, 0x24(r27)
-lbl_802DA734:
+.L_802DA734:
 /* 802DA734 002D7674  93 7F 00 C0 */	stw r27, 0xc0(r31)
 /* 802DA738 002D7678  38 60 00 24 */	li r3, 0x24
 /* 802DA73C 002D767C  4B D4 97 69 */	bl __nw__FUl
 /* 802DA740 002D7680  7C 7B 1B 79 */	or. r27, r3, r3
-/* 802DA744 002D7684  41 82 00 18 */	beq lbl_802DA75C
+/* 802DA744 002D7684  41 82 00 18 */	beq .L_802DA75C
 /* 802DA748 002D7688  38 80 00 02 */	li r4, 2
 /* 802DA74C 002D768C  4B F6 6B 91 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA750 002D7690  3C 60 80 4D */	lis r3, __vt__Q24Game16SphereShadowNode@ha
 /* 802DA754 002D7694  38 03 DE D8 */	addi r0, r3, __vt__Q24Game16SphereShadowNode@l
 /* 802DA758 002D7698  90 1B 00 00 */	stw r0, 0(r27)
-lbl_802DA75C:
+.L_802DA75C:
 /* 802DA75C 002D769C  93 7F 00 D0 */	stw r27, 0xd0(r31)
 /* 802DA760 002D76A0  38 60 00 24 */	li r3, 0x24
 /* 802DA764 002D76A4  4B D4 97 41 */	bl __nw__FUl
 /* 802DA768 002D76A8  7C 7B 1B 79 */	or. r27, r3, r3
-/* 802DA76C 002D76AC  41 82 00 18 */	beq lbl_802DA784
+/* 802DA76C 002D76AC  41 82 00 18 */	beq .L_802DA784
 /* 802DA770 002D76B0  38 80 00 02 */	li r4, 2
 /* 802DA774 002D76B4  4B F6 6B 69 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA778 002D76B8  3C 60 80 4D */	lis r3, __vt__Q24Game16SphereShadowNode@ha
 /* 802DA77C 002D76BC  38 03 DE D8 */	addi r0, r3, __vt__Q24Game16SphereShadowNode@l
 /* 802DA780 002D76C0  90 1B 00 00 */	stw r0, 0(r27)
-lbl_802DA784:
+.L_802DA784:
 /* 802DA784 002D76C4  93 7F 00 E0 */	stw r27, 0xe0(r31)
 /* 802DA788 002D76C8  38 60 00 24 */	li r3, 0x24
 /* 802DA78C 002D76CC  4B D4 97 19 */	bl __nw__FUl
 /* 802DA790 002D76D0  7C 7B 1B 79 */	or. r27, r3, r3
-/* 802DA794 002D76D4  41 82 00 18 */	beq lbl_802DA7AC
+/* 802DA794 002D76D4  41 82 00 18 */	beq .L_802DA7AC
 /* 802DA798 002D76D8  38 80 00 02 */	li r4, 2
 /* 802DA79C 002D76DC  4B F6 6B 41 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA7A0 002D76E0  3C 60 80 4D */	lis r3, __vt__Q24Game16SphereShadowNode@ha
 /* 802DA7A4 002D76E4  38 03 DE D8 */	addi r0, r3, __vt__Q24Game16SphereShadowNode@l
 /* 802DA7A8 002D76E8  90 1B 00 00 */	stw r0, 0(r27)
-lbl_802DA7AC:
+.L_802DA7AC:
 /* 802DA7AC 002D76EC  93 7F 00 F0 */	stw r27, 0xf0(r31)
 /* 802DA7B0 002D76F0  80 7C 00 84 */	lwz r3, 0x84(r28)
 /* 802DA7B4 002D76F4  80 9F 00 90 */	lwz r4, 0x90(r31)
@@ -317,20 +371,20 @@ lbl_802DA7AC:
 /* 802DA81C 002D775C  90 1E 00 4C */	stw r0, 0x4c(r30)
 /* 802DA820 002D7760  90 1E 00 50 */	stw r0, 0x50(r30)
 /* 802DA824 002D7764  3B DE 00 10 */	addi r30, r30, 0x10
-/* 802DA828 002D7768  41 80 FE 50 */	blt lbl_802DA678
+/* 802DA828 002D7768  41 80 FE 50 */	blt .L_802DA678
 /* 802DA82C 002D776C  3C 60 80 4D */	lis r3, __vt__Q24Game16SphereShadowNode@ha
 /* 802DA830 002D7770  7F 9B E3 78 */	mr r27, r28
 /* 802DA834 002D7774  3B A3 DE D8 */	addi r29, r3, __vt__Q24Game16SphereShadowNode@l
 /* 802DA838 002D7778  3B 40 00 00 */	li r26, 0
-lbl_802DA83C:
+.L_802DA83C:
 /* 802DA83C 002D777C  38 60 00 24 */	li r3, 0x24
 /* 802DA840 002D7780  4B D4 96 65 */	bl __nw__FUl
 /* 802DA844 002D7784  7C 7E 1B 79 */	or. r30, r3, r3
-/* 802DA848 002D7788  41 82 00 10 */	beq lbl_802DA858
+/* 802DA848 002D7788  41 82 00 10 */	beq .L_802DA858
 /* 802DA84C 002D778C  38 80 00 02 */	li r4, 2
 /* 802DA850 002D7790  4B F6 6A 8D */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA854 002D7794  93 BE 00 00 */	stw r29, 0(r30)
-lbl_802DA858:
+.L_802DA858:
 /* 802DA858 002D7798  93 DB 01 00 */	stw r30, 0x100(r27)
 /* 802DA85C 002D779C  80 7C 00 84 */	lwz r3, 0x84(r28)
 /* 802DA860 002D77A0  80 9B 01 00 */	lwz r4, 0x100(r27)
@@ -338,87 +392,87 @@ lbl_802DA858:
 /* 802DA868 002D77A8  3B 5A 00 01 */	addi r26, r26, 1
 /* 802DA86C 002D77AC  3B 7B 00 04 */	addi r27, r27, 4
 /* 802DA870 002D77B0  2C 1A 00 04 */	cmpwi r26, 4
-/* 802DA874 002D77B4  41 80 FF C8 */	blt lbl_802DA83C
+/* 802DA874 002D77B4  41 80 FF C8 */	blt .L_802DA83C
 /* 802DA878 002D77B8  7F 9F E3 78 */	mr r31, r28
 /* 802DA87C 002D77BC  7F 9A E3 78 */	mr r26, r28
 /* 802DA880 002D77C0  3B 20 00 00 */	li r25, 0
-lbl_802DA884:
+.L_802DA884:
 /* 802DA884 002D77C4  7F FB FB 78 */	mr r27, r31
 /* 802DA888 002D77C8  7F 5E D3 78 */	mr r30, r26
 /* 802DA88C 002D77CC  3B 00 00 00 */	li r24, 0
-lbl_802DA890:
+.L_802DA890:
 /* 802DA890 002D77D0  38 60 00 24 */	li r3, 0x24
 /* 802DA894 002D77D4  4B D4 96 11 */	bl __nw__FUl
 /* 802DA898 002D77D8  7C 7D 1B 79 */	or. r29, r3, r3
-/* 802DA89C 002D77DC  41 82 00 18 */	beq lbl_802DA8B4
+/* 802DA89C 002D77DC  41 82 00 18 */	beq .L_802DA8B4
 /* 802DA8A0 002D77E0  38 80 00 02 */	li r4, 2
 /* 802DA8A4 002D77E4  4B F6 6A 39 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA8A8 002D77E8  3C 60 80 4D */	lis r3, __vt__Q24Game17TubeShadowPosNode@ha
 /* 802DA8AC 002D77EC  38 03 32 88 */	addi r0, r3, __vt__Q24Game17TubeShadowPosNode@l
 /* 802DA8B0 002D77F0  90 1D 00 00 */	stw r0, 0(r29)
-lbl_802DA8B4:
+.L_802DA8B4:
 /* 802DA8B4 002D77F4  93 BB 01 10 */	stw r29, 0x110(r27)
 /* 802DA8B8 002D77F8  80 7C 00 84 */	lwz r3, 0x84(r28)
 /* 802DA8BC 002D77FC  80 9B 01 10 */	lwz r4, 0x110(r27)
 /* 802DA8C0 002D7800  48 13 6B 49 */	bl add__5CNodeFP5CNode
 /* 802DA8C4 002D7804  2C 18 00 02 */	cmpwi r24, 2
-/* 802DA8C8 002D7808  40 80 00 38 */	bge lbl_802DA900
+/* 802DA8C8 002D7808  40 80 00 38 */	bge .L_802DA900
 /* 802DA8CC 002D780C  38 60 00 24 */	li r3, 0x24
 /* 802DA8D0 002D7810  4B D4 95 D5 */	bl __nw__FUl
 /* 802DA8D4 002D7814  7C 7D 1B 79 */	or. r29, r3, r3
-/* 802DA8D8 002D7818  41 82 00 18 */	beq lbl_802DA8F0
+/* 802DA8D8 002D7818  41 82 00 18 */	beq .L_802DA8F0
 /* 802DA8DC 002D781C  38 80 00 02 */	li r4, 2
 /* 802DA8E0 002D7820  4B F6 69 FD */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA8E4 002D7824  3C 60 80 4D */	lis r3, __vt__Q24Game16SphereShadowNode@ha
 /* 802DA8E8 002D7828  38 03 DE D8 */	addi r0, r3, __vt__Q24Game16SphereShadowNode@l
 /* 802DA8EC 002D782C  90 1D 00 00 */	stw r0, 0(r29)
-lbl_802DA8F0:
+.L_802DA8F0:
 /* 802DA8F0 002D7830  93 BE 01 30 */	stw r29, 0x130(r30)
 /* 802DA8F4 002D7834  80 7C 00 84 */	lwz r3, 0x84(r28)
 /* 802DA8F8 002D7838  80 9E 01 30 */	lwz r4, 0x130(r30)
 /* 802DA8FC 002D783C  48 13 6B 0D */	bl add__5CNodeFP5CNode
-lbl_802DA900:
+.L_802DA900:
 /* 802DA900 002D7840  3B 18 00 01 */	addi r24, r24, 1
 /* 802DA904 002D7844  3B DE 00 04 */	addi r30, r30, 4
 /* 802DA908 002D7848  2C 18 00 04 */	cmpwi r24, 4
 /* 802DA90C 002D784C  3B 7B 00 04 */	addi r27, r27, 4
-/* 802DA910 002D7850  41 80 FF 80 */	blt lbl_802DA890
+/* 802DA910 002D7850  41 80 FF 80 */	blt .L_802DA890
 /* 802DA914 002D7854  3B 39 00 01 */	addi r25, r25, 1
 /* 802DA918 002D7858  3B 5A 00 08 */	addi r26, r26, 8
 /* 802DA91C 002D785C  2C 19 00 02 */	cmpwi r25, 2
 /* 802DA920 002D7860  3B FF 00 10 */	addi r31, r31, 0x10
-/* 802DA924 002D7864  41 80 FF 60 */	blt lbl_802DA884
+/* 802DA924 002D7864  41 80 FF 60 */	blt .L_802DA884
 /* 802DA928 002D7868  3C 60 80 4D */	lis r3, __vt__Q24Game17TubeShadowPosNode@ha
 /* 802DA92C 002D786C  7F 9B E3 78 */	mr r27, r28
 /* 802DA930 002D7870  7F 9F E3 78 */	mr r31, r28
 /* 802DA934 002D7874  3B 00 00 00 */	li r24, 0
 /* 802DA938 002D7878  3B A3 32 88 */	addi r29, r3, __vt__Q24Game17TubeShadowPosNode@l
-lbl_802DA93C:
+.L_802DA93C:
 /* 802DA93C 002D787C  38 60 00 24 */	li r3, 0x24
 /* 802DA940 002D7880  4B D4 95 65 */	bl __nw__FUl
 /* 802DA944 002D7884  7C 7E 1B 79 */	or. r30, r3, r3
-/* 802DA948 002D7888  41 82 00 18 */	beq lbl_802DA960
+/* 802DA948 002D7888  41 82 00 18 */	beq .L_802DA960
 /* 802DA94C 002D788C  38 80 00 02 */	li r4, 2
 /* 802DA950 002D7890  4B F6 69 8D */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA954 002D7894  3C 60 80 4D */	lis r3, __vt__Q24Game16SphereShadowNode@ha
 /* 802DA958 002D7898  38 03 DE D8 */	addi r0, r3, __vt__Q24Game16SphereShadowNode@l
 /* 802DA95C 002D789C  90 1E 00 00 */	stw r0, 0(r30)
-lbl_802DA960:
+.L_802DA960:
 /* 802DA960 002D78A0  93 DB 01 68 */	stw r30, 0x168(r27)
 /* 802DA964 002D78A4  80 7C 00 84 */	lwz r3, 0x84(r28)
 /* 802DA968 002D78A8  80 9B 01 68 */	lwz r4, 0x168(r27)
 /* 802DA96C 002D78AC  48 13 6A 9D */	bl add__5CNodeFP5CNode
 /* 802DA970 002D78B0  3B 20 00 00 */	li r25, 0
 /* 802DA974 002D78B4  7F FA FB 78 */	mr r26, r31
-lbl_802DA978:
+.L_802DA978:
 /* 802DA978 002D78B8  38 60 00 24 */	li r3, 0x24
 /* 802DA97C 002D78BC  4B D4 95 29 */	bl __nw__FUl
 /* 802DA980 002D78C0  7C 7E 1B 79 */	or. r30, r3, r3
-/* 802DA984 002D78C4  41 82 00 10 */	beq lbl_802DA994
+/* 802DA984 002D78C4  41 82 00 10 */	beq .L_802DA994
 /* 802DA988 002D78C8  38 80 00 02 */	li r4, 2
 /* 802DA98C 002D78CC  4B F6 69 51 */	bl __ct__Q24Game15JointShadowNodeFi
 /* 802DA990 002D78D0  93 BE 00 00 */	stw r29, 0(r30)
-lbl_802DA994:
+.L_802DA994:
 /* 802DA994 002D78D4  93 DA 01 40 */	stw r30, 0x140(r26)
 /* 802DA998 002D78D8  80 7C 00 84 */	lwz r3, 0x84(r28)
 /* 802DA99C 002D78DC  80 9A 01 40 */	lwz r4, 0x140(r26)
@@ -426,21 +480,21 @@ lbl_802DA994:
 /* 802DA9A4 002D78E4  3B 39 00 01 */	addi r25, r25, 1
 /* 802DA9A8 002D78E8  3B 5A 00 04 */	addi r26, r26, 4
 /* 802DA9AC 002D78EC  2C 19 00 05 */	cmpwi r25, 5
-/* 802DA9B0 002D78F0  41 80 FF C8 */	blt lbl_802DA978
+/* 802DA9B0 002D78F0  41 80 FF C8 */	blt .L_802DA978
 /* 802DA9B4 002D78F4  3B 18 00 01 */	addi r24, r24, 1
 /* 802DA9B8 002D78F8  3B FF 00 14 */	addi r31, r31, 0x14
 /* 802DA9BC 002D78FC  2C 18 00 02 */	cmpwi r24, 2
 /* 802DA9C0 002D7900  3B 7B 00 04 */	addi r27, r27, 4
-/* 802DA9C4 002D7904  41 80 FF 78 */	blt lbl_802DA93C
+/* 802DA9C4 002D7904  41 80 FF 78 */	blt .L_802DA93C
 /* 802DA9C8 002D7908  7F 83 E3 78 */	mr r3, r28
 /* 802DA9CC 002D790C  BB 01 00 10 */	lmw r24, 0x10(r1)
 /* 802DA9D0 002D7910  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 802DA9D4 002D7914  7C 08 03 A6 */	mtlr r0
 /* 802DA9D8 002D7918  38 21 00 30 */	addi r1, r1, 0x30
 /* 802DA9DC 002D791C  4E 80 00 20 */	blr 
+.endfn __ct__Q34Game11BigTreasure20BigTreasureShadowMgrFPQ34Game11BigTreasure3Obj
 
-.global init__Q34Game11BigTreasure20BigTreasureShadowMgrFv
-init__Q34Game11BigTreasure20BigTreasureShadowMgrFv:
+.fn init__Q34Game11BigTreasure20BigTreasureShadowMgrFv, global
 /* 802DA9E0 002D7920  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 802DA9E4 002D7924  7C 08 02 A6 */	mflr r0
 /* 802DA9E8 002D7928  3C 80 80 49 */	lis r4, lbl_8048C968@ha
@@ -614,23 +668,23 @@ init__Q34Game11BigTreasure20BigTreasureShadowMgrFv:
 /* 802DAC88 002D7BC8  7C 08 03 A6 */	mtlr r0
 /* 802DAC8C 002D7BCC  38 21 00 20 */	addi r1, r1, 0x20
 /* 802DAC90 002D7BD0  4E 80 00 20 */	blr 
+.endfn init__Q34Game11BigTreasure20BigTreasureShadowMgrFv
 
-.global "setKosiJointPosPtr__Q34Game11BigTreasure20BigTreasureShadowMgrFP10Vector3<f>"
-"setKosiJointPosPtr__Q34Game11BigTreasure20BigTreasureShadowMgrFP10Vector3<f>":
+.fn "setKosiJointPosPtr__Q34Game11BigTreasure20BigTreasureShadowMgrFP10Vector3<f>", global
 /* 802DAC94 002D7BD4  90 83 00 40 */	stw r4, 0x40(r3)
 /* 802DAC98 002D7BD8  4E 80 00 20 */	blr 
+.endfn "setKosiJointPosPtr__Q34Game11BigTreasure20BigTreasureShadowMgrFP10Vector3<f>"
 
-.global "setJointPosPtr__Q34Game11BigTreasure20BigTreasureShadowMgrFiiP10Vector3<f>"
-"setJointPosPtr__Q34Game11BigTreasure20BigTreasureShadowMgrFiiP10Vector3<f>":
+.fn "setJointPosPtr__Q34Game11BigTreasure20BigTreasureShadowMgrFiiP10Vector3<f>", global
 /* 802DAC9C 002D7BDC  54 84 20 36 */	slwi r4, r4, 4
 /* 802DACA0 002D7BE0  54 A0 10 3A */	slwi r0, r5, 2
 /* 802DACA4 002D7BE4  7C 63 22 14 */	add r3, r3, r4
 /* 802DACA8 002D7BE8  7C 63 02 14 */	add r3, r3, r0
 /* 802DACAC 002D7BEC  90 C3 00 44 */	stw r6, 0x44(r3)
 /* 802DACB0 002D7BF0  4E 80 00 20 */	blr 
+.endfn "setJointPosPtr__Q34Game11BigTreasure20BigTreasureShadowMgrFiiP10Vector3<f>"
 
-.global update__Q34Game11BigTreasure20BigTreasureShadowMgrFv
-update__Q34Game11BigTreasure20BigTreasureShadowMgrFv:
+.fn update__Q34Game11BigTreasure20BigTreasureShadowMgrFv, global
 /* 802DACB4 002D7BF4  94 21 FE C0 */	stwu r1, -0x140(r1)
 /* 802DACB8 002D7BF8  7C 08 02 A6 */	mflr r0
 /* 802DACBC 002D7BFC  90 01 01 44 */	stw r0, 0x144(r1)
@@ -672,20 +726,20 @@ update__Q34Game11BigTreasure20BigTreasureShadowMgrFv:
 /* 802DAD4C 002D7C8C  D0 61 00 68 */	stfs f3, 0x68(r1)
 /* 802DAD50 002D7C90  D0 41 00 6C */	stfs f2, 0x6c(r1)
 /* 802DAD54 002D7C94  D0 61 00 70 */	stfs f3, 0x70(r1)
-/* 802DAD58 002D7C98  40 81 00 20 */	ble lbl_802DAD78
+/* 802DAD58 002D7C98  40 81 00 20 */	ble .L_802DAD78
 /* 802DAD5C 002D7C9C  EC 03 38 FA */	fmadds f0, f3, f3, f7
 /* 802DAD60 002D7CA0  EC 68 00 2A */	fadds f3, f8, f0
 /* 802DAD64 002D7CA4  FC 03 08 40 */	fcmpo cr0, f3, f1
-/* 802DAD68 002D7CA8  40 81 00 14 */	ble lbl_802DAD7C
+/* 802DAD68 002D7CA8  40 81 00 14 */	ble .L_802DAD7C
 /* 802DAD6C 002D7CAC  FC 00 18 34 */	frsqrte f0, f3
 /* 802DAD70 002D7CB0  EC 60 00 F2 */	fmuls f3, f0, f3
-/* 802DAD74 002D7CB4  48 00 00 08 */	b lbl_802DAD7C
-lbl_802DAD78:
+/* 802DAD74 002D7CB4  48 00 00 08 */	b .L_802DAD7C
+.L_802DAD78:
 /* 802DAD78 002D7CB8  FC 60 08 90 */	fmr f3, f1
-lbl_802DAD7C:
+.L_802DAD7C:
 /* 802DAD7C 002D7CBC  C0 02 E8 68 */	lfs f0, lbl_8051CBC8@sda21(r2)
 /* 802DAD80 002D7CC0  FC 03 00 40 */	fcmpo cr0, f3, f0
-/* 802DAD84 002D7CC4  40 81 00 30 */	ble lbl_802DADB4
+/* 802DAD84 002D7CC4  40 81 00 30 */	ble .L_802DADB4
 /* 802DAD88 002D7CC8  C0 02 E8 6C */	lfs f0, lbl_8051CBCC@sda21(r2)
 /* 802DAD8C 002D7CCC  C0 41 00 68 */	lfs f2, 0x68(r1)
 /* 802DAD90 002D7CD0  EC 60 18 24 */	fdivs f3, f0, f3
@@ -697,7 +751,7 @@ lbl_802DAD7C:
 /* 802DADA8 002D7CE8  D0 41 00 68 */	stfs f2, 0x68(r1)
 /* 802DADAC 002D7CEC  D0 21 00 6C */	stfs f1, 0x6c(r1)
 /* 802DADB0 002D7CF0  D0 01 00 70 */	stfs f0, 0x70(r1)
-lbl_802DADB4:
+.L_802DADB4:
 /* 802DADB4 002D7CF4  80 9F 00 00 */	lwz r4, 0(r31)
 /* 802DADB8 002D7CF8  80 7F 00 40 */	lwz r3, 0x40(r31)
 /* 802DADBC 002D7CFC  C0 84 00 2C */	lfs f4, 0x2c(r4)
@@ -724,9 +778,9 @@ lbl_802DADB4:
 /* 802DAE10 002D7D50  FC 40 08 90 */	fmr f2, f1
 /* 802DAE14 002D7D54  C0 02 E8 68 */	lfs f0, lbl_8051CBC8@sda21(r2)
 /* 802DAE18 002D7D58  FC 02 00 40 */	fcmpo cr0, f2, f0
-/* 802DAE1C 002D7D5C  40 80 00 08 */	bge lbl_802DAE24
+/* 802DAE1C 002D7D5C  40 80 00 08 */	bge .L_802DAE24
 /* 802DAE20 002D7D60  FC 40 10 50 */	fneg f2, f2
-lbl_802DAE24:
+.L_802DAE24:
 /* 802DAE24 002D7D64  C0 62 E8 7C */	lfs f3, lbl_8051CBDC@sda21(r2)
 /* 802DAE28 002D7D68  3C 60 80 50 */	lis r3, sincosTable___5JMath@ha
 /* 802DAE2C 002D7D6C  C0 02 E8 68 */	lfs f0, lbl_8051CBC8@sda21(r2)
@@ -739,7 +793,7 @@ lbl_802DAE24:
 /* 802DAE48 002D7D88  54 00 1C B8 */	rlwinm r0, r0, 3, 0x12, 0x1c
 /* 802DAE4C 002D7D8C  7C 64 02 14 */	add r3, r4, r0
 /* 802DAE50 002D7D90  C1 83 00 04 */	lfs f12, 4(r3)
-/* 802DAE54 002D7D94  40 80 00 28 */	bge lbl_802DAE7C
+/* 802DAE54 002D7D94  40 80 00 28 */	bge .L_802DAE7C
 /* 802DAE58 002D7D98  C0 02 E8 80 */	lfs f0, lbl_8051CBE0@sda21(r2)
 /* 802DAE5C 002D7D9C  EC 01 00 32 */	fmuls f0, f1, f0
 /* 802DAE60 002D7DA0  FC 00 00 1E */	fctiwz f0, f0
@@ -748,15 +802,15 @@ lbl_802DAE24:
 /* 802DAE6C 002D7DAC  54 00 1C B8 */	rlwinm r0, r0, 3, 0x12, 0x1c
 /* 802DAE70 002D7DB0  7C 04 04 2E */	lfsx f0, r4, r0
 /* 802DAE74 002D7DB4  FC 40 00 50 */	fneg f2, f0
-/* 802DAE78 002D7DB8  48 00 00 1C */	b lbl_802DAE94
-lbl_802DAE7C:
+/* 802DAE78 002D7DB8  48 00 00 1C */	b .L_802DAE94
+.L_802DAE7C:
 /* 802DAE7C 002D7DBC  EC 01 00 F2 */	fmuls f0, f1, f3
 /* 802DAE80 002D7DC0  FC 00 00 1E */	fctiwz f0, f0
 /* 802DAE84 002D7DC4  D8 01 00 98 */	stfd f0, 0x98(r1)
 /* 802DAE88 002D7DC8  80 01 00 9C */	lwz r0, 0x9c(r1)
 /* 802DAE8C 002D7DCC  54 00 1C B8 */	rlwinm r0, r0, 3, 0x12, 0x1c
 /* 802DAE90 002D7DD0  7C 44 04 2E */	lfsx f2, r4, r0
-lbl_802DAE94:
+.L_802DAE94:
 /* 802DAE94 002D7DD4  FD 40 10 18 */	frsp f10, f2
 /* 802DAE98 002D7DD8  C1 62 E8 68 */	lfs f11, lbl_8051CBC8@sda21(r2)
 /* 802DAE9C 002D7DDC  C1 22 E8 84 */	lfs f9, lbl_8051CBE4@sda21(r2)
@@ -830,7 +884,7 @@ lbl_802DAE94:
 /* 802DAFAC 002D7EEC  3B 41 00 50 */	addi r26, r1, 0x50
 /* 802DAFB0 002D7EF0  C3 A2 E8 70 */	lfs f29, lbl_8051CBD0@sda21(r2)
 /* 802DAFB4 002D7EF4  3B 20 00 00 */	li r25, 0
-lbl_802DAFB8:
+.L_802DAFB8:
 /* 802DAFB8 002D7EF8  D3 01 00 74 */	stfs f24, 0x74(r1)
 /* 802DAFBC 002D7EFC  38 81 00 5C */	addi r4, r1, 0x5c
 /* 802DAFC0 002D7F00  38 C1 00 2C */	addi r6, r1, 0x2c
@@ -885,7 +939,7 @@ lbl_802DAFB8:
 /* 802DB084 002D7FC4  48 01 76 59 */	bl "makeShadowSRT__Q24Game16SphereShadowNodeFRQ24Game15JointShadowParmR10Vector3<f>"
 /* 802DB088 002D7FC8  80 7D 00 44 */	lwz r3, 0x44(r29)
 /* 802DB08C 002D7FCC  28 03 00 00 */	cmplwi r3, 0
-/* 802DB090 002D7FD0  41 82 00 24 */	beq lbl_802DB0B4
+/* 802DB090 002D7FD0  41 82 00 24 */	beq .L_802DB0B4
 /* 802DB094 002D7FD4  C0 01 00 2C */	lfs f0, 0x2c(r1)
 /* 802DB098 002D7FD8  D0 03 00 00 */	stfs f0, 0(r3)
 /* 802DB09C 002D7FDC  C0 01 00 30 */	lfs f0, 0x30(r1)
@@ -894,10 +948,10 @@ lbl_802DAFB8:
 /* 802DB0A8 002D7FE8  C0 01 00 34 */	lfs f0, 0x34(r1)
 /* 802DB0AC 002D7FEC  80 7D 00 44 */	lwz r3, 0x44(r29)
 /* 802DB0B0 002D7FF0  D0 03 00 08 */	stfs f0, 8(r3)
-lbl_802DB0B4:
+.L_802DB0B4:
 /* 802DB0B4 002D7FF4  80 7D 00 48 */	lwz r3, 0x48(r29)
 /* 802DB0B8 002D7FF8  28 03 00 00 */	cmplwi r3, 0
-/* 802DB0BC 002D7FFC  41 82 00 24 */	beq lbl_802DB0E0
+/* 802DB0BC 002D7FFC  41 82 00 24 */	beq .L_802DB0E0
 /* 802DB0C0 002D8000  C0 01 00 38 */	lfs f0, 0x38(r1)
 /* 802DB0C4 002D8004  D0 03 00 00 */	stfs f0, 0(r3)
 /* 802DB0C8 002D8008  C0 01 00 3C */	lfs f0, 0x3c(r1)
@@ -906,10 +960,10 @@ lbl_802DB0B4:
 /* 802DB0D4 002D8014  C0 01 00 40 */	lfs f0, 0x40(r1)
 /* 802DB0D8 002D8018  80 7D 00 48 */	lwz r3, 0x48(r29)
 /* 802DB0DC 002D801C  D0 03 00 08 */	stfs f0, 8(r3)
-lbl_802DB0E0:
+.L_802DB0E0:
 /* 802DB0E0 002D8020  80 7D 00 4C */	lwz r3, 0x4c(r29)
 /* 802DB0E4 002D8024  28 03 00 00 */	cmplwi r3, 0
-/* 802DB0E8 002D8028  41 82 00 24 */	beq lbl_802DB10C
+/* 802DB0E8 002D8028  41 82 00 24 */	beq .L_802DB10C
 /* 802DB0EC 002D802C  C0 01 00 44 */	lfs f0, 0x44(r1)
 /* 802DB0F0 002D8030  D0 03 00 00 */	stfs f0, 0(r3)
 /* 802DB0F4 002D8034  C0 01 00 48 */	lfs f0, 0x48(r1)
@@ -918,10 +972,10 @@ lbl_802DB0E0:
 /* 802DB100 002D8040  C0 01 00 4C */	lfs f0, 0x4c(r1)
 /* 802DB104 002D8044  80 7D 00 4C */	lwz r3, 0x4c(r29)
 /* 802DB108 002D8048  D0 03 00 08 */	stfs f0, 8(r3)
-lbl_802DB10C:
+.L_802DB10C:
 /* 802DB10C 002D804C  80 7D 00 50 */	lwz r3, 0x50(r29)
 /* 802DB110 002D8050  28 03 00 00 */	cmplwi r3, 0
-/* 802DB114 002D8054  41 82 00 24 */	beq lbl_802DB138
+/* 802DB114 002D8054  41 82 00 24 */	beq .L_802DB138
 /* 802DB118 002D8058  C0 01 00 50 */	lfs f0, 0x50(r1)
 /* 802DB11C 002D805C  D0 03 00 00 */	stfs f0, 0(r3)
 /* 802DB120 002D8060  C0 01 00 54 */	lfs f0, 0x54(r1)
@@ -930,12 +984,12 @@ lbl_802DB10C:
 /* 802DB12C 002D806C  C0 01 00 58 */	lfs f0, 0x58(r1)
 /* 802DB130 002D8070  80 7D 00 50 */	lwz r3, 0x50(r29)
 /* 802DB134 002D8074  D0 03 00 08 */	stfs f0, 8(r3)
-lbl_802DB138:
+.L_802DB138:
 /* 802DB138 002D8078  3B 39 00 01 */	addi r25, r25, 1
 /* 802DB13C 002D807C  3B BD 00 10 */	addi r29, r29, 0x10
 /* 802DB140 002D8080  2C 19 00 04 */	cmpwi r25, 4
 /* 802DB144 002D8084  3B DE 00 04 */	addi r30, r30, 4
-/* 802DB148 002D8088  41 80 FE 70 */	blt lbl_802DAFB8
+/* 802DB148 002D8088  41 80 FE 70 */	blt .L_802DAFB8
 /* 802DB14C 002D808C  7F E3 FB 78 */	mr r3, r31
 /* 802DB150 002D8090  38 81 00 5C */	addi r4, r1, 0x5c
 /* 802DB154 002D8094  48 00 00 71 */	bl updateTreasureShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm
@@ -966,9 +1020,9 @@ lbl_802DB138:
 /* 802DB1B8 002D80F8  7C 08 03 A6 */	mtlr r0
 /* 802DB1BC 002D80FC  38 21 01 40 */	addi r1, r1, 0x140
 /* 802DB1C0 002D8100  4E 80 00 20 */	blr 
+.endfn update__Q34Game11BigTreasure20BigTreasureShadowMgrFv
 
-.global updateTreasureShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm
-updateTreasureShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm:
+.fn updateTreasureShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm, global
 /* 802DB1C4 002D8104  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 802DB1C8 002D8108  7C 08 02 A6 */	mflr r0
 /* 802DB1CC 002D810C  C0 62 E8 A0 */	lfs f3, lbl_8051CC00@sda21(r2)
@@ -990,19 +1044,19 @@ updateTreasureShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15Joint
 /* 802DB20C 002D814C  D0 24 00 18 */	stfs f1, 0x18(r4)
 /* 802DB210 002D8150  D0 24 00 1C */	stfs f1, 0x1c(r4)
 /* 802DB214 002D8154  D0 04 00 24 */	stfs f0, 0x24(r4)
-lbl_802DB218:
+.L_802DB218:
 /* 802DB218 002D8158  80 7C 00 3C */	lwz r3, 0x3c(r28)
 /* 802DB21C 002D815C  7F C4 F3 78 */	mr r4, r30
 /* 802DB220 002D8160  48 00 26 15 */	bl isCapturedTreasure__Q34Game11BigTreasure3ObjFi
 /* 802DB224 002D8164  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 802DB228 002D8168  41 82 00 4C */	beq lbl_802DB274
+/* 802DB228 002D8168  41 82 00 4C */	beq .L_802DB274
 /* 802DB22C 002D816C  80 9F 01 00 */	lwz r4, 0x100(r31)
 /* 802DB230 002D8170  80 04 00 0C */	lwz r0, 0xc(r4)
 /* 802DB234 002D8174  28 00 00 00 */	cmplwi r0, 0
-/* 802DB238 002D8178  40 82 00 0C */	bne lbl_802DB244
+/* 802DB238 002D8178  40 82 00 0C */	bne .L_802DB244
 /* 802DB23C 002D817C  80 7C 00 84 */	lwz r3, 0x84(r28)
 /* 802DB240 002D8180  48 13 61 C9 */	bl add__5CNodeFP5CNode
-lbl_802DB244:
+.L_802DB244:
 /* 802DB244 002D8184  80 7F 00 04 */	lwz r3, 4(r31)
 /* 802DB248 002D8188  7F A4 EB 78 */	mr r4, r29
 /* 802DB24C 002D818C  38 A1 00 08 */	addi r5, r1, 8
@@ -1014,18 +1068,18 @@ lbl_802DB244:
 /* 802DB264 002D81A4  D0 41 00 10 */	stfs f2, 0x10(r1)
 /* 802DB268 002D81A8  80 7F 01 00 */	lwz r3, 0x100(r31)
 /* 802DB26C 002D81AC  48 01 74 71 */	bl "makeShadowSRT__Q24Game16SphereShadowNodeFRQ24Game15JointShadowParmR10Vector3<f>"
-/* 802DB270 002D81B0  48 00 00 18 */	b lbl_802DB288
-lbl_802DB274:
+/* 802DB270 002D81B0  48 00 00 18 */	b .L_802DB288
+.L_802DB274:
 /* 802DB274 002D81B4  80 7F 01 00 */	lwz r3, 0x100(r31)
 /* 802DB278 002D81B8  80 03 00 0C */	lwz r0, 0xc(r3)
 /* 802DB27C 002D81BC  28 00 00 00 */	cmplwi r0, 0
-/* 802DB280 002D81C0  41 82 00 08 */	beq lbl_802DB288
+/* 802DB280 002D81C0  41 82 00 08 */	beq .L_802DB288
 /* 802DB284 002D81C4  48 13 63 4D */	bl del__5CNodeFv
-lbl_802DB288:
+.L_802DB288:
 /* 802DB288 002D81C8  3B DE 00 01 */	addi r30, r30, 1
 /* 802DB28C 002D81CC  3B FF 00 04 */	addi r31, r31, 4
 /* 802DB290 002D81D0  2C 1E 00 04 */	cmpwi r30, 4
-/* 802DB294 002D81D4  41 80 FF 84 */	blt lbl_802DB218
+/* 802DB294 002D81D4  41 80 FF 84 */	blt .L_802DB218
 /* 802DB298 002D81D8  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 802DB29C 002D81DC  83 E1 00 2C */	lwz r31, 0x2c(r1)
 /* 802DB2A0 002D81E0  83 C1 00 28 */	lwz r30, 0x28(r1)
@@ -1034,9 +1088,9 @@ lbl_802DB288:
 /* 802DB2AC 002D81EC  7C 08 03 A6 */	mtlr r0
 /* 802DB2B0 002D81F0  38 21 00 30 */	addi r1, r1, 0x30
 /* 802DB2B4 002D81F4  4E 80 00 20 */	blr 
+.endfn updateTreasureShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm
 
-.global updateHandShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm
-updateHandShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm:
+.fn updateHandShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm, global
 /* 802DB2B8 002D81F8  94 21 FE C0 */	stwu r1, -0x140(r1)
 /* 802DB2BC 002D81FC  7C 08 02 A6 */	mflr r0
 /* 802DB2C0 002D8200  90 01 01 44 */	stw r0, 0x144(r1)
@@ -1088,7 +1142,7 @@ updateHandShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShad
 /* 802DB378 002D82B8  C3 C2 E8 B8 */	lfs f30, lbl_8051CC18@sda21(r2)
 /* 802DB37C 002D82BC  C3 E2 E8 74 */	lfs f31, lbl_8051CBD4@sda21(r2)
 /* 802DB380 002D82C0  C2 42 E8 78 */	lfs f18, lbl_8051CBD8@sda21(r2)
-lbl_802DB384:
+.L_802DB384:
 /* 802DB384 002D82C4  80 7A 00 3C */	lwz r3, 0x3c(r26)
 /* 802DB388 002D82C8  7F 64 DB 78 */	mr r4, r27
 /* 802DB38C 002D82CC  38 A1 00 38 */	addi r5, r1, 0x38
@@ -1214,7 +1268,7 @@ lbl_802DB384:
 /* 802DB56C 002D84AC  2C 1C 00 02 */	cmpwi r28, 2
 /* 802DB570 002D84B0  3B BD 00 08 */	addi r29, r29, 8
 /* 802DB574 002D84B4  3B FF 00 0C */	addi r31, r31, 0xc
-/* 802DB578 002D84B8  41 80 FE 0C */	blt lbl_802DB384
+/* 802DB578 002D84B8  41 80 FE 0C */	blt .L_802DB384
 /* 802DB57C 002D84BC  E3 E1 01 38 */	psq_l f31, 312(r1), 0, qr0
 /* 802DB580 002D84C0  CB E1 01 30 */	lfd f31, 0x130(r1)
 /* 802DB584 002D84C4  E3 C1 01 28 */	psq_l f30, 296(r1), 0, qr0
@@ -1248,9 +1302,9 @@ lbl_802DB384:
 /* 802DB5F4 002D8534  7C 08 03 A6 */	mtlr r0
 /* 802DB5F8 002D8538  38 21 01 40 */	addi r1, r1, 0x140
 /* 802DB5FC 002D853C  4E 80 00 20 */	blr 
+.endfn updateHandShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm
 
-.global updateAntennaShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm
-updateAntennaShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm:
+.fn updateAntennaShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm, global
 /* 802DB600 002D8540  94 21 FE 40 */	stwu r1, -0x1c0(r1)
 /* 802DB604 002D8544  7C 08 02 A6 */	mflr r0
 /* 802DB608 002D8548  90 01 01 C4 */	stw r0, 0x1c4(r1)
@@ -1315,7 +1369,7 @@ updateAntennaShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointS
 /* 802DB6F4 002D8634  C3 C2 E8 70 */	lfs f30, lbl_8051CBD0@sda21(r2)
 /* 802DB6F8 002D8638  C3 E2 E8 B8 */	lfs f31, lbl_8051CC18@sda21(r2)
 /* 802DB6FC 002D863C  D8 01 00 78 */	stfd f0, 0x78(r1)
-lbl_802DB700:
+.L_802DB700:
 /* 802DB700 002D8640  80 7A 00 3C */	lwz r3, 0x3c(r26)
 /* 802DB704 002D8644  7F 64 DB 78 */	mr r4, r27
 /* 802DB708 002D8648  38 A1 00 68 */	addi r5, r1, 0x68
@@ -1547,7 +1601,7 @@ lbl_802DB700:
 /* 802DBA90 002D89D0  2C 1C 00 02 */	cmpwi r28, 2
 /* 802DBA94 002D89D4  3B BD 00 04 */	addi r29, r29, 4
 /* 802DBA98 002D89D8  3B FF 00 08 */	addi r31, r31, 8
-/* 802DBA9C 002D89DC  41 80 FC 64 */	blt lbl_802DB700
+/* 802DBA9C 002D89DC  41 80 FC 64 */	blt .L_802DB700
 /* 802DBAA0 002D89E0  E3 E1 01 B8 */	psq_l f31, 440(r1), 0, qr0
 /* 802DBAA4 002D89E4  CB E1 01 B0 */	lfd f31, 0x1b0(r1)
 /* 802DBAA8 002D89E8  E3 C1 01 A8 */	psq_l f30, 424(r1), 0, qr0
@@ -1589,9 +1643,9 @@ lbl_802DB700:
 /* 802DBB38 002D8A78  7C 08 03 A6 */	mtlr r0
 /* 802DBB3C 002D8A7C  38 21 01 C0 */	addi r1, r1, 0x1c0
 /* 802DBB40 002D8A80  4E 80 00 20 */	blr 
+.endfn updateAntennaShadow__Q34Game11BigTreasure20BigTreasureShadowMgrFRQ24Game15JointShadowParm
 
-.global __dt__Q24Game17TubeShadowPosNodeFv
-__dt__Q24Game17TubeShadowPosNodeFv:
+.fn __dt__Q24Game17TubeShadowPosNodeFv, weak
 /* 802DBB44 002D8A84  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 802DBB48 002D8A88  7C 08 02 A6 */	mflr r0
 /* 802DBB4C 002D8A8C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1599,22 +1653,22 @@ __dt__Q24Game17TubeShadowPosNodeFv:
 /* 802DBB54 002D8A94  7C 9F 23 78 */	mr r31, r4
 /* 802DBB58 002D8A98  93 C1 00 08 */	stw r30, 8(r1)
 /* 802DBB5C 002D8A9C  7C 7E 1B 79 */	or. r30, r3, r3
-/* 802DBB60 002D8AA0  41 82 00 38 */	beq lbl_802DBB98
+/* 802DBB60 002D8AA0  41 82 00 38 */	beq .L_802DBB98
 /* 802DBB64 002D8AA4  3C 80 80 4D */	lis r4, __vt__Q24Game17TubeShadowPosNode@ha
 /* 802DBB68 002D8AA8  38 04 32 88 */	addi r0, r4, __vt__Q24Game17TubeShadowPosNode@l
 /* 802DBB6C 002D8AAC  90 1E 00 00 */	stw r0, 0(r30)
-/* 802DBB70 002D8AB0  41 82 00 18 */	beq lbl_802DBB88
+/* 802DBB70 002D8AB0  41 82 00 18 */	beq .L_802DBB88
 /* 802DBB74 002D8AB4  3C A0 80 4C */	lis r5, __vt__Q24Game15JointShadowNode@ha
 /* 802DBB78 002D8AB8  38 80 00 00 */	li r4, 0
 /* 802DBB7C 002D8ABC  38 05 1A 34 */	addi r0, r5, __vt__Q24Game15JointShadowNode@l
 /* 802DBB80 002D8AC0  90 1E 00 00 */	stw r0, 0(r30)
 /* 802DBB84 002D8AC4  48 13 5A 05 */	bl __dt__5CNodeFv
-lbl_802DBB88:
+.L_802DBB88:
 /* 802DBB88 002D8AC8  7F E0 07 35 */	extsh. r0, r31
-/* 802DBB8C 002D8ACC  40 81 00 0C */	ble lbl_802DBB98
+/* 802DBB8C 002D8ACC  40 81 00 0C */	ble .L_802DBB98
 /* 802DBB90 002D8AD0  7F C3 F3 78 */	mr r3, r30
 /* 802DBB94 002D8AD4  4B D4 85 21 */	bl __dl__FPv
-lbl_802DBB98:
+.L_802DBB98:
 /* 802DBB98 002D8AD8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 802DBB9C 002D8ADC  7F C3 F3 78 */	mr r3, r30
 /* 802DBBA0 002D8AE0  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -1622,3 +1676,4 @@ lbl_802DBB98:
 /* 802DBBA8 002D8AE8  7C 08 03 A6 */	mtlr r0
 /* 802DBBAC 002D8AEC  38 21 00 10 */	addi r1, r1, 0x10
 /* 802DBBB0 002D8AF0  4E 80 00 20 */	blr 
+.endfn __dt__Q24Game17TubeShadowPosNodeFv

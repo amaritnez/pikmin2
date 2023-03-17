@@ -6,15 +6,25 @@
 #include "Parameters.h"
 #include "IDelegate.h"
 #include "Vector3.h"
+#include "Camera.h"
 
-struct LookAtCamera;
 struct Viewport;
 
 namespace Game {
 struct CameraArg;
-struct CameraParms;
-struct PlayCamera;
-struct VibrationParms;
+struct Navi;
+
+struct CameraData {
+	f32 _00;                  // _00, normalCam?
+	f32 _04;                  // _04, camAngle1?
+	f32 _08;                  // _08, zoom?
+	f32 _0C;                  // _0C, FOV?
+	f32 _10;                  // _10, near plane?
+	f32 _14;                  // _14, far plane?
+	Vector3f mLookAtPosition; // _18
+	int _24;                  // _24, zoom level?
+	int _28;                  // _28, angle Z?
+};
 
 /**
  * @size{0x998}
@@ -22,67 +32,67 @@ struct VibrationParms;
 struct CameraParms : public Parameters {
 	CameraParms();
 
-	Parm<float> m_cnld;
-	Parm<float> m_cnla;
-	Parm<float> m_cnlf;
-	Parm<float> m_cnlo;
-	Parm<float> m_cnlw;
-	Parm<float> m_nldt;
-	Parm<float> m_nlnc;
-	Parm<float> m_nlfc;
-	Parm<float> m_cmld;
-	Parm<float> m_cmla;
-	Parm<float> m_cmlf;
-	Parm<float> m_cmlo;
-	Parm<float> m_cmlw;
-	Parm<float> m_mldt;
-	Parm<float> m_mlnc;
-	Parm<float> m_mlfc;
-	Parm<float> m_cfld;
-	Parm<float> m_cfla;
-	Parm<float> m_cflf;
-	Parm<float> m_cflo;
-	Parm<float> m_cflw;
-	Parm<float> m_fldt;
-	Parm<float> m_flnc;
-	Parm<float> m_flfc;
-	Parm<float> m_cnhd;
-	Parm<float> m_cnha;
-	Parm<float> m_cnhf;
-	Parm<float> m_cnho;
-	Parm<float> m_cnhw;
-	Parm<float> m_nhdt;
-	Parm<float> m_nhnc;
-	Parm<float> m_nhfc;
-	Parm<float> m_cmhd;
-	Parm<float> m_cmha;
-	Parm<float> m_cmhf;
-	Parm<float> m_cmho;
-	Parm<float> m_cmhw;
-	Parm<float> m_mhdt;
-	Parm<float> m_mhnc;
-	Parm<float> m_mhfc;
-	Parm<float> m_cfhd;
-	Parm<float> m_cfha;
-	Parm<float> m_cfhf;
-	Parm<float> m_cfho;
-	Parm<float> m_cfhw;
-	Parm<float> m_fhdt;
-	Parm<float> m_fhnc;
-	Parm<float> m_fhfc;
-	Parm<float> m_zmdt;
-	Parm<float> m_zman;
-	Parm<float> m_zmfv;
-	Parm<float> m_clcr;
-	Parm<float> m_clms;
-	Parm<float> m_clmh;
-	Parm<float> m_clnh;
-	Parm<float> m_cpmd;
-	Parm<float> m_cmmt;
-	Parm<float> m_cmft;
-	Parm<float> m_cmta;
-	Parm<float> m_cmtm;
-	Parm<float> m_cmtb;
+	Parm<f32> mCnld; // TODO: offsets?
+	Parm<f32> mCnla;
+	Parm<f32> mCnlf;
+	Parm<f32> mCnlo;
+	Parm<f32> mCnlw;
+	Parm<f32> mNldt;
+	Parm<f32> mNlnc;
+	Parm<f32> mNlfc;
+	Parm<f32> mCmld;
+	Parm<f32> mCmla;
+	Parm<f32> mCmlf;
+	Parm<f32> mCmlo;
+	Parm<f32> mCmlw;
+	Parm<f32> mMldt;
+	Parm<f32> mMlnc;
+	Parm<f32> mMlfc;
+	Parm<f32> mCfld;
+	Parm<f32> mCfla;
+	Parm<f32> mCflf;
+	Parm<f32> mCflo;
+	Parm<f32> mCflw;
+	Parm<f32> mFldt;
+	Parm<f32> mFlnc;
+	Parm<f32> mFlfc;
+	Parm<f32> mCnhd;
+	Parm<f32> mCnha;
+	Parm<f32> mCnhf;
+	Parm<f32> mCnho;
+	Parm<f32> mCnhw;
+	Parm<f32> mNhdt;
+	Parm<f32> mNhnc;
+	Parm<f32> mNhfc;
+	Parm<f32> mCmhd;
+	Parm<f32> mCmha;
+	Parm<f32> mCmhf;
+	Parm<f32> mCmho;
+	Parm<f32> mCmhw;
+	Parm<f32> mMhdt;
+	Parm<f32> mMhnc;
+	Parm<f32> mMhfc;
+	Parm<f32> mCfhd;
+	Parm<f32> mCfha;
+	Parm<f32> mCfhf;
+	Parm<f32> mCfho;
+	Parm<f32> mCfhw;
+	Parm<f32> mFhdt;
+	Parm<f32> mFhnc;
+	Parm<f32> mFhfc;
+	Parm<f32> mZmdt;
+	Parm<f32> mZman;
+	Parm<f32> mZmfv;
+	Parm<f32> mClcr;
+	Parm<f32> mClms;
+	Parm<f32> mClmh;
+	Parm<f32> mClnh;
+	Parm<f32> mCpmd;
+	Parm<f32> mCmmt;
+	Parm<f32> mCmft;
+	Parm<f32> mCmta;
+	Parm<f32> mCmtm;
+	Parm<f32> mCmtb;
 	u32 _994;
 };
 
@@ -92,26 +102,116 @@ struct CameraParms : public Parameters {
 struct VibrationParms : public Parameters {
 	VibrationParms();
 
-	Parm<float> m_elevationLightVib;
-	Parm<float> m_elevationMiddleVib;
-	Parm<float> m_elevationHardVib;
-	Parm<float> m_elevationSlowSpeed;
-	Parm<float> m_elevationMiddleSpeed;
-	Parm<float> m_elevationFastSpeed;
-	Parm<float> m_elevationShortTime;
-	Parm<float> m_elevationMiddleTime;
-	Parm<float> m_elevationLongTime;
-	Parm<float> m_elevationHardVib2;
-	Parm<float> m_elevationHardSpeed;
-	Parm<float> m_elevationHardTime;
-	Parm<float> m_zoomShortVib;
-	Parm<float> m_zoomShortSpeed;
-	Parm<float> m_zoomShortTime;
-	Parm<float> m_azimuthShortVib;
-	Parm<float> m_azimuthShortSpeed;
-	Parm<float> m_azimuthShortTime;
-	Parm<float> m_vibMaxDistance;
+	Parm<f32> mElevationLightVib;
+	Parm<f32> mElevationMiddleVib;
+	Parm<f32> mElevationHardVib;
+	Parm<f32> mElevationSlowSpeed;
+	Parm<f32> mElevationMiddleSpeed;
+	Parm<f32> mElevationFastSpeed;
+	Parm<f32> mElevationShortTime;
+	Parm<f32> mElevationMiddleTime;
+	Parm<f32> mElevationLongTime;
+	Parm<f32> mElevationHardVib2;
+	Parm<f32> mElevationHardSpeed;
+	Parm<f32> mElevationHardTime;
+	Parm<f32> mZoomShortVib;
+	Parm<f32> mZoomShortSpeed;
+	Parm<f32> mZoomShortTime;
+	Parm<f32> mAzimuthShortVib;
+	Parm<f32> mAzimuthShortSpeed;
+	Parm<f32> mAzimuthShortTime;
+	Parm<f32> mVibMaxDistance;
 	u32 _304;
+};
+
+struct PlayCamera : public LookAtCamera {
+	PlayCamera(Navi*);
+
+	virtual ~PlayCamera();                 // _08 (weak)
+	virtual Vector3f getLookAtPosition_(); // _58 (weak)
+	virtual bool isSpecialCamera();        // _70
+	virtual void updateMatrix();           // _74
+	virtual void doUpdate();               // _78
+	virtual void startVibration(int);      // _7C (weak)
+	virtual void init();                   // _80
+
+	void setCameraParms(CameraParms*);
+	void setVibrationParms(VibrationParms*);
+	void setCameraAngle(f32);
+	void getCameraData(CameraData&);
+	void setCameraData(CameraData&);
+	void changePlayerMode(bool);
+	void noUpdate();
+	void isVibration();
+	void startVibration(int, f32);
+	void startDemoCamera(int);
+	void finishDemoCamera();
+	void updateCameraMode();
+	void startZoomCamera();
+	void startGameCamera(int);
+	void setTargetParms();
+	void setTargetThetaToWhistle();
+	void setFollowTime();
+	void setSmoothThetaSpeed();
+	void changeTargetTheta();
+	void changeTargetAtPosition();
+	void updateParms(int);
+	void updateVibration(int);
+	void otherVibFinished(int);
+	void isModCameraFinished();
+	void setCollisionCameraTargetPhi(int);
+	void getCollisionCameraTargetPhi(f32, f32);
+
+	// _00 		= VTBL
+	// _00-_198	= LookAtCamera
+	Navi* mNavi;                     // _198
+	int _19C;                        // _19C
+	int _1A0;                        // _1A0
+	u32 _1A4;                        // _1A4
+	f32 _1A8;                        // _1A8
+	f32 _1AC;                        // _1AC
+	f32 _1B0;                        // _1B0
+	f32 _1B4;                        // _1B4
+	f32 _1B8;                        // _1B8
+	f32 _1BC;                        // _1BC
+	f32 _1C0;                        // _1C0
+	f32 _1C4;                        // _1C4
+	f32 _1C8;                        // _1C8
+	f32 _1CC;                        // _1CC
+	f32 _1D0;                        // _1D0
+	f32 _1D4;                        // _1D4
+	f32 _1D8;                        // _1D8
+	f32 _1DC;                        // _1DC, follow time?
+	f32 _1E0;                        // _1E0
+	Vector3f _1E4;                   // _1E4
+	u8 _1F0;                         // _1F0
+	u8 _1F1;                         // _1F1
+	u8 _1F2;                         // _1F2
+	f32 _1F4;                        // _1F4, vibration azimuth short speed?
+	f32 _1F8;                        // _1F8, vibration elevation speed?
+	f32 _1FC;                        // _1FC, vibration zoom short speed?
+	f32 _200;                        // _200
+	f32 _204;                        // _204
+	f32 _208;                        // _208
+	f32 _20C;                        // _20C
+	f32 _210;                        // _210
+	f32 _214;                        // _214
+	f32 _218;                        // _218
+	f32 _21C;                        // _21C
+	f32 _220;                        // _220
+	f32 _224;                        // _224, vibration azimuth short time?
+	f32 _228;                        // _228, vibration elevation time?
+	f32 _22C;                        // _22C, vibration zoom short time?
+	f32 _230;                        // _230
+	f32 _234;                        // _234
+	f32 _238;                        // _238
+	f32 _23C;                        // _23C, vibration azimuth short vib?
+	f32 _240;                        // _240, vibration elevation vib?
+	f32 _244;                        // _244, vibration zoom short vib?
+	u8 _248;                         // _248
+	u8 _249;                         // _249
+	CameraParms* mCameraParms;       // _24C
+	VibrationParms* mVibrationParms; // _250
 };
 
 /**
@@ -120,13 +220,13 @@ struct VibrationParms : public Parameters {
 struct CameraMgr : public CNode {
 	CameraMgr();
 
-	virtual ~CameraMgr() {}; // _00
-	// virtual void _08() = 0;       // _08
+	virtual ~CameraMgr() {}; // _08
+	// virtual void _10() = 0;       // _10
 
 	void loadResource();
 	void setViewport(Viewport*, int);
 	void init(int);
-	void setCameraAngle(float, int);
+	void setCameraAngle(f32, int);
 	void update();
 	void startVibration(int, Vector3f&, int);
 	void startVibration(int, int);
@@ -143,14 +243,16 @@ struct CameraMgr : public CNode {
 	void readCameraParms(char*);
 	void readParameter(Stream&);
 
-	int _18;                          // _18
-	void** _1C;                       // _1C
-	Viewport** _20;                   // _20
-	PlayCamera** _24;                 // _24
-	CameraParms* m_cameraParms[2];    // _28
-	VibrationParms* m_vibrationParms; // _30
-	IDelegate1<CameraArg*>* _34;      // _34
-	LookAtCamera* m_zukanCamera;      // _38
+	// _00 		= VTBL
+	// _00-_18	= CNode
+	int _18;                         // _18
+	void** _1C;                      // _1C
+	Viewport** _20;                  // _20
+	PlayCamera** _24;                // _24
+	CameraParms* mCameraParms[2];    // _28
+	VibrationParms* mVibrationParms; // _30
+	IDelegate1<CameraArg*>* _34;     // _34
+	LookAtCamera* mZukanCamera;      // _38
 };
 
 extern CameraMgr* cameraMgr;

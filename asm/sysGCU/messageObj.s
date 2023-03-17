@@ -1,30 +1,34 @@
 .include "macros.inc"
 .section .rodata  # 0x804732E0 - 0x8049E220
 .balign 8
-lbl_8049AB98:
+.obj lbl_8049AB98, local
 	.asciz "messageObj.cpp"
+.endobj lbl_8049AB98
 .balign 4
-lbl_8049ABA8:
+.obj lbl_8049ABA8, local
 	.asciz "P2Assert"
+.endobj lbl_8049ABA8
 .balign 4
-lbl_8049ABB4: # Shift-JIS
+.obj lbl_8049ABB4, local # Shift-JIS
 	.4byte 0x4A4D6573
 	.4byte 0x73616765
 	.4byte 0x8EC09195
 	.4byte 0x834E8389
 	.4byte 0x83580000
-lbl_8049ABC8: # Shift-JIS
+.endobj lbl_8049ABB4
+.obj lbl_8049ABC8, local # Shift-JIS
 	.4byte 0x8CC295CA
 	.4byte 0x8F898AFA
 	.4byte 0x89BB0000
+.endobj lbl_8049ABC8
 .balign 4
-lbl_8049ABD4:
+.obj lbl_8049ABD4, local
 	.asciz "messageObj.h"
+.endobj lbl_8049ABD4
 
 .section .data, "wa"  # 0x8049E220 - 0x804EFC20
 .balign 8
-.global __vt__Q25P2JME8TControl
-__vt__Q25P2JME8TControl:
+.obj __vt__Q25P2JME8TControl, global
 	.4byte 0
 	.4byte 0
 	.4byte __dt__Q25P2JME8TControlFv
@@ -43,19 +47,20 @@ __vt__Q25P2JME8TControl:
 	.4byte createResourceContainer__Q25P2JME8TControlFv
 	.4byte createSequenceProcessor__Q25P2JME8TControlFv
 	.4byte createRenderingProcessor__Q25P2JME8TControlFv
+.endobj __vt__Q25P2JME8TControl
 
 .section .sdata2, "a"     # 0x80516360 - 0x80520E40
 .balign 8
-lbl_805208A8:
+.obj lbl_805208A8, local
 	.float 0.0
+.endobj lbl_805208A8
 .balign 8
-lbl_805208B0:
-	.4byte 0x43300000
-	.4byte 0x80000000
+.obj lbl_805208B0, local
+	.8byte 0x4330000080000000
+.endobj lbl_805208B0
 
 .section .text, "ax"  # 0x800056C0 - 0x80472F00
-.global __ct__Q25P2JME8TControlFv
-__ct__Q25P2JME8TControlFv:
+.fn __ct__Q25P2JME8TControlFv, global
 /* 80438A34 00435974  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80438A38 00435978  7C 08 02 A6 */	mflr r0
 /* 80438A3C 0043597C  90 01 00 14 */	stw r0, 0x14(r1)
@@ -85,22 +90,22 @@ __ct__Q25P2JME8TControlFv:
 /* 80438A9C 004359DC  7C 08 03 A6 */	mtlr r0
 /* 80438AA0 004359E0  38 21 00 10 */	addi r1, r1, 0x10
 /* 80438AA4 004359E4  4E 80 00 20 */	blr 
+.endfn __ct__Q25P2JME8TControlFv
 
-.global setController__Q25P2JME8TControlFP10ControllerP10Controller
-setController__Q25P2JME8TControlFP10ControllerP10Controller:
+.fn setController__Q25P2JME8TControlFP10ControllerP10Controller, global
 /* 80438AA8 004359E8  80 C3 00 3C */	lwz r6, 0x3c(r3)
 /* 80438AAC 004359EC  28 06 00 00 */	cmplwi r6, 0
-/* 80438AB0 004359F0  41 82 00 14 */	beq lbl_80438AC4
+/* 80438AB0 004359F0  41 82 00 14 */	beq .L_80438AC4
 /* 80438AB4 004359F4  90 86 00 54 */	stw r4, 0x54(r6)
 /* 80438AB8 004359F8  38 60 00 01 */	li r3, 1
 /* 80438ABC 004359FC  90 A6 00 58 */	stw r5, 0x58(r6)
 /* 80438AC0 00435A00  4E 80 00 20 */	blr 
-lbl_80438AC4:
+.L_80438AC4:
 /* 80438AC4 00435A04  38 60 00 00 */	li r3, 0
 /* 80438AC8 00435A08  4E 80 00 20 */	blr 
+.endfn setController__Q25P2JME8TControlFP10ControllerP10Controller
 
-.global setFont__Q25P2JME8TControlFP7JUTFont
-setFont__Q25P2JME8TControlFP7JUTFont:
+.fn setFont__Q25P2JME8TControlFP7JUTFont, global
 /* 80438ACC 00435A0C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80438AD0 00435A10  7C 08 02 A6 */	mflr r0
 /* 80438AD4 00435A14  90 01 00 14 */	stw r0, 0x14(r1)
@@ -110,7 +115,7 @@ setFont__Q25P2JME8TControlFP7JUTFont:
 /* 80438AE4 00435A24  7C 7E 1B 78 */	mr r30, r3
 /* 80438AE8 00435A28  80 03 00 40 */	lwz r0, 0x40(r3)
 /* 80438AEC 00435A2C  28 00 00 00 */	cmplwi r0, 0
-/* 80438AF0 00435A30  40 82 00 20 */	bne lbl_80438B10
+/* 80438AF0 00435A30  40 82 00 20 */	bne .L_80438B10
 /* 80438AF4 00435A34  3C 60 80 4A */	lis r3, lbl_8049AB98@ha
 /* 80438AF8 00435A38  3C A0 80 4A */	lis r5, lbl_8049ABA8@ha
 /* 80438AFC 00435A3C  38 63 AB 98 */	addi r3, r3, lbl_8049AB98@l
@@ -118,7 +123,7 @@ setFont__Q25P2JME8TControlFP7JUTFont:
 /* 80438B04 00435A44  38 A5 AB A8 */	addi r5, r5, lbl_8049ABA8@l
 /* 80438B08 00435A48  4C C6 31 82 */	crclr 6
 /* 80438B0C 00435A4C  4B BF 1B 35 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80438B10:
+.L_80438B10:
 /* 80438B10 00435A50  80 7E 00 40 */	lwz r3, 0x40(r30)
 /* 80438B14 00435A54  7F E4 FB 78 */	mr r4, r31
 /* 80438B18 00435A58  48 00 43 4D */	bl setFont__Q25P2JME19TRenderingProcessorFP7JUTFont
@@ -129,9 +134,9 @@ lbl_80438B10:
 /* 80438B2C 00435A6C  7C 08 03 A6 */	mtlr r0
 /* 80438B30 00435A70  38 21 00 10 */	addi r1, r1, 0x10
 /* 80438B34 00435A74  4E 80 00 20 */	blr 
+.endfn setFont__Q25P2JME8TControlFP7JUTFont
 
-.global setRubyFont__Q25P2JME8TControlFP7JUTFont
-setRubyFont__Q25P2JME8TControlFP7JUTFont:
+.fn setRubyFont__Q25P2JME8TControlFP7JUTFont, global
 /* 80438B38 00435A78  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80438B3C 00435A7C  7C 08 02 A6 */	mflr r0
 /* 80438B40 00435A80  90 01 00 14 */	stw r0, 0x14(r1)
@@ -141,7 +146,7 @@ setRubyFont__Q25P2JME8TControlFP7JUTFont:
 /* 80438B50 00435A90  7C 7E 1B 78 */	mr r30, r3
 /* 80438B54 00435A94  80 03 00 40 */	lwz r0, 0x40(r3)
 /* 80438B58 00435A98  28 00 00 00 */	cmplwi r0, 0
-/* 80438B5C 00435A9C  40 82 00 20 */	bne lbl_80438B7C
+/* 80438B5C 00435A9C  40 82 00 20 */	bne .L_80438B7C
 /* 80438B60 00435AA0  3C 60 80 4A */	lis r3, lbl_8049AB98@ha
 /* 80438B64 00435AA4  3C A0 80 4A */	lis r5, lbl_8049ABA8@ha
 /* 80438B68 00435AA8  38 63 AB 98 */	addi r3, r3, lbl_8049AB98@l
@@ -149,14 +154,14 @@ setRubyFont__Q25P2JME8TControlFP7JUTFont:
 /* 80438B70 00435AB0  38 A5 AB A8 */	addi r5, r5, lbl_8049ABA8@l
 /* 80438B74 00435AB4  4C C6 31 82 */	crclr 6
 /* 80438B78 00435AB8  4B BF 1A C9 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80438B7C:
+.L_80438B7C:
 /* 80438B7C 00435ABC  28 1F 00 00 */	cmplwi r31, 0
-/* 80438B80 00435AC0  40 82 00 10 */	bne lbl_80438B90
+/* 80438B80 00435AC0  40 82 00 10 */	bne .L_80438B90
 /* 80438B84 00435AC4  80 6D 9B D8 */	lwz r3, gP2JMEMgr@sda21(r13)
 /* 80438B88 00435AC8  83 E3 00 1C */	lwz r31, 0x1c(r3)
-/* 80438B8C 00435ACC  48 00 00 24 */	b lbl_80438BB0
-lbl_80438B90:
-/* 80438B90 00435AD0  40 82 00 20 */	bne lbl_80438BB0
+/* 80438B8C 00435ACC  48 00 00 24 */	b .L_80438BB0
+.L_80438B90:
+/* 80438B90 00435AD0  40 82 00 20 */	bne .L_80438BB0
 /* 80438B94 00435AD4  3C 60 80 4A */	lis r3, lbl_8049AB98@ha
 /* 80438B98 00435AD8  3C A0 80 4A */	lis r5, lbl_8049ABA8@ha
 /* 80438B9C 00435ADC  38 63 AB 98 */	addi r3, r3, lbl_8049AB98@l
@@ -164,7 +169,7 @@ lbl_80438B90:
 /* 80438BA4 00435AE4  38 A5 AB A8 */	addi r5, r5, lbl_8049ABA8@l
 /* 80438BA8 00435AE8  4C C6 31 82 */	crclr 6
 /* 80438BAC 00435AEC  4B BF 1A 95 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80438BB0:
+.L_80438BB0:
 /* 80438BB0 00435AF0  80 9E 00 40 */	lwz r4, 0x40(r30)
 /* 80438BB4 00435AF4  38 60 00 01 */	li r3, 1
 /* 80438BB8 00435AF8  93 E4 00 50 */	stw r31, 0x50(r4)
@@ -174,9 +179,9 @@ lbl_80438BB0:
 /* 80438BC8 00435B08  7C 08 03 A6 */	mtlr r0
 /* 80438BCC 00435B0C  38 21 00 10 */	addi r1, r1, 0x10
 /* 80438BD0 00435B10  4E 80 00 20 */	blr 
+.endfn setRubyFont__Q25P2JME8TControlFP7JUTFont
 
-.global init__Q25P2JME8TControlFv
-init__Q25P2JME8TControlFv:
+.fn init__Q25P2JME8TControlFv, global
 /* 80438BD4 00435B14  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80438BD8 00435B18  7C 08 02 A6 */	mflr r0
 /* 80438BDC 00435B1C  3C 80 80 4A */	lis r4, lbl_8049ABB4@ha
@@ -230,9 +235,9 @@ init__Q25P2JME8TControlFv:
 /* 80438C9C 00435BDC  7D 89 03 A6 */	mtctr r12
 /* 80438CA0 00435BE0  4E 80 04 21 */	bctrl 
 /* 80438CA4 00435BE4  54 60 06 3F */	clrlwi. r0, r3, 0x18
-/* 80438CA8 00435BE8  41 82 00 08 */	beq lbl_80438CB0
+/* 80438CA8 00435BE8  41 82 00 08 */	beq .L_80438CB0
 /* 80438CAC 00435BEC  3B E0 00 01 */	li r31, 1
-lbl_80438CB0:
+.L_80438CB0:
 /* 80438CB0 00435BF0  3C 80 80 4A */	lis r4, lbl_8049ABC8@ha
 /* 80438CB4 00435BF4  80 6D 9A EC */	lwz r3, sys@sda21(r13)
 /* 80438CB8 00435BF8  38 84 AB C8 */	addi r4, r4, lbl_8049ABC8@l
@@ -243,14 +248,14 @@ lbl_80438CB0:
 /* 80438CCC 00435C0C  7C 08 03 A6 */	mtlr r0
 /* 80438CD0 00435C10  38 21 00 10 */	addi r1, r1, 0x10
 /* 80438CD4 00435C14  4E 80 00 20 */	blr 
+.endfn init__Q25P2JME8TControlFv
 
-.global onInit__Q25P2JME8TControlFv
-onInit__Q25P2JME8TControlFv:
+.fn onInit__Q25P2JME8TControlFv, weak
 /* 80438CD8 00435C18  38 60 00 01 */	li r3, 1
 /* 80438CDC 00435C1C  4E 80 00 20 */	blr 
+.endfn onInit__Q25P2JME8TControlFv
 
-.global createRenderingProcessor__Q25P2JME8TControlFv
-createRenderingProcessor__Q25P2JME8TControlFv:
+.fn createRenderingProcessor__Q25P2JME8TControlFv, weak
 /* 80438CE0 00435C20  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80438CE4 00435C24  7C 08 02 A6 */	mflr r0
 /* 80438CE8 00435C28  90 01 00 14 */	stw r0, 0x14(r1)
@@ -260,10 +265,10 @@ createRenderingProcessor__Q25P2JME8TControlFv:
 /* 80438CF8 00435C38  38 60 01 10 */	li r3, 0x110
 /* 80438CFC 00435C3C  4B BE B1 A9 */	bl __nw__FUl
 /* 80438D00 00435C40  7C 7F 1B 79 */	or. r31, r3, r3
-/* 80438D04 00435C44  41 82 00 3C */	beq lbl_80438D40
+/* 80438D04 00435C44  41 82 00 3C */	beq .L_80438D40
 /* 80438D08 00435C48  80 1E 00 38 */	lwz r0, 0x38(r30)
 /* 80438D0C 00435C4C  28 00 00 00 */	cmplwi r0, 0
-/* 80438D10 00435C50  40 82 00 20 */	bne lbl_80438D30
+/* 80438D10 00435C50  40 82 00 20 */	bne .L_80438D30
 /* 80438D14 00435C54  3C 60 80 4A */	lis r3, lbl_8049ABD4@ha
 /* 80438D18 00435C58  3C A0 80 4A */	lis r5, lbl_8049ABA8@ha
 /* 80438D1C 00435C5C  38 63 AB D4 */	addi r3, r3, lbl_8049ABD4@l
@@ -271,12 +276,12 @@ createRenderingProcessor__Q25P2JME8TControlFv:
 /* 80438D24 00435C64  38 A5 AB A8 */	addi r5, r5, lbl_8049ABA8@l
 /* 80438D28 00435C68  4C C6 31 82 */	crclr 6
 /* 80438D2C 00435C6C  4B BF 19 15 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80438D30:
+.L_80438D30:
 /* 80438D30 00435C70  80 9E 00 38 */	lwz r4, 0x38(r30)
 /* 80438D34 00435C74  7F E3 FB 78 */	mr r3, r31
 /* 80438D38 00435C78  48 00 06 A9 */	bl __ct__Q25P2JME19TRenderingProcessorFPCQ28JMessage10TReference
 /* 80438D3C 00435C7C  7C 7F 1B 78 */	mr r31, r3
-lbl_80438D40:
+.L_80438D40:
 /* 80438D40 00435C80  93 FE 00 40 */	stw r31, 0x40(r30)
 /* 80438D44 00435C84  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80438D48 00435C88  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -284,9 +289,9 @@ lbl_80438D40:
 /* 80438D50 00435C90  7C 08 03 A6 */	mtlr r0
 /* 80438D54 00435C94  38 21 00 10 */	addi r1, r1, 0x10
 /* 80438D58 00435C98  4E 80 00 20 */	blr 
+.endfn createRenderingProcessor__Q25P2JME8TControlFv
 
-.global createSequenceProcessor__Q25P2JME8TControlFv
-createSequenceProcessor__Q25P2JME8TControlFv:
+.fn createSequenceProcessor__Q25P2JME8TControlFv, weak
 /* 80438D5C 00435C9C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80438D60 00435CA0  7C 08 02 A6 */	mflr r0
 /* 80438D64 00435CA4  90 01 00 14 */	stw r0, 0x14(r1)
@@ -296,10 +301,10 @@ createSequenceProcessor__Q25P2JME8TControlFv:
 /* 80438D74 00435CB4  38 60 00 70 */	li r3, 0x70
 /* 80438D78 00435CB8  4B BE B1 2D */	bl __nw__FUl
 /* 80438D7C 00435CBC  7C 7F 1B 79 */	or. r31, r3, r3
-/* 80438D80 00435CC0  41 82 00 40 */	beq lbl_80438DC0
+/* 80438D80 00435CC0  41 82 00 40 */	beq .L_80438DC0
 /* 80438D84 00435CC4  80 1E 00 38 */	lwz r0, 0x38(r30)
 /* 80438D88 00435CC8  28 00 00 00 */	cmplwi r0, 0
-/* 80438D8C 00435CCC  40 82 00 20 */	bne lbl_80438DAC
+/* 80438D8C 00435CCC  40 82 00 20 */	bne .L_80438DAC
 /* 80438D90 00435CD0  3C 60 80 4A */	lis r3, lbl_8049ABD4@ha
 /* 80438D94 00435CD4  3C A0 80 4A */	lis r5, lbl_8049ABA8@ha
 /* 80438D98 00435CD8  38 63 AB D4 */	addi r3, r3, lbl_8049ABD4@l
@@ -307,13 +312,13 @@ createSequenceProcessor__Q25P2JME8TControlFv:
 /* 80438DA0 00435CE0  38 A5 AB A8 */	addi r5, r5, lbl_8049ABA8@l
 /* 80438DA4 00435CE4  4C C6 31 82 */	crclr 6
 /* 80438DA8 00435CE8  4B BF 18 99 */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80438DAC:
+.L_80438DAC:
 /* 80438DAC 00435CEC  80 9E 00 38 */	lwz r4, 0x38(r30)
 /* 80438DB0 00435CF0  7F E3 FB 78 */	mr r3, r31
 /* 80438DB4 00435CF4  7F C5 F3 78 */	mr r5, r30
 /* 80438DB8 00435CF8  4B FF EA 8D */	bl __ct__Q25P2JME18TSequenceProcessorFPCQ28JMessage10TReferencePQ28JMessage8TControl
 /* 80438DBC 00435CFC  7C 7F 1B 78 */	mr r31, r3
-lbl_80438DC0:
+.L_80438DC0:
 /* 80438DC0 00435D00  93 FE 00 3C */	stw r31, 0x3c(r30)
 /* 80438DC4 00435D04  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80438DC8 00435D08  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -321,9 +326,9 @@ lbl_80438DC0:
 /* 80438DD0 00435D10  7C 08 03 A6 */	mtlr r0
 /* 80438DD4 00435D14  38 21 00 10 */	addi r1, r1, 0x10
 /* 80438DD8 00435D18  4E 80 00 20 */	blr 
+.endfn createSequenceProcessor__Q25P2JME8TControlFv
 
-.global reset__Q25P2JME8TControlFv
-reset__Q25P2JME8TControlFv:
+.fn reset__Q25P2JME8TControlFv, global
 /* 80438DDC 00435D1C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80438DE0 00435D20  7C 08 02 A6 */	mflr r0
 /* 80438DE4 00435D24  90 01 00 14 */	stw r0, 0x14(r1)
@@ -352,9 +357,9 @@ reset__Q25P2JME8TControlFv:
 /* 80438E40 00435D80  7C 08 03 A6 */	mtlr r0
 /* 80438E44 00435D84  38 21 00 10 */	addi r1, r1, 0x10
 /* 80438E48 00435D88  4E 80 00 20 */	blr 
+.endfn reset__Q25P2JME8TControlFv
 
-.global update__Q25P2JME8TControlFv
-update__Q25P2JME8TControlFv:
+.fn update__Q25P2JME8TControlFv, global
 /* 80438E4C 00435D8C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80438E50 00435D90  7C 08 02 A6 */	mflr r0
 /* 80438E54 00435D94  90 01 00 14 */	stw r0, 0x14(r1)
@@ -365,27 +370,27 @@ update__Q25P2JME8TControlFv:
 /* 80438E68 00435DA8  80 1E 00 40 */	lwz r0, 0x40(r30)
 /* 80438E6C 00435DAC  7C 7F 1B 78 */	mr r31, r3
 /* 80438E70 00435DB0  28 00 00 00 */	cmplwi r0, 0
-/* 80438E74 00435DB4  41 82 00 18 */	beq lbl_80438E8C
+/* 80438E74 00435DB4  41 82 00 18 */	beq .L_80438E8C
 /* 80438E78 00435DB8  7C 03 03 78 */	mr r3, r0
 /* 80438E7C 00435DBC  81 83 00 00 */	lwz r12, 0(r3)
 /* 80438E80 00435DC0  81 8C 00 68 */	lwz r12, 0x68(r12)
 /* 80438E84 00435DC4  7D 89 03 A6 */	mtctr r12
 /* 80438E88 00435DC8  4E 80 04 21 */	bctrl 
-lbl_80438E8C:
+.L_80438E8C:
 /* 80438E8C 00435DCC  80 7E 00 4C */	lwz r3, 0x4c(r30)
 /* 80438E90 00435DD0  54 60 07 FF */	clrlwi. r0, r3, 0x1f
-/* 80438E94 00435DD4  41 82 00 18 */	beq lbl_80438EAC
+/* 80438E94 00435DD4  41 82 00 18 */	beq .L_80438EAC
 /* 80438E98 00435DD8  57 E0 06 3F */	clrlwi. r0, r31, 0x18
-/* 80438E9C 00435DDC  40 82 00 20 */	bne lbl_80438EBC
+/* 80438E9C 00435DDC  40 82 00 20 */	bne .L_80438EBC
 /* 80438EA0 00435DE0  60 60 00 02 */	ori r0, r3, 2
 /* 80438EA4 00435DE4  90 1E 00 4C */	stw r0, 0x4c(r30)
-/* 80438EA8 00435DE8  48 00 00 14 */	b lbl_80438EBC
-lbl_80438EAC:
+/* 80438EA8 00435DE8  48 00 00 14 */	b .L_80438EBC
+.L_80438EAC:
 /* 80438EAC 00435DEC  57 E0 06 3F */	clrlwi. r0, r31, 0x18
-/* 80438EB0 00435DF0  41 82 00 0C */	beq lbl_80438EBC
+/* 80438EB0 00435DF0  41 82 00 0C */	beq .L_80438EBC
 /* 80438EB4 00435DF4  60 60 00 01 */	ori r0, r3, 1
 /* 80438EB8 00435DF8  90 1E 00 4C */	stw r0, 0x4c(r30)
-lbl_80438EBC:
+.L_80438EBC:
 /* 80438EBC 00435DFC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 80438EC0 00435E00  7F E3 FB 78 */	mr r3, r31
 /* 80438EC4 00435E04  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -393,13 +398,13 @@ lbl_80438EBC:
 /* 80438ECC 00435E0C  7C 08 03 A6 */	mtlr r0
 /* 80438ED0 00435E10  38 21 00 10 */	addi r1, r1, 0x10
 /* 80438ED4 00435E14  4E 80 00 20 */	blr 
+.endfn update__Q25P2JME8TControlFv
 
-.global update__Q25P2JME19TRenderingProcessorFv
-update__Q25P2JME19TRenderingProcessorFv:
+.fn update__Q25P2JME19TRenderingProcessorFv, weak
 /* 80438ED8 00435E18  4E 80 00 20 */	blr 
+.endfn update__Q25P2JME19TRenderingProcessorFv
 
-.global draw__Q25P2JME8TControlFR8Graphics
-draw__Q25P2JME8TControlFR8Graphics:
+.fn draw__Q25P2JME8TControlFR8Graphics, global
 /* 80438EDC 00435E1C  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80438EE0 00435E20  7C 08 02 A6 */	mflr r0
 /* 80438EE4 00435E24  90 01 00 14 */	stw r0, 0x14(r1)
@@ -408,9 +413,9 @@ draw__Q25P2JME8TControlFR8Graphics:
 /* 80438EF0 00435E30  7C 08 03 A6 */	mtlr r0
 /* 80438EF4 00435E34  38 21 00 10 */	addi r1, r1, 0x10
 /* 80438EF8 00435E38  4E 80 00 20 */	blr 
+.endfn draw__Q25P2JME8TControlFR8Graphics
 
-.global draw__Q25P2JME8TControlFPA4_fPA4_f
-draw__Q25P2JME8TControlFPA4_fPA4_f:
+.fn draw__Q25P2JME8TControlFPA4_fPA4_f, global
 /* 80438EFC 00435E3C  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80438F00 00435E40  7C 08 02 A6 */	mflr r0
 /* 80438F04 00435E44  90 01 00 24 */	stw r0, 0x24(r1)
@@ -422,7 +427,7 @@ draw__Q25P2JME8TControlFPA4_fPA4_f:
 /* 80438F1C 00435E5C  7C 7D 1B 78 */	mr r29, r3
 /* 80438F20 00435E60  80 03 00 40 */	lwz r0, 0x40(r3)
 /* 80438F24 00435E64  28 00 00 00 */	cmplwi r0, 0
-/* 80438F28 00435E68  40 82 00 20 */	bne lbl_80438F48
+/* 80438F28 00435E68  40 82 00 20 */	bne .L_80438F48
 /* 80438F2C 00435E6C  3C 60 80 4A */	lis r3, lbl_8049AB98@ha
 /* 80438F30 00435E70  3C A0 80 4A */	lis r5, lbl_8049ABA8@ha
 /* 80438F34 00435E74  38 63 AB 98 */	addi r3, r3, lbl_8049AB98@l
@@ -430,7 +435,7 @@ draw__Q25P2JME8TControlFPA4_fPA4_f:
 /* 80438F3C 00435E7C  38 A5 AB A8 */	addi r5, r5, lbl_8049ABA8@l
 /* 80438F40 00435E80  4C C6 31 82 */	crclr 6
 /* 80438F44 00435E84  4B BF 16 FD */	bl panic_f__12JUTExceptionFPCciPCce
-lbl_80438F48:
+.L_80438F48:
 /* 80438F48 00435E88  80 9D 00 40 */	lwz r4, 0x40(r29)
 /* 80438F4C 00435E8C  7F A3 EB 78 */	mr r3, r29
 /* 80438F50 00435E90  93 C4 00 44 */	stw r30, 0x44(r4)
@@ -444,9 +449,9 @@ lbl_80438F48:
 /* 80438F70 00435EB0  7C 08 03 A6 */	mtlr r0
 /* 80438F74 00435EB4  38 21 00 20 */	addi r1, r1, 0x20
 /* 80438F78 00435EB8  4E 80 00 20 */	blr 
+.endfn draw__Q25P2JME8TControlFPA4_fPA4_f
 
-.global setLocate__Q25P2JME8TControlFii
-setLocate__Q25P2JME8TControlFii:
+.fn setLocate__Q25P2JME8TControlFii, global
 /* 80438F7C 00435EBC  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80438F80 00435EC0  3C C0 43 30 */	lis r6, 0x4330
 /* 80438F84 00435EC4  6C 80 80 00 */	xoris r0, r4, 0x8000
@@ -467,9 +472,9 @@ setLocate__Q25P2JME8TControlFii:
 /* 80438FC0 00435F00  D0 03 00 9C */	stfs f0, 0x9c(r3)
 /* 80438FC4 00435F04  38 21 00 20 */	addi r1, r1, 0x20
 /* 80438FC8 00435F08  4E 80 00 20 */	blr 
+.endfn setLocate__Q25P2JME8TControlFii
 
-.global setMessageID__Q25P2JME8TControlFPc
-setMessageID__Q25P2JME8TControlFPc:
+.fn setMessageID__Q25P2JME8TControlFPc, global
 /* 80438FCC 00435F0C  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80438FD0 00435F10  7C 08 02 A6 */	mflr r0
 /* 80438FD4 00435F14  90 01 00 24 */	stw r0, 0x24(r1)
@@ -491,9 +496,9 @@ setMessageID__Q25P2JME8TControlFPc:
 /* 80439014 00435F54  7C 08 03 A6 */	mtlr r0
 /* 80439018 00435F58  38 21 00 20 */	addi r1, r1, 0x20
 /* 8043901C 00435F5C  4E 80 00 20 */	blr 
+.endfn setMessageID__Q25P2JME8TControlFPc
 
-.global setMessageID__Q25P2JME8TControlFUlUl
-setMessageID__Q25P2JME8TControlFUlUl:
+.fn setMessageID__Q25P2JME8TControlFUlUl, global
 /* 80439020 00435F60  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80439024 00435F64  7C 08 02 A6 */	mflr r0
 /* 80439028 00435F68  90 01 00 24 */	stw r0, 0x24(r1)
@@ -527,9 +532,9 @@ setMessageID__Q25P2JME8TControlFUlUl:
 /* 80439098 00435FD8  7C 08 03 A6 */	mtlr r0
 /* 8043909C 00435FDC  38 21 00 20 */	addi r1, r1, 0x20
 /* 804390A0 00435FE0  4E 80 00 20 */	blr 
+.endfn setMessageID__Q25P2JME8TControlFUlUl
 
-.global setMessageCode__Q25P2JME8TControlFUsUs
-setMessageCode__Q25P2JME8TControlFUsUs:
+.fn setMessageCode__Q25P2JME8TControlFUsUs, global
 /* 804390A4 00435FE4  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 804390A8 00435FE8  7C 08 02 A6 */	mflr r0
 /* 804390AC 00435FEC  90 01 00 24 */	stw r0, 0x24(r1)
@@ -561,9 +566,9 @@ setMessageCode__Q25P2JME8TControlFUsUs:
 /* 80439114 00436054  7C 08 03 A6 */	mtlr r0
 /* 80439118 00436058  38 21 00 20 */	addi r1, r1, 0x20
 /* 8043911C 0043605C  4E 80 00 20 */	blr 
+.endfn setMessageCode__Q25P2JME8TControlFUsUs
 
-.global setMessageCode__Q25P2JME8TControlFUl
-setMessageCode__Q25P2JME8TControlFUl:
+.fn setMessageCode__Q25P2JME8TControlFUl, global
 /* 80439120 00436060  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80439124 00436064  7C 08 02 A6 */	mflr r0
 /* 80439128 00436068  90 01 00 24 */	stw r0, 0x24(r1)
@@ -592,9 +597,9 @@ setMessageCode__Q25P2JME8TControlFUl:
 /* 80439184 004360C4  7C 08 03 A6 */	mtlr r0
 /* 80439188 004360C8  38 21 00 20 */	addi r1, r1, 0x20
 /* 8043918C 004360CC  4E 80 00 20 */	blr 
+.endfn setMessageCode__Q25P2JME8TControlFUl
 
-.global __dt__Q25P2JME8TControlFv
-__dt__Q25P2JME8TControlFv:
+.fn __dt__Q25P2JME8TControlFv, weak
 /* 80439190 004360D0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 80439194 004360D4  7C 08 02 A6 */	mflr r0
 /* 80439198 004360D8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -602,17 +607,17 @@ __dt__Q25P2JME8TControlFv:
 /* 804391A0 004360E0  7C 9F 23 78 */	mr r31, r4
 /* 804391A4 004360E4  93 C1 00 08 */	stw r30, 8(r1)
 /* 804391A8 004360E8  7C 7E 1B 79 */	or. r30, r3, r3
-/* 804391AC 004360EC  41 82 00 28 */	beq lbl_804391D4
+/* 804391AC 004360EC  41 82 00 28 */	beq .L_804391D4
 /* 804391B0 004360F0  3C A0 80 4F */	lis r5, __vt__Q25P2JME8TControl@ha
 /* 804391B4 004360F4  38 80 00 00 */	li r4, 0
 /* 804391B8 004360F8  38 05 C9 F0 */	addi r0, r5, __vt__Q25P2JME8TControl@l
 /* 804391BC 004360FC  90 1E 00 00 */	stw r0, 0(r30)
 /* 804391C0 00436100  4B BC F2 29 */	bl __dt__Q28JMessage8TControlFv
 /* 804391C4 00436104  7F E0 07 35 */	extsh. r0, r31
-/* 804391C8 00436108  40 81 00 0C */	ble lbl_804391D4
+/* 804391C8 00436108  40 81 00 0C */	ble .L_804391D4
 /* 804391CC 0043610C  7F C3 F3 78 */	mr r3, r30
 /* 804391D0 00436110  4B BE AE E5 */	bl __dl__FPv
-lbl_804391D4:
+.L_804391D4:
 /* 804391D4 00436114  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 804391D8 00436118  7F C3 F3 78 */	mr r3, r30
 /* 804391DC 0043611C  83 E1 00 0C */	lwz r31, 0xc(r1)
@@ -620,3 +625,4 @@ lbl_804391D4:
 /* 804391E4 00436124  7C 08 03 A6 */	mtlr r0
 /* 804391E8 00436128  38 21 00 10 */	addi r1, r1, 0x10
 /* 804391EC 0043612C  4E 80 00 20 */	blr 
+.endfn __dt__Q25P2JME8TControlFv

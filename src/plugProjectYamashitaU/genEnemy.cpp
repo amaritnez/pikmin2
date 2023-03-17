@@ -12,7 +12,7 @@ namespace Game {
  * Address:	80124778
  * Size:	00003C
  */
-GenObject* makeObjectEnemy(void) { return new GenObjectEnemy; }
+GenObject* makeObjectEnemy() { return new GenObjectEnemy; }
 
 /*
  * --INFO--
@@ -24,19 +24,19 @@ GenObject* makeObjectEnemy(void) { return new GenObjectEnemy; }
  */
 GenObjectEnemy::GenObjectEnemy()
     : GenObject('teki', "object type", "“G‚ðƒZƒbƒg")
-    , m_enemyID(EnemyTypeID::EnemyID_Pelplant)
-    , m_spawnType(1)
-    , m_tekiBirthType(0)
-    , m_tekiNum(1)
-    , m_appearRadius(100.0f)
-    , m_direction(0)
-    , m_enemySize(0)
-    , m_otakaraItemCode(0)
-    , m_enemyGenerator(nullptr)
-    , m_byte_4C(false)
+    , mEnemyID(EnemyTypeID::EnemyID_Pelplant)
+    , mSpawnType(1)
+    , mTekiBirthType(0)
+    , mTekiNum(1)
+    , mAppearRadius(100.0f)
+    , mDirection(0)
+    , mEnemySize(0)
+    , mOtakaraItemCode(0)
+    , mEnemyGenerator(nullptr)
+    , _4C(false)
 {
 	createEnemyGenerator();
-	m_byte_4C |= true;
+	_4C |= true;
 }
 
 /*
@@ -49,16 +49,16 @@ void GenObjectEnemy::initialise()
 	GenObjectFactoryFactory* metafactory = GenObjectFactory::factory;
 
 	// Make sure we don't create a new factory over the limit
-	if (metafactory->m_count >= metafactory->m_limit) {
+	if (metafactory->mCount >= metafactory->mLimit) {
 		return;
 	}
 
 	// Initialise the new factory with default teki parameters
-	metafactory->m_factories[metafactory->m_count].m_typeID       = 'teki';
-	metafactory->m_factories[metafactory->m_count].m_makeFunction = &makeObjectEnemy;
-	metafactory->m_factories[metafactory->m_count].m_name         = "“G‚ð”­¶";
-	metafactory->m_factories[metafactory->m_count].m_version      = '0005';
-	metafactory->m_count++;
+	metafactory->mFactories[metafactory->mCount].mTypeID       = 'teki';
+	metafactory->mFactories[metafactory->mCount].mMakeFunction = &makeObjectEnemy;
+	metafactory->mFactories[metafactory->mCount].mName         = "“G‚ð”­¶";
+	metafactory->mFactories[metafactory->mCount].mVersion      = '0005';
+	metafactory->mCount++;
 }
 
 /*
@@ -80,7 +80,7 @@ void GenObjectEnemy::ramLoadParameters(Stream&) { }
  * Address:	80124918
  * Size:	0006B4
  */
-Creature* GenObjectEnemy::generate(Game::Generator*)
+Creature* GenObjectEnemy::generate(Game::Generator* generator)
 {
 	return nullptr; // placeholder
 	                /*

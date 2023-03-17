@@ -6351,7 +6351,7 @@ void PSPause_StartMenuOff()
  * Address:	8046BB68
  * Size:	0000EC
  */
-void PSPauseOn(unsigned char, unsigned char)
+void PSPauseOn(uchar, uchar)
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -7369,7 +7369,7 @@ lbl_8046C678:
  * Address:	8046C690
  * Size:	000028
  */
-void __sinit_PSMainSide_Scene_cpp(void)
+void __sinit_PSMainSide_Scene_cpp()
 {
 	/*
 	lis      r4, __float_nan@ha

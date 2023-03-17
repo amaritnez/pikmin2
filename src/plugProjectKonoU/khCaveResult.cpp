@@ -1,310 +1,21 @@
 #include "types.h"
-
-/*
-    Generated from dpostproc
-
-    .section .ctors, "wa"  # 0x80472F00 - 0x804732C0
-        .4byte __sinit_khCaveResult_cpp
-
-    .section .rodata  # 0x804732E0 - 0x8049E220
-    .global lbl_80498360
-    lbl_80498360:
-        .4byte 0x6B684361
-        .4byte 0x76655265
-        .4byte 0x73756C74
-        .4byte 0x2E637070
-        .4byte 0x00000000
-    .global lbl_80498374
-    lbl_80498374:
-        .4byte 0x64697370
-        .4byte 0x206D656D
-        .4byte 0x62657220
-        .4byte 0x65727200
-        .4byte 0x72657375
-        .4byte 0x6C745F64
-        .4byte 0x6F756B75
-        .4byte 0x74752E62
-        .4byte 0x6C6F0000
-        .4byte 0x72657375
-        .4byte 0x6C745F64
-        .4byte 0x6F756B75
-        .4byte 0x74755F64
-        .4byte 0x726F705F
-        .4byte 0x6974656D
-        .4byte 0x2E626C6F
-        .4byte 0x00000000
-        .4byte 0x72657375
-        .4byte 0x6C745F64
-        .4byte 0x6F756B75
-        .4byte 0x74752E62
-        .4byte 0x636B0000
-        .4byte 0x72657375
-        .4byte 0x6C745F64
-        .4byte 0x6F756B75
-        .4byte 0x74752E62
-        .4byte 0x706B0000
-        .4byte 0x72657375
-        .4byte 0x6C745F64
-        .4byte 0x6F756B75
-        .4byte 0x74752E62
-        .4byte 0x746B0000
-        .4byte 0x72657375
-        .4byte 0x6C745F64
-        .4byte 0x6F756B75
-        .4byte 0x74752E62
-        .4byte 0x726B0000
-        .4byte 0x646F756B
-        .4byte 0x7574755F
-        .4byte 0x636F6D70
-        .4byte 0x6C657465
-        .4byte 0x2E626C6F
-        .4byte 0x00000000
-        .4byte 0x646F756B
-        .4byte 0x7574755F
-        .4byte 0x636F6D70
-        .4byte 0x6C657465
-        .4byte 0x2E62636B
-        .4byte 0x00000000
-        .4byte 0x646F756B
-        .4byte 0x7574755F
-        .4byte 0x636F6D70
-        .4byte 0x6C657465
-        .4byte 0x2E62706B
-        .4byte 0x00000000
-    .global lbl_80498450
-    lbl_80498450:
-        .4byte 0x69506963
-        .4byte 0x6F6E3030
-        .4byte 0x69506963
-        .4byte 0x6F6E3031
-    .global lbl_80498460
-    lbl_80498460:
-        .4byte 0x50696E61
-        .4byte 0x6D653030
-        .4byte 0x50696E61
-        .4byte 0x6D653031
-    .global lbl_80498470
-    lbl_80498470:
-        .4byte 0x004E6963
-        .4byte 0x6F6E3030
-        .4byte 0x004E6963
-        .4byte 0x6F6E3031
-    .global lbl_80498480
-    lbl_80498480:
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x00000000
-    .global lbl_80498494
-    lbl_80498494:
-        .4byte 0x72657375
-        .4byte 0x6C745F64
-        .4byte 0x6F756B75
-        .4byte 0x74752E73
-        .4byte 0x7A730000
-        .4byte 0x73637265
-        .4byte 0x656E4F62
-        .4byte 0x6A2E6800
-        .asciz "P2Assert"
-        .skip 3
-
-    .section .data, "wa"  # 0x8049E220 - 0x804EFC20
-    .global lbl_804EA560
-    lbl_804EA560:
-        .4byte lbl_803F94EC
-        .4byte lbl_803F94F8
-        .4byte lbl_803F9504
-        .4byte lbl_803F9510
-        .4byte lbl_803F951C
-        .4byte lbl_803F9528
-        .4byte lbl_803F9534
-        .4byte lbl_803F9540
-        .4byte lbl_803F954C
-    .global __vt__Q32kh6Screen15SceneCaveResult
-    __vt__Q32kh6Screen15SceneCaveResult:
-        .4byte 0
-        .4byte 0
-        .4byte getSceneType__Q32kh6Screen15SceneCaveResultFv
-        .4byte getOwnerID__Q32kh6Screen15SceneCaveResultFv
-        .4byte getMemberID__Q32kh6Screen15SceneCaveResultFv
-        .4byte isUseBackupSceneInfo__Q26Screen9SceneBaseFv
-        .4byte isDrawInDemo__Q26Screen9SceneBaseCFv
-        .4byte getResName__Q32kh6Screen15SceneCaveResultCFv
-        .4byte doCreateObj__Q32kh6Screen15SceneCaveResultFP10JKRArchive
-        .4byte
-   doUserCallBackFunc__Q32kh6Screen15SceneCaveResultFPQ28Resource10MgrCommand
-        .4byte setPort__Q26Screen9SceneBaseFR8Graphics
-        .4byte doUpdateActive__Q26Screen9SceneBaseFv
-        .4byte doConfirmSetScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg
-        .4byte
-   doConfirmStartScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg .4byte
-   doConfirmEndScene__Q26Screen9SceneBaseFRPQ26Screen11EndSceneArg .4byte
-   doStart__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg .4byte
-   doEnd__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg .4byte
-   setDefaultDispMember__Q26Screen9SceneBaseFv .4byte
-   doSetBackupScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg .4byte
-   doGetFinishState__Q26Screen9SceneBaseFv .global
-   __vt__Q32kh6Screen13ObjCaveResult
-    __vt__Q32kh6Screen13ObjCaveResult:
-        .4byte 0
-        .4byte 0
-        .4byte __dt__Q32kh6Screen13ObjCaveResultFv
-        .4byte getChildCount__5CNodeFv
-        .4byte 0
-        .4byte 0
-        .4byte "@24@__dt__Q32kh6Screen13ObjCaveResultFv"
-        .4byte update__Q26Screen7ObjBaseFv
-        .4byte draw__Q26Screen7ObjBaseFR8Graphics
-        .4byte start__Q26Screen7ObjBaseFPCQ26Screen13StartSceneArg
-        .4byte end__Q26Screen7ObjBaseFPCQ26Screen11EndSceneArg
-        .4byte setOwner__Q26Screen7ObjBaseFPQ26Screen9SceneBase
-        .4byte getOwner__Q26Screen7ObjBaseCFv
-        .4byte create__Q26Screen7ObjBaseFP10JKRArchive
-        .4byte confirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg
-        .4byte confirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg
-        .4byte confirmEndScene__Q26Screen7ObjBaseFPQ26Screen11EndSceneArg
-        .4byte doStart__Q26Screen7ObjBaseFPCQ26Screen13StartSceneArg
-        .4byte doEnd__Q26Screen7ObjBaseFPCQ26Screen11EndSceneArg
-        .4byte doCreate__Q32kh6Screen13ObjCaveResultFP10JKRArchive
-        .4byte doUpdateFadein__Q32kh6Screen13ObjCaveResultFv
-        .4byte doUpdateFadeinFinish__Q32kh6Screen13ObjCaveResultFv
-        .4byte doUpdate__Q32kh6Screen13ObjCaveResultFv
-        .4byte doUpdateFinish__Q26Screen7ObjBaseFv
-        .4byte doUpdateFadeout__Q32kh6Screen13ObjCaveResultFv
-        .4byte doUpdateFadeoutFinish__Q26Screen7ObjBaseFv
-        .4byte doDraw__Q32kh6Screen13ObjCaveResultFR8Graphics
-        .4byte doConfirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg
-        .4byte doConfirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg
-        .4byte doConfirmEndScene__Q26Screen7ObjBaseFRPQ26Screen11EndSceneArg
-    .global __vt__Q32kh6Screen14DispCaveResult
-    __vt__Q32kh6Screen14DispCaveResult:
-        .4byte 0
-        .4byte 0
-        .4byte getSize__Q32kh6Screen14DispCaveResultFv
-        .4byte getOwnerID__Q32kh6Screen14DispCaveResultFv
-        .4byte getMemberID__Q32kh6Screen14DispCaveResultFv
-        .4byte doSetSubMemberAll__Q32og6Screen14DispMemberBaseFv
-        .4byte 0
-
-    .section .bss  # 0x804EFC20 - 0x8051467C
-    .global msVal__Q32kh6Screen13ObjCaveResult
-    msVal__Q32kh6Screen13ObjCaveResult:
-        .skip 0x3C
-
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .global lbl_8051FFA8
-    lbl_8051FFA8:
-        .4byte 0x00000000
-        .4byte 0x00000000
-    .global lbl_8051FFB0
-    lbl_8051FFB0:
-        .4byte 0x43300000
-        .4byte 0x80000000
-    .global lbl_8051FFB8
-    lbl_8051FFB8:
-        .float 1.0
-    .global lbl_8051FFBC
-    lbl_8051FFBC:
-        .4byte 0x40000000
-    .global lbl_8051FFC0
-    lbl_8051FFC0:
-        .4byte 0x43300000
-        .4byte 0x00000000
-    .global lbl_8051FFC8
-    lbl_8051FFC8:
-        .4byte 0x432F0000
-    .global lbl_8051FFCC
-    lbl_8051FFCC:
-        .4byte 0x43608000
-    .global lbl_8051FFD0
-    lbl_8051FFD0:
-        .float 0.5
-    .global lbl_8051FFD4
-    lbl_8051FFD4:
-        .4byte 0x41F00000
-    .global lbl_8051FFD8
-    lbl_8051FFD8:
-        .4byte 0x3F59999A
-    .global lbl_8051FFDC
-    lbl_8051FFDC:
-        .4byte 0x42700000
-    .global lbl_8051FFE0
-    lbl_8051FFE0:
-        .4byte 0x47000000
-    .global lbl_8051FFE4
-    lbl_8051FFE4:
-        .4byte 0x42200000
-    .global lbl_8051FFE8
-    lbl_8051FFE8:
-        .4byte 0x41A00000
-    .global lbl_8051FFEC
-    lbl_8051FFEC:
-        .4byte 0x42000000
-    .global lbl_8051FFF0
-    lbl_8051FFF0:
-        .4byte 0x40800000
-    .global lbl_8051FFF4
-    lbl_8051FFF4:
-        .4byte 0x461C4000
-    .global lbl_8051FFF8
-    lbl_8051FFF8:
-        .4byte 0x459C4000
-    .global lbl_8051FFFC
-    lbl_8051FFFC:
-        .4byte 0x41000000
-    .global lbl_80520000
-    lbl_80520000:
-        .4byte 0x41200000
-    .global lbl_80520004
-    lbl_80520004:
-        .4byte 0x43B40000
-    .global lbl_80520008
-    lbl_80520008:
-        .4byte 0x47800000
-    .global lbl_8052000C
-    lbl_8052000C:
-        .4byte 0x6661696C
-        .4byte 0x65640000
-    .global lbl_80520014
-    lbl_80520014:
-        .4byte 0x00000000
-    .global lbl_80520018
-    lbl_80520018:
-        .float 0.7
-    .global lbl_8052001C
-    lbl_8052001C:
-        .4byte 0x42B40000
-    .global lbl_80520020
-    lbl_80520020:
-        .4byte 0xC1F00000
-    .global lbl_80520024
-    lbl_80520024:
-        .4byte 0xC1A00000
-    .global lbl_80520028
-    lbl_80520028:
-        .4byte 0x430C0000
-    .global lbl_8052002C
-    lbl_8052002C:
-        .4byte 0x432D0000
-    .global lbl_80520030
-    lbl_80520030:
-        .4byte 0x434E0000
-    .global lbl_80520034
-    lbl_80520034:
-        .4byte 0x43700000
-
-    .section .sbss2, "", @nobits # 0x80520e40 - 0x80520ED8
-    .global lbl_80520EC0
-    lbl_80520EC0:
-        .skip 0x4
-    .global lbl_80520EC4
-    lbl_80520EC4:
-        .skip 0x4
-*/
+#include "kh/khCaveResult.h"
+#include "kh/khLostItem.h"
+#include "Dolphin/rand.h"
+#include "efx2d/T2DChangesmoke.h"
+#include "efx2d/T2DCavecomp.h"
+#include "PSSystem/PSSystemIF.h"
+#include "JSystem/JKernel/JKRFileLoader.h"
+#include "JSystem/J2D/J2DAnmLoader.h"
+#include "og/Screen/ogScreen.h"
+#include "og/Screen/StickAnimMgr.h"
+#include "og/newScreen/ogUtil.h"
+#include "Game/MemoryCard/Mgr.h"
+#include "LoadResource.h"
+#include "Controller.h"
+#include "Dolphin/gx.h"
 
 namespace kh {
-
 namespace Screen {
 
 /*
@@ -312,44 +23,15 @@ namespace Screen {
  * Address:	803F8694
  * Size:	00007C
  */
-DispCaveResult::DispCaveResult(Game::Result::TNode*, unsigned long, unsigned long, unsigned long, unsigned long, bool, JKRHeap*, bool)
+DispCaveResult::DispCaveResult(Game::Result::TNode* node, u32 death, u32 otakara, u32 otakaraMax, u32 pokos, bool paydebt, JKRHeap* heap,
+                               bool caveComp)
 {
-	/*
-	.loc_0x0:
-	  stwu      r1, -0x20(r1)
-	  mflr      r0
-	  li        r12, 0
-	  lis       r11, 0x804F
-	  stw       r0, 0x24(r1)
-	  subi      r0, r11, 0x59B4
-	  stmw      r26, 0x8(r1)
-	  lis       r31, 0x804B
-	  addi      r31, r31, 0x1148
-	  mr        r27, r6
-	  lbz       r6, 0x2B(r1)
-	  mr        r26, r3
-	  mr        r28, r7
-	  mr        r29, r8
-	  mr        r30, r9
-	  stw       r31, 0x0(r3)
-	  mr        r31, r10
-	  stw       r12, 0x4(r3)
-	  stw       r0, 0x0(r3)
-	  bl        .loc_0x7C
-	  stw       r29, 0x28(r26)
-	  mr        r3, r26
-	  stb       r30, 0x30(r26)
-	  stw       r27, 0x1C(r26)
-	  stw       r28, 0x20(r26)
-	  stw       r31, 0x8(r26)
-	  lmw       r26, 0x8(r1)
-	  lwz       r0, 0x24(r1)
-	  mtlr      r0
-	  addi      r1, r1, 0x20
-	  blr
-
-	.loc_0x7C:
-	*/
+	init(node, death, caveComp);
+	mTotalPokos       = pokos;
+	mDebtPayed        = paydebt;
+	mCollectedOtakara = otakara;
+	mMaxOtakara       = otakaraMax;
+	mHeap             = heap;
 }
 
 /*
@@ -357,65 +39,30 @@ DispCaveResult::DispCaveResult(Game::Result::TNode*, unsigned long, unsigned lon
  * Address:	803F8710
  * Size:	0000AC
  */
-void DispCaveResult::init(Game::Result::TNode*, unsigned long, bool)
+void DispCaveResult::init(Game::Result::TNode* node, u32 death, bool caveComp)
 {
-	/*
-stw      r4, 0xc(r3)
-li       r0, 0
-stw      r0, 0x18(r3)
-stw      r0, 0x14(r3)
-stw      r0, 0x24(r3)
-stw      r0, 0x10(r3)
-lwz      r4, 0xc(r3)
-lwz      r7, 0x24(r4)
-b        lbl_803F87A0
+	mResultNode            = node;
+	mLostTreasures         = 0;
+	mTotalNotLostTreasures = 0;
+	mCavePokos             = 0;
+	mTreasureNodeCount     = 0;
 
-lbl_803F8734:
-lwz      r0, 0x3c(r7)
-cmpwi    r0, 0
-bgt      lbl_803F874C
-lwz      r0, 0x34(r7)
-cmpwi    r0, 0
-beq      lbl_803F8758
+	FOREACH_NODE(Game::Result::TNode, mResultNode->mChild, cNode)
+	{
+		if (cNode->mPokoValue > 0 || cNode->mLostNum != 0) {
+			mTotalNotLostTreasures++;
+		}
+		mTreasureNodeCount++;
+		mLostTreasures += cNode->mLostNum;
 
-lbl_803F874C:
-lwz      r4, 0x14(r3)
-addi     r0, r4, 1
-stw      r0, 0x14(r3)
+		if (cNode->mPokoValue > 0 || !cNode->mLostNum) {
+			mCavePokos += cNode->mTotalPokos;
+		}
+	}
 
-lbl_803F8758:
-lwz      r4, 0x10(r3)
-addi     r0, r4, 1
-stw      r0, 0x10(r3)
-lwz      r4, 0x18(r3)
-lwz      r0, 0x34(r7)
-add      r0, r4, r0
-stw      r0, 0x18(r3)
-lwz      r0, 0x3c(r7)
-cmpwi    r0, 0
-bgt      lbl_803F878C
-lwz      r0, 0x34(r7)
-cmpwi    r0, 0
-bne      lbl_803F879C
-
-lbl_803F878C:
-lwz      r4, 0x24(r3)
-lwz      r0, 0x38(r7)
-add      r0, r4, r0
-stw      r0, 0x24(r3)
-
-lbl_803F879C:
-lwz      r7, 0x18(r7)
-
-lbl_803F87A0:
-cmplwi   r7, 0
-bne      lbl_803F8734
-stw      r5, 0x2c(r3)
-li       r0, 0
-stb      r6, 0x31(r3)
-stw      r0, 0x34(r3)
-blr
-	*/
+	mDeadPikis  = death;
+	mCaveComp   = caveComp;
+	mIsFinished = 0;
 }
 
 /*
@@ -425,85 +72,66 @@ blr
  */
 ObjCaveResult::ObjCaveResult()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r3
-bl       __ct__Q26Screen7ObjBaseFv
-lis      r4, __vt__Q32kh6Screen13ObjCaveResult@ha
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-addi     r4, r4, __vt__Q32kh6Screen13ObjCaveResult@l
-li       r7, 0
-stw      r4, 0(r31)
-addi     r0, r4, 0x10
-lfs      f0, lbl_8051FFA8@sda21(r2)
-li       r6, -6
-stw      r0, 0x18(r31)
-addi     r5, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-li       r4, 3
-li       r0, 0xff
-stw      r7, 0x38(r31)
-mr       r3, r31
-stw      r7, 0x3c(r31)
-stw      r7, 0x48(r31)
-stw      r7, 0x44(r31)
-stw      r7, 0x40(r31)
-stw      r7, 0x50(r31)
-stw      r7, 0x4c(r31)
-stw      r7, 0x58(r31)
-stw      r7, 0x54(r31)
-stw      r7, 0x5c(r31)
-stw      r7, 0x60(r31)
-stfs     f0, 0x78(r31)
-stfs     f0, 0x74(r31)
-stfs     f0, 0x70(r31)
-stfs     f0, 0x68(r31)
-stfs     f0, 0x6c(r31)
-stfs     f0, 0x64(r31)
-stw      r7, 0x7c(r31)
-stw      r7, 0x80(r31)
-stw      r7, 0x94(r31)
-stw      r7, 0x90(r31)
-stw      r7, 0x8c(r31)
-stw      r7, 0x88(r31)
-stw      r7, 0xb0(r31)
-stw      r7, 0xac(r31)
-stw      r7, 0xa8(r31)
-stw      r7, 0xa4(r31)
-stw      r7, 0xa0(r31)
-stw      r7, 0x9c(r31)
-stw      r7, 0x98(r31)
-stw      r7, 0xcc(r31)
-stw      r7, 0xc8(r31)
-stw      r7, 0xc4(r31)
-stw      r7, 0xc0(r31)
-stw      r7, 0xbc(r31)
-stw      r7, 0xb8(r31)
-stw      r7, 0xb4(r31)
-stfs     f0, 0xd0(r31)
-stfs     f0, 0xd4(r31)
-stw      r6, 0xd8(r31)
-stw      r7, 0xdc(r31)
-lwz      r5, 0x1c(r5)
-stw      r5, 0xe0(r31)
-stw      r7, 0xe4(r31)
-stw      r7, 0xec(r31)
-stw      r7, 0xe8(r31)
-stw      r4, 0xf0(r31)
-stw      r7, 0xf4(r31)
-stw      r7, 0xf8(r31)
-stb      r7, 0x104(r31)
-stb      r0, 0x105(r31)
-stb      r7, 0x107(r31)
-stb      r7, 0x106(r31)
-lwz      r31, 0xc(r1)
-lwz      r0, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	mSaveMgr        = nullptr;
+	mResultNode     = nullptr;
+	mScreenComplete = nullptr;
+	mScreenDropItem = nullptr;
+	mScreenMain     = nullptr;
+
+	mCompleteAnim      = nullptr;
+	mMainAnim          = nullptr;
+	mCompleteAnimColor = nullptr;
+	mMainAnimColor     = nullptr;
+	mAnimTexSRT        = nullptr;
+	mAnimTevReg        = nullptr;
+
+	mAnimTimers[5] = 0.0f;
+	mAnimTimers[4] = 0.0f;
+	mAnimTimers[3] = 0.0f;
+	mAnimTimers[1] = 0.0f;
+	mAnimTimers[2] = 0.0f;
+	mAnimTimers[0] = 0.0f;
+
+	mEfxComp   = nullptr;
+	mStickAnim = nullptr;
+
+	mFadePane4         = nullptr;
+	mFadePaneDownArrow = nullptr;
+	mFadePaneUpArrow   = nullptr;
+	mFadePane1         = nullptr;
+
+	mCounterTotalPokos        = nullptr;
+	mCounterTreasureMax       = nullptr;
+	mCounterTreasureCollected = nullptr;
+	mCounterOtaValues[1]      = nullptr;
+	mCounterOtaValues[0]      = nullptr;
+	mCounterDeadPiki          = nullptr;
+	mCounterCavePokos         = nullptr;
+
+	mTotalPokos       = 0;
+	mMaxOtakara       = 0;
+	mOtakaraCount     = 0;
+	mCurrOtaValues[1] = 0;
+	mCurrOtaValues[0] = 0;
+	mDeadPiki         = 0;
+	mCavePokos        = 0;
+
+	mScrollPos         = 0.0f;
+	mScrollUpDown      = 0.0f;
+	mScrollSelIndex    = -6;
+	mScrollSelIndexMax = 0;
+	mScrollTargetDist  = msVal._1C;
+
+	mScrollMoveTimer  = 0;
+	mScissorMax       = 0;
+	mScissorMin       = 0;
+	mStatus           = 3;
+	mChangeStateDelay = 0;
+	_F8               = 0;
+	mFlag             = 0;
+	mAlpha            = 255;
+	_107              = 0;
+	_106              = 0;
 }
 
 /*
@@ -511,731 +139,147 @@ blr
  * Address:	803F88F0
  * Size:	000B08
  */
-void ObjCaveResult::doCreate(JKRArchive*)
+void ObjCaveResult::doCreate(JKRArchive* arc)
 {
-	/*
-stwu     r1, -0x50(r1)
-mflr     r0
-stw      r0, 0x54(r1)
-stfd     f31, 0x40(r1)
-psq_st   f31, 72(r1), 0, qr0
-stmw     r25, 0x24(r1)
-lis      r5, lbl_80498360@ha
-mr       r31, r3
-mr       r29, r4
-addi     r26, r5, lbl_80498360@l
-bl       getDispMember__Q26Screen7ObjBaseFv
-lis      r5, 0x52534C54@ha
-li       r4, 0x4b48
-addi     r6, r5, 0x52534C54@l
-li       r5, 0x435f
-bl       isID__Q32og6Screen14DispMemberBaseFUlUx
-clrlwi.  r0, r3, 0x18
-bne      lbl_803F894C
-addi     r3, r26, 0
-addi     r5, r26, 0x14
-li       r4, 0xbf
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
 
-lbl_803F894C:
-mr       r3, r31
-bl       getDispMember__Q26Screen7ObjBaseFv
-mr       r30, r3
-li       r3, 0x148
-bl       __nw__FUl
-or.      r0, r3, r3
-beq      lbl_803F8970
-bl       __ct__Q29P2DScreen10Mgr_tuningFv
-mr       r0, r3
+	JUT_ASSERTLINE(191, getDispMember()->isID(OWNER_KH, MEMBER_CAVE_RESULT), "disp member err");
 
-lbl_803F8970:
-stw      r0, 0x40(r31)
-mr       r6, r29
-addi     r4, r26, 0x24
-lis      r5, 0x104
-lwz      r3, 0x40(r31)
-bl       set__9J2DScreenFPCcUlP10JKRArchive
-li       r3, 0x148
-bl       __nw__FUl
-or.      r0, r3, r3
-beq      lbl_803F89A0
-bl       __ct__Q29P2DScreen10Mgr_tuningFv
-mr       r0, r3
+	DispCaveResult* disp = static_cast<DispCaveResult*>(getDispMember());
 
-lbl_803F89A0:
-stw      r0, 0x44(r31)
-mr       r6, r29
-addi     r4, r26, 0x38
-lis      r5, 0x104
-lwz      r3, 0x44(r31)
-bl       set__9J2DScreenFPCcUlP10JKRArchive
-mr       r4, r29
-addi     r3, r26, 0x58
-bl       getGlbResource__13JKRFileLoaderFPCcP13JKRFileLoader
-bl       load__20J2DAnmLoaderDataBaseFPCv
-stw      r3, 0x4c(r31)
-mr       r4, r29
-addi     r3, r26, 0x6c
-bl       getGlbResource__13JKRFileLoaderFPCcP13JKRFileLoader
-bl       load__20J2DAnmLoaderDataBaseFPCv
-stw      r3, 0x54(r31)
-mr       r4, r29
-addi     r3, r26, 0x80
-bl       getGlbResource__13JKRFileLoaderFPCcP13JKRFileLoader
-bl       load__20J2DAnmLoaderDataBaseFPCv
-stw      r3, 0x5c(r31)
-mr       r4, r29
-addi     r3, r26, 0x94
-bl       getGlbResource__13JKRFileLoaderFPCcP13JKRFileLoader
-bl       load__20J2DAnmLoaderDataBaseFPCv
-stw      r3, 0x60(r31)
-lwz      r3, 0x40(r31)
-lwz      r4, 0x4c(r31)
-lwz      r12, 0(r3)
-lwz      r12, 0x60(r12)
-mtctr    r12
-bctrl
-lwz      r3, 0x40(r31)
-lwz      r4, 0x54(r31)
-lwz      r12, 0(r3)
-lwz      r12, 0x64(r12)
-mtctr    r12
-bctrl
-lwz      r3, 0x40(r31)
-lwz      r4, 0x5c(r31)
-lwz      r12, 0(r3)
-lwz      r12, 0x6c(r12)
-mtctr    r12
-bctrl
-lwz      r3, 0x40(r31)
-lwz      r4, 0x60(r31)
-lwz      r12, 0(r3)
-lwz      r12, 0x70(r12)
-mtctr    r12
-bctrl
-lwz      r3, 8(r30)
-lwz      r28, sCurrentHeap__7JKRHeap@sda21(r13)
-cmplwi   r3, 0
-beq      lbl_803F8A7C
-bl       becomeCurrentHeap__7JKRHeapFv
+	mScreenMain = new P2DScreen::Mgr_tuning;
+	mScreenMain->set("result_doukutu.blo", 0x1040000, arc);
 
-lbl_803F8A7C:
-li       r3, 0x148
-bl       __nw__FUl
-or.      r0, r3, r3
-beq      lbl_803F8A94
-bl       __ct__Q29P2DScreen10Mgr_tuningFv
-mr       r0, r3
+	mScreenDropItem = new P2DScreen::Mgr_tuning;
+	mScreenDropItem->set("result_doukutu_drop_item.blo", 0x1040000, arc);
 
-lbl_803F8A94:
-stw      r0, 0x48(r31)
-mr       r6, r29
-addi     r4, r26, 0xa8
-lis      r5, 4
-lwz      r3, 0x48(r31)
-bl       set__9J2DScreenFPCcUlP10JKRArchive
-mr       r4, r29
-addi     r3, r26, 0xc0
-bl       getGlbResource__13JKRFileLoaderFPCcP13JKRFileLoader
-bl       load__20J2DAnmLoaderDataBaseFPCv
-stw      r3, 0x50(r31)
-mr       r4, r29
-addi     r3, r26, 0xd8
-bl       getGlbResource__13JKRFileLoaderFPCcP13JKRFileLoader
-bl       load__20J2DAnmLoaderDataBaseFPCv
-stw      r3, 0x58(r31)
-lwz      r3, 0x48(r31)
-lwz      r4, 0x50(r31)
-lwz      r12, 0(r3)
-lwz      r12, 0x60(r12)
-mtctr    r12
-bctrl
-lwz      r3, 0x48(r31)
-lwz      r4, 0x58(r31)
-lwz      r12, 0(r3)
-lwz      r12, 0x64(r12)
-mtctr    r12
-bctrl
-lwz      r3, 0x48(r31)
-bl       animation__9J2DScreenFv
-lwz      r3, 0x40(r31)
-bl       setCallBackMessage__Q22og6ScreenFPQ29P2DScreen3Mgr
-lwz      r0, 0xc(r30)
-stw      r0, 0x3c(r31)
-lwz      r3, 0x3c(r31)
-lwz      r26, 0x24(r3)
-b        lbl_803F8B4C
+	void* file     = JKRFileLoader::getGlbResource("result_doukutu.bck", arc);
+	mMainAnim      = static_cast<J2DAnmTransform*>(J2DAnmLoaderDataBase::load(file));
+	file           = JKRFileLoader::getGlbResource("result_doukutu.bpk", arc);
+	mMainAnimColor = static_cast<J2DAnmColor*>(J2DAnmLoaderDataBase::load(file));
+	file           = JKRFileLoader::getGlbResource("result_doukutu.btk", arc);
+	mAnimTexSRT    = static_cast<J2DAnmTextureSRTKey*>(J2DAnmLoaderDataBase::load(file));
+	file           = JKRFileLoader::getGlbResource("result_doukutu.brk", arc);
+	mAnimTevReg    = static_cast<J2DAnmTevRegKey*>(J2DAnmLoaderDataBase::load(file));
 
-lbl_803F8B28:
-li       r3, 0xc
-bl       __nw__FUl
-or.      r0, r3, r3
-beq      lbl_803F8B44
-lwz      r4, 0x34(r26)
-bl       __ct__Q32kh6Screen11LostItemMgrFi
-mr       r0, r3
+	mScreenMain->setAnimation(mMainAnim);
+	mScreenMain->setAnimation(mMainAnimColor);
+	mScreenMain->setAnimation(mAnimTexSRT);
+	mScreenMain->setAnimation(mAnimTevReg);
 
-lbl_803F8B44:
-stw      r0, 0x48(r26)
-lwz      r26, 0x18(r26)
+	JKRHeap* oldHeap = JKRGetCurrentHeap();
+	if (disp->mHeap) {
+		disp->mHeap->becomeCurrentHeap();
+	}
 
-lbl_803F8B4C:
-cmplwi   r26, 0
-bne      lbl_803F8B28
-lwz      r0, 0x10(r30)
-cmplwi   r0, 6
-ble      lbl_803F8B78
-lbz      r0, 0x104(r31)
-ori      r0, r0, 1
-stb      r0, 0x104(r31)
-lwz      r3, 0x10(r30)
-addi     r0, r3, -6
-stw      r0, 0xdc(r31)
+	mScreenComplete = new P2DScreen::Mgr_tuning;
+	mScreenComplete->set("doukutu_complete.blo", 0x40000, arc);
 
-lbl_803F8B78:
-lwz      r3, 0x40(r31)
-lis      r5, 0x74703030@ha
-lis      r4, 0x004E7365@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x74703030@l
-addi     r5, r4, 0x004E7365@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-bl       getBounds__7J2DPaneFv
-lfs      f31, 4(r3)
-lis      r5, 0x74703031@ha
-lwz      r3, 0x40(r31)
-lis      r4, 0x004E7365@ha
-addi     r6, r5, 0x74703031@l
-lwz      r12, 0(r3)
-addi     r5, r4, 0x004E7365@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-bl       getBounds__7J2DPaneFv
-lfs      f0, 4(r3)
-lis      r0, 0x4330
-lis      r4, 0x6F6E3030@ha
-lis      r3, 0x004E6963@ha
-fsubs    f0, f0, f31
-stw      r0, 0x10(r1)
-lfd      f1, lbl_8051FFB0@sda21(r2)
-addi     r6, r4, 0x6F6E3030@l
-addi     r5, r3, 0x004E6963@l
-stfs     f0, 0xd4(r31)
-lwz      r0, 0xd8(r31)
-lfs      f2, 0xd4(r31)
-subfic   r0, r0, 1
-xoris    r0, r0, 0x8000
-stw      r0, 0x14(r1)
-lfd      f0, 0x10(r1)
-fsubs    f0, f0, f1
-fmuls    f0, f2, f0
-stfs     f0, 0xd0(r31)
-lwz      r3, 0x40(r31)
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-bl       setInfAlpha__Q22kh6ScreenFP7J2DPane
-lwz      r3, 0x40(r31)
-lis      r5, 0x6F6E3031@ha
-lis      r4, 0x004E6963@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x6F6E3031@l
-addi     r5, r4, 0x004E6963@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-bl       setInfAlpha__Q22kh6ScreenFP7J2DPane
-li       r0, 0
-stw      r0, 0xb4(r31)
-stw      r0, 0xb8(r31)
-lwz      r3, 0x1c(r30)
-lwz      r0, 0x18(r30)
-lwz      r4, 0x14(r30)
-add      r0, r3, r0
-subf     r0, r4, r0
-stw      r0, 0xc4(r31)
-lwz      r0, 0x20(r30)
-stw      r0, 0xc8(r31)
-lwz      r3, 0x24(r30)
-lwz      r0, 0x28(r30)
-subf     r0, r3, r0
-stw      r0, 0xcc(r31)
-lbz      r0, 0x30(r30)
-cmplwi   r0, 0
-beq      lbl_803F8D0C
-lwz      r3, 0x40(r31)
-lis      r5, 0x6D656E75@ha
-lis      r4, 0x4E66695F@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x6D656E75@l
-addi     r5, r4, 0x4E66695F@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r5, 0x6D656E75@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x4E636F5F@ha
-addi     r6, r5, 0x6D656E75@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x4E636F5F@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 1
-lis      r5, 0x6D703031@ha
-lis      r4, 0x0050636F@ha
-stb      r0, 0xb0(r3)
-addi     r26, r5, 0x6D703031@l
-addi     r27, r4, 0x0050636F@l
-b        lbl_803F8D70
+	file          = JKRFileLoader::getGlbResource("doukutu_complete.bck", arc);
+	mCompleteAnim = static_cast<J2DAnmTransform*>(J2DAnmLoaderDataBase::load(file));
 
-lbl_803F8D0C:
-lwz      r3, 0x40(r31)
-lis      r5, 0x6D656E75@ha
-lis      r4, 0x4E66695F@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x6D656E75@l
-addi     r5, r4, 0x4E66695F@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 1
-lis      r5, 0x6D656E75@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x4E636F5F@ha
-addi     r6, r5, 0x6D656E75@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x4E636F5F@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r4, 0x696E3031@ha
-stb      r0, 0xb0(r3)
-addi     r26, r4, 0x696E3031@l
-li       r27, 0x5066
+	file               = JKRFileLoader::getGlbResource("doukutu_complete.bpk", arc);
+	mCompleteAnimColor = static_cast<J2DAnmColor*>(J2DAnmLoaderDataBase::load(file));
 
-lbl_803F8D70:
-lbz      r0, 0x31(r30)
-cmplwi   r0, 0
-bne      lbl_803F8D8C
-lwz      r3, 0x20(r30)
-lwz      r0, 0x1c(r30)
-cmplw    r3, r0
-beq      lbl_803F8DE8
+	mScreenComplete->setAnimation(mCompleteAnim);
+	mScreenComplete->setAnimation(mCompleteAnimColor);
+	mScreenComplete->animation();
 
-lbl_803F8D8C:
-lwz      r3, 0x40(r31)
-lis      r5, 0x6E6F726D@ha
-lis      r4, 0x50616E61@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x6E6F726D@l
-addi     r5, r4, 0x50616E61@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 1
-lis      r5, 0x636F6D70@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x50616E61@ha
-addi     r6, r5, 0x636F6D70@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x50616E61@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-stb      r0, 0xb0(r3)
-b        lbl_803F8E40
+	og::Screen::setCallBackMessage(mScreenMain);
+	mResultNode = disp->mResultNode;
 
-lbl_803F8DE8:
-lwz      r3, 0x40(r31)
-lis      r5, 0x6E6F726D@ha
-lis      r4, 0x50616E61@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x6E6F726D@l
-addi     r5, r4, 0x50616E61@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r5, 0x636F6D70@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x50616E61@ha
-addi     r6, r5, 0x636F6D70@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x50616E61@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 1
-stb      r0, 0xb0(r3)
+	Game::Result::TNode* cNode = static_cast<Game::Result::TNode*>(mResultNode->mChild);
 
-lbl_803F8E40:
-lwz      r3, 0x40(r31)
-lis      r5, 0x636F6D70@ha
-lis      r4, 0x50616E61@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x636F6D70@l
-addi     r5, r4, 0x50616E61@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r4, 4
-bl       setBasePosition__7J2DPaneF15J2DBasePosition
-lis      r6, 0x5F303034@ha
-lis      r5, 0x50494354@ha
-lwz      r4, 0x40(r31)
-mr       r3, r29
-addi     r6, r6, 0x5F303034@l
-addi     r5, r5, 0x50494354@l
-bl       setCallBack_3DStick__Q22og6ScreenFP10JKRArchivePQ29P2DScreen3MgrUx
-mr       r0, r3
-li       r3, 8
-mr       r25, r0
-bl       __nw__FUl
-or.      r0, r3, r3
-beq      lbl_803F8EAC
-mr       r4, r25
-bl       __ct__Q32og6Screen12StickAnimMgrFPQ32og6Screen16CallBack_Picture
-mr       r0, r3
+	while (cNode) {
+		cNode->mItemMgr = new kh::Screen::LostItemMgr(cNode->mLostNum);
+		cNode           = static_cast<Game::Result::TNode*>(cNode->mNext);
+	}
 
-lbl_803F8EAC:
-stw      r0, 0x80(r31)
-lwz      r3, 0x80(r31)
-bl       stickUpDown__Q32og6Screen12StickAnimMgrFv
-lis      r5, 0x6D655F75@ha
-lis      r4, 0x004E7961@ha
-lwz      r3, 0x40(r31)
-addi     r6, r5, 0x6D655F75@l
-addi     r5, r4, 0x004E7961@l
-li       r7, 0x10
-bl       create__Q32kh6Screen14khUtilFadePaneFPQ29P2DScreen3MgrUxUc
-stw      r3, 0x8c(r31)
-lwz      r3, 0x8c(r31)
-bl       fadeout__Q32kh6Screen14khUtilFadePaneFv
-lis      r5, 0x6D655F6C@ha
-lis      r4, 0x004E7961@ha
-lwz      r3, 0x40(r31)
-addi     r6, r5, 0x6D655F6C@l
-addi     r5, r4, 0x004E7961@l
-li       r7, 0x10
-bl       create__Q32kh6Screen14khUtilFadePaneFPQ29P2DScreen3MgrUxUc
-stw      r3, 0x90(r31)
-lwz      r3, 0x90(r31)
-bl       fadeout__Q32kh6Screen14khUtilFadePaneFv
-lis      r5, 0x5F303034@ha
-lis      r4, 0x50494354@ha
-lwz      r3, 0x40(r31)
-addi     r6, r5, 0x5F303034@l
-addi     r5, r4, 0x50494354@l
-li       r7, 0x10
-bl       create__Q32kh6Screen14khUtilFadePaneFPQ29P2DScreen3MgrUxUc
-stw      r3, 0x88(r31)
-lis      r3, 0x4E5F3364@ha
-addi     r6, r3, 0x4E5F3364@l
-li       r5, 0
-lwz      r3, 0x40(r31)
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-mr       r4, r3
-lwz      r3, 0x88(r31)
-bl       add__Q32kh6Screen14khUtilFadePaneFP7J2DPane
-lwz      r3, 0x88(r31)
-bl       fadeout__Q32kh6Screen14khUtilFadePaneFv
-lis      r5, 0x696E5F6D@ha
-lis      r4, 0x004E6D61@ha
-lwz      r3, 0x40(r31)
-addi     r6, r5, 0x696E5F6D@l
-addi     r5, r4, 0x004E6D61@l
-li       r7, 0x10
-bl       create__Q32kh6Screen14khUtilFadePaneFPQ29P2DScreen3MgrUxUc
-stw      r3, 0x94(r31)
-lwz      r3, 0x94(r31)
-bl       fadeout__Q32kh6Screen14khUtilFadePaneFv
-stw      r29, 8(r1)
-lis      r5, 0x61647031@ha
-lis      r4, 0x50746F6D@ha
-addi     r7, r31, 0xb4
-lwz      r3, 0x40(r31)
-addi     r6, r5, 0x61647031@l
-addi     r5, r4, 0x50746F6D@l
-li       r8, 6
-li       r9, 1
-li       r10, 0
-bl
-setCallBack_CounterRV__Q22og6ScreenFPQ29P2DScreen3MgrUxPUlUsbbP10JKRArchive stw
-r3, 0x98(r31) lis      r3, 0x696B6931@ha addi     r6, r3, 0x696B6931@l addi r7,
-r31, 0xb8 stw      r29, 8(r1) li       r5, 0x5070 li       r8, 3 li       r9, 1
-lwz      r3, 0x40(r31)
-li       r10, 0
-bl
-setCallBack_CounterRV__Q22og6ScreenFPQ29P2DScreen3MgrUxPUlUsbbP10JKRArchive stw
-r3, 0x9c(r31) lis      r4, 0x30305F31@ha lis      r3, 0x506D6164@ha addi     r7,
-r31, 0xbc stw      r29, 8(r1) addi     r6, r4, 0x30305F31@l addi     r5, r3,
-0x506D6164@l li       r8, 4 lwz      r3, 0x40(r31) li       r9, 0 li       r10,
-0 bl setCallBack_CounterRV__Q22og6ScreenFPQ29P2DScreen3MgrUxPUlUsbbP10JKRArchive
-stw      r3, 0xa0(r31)
-lis      r4, 0x30315F31@ha
-lis      r3, 0x506D6164@ha
-addi     r7, r31, 0xc0
-stw      r29, 8(r1)
-addi     r6, r4, 0x30315F31@l
-addi     r5, r3, 0x506D6164@l
-li       r8, 4
-lwz      r3, 0x40(r31)
-li       r9, 0
-li       r10, 0
-bl
-setCallBack_CounterRV__Q22og6ScreenFPQ29P2DScreen3MgrUxPUlUsbbP10JKRArchive stw
-r3, 0xa4(r31) lis      r3, 0x74615F31@ha addi     r6, r3, 0x74615F31@l addi r7,
-r31, 0xc4 stw      r29, 8(r1) li       r5, 0x506f li       r8, 2 li       r9, 1
-lwz      r3, 0x40(r31)
-li       r10, 1
-bl
-setCallBack_CounterRV__Q22og6ScreenFPQ29P2DScreen3MgrUxPUlUsbbP10JKRArchive stw
-r3, 0xa8(r31) lis      r4, 0x5F746F31@ha lis      r3, 0x506F7461@ha addi     r7,
-r31, 0xc8 stw      r29, 8(r1) addi     r6, r4, 0x5F746F31@l addi     r5, r3,
-0x506F7461@l li       r8, 2 lwz      r3, 0x40(r31) li       r9, 0 li       r10,
-1 bl setCallBack_CounterRV__Q22og6ScreenFPQ29P2DScreen3MgrUxPUlUsbbP10JKRArchive
-stw      r3, 0xac(r31)
-mr       r6, r26
-mr       r5, r27
-addi     r7, r31, 0xcc
-stw      r29, 8(r1)
-li       r8, 9
-li       r9, 0
-li       r10, 0
-lwz      r3, 0x40(r31)
-bl
-setCallBack_CounterRV__Q22og6ScreenFPQ29P2DScreen3MgrUxPUlUsbbP10JKRArchive stw
-r3, 0xb0(r31) li       r4, 1 lwz      r3, 0xac(r31) bl
-setCenteringMode__Q32og6Screen18CallBack_CounterRVFQ42og6Screen18CallBack_CounterRV17EnumCenteringMode
-lbz      r0, 0x30(r30)
-cmplwi   r0, 0
-bne      lbl_803F91B4
-lbz      r0, 0x31(r30)
-cmplwi   r0, 0
-bne      lbl_803F90F8
-lwz      r3, 0x20(r30)
-lwz      r0, 0x1c(r30)
-cmplw    r3, r0
-beq      lbl_803F91B4
+	if (disp->mTreasureNodeCount > 6) {
+		setFlag(CAVERESFLAG_CanScroll);
+		mScrollSelIndexMax = disp->mTreasureNodeCount - 6;
+	}
 
-lbl_803F90F8:
-lwz      r3, 0xac(r31)
-bl       getMotherPane__Q32og6Screen18CallBack_CounterRVFv
-li       r0, 0
-stb      r0, 0xb0(r3)
-lwz      r3, 0xa8(r31)
-bl       getMotherPane__Q32og6Screen18CallBack_CounterRVFv
-lwz      r12, 0(r3)
-lis      r4, msVal__Q32kh6Screen13ObjCaveResult@ha
-addi     r4, r4, msVal__Q32kh6Screen13ObjCaveResult@l
-lwz      r12, 0x14(r12)
-lfs      f1, 0x10(r4)
-lfs      f2, 0x14(r4)
-mtctr    r12
-bctrl
-lwz      r3, 0x40(r31)
-lis      r5, 0x5F303038@ha
-lis      r4, 0x50494354@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x5F303038@l
-addi     r5, r4, 0x50494354@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r5, 0x74733134@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x00507469@ha
-addi     r6, r5, 0x74733134@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x00507469@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r5, 0x74733135@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x00507469@ha
-addi     r6, r5, 0x74733135@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x00507469@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-stb      r0, 0xb0(r3)
+	mScrollUpDown = mScreenMain->search('Nsetp01')->getBounds()->i.y - mScreenMain->search('Nsetp00')->getBounds()->i.y;
+	mScrollPos    = mScrollUpDown * (int)(1 - mScrollSelIndex);
 
-lbl_803F91B4:
-li       r3, 0x1c
-bl       __nw__FUl
-or.      r0, r3, r3
-beq      lbl_803F91CC
-bl       __ct__Q32og6Screen8ScaleMgrFv
-mr       r0, r3
+	kh::Screen::setInfAlpha(mScreenMain->search('Nicon00'));
+	kh::Screen::setInfAlpha(mScreenMain->search('Nicon01'));
 
-lbl_803F91CC:
-stw      r0, 0x84(r31)
-lis      r5, 0x74703032@ha
-lis      r4, 0x004E7365@ha
-lwz      r3, 0x40(r31)
-addi     r6, r5, 0x74703032@l
-addi     r5, r4, 0x004E7365@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r5, 0x74703033@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x004E7365@ha
-addi     r6, r5, 0x74703033@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x004E7365@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r5, 0x74703034@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x004E7365@ha
-addi     r6, r5, 0x74703034@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x004E7365@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r5, 0x74703035@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x004E7365@ha
-addi     r6, r5, 0x74703035@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x004E7365@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r5, 0x6D653030@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x50696E61@ha
-addi     r6, r5, 0x6D653030@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x50696E61@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-lis      r5, 0x315F3030@ha
-lis      r4, 0x00303130@ha
-addi     r0, r5, 0x315F3030@l
-lis      r5, 0x6D653031@ha
-stw      r0, 0x1c(r3)
-addi     r0, r4, 0x00303130@l
-lis      r4, 0x50696E61@ha
-addi     r6, r5, 0x6D653031@l
-stw      r0, 0x18(r3)
-addi     r5, r4, 0x50696E61@l
-lwz      r3, 0x40(r31)
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-lis      r5, 0x315F3030@ha
-lis      r4, 0x00303130@ha
-addi     r0, r5, 0x315F3030@l
-stw      r0, 0x1c(r3)
-addi     r0, r4, 0x00303130@l
-stw      r0, 0x18(r3)
-bl       createInstance__Q33ebi4Save4TMgrFv
-stw      r3, 0x38(r31)
-lwz      r26, 0x38(r31)
-addi     r3, r26, 0x18
-bl       loadResource__Q33ebi6Screen9TSaveMenuFv
-lwz      r27, sCurrentHeap__7JKRHeap@sda21(r13)
-addi     r3, r26, 0x100
-mr       r4, r27
-bl       loadResource__Q33ebi6Screen11TMemoryCardFP7JKRHeap
-lwz      r3, sys@sda21(r13)
-mr       r4, r27
-lwz      r3, 0x5c(r3)
-bl       loadResource__Q34Game10MemoryCard3MgrFP7JKRHeap
-mr       r3, r31
-bl       getGamePad__Q26Screen7ObjBaseCFv
-lwz      r4, 0x38(r31)
-li       r0, 1
-stw      r3, 0x3d0(r4)
-stw      r3, 0x24(r4)
-stw      r3, 0x104(r4)
-li       r3, 0x14
-lwz      r4, 0x38(r31)
-stb      r0, 0x478(r4)
-bl       __nw__FUl
-cmplwi   r3, 0
-beq      lbl_803F93C4
-lis      r5, __vt__Q25efx2d7TBaseIF@ha
-lis      r4, __vt__Q25efx2d5TBase@ha
-addi     r0, r5, __vt__Q25efx2d7TBaseIF@l
-lis      r6, __vt__18JPAEmitterCallBack@ha
-stw      r0, 0(r3)
-addi     r0, r4, __vt__Q25efx2d5TBase@l
-lis      r5, __vt__Q25efx2d8TForever@ha
-lis      r4, __vt__Q25efx2d15T2DCavecompLoop@ha
-stw      r0, 0(r3)
-li       r9, 0
-addi     r7, r5, __vt__Q25efx2d8TForever@l
-addi     r4, r4, __vt__Q25efx2d15T2DCavecompLoop@l
-stb      r9, 4(r3)
-addi     r8, r6, __vt__18JPAEmitterCallBack@l
-addi     r6, r7, 0x18
-li       r5, 0xc
-stb      r9, 5(r3)
-addi     r0, r4, 0x18
-stw      r8, 8(r3)
-stw      r7, 0(r3)
-stw      r6, 8(r3)
-sth      r5, 0xc(r3)
-stw      r9, 0x10(r3)
-stw      r4, 0(r3)
-stw      r0, 8(r3)
+	mCavePokos    = 0;
+	mDeadPiki     = 0;
+	mOtakaraCount = disp->mCollectedOtakara + disp->mLostTreasures - disp->mTotalNotLostTreasures;
+	mMaxOtakara   = disp->mMaxOtakara;
+	mTotalPokos   = disp->mTotalPokos - disp->mCavePokos;
 
-lbl_803F93C4:
-stw      r3, 0x7c(r31)
-lwz      r0, 8(r30)
-cmplwi   r0, 0
-beq      lbl_803F93DC
-mr       r3, r28
-bl       becomeCurrentHeap__7JKRHeapFv
+	u64 debtTag;
+	if (disp->mDebtPayed) {
+		mScreenMain->search('Nfi_menu')->hide();
+		mScreenMain->search('Nco_menu')->show();
+		debtTag = 'Pcomp01';
+	} else {
+		mScreenMain->search('Nfi_menu')->show();
+		mScreenMain->search('Nco_menu')->hide();
+		debtTag = 'Pfin01';
+	}
 
-lbl_803F93DC:
-psq_l    f31, 72(r1), 0, qr0
-lfd      f31, 0x40(r1)
-lmw      r25, 0x24(r1)
-lwz      r0, 0x54(r1)
-mtlr     r0
-addi     r1, r1, 0x50
-blr
-	*/
+	if (disp->mCaveComp || (disp->mMaxOtakara != disp->mCollectedOtakara)) {
+		mScreenMain->search('Pananorm')->show();
+		mScreenMain->search('Panacomp')->hide();
+	} else {
+		mScreenMain->search('Pananorm')->hide();
+		mScreenMain->search('Panacomp')->show();
+	}
+
+	mScreenMain->search('Panacomp')->setBasePosition(J2DPOS_Center);
+
+	og::Screen::CallBack_Picture* pic = og::Screen::setCallBack_3DStick(arc, mScreenMain, 'PICT_004');
+	mStickAnim                        = new og::Screen::StickAnimMgr(pic);
+	mStickAnim->stickUpDown();
+
+	mFadePaneUpArrow = kh::Screen::khUtilFadePane::create(mScreenMain, 'Nyame_u', 16);
+	mFadePaneUpArrow->fadeout();
+	mFadePaneDownArrow = kh::Screen::khUtilFadePane::create(mScreenMain, 'Nyame_l', 16);
+	mFadePaneDownArrow->fadeout();
+	mFadePane1 = kh::Screen::khUtilFadePane::create(mScreenMain, 'PICT_004', 16);
+	mFadePane1->add(mScreenMain->search('N_3d'));
+	mFadePane1->fadeout();
+	mFadePane4 = kh::Screen::khUtilFadePane::create(mScreenMain, 'Nmain_m', 16);
+	mFadePane4->fadeout();
+
+	mCounterCavePokos         = og::Screen::setCallBack_CounterRV(mScreenMain, 'Ptomadp1', &mCavePokos, 6, true, false, arc);
+	mCounterDeadPiki          = og::Screen::setCallBack_CounterRV(mScreenMain, 'Ppiki1', &mDeadPiki, 3, true, false, arc);
+	mCounterOtaValues[0]      = og::Screen::setCallBack_CounterRV(mScreenMain, 'Pmad00_1', &mCurrOtaValues[0], 4, false, false, arc);
+	mCounterOtaValues[1]      = og::Screen::setCallBack_CounterRV(mScreenMain, 'Pmad01_1', &mCurrOtaValues[1], 4, false, false, arc);
+	mCounterTreasureCollected = og::Screen::setCallBack_CounterRV(mScreenMain, 'Pota_1', &mOtakaraCount, 2, true, true, arc);
+	mCounterTreasureMax       = og::Screen::setCallBack_CounterRV(mScreenMain, 'Pota_to1', &mMaxOtakara, 2, false, true, arc);
+	mCounterTotalPokos        = og::Screen::setCallBack_CounterRV(mScreenMain, debtTag, &mTotalPokos, 9, false, false, arc);
+	mCounterTreasureMax->setCenteringMode(og::Screen::CallBack_CounterRV::ECM_Unknown1);
+
+	if (!disp->mDebtPayed && (disp->mCaveComp || disp->mMaxOtakara != disp->mCollectedOtakara)) {
+		mCounterTreasureMax->getMotherPane()->hide();
+		mCounterTreasureCollected->getMotherPane()->add(msVal._10, msVal._14);
+		mScreenMain->search('PICT_008')->hide();
+		mScreenMain->search('Ptits14')->hide();
+		mScreenMain->search('Ptits15')->hide();
+	}
+	mScaleMgr = new og::Screen::ScaleMgr;
+
+	mScreenMain->search('Nsetp02')->hide();
+	mScreenMain->search('Nsetp03')->hide();
+	mScreenMain->search('Nsetp04')->hide();
+	mScreenMain->search('Nsetp05')->hide();
+	mScreenMain->search('Piname00')->setMsgID('0101_00');
+	mScreenMain->search('Piname01')->setMsgID('0101_00');
+
+	mSaveMgr = ebi::Save::TMgr::createInstance();
+	loadSaveMgrResources();
+	mSaveMgr->setControllers(getGamePad());
+	mSaveMgr->mSaveType = 1;
+	mEfxComp            = new efx2d::T2DCavecompLoop;
+
+	if (disp->mHeap) {
+		oldHeap->becomeCurrentHeap();
+	}
 }
 
 /*
@@ -1243,278 +287,111 @@ blr
  * Address:	803F93F8
  * Size:	00034C
  */
-void ObjCaveResult::doUpdate()
+bool ObjCaveResult::doUpdate()
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-stw      r0, 0x24(r1)
-stw      r31, 0x1c(r1)
-stw      r30, 0x18(r1)
-mr       r30, r3
-bl       getDispMember__Q26Screen7ObjBaseFv
-lis      r5, 0x52534C54@ha
-li       r4, 0x4b48
-addi     r6, r5, 0x52534C54@l
-li       r5, 0x435f
-bl       isID__Q32og6Screen14DispMemberBaseFUlUx
-clrlwi.  r0, r3, 0x18
-bne      lbl_803F944C
-lis      r3, lbl_80498360@ha
-lis      r5, lbl_80498374@ha
-addi     r3, r3, lbl_80498360@l
-li       r4, 0x178
-addi     r5, r5, lbl_80498374@l
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
+	JUT_ASSERTLINE(376, getDispMember()->isID(OWNER_KH, MEMBER_CAVE_RESULT), "disp member err");
 
-lbl_803F944C:
-mr       r3, r30
-bl       getDispMember__Q26Screen7ObjBaseFv
-mr       r31, r3
-mr       r3, r30
-bl       updateAnimation__Q32kh6Screen13ObjCaveResultFv
-lbz      r0, 0x104(r30)
-rlwinm.  r0, r0, 0, 0x1d, 0x1d
-beq      lbl_803F94C8
-lwz      r3, 0x38(r30)
-bl       update__Q33ebi4Save4TMgrFv
-lwz      r3, 0x38(r30)
-bl       isFinish__Q33ebi4Save4TMgrFv
-clrlwi.  r0, r3, 0x18
-beq      lbl_803F96F0
-lwz      r3, 0x38(r30)
-lwz      r0, 0x474(r3)
-cmpwi    r0, 1
-beq      lbl_803F94B8
-bge      lbl_803F94A4
-cmpwi    r0, 0
-bge      lbl_803F94AC
-b        lbl_803F96F0
+	DispCaveResult* disp = static_cast<DispCaveResult*>(getDispMember());
+	updateAnimation();
 
-lbl_803F94A4:
-cmpwi    r0, 3
-bge      lbl_803F96F0
+	if (isFlag(CAVERESFLAG_SaveOpen)) {
+		mSaveMgr->update();
+		if (mSaveMgr->isFinish()) {
+			switch (mSaveMgr->mCurrStateID) {
+			case 2:
+			case 0:
+				disp->mIsFinished = 1;
+				break;
 
-lbl_803F94AC:
-li       r0, 1
-stw      r0, 0x34(r31)
-b        lbl_803F96F0
+			case 1:
+				resetFlag(CAVERESFLAG_SaveOpen);
+				break;
+			}
+		}
 
-lbl_803F94B8:
-lbz      r0, 0x104(r30)
-rlwinm   r0, r0, 0, 0x1e, 0x1c
-stb      r0, 0x104(r30)
-b        lbl_803F96F0
+	} else {
+		switch (mStatus) {
+		case CAVERES_Normal:
+			statusNormal();
+			break;
+		case CAVERES_ScrollUp:
+			statusScrollUp();
+			break;
+		case CAVERES_ScrollDown:
+			statusScrollDown();
+			break;
+		case CAVERES_ForceScroll:
+			statusForceScroll();
+			break;
+		case CAVERES_DrumRoll:
+			statusDrumRoll();
+			break;
+		case CAVERES_Lost:
+			statusLost();
+			break;
+		case CAVERES_DecP:
+			statusDecP();
+			break;
+		case CAVERES_Effect:
+			statusEffect();
+			break;
+		case CAVERES_AllMoney:
+			statusAllMoney();
+			break;
+		}
 
-lbl_803F94C8:
-lwz      r0, 0xf0(r30)
-cmplwi   r0, 8
-bgt      lbl_803F9554
-lis      r3, lbl_804EA560@ha
-slwi     r0, r0, 2
-addi     r3, r3, lbl_804EA560@l
-lwzx     r0, r3, r0
-mtctr    r0
-bctr
-.global  lbl_803F94EC
+		Controller* pad = getGamePad();
+		if (pad->mButton.mButtonDown & Controller::PRESS_A) {
+			if (!isFlag(CAVERESFLAG_PikisKilledShown)) {
+				setFlag(CAVERESFLAG_FinishAutoScroll);
+			}
+			if (mStatus == CAVERES_Normal) {
+				setFlag(CAVERESFLAG_SaveOpen);
+				mEfxComp->fade();
+				mSaveMgr->start();
+			}
+		}
 
-lbl_803F94EC:
-mr       r3, r30
-bl       statusNormal__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803F9554
-.global  lbl_803F94F8
+		if (isFlag(CAVERESFLAG_FinishAutoScroll)) {
+			mScrollSelIndex  = mScrollSelIndexMax;
+			mScrollPos       = -mScrollUpDown * (f32)mScrollSelIndex;
+			mScrollMoveTimer = 0;
+			mCavePokos       = disp->mCavePokos;
+			mDeadPiki        = disp->mDeadPikis;
+			mTotalPokos      = disp->mTotalPokos;
+			mOtakaraCount    = disp->mCollectedOtakara;
+			mCounterCavePokos->startPuyoUp(1.0f);
+			mCounterDeadPiki->startPuyoUp(1.0f);
+			mCounterTotalPokos->startPuyoUp(1.0f);
+			PSSystem::spSysIF->playSystemSe(PSSE_SY_REGI_SUM_UP, 0);
+			pikminSE();
 
-lbl_803F94F8:
-mr       r3, r30
-bl       statusScrollUp__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803F9554
-.global  lbl_803F9504
+			if (disp->mCaveComp) {
+				mStatus           = CAVERES_Effect;
+				mChangeStateDelay = msVal._3B;
+			} else {
+				mOtakaraCount = disp->mCollectedOtakara;
+				mStatus       = CAVERES_Normal;
+			}
 
-lbl_803F9504:
-mr       r3, r30
-bl       statusScrollDown__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803F9554
-.global  lbl_803F9510
+			kh::Screen::LostItemMgr* mgr;
+			FOREACH_NODE(Game::Result::TNode, mResultNode->mChild, cNode)
+			{
+				mgr = cNode->mItemMgr;
+				if ((int)mgr->isFlag(0x1) != 1 && mgr->mMaxPanes != 0) {
+					mgr->setFlag(0x2);
+				}
+			}
+			resetFlag(CAVERESFLAG_FinishAutoScroll);
+			setFlag(CAVERESFLAG_PikisKilledShown);
+		}
+	}
 
-lbl_803F9510:
-mr       r3, r30
-bl       statusForceScroll__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803F9554
-.global  lbl_803F951C
+	if (!isFlag(CAVERESFLAG_SaveOpen) && (mStatus != CAVERES_Effect) && mAlpha != 0) {
+		mAlpha -= msVal._3A;
+	}
 
-lbl_803F951C:
-mr       r3, r30
-bl       statusDrumRoll__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803F9554
-.global  lbl_803F9528
-
-lbl_803F9528:
-mr       r3, r30
-bl       statusLost__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803F9554
-.global  lbl_803F9534
-
-lbl_803F9534:
-mr       r3, r30
-bl       statusDecP__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803F9554
-.global  lbl_803F9540
-
-lbl_803F9540:
-mr       r3, r30
-bl       statusEffect__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803F9554
-.global  lbl_803F954C
-
-lbl_803F954C:
-mr       r3, r30
-bl       statusAllMoney__Q32kh6Screen13ObjCaveResultFv
-
-lbl_803F9554:
-mr       r3, r30
-bl       getGamePad__Q26Screen7ObjBaseCFv
-lwz      r0, 0x1c(r3)
-rlwinm.  r0, r0, 0, 0x17, 0x17
-beq      lbl_803F95B4
-lbz      r0, 0x104(r30)
-rlwinm.  r0, r0, 0, 0x1c, 0x1c
-bne      lbl_803F9580
-lbz      r0, 0x104(r30)
-ori      r0, r0, 2
-stb      r0, 0x104(r30)
-
-lbl_803F9580:
-lwz      r0, 0xf0(r30)
-cmpwi    r0, 0
-bne      lbl_803F95B4
-lbz      r0, 0x104(r30)
-ori      r0, r0, 4
-stb      r0, 0x104(r30)
-lwz      r3, 0x7c(r30)
-lwz      r12, 0(r3)
-lwz      r12, 0x10(r12)
-mtctr    r12
-bctrl
-lwz      r3, 0x38(r30)
-bl       start__Q33ebi4Save4TMgrFv
-
-lbl_803F95B4:
-lbz      r0, 0x104(r30)
-rlwinm.  r0, r0, 0, 0x1e, 0x1e
-beq      lbl_803F96F0
-lwz      r3, 0xdc(r30)
-lis      r0, 0x4330
-stw      r0, 8(r1)
-li       r0, 0
-lfd      f2, lbl_8051FFB0@sda21(r2)
-stw      r3, 0xd8(r30)
-lfs      f1, lbl_8051FFB8@sda21(r2)
-lwz      r3, 0xd8(r30)
-lfs      f0, 0xd4(r30)
-xoris    r3, r3, 0x8000
-stw      r3, 0xc(r1)
-fneg     f3, f0
-lfd      f0, 8(r1)
-fsubs    f0, f0, f2
-fmuls    f0, f3, f0
-stfs     f0, 0xd0(r30)
-stw      r0, 0xe4(r30)
-lwz      r0, 0x24(r31)
-stw      r0, 0xb4(r30)
-lwz      r0, 0x2c(r31)
-stw      r0, 0xb8(r30)
-lwz      r0, 0x28(r31)
-stw      r0, 0xcc(r30)
-lwz      r0, 0x1c(r31)
-stw      r0, 0xc4(r30)
-lwz      r3, 0x98(r30)
-bl       startPuyoUp__Q32og6Screen18CallBack_CounterRVFf
-lwz      r3, 0x9c(r30)
-lfs      f1, lbl_8051FFB8@sda21(r2)
-bl       startPuyoUp__Q32og6Screen18CallBack_CounterRVFf
-lwz      r3, 0xb0(r30)
-lfs      f1, lbl_8051FFB8@sda21(r2)
-bl       startPuyoUp__Q32og6Screen18CallBack_CounterRVFf
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x1814
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-mr       r3, r30
-bl       pikminSE__Q32kh6Screen13ObjCaveResultFv
-lbz      r0, 0x31(r31)
-cmplwi   r0, 0
-beq      lbl_803F9684
-li       r0, 7
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-stw      r0, 0xf0(r30)
-addi     r3, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-lbz      r0, 0x3b(r3)
-stw      r0, 0xf4(r30)
-b        lbl_803F9694
-
-lbl_803F9684:
-lwz      r3, 0x1c(r31)
-li       r0, 0
-stw      r3, 0xc4(r30)
-stw      r0, 0xf0(r30)
-
-lbl_803F9694:
-lwz      r3, 0x3c(r30)
-lwz      r4, 0x24(r3)
-b        lbl_803F96D0
-
-lbl_803F96A0:
-lwz      r3, 0x48(r4)
-lwz      r0, 8(r3)
-clrlwi   r0, r0, 0x1f
-cmpwi    r0, 1
-beq      lbl_803F96CC
-lwz      r0, 4(r3)
-cmpwi    r0, 0
-beq      lbl_803F96CC
-lwz      r0, 8(r3)
-ori      r0, r0, 2
-stw      r0, 8(r3)
-
-lbl_803F96CC:
-lwz      r4, 0x18(r4)
-
-lbl_803F96D0:
-cmplwi   r4, 0
-bne      lbl_803F96A0
-lbz      r0, 0x104(r30)
-rlwinm   r0, r0, 0, 0x1f, 0x1d
-stb      r0, 0x104(r30)
-lbz      r0, 0x104(r30)
-ori      r0, r0, 8
-stb      r0, 0x104(r30)
-
-lbl_803F96F0:
-lbz      r0, 0x104(r30)
-rlwinm.  r0, r0, 0, 0x1d, 0x1d
-bne      lbl_803F9728
-lwz      r0, 0xf0(r30)
-cmpwi    r0, 7
-beq      lbl_803F9728
-lbz      r4, 0x105(r30)
-cmplwi   r4, 0
-beq      lbl_803F9728
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-addi     r3, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-lbz      r0, 0x3a(r3)
-subf     r0, r0, r4
-stb      r0, 0x105(r30)
-
-lbl_803F9728:
-lwz      r0, 0x24(r1)
-li       r3, 0
-lwz      r31, 0x1c(r1)
-lwz      r30, 0x18(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+	return false;
 }
 
 /*
@@ -1522,8 +399,130 @@ blr
  * Address:	803F9744
  * Size:	000760
  */
-void ObjCaveResult::doDraw(Graphics&)
+void ObjCaveResult::doDraw(Graphics& gfx)
 {
+	J2DPane* pane1       = mScreenMain->search('NALL2');
+	J2DPane* paneList[2] = { mScreenMain->search('Nsetp00'), mScreenMain->search('Nsetp01') };
+	J2DPane* pane2       = mScreenMain->search('N3DALL');
+
+	u64 nametags[2] = { 'Piname00', 'Piname01' };
+	u64 icontags[2] = { 'iPicon00', 'iPicon01' };
+
+	gfx.mOrthoGraph.setPort();
+	pane1->show();
+	pane2->hide();
+	paneList[0]->hide();
+	paneList[1]->hide();
+
+	J2DPane** list = paneList;
+	mScreenMain->draw(gfx, gfx.mOrthoGraph);
+
+	u32 x, y, wd, ht;
+	x  = 0;
+	y  = 0;
+	wd = 0;
+	ht = 0;
+	GXGetScissor(&x, &y, &wd, &ht);
+	GXSetScissor(x, mScissorMin, wd, mScissorMax);
+
+	pane1->hide();
+	pane2->hide();
+
+	f32 offs = mScrollUpDown * 2.0f;
+	for (int i = 0; i < 2; i++) {
+		list[i]->add(0.0f, mScrollPos - offs);
+	}
+
+	for (int i = 0; i < 2; i++) {
+		mScreenMain->search(nametags[i])->show();
+		mScreenMain->search(icontags[i])->show();
+		mCounterOtaValues[i]->show();
+	}
+
+	u32 i = 0;
+	int next;
+	FOREACH_NODE(Game::Result::TNode, mResultNode->mChild, cNode)
+	{
+		u32 isOdd = i & 1;
+		f32 calc  = (f32)i * mScrollUpDown + mScrollPos;
+
+		if (calc < -mScrollUpDown || mScissorMax < calc) {
+			paneList[isOdd]->add(0.0f, offs);
+		} else {
+			if (((int)cNode->mItemMgr->mFlags & LOSTITEM_Unk2) == 2) {
+				if (cNode->mPokoValue < 0) {
+					next = 0;
+				} else {
+					next = cNode->mQuantity * cNode->mPokoValue;
+				}
+				setAlpha(isOdd, 48);
+			} else {
+				next = cNode->getNextIndex(cNode->mQuantity, cNode->mLostNum);
+				setAlpha(isOdd, 255);
+			}
+			int isEven = !(i % 2);
+			paneList[isOdd]->hide();
+			paneList[isEven]->show();
+			paneList[isOdd]->add(0.0f, offs);
+			setTex(mScreenMain, icontags[isOdd], cNode->mTexture->mTexInfo);
+			u64 tag = cNode->mMesgTag;
+			if (tag == 0) {
+				mScreenMain->search(icontags[isOdd])->hide();
+			} else {
+				mScreenMain->search(icontags[isOdd])->setMsgID(tag + 1);
+			}
+			mCurrOtaValues[isOdd] = next;
+			mCounterOtaValues[isOdd]->update();
+			mScreenMain->draw(gfx, gfx.mOrthoGraph);
+		}
+		i++;
+	}
+
+	for (; i < 6; i++) {
+		int isOdd = i & 1;
+		paneList[isOdd]->hide();
+		paneList[isOdd]->show();
+		paneList[isOdd]->add(0.0f, offs);
+		setAlpha(isOdd, 255);
+		mScreenMain->search(icontags[isOdd])->hide();
+		mScreenMain->search(nametags[isOdd])->hide();
+		mCounterOtaValues[i]->hide();
+		mScreenMain->draw(gfx, gfx.mOrthoGraph);
+	}
+
+	GXSetScissor(x, y, wd, ht);
+	pane1->show();
+	pane2->hide();
+	paneList[0]->hide();
+	paneList[1]->hide();
+	mScreenMain->draw(gfx, gfx.mOrthoGraph);
+
+	FOREACH_NODE(Game::Result::TNode, mResultNode->mChild, cNode)
+	{
+		cNode->mItemMgr->draw(mScreenDropItem, 'iPicon00', cNode->mTexture->mTexInfo, gfx);
+	}
+
+	if (mAlpha) {
+		gfx.mOrthoGraph.setPort();
+		JUtility::TColor c(0, 0, 0, mAlpha);
+		gfx.mOrthoGraph.setColor(c);
+
+		u32 y    = System::getRenderModeObj()->efbHeight;
+		u32 x    = System::getRenderModeObj()->fbWidth;
+		f32 zero = 0.0f;
+		JGeometry::TBox2f box(0.0f, zero + x, 0.0f, zero + y);
+		gfx.mOrthoGraph.fillBox(box);
+	}
+
+	if (isFlag(CAVERESFLAG_DrawComp)) {
+		gfx.mOrthoGraph.setPort();
+		mScreenComplete->draw(gfx, gfx.mOrthoGraph);
+	}
+
+	if (isFlag(CAVERESFLAG_SaveOpen)) {
+		gfx.mPerspGraph.setPort();
+		mSaveMgr->draw();
+	}
 	/*
 stwu     r1, -0xd0(r1)
 mflr     r0
@@ -2051,40 +1050,17 @@ blr
  * Address:	803F9EA4
  * Size:	000068
  */
-void ObjCaveResult::doUpdateFadein()
+bool ObjCaveResult::doUpdateFadein()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r3
-bl       updateAnimation__Q32kh6Screen13ObjCaveResultFv
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-lbz      r0, 0x105(r31)
-addi     r4, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-lbz      r3, 0x38(r4)
-subf     r0, r3, r0
-stb      r0, 0x105(r31)
-lbz      r3, 0x105(r31)
-lbz      r0, 0x38(r4)
-cmplw    r3, r0
-bge      lbl_803F9EF4
-li       r0, 0
-li       r3, 1
-stb      r0, 0x105(r31)
-b        lbl_803F9EF8
+	updateAnimation();
 
-lbl_803F9EF4:
-li       r3, 0
+	mAlpha -= msVal._38;
+	if (mAlpha < msVal._38) {
+		mAlpha = 0;
+		return true;
+	}
 
-lbl_803F9EF8:
-lwz      r0, 0x14(r1)
-lwz      r31, 0xc(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	return false;
 }
 
 /*
@@ -2094,13 +1070,8 @@ blr
  */
 void ObjCaveResult::doUpdateFadeinFinish()
 {
-	/*
-lfs      f1, lbl_8051FFC8@sda21(r2)
-lfs      f0, lbl_8051FFCC@sda21(r2)
-stfs     f1, 0xfc(r3)
-stfs     f0, 0x100(r3)
-blr
-	*/
+	_FC  = 175.0f;
+	_100 = 224.5f;
 }
 
 /*
@@ -2108,41 +1079,15 @@ blr
  * Address:	803F9F20
  * Size:	00006C
  */
-void ObjCaveResult::doUpdateFadeout()
+bool ObjCaveResult::doUpdateFadeout()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r3
-bl       updateAnimation__Q32kh6Screen13ObjCaveResultFv
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-lbz      r4, 0x105(r31)
-addi     r3, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-lbz      r0, 0x38(r3)
-add      r0, r4, r0
-stb      r0, 0x105(r31)
-lbz      r0, 0x38(r3)
-lbz      r3, 0x105(r31)
-subfic   r0, r0, 0xff
-cmpw     r3, r0
-ble      lbl_803F9F74
-li       r0, 0xff
-li       r3, 1
-stb      r0, 0x105(r31)
-b        lbl_803F9F78
-
-lbl_803F9F74:
-li       r3, 0
-
-lbl_803F9F78:
-lwz      r0, 0x14(r1)
-lwz      r31, 0xc(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	updateAnimation();
+	mAlpha += msVal._38;
+	if (mAlpha > (255 - msVal._38)) {
+		mAlpha = 255;
+		return true;
+	}
+	return false;
 }
 
 /*
@@ -2152,151 +1097,67 @@ blr
  */
 void ObjCaveResult::statusNormal()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r3
-lbz      r0, 0x104(r3)
-clrlwi.  r0, r0, 0x1f
-beq      lbl_803FA020
-lwz      r3, 0xd8(r31)
-cmpwi    r3, 0
-bne      lbl_803F9FD4
-lwz      r3, 0x8c(r31)
-bl       fadeout__Q32kh6Screen14khUtilFadePaneFv
-lwz      r3, 0x90(r31)
-bl       fadein__Q32kh6Screen14khUtilFadePaneFv
-lwz      r3, 0x80(r31)
-bl       stickDown__Q32og6Screen12StickAnimMgrFv
-b        lbl_803FA014
+	if (isFlag(CAVERESFLAG_CanScroll)) {
+		// at top of scroll list
+		if (!mScrollSelIndex) {
+			mFadePaneUpArrow->fadeout();
+			mFadePaneDownArrow->fadein();
+			mStickAnim->stickDown();
+		}
+		// at bottom of scroll list
+		else if (mScrollSelIndex == mScrollSelIndexMax) {
+			mFadePaneUpArrow->fadein();
+			mFadePaneDownArrow->fadeout();
+			mStickAnim->stickUp();
+		}
+		// in middle of sroll list
+		else {
+			mFadePaneUpArrow->fadein();
+			mFadePaneDownArrow->fadein();
+			mStickAnim->stickUpDown();
+		}
+		mFadePane1->fadein();
+	} else {
+		mFadePaneUpArrow->fadeout();
+		mFadePaneDownArrow->fadeout();
+		mFadePane1->fadeout();
+	}
 
-lbl_803F9FD4:
-lwz      r0, 0xdc(r31)
-cmpw     r3, r0
-bne      lbl_803F9FFC
-lwz      r3, 0x8c(r31)
-bl       fadein__Q32kh6Screen14khUtilFadePaneFv
-lwz      r3, 0x90(r31)
-bl       fadeout__Q32kh6Screen14khUtilFadePaneFv
-lwz      r3, 0x80(r31)
-bl       stickUp__Q32og6Screen12StickAnimMgrFv
-b        lbl_803FA014
+	mFadePane4->fadein();
+	if (isFlag(CAVERESFLAG_CanScroll)) {
+		// press up, begin scroll up state
+		if (getGamePad()->getButton() & (Controller::PRESS_UP) && mScrollSelIndex) {
+			mScrollSelIndex--;
+			if (_106 >= 1) {
+				mScrollTargetDist = msVal._20;
+			} else {
+				_106++;
+			}
 
-lbl_803F9FFC:
-lwz      r3, 0x8c(r31)
-bl       fadein__Q32kh6Screen14khUtilFadePaneFv
-lwz      r3, 0x90(r31)
-bl       fadein__Q32kh6Screen14khUtilFadePaneFv
-lwz      r3, 0x80(r31)
-bl       stickUpDown__Q32og6Screen12StickAnimMgrFv
+			_107    = 0;
+			mStatus = CAVERES_ScrollUp;
+			statusScrollUp();
+			return;
+		}
 
-lbl_803FA014:
-lwz      r3, 0x88(r31)
-bl       fadein__Q32kh6Screen14khUtilFadePaneFv
-b        lbl_803FA038
+		// press down, begin scroll down state
+		if (getGamePad()->getButton() & (Controller::PRESS_DOWN) && mScrollSelIndex != mScrollSelIndexMax) {
+			mScrollSelIndex++;
+			if (_107 >= 1) {
+				mScrollTargetDist = msVal._20;
+			} else {
+				_107++;
+			}
+			_106    = 0;
+			mStatus = CAVERES_ScrollDown;
+			statusScrollDown();
+			return;
+		}
 
-lbl_803FA020:
-lwz      r3, 0x8c(r31)
-bl       fadeout__Q32kh6Screen14khUtilFadePaneFv
-lwz      r3, 0x90(r31)
-bl       fadeout__Q32kh6Screen14khUtilFadePaneFv
-lwz      r3, 0x88(r31)
-bl       fadeout__Q32kh6Screen14khUtilFadePaneFv
-
-lbl_803FA038:
-lwz      r3, 0x94(r31)
-bl       fadein__Q32kh6Screen14khUtilFadePaneFv
-lbz      r0, 0x104(r31)
-clrlwi.  r0, r0, 0x1f
-beq      lbl_803FA154
-mr       r3, r31
-bl       getGamePad__Q26Screen7ObjBaseCFv
-lis      r4, 0x08000008@ha
-lwz      r3, 0x18(r3)
-addi     r0, r4, 0x08000008@l
-and.     r0, r3, r0
-beq      lbl_803FA0C0
-lwz      r3, 0xd8(r31)
-cmpwi    r3, 0
-beq      lbl_803FA0C0
-addi     r0, r3, -1
-stw      r0, 0xd8(r31)
-lbz      r3, 0x106(r31)
-cmplwi   r3, 1
-blt      lbl_803FA09C
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-addi     r3, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-lwz      r0, 0x20(r3)
-stw      r0, 0xe0(r31)
-b        lbl_803FA0A4
-
-lbl_803FA09C:
-addi     r0, r3, 1
-stb      r0, 0x106(r31)
-
-lbl_803FA0A4:
-li       r3, 0
-li       r0, 1
-stb      r3, 0x107(r31)
-mr       r3, r31
-stw      r0, 0xf0(r31)
-bl       statusScrollUp__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803FA154
-
-lbl_803FA0C0:
-mr       r3, r31
-bl       getGamePad__Q26Screen7ObjBaseCFv
-lis      r4, 0x04000004@ha
-lwz      r3, 0x18(r3)
-addi     r0, r4, 0x04000004@l
-and.     r0, r3, r0
-beq      lbl_803FA138
-lwz      r3, 0xd8(r31)
-lwz      r0, 0xdc(r31)
-cmpw     r3, r0
-beq      lbl_803FA138
-addi     r0, r3, 1
-stw      r0, 0xd8(r31)
-lbz      r3, 0x107(r31)
-cmplwi   r3, 1
-blt      lbl_803FA114
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-addi     r3, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-lwz      r0, 0x20(r3)
-stw      r0, 0xe0(r31)
-b        lbl_803FA11C
-
-lbl_803FA114:
-addi     r0, r3, 1
-stb      r0, 0x107(r31)
-
-lbl_803FA11C:
-li       r3, 0
-li       r0, 2
-stb      r3, 0x106(r31)
-mr       r3, r31
-stw      r0, 0xf0(r31)
-bl       statusScrollDown__Q32kh6Screen13ObjCaveResultFv
-b        lbl_803FA154
-
-lbl_803FA138:
-li       r0, 0
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-stb      r0, 0x107(r31)
-addi     r3, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-stb      r0, 0x106(r31)
-lwz      r0, 0x1c(r3)
-stw      r0, 0xe0(r31)
-
-lbl_803FA154:
-lwz      r0, 0x14(r1)
-lwz      r31, 0xc(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+		_107              = 0;
+		_106              = 0;
+		mScrollTargetDist = msVal._1C;
+	}
 }
 
 /*
@@ -2306,71 +1167,14 @@ blr
  */
 void ObjCaveResult::statusScrollUp()
 {
-	/*
-stwu     r1, -0x30(r1)
-mflr     r0
-lis      r6, 0x4330
-lfd      f4, lbl_8051FFB0@sda21(r2)
-stw      r0, 0x34(r1)
-lwz      r4, 0xd8(r3)
-stw      r6, 0x18(r1)
-addi     r0, r4, 1
-xoris    r5, r4, 0x8000
-xoris    r0, r0, 0x8000
-lwz      r8, 0xe0(r3)
-stw      r0, 0x1c(r1)
-lwz      r7, 0xe4(r3)
-lfd      f0, 0x18(r1)
-subf     r0, r7, r8
-stw      r5, 0x14(r1)
-xoris    r4, r0, 0x8000
-fsubs    f0, f0, f4
-stw      r6, 0x10(r1)
-xoris    r7, r7, 0x8000
-lfs      f3, 0xd4(r3)
-xoris    r0, r8, 0x8000
-lfd      f2, 0x10(r1)
-stw      r4, 0x24(r1)
-fmuls    f1, f3, f0
-fsubs    f2, f2, f4
-stw      r6, 0x20(r1)
-lfd      f0, 0x20(r1)
-fmuls    f2, f3, f2
-stw      r7, 0xc(r1)
-fsubs    f0, f0, f4
-stw      r6, 8(r1)
-lfd      f3, 8(r1)
-fmuls    f1, f1, f0
-stw      r0, 0x2c(r1)
-fsubs    f3, f3, f4
-stw      r6, 0x28(r1)
-lfd      f0, 0x28(r1)
-fmadds   f1, f3, f2, f1
-fsubs    f0, f0, f4
-fdivs    f0, f1, f0
-fneg     f0, f0
-stfs     f0, 0xd0(r3)
-lwz      r4, 0xe4(r3)
-addi     r0, r4, 1
-stw      r0, 0xe4(r3)
-lwz      r0, 0xe0(r3)
-cmpw     r4, r0
-bne      lbl_803FA23C
-li       r4, 1
-li       r0, 0
-stw      r4, 0xe4(r3)
-stw      r0, 0xf0(r3)
+	f32 p1     = mScrollUpDown * (mScrollSelIndex + 1) * (mScrollTargetDist - mScrollMoveTimer);
+	mScrollPos = -((mScrollMoveTimer * (mScrollUpDown * mScrollSelIndex) + p1) / mScrollTargetDist);
 
-lbl_803FA23C:
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x101a
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-lwz      r0, 0x34(r1)
-mtlr     r0
-addi     r1, r1, 0x30
-blr
-	*/
+	if (mScrollMoveTimer++ == mScrollTargetDist) {
+		mScrollMoveTimer = 1;
+		mStatus          = CAVERES_Normal;
+	}
+	PSSystem::spSysIF->playSystemSe(PSSE_SY_REGI_ROLL, 0);
 }
 
 /*
@@ -2380,71 +1184,14 @@ blr
  */
 void ObjCaveResult::statusScrollDown()
 {
-	/*
-stwu     r1, -0x30(r1)
-mflr     r0
-lis      r6, 0x4330
-lfd      f4, lbl_8051FFB0@sda21(r2)
-stw      r0, 0x34(r1)
-lwz      r4, 0xd8(r3)
-stw      r6, 0x18(r1)
-addi     r0, r4, -1
-xoris    r5, r4, 0x8000
-xoris    r0, r0, 0x8000
-lwz      r8, 0xe0(r3)
-stw      r0, 0x1c(r1)
-lwz      r7, 0xe4(r3)
-lfd      f0, 0x18(r1)
-subf     r0, r7, r8
-stw      r5, 0x14(r1)
-xoris    r4, r0, 0x8000
-fsubs    f0, f0, f4
-stw      r6, 0x10(r1)
-xoris    r7, r7, 0x8000
-lfs      f3, 0xd4(r3)
-xoris    r0, r8, 0x8000
-lfd      f2, 0x10(r1)
-stw      r4, 0x24(r1)
-fmuls    f1, f3, f0
-fsubs    f2, f2, f4
-stw      r6, 0x20(r1)
-lfd      f0, 0x20(r1)
-fmuls    f2, f3, f2
-stw      r7, 0xc(r1)
-fsubs    f0, f0, f4
-stw      r6, 8(r1)
-lfd      f3, 8(r1)
-fmuls    f1, f1, f0
-stw      r0, 0x2c(r1)
-fsubs    f3, f3, f4
-stw      r6, 0x28(r1)
-lfd      f0, 0x28(r1)
-fmadds   f1, f3, f2, f1
-fsubs    f0, f0, f4
-fdivs    f0, f1, f0
-fneg     f0, f0
-stfs     f0, 0xd0(r3)
-lwz      r4, 0xe4(r3)
-addi     r0, r4, 1
-stw      r0, 0xe4(r3)
-lwz      r0, 0xe0(r3)
-cmpw     r4, r0
-bne      lbl_803FA330
-li       r4, 1
-li       r0, 0
-stw      r4, 0xe4(r3)
-stw      r0, 0xf0(r3)
+	f32 p1     = mScrollUpDown * (mScrollSelIndex - 1) * (mScrollTargetDist - mScrollMoveTimer);
+	mScrollPos = -((mScrollMoveTimer * (mScrollUpDown * mScrollSelIndex) + p1) / mScrollTargetDist);
 
-lbl_803FA330:
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x101a
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-lwz      r0, 0x34(r1)
-mtlr     r0
-addi     r1, r1, 0x30
-blr
-	*/
+	if (mScrollMoveTimer++ == mScrollTargetDist) {
+		mScrollMoveTimer = 1;
+		mStatus          = CAVERES_Normal;
+	}
+	PSSystem::spSysIF->playSystemSe(PSSE_SY_REGI_ROLL, 0);
 }
 
 /*
@@ -2454,6 +1201,55 @@ blr
  */
 void ObjCaveResult::statusForceScroll()
 {
+	f32 p1     = mScrollUpDown * (mScrollSelIndex - 1) * (mScrollTargetDist - mScrollMoveTimer);
+	mScrollPos = -((mScrollMoveTimer * (mScrollUpDown * mScrollSelIndex) + p1) / mScrollTargetDist);
+
+	if (mScrollMoveTimer++ == mScrollTargetDist) {
+		if (mScrollSelIndex == mScrollSelIndexMax) {
+			bool check       = false;
+			mScrollMoveTimer = 1;
+			FOREACH_NODE(Game::Result::TNode, mResultNode->mChild, cNode)
+			{
+				if ((cNode->mItemMgr->mFlags & LOSTITEM_Unk2 != 2) && cNode->mLostNum) {
+					mStatus           = CAVERES_Lost;
+					check             = true;
+					mChangeStateDelay = 0;
+				}
+			}
+			if (check) {
+				mStatus           = CAVERES_AllMoney;
+				mChangeStateDelay = msVal._3B;
+			}
+		} else {
+			JUT_ASSERTLINE(829, getDispMember()->isID(OWNER_KH, MEMBER_CAVE_RESULT), "disp member err");
+			getDispMember();
+			Game::Result::TNode* node = static_cast<Game::Result::TNode*>(mResultNode->mChild);
+			for (int i = 0; node && i != mScrollSelIndex + 6; i++) {
+				node = static_cast<Game::Result::TNode*>(node->mNext);
+			}
+			if (node && !node->mLostNum) {
+				if (node->mPokoValue > 0) {
+					mOtakaraCount++;
+				}
+				if (node->mPokoValue > 0 || !node->mLostNum) {
+					mCavePokos += node->mPokoValue;
+				}
+				PSSystem::spSysIF->playSystemSe(PSSE_SY_COIN_COUNT, 0);
+			}
+			mScrollMoveTimer = 1;
+			mScrollSelIndex++;
+		}
+	}
+	int i = 0;
+	JGeometry::TVec2f pos(_FC, _100);
+	FOREACH_NODE(Game::Result::TNode, mResultNode->mChild, cNode)
+	{
+		if (i == mScrollSelIndex + 2 && ((cNode->mItemMgr->mFlags & LOSTITEM_Unk1) != 1)) {
+			cNode->mItemMgr->init(pos, i & 7);
+		}
+		i++;
+	}
+	PSSystem::spSysIF->playSystemSe(PSSE_SY_REGI_ROLL, 0);
 	/*
 stwu     r1, -0x50(r1)
 mflr     r0
@@ -2685,15 +1481,8 @@ blr
  */
 void ObjCaveResult::statusDrumRoll()
 {
-	/*
-lis      r4, msVal__Q32kh6Screen13ObjCaveResult@ha
-li       r0, 8
-addi     r4, r4, msVal__Q32kh6Screen13ObjCaveResult@l
-lbz      r4, 0x3b(r4)
-stw      r4, 0xf4(r3)
-stw      r0, 0xf0(r3)
-blr
-	*/
+	mChangeStateDelay = msVal._3B;
+	mStatus           = CAVERES_AllMoney;
 }
 
 /*
@@ -2703,62 +1492,17 @@ blr
  */
 void ObjCaveResult::statusAllMoney()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r3
-lwz      r4, 0xf4(r3)
-cmpwi    r4, 0
-bne      lbl_803FA700
-bl       getDispMember__Q26Screen7ObjBaseFv
-lis      r5, 0x52534C54@ha
-li       r4, 0x4b48
-addi     r6, r5, 0x52534C54@l
-li       r5, 0x435f
-bl       isID__Q32og6Screen14DispMemberBaseFUlUx
-clrlwi.  r0, r3, 0x18
-bne      lbl_803FA6B8
-lis      r3, lbl_80498360@ha
-lis      r5, lbl_80498374@ha
-addi     r3, r3, lbl_80498360@l
-li       r4, 0x38e
-addi     r5, r5, lbl_80498374@l
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803FA6B8:
-mr       r3, r31
-bl       getDispMember__Q26Screen7ObjBaseFv
-lwz      r0, 0x28(r3)
-lfs      f1, lbl_8051FFB8@sda21(r2)
-stw      r0, 0xcc(r31)
-lwz      r3, 0xb0(r31)
-bl       startPuyoUp__Q32og6Screen18CallBack_CounterRVFf
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x1814
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-li       r0, 6
-addi     r3, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-lbz      r3, 0x3b(r3)
-stw      r3, 0xf4(r31)
-stw      r0, 0xf0(r31)
-b        lbl_803FA708
-
-lbl_803FA700:
-addi     r0, r4, -1
-stw      r0, 0xf4(r31)
-
-lbl_803FA708:
-lwz      r0, 0x14(r1)
-lwz      r31, 0xc(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	if (!mChangeStateDelay) {
+		JUT_ASSERTLINE(910, getDispMember()->isID(OWNER_KH, MEMBER_CAVE_RESULT), "disp member err");
+		DispCaveResult* disp = static_cast<DispCaveResult*>(getDispMember());
+		mTotalPokos          = disp->mTotalPokos;
+		mCounterTotalPokos->startPuyoUp(1.0f);
+		PSSystem::spSysIF->playSystemSe(PSSE_SY_REGI_SUM_UP, 0);
+		mChangeStateDelay = msVal._3B;
+		mStatus           = CAVERES_DecP;
+	} else {
+		mChangeStateDelay--;
+	}
 }
 
 /*
@@ -2768,76 +1512,22 @@ blr
  */
 void ObjCaveResult::statusDecP()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r3
-stw      r30, 8(r1)
-lwz      r4, 0xf4(r3)
-cmpwi    r4, 0
-bne      lbl_803FA7E4
-bl       getDispMember__Q26Screen7ObjBaseFv
-lis      r5, 0x52534C54@ha
-li       r4, 0x4b48
-addi     r6, r5, 0x52534C54@l
-li       r5, 0x435f
-bl       isID__Q32og6Screen14DispMemberBaseFUlUx
-clrlwi.  r0, r3, 0x18
-bne      lbl_803FA77C
-lis      r3, lbl_80498360@ha
-lis      r5, lbl_80498374@ha
-addi     r3, r3, lbl_80498360@l
-li       r4, 0x3a6
-addi     r5, r5, lbl_80498374@l
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803FA77C:
-mr       r3, r31
-bl       getDispMember__Q26Screen7ObjBaseFv
-mr       r30, r3
-lfs      f1, lbl_8051FFB8@sda21(r2)
-lwz      r0, 0x2c(r3)
-stw      r0, 0xb8(r31)
-lwz      r3, 0x9c(r31)
-bl       startPuyoUp__Q32og6Screen18CallBack_CounterRVFf
-mr       r3, r31
-bl       pikminSE__Q32kh6Screen13ObjCaveResultFv
-lbz      r0, 0x31(r30)
-cmplwi   r0, 0
-beq      lbl_803FA7CC
-li       r0, 7
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-stw      r0, 0xf0(r31)
-addi     r3, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-lbz      r0, 0x3b(r3)
-stw      r0, 0xf4(r31)
-b        lbl_803FA7D4
-
-lbl_803FA7CC:
-li       r0, 0
-stw      r0, 0xf0(r31)
-
-lbl_803FA7D4:
-lbz      r0, 0x104(r31)
-ori      r0, r0, 8
-stb      r0, 0x104(r31)
-b        lbl_803FA7EC
-
-lbl_803FA7E4:
-addi     r0, r4, -1
-stw      r0, 0xf4(r31)
-
-lbl_803FA7EC:
-lwz      r0, 0x14(r1)
-lwz      r31, 0xc(r1)
-lwz      r30, 8(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	if (!mChangeStateDelay) {
+		JUT_ASSERTLINE(934, getDispMember()->isID(OWNER_KH, MEMBER_CAVE_RESULT), "disp member err");
+		DispCaveResult* disp = static_cast<DispCaveResult*>(getDispMember());
+		mDeadPiki            = disp->mDeadPikis;
+		mCounterDeadPiki->startPuyoUp(1.0f);
+		pikminSE();
+		if (disp->mCaveComp) {
+			mStatus           = CAVERES_Effect;
+			mChangeStateDelay = msVal._3B;
+		} else {
+			mStatus = CAVERES_Normal;
+		}
+		setFlag(CAVERESFLAG_PikisKilledShown);
+	} else {
+		mChangeStateDelay--;
+	}
 }
 
 /*
@@ -2847,6 +1537,27 @@ blr
  */
 void ObjCaveResult::statusLost()
 {
+	if (!mChangeStateDelay) {
+		int i = 0;
+		JGeometry::TVec2f pos;
+		pos.x = _FC;
+		pos.y = _100;
+		FOREACH_NODE(Game::Result::TNode, mResultNode->mChild, cNode)
+		{
+			if (cNode->mLostNum != 0 && ((int)(cNode->mItemMgr->mFlags & LOSTITEM_Unk2) != 2)) {
+				pos.y = mScrollUpDown * (i - 3 - mScrollSelIndexMax) + _100;
+				cNode->mItemMgr->init(pos, i & 1);
+				mChangeStateDelay = mScrollTargetDist;
+				return;
+			}
+			i++;
+		}
+		mStatus           = CAVERES_AllMoney;
+		mChangeStateDelay = msVal._3B;
+	} else {
+		mChangeStateDelay--;
+	}
+
 	/*
 stwu     r1, -0x20(r1)
 mflr     r0
@@ -2936,131 +1647,31 @@ blr
  */
 void ObjCaveResult::statusEffect()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r3
-lwz      r3, 0xf4(r3)
-cmpwi    r3, 0
-bne      lbl_803FAAA4
-lbz      r0, 0x104(r31)
-rlwinm.  r0, r0, 0, 0x1b, 0x1b
-bne      lbl_803FAA7C
-lwz      r3, 0x40(r31)
-lis      r5, 0x6E6F726D@ha
-lis      r4, 0x50616E61@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x6E6F726D@l
-addi     r5, r4, 0x50616E61@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 0
-lis      r5, 0x636F6D70@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x50616E61@ha
-addi     r6, r5, 0x636F6D70@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x50616E61@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 1
-stb      r0, 0xb0(r3)
-lwz      r3, 0x84(r31)
-bl       up__Q32og6Screen8ScaleMgrFv
-lwz      r3, 0xac(r31)
-bl       getMotherPane__Q32og6Screen18CallBack_CounterRVFv
-li       r0, 1
-stb      r0, 0xb0(r3)
-lwz      r3, 0xa8(r31)
-bl       getMotherPane__Q32og6Screen18CallBack_CounterRVFv
-lis      r4, msVal__Q32kh6Screen13ObjCaveResult@ha
-lwz      r12, 0(r3)
-addi     r4, r4, msVal__Q32kh6Screen13ObjCaveResult@l
-lfs      f1, 0x10(r4)
-lfs      f0, 0x14(r4)
-lwz      r12, 0x14(r12)
-fneg     f1, f1
-fneg     f2, f0
-mtctr    r12
-bctrl
-lwz      r3, 0x40(r31)
-lis      r5, 0x5F303038@ha
-lis      r4, 0x50494354@ha
-lwz      r12, 0(r3)
-addi     r6, r5, 0x5F303038@l
-addi     r5, r4, 0x50494354@l
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 1
-lis      r5, 0x74733134@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x00507469@ha
-addi     r6, r5, 0x74733134@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x00507469@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r0, 1
-lis      r5, 0x74733135@ha
-stb      r0, 0xb0(r3)
-lis      r4, 0x00507469@ha
-addi     r6, r5, 0x74733135@l
-lwz      r3, 0x40(r31)
-addi     r5, r4, 0x00507469@l
-lwz      r12, 0(r3)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-li       r4, 1
-li       r0, 0
-stb      r4, 0xb0(r3)
-li       r4, 0x1840
-li       r5, 0
-stw      r0, 0xf0(r31)
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
+	if (!mChangeStateDelay) {
+		if (!isFlag(CAVERESFLAG_DrawComp)) {
+			mScreenMain->search('Pananorm')->hide();
+			mScreenMain->search('Panacomp')->show();
+			mScaleMgr->up();
+			mCounterTreasureMax->getMotherPane()->show();
+			mCounterTreasureCollected->getMotherPane()->add(-msVal._10, -msVal._14);
+			mScreenMain->search('PICT_008')->show();
+			mScreenMain->search('Ptits14')->show();
+			mScreenMain->search('Ptits15')->show();
+			mStatus = CAVERES_Normal;
+			PSSystem::spSysIF->playSystemSe(PSSE_SY_WMAP_CAVE_NAME, 0);
+		}
 
-lbl_803FAA7C:
-lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-lbz      r4, 0x105(r31)
-addi     r3, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-lbz      r0, 0x39(r3)
-cmplw    r4, r0
-bge      lbl_803FAAD4
-lbz      r0, 0x3a(r3)
-add      r0, r4, r0
-stb      r0, 0x105(r31)
-b        lbl_803FAAD4
+		if (mAlpha < msVal._39) {
+			mAlpha += msVal._3A;
+		}
 
-lbl_803FAAA4:
-addi     r0, r3, -1
-stw      r0, 0xf4(r31)
-lwz      r0, 0xf4(r31)
-cmpwi    r0, 0
-bne      lbl_803FAAD4
-lbz      r0, 0x104(r31)
-li       r4, 0x1833
-li       r5, 0
-ori      r0, r0, 0x10
-stb      r0, 0x104(r31)
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-
-lbl_803FAAD4:
-lwz      r0, 0x14(r1)
-lwz      r31, 0xc(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	} else {
+		mChangeStateDelay--;
+		if (mChangeStateDelay == 0) {
+			setFlag(CAVERESFLAG_DrawComp);
+			PSSystem::spSysIF->playSystemSe(PSSE_DOKUTSU_COMPLETE, 0);
+		}
+	}
 }
 
 /*
@@ -3070,6 +1681,66 @@ blr
  */
 void ObjCaveResult::updateAnimation()
 {
+	JGeometry::TVec3f vec1 = mScreenMain->search('Nmask')->getGlbVtx(0);
+	JGeometry::TVec3f vec2 = mScreenMain->search('Nmask')->getGlbVtx(3);
+	mScissorMin            = vec1.y;
+	mScissorMax            = vec2.y;
+
+	mMainAnim->mCurrentFrame          = mAnimTimers[0];
+	mCompleteAnim->mCurrentFrame      = mAnimTimers[1];
+	mMainAnimColor->mCurrentFrame     = mAnimTimers[2];
+	mCompleteAnimColor->mCurrentFrame = mAnimTimers[3];
+	mAnimTexSRT->mCurrentFrame        = mAnimTimers[4];
+	mAnimTevReg->mCurrentFrame        = mAnimTimers[5];
+	mScreenMain->animation();
+
+	if (!isFlag(CAVERESFLAG_SaveOpen)) {
+		mAnimTimers[0] += 1.0f;
+		if (mAnimTimers[0] >= mMainAnim->mMaxFrame) {
+			mAnimTimers[0] = 0.0f;
+		}
+
+		mAnimTimers[2] += 1.0f;
+		if (mAnimTimers[2] >= mMainAnimColor->mMaxFrame) {
+			mAnimTimers[2] = 0.0f;
+		}
+
+		mAnimTimers[4] += 1.0f;
+		if (mAnimTimers[4] >= mAnimTexSRT->mMaxFrame) {
+			mAnimTimers[4] = 0.0f;
+		}
+
+		mAnimTimers[5] += 1.0f;
+		if (mAnimTimers[5] >= mAnimTevReg->mMaxFrame) {
+			mAnimTimers[5] = 0.0f;
+		}
+	}
+
+	mScreenMain->update();
+	mScreenMain->search('Panacomp')->updateScale(mScaleMgr->calc());
+
+	if (isFlag(CAVERESFLAG_DrawComp)) {
+		mCompleteAnim->mCurrentFrame      = mAnimTimers[1];
+		mCompleteAnimColor->mCurrentFrame = mAnimTimers[3];
+		mScreenComplete->animation();
+		if (mAnimTimers[1] >= 30.0f && !isFlag(CAVERESFLAG_MakeEfx)) {
+			u32 y = System::getRenderModeObj()->efbHeight;
+			u32 x = System::getRenderModeObj()->fbWidth;
+			efx2d::Arg arg2(x * 0.5f, y * 0.5f);
+			mEfxComp->create(&arg2);
+			efx2d::Arg arg(getPaneCenterX(mScreenMain->search('NALL')) + msVal._04,
+			               getPaneCenterY(mScreenMain->search('NALL')) + msVal._08);
+			efx2d::T2DCavecomp efx;
+			efx.create(&arg);
+			setFlag(CAVERESFLAG_MakeEfx);
+		}
+		mAnimTimers[1] += msVal._00;
+		mAnimTimers[3] += msVal._00;
+		if (mCompleteAnim->mMaxFrame - 1.0f >= mAnimTimers[1] || mCompleteAnimColor->mMaxFrame - 1.0f >= mAnimTimers[3]) {
+			resetFlag(CAVERESFLAG_DrawComp);
+		}
+	}
+	FOREACH_NODE(Game::Result::TNode, mResultNode->mChild, cNode) { cNode->mItemMgr->update(); }
 	/*
 stwu     r1, -0xb0(r1)
 mflr     r0
@@ -3442,40 +2113,10 @@ blr
  * Address:	803FB04C
  * Size:	000078
  */
-void ObjCaveResult::setAlpha(int, unsigned char)
+void ObjCaveResult::setAlpha(int index, unsigned char alpha)
 {
-	/*
-stwu     r1, -0x20(r1)
-mflr     r0
-lis      r6, lbl_80498470@ha
-slwi     r4, r4, 3
-stw      r0, 0x24(r1)
-addi     r0, r1, 8
-stw      r31, 0x1c(r1)
-mr       r31, r5
-lfdu     f1, lbl_80498470@l(r6)
-lfd      f0, 8(r6)
-add      r6, r0, r4
-stfd     f1, 8(r1)
-stfd     f0, 0x10(r1)
-lwz      r3, 0x40(r3)
-lwz      r5, 0(r6)
-lwz      r12, 0(r3)
-lwz      r6, 4(r6)
-lwz      r12, 0x3c(r12)
-mtctr    r12
-bctrl
-lwz      r12, 0(r3)
-mr       r4, r31
-lwz      r12, 0x24(r12)
-mtctr    r12
-bctrl
-lwz      r0, 0x24(r1)
-lwz      r31, 0x1c(r1)
-mtlr     r0
-addi     r1, r1, 0x20
-blr
-	*/
+	u64 tag[2] = { 'Nicon00', 'Nicon01' };
+	mScreenMain->search(tag[index])->setAlpha(alpha);
 }
 
 /*
@@ -3485,65 +2126,20 @@ blr
  */
 void ObjCaveResult::pikminSE()
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-lwz      r0, 0xb8(r3)
-cmplwi   r0, 0
-bne      lbl_803FB100
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x1806
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x285f
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-b        lbl_803FB178
-
-lbl_803FB100:
-cmplwi   r0, 0xa
-bgt      lbl_803FB12C
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x182a
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x2822
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-b        lbl_803FB178
-
-lbl_803FB12C:
-cmplwi   r0, 0x32
-bgt      lbl_803FB158
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x182b
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x2860
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-b        lbl_803FB178
-
-lbl_803FB158:
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x182b
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-lwz      r3, spSysIF__8PSSystem@sda21(r13)
-li       r4, 0x2810
-li       r5, 0
-bl       playSystemSe__Q28PSSystem5SysIFFUlUl
-
-lbl_803FB178:
-lwz      r0, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	uint dead = mDeadPiki;
+	if (dead == 0) {
+		PSSystem::spSysIF->playSystemSe(PSSE_SY_MENU_PLUS_MINUS, 0);
+		PSSystem::spSysIF->playSystemSe(PSSE_PK_RESULT_INCREMENT, 0);
+	} else if (dead <= 10) {
+		PSSystem::spSysIF->playSystemSe(PSSE_SY_PIKI_DECREMENT, 0);
+		PSSystem::spSysIF->playSystemSe(PSSE_PK_VC_SAVED, 0);
+	} else if (dead <= 50) {
+		PSSystem::spSysIF->playSystemSe(PSSE_SY_PIKI_DECRE_SUM, 0);
+		PSSystem::spSysIF->playSystemSe(PSSE_PK_RESULT_DECREMENT, 0);
+	} else {
+		PSSystem::spSysIF->playSystemSe(PSSE_SY_PIKI_DECRE_SUM, 0);
+		PSSystem::spSysIF->playSystemSe(PSSE_PK_VC_GHOST, 0);
+	}
 }
 
 /*
@@ -3553,22 +2149,48 @@ blr
  */
 LostItem::LostItem()
 {
-	/*
-lfs      f0, lbl_8051FFA8@sda21(r2)
-li       r5, 0xff
-li       r4, -40
-li       r0, 0
-stfs     f0, 4(r3)
-stfs     f0, 0(r3)
-stfs     f0, 0xc(r3)
-stfs     f0, 8(r3)
-stb      r5, 0x1c(r3)
-stw      r4, 0x14(r3)
-sth      r0, 0x1a(r3)
-sth      r0, 0x18(r3)
-stb      r0, 0x1d(r3)
-blr
-	*/
+	mRect.p1.y = 0.0f;
+	mRect.p1.x = 0.0f;
+	mRect.p2.y = 0.0f;
+	mRect.p2.x = 0.0f;
+	mAlpha     = 255;
+	_14        = -40;
+	_1A        = 0;
+	mAngle     = 0;
+	mCounter   = false;
+}
+
+/*
+ * --INFO--
+ * Address:	........
+ * Size:	0000B8
+ */
+bool LostItem::update()
+{
+	bool flag;
+	if (mAlpha == 0) {
+		flag = true;
+
+	} else {
+		if (mCounter == 0) {
+			mAlpha += _14;
+			if (mAlpha < (int)-_14) {
+				mAlpha = 0;
+			}
+		} else {
+			mCounter--;
+		}
+
+		flag = false;
+		mRect.p2.y += _10;
+		mRect.p2.x *= 0.85f;
+		mRect.p2.y *= 0.85f;
+		mRect.p1.x += mRect.p2.x;
+		mRect.p1.y += mRect.p2.y;
+		mAngle += _1A;
+	}
+
+	return flag;
 }
 
 /*
@@ -3576,46 +2198,16 @@ blr
  * Address:	803FB1C0
  * Size:	000080
  */
-LostItemMgr::LostItemMgr(int)
+LostItemMgr::LostItemMgr(int count)
 {
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-cmpwi    r4, 0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-stw      r30, 8(r1)
-mr       r30, r3
-stw      r4, 4(r3)
-beq      lbl_803FB214
-mr       r31, r4
-slwi     r3, r4, 5
-addi     r3, r3, 0x10
-bl       __nwa__FUl
-lis      r4, __ct__Q32kh6Screen8LostItemFv@ha
-mr       r7, r31
-addi     r4, r4, __ct__Q32kh6Screen8LostItemFv@l
-li       r5, 0
-li       r6, 0x20
-bl       __construct_new_array
-stw      r3, 0(r30)
-b        lbl_803FB21C
+	mMaxPanes = count;
+	if (count) {
+		mItemList = new LostItem[count];
+	} else {
+		mItemList = nullptr;
+	}
 
-lbl_803FB214:
-li       r0, 0
-stw      r0, 0(r30)
-
-lbl_803FB21C:
-li       r0, 0
-mr       r3, r30
-stw      r0, 8(r30)
-lwz      r31, 0xc(r1)
-lwz      r30, 8(r1)
-lwz      r0, 0x14(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
+	mFlags = 0;
 }
 
 /*
@@ -3623,8 +2215,46 @@ blr
  * Address:	803FB240
  * Size:	0003EC
  */
-void LostItemMgr::init(const JGeometry::TVec2<float>&, bool)
+void LostItemMgr::init(const JGeometry::TVec2f& pos, bool flag)
 {
+	if (mMaxPanes) {
+		f32 x = pos.x;
+		f32 y = pos.y;
+		if (flag) {
+			x += 60.0f;
+		}
+
+		for (int i = 0; i < mMaxPanes; i++) {
+			f32 x1 = randFloat();
+			f32 x2 = randFloat();
+			f32 y1 = randFloat();
+			f32 y2 = randFloat();
+
+			LostItem* item   = &mItemList[i];
+			item->mRect.p1.x = x;
+			item->mRect.p1.y = y;
+			item->mRect.p2.x = 40.0f * randFloat() - 20.0f;
+			item->mRect.p2.y = 32.0f * y2 - 30.0f;
+			item->_10        = (4.0f * y1 + 2.0f);
+			item->_1A        = (10000.0f * x2 - 5000.0f);
+			item->mCounter   = (10.0f * x1 - 8.0f);
+		}
+		float xoffs[5] = { kh::Screen::ObjCaveResult::msVal._24, kh::Screen::ObjCaveResult::msVal._28, kh::Screen::ObjCaveResult::msVal._2C,
+			               kh::Screen::ObjCaveResult::msVal._30, kh::Screen::ObjCaveResult::msVal._34 };
+
+		if (flag) {
+			xoffs[0] += 60.0f;
+		}
+		f32 efxY = pos.y - 10.0f;
+		f32 efxX = pos.x;
+		for (int i = 0; i < 5; i++) {
+			efx2d::T2DChangesmoke efx;
+			efx2d::Arg arg(efxX + xoffs[i], efxY);
+			efx.create(&arg);
+		}
+		PSSystem::spSysIF->playSystemSe(PSSE_SY_PIKI_DECREMENT, 0);
+		setFlag(0x1 + 0x2);
+	}
 	/*
 stwu     r1, -0x1c0(r1)
 mflr     r0
@@ -3899,86 +2529,18 @@ blr
  */
 void LostItemMgr::update()
 {
-	/*
-lwz      r0, 8(r3)
-clrlwi.  r0, r0, 0x1f
-beqlr
-li       r8, 1
-li       r9, 0
-li       r7, 0
-b        lbl_803FB710
+	if (!isFlag(0x1)) {
+		return;
+	}
 
-lbl_803FB648:
-lwz      r0, 0(r3)
-add      r6, r0, r7
-lbz      r5, 0x1c(r6)
-cmplwi   r5, 0
-bne      lbl_803FB664
-li       r5, 1
-b        lbl_803FB704
+	bool doend = true;
+	for (int i = 0; i < (int)mMaxPanes; i++) {
+		doend &= mItemList[i].update();
+	}
 
-lbl_803FB664:
-lbz      r4, 0x1d(r6)
-cmplwi   r4, 0
-bne      lbl_803FB69C
-lwz      r0, 0x14(r6)
-add      r0, r5, r0
-stb      r0, 0x1c(r6)
-lwz      r0, 0x14(r6)
-lbz      r4, 0x1c(r6)
-neg      r0, r0
-cmpw     r4, r0
-bge      lbl_803FB6A4
-li       r0, 0
-stb      r0, 0x1c(r6)
-b        lbl_803FB6A4
-
-lbl_803FB69C:
-addi     r0, r4, -1
-stb      r0, 0x1d(r6)
-
-lbl_803FB6A4:
-lfs      f2, 0xc(r6)
-li       r5, 0
-lfs      f0, 0x10(r6)
-lfs      f1, lbl_8051FFD8@sda21(r2)
-fadds    f0, f2, f0
-stfs     f0, 0xc(r6)
-lfs      f0, 8(r6)
-fmuls    f0, f0, f1
-stfs     f0, 8(r6)
-lfs      f0, 0xc(r6)
-fmuls    f0, f0, f1
-stfs     f0, 0xc(r6)
-lfs      f1, 0(r6)
-lfs      f0, 8(r6)
-fadds    f0, f1, f0
-stfs     f0, 0(r6)
-lfs      f1, 4(r6)
-lfs      f0, 0xc(r6)
-fadds    f0, f1, f0
-stfs     f0, 4(r6)
-lhz      r4, 0x18(r6)
-lhz      r0, 0x1a(r6)
-add      r0, r4, r0
-sth      r0, 0x18(r6)
-
-lbl_803FB704:
-and      r8, r8, r5
-addi     r7, r7, 0x20
-addi     r9, r9, 1
-
-lbl_803FB710:
-lwz      r0, 4(r3)
-cmpw     r9, r0
-blt      lbl_803FB648
-clrlwi.  r0, r8, 0x18
-beqlr
-lwz      r0, 8(r3)
-rlwinm   r0, r0, 0, 0, 0x1e
-stw      r0, 8(r3)
-blr
-	*/
+	if (doend) {
+		resetFlag(0x1);
+	}
 }
 
 /*
@@ -3986,109 +2548,21 @@ blr
  * Address:	803FB734
  * Size:	000170
  */
-void LostItemMgr::draw(P2DScreen::Mgr_tuning*, unsigned long long, const ResTIMG*, Graphics&)
+void LostItemMgr::draw(P2DScreen::Mgr_tuning* screen, u64 tag, const ResTIMG* timg, Graphics& gfx)
 {
-	/*
-	.loc_0x0:
-	  stwu      r1, -0x60(r1)
-	  mflr      r0
-	  stw       r0, 0x64(r1)
-	  stfd      f31, 0x50(r1)
-	  psq_st    f31,0x58(r1),0,0
-	  stfd      f30, 0x40(r1)
-	  psq_st    f30,0x48(r1),0,0
-	  stfd      f29, 0x30(r1)
-	  psq_st    f29,0x38(r1),0,0
-	  stmw      r25, 0x14(r1)
-	  lwz       r0, 0x8(r3)
-	  mr        r29, r3
-	  mr        r30, r4
-	  mr        r25, r5
-	  rlwinm.   r0,r0,0,31,31
-	  mr        r26, r6
-	  mr        r31, r8
-	  beq-      .loc_0x144
-	  mr        r3, r30
-	  bl        0xFCC0
-	  mr        r3, r30
-	  mr        r6, r26
-	  lwz       r12, 0x0(r30)
-	  mr        r5, r25
-	  lwz       r12, 0x3C(r12)
-	  mtctr     r12
-	  bctrl
-	  lfs       f29, 0x1CA4(r2)
-	  mr        r26, r3
-	  lfd       f30, 0x1C60(r2)
-	  li        r25, 0
-	  lfs       f31, 0x1CA8(r2)
-	  li        r27, 0
-	  lis       r28, 0x4330
-	  b         .loc_0x138
+	if (isFlag(0x1)) {
+		kh::Screen::setTex(screen, tag, timg);
+		J2DPane* pane = screen->search(tag);
+		for (int i = 0; i < (int)mMaxPanes; i++) {
+			pane->mOffset = JGeometry::TVec2f(mItemList[i].mRect.p1.x, mItemList[i].mRect.p1.y);
+			pane->calcMtx();
 
-	.loc_0x8C:
-	  lwz       r0, 0x0(r29)
-	  mr        r3, r26
-	  add       r4, r0, r27
-	  lfs       f1, 0x4(r4)
-	  lfs       f0, 0x0(r4)
-	  stfs      f0, 0xD4(r26)
-	  stfs      f1, 0xD8(r26)
-	  lwz       r12, 0x0(r26)
-	  lwz       r12, 0x2C(r12)
-	  mtctr     r12
-	  bctrl
-	  mr        r3, r26
-	  lwz       r4, 0x0(r29)
-	  lwz       r12, 0x0(r26)
-	  addi      r0, r27, 0x1C
-	  lbzx      r4, r4, r0
-	  lwz       r12, 0x24(r12)
-	  mtctr     r12
-	  bctrl
-	  lwz       r4, 0x0(r29)
-	  addi      r0, r27, 0x18
-	  stw       r28, 0x8(r1)
-	  mr        r3, r26
-	  lhzx      r0, r4, r0
-	  stw       r0, 0xC(r1)
-	  lfd       f0, 0x8(r1)
-	  fsubs     f0, f0, f30
-	  fmuls     f0, f29, f0
-	  fdivs     f0, f0, f31
-	  stfs      f0, 0xC0(r26)
-	  lwz       r12, 0x0(r26)
-	  lwz       r12, 0x2C(r12)
-	  mtctr     r12
-	  bctrl
-	  mr        r3, r30
-	  mr        r4, r31
-	  lwz       r12, 0x0(r30)
-	  addi      r5, r31, 0xBC
-	  lwz       r12, 0x9C(r12)
-	  mtctr     r12
-	  bctrl
-	  addi      r27, r27, 0x20
-	  addi      r25, r25, 0x1
+			pane->setAlpha(mItemList[i].mAlpha);
+			pane->setAngle(360.0f * (f32)mItemList[i].mAngle / 65536.0f);
 
-	.loc_0x138:
-	  lwz       r0, 0x4(r29)
-	  cmpw      r25, r0
-	  blt+      .loc_0x8C
-
-	.loc_0x144:
-	  psq_l     f31,0x58(r1),0,0
-	  lfd       f31, 0x50(r1)
-	  psq_l     f30,0x48(r1),0,0
-	  lfd       f30, 0x40(r1)
-	  psq_l     f29,0x38(r1),0,0
-	  lfd       f29, 0x30(r1)
-	  lmw       r25, 0x14(r1)
-	  lwz       r0, 0x64(r1)
-	  mtlr      r0
-	  addi      r1, r1, 0x60
-	  blr
-	*/
+			screen->draw(gfx, gfx.mOrthoGraph);
+		}
+	}
 }
 
 /*
@@ -4096,260 +2570,20 @@ void LostItemMgr::draw(P2DScreen::Mgr_tuning*, unsigned long long, const ResTIMG
  * Address:	803FB8A4
  * Size:	0000A4
  */
-void SceneCaveResult::doUserCallBackFunc(Resource::MgrCommand*)
+void SceneCaveResult::doUserCallBackFunc(Resource::MgrCommand* command)
 {
-	/*
-stwu     r1, -0x40(r1)
-mflr     r0
-lis      r4, lbl_80498494@ha
-stw      r0, 0x44(r1)
-addi     r4, r4, lbl_80498494@l
-stw      r31, 0x3c(r1)
-stw      r30, 0x38(r1)
-mr       r30, r3
-addi     r3, r30, 4
-bl       makeLanguageResName__Q22og9newScreenFPcPCc
-addi     r3, r1, 8
-addi     r4, r30, 4
-bl       __ct__Q212LoadResource3ArgFPCc
-lwz      r3, gLoadResourceMgr@sda21(r13)
-addi     r4, r1, 8
-bl       mountArchive__Q212LoadResource3MgrFRQ212LoadResource3Arg
-cmplwi   r3, 0
-beq      lbl_803FB918
-lwz      r31, 0x34(r3)
-li       r3, 0x108
-bl       __nw__FUl
-or.      r4, r3, r3
-beq      lbl_803FB908
-bl       __ct__Q32kh6Screen13ObjCaveResultFv
-mr       r4, r3
-
-lbl_803FB908:
-mr       r3, r30
-mr       r5, r31
-bl       registObj__Q26Screen9SceneBaseFPQ26Screen7ObjBaseP10JKRArchive
-b        lbl_803FB930
-
-lbl_803FB918:
-lis      r3, lbl_80498360@ha
-li       r4, 0x513
-addi     r3, r3, lbl_80498360@l
-addi     r5, r2, lbl_8052000C@sda21
-crclr    6
-bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803FB930:
-lwz      r0, 0x44(r1)
-lwz      r31, 0x3c(r1)
-lwz      r30, 0x38(r1)
-mtlr     r0
-addi     r1, r1, 0x40
-blr
-	*/
+	og::newScreen::makeLanguageResName(mName, "result_doukutu.szs");
+	LoadResource::Arg loadArg(mName);
+	LoadResource::Node* resource = gLoadResourceMgr->mountArchive(loadArg);
+	if (resource) {
+		JKRArchive* archive = resource->mArchive;
+		registObj(new ObjCaveResult, archive);
+	} else {
+		JUT_PANICLINE(1299, "failed");
+	}
 }
 
-/*
- * --INFO--
- * Address:	803FB948
- * Size:	000008
- */
-void SceneCaveResult::getResName() const
-{
-	/*
-addi     r3, r2, lbl_80520014@sda21
-blr
-	*/
-}
+ObjCaveResult::StaticValues ObjCaveResult::msVal;
 
-/*
- * --INFO--
- * Address:	803FB950
- * Size:	000008
- */
-u32 SceneCaveResult::getSceneType() { return 0x4E20; }
-
-/*
- * --INFO--
- * Address:	803FB958
- * Size:	000008
- */
-u32 SceneCaveResult::getOwnerID() { return 0x4B48; }
-
-/*
- * --INFO--
- * Address:	803FB960
- * Size:	000010
- */
-void SceneCaveResult::getMemberID()
-{
-	/*
-lis      r4, 0x52534C54@ha
-li       r3, 0x435f
-addi     r4, r4, 0x52534C54@l
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803FB970
- * Size:	000004
- */
-void SceneCaveResult::doCreateObj(JKRArchive*) { }
-
-/*
- * --INFO--
- * Address:	803FB974
- * Size:	0000AC
- */
-ObjCaveResult::~ObjCaveResult()
-{
-	/*
-stwu     r1, -0x10(r1)
-mflr     r0
-stw      r0, 0x14(r1)
-stw      r31, 0xc(r1)
-mr       r31, r4
-stw      r30, 8(r1)
-or.      r30, r3, r3
-beq      lbl_803FBA04
-lis      r4, __vt__Q32kh6Screen13ObjCaveResult@ha
-addi     r4, r4, __vt__Q32kh6Screen13ObjCaveResult@l
-stw      r4, 0(r30)
-addi     r0, r4, 0x10
-stw      r0, 0x18(r30)
-beq      lbl_803FB9F4
-lis      r4, __vt__Q26Screen7ObjBase@ha
-addi     r4, r4, __vt__Q26Screen7ObjBase@l
-stw      r4, 0(r30)
-addi     r0, r4, 0x10
-stw      r0, 0x18(r30)
-beq      lbl_803FB9F4
-lis      r4, __vt__Q26Screen8IObjBase@ha
-addi     r4, r4, __vt__Q26Screen8IObjBase@l
-stw      r4, 0(r30)
-addi     r0, r4, 0x10
-stw      r0, 0x18(r30)
-bl       del__5CNodeFv
-addi     r3, r30, 0x18
-li       r4, 0
-bl       __dt__11JKRDisposerFv
-mr       r3, r30
-li       r4, 0
-bl       __dt__5CNodeFv
-
-lbl_803FB9F4:
-extsh.   r0, r31
-ble      lbl_803FBA04
-mr       r3, r30
-bl       __dl__FPv
-
-lbl_803FBA04:
-lwz      r0, 0x14(r1)
-mr       r3, r30
-lwz      r31, 0xc(r1)
-lwz      r30, 8(r1)
-mtlr     r0
-addi     r1, r1, 0x10
-blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803FBA20
- * Size:	000008
- */
-u32 DispCaveResult::getSize() { return 0x38; }
-
-/*
- * --INFO--
- * Address:	803FBA28
- * Size:	000008
- */
-u32 DispCaveResult::getOwnerID() { return 0x4B48; }
-
-/*
- * --INFO--
- * Address:	803FBA30
- * Size:	000010
- */
-void DispCaveResult::getMemberID()
-{
-	/*
-lis      r4, 0x52534C54@ha
-li       r3, 0x435f
-addi     r4, r4, 0x52534C54@l
-blr
-	*/
-}
-
-} // namespace Screen
-
-} // namespace kh
-
-/*
- * --INFO--
- * Address:	803FBA40
- * Size:	00008C
- */
-void __sinit_khCaveResult_cpp(void)
-{
-	/*
-	lis      r3, msVal__Q32kh6Screen13ObjCaveResult@ha
-	lfs      f9, lbl_80520018@sda21(r2)
-	addi     r8, r3, msVal__Q32kh6Screen13ObjCaveResult@l
-	lfs      f8, lbl_8052001C@sda21(r2)
-	lfs      f7, lbl_80520020@sda21(r2)
-	li       r7, 8
-	lfs      f6, lbl_8051FFA8@sda21(r2)
-	li       r6, 3
-	lfs      f5, lbl_80520000@sda21(r2)
-	li       r5, 0xa
-	lfs      f4, lbl_80520024@sda21(r2)
-	li       r4, 0xa0
-	lfs      f3, lbl_80520028@sda21(r2)
-	li       r3, 0x20
-	lfs      f2, lbl_8052002C@sda21(r2)
-	li       r0, 0x14
-	lfs      f1, lbl_80520030@sda21(r2)
-	lfs      f0, lbl_80520034@sda21(r2)
-	stfs     f9, 0(r8)
-	stfs     f8, 4(r8)
-	stfs     f7, 8(r8)
-	stfs     f6, 0x10(r8)
-	stfs     f5, 0x14(r8)
-	stw      r7, 0x1c(r8)
-	stw      r6, 0x20(r8)
-	stb      r5, 0x38(r8)
-	stb      r4, 0x39(r8)
-	stb      r3, 0x3a(r8)
-	stb      r0, 0x3b(r8)
-	stfs     f4, 0x24(r8)
-	stfs     f3, 0x28(r8)
-	stfs     f2, 0x2c(r8)
-	stfs     f1, 0x30(r8)
-	stfs     f0, 0x34(r8)
-	blr
-	*/
-}
-
-namespace kh {
-
-namespace Screen {
-
-/*
- * --INFO--
- * Address:	803FBACC
- * Size:	000008
- */
-ObjCaveResult::@24 @~ObjCaveResult()
-{
-	/*
-addi     r3, r3, -24
-b        __dt__Q32kh6Screen13ObjCaveResultFv
-	*/
-}
 } // namespace Screen
 } // namespace kh

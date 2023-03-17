@@ -4,10 +4,10 @@
 #include "types.h"
 #include "PSSystem/Seq.h"
 #include "PSSystem/SeqTrack.h"
-#include "JSystem/JAI/JAInter.h"
-#include "JSystem/JAI/JAISound.h"
+#include "JSystem/JAudio/JAI/JAInter.h"
+#include "JSystem/JAudio/JAI/JAISound.h"
 #include "Dolphin/os.h"
-#include "JSystem/JAS/JASTrack.h"
+#include "JSystem/JAudio/JAS/JASTrack.h"
 
 namespace PSSystem {
 struct DirectorMgrBase;
@@ -28,7 +28,7 @@ struct BgmSeq : public SeqBase {
 	// _00-_10  = JSULink<SeqBase>
 	// _10      = VTABLE
 	// _14-_68  = SeqBase
-	JAISound* m_handleP; // _68
+	JAISound* mHandleP; // _68
 };
 
 /**
@@ -57,7 +57,6 @@ struct DirectedBgm : public BgmSeq {
 	SeqTrackRoot* _70;      // _70
 	SeqTrackChild* _74[16]; // _74
 	u8 _B4;                 // _B4 - unknown
-	u8 _B5[0x3];            // _B5 - unknown, maybe just padding
 };
 
 /**
@@ -86,22 +85,17 @@ struct JumpBgmSeq : public DirectedBgm {
 	// _14-_68  = SeqBase
 	// _6C-_B8  = DirectedBgm
 
-	OSMutexObject _B8;  // _B8
-	short _D0;          // _D0
-	u8 _D2[0x2];        // _D2 - just padding probably
-	OSMutexObject _D4;  // _D4
-	short _EC;          // _EC
-	u8 _EE[0x2];        // _EE - just padding probably
-	OSMutexObject _F0;  // _F0
-	u16 _108;           // _108
-	u8 _10A[0x2];       // _10A - just padding probably
-	OSMutexObject _10C; // _10C
-	u16 _124;           // _124
-	u8 _126[0x2];       // _126 - just padding probably
-	JumpBgmSeq* _128;   // _128
-	u32 _12C;           // _12C
-	short _130;         // _130
-	u8 _132[0x2];       // _132 - just padding possibly
+	OSMutex _B8;      // _B8
+	short _D0;        // _D0
+	OSMutex _D4;      // _D4
+	short _EC;        // _EC
+	OSMutex _F0;      // _F0
+	u16 _108;         // _108
+	OSMutex _10C;     // _10C
+	u16 _124;         // _124
+	JumpBgmSeq* _128; // _128
+	u32 _12C;         // _12C
+	short _130;       // _130
 };
 
 } // namespace PSSystem

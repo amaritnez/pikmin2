@@ -1,7 +1,7 @@
 #include "Dolphin/os.h"
 #include "Game/CPlate.h"
 #include "Game/Piki.h"
-#include "JSystem/JUT/JUTException.h"
+#include "JSystem/JUtility/JUTException.h"
 #include "types.h"
 
 /*
@@ -167,7 +167,7 @@ namespace Game {
  * Address:	80194FF4
  * Size:	000014
  */
-Creature* CPlate::get(void* index) { return m_slots[(long)index].m_creature; }
+Creature* CPlate::get(void* index) { return mSlots[(long)index].mCreature; }
 
 /*
  * --INFO--
@@ -192,7 +192,7 @@ void* CPlate::getStart() { return 0; }
  * Address:	8019504C
  * Size:	000008
  */
-void* CPlate::getEnd() { return (void*)m_slotCount; }
+void* CPlate::getEnd() { return (void*)mSlotCount; }
 
 /*
  * --INFO--
@@ -210,7 +210,7 @@ void CPlate::shrink()
  * Address:	........
  * Size:	000018
  */
-void CPlate::updateShrink(void)
+void CPlate::updateShrink()
 {
 	// UNUSED FUNCTION
 }
@@ -223,33 +223,33 @@ void CPlate::updateShrink(void)
  */
 CPlate::CPlate(int slotLimit)
     : Container<Creature>()
-    , m_parms()
-    , m_slotLimit(slotLimit)
+    , mParms()
+    , mSlotLimit(slotLimit)
 {
-	_B4          = 10.0f;
-	_B0          = 10.0f;
-	m_position.x = 0.0f;
-	m_position.y = 0.0f;
-	m_position.z = 0.0f;
-	_F0          = 0.0f;
-	m_slots      = new Slot[m_slotLimit];
-	_BC          = 0;
-	m_slotCount  = 0;
-	_110         = 0;
-	_111         = 1;
-	_F4          = 0.0f;
-	_F8          = 0.0f;
-	_FC          = 0.0f;
-	_104         = nullptr;
-	_108         = 0;
-	_10C         = 0;
-	m_velocity.x = 0.0f;
-	m_velocity.y = 0.0f;
-	m_velocity.z = 0.0f;
-	_D8.x        = 0.0f;
-	_D8.y        = 0.0f;
-	_D8.z        = 0.0f;
-	_100         = 0;
+	_B4         = 10.0f;
+	_B0         = 10.0f;
+	mPosition.x = 0.0f;
+	mPosition.y = 0.0f;
+	mPosition.z = 0.0f;
+	_F0         = 0.0f;
+	mSlots      = new Slot[mSlotLimit];
+	_BC         = 0;
+	mSlotCount  = 0;
+	_110        = 0;
+	_111        = 1;
+	_F4         = 0.0f;
+	_F8         = 0.0f;
+	_FC         = 0.0f;
+	_104        = nullptr;
+	_108        = 0;
+	_10C        = 0;
+	mVelocity.x = 0.0f;
+	mVelocity.y = 0.0f;
+	mVelocity.z = 0.0f;
+	_D8.x       = 0.0f;
+	_D8.y       = 0.0f;
+	_D8.z       = 0.0f;
+	_100        = 0;
 	/*
 	stwu     r1, -0x20(r1)
 	mflr     r0
@@ -384,16 +384,16 @@ CPlate::CPlate(int slotLimit)
  * Address:	80195250
  * Size:	00002C
  */
-CPlate::Slot::Slot(void)
+CPlate::Slot::Slot()
 {
-	m_creature = nullptr;
-	_1C        = 0;
-	_00.x      = 0.0f;
-	_00.y      = 0.0f;
-	_00.z      = 0.0f;
-	_0C.x      = 0.0f;
-	_0C.y      = 0.0f;
-	_0C.z      = 0.0f;
+	mCreature = nullptr;
+	_1C       = 0;
+	_00.x     = 0.0f;
+	_00.y     = 0.0f;
+	_00.z     = 0.0f;
+	_0C.x     = 0.0f;
+	_0C.y     = 0.0f;
+	_0C.z     = 0.0f;
 }
 
 /*
@@ -411,7 +411,7 @@ CPlate::Slot::Slot(void)
  * Address:	801952EC
  * Size:	000210
  */
-// void setPos__Q24Game6CPlateFR10Vector3f fR10Vector3f f(void)
+// void setPos__Q24Game6CPlateFR10Vector3f fR10Vector3f f()
 void CPlate::setPos(Vector3f& position, float directionMaybe, Vector3f& velocity, float p4)
 {
 
@@ -574,7 +574,7 @@ lbl_801954C0:
  * Address:	801954FC
  * Size:	00020C
  */
-// void setPosGray__Q24Game6CPlateFR10Vector3f fR10Vector3f f(void)
+// void setPosGray__Q24Game6CPlateFR10Vector3f fR10Vector3f f()
 void CPlate::setPosGray(Vector3f& p1, float p2, Vector3f& p3, float p4)
 {
 	/*
@@ -735,7 +735,7 @@ lbl_801956CC:
  * Address:	........
  * Size:	00004C
  */
-// void setPosNeutral__Q24Game6CPlateFR10Vector3f fR10Vector3f f(void)
+// void setPosNeutral__Q24Game6CPlateFR10Vector3f fR10Vector3f f()
 void CPlate::setPosNeutral(Vector3f& p1, float p2, Vector3f& p3, float p4)
 {
 	// UNUSED FUNCTION
@@ -806,8 +806,8 @@ lbl_80195794:
 void CPlate::changeFlower(Game::Creature* creature)
 {
 	P2ASSERTLINE(312, creature->isPiki());
-	_104[static_cast<Piki*>(creature)->m_pikminGrowth]++;
-	_104[(static_cast<Piki*>(creature)->m_pikminGrowth + 2) % 3]--;
+	_104[static_cast<Piki*>(creature)->mHappaKind]++;
+	_104[(static_cast<Piki*>(creature)->mHappaKind + 2) % 3]--;
 
 	/*
 	stwu     r1, -0x10(r1)
@@ -971,7 +971,7 @@ void CPlate::swapSlot(int, int)
  */
 bool CPlate::validSlot(int index)
 {
-	if (0 > index || index >= m_slotCount) {
+	if (0 > index || index >= mSlotCount) {
 		return false;
 	}
 	return true;
@@ -1353,7 +1353,7 @@ lbl_80195E34:
  * Address:	80195E54
  * Size:	0001E0
  */
-// void rearrangeSlot__Q24Game6CPlateFR10Vector3f fR10Vector3f(void)
+// void rearrangeSlot__Q24Game6CPlateFR10Vector3f fR10Vector3f()
 void CPlate::rearrangeSlot(Vector3f& p1, float p2, Vector3f& p3)
 {
 	/*
@@ -1503,7 +1503,7 @@ lbl_80196008:
  * Address:	80196034
  * Size:	0000C4
  */
-// void getSlotPosition__Q24Game6CPlateFiR10Vector3f(void)
+// void getSlotPosition__Q24Game6CPlateFiR10Vector3f()
 void CPlate::getSlotPosition(int p1, Vector3f& p2)
 {
 	/*
@@ -1939,7 +1939,7 @@ lbl_8019652C:
  * Address:	8019659C
  * Size:	000018
  */
-void CPlate::update(void)
+void CPlate::update()
 {
 	if (_100 == 0) {
 		return;
@@ -1962,7 +1962,7 @@ void CPlate::directDraw(Graphics&)
  * Address:	801965B4
  * Size:	000080
  */
-// CPlate::~CPlate(void)
+// CPlate::~CPlate()
 // {
 // 	/*
 // 	stwu     r1, -0x10(r1)

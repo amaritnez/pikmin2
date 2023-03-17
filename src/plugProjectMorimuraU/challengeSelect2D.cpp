@@ -1,879 +1,72 @@
-#include "types.h"
+#include "Morimura/challengeSelect2d.h"
+#include "Dolphin/rand.h"
+#include "Game/gameChallenge2D.h"
+#include "trig.h"
+#include "Game/GameConfig.h"
+#include "JSystem/JKernel/JKRDvdRipper.h"
 
-/*
-    Generated from dpostproc
+namespace Morimura {
 
-    .section .ctors, "wa"  # 0x80472F00 - 0x804732C0
-    .4byte __sinit_challengeSelect2D_cpp
+static const char name[] = "challengeSelect2D";
 
-    .section .rodata  # 0x804732E0 - 0x8049E220
-    .global lbl_80493FC0
-    lbl_80493FC0:
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x6553656C
-        .4byte 0x65637432
-        .4byte 0x44000000
-    .global lbl_80493FD4
-    lbl_80493FD4:
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x6553656C
-        .4byte 0x65637432
-        .4byte 0x442E6370
-        .4byte 0x70000000
-    .global lbl_80493FEC
-    lbl_80493FEC:
-        .asciz "P2Assert"
-        .skip 3
-    .global lbl_80493FF8
-    lbl_80493FF8:
-        .4byte 0x5053436F
-        .4byte 0x6D6D6F6E
-        .4byte 0x2E680000
-        .4byte 0x00000000
-    .global lbl_80494008
-    lbl_80494008:
-        .4byte 0x00004E68
-        .4byte 0x6C5F3030
-        .4byte 0x00004E68
-        .4byte 0x6C5F3031
-        .4byte 0x00004E68
-        .4byte 0x6C5F3032
-        .4byte 0x00004E68
-        .4byte 0x6C5F3033
-        .4byte 0x00004E68
-        .4byte 0x6C5F3034
-        .4byte 0x00004E68
-        .4byte 0x6C5F3035
-        .4byte 0x00004E68
-        .4byte 0x6C5F3036
-        .4byte 0x00004E68
-        .4byte 0x6C5F3037
-        .4byte 0x00004E68
-        .4byte 0x6C5F3038
-        .4byte 0x00004E68
-        .4byte 0x6C5F3039
-        .4byte 0x00004E68
-        .4byte 0x6C5F3130
-        .4byte 0x00004E68
-        .4byte 0x6C5F3131
-        .4byte 0x00004E68
-        .4byte 0x6C5F3132
-        .4byte 0x00004E68
-        .4byte 0x6C5F3133
-        .4byte 0x00004E68
-        .4byte 0x6C5F3134
-        .4byte 0x4E554C4C
-        .4byte 0x5F303031
-        .4byte 0x00000000
-        .4byte 0x685F3030
-        .4byte 0x00000000
-        .4byte 0x685F3031
-        .4byte 0x00000000
-        .4byte 0x685F3032
-        .4byte 0x00000000
-        .4byte 0x685F3033
-    .global lbl_804940A8
-    lbl_804940A8:
-        .asciz "challengeSelect"
-        .4byte 0x00343930
-        .4byte 0x315F3030
-        .4byte 0x00343931
-        .4byte 0x305F3030
-    .global lbl_804940C8
-    lbl_804940C8:
-        .asciz "timg/flower_seed.bti"
-        .skip 3
-    .global lbl_804940E0
-    lbl_804940E0:
-        .asciz "timg/leaf_icon.bti"
-        .skip 1
-    .global lbl_804940F4
-    lbl_804940F4:
-        .asciz "timg/flower_icon.bti"
-        .skip 3
-    .global lbl_8049410C
-    lbl_8049410C:
-        .asciz "timg/flower_p_icon.bti"
-        .skip 1
-        .4byte lbl_804940C8
-        .4byte lbl_804940E0
-        .4byte lbl_804940F4
-        .4byte lbl_8049410C
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x50727031
-        .4byte 0x00000000
-        .4byte 0x50797031
-        .4byte 0x00000000
-        .4byte 0x50627031
-        .4byte 0x00000000
-        .4byte 0x50777031
-        .4byte 0x00000050
-        .4byte 0x626C7031
-        .4byte 0x00000050
-        .4byte 0x666C3030
-        .4byte 0x5073656C
-        .4byte 0x65633030
-        .4byte 0x00005061
-        .4byte 0x6E613030
-        .4byte 0x00000050
-        .4byte 0x666C3031
-        .4byte 0x5073656C
-        .4byte 0x65633031
-        .4byte 0x00005061
-        .4byte 0x6E613031
-        .4byte 0x00000050
-        .4byte 0x666C3032
-        .4byte 0x5073656C
-        .4byte 0x65633032
-        .4byte 0x00005061
-        .4byte 0x6E613032
-        .4byte 0x00000050
-        .4byte 0x666C3033
-        .4byte 0x5073656C
-        .4byte 0x65633033
-        .4byte 0x00005061
-        .4byte 0x6E613033
-        .4byte 0x00000050
-        .4byte 0x666C3034
-        .4byte 0x5073656C
-        .4byte 0x65633034
-        .4byte 0x00005061
-        .4byte 0x6E613034
-        .4byte 0x00000050
-        .4byte 0x666C3035
-        .4byte 0x5073656C
-        .4byte 0x65633035
-        .4byte 0x00005061
-        .4byte 0x6E613039
-        .4byte 0x00000050
-        .4byte 0x666C3036
-        .4byte 0x5073656C
-        .4byte 0x65633036
-        .4byte 0x00005061
-        .4byte 0x6E613038
-        .4byte 0x00000050
-        .4byte 0x666C3037
-        .4byte 0x5073656C
-        .4byte 0x65633037
-        .4byte 0x00005061
-        .4byte 0x6E613037
-        .4byte 0x00000050
-        .4byte 0x666C3038
-        .4byte 0x5073656C
-        .4byte 0x65633038
-        .4byte 0x00005061
-        .4byte 0x6E613036
-        .4byte 0x00000050
-        .4byte 0x666C3039
-        .4byte 0x5073656C
-        .4byte 0x65633039
-        .4byte 0x00005061
-        .4byte 0x6E613035
-        .4byte 0x00000050
-        .4byte 0x666C3130
-        .4byte 0x5073656C
-        .4byte 0x65633130
-        .4byte 0x00005061
-        .4byte 0x6E613134
-        .4byte 0x00000050
-        .4byte 0x666C3131
-        .4byte 0x5073656C
-        .4byte 0x65633131
-        .4byte 0x00005061
-        .4byte 0x6E613133
-        .4byte 0x00000050
-        .4byte 0x666C3132
-        .4byte 0x5073656C
-        .4byte 0x65633132
-        .4byte 0x00005061
-        .4byte 0x6E613132
-        .4byte 0x00000050
-        .4byte 0x666C3133
-        .4byte 0x5073656C
-        .4byte 0x65633133
-        .4byte 0x00005061
-        .4byte 0x6E613131
-        .4byte 0x00000050
-        .4byte 0x666C3134
-        .4byte 0x5073656C
-        .4byte 0x65633134
-        .4byte 0x00005061
-        .4byte 0x6E613130
-        .4byte 0x00000050
-        .4byte 0x666C3135
-        .4byte 0x5073656C
-        .4byte 0x65633135
-        .4byte 0x00005061
-        .4byte 0x6E613139
-        .4byte 0x00000050
-        .4byte 0x666C3136
-        .4byte 0x5073656C
-        .4byte 0x65633136
-        .4byte 0x00005061
-        .4byte 0x6E613138
-        .4byte 0x00000050
-        .4byte 0x666C3137
-        .4byte 0x5073656C
-        .4byte 0x65633137
-        .4byte 0x00005061
-        .4byte 0x6E613137
-        .4byte 0x00000050
-        .4byte 0x666C3138
-        .4byte 0x5073656C
-        .4byte 0x65633138
-        .4byte 0x00005061
-        .4byte 0x6E613136
-        .4byte 0x00000050
-        .4byte 0x666C3139
-        .4byte 0x5073656C
-        .4byte 0x65633139
-        .4byte 0x00005061
-        .4byte 0x6E613135
-        .4byte 0x00000050
-        .4byte 0x666C3230
-        .4byte 0x5073656C
-        .4byte 0x65633230
-        .4byte 0x00005061
-        .4byte 0x6E613234
-        .4byte 0x00000050
-        .4byte 0x666C3231
-        .4byte 0x5073656C
-        .4byte 0x65633231
-        .4byte 0x00005061
-        .4byte 0x6E613233
-        .4byte 0x00000050
-        .4byte 0x666C3232
-        .4byte 0x5073656C
-        .4byte 0x65633232
-        .4byte 0x00005061
-        .4byte 0x6E613232
-        .4byte 0x00000050
-        .4byte 0x666C3233
-        .4byte 0x5073656C
-        .4byte 0x65633233
-        .4byte 0x00005061
-        .4byte 0x6E613231
-        .4byte 0x00000050
-        .4byte 0x666C3234
-        .4byte 0x5073656C
-        .4byte 0x65633234
-        .4byte 0x00005061
-        .4byte 0x6E613230
-        .4byte 0x00000050
-        .4byte 0x666C3235
-        .4byte 0x5073656C
-        .4byte 0x65633235
-        .4byte 0x00005061
-        .4byte 0x6E613239
-        .4byte 0x00000050
-        .4byte 0x666C3236
-        .4byte 0x5073656C
-        .4byte 0x65633236
-        .4byte 0x00005061
-        .4byte 0x6E613238
-        .4byte 0x00000050
-        .4byte 0x666C3237
-        .4byte 0x5073656C
-        .4byte 0x65633237
-        .4byte 0x00005061
-        .4byte 0x6E613237
-        .4byte 0x00000050
-        .4byte 0x666C3238
-        .4byte 0x5073656C
-        .4byte 0x65633238
-        .4byte 0x00005061
-        .4byte 0x6E613236
-        .4byte 0x00000050
-        .4byte 0x666C3239
-        .4byte 0x5073656C
-        .4byte 0x65633239
-        .4byte 0x00005061
-        .4byte 0x6E613235
-        .4byte 0x73657420
-        .4byte 0x44656275
-        .4byte 0x67486561
-        .4byte 0x70506172
-        .4byte 0x656E742E
-        .4byte 0x206D6169
-        .4byte 0x6C20746F
-        .4byte 0x206D6F72
-        .4byte 0x696D756E
-        .4byte 0x2E0A0000
-        .4byte 0x2F757365
-        .4byte 0x722F4D61
-        .4byte 0x746F6261
-        .4byte 0x2F636861
-        .4byte 0x6C6C656E
-        .4byte 0x67652F73
-        .4byte 0x74616765
-        .4byte 0x732E7478
-        .4byte 0x74000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x655F6D6F
-        .4byte 0x646F5F31
-        .4byte 0x705F3270
-        .4byte 0x2E626C6F
-        .4byte 0x00000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x655F7275
-        .4byte 0x6C655F77
-        .4byte 0x696E646F
-        .4byte 0x772E626C
-        .4byte 0x6F000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x655F7275
-        .4byte 0x6C655F77
-        .4byte 0x696E646F
-        .4byte 0x772E6274
-        .4byte 0x6B000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x655F7275
-        .4byte 0x6C655F77
-        .4byte 0x696E646F
-        .4byte 0x775F3032
-        .4byte 0x2E62746B
-        .4byte 0x00000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x655F7275
-        .4byte 0x6C655F77
-        .4byte 0x696E646F
-        .4byte 0x775F3033
-        .4byte 0x2E62746B
-        .4byte 0x00000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x655F7275
-        .4byte 0x6C655F77
-        .4byte 0x696E646F
-        .4byte 0x775F3034
-        .4byte 0x2E62746B
-        .4byte 0x00000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x655F7275
-        .4byte 0x6C655F77
-        .4byte 0x696E646F
-        .4byte 0x775F3035
-        .4byte 0x2E62746B
-        .4byte 0x00000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x2E626C6F
-        .4byte 0x00000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x2E62636B
-        .4byte 0x00000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x2E62706B
-        .4byte 0x00000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x2E62746B
-        .4byte 0x00000000
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x5F30322E
-        .4byte 0x62746B00
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x5F30332E
-        .4byte 0x62746B00
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x5F30342E
-        .4byte 0x62746B00
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x5F30352E
-        .4byte 0x62746B00
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x5F30362E
-        .4byte 0x62746B00
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x5F30372E
-        .4byte 0x62746B00
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x656D6F64
-        .4byte 0x6F5F7365
-        .4byte 0x6C656374
-        .4byte 0x5F30382E
-        .4byte 0x62746B00
-        .4byte 0x74696D67
-        .4byte 0x2F737068
-        .4byte 0x6572652E
-        .4byte 0x62746900
-    .global lbl_80494694
-    lbl_80494694:
-        .4byte 0x6D725574
-        .4byte 0x696C2E68
-        .4byte 0x00000000
-        .4byte 0x68697363
-        .4byte 0x6F726531
-        .4byte 0x70203D20
-        .4byte 0x25640A00
-        .4byte 0x68697363
-        .4byte 0x6F726532
-        .4byte 0x70203D20
-        .4byte 0x25640A00
-        .4byte 0x70696B69
-        .4byte 0x28256429
-        .4byte 0x203D2025
-        .4byte 0x640A0000
-        .4byte 0x646F7069
-        .4byte 0x6E672825
-        .4byte 0x6429203D
-        .4byte 0x2025640A
-        .4byte 0x00000000
-        .4byte 0x666C6F6F
-        .4byte 0x72203D20
-        .4byte 0x25640A00
-    .global lbl_804946F0
-    lbl_804946F0:
-        .4byte 0x656E6457
-        .4byte 0x696E646F
-        .4byte 0x77000000
-    .global lbl_804946FC
-    lbl_804946FC:
-        .4byte 0x7265735F
-        .4byte 0x6368616C
-        .4byte 0x6C656E67
-        .4byte 0x6553656C
-        .4byte 0x6563742E
-        .4byte 0x737A7300
-        .4byte 0x73637265
-        .4byte 0x656E4F62
-        .4byte 0x6A2E6800
+bool TChallengeSelect::mSelected1p       = true;
+f32 TChallengeSelect::mAlphaSpeed        = 0.05f;
+s16 TChallengeSelect::mFlashAnimInterval = 300;
+f32 TChallengeSelect::mTextFlashVal      = 1.0f;
+bool TChallengeSelect::mConnect2p        = true;
+f32 TChallengeSelect::mPanelMoveVal      = 1.0f;
+f32 TChallengeSelect::mPanelMoveRate     = 0.25f;
+f32 TChallengeSelect::mCircleY           = 100.0f;
+f32 TChallengeSelect::mTimerSpeed        = 0.15f;
+f32 TChallengeSelect::mMoveSpeed         = 12.0f;
+f32 TChallengeSelect::mSelectIconScale   = 1.5f;
 
-    .section .data, "wa"  # 0x8049E220 - 0x804EFC20
-    .global mIconTexture__Q28Morimura16TChallengeSelect
-    mIconTexture__Q28Morimura16TChallengeSelect:
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x00000000
-        .4byte 0x00000000
-    .global __vt__Q28Morimura21TChallengeSelectScene
-    __vt__Q28Morimura21TChallengeSelectScene:
-        .4byte 0
-        .4byte 0
-        .4byte getSceneType__Q28Morimura21TChallengeSelectSceneFv
-        .4byte getOwnerID__Q28Morimura21TChallengeSelectSceneFv
-        .4byte getMemberID__Q28Morimura21TChallengeSelectSceneFv
-        .4byte isUseBackupSceneInfo__Q26Screen9SceneBaseFv
-        .4byte isDrawInDemo__Q26Screen9SceneBaseCFv
-        .4byte getResName__Q28Morimura21TChallengeSelectSceneCFv
-        .4byte doCreateObj__Q28Morimura21TChallengeSelectSceneFP10JKRArchive
-        .4byte doUserCallBackFunc__Q26Screen9SceneBaseFPQ28Resource10MgrCommand
-        .4byte setPort__Q26Screen9SceneBaseFR8Graphics
-        .4byte doUpdateActive__Q26Screen9SceneBaseFv
-        .4byte doConfirmSetScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg
-        .4byte
-   doConfirmStartScene__Q26Screen9SceneBaseFPQ26Screen13StartSceneArg .4byte
-   doConfirmEndScene__Q26Screen9SceneBaseFRPQ26Screen11EndSceneArg .4byte
-   doStart__Q28Morimura21TChallengeSelectSceneFPQ26Screen13StartSceneArg .4byte
-   doEnd__Q26Screen9SceneBaseFPQ26Screen11EndSceneArg .4byte
-   setDefaultDispMember__Q26Screen9SceneBaseFv .4byte
-   doSetBackupScene__Q26Screen9SceneBaseFRQ26Screen11SetSceneArg .4byte
-   doGetFinishState__Q26Screen9SceneBaseFv .global
-   __vt__Q25efx2d14T2DChalDiveEnd
-    __vt__Q25efx2d14T2DChalDiveEnd:
-        .4byte 0
-        .4byte 0
-        .4byte create__Q25efx2d8TSimple1FPQ25efx2d3Arg
-        .4byte kill__Q25efx2d8TSimple1Fv
-        .4byte fade__Q25efx2d8TSimple1Fv
-        .4byte setGroup__Q25efx2d5TBaseFUc
-    .global __vt__Q25efx2d11T2DChalDive
-    __vt__Q25efx2d11T2DChalDive:
-        .4byte 0
-        .4byte 0
-        .4byte create__Q25efx2d8TForeverFPQ25efx2d3Arg
-        .4byte kill__Q25efx2d8TForeverFv
-        .4byte fade__Q25efx2d8TForeverFv
-        .4byte setGroup__Q25efx2d5TBaseFUc
-        .4byte 0
-        .4byte 0
-        .4byte "@8@__dt__Q25efx2d11T2DChalDiveFv"
-        .4byte execute__18JPAEmitterCallBackFP14JPABaseEmitter
-        .4byte executeAfter__18JPAEmitterCallBackFP14JPABaseEmitter
-        .4byte draw__18JPAEmitterCallBackFP14JPABaseEmitter
-        .4byte drawAfter__18JPAEmitterCallBackFP14JPABaseEmitter
-        .4byte __dt__Q25efx2d11T2DChalDiveFv
-    .global __vt__Q28Morimura16TChallengeSelect
-    __vt__Q28Morimura16TChallengeSelect:
-        .4byte 0
-        .4byte 0
-        .4byte __dt__Q28Morimura16TChallengeSelectFv
-        .4byte getChildCount__5CNodeFv
-        .4byte 0
-        .4byte 0
-        .4byte "@24@__dt__Q28Morimura16TChallengeSelectFv"
-        .4byte update__Q26Screen7ObjBaseFv
-        .4byte draw__Q26Screen7ObjBaseFR8Graphics
-        .4byte start__Q26Screen7ObjBaseFPCQ26Screen13StartSceneArg
-        .4byte end__Q26Screen7ObjBaseFPCQ26Screen11EndSceneArg
-        .4byte setOwner__Q26Screen7ObjBaseFPQ26Screen9SceneBase
-        .4byte getOwner__Q26Screen7ObjBaseCFv
-        .4byte create__Q26Screen7ObjBaseFP10JKRArchive
-        .4byte confirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg
-        .4byte confirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg
-        .4byte confirmEndScene__Q26Screen7ObjBaseFPQ26Screen11EndSceneArg
-        .4byte doStart__Q28Morimura9TTestBaseFPCQ26Screen13StartSceneArg
-        .4byte doEnd__Q28Morimura9TTestBaseFPCQ26Screen11EndSceneArg
-        .4byte doCreate__Q28Morimura16TChallengeSelectFP10JKRArchive
-        .4byte doUpdateFadein__Q28Morimura9TTestBaseFv
-        .4byte doUpdateFadeinFinish__Q28Morimura9TTestBaseFv
-        .4byte doUpdate__Q28Morimura16TChallengeSelectFv
-        .4byte doUpdateFinish__Q28Morimura9TTestBaseFv
-        .4byte doUpdateFadeout__Q28Morimura9TTestBaseFv
-        .4byte doUpdateFadeoutFinish__Q28Morimura16TChallengeSelectFv
-        .4byte doDraw__Q28Morimura16TChallengeSelectFR8Graphics
-        .4byte doConfirmSetScene__Q26Screen7ObjBaseFRQ26Screen11SetSceneArg
-        .4byte doConfirmStartScene__Q26Screen7ObjBaseFPQ26Screen13StartSceneArg
-        .4byte doConfirmEndScene__Q26Screen7ObjBaseFRPQ26Screen11EndSceneArg
-        .4byte getDispMemberBase__Q28Morimura16TChallengeSelectFv
-    .global __vt__Q28Morimura33TChallengeSelectExplanationWindow
-    __vt__Q28Morimura33TChallengeSelectExplanationWindow:
-        .4byte 0
-        .4byte 0
-        .4byte create__Q28Morimura33TChallengeSelectExplanationWindowFPCcUl
-        .4byte update__Q28Morimura24TSelectExplanationWindowFv
-        .4byte
-   draw__Q28Morimura24TSelectExplanationWindowFR8GraphicsP13J2DPerspGraph .4byte
-   screenScaleUp__Q28Morimura33TChallengeSelectExplanationWindowFv .global
-   __vt__Q28Morimura24TChallengePlayModeScreen
-    __vt__Q28Morimura24TChallengePlayModeScreen:
-        .4byte 0
-        .4byte 0
-        .4byte create__Q28Morimura24TChallengePlayModeScreenFPCcUl
-        .4byte update__Q28Morimura24TChallengePlayModeScreenFv
-        .4byte
-   draw__Q28Morimura24TChallengePlayModeScreenFR8GraphicsP13J2DPerspGraph
-    .global __vt__Q28Morimura16TChallengeScreen
-    __vt__Q28Morimura16TChallengeScreen:
-        .4byte 0
-        .4byte 0
-        .4byte create__Q28Morimura16TChallengeScreenFPCcUl
-        .4byte update__Q28Morimura16TChallengeScreenFv
-        .4byte draw__Q28Morimura11TScreenBaseFR8GraphicsP13J2DPerspGraph
-        .4byte createAnimPane__Q28Morimura16TChallengeScreenFPc
-        .4byte updateBckPane__Q28Morimura16TChallengeScreenFv
-        .4byte 0
+int TChallengeSelect::mRightOffset          = 0;
+int TChallengeSelect::mDownOffset           = 0;
+u8 TChallengeSelect::mFrameAnimAlpha        = 0;
+bool TChallengeSelect::mAllCourseOpen       = false;
+bool TChallengeSelect::mForceDemoStart      = false;
+int TChallengeSelect::mDivePikiNum          = 0;
+JKRHeap* TChallengeSelect::mDebugHeapParent = nullptr;
+JKRExpHeap* TChallengeSelect::mDebugHeap    = nullptr;
 
-    .section .sdata, "wa"  # 0x80514680 - 0x80514D80
-    .global mSelected1p__Q28Morimura16TChallengeSelect
-    mSelected1p__Q28Morimura16TChallengeSelect:
-        .4byte 0x01000000
-    .global mAlphaSpeed__Q28Morimura16TChallengeSelect
-    mAlphaSpeed__Q28Morimura16TChallengeSelect:
-        .float 0.05
-    .global mFlashAnimInterval__Q28Morimura16TChallengeSelect
-    mFlashAnimInterval__Q28Morimura16TChallengeSelect:
-        .2byte 0x012C
-        .2byte 0x0000
-    .global mTextFlashVal__Q28Morimura16TChallengeSelect
-    mTextFlashVal__Q28Morimura16TChallengeSelect:
-        .float 1.0
-    .global mConnect2p__Q28Morimura16TChallengeSelect
-    mConnect2p__Q28Morimura16TChallengeSelect:
-        .byte 0x01
-        .byte 0x00
-        .byte 0x00
-        .byte 0x00
-    .global mPanelMoveVal__Q28Morimura16TChallengeSelect
-    mPanelMoveVal__Q28Morimura16TChallengeSelect:
-        .float 1.0
-    .global mPanelMoveRate__Q28Morimura16TChallengeSelect
-    mPanelMoveRate__Q28Morimura16TChallengeSelect:
-        .float 0.25
-    .global mCircleY__Q28Morimura16TChallengeSelect
-    mCircleY__Q28Morimura16TChallengeSelect:
-        .float 100.0
-    .global mTimerSpeed__Q28Morimura16TChallengeSelect
-    mTimerSpeed__Q28Morimura16TChallengeSelect:
-        .float 0.15
-    .global mMoveSpeed__Q28Morimura16TChallengeSelect
-    mMoveSpeed__Q28Morimura16TChallengeSelect:
-        .float 12.0
-    .global mSelectIconScale__Q28Morimura16TChallengeSelect
-    mSelectIconScale__Q28Morimura16TChallengeSelect:
-        .float 1.5
-
-    .section .sbss # 0x80514D80 - 0x80516360
-    .global mRightOffset__Q28Morimura16TChallengeSelect
-    mRightOffset__Q28Morimura16TChallengeSelect:
-        .skip 0x4
-    .global mDownOffset__Q28Morimura16TChallengeSelect
-    mDownOffset__Q28Morimura16TChallengeSelect:
-        .skip 0x4
-    .global mFrameAnimAlpha__Q28Morimura16TChallengeSelect
-    mFrameAnimAlpha__Q28Morimura16TChallengeSelect:
-        .skip 0x1
-    .global mAllCourseOpen__Q28Morimura16TChallengeSelect
-    mAllCourseOpen__Q28Morimura16TChallengeSelect:
-        .skip 0x1
-    .global mForceDemoStart__Q28Morimura16TChallengeSelect
-    mForceDemoStart__Q28Morimura16TChallengeSelect:
-        .skip 0x2
-    .global mDivePikiNum__Q28Morimura16TChallengeSelect
-    mDivePikiNum__Q28Morimura16TChallengeSelect:
-        .skip 0x4
-    .global mMetOffset__Q28Morimura16TChallengeSelect
-    mMetOffset__Q28Morimura16TChallengeSelect:
-        .skip 0x8
-    .global mDebugHeapParent__Q28Morimura16TChallengeSelect
-    mDebugHeapParent__Q28Morimura16TChallengeSelect:
-        .skip 0x4
-    .global mDebugHeap__Q28Morimura16TChallengeSelect
-    mDebugHeap__Q28Morimura16TChallengeSelect:
-        .skip 0x4
-
-    .section .sdata2, "a"     # 0x80516360 - 0x80520E40
-    .global lbl_8051EF88
-    lbl_8051EF88:
-        .4byte 0x00000000
-    .global lbl_8051EF8C
-    lbl_8051EF8C:
-        .4byte 0xC3FA0000
-    .global lbl_8051EF90
-    lbl_8051EF90:
-        .4byte 0x47000000
-    .global lbl_8051EF94
-    lbl_8051EF94:
-        .float 0.1
-    .global lbl_8051EF98
-    lbl_8051EF98:
-        .4byte 0x41F00000
-    .global lbl_8051EF9C
-    lbl_8051EF9C:
-        .float 0.5
-    .global lbl_8051EFA0
-    lbl_8051EFA0:
-        .4byte 0xBF800000
-    .global lbl_8051EFA4
-    lbl_8051EFA4:
-        .4byte 0x41700000
-    .global lbl_8051EFA8
-    lbl_8051EFA8:
-        .4byte 0x41200000
-        .4byte 0x00000000
-    .global lbl_8051EFB0
-    lbl_8051EFB0:
-        .4byte 0x43300000
-        .4byte 0x80000000
-    .global lbl_8051EFB8
-    lbl_8051EFB8:
-        .float 0.7
-    .global lbl_8051EFBC
-    lbl_8051EFBC:
-        .4byte 0x40C90FDB
-    .global lbl_8051EFC0
-    lbl_8051EFC0:
-        .4byte 0x3FC90FDB
-    .global lbl_8051EFC4
-    lbl_8051EFC4:
-        .4byte 0xC3A2F983
-    .global lbl_8051EFC8
-    lbl_8051EFC8:
-        .4byte 0x43A2F983
-    .global lbl_8051EFCC
-    lbl_8051EFCC:
-        .4byte 0x40000000
-    .global lbl_8051EFD0
-    lbl_8051EFD0:
-        .4byte 0x40490FDB
-    .global lbl_8051EFD4
-    lbl_8051EFD4:
-        .4byte 0xC1000000
-    .global lbl_8051EFD8
-    lbl_8051EFD8:
-        .4byte 0x41000000
-    .global lbl_8051EFDC
-    lbl_8051EFDC:
-        .4byte 0x428C0000
-    .global lbl_8051EFE0
-    lbl_8051EFE0:
-        .4byte 0x42200000
-    .global lbl_8051EFE4
-    lbl_8051EFE4:
-        .float 0.3
-    .global lbl_8051EFE8
-    lbl_8051EFE8:
-        .4byte 0xC2C80000
-    .global lbl_8051EFEC
-    lbl_8051EFEC:
-        .4byte 0x40400000
-    .global lbl_8051EFF0
-    lbl_8051EFF0:
-        .float 1.0
-    .global lbl_8051EFF4
-    lbl_8051EFF4:
-        .float 0.05
-    .global lbl_8051EFF8
-    lbl_8051EFF8:
-        .4byte 0x3F733333
-        .4byte 0x00000000
-    .global lbl_8051F000
-    lbl_8051F000:
-        .4byte 0x43300000
-        .4byte 0x00000000
-    .global lbl_8051F008
-    lbl_8051F008:
-        .4byte 0x3E4CCCCD
-    .global lbl_8051F00C
-    lbl_8051F00C:
-        .4byte 0x3F666666
-    .global lbl_8051F010
-    lbl_8051F010:
-        .4byte 0x3F19999A
-    .global lbl_8051F014
-    lbl_8051F014:
-        .4byte 0x43A00000
-    .global lbl_8051F018
-    lbl_8051F018:
-        .4byte 0x440C0000
-    .global lbl_8051F01C
-    lbl_8051F01C:
-        .4byte 0x42C80000
-    .global lbl_8051F020
-    lbl_8051F020:
-        .4byte 0x44200000
-    .global lbl_8051F024
-    lbl_8051F024:
-        .4byte 0x43F00000
-    .global lbl_8051F028
-    lbl_8051F028:
-        .4byte 0x42000000
-    .global lbl_8051F02C
-    lbl_8051F02C:
-        .4byte 0x44480000
-    .global lbl_8051F030
-    lbl_8051F030:
-        .4byte 0x42960000
-    .global lbl_8051F034
-    lbl_8051F034:
-        .4byte 0x437F0000
-    .global lbl_8051F038
-    lbl_8051F038:
-        .4byte 0x43C80000
-    .global lbl_8051F03C
-    lbl_8051F03C:
-        .4byte 0xC4480000
-    .global lbl_8051F040
-    lbl_8051F040:
-        .4byte 0x3F8CCCCD
-    .global lbl_8051F044
-    lbl_8051F044:
-        .float 0.25
-    .global lbl_8051F048
-    lbl_8051F048:
-        .4byte 0x41A00000
-    .global lbl_8051F04C
-    lbl_8051F04C:
-        .4byte 0x3ECCCCCD
-    .global lbl_8051F050
-    lbl_8051F050:
-        .float 0.15
-    .global lbl_8051F054
-    lbl_8051F054:
-        .4byte 0x47C35000
-    .global lbl_8051F058
-    lbl_8051F058:
-        .4byte 0x3F266666
-    .global lbl_8051F05C
-    lbl_8051F05C:
-        .4byte 0x3FA66666
-    .global lbl_8051F060
-    lbl_8051F060:
-        .4byte 0xBFA66666
-    .global lbl_8051F064
-    lbl_8051F064:
-        .4byte 0x3FA00000
-    .global lbl_8051F068
-    lbl_8051F068:
-        .4byte 0xBFA00000
-    .global lbl_8051F06C
-    lbl_8051F06C:
-        .4byte 0x40A00000
-    .global lbl_8051F070
-    lbl_8051F070:
-        .4byte 0x42B40000
-    .global lbl_8051F074
-    lbl_8051F074:
-        .4byte 0xBF000000
-    .global lbl_8051F078
-    lbl_8051F078:
-        .4byte 0xC1B00000
-        .4byte 0x00000000
-*/
+ResTIMG* TChallengeSelect::mIconTexture[4] = { nullptr, nullptr, nullptr, nullptr };
 
 /*
  * --INFO--
  * Address:	........
  * Size:	0000D8
  */
-Morimura::TChallengePiki::TChallengePiki(J2DPane*, J2DPane*, J2DPane*)
+TChallengePiki::TChallengePiki(J2DPane* pane1, J2DPane* pane2, J2DPane* pane3)
 {
-	// UNUSED FUNCTION
+	mMaxPiki  = 0;
+	mPanes[0] = pane1;
+	mPanes[1] = pane2;
+	mPanes[2] = pane3;
+	for (int i = 0; i < 3; i++) {
+		P2ASSERTLINE(72, mPanes[i]);
+	}
+	_0C  = 0.0f;
+	_10  = 0.0f;
+	_730 = 0.0f;
+	for (int i = 0; i < 50; i++) {
+		mPosInfo[i].mState = 0;
+	}
 }
-
-/*
- * --INFO--
- * Address:	8038C488
- * Size:	000004
- */
-Morimura::TChallengePiki::posInfo::posInfo(void) { }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	0000FC
  */
-void Morimura::TChallengePiki::reset(void)
+void TChallengePiki::reset()
 {
-	// UNUSED FUNCTION
+	_0C  = 0.0f;
+	_10  = 0.0f;
+	_730 = 0.0f;
+	for (int i = 0; i < 50; i++) {
+		mPosInfo[i].mState = 0;
+	}
 }
 
 /*
@@ -881,7 +74,7 @@ void Morimura::TChallengePiki::reset(void)
  * Address:	........
  * Size:	0002D8
  */
-void Morimura::TChallengePiki::jumpStart(float)
+void TChallengePiki::jumpStart(f32)
 {
 	// UNUSED FUNCTION
 }
@@ -891,7 +84,7 @@ void Morimura::TChallengePiki::jumpStart(float)
  * Address:	8038C48C
  * Size:	00046C
  */
-void Morimura::TChallengePiki::update(void)
+void TChallengePiki::update()
 {
 	/*
 	stwu     r1, -0x40(r1)
@@ -1215,7 +408,7 @@ lbl_8038C8D0:
  * Address:	........
  * Size:	00019C
  */
-void Morimura::TChallengePiki::draw(void)
+void TChallengePiki::draw()
 {
 	// UNUSED FUNCTION
 }
@@ -1225,7 +418,7 @@ void Morimura::TChallengePiki::draw(void)
  * Address:	........
  * Size:	00001C
  */
-void setGoalPos__Q28Morimura14TChallengePikiFR10Vector2<float>(void)
+void TChallengePiki::setGoalPos(Vector2f&)
 {
 	// UNUSED FUNCTION
 }
@@ -1235,7 +428,7 @@ void setGoalPos__Q28Morimura14TChallengePikiFR10Vector2<float>(void)
  * Address:	........
  * Size:	000050
  */
-void Morimura::TChallengePiki::isDemoEnd(void)
+bool TChallengePiki::isDemoEnd()
 {
 	// UNUSED FUNCTION
 }
@@ -1245,9 +438,19 @@ void Morimura::TChallengePiki::isDemoEnd(void)
  * Address:	........
  * Size:	0000D0
  */
-Morimura::TChallengeDoping::TChallengeDoping(J2DPane*, J2DPane*, J2DPane*, J2DPane*)
+TChallengeDoping::TChallengeDoping(J2DPane* pane1, J2DPane* pane2, J2DPane* pane3, J2DPane* pane4)
 {
-	// UNUSED FUNCTION
+	mPaneBase = pane1;
+	_10       = 0.0f;
+	_14       = 0.0f;
+	P2ASSERTLINE(284, mPaneBase);
+	mPaneBase->setBasePosition(J2DPOS_BottomCenter);
+	mPanes[0] = pane2;
+	mPanes[1] = pane3;
+	mPanes[2] = pane4;
+	for (int i = 0; i < 3; i++) {
+		P2ASSERTLINE(290, mPanes[i]);
+	}
 }
 
 /*
@@ -1255,7 +458,7 @@ Morimura::TChallengeDoping::TChallengeDoping(J2DPane*, J2DPane*, J2DPane*, J2DPa
  * Address:	........
  * Size:	00006C
  */
-void Morimura::TChallengeDoping::setLevel(int)
+void TChallengeDoping::setLevel(int)
 {
 	// UNUSED FUNCTION
 }
@@ -1265,7 +468,7 @@ void Morimura::TChallengeDoping::setLevel(int)
  * Address:	........
  * Size:	000120
  */
-void Morimura::TChallengeDoping::update(void)
+void TChallengeDoping::update()
 {
 	// UNUSED FUNCTION
 }
@@ -1275,9 +478,25 @@ void Morimura::TChallengeDoping::update(void)
  * Address:	........
  * Size:	000110
  */
-Morimura::TChallengePanel::TChallengePanel(J2DPictureEx*, J2DPane*, J2DPane*)
+TChallengePanel::TChallengePanel(J2DPictureEx* pane1, J2DPane* pane2, J2DPane* pane3)
 {
-	// UNUSED FUNCTION
+	mArchive    = nullptr;
+	mPane1      = pane1;
+	mPane2      = pane2;
+	mPane3      = pane3;
+	mScaleMgr   = nullptr;
+	_14         = 1.0f;
+	_18         = 0.0f;
+	mState      = 0;
+	mAfterState = 0;
+	_24         = false;
+	_34         = 0.0f;
+	P2ASSERTLINE(358, pane1);
+	P2ASSERTLINE(359, pane2);
+	P2ASSERTLINE(360, pane3);
+	mScaleMgr = new og::Screen::ScaleMgr;
+	_28       = 0.0f;
+	_2C       = 0.0f;
 }
 
 /*
@@ -1285,7 +504,7 @@ Morimura::TChallengePanel::TChallengePanel(J2DPictureEx*, J2DPane*, J2DPane*)
  * Address:	........
  * Size:	000074
  */
-void Morimura::TChallengePanel::stateInitialize(JKRArchive*, int, int)
+void TChallengePanel::stateInitialize(JKRArchive*, int, int)
 {
 	// UNUSED FUNCTION
 }
@@ -1295,7 +514,7 @@ void Morimura::TChallengePanel::stateInitialize(JKRArchive*, int, int)
  * Address:	........
  * Size:	000018
  */
-void Morimura::TChallengePanel::changeState(void)
+void TChallengePanel::changeState()
 {
 	// UNUSED FUNCTION
 }
@@ -1305,7 +524,7 @@ void Morimura::TChallengePanel::changeState(void)
  * Address:	........
  * Size:	00016C
  */
-void Morimura::TChallengePanel::addAlpha(void)
+void TChallengePanel::addAlpha()
 {
 	// UNUSED FUNCTION
 }
@@ -1315,7 +534,7 @@ void Morimura::TChallengePanel::addAlpha(void)
  * Address:	........
  * Size:	00004C
  */
-void Morimura::TChallengePanel::decAlpha(void)
+void TChallengePanel::decAlpha()
 {
 	// UNUSED FUNCTION
 }
@@ -1325,7 +544,7 @@ void Morimura::TChallengePanel::decAlpha(void)
  * Address:	........
  * Size:	000064
  */
-void Morimura::TChallengePanel::alphaUpdate(float)
+void TChallengePanel::alphaUpdate(f32)
 {
 	// UNUSED FUNCTION
 }
@@ -1335,7 +554,7 @@ void Morimura::TChallengePanel::alphaUpdate(float)
  * Address:	........
  * Size:	000014
  */
-void Morimura::TChallengePanel::canSelect(void)
+bool TChallengePanel::canSelect()
 {
 	// UNUSED FUNCTION
 }
@@ -1345,7 +564,7 @@ void Morimura::TChallengePanel::canSelect(void)
  * Address:	8038C8F8
  * Size:	0003D0
  */
-void Morimura::TChallengePanel::update(int, bool)
+void TChallengePanel::update(int, bool)
 {
 	/*
 	stwu     r1, -0x30(r1)
@@ -1624,7 +843,7 @@ lbl_8038CB44:
  * Address:	........
  * Size:	000034
  */
-void Morimura::TChallengePanel::startScaleUp(void)
+void TChallengePanel::startScaleUp()
 {
 	// UNUSED FUNCTION
 }
@@ -1634,50 +853,13 @@ void Morimura::TChallengePanel::startScaleUp(void)
  * Address:	8038CCC8
  * Size:	0000A0
  */
-Morimura::TChallengeScreen::TChallengeScreen(JKRArchive*, int)
+TChallengeScreen::TChallengeScreen(JKRArchive* arc, int anims)
+    : TScreenBase(arc, anims)
 {
-	/*
-	stwu     r1, -0x30(r1)
-	mflr     r0
-	stw      r0, 0x34(r1)
-	stw      r31, 0x2c(r1)
-	mr       r31, r3
-	bl       __ct__Q28Morimura11TScreenBaseFP10JKRArchivei
-	lis      r3, __vt__Q28Morimura16TChallengeScreen@ha
-	li       r0, 0
-	addi     r3, r3, __vt__Q28Morimura16TChallengeScreen@l
-	stw      r3, 0(r31)
-	stw      r0, 0x18(r31)
-	stw      r0, 0x20(r31)
-	stb      r0, 0x28(r31)
-	bl       rand
-	xoris    r0, r3, 0x8000
-	lis      r4, 0x4330
-	stw      r0, 0xc(r1)
-	mr       r3, r31
-	lha      r0, mFlashAnimInterval__Q28Morimura16TChallengeSelect@sda21(r13)
-	stw      r4, 8(r1)
-	lfd      f2, lbl_8051EFB0@sda21(r2)
-	xoris    r0, r0, 0x8000
-	lfd      f1, 8(r1)
-	lfs      f0, lbl_8051EF90@sda21(r2)
-	fsubs    f1, f1, f2
-	stw      r0, 0x14(r1)
-	stw      r4, 0x10(r1)
-	fdivs    f1, f1, f0
-	lfd      f0, 0x10(r1)
-	fsubs    f0, f0, f2
-	fmuls    f0, f0, f1
-	fctiwz   f0, f0
-	stfd     f0, 0x18(r1)
-	lwz      r0, 0x1c(r1)
-	stw      r0, 0x24(r31)
-	lwz      r31, 0x2c(r1)
-	lwz      r0, 0x34(r1)
-	mtlr     r0
-	addi     r1, r1, 0x30
-	blr
-	*/
+	mAnimPaneCount = 0;
+	mCounter       = 0;
+	_28            = 0;
+	mCounterMax    = TChallengeSelect::mFlashAnimInterval * randFloat();
 }
 
 /*
@@ -1685,270 +867,37 @@ Morimura::TChallengeScreen::TChallengeScreen(JKRArchive*, int)
  * Address:	8038CD68
  * Size:	0003C0
  */
-void Morimura::TChallengeScreen::create(char const*, unsigned long)
+void TChallengeScreen::create(char const* path, u32 flags)
 {
-	/*
-	stwu     r1, -0x40(r1)
-	mflr     r0
-	stw      r0, 0x44(r1)
-	stw      r31, 0x3c(r1)
-	mr       r31, r4
-	stw      r30, 0x38(r1)
-	mr       r30, r3
-	li       r3, 0x148
-	stw      r29, 0x34(r1)
-	mr       r29, r5
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_8038CDA4
-	bl       __ct__Q29P2DScreen10Mgr_tuningFv
-	mr       r0, r3
+	mScreenObj = new P2DScreen::Mgr_tuning;
+	mScreenObj->set(path, flags, mArchive);
 
-lbl_8038CDA4:
-	stw      r0, 8(r30)
-	mr       r4, r31
-	mr       r5, r29
-	lwz      r3, 8(r30)
-	lwz      r6, 0xc(r30)
-	bl       set__9J2DScreenFPCcUlP10JKRArchive
-	li       r3, 0x2c
-	bl       __nw__FUl
-	or.      r31, r3, r3
-	beq      lbl_8038CE10
-	bl       __ct__5CNodeFv
-	lis      r3, __vt__Q29P2DScreen4Node@ha
-	lis      r4, __vt__Q29P2DScreen12CallBackNode@ha
-	addi     r0, r3, __vt__Q29P2DScreen4Node@l
-	lis      r3, __vt__Q28Morimura16TCallbackScissor@ha
-	stw      r0, 0(r31)
-	li       r5, 0
-	addi     r4, r4, __vt__Q29P2DScreen12CallBackNode@l
-	addi     r0, r3, __vt__Q28Morimura16TCallbackScissor@l
-	stw      r5, 0x18(r31)
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	stw      r4, 0(r31)
-	stw      r0, 0(r31)
-	stfs     f0, 0x1c(r31)
-	stfs     f0, 0x20(r31)
-	stfs     f0, 0x24(r31)
-	stfs     f0, 0x28(r31)
+	TCallbackScissor* scis = new TCallbackScissor;
+	scis->mBounds          = JGeometry::TBox2f(320.0f, 70.0f, 560.0f, 100.0f);
+	P2ASSERTLINE(568, mScreenObj->search('Tmapti3'));
+	mScreenObj->addCallBack('Tmapti3', scis);
 
-lbl_8038CE10:
-	lfs      f0, lbl_8051F014@sda21(r2)
-	lis      r4, 0x70746933@ha
-	lfs      f1, lbl_8051EFDC@sda21(r2)
-	lis      r3, 0x00546D61@ha
-	stfs     f0, 0x18(r1)
-	addi     r6, r4, 0x70746933@l
-	lfs      f0, lbl_8051F018@sda21(r2)
-	addi     r5, r3, 0x00546D61@l
-	stfs     f1, 0x1c(r1)
-	lwz      r0, 0x18(r1)
-	stfs     f0, 0x20(r1)
-	lfs      f0, lbl_8051F01C@sda21(r2)
-	stw      r0, 0x1c(r31)
-	lwz      r0, 0x1c(r1)
-	stfs     f0, 0x24(r1)
-	lwz      r3, 0x20(r1)
-	stw      r0, 0x20(r31)
-	lwz      r0, 0x24(r1)
-	stw      r3, 0x24(r31)
-	stw      r0, 0x28(r31)
-	lwz      r3, 8(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	cmplwi   r3, 0
-	bne      lbl_8038CE98
-	lis      r3, lbl_80493FD4@ha
-	lis      r5, lbl_80493FEC@ha
-	addi     r3, r3, lbl_80493FD4@l
-	li       r4, 0x238
-	addi     r5, r5, lbl_80493FEC@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	og::Screen::CallBack_Message* mesg = new og::Screen::CallBack_Message;
+	P2ASSERTLINE(576, mScreenObj->search('Tyel2'));
+	mScreenObj->addCallBack('Tyel2', mesg);
 
-lbl_8038CE98:
-	lis      r5, 0x70746933@ha
-	lis      r4, 0x00546D61@ha
-	lwz      r3, 8(r30)
-	mr       r7, r31
-	addi     r6, r5, 0x70746933@l
-	addi     r5, r4, 0x00546D61@l
-	bl       addCallBack__Q29P2DScreen3MgrFUxPQ29P2DScreen4Node
-	li       r3, 0x48
-	bl       __nw__FUl
-	or.      r31, r3, r3
-	beq      lbl_8038CECC
-	bl       __ct__Q32og6Screen16CallBack_MessageFv
-	mr       r31, r3
+	og::Screen::CallBack_Message* mesg2 = new og::Screen::CallBack_Message;
+	P2ASSERTLINE(581, mScreenObj->search('Tyel1'));
+	mScreenObj->addCallBack('Tyel1', mesg2);
 
-lbl_8038CECC:
-	lwz      r3, 8(r30)
-	lis      r4, 0x79656C32@ha
-	addi     r6, r4, 0x79656C32@l
-	li       r5, 0x54
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	cmplwi   r3, 0
-	bne      lbl_8038CF10
-	lis      r3, lbl_80493FD4@ha
-	lis      r5, lbl_80493FEC@ha
-	addi     r3, r3, lbl_80493FD4@l
-	li       r4, 0x240
-	addi     r5, r5, lbl_80493FEC@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	TCallbackScissor* scis2 = new TCallbackScissor;
+	scis2->mBounds          = JGeometry::TBox2f(0.0f, 0.0f, 640.0f, 480.0f);
+	mScreenObj->addCallBack('Tyel1', scis2);
 
-lbl_8038CF10:
-	lis      r4, 0x79656C32@ha
-	lwz      r3, 8(r30)
-	mr       r7, r31
-	li       r5, 0x54
-	addi     r6, r4, 0x79656C32@l
-	bl       addCallBack__Q29P2DScreen3MgrFUxPQ29P2DScreen4Node
-	li       r3, 0x48
-	bl       __nw__FUl
-	or.      r31, r3, r3
-	beq      lbl_8038CF40
-	bl       __ct__Q32og6Screen16CallBack_MessageFv
-	mr       r31, r3
-
-lbl_8038CF40:
-	lwz      r3, 8(r30)
-	lis      r4, 0x79656C31@ha
-	addi     r6, r4, 0x79656C31@l
-	li       r5, 0x54
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	cmplwi   r3, 0
-	bne      lbl_8038CF84
-	lis      r3, lbl_80493FD4@ha
-	lis      r5, lbl_80493FEC@ha
-	addi     r3, r3, lbl_80493FD4@l
-	li       r4, 0x245
-	addi     r5, r5, lbl_80493FEC@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8038CF84:
-	lis      r4, 0x79656C31@ha
-	lwz      r3, 8(r30)
-	mr       r7, r31
-	li       r5, 0x54
-	addi     r6, r4, 0x79656C31@l
-	bl       addCallBack__Q29P2DScreen3MgrFUxPQ29P2DScreen4Node
-	li       r3, 0x2c
-	bl       __nw__FUl
-	or.      r31, r3, r3
-	beq      lbl_8038CFF0
-	bl       __ct__5CNodeFv
-	lis      r3, __vt__Q29P2DScreen4Node@ha
-	lis      r4, __vt__Q29P2DScreen12CallBackNode@ha
-	addi     r0, r3, __vt__Q29P2DScreen4Node@l
-	lis      r3, __vt__Q28Morimura16TCallbackScissor@ha
-	stw      r0, 0(r31)
-	li       r5, 0
-	addi     r4, r4, __vt__Q29P2DScreen12CallBackNode@l
-	addi     r0, r3, __vt__Q28Morimura16TCallbackScissor@l
-	stw      r5, 0x18(r31)
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	stw      r4, 0(r31)
-	stw      r0, 0(r31)
-	stfs     f0, 0x1c(r31)
-	stfs     f0, 0x20(r31)
-	stfs     f0, 0x24(r31)
-	stfs     f0, 0x28(r31)
-
-lbl_8038CFF0:
-	lfs      f2, lbl_8051EF88@sda21(r2)
-	lis      r3, 0x79656C31@ha
-	lfs      f1, lbl_8051F020@sda21(r2)
-	mr       r7, r31
-	stfs     f2, 8(r1)
-	addi     r6, r3, 0x79656C31@l
-	lfs      f0, lbl_8051F024@sda21(r2)
-	li       r5, 0x54
-	stfs     f2, 0xc(r1)
-	lwz      r3, 8(r1)
-	stfs     f1, 0x10(r1)
-	lwz      r0, 0xc(r1)
-	stw      r3, 0x1c(r31)
-	lwz      r3, 0x10(r1)
-	stfs     f0, 0x14(r1)
-	stw      r0, 0x20(r31)
-	lwz      r0, 0x14(r1)
-	stw      r3, 0x24(r31)
-	stw      r0, 0x28(r31)
-	lwz      r3, 8(r30)
-	bl       addCallBack__Q29P2DScreen3MgrFUxPQ29P2DScreen4Node
-	lwz      r3, 8(r30)
-	lis      r4, 0x79656C31@ha
-	addi     r6, r4, 0x79656C31@l
-	li       r5, 0x54
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	mr       r0, r3
-	lwz      r3, 8(r30)
-	lis      r4, 0x79656C32@ha
-	li       r5, 0x54
-	lwz      r12, 0(r3)
-	mr       r31, r0
-	addi     r6, r4, 0x79656C32@l
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	mr       r0, r3
-	mr       r3, r31
-	mr       r29, r0
-	bl       getParentPane__7J2DPaneFv
-	cmplwi   r3, 0
-	beq      lbl_8038D0B4
-	mr       r3, r31
-	bl       getParentPane__7J2DPaneFv
-	mr       r4, r31
-	bl       removeChild__7J2DPaneFP7J2DPane
-
-lbl_8038D0B4:
-	mr       r3, r29
-	bl       getParentPane__7J2DPaneFv
-	cmplwi   r3, 0
-	beq      lbl_8038D0D4
-	mr       r3, r29
-	bl       getParentPane__7J2DPaneFv
-	mr       r4, r29
-	bl       removeChild__7J2DPaneFP7J2DPane
-
-lbl_8038D0D4:
-	lwz      r3, 8(r30)
-	bl       setCallBackMessage__Q22og6ScreenFPQ29P2DScreen3Mgr
-	lwz      r3, 8(r30)
-	mr       r4, r29
-	bl       appendChild__7J2DPaneFP7J2DPane
-	lwz      r3, 8(r30)
-	mr       r4, r31
-	bl       appendChild__7J2DPaneFP7J2DPane
-	lwz      r0, 0x10(r30)
-	slwi     r3, r0, 2
-	bl       __nwa__FUl
-	stw      r3, 4(r30)
-	lwz      r3, 8(r30)
-	bl       setAlphaScreen__Q22og6ScreenFP7J2DPane
-	lwz      r0, 0x44(r1)
-	lwz      r31, 0x3c(r1)
-	lwz      r30, 0x38(r1)
-	lwz      r29, 0x34(r1)
-	mtlr     r0
-	addi     r1, r1, 0x40
-	blr
-	*/
+	J2DPane* pane1 = mScreenObj->search('Tyel1');
+	J2DPane* pane2 = mScreenObj->search('Tyel2');
+	pane1->removeFromParent();
+	pane2->removeFromParent();
+	og::Screen::setCallBackMessage(mScreenObj);
+	mScreenObj->appendChild(pane2);
+	mScreenObj->appendChild(pane1);
+	mAnimScreens = new og::Screen::AnimScreen*[mAnimScreenCountMax];
+	og::Screen::setAlphaScreen(mScreenObj);
 }
 
 /*
@@ -1956,72 +905,16 @@ lbl_8038D0D4:
  * Address:	8038D128
  * Size:	0000D8
  */
-void Morimura::TChallengeScreen::createAnimPane(char*)
+void TChallengeScreen::createAnimPane(char* path)
 {
-	/*
-	stwu     r1, -0xa0(r1)
-	mflr     r0
-	lis      r5, lbl_80494008@ha
-	stw      r0, 0xa4(r1)
-	li       r0, 0x10
-	addi     r5, r5, lbl_80494008@l
-	addi     r6, r1, 4
-	stmw     r27, 0x8c(r1)
-	mr       r31, r4
-	mr       r30, r3
-	addi     r4, r5, -4
-	mtctr    r0
-
-lbl_8038D158:
-	lwz      r3, 4(r4)
-	lwzu     r0, 8(r4)
-	stw      r3, 4(r6)
-	stwu     r0, 8(r6)
-	bdnz     lbl_8038D158
-	li       r0, 0xf
-	stw      r0, 0x18(r30)
-	lwz      r0, 0x18(r30)
-	slwi     r3, r0, 2
-	bl       __nwa__FUl
-	stw      r3, 0x1c(r30)
-	addi     r28, r1, 8
-	li       r27, 0
-	li       r29, 0
-	b        lbl_8038D1E0
-
-lbl_8038D194:
-	li       r3, 0x44
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_8038D1AC
-	bl       __ct__Q32og6Screen8AnimPaneFv
-	mr       r0, r3
-
-lbl_8038D1AC:
-	lwz      r3, 0x1c(r30)
-	mr       r9, r31
-	stwx     r0, r3, r29
-	lwz      r3, 0x1c(r30)
-	lwz      r4, 0xc(r30)
-	lwzx     r3, r3, r29
-	lwz      r5, 8(r30)
-	lwz      r7, 0(r28)
-	lwz      r8, 4(r28)
-	bl       init__Q32og6Screen8AnimPaneFP10JKRArchiveP9J2DScreenUxPc
-	addi     r29, r29, 4
-	addi     r28, r28, 8
-	addi     r27, r27, 1
-
-lbl_8038D1E0:
-	lwz      r0, 0x18(r30)
-	cmpw     r27, r0
-	blt      lbl_8038D194
-	lmw      r27, 0x8c(r1)
-	lwz      r0, 0xa4(r1)
-	mtlr     r0
-	addi     r1, r1, 0xa0
-	blr
-	*/
+	u64 tags[16]   = { 'Nhl_00', 'Nhl_01', 'Nhl_02', 'Nhl_03', 'Nhl_04', 'Nhl_05', 'Nhl_06', 'Nhl_07',
+                     'Nhl_08', 'Nhl_09', 'Nhl_10', 'Nhl_11', 'Nhl_12', 'Nhl_13', 'Nhl_14', 'NULL_001' };
+	mAnimPaneCount = 15;
+	mAnimPanes     = new og::Screen::AnimPane*[mAnimPaneCount];
+	for (int i = 0; i < mAnimPaneCount; i++) {
+		mAnimPanes[i] = new og::Screen::AnimPane;
+		mAnimPanes[i]->init(mArchive, mScreenObj, tags[i], path);
+	}
 }
 
 /*
@@ -2029,125 +922,33 @@ lbl_8038D1E0:
  * Address:	8038D200
  * Size:	00018C
  */
-void Morimura::TChallengeScreen::update(void)
+void TChallengeScreen::update()
 {
-	/*
-	stwu     r1, -0x30(r1)
-	mflr     r0
-	stw      r0, 0x34(r1)
-	stw      r31, 0x2c(r1)
-	mr       r31, r3
-	stw      r30, 0x28(r1)
-	stw      r29, 0x24(r1)
-	lwz      r3, 8(r3)
-	cmplwi   r3, 0
-	beq      lbl_8038D370
-	lwz      r12, 0(r3)
-	lwz      r12, 0x30(r12)
-	mtctr    r12
-	bctrl
-	li       r29, 0
-	li       r30, 0
-	b        lbl_8038D284
+	if (mScreenObj) {
+		mScreenObj->update();
+		for (int i = 0; i < mAnimScreenCountMax; i++) {
+			if (i != 1) {
+				mAnimScreens[i]->update();
+			} else {
+				mAnimScreens[i]->mCurrentFrame = mAnimScreens[0]->mCurrentFrame;
+				mAnimScreens[i]->update();
+			}
+		}
 
-lbl_8038D244:
-	cmpwi    r29, 1
-	beq      lbl_8038D25C
-	lwz      r3, 4(r31)
-	lwzx     r3, r3, r30
-	bl       update__Q32og6Screen12AnimBaseBaseFv
-	b        lbl_8038D27C
-
-lbl_8038D25C:
-	lwz      r3, 4(r31)
-	lwz      r4, 0(r3)
-	lwzx     r3, r3, r30
-	lfs      f0, 0x18(r4)
-	stfs     f0, 0x18(r3)
-	lwz      r3, 4(r31)
-	lwzx     r3, r3, r30
-	bl       update__Q32og6Screen12AnimBaseBaseFv
-
-lbl_8038D27C:
-	addi     r30, r30, 4
-	addi     r29, r29, 1
-
-lbl_8038D284:
-	lwz      r0, 0x10(r31)
-	cmpw     r29, r0
-	blt      lbl_8038D244
-	lbz      r0, 0x28(r31)
-	cmplwi   r0, 0
-	bne      lbl_8038D354
-	lwz      r3, 0x20(r31)
-	addi     r0, r3, 1
-	stw      r0, 0x20(r31)
-	lwz      r3, 0x20(r31)
-	lwz      r0, 0x24(r31)
-	cmpw     r3, r0
-	ble      lbl_8038D354
-	li       r4, 0
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	stw      r4, 0x20(r31)
-	li       r5, 0
-	b        lbl_8038D2E0
-
-lbl_8038D2CC:
-	lwz      r3, 0x1c(r31)
-	addi     r5, r5, 1
-	lwzx     r3, r3, r4
-	addi     r4, r4, 4
-	stfs     f0, 0x18(r3)
-
-lbl_8038D2E0:
-	lwz      r0, 0x18(r31)
-	cmpw     r5, r0
-	blt      lbl_8038D2CC
-	li       r0, 1
-	stb      r0, 0x28(r31)
-	bl       rand
-	lis      r4, 0x4330
-	xoris    r0, r3, 0x8000
-	stw      r0, 0xc(r1)
-	lha      r0, mFlashAnimInterval__Q28Morimura16TChallengeSelect@sda21(r13)
-	stw      r4, 8(r1)
-	lfd      f3, lbl_8051EFB0@sda21(r2)
-	xoris    r0, r0, 0x8000
-	lfd      f1, 8(r1)
-	lfs      f0, lbl_8051EF90@sda21(r2)
-	fsubs    f2, f1, f3
-	stw      r0, 0x14(r1)
-	lfs      f1, lbl_8051F00C@sda21(r2)
-	stw      r4, 0x10(r1)
-	fdivs    f4, f2, f0
-	lfs      f0, lbl_8051EF94@sda21(r2)
-	lfd      f2, 0x10(r1)
-	fsubs    f2, f2, f3
-	fmadds   f0, f1, f4, f0
-	fmuls    f0, f2, f0
-	fctiwz   f0, f0
-	stfd     f0, 0x18(r1)
-	lwz      r0, 0x1c(r1)
-	stw      r0, 0x24(r31)
-
-lbl_8038D354:
-	mr       r3, r31
-	lwz      r12, 0(r31)
-	lwz      r12, 0x18(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 8(r31)
-	bl       animation__9J2DScreenFv
-
-lbl_8038D370:
-	lwz      r0, 0x34(r1)
-	lwz      r31, 0x2c(r1)
-	lwz      r30, 0x28(r1)
-	lwz      r29, 0x24(r1)
-	mtlr     r0
-	addi     r1, r1, 0x30
-	blr
-	*/
+		if (!_28) {
+			mCounter++;
+			if (mCounter > mCounterMax) {
+				mCounter = 0;
+				for (int i = 0; i < mAnimPaneCount; i++) {
+					mAnimPanes[i]->mCurrentFrame = 0.0f;
+				}
+				_28         = true;
+				mCounterMax = TChallengeSelect::mFlashAnimInterval * (randFloat() * 0.9f + 0.1f);
+			}
+		}
+		updateBckPane();
+		mScreenObj->animation();
+	}
 }
 
 /*
@@ -2155,62 +956,15 @@ lbl_8038D370:
  * Address:	8038D38C
  * Size:	0000B0
  */
-void Morimura::TChallengeScreen::updateBckPane(void)
+void TChallengeScreen::updateBckPane()
 {
-	/*
-	stwu     r1, -0x30(r1)
-	mflr     r0
-	stw      r0, 0x34(r1)
-	stfd     f31, 0x20(r1)
-	psq_st   f31, 40(r1), 0, qr0
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	stw      r28, 0x10(r1)
-	li       r30, 0
-	lfs      f31, lbl_8051F028@sda21(r2)
-	mr       r28, r3
-	li       r29, 0
-	mr       r31, r30
-	b        lbl_8038D408
-
-lbl_8038D3C8:
-	lwz      r3, 0x1c(r28)
-	lwzx     r3, r3, r30
-	bl       update__Q32og6Screen12AnimBaseBaseFv
-	lwz      r3, 0x1c(r28)
-	lwzx     r3, r3, r30
-	lfs      f0, 0x18(r3)
-	fcmpo    cr0, f0, f31
-	cror     2, 1, 2
-	beq      lbl_8038D3F8
-	lbz      r0, 0x28(r28)
-	cmplwi   r0, 0
-	bne      lbl_8038D400
-
-lbl_8038D3F8:
-	stfs     f31, 0x18(r3)
-	stb      r31, 0x28(r28)
-
-lbl_8038D400:
-	addi     r30, r30, 4
-	addi     r29, r29, 1
-
-lbl_8038D408:
-	lwz      r0, 0x18(r28)
-	cmpw     r29, r0
-	blt      lbl_8038D3C8
-	psq_l    f31, 40(r1), 0, qr0
-	lwz      r0, 0x34(r1)
-	lfd      f31, 0x20(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	lwz      r28, 0x10(r1)
-	mtlr     r0
-	addi     r1, r1, 0x30
-	blr
-	*/
+	for (int i = 0; i < mAnimPaneCount; i++) {
+		mAnimPanes[i]->update();
+		if (mAnimPanes[i]->mCurrentFrame >= 32.0f || !_28) {
+			mAnimPanes[i]->mCurrentFrame = 32.0f;
+			_28                          = false;
+		}
+	}
 }
 
 /*
@@ -2218,105 +972,42 @@ lbl_8038D408:
  * Address:	8038D43C
  * Size:	000020
  */
-void Morimura::TChallengeScreen::isRandAnimStart(void)
-{
-	/*
-	lwz      r3, 0x1c(r3)
-	lfs      f1, lbl_8051EFCC@sda21(r2)
-	lwz      r3, 0(r3)
-	lfs      f0, 0x18(r3)
-	fcmpu    cr0, f1, f0
-	mfcr     r0
-	rlwinm   r3, r0, 3, 0x1f, 0x1f
-	blr
-	*/
-}
+bool TChallengeScreen::isRandAnimStart() { return mAnimPanes[0]->mCurrentFrame == 2.0f; }
 
 /*
  * --INFO--
  * Address:	8038D45C
  * Size:	000128
  */
-Morimura::TChallengePlayModeScreen::TChallengePlayModeScreen(JKRArchive*, int)
+TChallengePlayModeScreen::TChallengePlayModeScreen(JKRArchive* arc, int anims)
+    : TScreenBase(arc, anims)
 {
-	/*
-	stwu     r1, -0x60(r1)
-	mflr     r0
-	stw      r0, 0x64(r1)
-	stfd     f31, 0x50(r1)
-	psq_st   f31, 88(r1), 0, qr0
-	stfd     f30, 0x40(r1)
-	psq_st   f30, 72(r1), 0, qr0
-	stfd     f29, 0x30(r1)
-	psq_st   f29, 56(r1), 0, qr0
-	stmw     r27, 0x1c(r1)
-	mr       r27, r3
-	bl       __ct__Q28Morimura11TScreenBaseFP10JKRArchivei
-	lis      r3, __vt__Q28Morimura24TChallengePlayModeScreen@ha
-	li       r30, 0
-	addi     r0, r3, __vt__Q28Morimura24TChallengePlayModeScreen@l
-	lfs      f1, lbl_8051EF88@sda21(r2)
-	stw      r0, 0(r27)
-	mr       r29, r27
-	lfs      f0, lbl_8051F02C@sda21(r2)
-	li       r28, 0
-	stw      r30, 0x20(r27)
-	lis      r31, 0x4330
-	lfd      f29, lbl_8051EFB0@sda21(r2)
-	stw      r30, 0x2c(r27)
-	lfs      f30, lbl_8051EF90@sda21(r2)
-	stw      r30, 0x54(r27)
-	lfs      f31, lbl_8051EFBC@sda21(r2)
-	stw      r30, 0x58(r27)
-	stw      r30, 0x5c(r27)
-	stw      r30, 0x80(r27)
-	stb      r30, 0x84(r27)
-	stfs     f1, 0x88(r27)
-	stfs     f1, 0x8c(r27)
-	stfs     f1, 0x90(r27)
-	stfs     f0, 0x94(r27)
-	stw      r30, 0x18(r27)
-	stw      r30, 0x3c(r27)
-	stw      r30, 0x24(r27)
-	stfs     f1, 0x98(r27)
-	stw      r30, 0x1c(r27)
-	stw      r30, 0x40(r27)
-	stw      r30, 0x28(r27)
-	stfs     f1, 0x9c(r27)
-
-lbl_8038D508:
-	stw      r30, 0x30(r29)
-	bl       rand
-	xoris    r0, r3, 0x8000
-	addi     r28, r28, 1
-	stw      r0, 0xc(r1)
-	cmpwi    r28, 3
-	stw      r31, 8(r1)
-	lfd      f0, 8(r1)
-	fsubs    f0, f0, f29
-	fdivs    f0, f0, f30
-	fmuls    f0, f31, f0
-	stfs     f0, 0xa0(r29)
-	addi     r29, r29, 4
-	blt      lbl_8038D508
-	li       r0, 0
-	mr       r3, r27
-	stw      r0, 0x44(r27)
-	stw      r0, 0x48(r27)
-	stw      r0, 0x4c(r27)
-	stw      r0, 0x50(r27)
-	psq_l    f31, 88(r1), 0, qr0
-	lfd      f31, 0x50(r1)
-	psq_l    f30, 72(r1), 0, qr0
-	lfd      f30, 0x40(r1)
-	psq_l    f29, 56(r1), 0, qr0
-	lfd      f29, 0x30(r1)
-	lmw      r27, 0x1c(r1)
-	lwz      r0, 0x64(r1)
-	mtlr     r0
-	addi     r1, r1, 0x60
-	blr
-	*/
+	mSphereTex          = nullptr;
+	mPane5              = nullptr;
+	mFuriko             = nullptr;
+	mEfxCursor1         = nullptr;
+	mEfxCursor2         = nullptr;
+	mState              = 0;
+	mDoShowNoController = false;
+	mNoControllerTimer  = 0.0f;
+	mTimer              = 0.0f;
+	mTimer2             = 0.0f;
+	mMovePos            = 800.0f;
+	mPaneList0[0]       = nullptr;
+	mScaleMgr[0]        = nullptr;
+	mPane3              = nullptr;
+	mAlphaTimer         = 0.0f;
+	mPaneList0[1]       = nullptr;
+	mScaleMgr[1]        = nullptr;
+	mPane4              = nullptr;
+	mScale              = 0.0f;
+	for (int i = 0; i < 3; i++) {
+		mPaneList1[i]   = nullptr;
+		mAngleTimers[i] = TAU * randFloat();
+	}
+	for (int i = 0; i < 4; i++) {
+		mAnimScreen[i] = nullptr;
+	}
 }
 
 /*
@@ -2324,404 +1015,59 @@ lbl_8038D508:
  * Address:	8038D584
  * Size:	000598
  */
-void Morimura::TChallengePlayModeScreen::create(char const*, unsigned long)
+void TChallengePlayModeScreen::create(char const* path, u32 flags)
 {
-	/*
-	stwu     r1, -0x40(r1)
-	mflr     r0
-	lis      r6, lbl_80493FC0@ha
-	stw      r0, 0x44(r1)
-	stmw     r27, 0x2c(r1)
-	mr       r30, r3
-	addi     r31, r6, lbl_80493FC0@l
-	bl       create__Q28Morimura11TScreenBaseFPCcUl
-	lwz      r3, 8(r30)
-	lis      r4, 0x696C3030@ha
-	addi     r6, r4, 0x696C3030@l
-	li       r5, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	li       r0, 0
-	lis      r4, 0x69723030@ha
-	stb      r0, 0xb0(r3)
-	addi     r6, r4, 0x69723030@l
-	li       r5, 0
-	lwz      r3, 8(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	li       r0, 0
-	lis      r4, 0x696C3031@ha
-	stb      r0, 0xb0(r3)
-	addi     r6, r4, 0x696C3031@l
-	li       r5, 0
-	lwz      r3, 8(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	li       r0, 0
-	lis      r4, 0x69723031@ha
-	stb      r0, 0xb0(r3)
-	addi     r6, r4, 0x69723031@l
-	li       r5, 0
-	lwz      r3, 8(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	li       r0, 0
-	stb      r0, 0xb0(r3)
-	li       r3, 0x1c
-	bl       __nw__FUl
-	cmplwi   r3, 0
-	beq      lbl_8038D6D8
-	lis      r5, __vt__Q25efx2d7TBaseIF@ha
-	lis      r4, __vt__Q25efx2d5TBase@ha
-	addi     r0, r5, __vt__Q25efx2d7TBaseIF@l
-	lis      r6, __vt__18JPAEmitterCallBack@ha
-	stw      r0, 0(r3)
-	addi     r0, r4, __vt__Q25efx2d5TBase@l
-	lis      r5, __vt__Q25efx2d8TForever@ha
-	lis      r4, __vt__Q25efx2d9TChasePos@ha
-	stw      r0, 0(r3)
-	li       r10, 0
-	addi     r9, r5, __vt__Q25efx2d8TForever@l
-	addi     r7, r4, __vt__Q25efx2d9TChasePos@l
-	stb      r10, 4(r3)
-	lis      r4, __vt__Q25efx2d9T2DCursor@ha
-	addi     r4, r4, __vt__Q25efx2d9T2DCursor@l
-	addi     r0, r6, __vt__18JPAEmitterCallBack@l
-	stb      r10, 5(r3)
-	addi     r8, r9, 0x18
-	addi     r6, r7, 0x18
-	addi     r5, r30, 0x68
-	stw      r0, 8(r3)
-	addi     r0, r4, 0x18
-	lfs      f0, lbl_8051EFF0@sda21(r2)
-	stw      r9, 0(r3)
-	stw      r8, 8(r3)
-	sth      r10, 0xc(r3)
-	stw      r10, 0x10(r3)
-	stw      r7, 0(r3)
-	stw      r6, 8(r3)
-	stw      r5, 0x14(r3)
-	stw      r4, 0(r3)
-	stw      r0, 8(r3)
-	stfs     f0, 0x18(r3)
+	TScreenBase::create(path, flags);
 
-lbl_8038D6D8:
-	stw      r3, 0x5c(r30)
-	li       r3, 0x1c
-	bl       __nw__FUl
-	cmplwi   r3, 0
-	beq      lbl_8038D770
-	lis      r5, __vt__Q25efx2d7TBaseIF@ha
-	lis      r4, __vt__Q25efx2d5TBase@ha
-	addi     r0, r5, __vt__Q25efx2d7TBaseIF@l
-	lis      r6, __vt__18JPAEmitterCallBack@ha
-	stw      r0, 0(r3)
-	addi     r0, r4, __vt__Q25efx2d5TBase@l
-	lis      r5, __vt__Q25efx2d8TForever@ha
-	lis      r4, __vt__Q25efx2d9TChasePos@ha
-	stw      r0, 0(r3)
-	li       r10, 0
-	addi     r9, r5, __vt__Q25efx2d8TForever@l
-	addi     r7, r4, __vt__Q25efx2d9TChasePos@l
-	stb      r10, 4(r3)
-	lis      r4, __vt__Q25efx2d9T2DCursor@ha
-	addi     r4, r4, __vt__Q25efx2d9T2DCursor@l
-	addi     r0, r6, __vt__18JPAEmitterCallBack@l
-	stb      r10, 5(r3)
-	addi     r8, r9, 0x18
-	addi     r6, r7, 0x18
-	addi     r5, r30, 0x60
-	stw      r0, 8(r3)
-	addi     r0, r4, 0x18
-	lfs      f0, lbl_8051EFF0@sda21(r2)
-	stw      r9, 0(r3)
-	stw      r8, 8(r3)
-	sth      r10, 0xc(r3)
-	stw      r10, 0x10(r3)
-	stw      r7, 0(r3)
-	stw      r6, 8(r3)
-	stw      r5, 0x14(r3)
-	stw      r4, 0(r3)
-	stw      r0, 8(r3)
-	stfs     f0, 0x18(r3)
+	mScreenObj->search('il00')->hide();
+	mScreenObj->search('ir00')->hide();
+	mScreenObj->search('il01')->hide();
+	mScreenObj->search('ir01')->hide();
+	mEfxCursor2 = new efx2d::T2DCursor(&mEfxCursorPos2);
+	mEfxCursor1 = new efx2d::T2DCursor(&mEfxCursorPos1);
 
-lbl_8038D770:
-	stw      r3, 0x58(r30)
-	lis      r3, 0x755F3031@ha
-	addi     r6, r3, 0x755F3031@l
-	li       r5, 0x6e
-	lwz      r3, 8(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	stw      r3, 0x18(r30)
-	lwz      r0, 0x18(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038D7B8
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x2fc
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	mPaneList0[0] = mScreenObj->search('nu_01');
+	P2ASSERTLINE(764, mPaneList0[0]);
 
-lbl_8038D7B8:
-	lwz      r3, 8(r30)
-	lis      r4, 0x755F3032@ha
-	addi     r6, r4, 0x755F3032@l
-	li       r5, 0x6e
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	stw      r3, 0x1c(r30)
-	lwz      r0, 0x1c(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038D7FC
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x2ff
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	mPaneList0[1] = mScreenObj->search('nu_02');
+	P2ASSERTLINE(767, mPaneList0[1]);
 
-lbl_8038D7FC:
-	li       r28, 0
-	mr       r29, r30
+	for (int i = 0; i < 2; i++) {
+		mScaleMgr[i] = new og::Screen::ScaleMgr;
+	}
 
-lbl_8038D804:
-	li       r3, 0x1c
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_8038D81C
-	bl       __ct__Q32og6Screen8ScaleMgrFv
-	mr       r0, r3
+	mFuriko = og::Screen::setCallBack_Furiko(mScreenObj, 'furiko00');
+	P2ASSERTLINE(776, mFuriko);
+	mFuriko->stop();
 
-lbl_8038D81C:
-	addi     r28, r28, 1
-	stw      r0, 0x3c(r29)
-	cmpwi    r28, 2
-	addi     r29, r29, 4
-	blt      lbl_8038D804
-	lis      r5, 0x6B6F3030@ha
-	lis      r4, 0x66757269@ha
-	lwz      r3, 8(r30)
-	addi     r6, r5, 0x6B6F3030@l
-	addi     r5, r4, 0x66757269@l
-	bl       setCallBack_Furiko__Q22og6ScreenFPQ29P2DScreen3MgrUx
-	stw      r3, 0x54(r30)
-	lwz      r0, 0x54(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038D86C
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x308
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
+	u64 tags[4] = { 'h_00', 'h_01', 'h_02', 'h_03' };
+	for (int i = 0; i < 4; i++) {
+		if (i == 0) {
+			mAnimScreen[i] = og::Screen::setMenuTitleScreen(mArchive, mScreenObj, tags[i]);
+		} else if (i == 3) {
+			mAnimScreen[i] = og::Screen::setAnimTextScreen(mArchive, mScreenObj, tags[i]);
+		} else {
+			mAnimScreen[i] = og::Screen::setMenuScreen(mArchive, mScreenObj, tags[i]);
+		}
+		P2ASSERTLINE(786, mAnimScreen[i]);
+		mAnimScreen[i]->stop();
+	}
 
-lbl_8038D86C:
-	lwz      r3, 0x54(r30)
-	bl       stop__Q32og6Screen15CallBack_FurikoFv
-	lfd      f3, 0xc8(r31)
-	mr       r28, r30
-	lfd      f2, 0xd0(r31)
-	addi     r29, r1, 8
-	lfd      f1, 0xd8(r31)
-	li       r27, 0
-	lfd      f0, 0xe0(r31)
-	stfd     f3, 8(r1)
-	stfd     f2, 0x10(r1)
-	stfd     f1, 0x18(r1)
-	stfd     f0, 0x20(r1)
+	mAnimScreen[0]->_6C = 1.0f - mNoControllerTimer;
+	mAnimScreen[3]->_6C = mNoControllerTimer;
 
-lbl_8038D8A0:
-	cmpwi    r27, 0
-	bne      lbl_8038D8C4
-	lwz      r3, 0xc(r30)
-	lwz      r4, 8(r30)
-	lwz      r5, 0(r29)
-	lwz      r6, 4(r29)
-	bl       setMenuTitleScreen__Q22og6ScreenFP10JKRArchivePQ29P2DScreen3MgrUx
-	stw      r3, 0x44(r28)
-	b        lbl_8038D900
-
-lbl_8038D8C4:
-	cmpwi    r27, 3
-	bne      lbl_8038D8E8
-	lwz      r3, 0xc(r30)
-	lwz      r4, 8(r30)
-	lwz      r5, 0(r29)
-	lwz      r6, 4(r29)
-	bl       setAnimTextScreen__Q22og6ScreenFP10JKRArchivePQ29P2DScreen3MgrUx
-	stw      r3, 0x44(r28)
-	b        lbl_8038D900
-
-lbl_8038D8E8:
-	lwz      r3, 0xc(r30)
-	lwz      r4, 8(r30)
-	lwz      r5, 0(r29)
-	lwz      r6, 4(r29)
-	bl       setMenuScreen__Q22og6ScreenFP10JKRArchivePQ29P2DScreen3MgrUx
-	stw      r3, 0x44(r28)
-
-lbl_8038D900:
-	lwz      r0, 0x44(r28)
-	cmplwi   r0, 0
-	bne      lbl_8038D920
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x312
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8038D920:
-	lwz      r3, 0x44(r28)
-	bl       stop__Q32og6Screen15AnimText_ScreenFv
-	addi     r27, r27, 1
-	addi     r28, r28, 4
-	cmpwi    r27, 4
-	addi     r29, r29, 8
-	blt      lbl_8038D8A0
-	lfs      f1, lbl_8051EFF0@sda21(r2)
-	lis      r4, 0x72696D61@ha
-	lfs      f0, 0x88(r30)
-	lis      r3, 0x0050316F@ha
-	lwz      r7, 0x44(r30)
-	addi     r6, r4, 0x72696D61@l
-	fsubs    f0, f1, f0
-	addi     r5, r3, 0x0050316F@l
-	stfs     f0, 0x6c(r7)
-	lfs      f0, 0x88(r30)
-	lwz      r3, 0x50(r30)
-	stfs     f0, 0x6c(r3)
-	lwz      r3, 8(r30)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	stw      r3, 0x24(r30)
-	lwz      r0, 0x24(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038D9A4
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x31b
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8038D9A4:
-	lwz      r3, 8(r30)
-	lis      r5, 0x72695F6C@ha
-	lis      r4, 0x0050316F@ha
-	lwz      r12, 0(r3)
-	addi     r6, r5, 0x72695F6C@l
-	addi     r5, r4, 0x0050316F@l
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	stw      r3, 0x30(r30)
-	lwz      r0, 0x30(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038D9EC
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x31d
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8038D9EC:
-	lwz      r3, 8(r30)
-	lis      r5, 0x72696D61@ha
-	lis      r4, 0x0050326F@ha
-	lwz      r12, 0(r3)
-	addi     r6, r5, 0x72696D61@l
-	addi     r5, r4, 0x0050326F@l
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	stw      r3, 0x28(r30)
-	lwz      r0, 0x28(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038DA34
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x320
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8038DA34:
-	lwz      r3, 8(r30)
-	lis      r5, 0x72695F6C@ha
-	lis      r4, 0x0050326F@ha
-	lwz      r12, 0(r3)
-	addi     r6, r5, 0x72695F6C@l
-	addi     r5, r4, 0x0050326F@l
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	stw      r3, 0x34(r30)
-	lwz      r0, 0x34(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038DA7C
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x322
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8038DA7C:
-	lwz      r3, 8(r30)
-	lis      r4, 0x506C7569@ha
-	addi     r6, r4, 0x506C7569@l
-	li       r5, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	stw      r3, 0x2c(r30)
-	lwz      r0, 0x2c(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038DAC0
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x326
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8038DAC0:
-	lwz      r3, 8(r30)
-	lis      r5, 0x75695F6C@ha
-	lis      r4, 0x0050326C@ha
-	lwz      r12, 0(r3)
-	addi     r6, r5, 0x75695F6C@l
-	addi     r5, r4, 0x0050326C@l
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	stw      r3, 0x38(r30)
-	lwz      r0, 0x38(r30)
-	cmplwi   r0, 0
-	bne      lbl_8038DB08
-	addi     r3, r31, 0x14
-	addi     r5, r31, 0x2c
-	li       r4, 0x328
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8038DB08:
-	lmw      r27, 0x2c(r1)
-	lwz      r0, 0x44(r1)
-	mtlr     r0
-	addi     r1, r1, 0x40
-	blr
-	*/
+	mPane3 = mScreenObj->search('P1orima');
+	P2ASSERTLINE(795, mPane3);
+	mPaneList1[0] = mScreenObj->search('P1ori_l');
+	P2ASSERTLINE(797, mPaneList1[0]);
+	mPane4 = mScreenObj->search('P2orima');
+	P2ASSERTLINE(800, mPane4);
+	mPaneList1[1] = mScreenObj->search('P2ori_l');
+	P2ASSERTLINE(802, mPaneList1[1]);
+	mPane5 = mScreenObj->search('Plui');
+	P2ASSERTLINE(806, mPane5);
+	mPaneList1[2] = mScreenObj->search('P2lui_l');
+	P2ASSERTLINE(808, mPaneList1[2]);
 }
 
 /*
@@ -2729,597 +1075,172 @@ lbl_8038DB08:
  * Address:	8038DB1C
  * Size:	0007FC
  */
-void Morimura::TChallengePlayModeScreen::update(void)
+void TChallengePlayModeScreen::update()
 {
-	/*
-	stwu     r1, -0x50(r1)
-	mflr     r0
-	stw      r0, 0x54(r1)
-	stfd     f31, 0x40(r1)
-	psq_st   f31, 72(r1), 0, qr0
-	stfd     f30, 0x30(r1)
-	psq_st   f30, 56(r1), 0, qr0
-	stw      r31, 0x2c(r1)
-	stw      r30, 0x28(r1)
-	stw      r29, 0x24(r1)
-	mr       r31, r3
-	lis      r4, 0x696C3030@ha
-	lwz      r3, 8(r3)
-	addi     r6, r4, 0x696C3030@l
-	li       r5, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, 0x8c(r3)
-	lis      r3, 0x69723030@ha
-	addi     r6, r3, 0x69723030@l
-	li       r5, 0
-	stfs     f0, 0x70(r31)
-	lwz      r3, 8(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, 0x9c(r3)
-	lis      r3, 0x69723030@ha
-	addi     r6, r3, 0x69723030@l
-	li       r5, 0
-	stfs     f0, 0x74(r31)
-	lwz      r3, 8(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, 0x8c(r3)
-	lis      r3, 0x69723031@ha
-	addi     r6, r3, 0x69723031@l
-	li       r5, 0
-	stfs     f0, 0x78(r31)
-	lwz      r3, 8(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f1, 0x9c(r3)
-	lfs      f0, lbl_8051EFCC@sda21(r2)
-	stfs     f1, 0x7c(r31)
-	lfs      f2, 0x70(r31)
-	lfs      f1, 0x60(r31)
-	fsubs    f3, f2, f1
-	fabs     f1, f3
-	frsp     f1, f1
-	fcmpo    cr0, f1, f0
-	bge      lbl_8038DC14
-	stfs     f2, 0x60(r31)
-	lfs      f2, lbl_8051EF88@sda21(r2)
-	b        lbl_8038DC1C
+	mPane1Pos.x = mScreenObj->search('il00')->mGlobalMtx[0][3];
+	mPane1Pos.y = mScreenObj->search('ir00')->mGlobalMtx[1][3];
+	mPane2Pos.x = mScreenObj->search('ir00')->mGlobalMtx[0][3];
+	mPane2Pos.y = mScreenObj->search('ir01')->mGlobalMtx[1][3];
 
-lbl_8038DC14:
-	lfs      f0, lbl_8051EFE4@sda21(r2)
-	fmuls    f2, f3, f0
+	f32 x = mPane1Pos.x - mEfxCursorPos1.x;
+	if (FABS(x) < 2.0f) {
+		mEfxCursorPos1.x = mPane1Pos.x;
+		x                = 0.0f;
+	} else {
+		x *= 0.3f;
+	}
+	mEfxCursorPos1.x += x;
 
-lbl_8038DC1C:
-	lfs      f1, 0x60(r31)
-	lfs      f0, lbl_8051EFCC@sda21(r2)
-	fadds    f1, f1, f2
-	stfs     f1, 0x60(r31)
-	lfs      f2, 0x78(r31)
-	lfs      f1, 0x68(r31)
-	fsubs    f3, f2, f1
-	fabs     f1, f3
-	frsp     f1, f1
-	fcmpo    cr0, f1, f0
-	bge      lbl_8038DC54
-	stfs     f2, 0x68(r31)
-	lfs      f1, lbl_8051EF88@sda21(r2)
-	b        lbl_8038DC5C
+	f32 x2 = mPane2Pos.x - mEfxCursorPos2.x;
+	if (FABS(x2) < 2.0f) {
+		mEfxCursorPos2.x = mPane2Pos.x;
+		x2               = 0.0f;
+	} else {
+		x2 *= 0.3f;
+	}
+	mEfxCursorPos2.x += x2;
 
-lbl_8038DC54:
-	lfs      f0, lbl_8051EFE4@sda21(r2)
-	fmuls    f1, f3, f0
+	if (TChallengeSelect::mSelected1p) {
+		mAlphaTimer += 0.1f;
+		if (mAlphaTimer > 1.0f) {
+			mAlphaTimer = 1.0f;
+		}
+		mScale -= 0.1f;
+		if (mScale < 0.0f) {
+			mScale = 0.0f;
+		}
 
-lbl_8038DC5C:
-	lfs      f0, 0x68(r31)
-	fadds    f0, f0, f1
-	stfs     f0, 0x68(r31)
-	lbz      r0, mSelected1p__Q28Morimura16TChallengeSelect@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_8038DD08
-	lfs      f2, 0x98(r31)
-	lfs      f1, lbl_8051EF94@sda21(r2)
-	lfs      f0, lbl_8051EFF0@sda21(r2)
-	fadds    f1, f2, f1
-	stfs     f1, 0x98(r31)
-	lfs      f1, 0x98(r31)
-	fcmpo    cr0, f1, f0
-	ble      lbl_8038DC98
-	stfs     f0, 0x98(r31)
+		f32 y = mPane1Pos.y - mEfxCursorPos2.y;
+		if (FABS(y) < 2.0f) {
+			mEfxCursorPos2.y = mPane1Pos.y;
+			y                = 0.0f;
+		} else {
+			y *= 0.3f;
+		}
+		mEfxCursorPos2.y += y;
+		mEfxCursorPos1.y = mEfxCursorPos2.y;
+	} else {
+		if (TChallengeSelect::mConnect2p) {
+			mScale += 0.1f;
+			if (mScale > 1.0f) {
+				mScale = 1.0f;
+			}
+		} else {
+			mScale -= 0.1f;
+			if (mScale < 0.0f) {
+				mScale = 0.0f;
+			}
+		}
+		mAlphaTimer -= 0.1f;
+		if (mAlphaTimer < 0.0f) {
+			mAlphaTimer = 0.0f;
+		}
 
-lbl_8038DC98:
-	lfs      f2, 0x9c(r31)
-	lfs      f1, lbl_8051EF94@sda21(r2)
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	fsubs    f1, f2, f1
-	stfs     f1, 0x9c(r31)
-	lfs      f1, 0x9c(r31)
-	fcmpo    cr0, f1, f0
-	bge      lbl_8038DCBC
-	stfs     f0, 0x9c(r31)
+		f32 y = mPane2Pos.y - mEfxCursorPos2.y;
+		if (FABS(y) < 2.0f) {
+			mEfxCursorPos2.y = mPane2Pos.y;
+			y                = 0.0f;
+		} else {
+			y *= 0.3f;
+		}
+		mEfxCursorPos2.y += y;
+		mEfxCursorPos1.y = mEfxCursorPos2.y;
+	}
 
-lbl_8038DCBC:
-	lfs      f2, 0x74(r31)
-	lfs      f1, 0x6c(r31)
-	lfs      f0, lbl_8051EFCC@sda21(r2)
-	fsubs    f3, f2, f1
-	fabs     f1, f3
-	frsp     f1, f1
-	fcmpo    cr0, f1, f0
-	bge      lbl_8038DCE8
-	stfs     f2, 0x6c(r31)
-	lfs      f1, lbl_8051EF88@sda21(r2)
-	b        lbl_8038DCF0
+	for (int i = 0; i < 3; i++) {
+		f32 sin = 0.0f;
+		f32 scale;
+		if (i == 0) {
+			scale = mAlphaTimer;
+		} else {
+			scale = mScale;
+		}
+		if (scale == 1.0f) {
+			mAngleTimers[i] += 0.2f;
+			if (mAngleTimers[i] > TAU) {
+				mAngleTimers[i] -= TAU;
+			}
+			sin = FABS(pikmin2_sinf(mAngleTimers[i]) * 75.0f);
+		}
+		mPaneList1[i]->setAlpha(255.0f * scale - sin);
+	}
 
-lbl_8038DCE8:
-	lfs      f0, lbl_8051EFE4@sda21(r2)
-	fmuls    f1, f3, f0
+	if (mState == 0) {
+		mFuriko->stop();
+		mMovePos = 400.0f;
+		mTimer   = 0.0f;
+		mTimer2  = 0.0f;
+	} else {
+		if (mScreenObj) {
+			mScreenObj->update();
+			for (int i = 0; i < mAnimScreenCountMax; i++) {
+				mAnimScreens[i]->update();
+			}
 
-lbl_8038DCF0:
-	lfs      f0, 0x6c(r31)
-	fadds    f0, f0, f1
-	stfs     f0, 0x6c(r31)
-	lfs      f0, 0x6c(r31)
-	stfs     f0, 0x64(r31)
-	b        lbl_8038DDCC
+			switch (mState) {
+			case 1:
+				mTimer += sys->mDeltaTime;
+				mMovePos = (1.0f - og::Screen::calcSmooth0to1(mTimer, 0.3f)) * 800.0f;
+				if (mMovePos <= 0.0f) {
+					mTimer2 += sys->mDeltaTime;
+					if (mTimer2 > 0.5f) {
+						mState = 2;
+						if (TChallengeSelect::mSelected1p) {
+							mEfxCursorPos2
+							    = Vector2f(mScreenObj->search('ir00')->mGlobalMtx[0][3], mScreenObj->search('ir00')->mGlobalMtx[1][3]);
+							mEfxCursorPos1
+							    = Vector2f(mScreenObj->search('il00')->mGlobalMtx[0][3], mScreenObj->search('il00')->mGlobalMtx[1][3]);
+						} else {
+							mEfxCursorPos2
+							    = Vector2f(mScreenObj->search('ir01')->mGlobalMtx[0][3], mScreenObj->search('ir01')->mGlobalMtx[1][3]);
+							mEfxCursorPos1
+							    = Vector2f(mScreenObj->search('il01')->mGlobalMtx[0][3], mScreenObj->search('il01')->mGlobalMtx[1][3]);
+						}
+						mEfxCursor1->create(nullptr);
+						mEfxCursor2->create(nullptr);
+					}
+				}
+				break;
+			case 0:
+				break;
+			case 3:
+				mTimer += sys->mDeltaTime;
+				mMovePos = og::Screen::calcSmooth0to1(mTimer, 0.3f) * -800.0f;
+				if (mTimer >= 0.3f) {
+					mState = 0;
+				}
+				break;
+			}
 
-lbl_8038DD08:
-	lbz      r0, mConnect2p__Q28Morimura16TChallengeSelect@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_8038DD3C
-	lfs      f2, 0x9c(r31)
-	lfs      f1, lbl_8051EF94@sda21(r2)
-	lfs      f0, lbl_8051EFF0@sda21(r2)
-	fadds    f1, f2, f1
-	stfs     f1, 0x9c(r31)
-	lfs      f1, 0x9c(r31)
-	fcmpo    cr0, f1, f0
-	ble      lbl_8038DD60
-	stfs     f0, 0x9c(r31)
-	b        lbl_8038DD60
-
-lbl_8038DD3C:
-	lfs      f2, 0x9c(r31)
-	lfs      f1, lbl_8051EF94@sda21(r2)
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	fsubs    f1, f2, f1
-	stfs     f1, 0x9c(r31)
-	lfs      f1, 0x9c(r31)
-	fcmpo    cr0, f1, f0
-	bge      lbl_8038DD60
-	stfs     f0, 0x9c(r31)
-
-lbl_8038DD60:
-	lfs      f2, 0x98(r31)
-	lfs      f1, lbl_8051EF94@sda21(r2)
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	fsubs    f1, f2, f1
-	stfs     f1, 0x98(r31)
-	lfs      f1, 0x98(r31)
-	fcmpo    cr0, f1, f0
-	bge      lbl_8038DD84
-	stfs     f0, 0x98(r31)
-
-lbl_8038DD84:
-	lfs      f2, 0x7c(r31)
-	lfs      f1, 0x6c(r31)
-	lfs      f0, lbl_8051EFCC@sda21(r2)
-	fsubs    f3, f2, f1
-	fabs     f1, f3
-	frsp     f1, f1
-	fcmpo    cr0, f1, f0
-	bge      lbl_8038DDB0
-	stfs     f2, 0x6c(r31)
-	lfs      f1, lbl_8051EF88@sda21(r2)
-	b        lbl_8038DDB8
-
-lbl_8038DDB0:
-	lfs      f0, lbl_8051EFE4@sda21(r2)
-	fmuls    f1, f3, f0
-
-lbl_8038DDB8:
-	lfs      f0, 0x6c(r31)
-	fadds    f0, f0, f1
-	stfs     f0, 0x6c(r31)
-	lfs      f0, 0x6c(r31)
-	stfs     f0, 0x64(r31)
-
-lbl_8038DDCC:
-	lfs      f31, lbl_8051EFF0@sda21(r2)
-	mr       r30, r31
-	lfs      f30, lbl_8051F034@sda21(r2)
-	li       r29, 0
-
-lbl_8038DDDC:
-	cmpwi    r29, 0
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	bne      lbl_8038DDF0
-	lfs      f3, 0x98(r31)
-	b        lbl_8038DDF4
-
-lbl_8038DDF0:
-	lfs      f3, 0x9c(r31)
-
-lbl_8038DDF4:
-	fcmpu    cr0, f31, f3
-	bne      lbl_8038DE94
-	lfs      f2, 0xa0(r30)
-	lfs      f1, lbl_8051F008@sda21(r2)
-	lfs      f0, lbl_8051EFBC@sda21(r2)
-	fadds    f1, f2, f1
-	stfs     f1, 0xa0(r30)
-	lfs      f1, 0xa0(r30)
-	fcmpo    cr0, f1, f0
-	ble      lbl_8038DE24
-	fsubs    f0, f1, f0
-	stfs     f0, 0xa0(r30)
-
-lbl_8038DE24:
-	lfs      f2, 0xa0(r30)
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	lfs      f1, lbl_8051F030@sda21(r2)
-	fcmpo    cr0, f2, f0
-	bge      lbl_8038DE64
-	lfs      f0, lbl_8051EFC4@sda21(r2)
-	lis      r3, sincosTable___5JMath@ha
-	addi     r3, r3, sincosTable___5JMath@l
-	fmuls    f0, f2, f0
-	fctiwz   f0, f0
-	stfd     f0, 8(r1)
-	lwz      r0, 0xc(r1)
-	rlwinm   r0, r0, 3, 0x12, 0x1c
-	lfsx     f0, r3, r0
-	fneg     f0, f0
-	b        lbl_8038DE88
-
-lbl_8038DE64:
-	lfs      f0, lbl_8051EFC8@sda21(r2)
-	lis      r3, sincosTable___5JMath@ha
-	addi     r3, r3, sincosTable___5JMath@l
-	fmuls    f0, f2, f0
-	fctiwz   f0, f0
-	stfd     f0, 0x10(r1)
-	lwz      r0, 0x14(r1)
-	rlwinm   r0, r0, 3, 0x12, 0x1c
-	lfsx     f0, r3, r0
-
-lbl_8038DE88:
-	fmuls    f0, f1, f0
-	fabs     f0, f0
-	frsp     f0, f0
-
-lbl_8038DE94:
-	fmsubs   f0, f30, f3, f0
-	lwz      r3, 0x30(r30)
-	lwz      r12, 0(r3)
-	fctiwz   f0, f0
-	lwz      r12, 0x24(r12)
-	stfd     f0, 0x10(r1)
-	lwz      r4, 0x14(r1)
-	mtctr    r12
-	bctrl
-	addi     r29, r29, 1
-	addi     r30, r30, 4
-	cmpwi    r29, 3
-	blt      lbl_8038DDDC
-	lwz      r0, 0x80(r31)
-	cmpwi    r0, 0
-	bne      lbl_8038DEF4
-	lwz      r3, 0x54(r31)
-	bl       stop__Q32og6Screen15CallBack_FurikoFv
-	lfs      f1, lbl_8051F038@sda21(r2)
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	stfs     f1, 0x94(r31)
-	stfs     f0, 0x8c(r31)
-	stfs     f0, 0x90(r31)
-	b        lbl_8038E2EC
-
-lbl_8038DEF4:
-	lwz      r3, 8(r31)
-	cmplwi   r3, 0
-	beq      lbl_8038E2EC
-	lwz      r12, 0(r3)
-	lwz      r12, 0x30(r12)
-	mtctr    r12
-	bctrl
-	li       r29, 0
-	li       r30, 0
-	b        lbl_8038DF30
-
-lbl_8038DF1C:
-	lwz      r3, 4(r31)
-	lwzx     r3, r3, r30
-	bl       update__Q32og6Screen12AnimBaseBaseFv
-	addi     r30, r30, 4
-	addi     r29, r29, 1
-
-lbl_8038DF30:
-	lwz      r0, 0x10(r31)
-	cmpw     r29, r0
-	blt      lbl_8038DF1C
-	lwz      r0, 0x80(r31)
-	cmpwi    r0, 2
-	beq      lbl_8038E1A8
-	bge      lbl_8038DF5C
-	cmpwi    r0, 0
-	beq      lbl_8038E1A8
-	bge      lbl_8038DF68
-	b        lbl_8038E1A8
-
-lbl_8038DF5C:
-	cmpwi    r0, 4
-	bge      lbl_8038E1A8
-	b        lbl_8038E160
-
-lbl_8038DF68:
-	lwz      r3, sys@sda21(r13)
-	lfs      f1, 0x8c(r31)
-	lfs      f0, 0x54(r3)
-	lfs      f2, lbl_8051EFE4@sda21(r2)
-	fadds    f0, f1, f0
-	stfs     f0, 0x8c(r31)
-	lfs      f1, 0x8c(r31)
-	bl       calcSmooth0to1__Q22og6ScreenFff
-	lfs      f0, lbl_8051EFF0@sda21(r2)
-	lfs      f2, lbl_8051F02C@sda21(r2)
-	fsubs    f1, f0, f1
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	fmuls    f1, f2, f1
-	stfs     f1, 0x94(r31)
-	lfs      f1, 0x94(r31)
-	fcmpo    cr0, f1, f0
-	cror     2, 0, 2
-	bne      lbl_8038E1A8
-	lwz      r3, sys@sda21(r13)
-	lfs      f2, 0x90(r31)
-	lfs      f1, 0x54(r3)
-	lfs      f0, lbl_8051EF9C@sda21(r2)
-	fadds    f1, f2, f1
-	stfs     f1, 0x90(r31)
-	lfs      f1, 0x90(r31)
-	fcmpo    cr0, f1, f0
-	ble      lbl_8038E1A8
-	li       r0, 2
-	stw      r0, 0x80(r31)
-	lbz      r0, mSelected1p__Q28Morimura16TChallengeSelect@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_8038E08C
-	lwz      r3, 8(r31)
-	lis      r4, 0x69723030@ha
-	addi     r6, r4, 0x69723030@l
-	li       r5, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f30, 0x9c(r3)
-	lis      r4, 0x69723030@ha
-	lwz      r3, 8(r31)
-	addi     r6, r4, 0x69723030@l
-	li       r5, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, 0x8c(r3)
-	lis      r3, 0x696C3030@ha
-	addi     r6, r3, 0x696C3030@l
-	li       r5, 0
-	stfs     f0, 0x68(r31)
-	stfs     f30, 0x6c(r31)
-	lwz      r3, 8(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f30, 0x9c(r3)
-	lis      r4, 0x696C3030@ha
-	lwz      r3, 8(r31)
-	addi     r6, r4, 0x696C3030@l
-	li       r5, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, 0x8c(r3)
-	stfs     f0, 0x60(r31)
-	stfs     f30, 0x64(r31)
-	b        lbl_8038E12C
-
-lbl_8038E08C:
-	lwz      r3, 8(r31)
-	lis      r4, 0x69723031@ha
-	addi     r6, r4, 0x69723031@l
-	li       r5, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f30, 0x9c(r3)
-	lis      r4, 0x69723031@ha
-	lwz      r3, 8(r31)
-	addi     r6, r4, 0x69723031@l
-	li       r5, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, 0x8c(r3)
-	lis      r3, 0x696C3031@ha
-	addi     r6, r3, 0x696C3031@l
-	li       r5, 0
-	stfs     f0, 0x68(r31)
-	stfs     f30, 0x6c(r31)
-	lwz      r3, 8(r31)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f30, 0x9c(r3)
-	lis      r4, 0x696C3031@ha
-	lwz      r3, 8(r31)
-	addi     r6, r4, 0x696C3031@l
-	li       r5, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 0x3c(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, 0x8c(r3)
-	stfs     f0, 0x60(r31)
-	stfs     f30, 0x64(r31)
-
-lbl_8038E12C:
-	lwz      r3, 0x58(r31)
-	li       r4, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	lwz      r3, 0x5c(r31)
-	li       r4, 0
-	lwz      r12, 0(r3)
-	lwz      r12, 8(r12)
-	mtctr    r12
-	bctrl
-	b        lbl_8038E1A8
-
-lbl_8038E160:
-	lwz      r3, sys@sda21(r13)
-	lfs      f1, 0x8c(r31)
-	lfs      f0, 0x54(r3)
-	lfs      f2, lbl_8051EFE4@sda21(r2)
-	fadds    f0, f1, f0
-	stfs     f0, 0x8c(r31)
-	lfs      f1, 0x8c(r31)
-	bl       calcSmooth0to1__Q22og6ScreenFff
-	lfs      f2, lbl_8051F03C@sda21(r2)
-	lfs      f0, lbl_8051EFE4@sda21(r2)
-	fmuls    f1, f2, f1
-	stfs     f1, 0x94(r31)
-	lfs      f1, 0x8c(r31)
-	fcmpo    cr0, f1, f0
-	cror     2, 1, 2
-	bne      lbl_8038E1A8
-	li       r0, 0
-	stw      r0, 0x80(r31)
-
-lbl_8038E1A8:
-	lbz      r0, mConnect2p__Q28Morimura16TChallengeSelect@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_8038E1DC
-	lwz      r3, 0x1c(r31)
-	li       r4, 0xff
-	lwz      r12, 0(r3)
-	lwz      r12, 0x24(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, lbl_8051EFF0@sda21(r2)
-	lwz      r3, 0x4c(r31)
-	stfs     f0, 0x6c(r3)
-	b        lbl_8038E200
-
-lbl_8038E1DC:
-	lwz      r3, 0x1c(r31)
-	li       r4, 0x80
-	lwz      r12, 0(r3)
-	lwz      r12, 0x24(r12)
-	mtctr    r12
-	bctrl
-	lfs      f0, lbl_8051EF9C@sda21(r2)
-	lwz      r3, 0x4c(r31)
-	stfs     f0, 0x6c(r3)
-
-lbl_8038E200:
-	lwz      r3, 8(r31)
-	bl       animation__9J2DScreenFv
-	lbz      r0, 0x84(r31)
-	cmplwi   r0, 0
-	beq      lbl_8038E23C
-	lfs      f2, 0x88(r31)
-	lfs      f1, lbl_8051F008@sda21(r2)
-	lfs      f0, lbl_8051EFF0@sda21(r2)
-	fadds    f1, f2, f1
-	stfs     f1, 0x88(r31)
-	lfs      f1, 0x88(r31)
-	fcmpo    cr0, f1, f0
-	ble      lbl_8038E260
-	stfs     f0, 0x88(r31)
-	b        lbl_8038E260
-
-lbl_8038E23C:
-	lfs      f2, 0x88(r31)
-	lfs      f1, lbl_8051F008@sda21(r2)
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	fsubs    f1, f2, f1
-	stfs     f1, 0x88(r31)
-	lfs      f1, 0x88(r31)
-	fcmpo    cr0, f1, f0
-	bge      lbl_8038E260
-	stfs     f0, 0x88(r31)
-
-lbl_8038E260:
-	lfs      f1, lbl_8051EFF0@sda21(r2)
-	lfs      f0, 0x88(r31)
-	lwz      r3, 0x44(r31)
-	fsubs    f0, f1, f0
-	stfs     f0, 0x6c(r3)
-	lfs      f0, 0x88(r31)
-	lwz      r3, 0x50(r31)
-	stfs     f0, 0x6c(r3)
-	lwz      r0, 0x80(r31)
-	cmpwi    r0, 2
-	blt      lbl_8038E2C8
-	li       r29, 0
-	mr       r30, r31
-
-lbl_8038E294:
-	lwz      r3, 0x3c(r30)
-	bl       calc__Q32og6Screen8ScaleMgrFv
-	lwz      r3, 0x18(r30)
-	stfs     f1, 0xcc(r3)
-	stfs     f1, 0xd0(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x2c(r12)
-	mtctr    r12
-	bctrl
-	addi     r29, r29, 1
-	addi     r30, r30, 4
-	cmpwi    r29, 2
-	blt      lbl_8038E294
-
-lbl_8038E2C8:
-	lfs      f3, 0x94(r31)
-	lfs      f2, mstTuningTransX__Q29P2DScreen10Mgr_tuning@sda21(r2)
-	lfs      f1, lbl_8051EF88@sda21(r2)
-	lfs      f0, mstTuningTransY__Q29P2DScreen10Mgr_tuning@sda21(r2)
-	fadds    f2, f3, f2
-	lwz      r3, 8(r31)
-	fadds    f0, f1, f0
-	stfs     f2, 0x140(r3)
-	stfs     f0, 0x144(r3)
-
-lbl_8038E2EC:
-	psq_l    f31, 72(r1), 0, qr0
-	lfd      f31, 0x40(r1)
-	psq_l    f30, 56(r1), 0, qr0
-	lfd      f30, 0x30(r1)
-	lwz      r31, 0x2c(r1)
-	lwz      r30, 0x28(r1)
-	lwz      r0, 0x54(r1)
-	lwz      r29, 0x24(r1)
-	mtlr     r0
-	addi     r1, r1, 0x50
-	blr
-	*/
+			if (TChallengeSelect::mConnect2p) {
+				mPaneList0[1]->setAlpha(255);
+				mAnimScreen[2]->_6C = 1.0f;
+			} else {
+				mPaneList0[1]->setAlpha(128);
+				mAnimScreen[2]->_6C = 0.5f;
+			}
+			mScreenObj->animation();
+			if (mDoShowNoController) {
+				mNoControllerTimer += 0.2f;
+				if (mNoControllerTimer > 1.0f) {
+					mNoControllerTimer = 1.0f;
+				}
+			} else {
+				mNoControllerTimer -= 0.2f;
+				if (mNoControllerTimer < 0.0f) {
+					mNoControllerTimer = 0.0f;
+				}
+			}
+			mAnimScreen[0]->_6C = 1.0f - mNoControllerTimer;
+			mAnimScreen[3]->_6C = mNoControllerTimer;
+			if (mState >= 2) {
+				for (int i = 0; i < 2; i++) {
+					mPaneList0[i]->updateScale(mScaleMgr[i]->calc());
+				}
+			}
+			mScreenObj->setXY(mMovePos, 0.0f);
+		}
+	}
 }
 
 /*
@@ -3327,8 +1248,82 @@ lbl_8038E2EC:
  * Address:	8038E318
  * Size:	000660
  */
-void Morimura::TChallengePlayModeScreen::draw(Graphics&, J2DPerspGraph*)
+void TChallengePlayModeScreen::draw(Graphics& gfx, J2DPerspGraph* persp)
 {
+	if (mState) {
+		TScreenBase::draw(gfx, persp);
+		gfx.mOrthoGraph.setPort();
+
+		J2DPicture* pic = mSphereTex;
+		J2DPane* pic2   = mPane3;
+		u32 x1, y1, x2, y2;
+		y2 = pic->getHeight() * pic2->mScale.y * 1.1f;
+		x2 = pic->getWidth() * pic2->mScale.x * 1.1f;
+		y1 = (1.0f - mAlphaTimer) * pic->getHeight() * pic2->mScale.y * 1.1f + TChallengeSelect::mMetOffset._04 + pic2->mGlobalMtx[1][3];
+		x1 = TChallengeSelect::mMetOffset._00 + pic2->mGlobalMtx[0][3];
+		GXSetScissor(x1, y1, x2, y2);
+		pic  = mSphereTex;
+		pic2 = mPane3;
+		pic->draw(TChallengeSelect::mMetOffset._00 + pic2->mGlobalMtx[0][3], TChallengeSelect::mMetOffset._04 + pic2->mGlobalMtx[1][3],
+		          pic->getWidth() * pic2->mScale.x * 1.1f, pic->getHeight() * pic2->mScale.y * 1.1f, false, false, false);
+		mSphereTex->calcMtx();
+
+		pic  = mSphereTex;
+		pic2 = mPane5;
+		y2   = pic->getHeight() * pic2->mScale.y * 1.1f;
+		x2   = pic->getWidth() * pic2->mScale.x * 1.1f;
+		y1   = (1.0f - mAlphaTimer) * pic->getHeight() * pic2->mScale.y * 1.1f + TChallengeSelect::mMetOffset._04 + pic2->mGlobalMtx[1][3];
+		x1   = TChallengeSelect::mMetOffset._00 + pic2->mGlobalMtx[0][3];
+		GXSetScissor(x1, y1, x2, y2);
+		pic  = mSphereTex;
+		pic2 = mPane3;
+		pic->draw(TChallengeSelect::mMetOffset._00 + pic2->mGlobalMtx[0][3], TChallengeSelect::mMetOffset._04 + pic2->mGlobalMtx[1][3],
+		          pic->getWidth() * pic2->mScale.x * 1.1f, pic->getHeight() * pic2->mScale.y * 1.1f, false, false, false);
+		mSphereTex->calcMtx();
+		GXSetScissor(0, 0, 640, 480);
+
+		J2DPicture* pane = static_cast<J2DPicture*>(mScreenObj->search('P2orimaF'));
+		pane->setAlpha(mPaneList0[1]->mAlpha);
+		f32 offs               = pane->getWidth();
+		JGeometry::TVec3f vec1 = pane->getGlbVtx(1);
+		JGeometry::TVec3f vec2 = pane->getGlbVtx(0);
+		pane->draw(vec2.x + offs, vec1.y + offs, -offs, pane->getHeight(), false, false, false);
+		pane->calcMtx();
+		pane->setAlpha(0);
+
+		J2DPicture* pane2 = static_cast<J2DPicture*>(mPane4);
+		pane2->setAlpha(mPaneList0[1]->mAlpha);
+		f32 offs2              = pane2->getWidth();
+		JGeometry::TVec3f vec3 = pane2->getGlbVtx(1);
+		JGeometry::TVec3f vec4 = pane2->getGlbVtx(0);
+		pane2->draw(vec3.x + offs2, vec4.y + offs2, -offs2, pane2->getHeight(), false, false, false);
+		pane2->calcMtx();
+		pane2->setAlpha(0);
+
+		J2DPicture* pane3 = static_cast<J2DPicture*>(mPaneList1[1]);
+		pane3->setAlpha(pane3->mAlpha);
+		f32 offs3              = pane3->getWidth();
+		JGeometry::TVec3f vec5 = pane3->getGlbVtx(1);
+		JGeometry::TVec3f vec6 = pane3->getGlbVtx(0);
+		pane3->draw(vec6.x + offs3, vec5.y, -offs3, pane3->getHeight(), false, false, false);
+		pane3->calcMtx();
+
+		pic  = mSphereTex;
+		pic2 = mPane3;
+		y2   = pic->getHeight() * pic2->mScale.y * 1.1f;
+		x2   = pic->getWidth() * pic2->mScale.x * 1.1f;
+		y1   = (1.0f - mAlphaTimer) * pic->getHeight() * pic2->mScale.y * 1.1f + TChallengeSelect::mMetOffset._04 + pic2->mGlobalMtx[1][3];
+		x1   = TChallengeSelect::mMetOffset._00 + pic2->mGlobalMtx[0][3];
+		GXSetScissor(x1, y1, x2, y2);
+		pic  = mSphereTex;
+		pic2 = mPane3;
+		pic->draw(TChallengeSelect::mMetOffset._00 + pic2->mGlobalMtx[0][3], TChallengeSelect::mMetOffset._04 + pic2->mGlobalMtx[1][3],
+		          pic->getWidth() * pic2->mScale.x * 1.1f, pic->getHeight() * pic2->mScale.y * 1.1f, false, false, false);
+		mSphereTex->calcMtx();
+
+		GXSetScissor(0, 0, 640, 480);
+		gfx.mPerspGraph.setPort();
+	}
 	/*
 	stwu     r1, -0x80(r1)
 	mflr     r0
@@ -3748,7 +1743,7 @@ lbl_8038E95C:
  * Address:	........
  * Size:	000124
  */
-void Morimura::TChallengePlayModeScreen::setState((Morimura::TChallengePlayModeScreen::PlayModeScreenState))
+void TChallengePlayModeScreen::setState(PlayModeScreenState)
 {
 	// UNUSED FUNCTION
 }
@@ -3758,7 +1753,7 @@ void Morimura::TChallengePlayModeScreen::setState((Morimura::TChallengePlayModeS
  * Address:	........
  * Size:	0000E4
  */
-void Morimura::TChallengePlayModeScreen::setBlink(float)
+void TChallengePlayModeScreen::setBlink(f32)
 {
 	// UNUSED FUNCTION
 }
@@ -3768,7 +1763,7 @@ void Morimura::TChallengePlayModeScreen::setBlink(float)
  * Address:	........
  * Size:	000078
  */
-void Morimura::TChallengePlayModeScreen::reset(void)
+void TChallengePlayModeScreen::reset()
 {
 	// UNUSED FUNCTION
 }
@@ -3778,9 +1773,10 @@ void Morimura::TChallengePlayModeScreen::reset(void)
  * Address:	........
  * Size:	000074
  */
-void Morimura::TChallengePlayModeScreen::createMetPicture(ResTIMG const*)
+void TChallengePlayModeScreen::createMetPicture(ResTIMG const* data)
 {
-	// UNUSED FUNCTION
+	P2ASSERTLINE(1207, data);
+	mSphereTex = new J2DPicture(data);
 }
 
 /*
@@ -3788,26 +1784,11 @@ void Morimura::TChallengePlayModeScreen::createMetPicture(ResTIMG const*)
  * Address:	8038E978
  * Size:	00003C
  */
-void Morimura::TChallengeSelectExplanationWindow::create(char const*, unsigned long)
+void TChallengeSelectExplanationWindow::create(char const* path, u32 flags)
 {
-	/*
-	.loc_0x0:
-	  stwu      r1, -0x10(r1)
-	  mflr      r0
-	  stw       r0, 0x14(r1)
-	  stw       r31, 0xC(r1)
-	  mr        r31, r3
-	  bl        0x12A44
-	  lfs       f1, 0xCCC(r2)
-	  lfs       f0, 0xC28(r2)
-	  stfs      f1, 0x1C(r31)
-	  stfs      f0, 0x20(r31)
-	  lwz       r31, 0xC(r1)
-	  lwz       r0, 0x14(r1)
-	  mtlr      r0
-	  addi      r1, r1, 0x10
-	  blr
-	*/
+	TScreenBase::create(path, flags);
+	mTransXModifier = 800.0f;
+	mTransYModifier = 0.0f;
 }
 
 /*
@@ -3815,193 +1796,315 @@ void Morimura::TChallengeSelectExplanationWindow::create(char const*, unsigned l
  * Address:	8038E9B4
  * Size:	000004
  */
-void Morimura::TChallengeSelectExplanationWindow::screenScaleUp(void) { }
+void TChallengeSelectExplanationWindow::screenScaleUp() { }
 
 /*
  * --INFO--
  * Address:	8038E9B8
  * Size:	00013C
  */
-Morimura::TChallengeSelect::TChallengeSelect(void)
+TChallengeSelect::TChallengeSelect()
+    : TTestBase("challengeSelect")
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	lis      r4, lbl_804940A8@ha
-	stw      r0, 0x14(r1)
-	addi     r4, r4, lbl_804940A8@l
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	bl       __ct__Q28Morimura9TTestBaseFPc
-	lis      r3, __vt__Q28Morimura16TChallengeSelect@ha
-	li       r5, 0
-	addi     r3, r3, __vt__Q28Morimura16TChallengeSelect@l
-	li       r4, 1
-	stw      r3, 0(r31)
-	addi     r3, r3, 0x10
-	lfs      f1, lbl_8051EF88@sda21(r2)
-	li       r0, -1
-	stw      r3, 0x18(r31)
-	mr       r3, r31
-	lfs      f0, lbl_8051EFF0@sda21(r2)
-	stw      r5, 0x7c(r31)
-	stw      r5, 0x80(r31)
-	stw      r5, 0x84(r31)
-	stw      r5, 0x88(r31)
-	stw      r5, 0x8c(r31)
-	stw      r5, 0x90(r31)
-	stw      r5, 0x94(r31)
-	stw      r5, 0xdc(r31)
-	stw      r5, 0xe8(r31)
-	stw      r5, 0xec(r31)
-	stw      r5, 0xf0(r31)
-	stw      r5, 0xfc(r31)
-	stw      r5, 0x124(r31)
-	stb      r5, 0x128(r31)
-	stw      r5, 0x12c(r31)
-	stb      r4, 0x134(r31)
-	stb      r5, 0x135(r31)
-	stb      r5, 0x136(r31)
-	stfs     f1, 0x138(r31)
-	stfs     f0, 0x13c(r31)
-	stw      r0, 0x140(r31)
-	stb      r5, 0x144(r31)
-	stfs     f1, 0x148(r31)
-	stfs     f0, 0x14c(r31)
-	stw      r5, mRightOffset__Q28Morimura16TChallengeSelect@sda21(r13)
-	stw      r5, mDownOffset__Q28Morimura16TChallengeSelect@sda21(r13)
-	stb      r4, mSelected1p__Q28Morimura16TChallengeSelect@sda21(r13)
-	stw      r5, mDivePikiNum__Q28Morimura16TChallengeSelect@sda21(r13)
-	stw      r5, 0x9c(r31)
-	stw      r5, 0xc0(r31)
-	stw      r5, 0x108(r31)
-	stw      r5, 0xa0(r31)
-	stw      r5, 0xc4(r31)
-	stw      r5, 0x10c(r31)
-	stw      r5, 0xa4(r31)
-	stw      r5, 0xc8(r31)
-	stw      r5, 0x110(r31)
-	stw      r5, 0xa8(r31)
-	stw      r5, 0xcc(r31)
-	stw      r5, 0x114(r31)
-	stw      r5, 0xac(r31)
-	stw      r5, 0xd0(r31)
-	stw      r5, 0x118(r31)
-	stw      r5, 0xb8(r31)
-	stw      r5, 0x100(r31)
-	stw      r5, 0xe0(r31)
-	stw      r5, 0xd4(r31)
-	stw      r5, 0x11c(r31)
-	stw      r5, 0xb0(r31)
-	stw      r5, 0xbc(r31)
-	stw      r5, 0x104(r31)
-	stw      r5, 0xe4(r31)
-	stw      r5, 0xd8(r31)
-	stw      r5, 0x120(r31)
-	stw      r5, 0xb4(r31)
-	lwz      r31, 0xc(r1)
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+	mStageList        = nullptr;
+	mSelectScreen     = nullptr;
+	mPlayModeScreen   = nullptr;
+	mRulesScreen      = nullptr;
+	mControls         = nullptr;
+	mDisp             = nullptr;
+	mPanelList        = nullptr;
+	mFloorCounter     = nullptr;
+	mPaneSelect       = nullptr;
+	mOffsMesg         = nullptr;
+	mEfxDive          = nullptr;
+	mCurrentSelection = 0;
+	mFloorCount       = 0;
+	_128              = false;
+	mStageSel         = 0;
+	_134              = true;
+	_135              = false;
+	_136              = false;
+	_138              = 0.0f;
+	_13C              = 1.0f;
+	_140              = -1;
+	_144              = false;
+	_148              = 0.0f;
+	_14C              = 1.0f;
 
-/*
- * --INFO--
- * Address:	8038EAF4
- * Size:	0000F4
- */
-Morimura::TChallengeSelect::~TChallengeSelect(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	or.      r30, r3, r3
-	beq      lbl_8038EBCC
-	lis      r3, __vt__Q28Morimura16TChallengeSelect@ha
-	addi     r3, r3, __vt__Q28Morimura16TChallengeSelect@l
-	stw      r3, 0(r30)
-	addi     r0, r3, 0x10
-	stw      r0, 0x18(r30)
-	lwz      r0, mDebugHeap__Q28Morimura16TChallengeSelect@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_8038EB48
-	lwz      r3, 0x90(r30)
-	lwz      r3, 0xc(r3)
-	bl       freeAll__7JKRHeapFv
-	lwz      r3, mDebugHeap__Q28Morimura16TChallengeSelect@sda21(r13)
-	bl       destroy__7JKRHeapFv
+	mRightOffset = 0;
+	mDownOffset  = 0;
+	mSelected1p  = true;
+	mDivePikiNum = 0;
 
-lbl_8038EB48:
-	li       r0, 0
-	cmplwi   r30, 0
-	stw      r0, mDebugHeap__Q28Morimura16TChallengeSelect@sda21(r13)
-	beq      lbl_8038EBBC
-	lis      r3, __vt__Q28Morimura9TTestBase@ha
-	addi     r3, r3, __vt__Q28Morimura9TTestBase@l
-	stw      r3, 0(r30)
-	addi     r0, r3, 0x10
-	stw      r0, 0x18(r30)
-	beq      lbl_8038EBBC
-	lis      r3, __vt__Q26Screen7ObjBase@ha
-	addi     r3, r3, __vt__Q26Screen7ObjBase@l
-	stw      r3, 0(r30)
-	addi     r0, r3, 0x10
-	stw      r0, 0x18(r30)
-	beq      lbl_8038EBBC
-	lis      r4, __vt__Q26Screen8IObjBase@ha
-	mr       r3, r30
-	addi     r4, r4, __vt__Q26Screen8IObjBase@l
-	stw      r4, 0(r30)
-	addi     r0, r4, 0x10
-	stw      r0, 0x18(r30)
-	bl       del__5CNodeFv
-	addi     r3, r30, 0x18
-	li       r4, 0
-	bl       __dt__11JKRDisposerFv
-	mr       r3, r30
-	li       r4, 0
-	bl       __dt__5CNodeFv
+	for (int i = 0; i < 5; i++) {
+		mChallengePiki[i] = nullptr;
+		mPikiCounters[i]  = nullptr;
+		mPikiCounts[i]    = 0;
+	}
 
-lbl_8038EBBC:
-	extsh.   r0, r31
-	ble      lbl_8038EBCC
-	mr       r3, r30
-	bl       __dl__FPv
-
-lbl_8038EBCC:
-	lwz      r0, 0x14(r1)
-	mr       r3, r30
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	for (int i = 0; i < 2; i++) {
+		mHighScoreCounter[i] = nullptr;
+		mHighScoreValue[i]   = 0;
+		mPaneTYel[i]         = nullptr;
+		mDopeCounter[i]      = nullptr;
+		mDopeCount[i]        = 0;
+		mDoping[i]           = nullptr;
+	}
 }
 
 /*
  * --INFO--
  * Address:	........
  * Size:	000044
+ * Probably something like this
  */
-void Morimura::TChallengeSelect::setDebugHeapParent(JKRHeap*)
-{
-	// UNUSED FUNCTION
-}
+void TChallengeSelect::setDebugHeapParent(JKRHeap* heap) { mDebugHeap = static_cast<JKRExpHeap*>(heap); }
 
 /*
  * --INFO--
  * Address:	8038EBE8
  * Size:	001B98
  */
-void Morimura::TChallengeSelect::doCreate(JKRArchive*)
+void TChallengeSelect::doCreate(JKRArchive* arc)
 {
+	int test                        = 0;
+	mArchive                        = arc;
+	DispMemberChallengeSelect* disp = static_cast<DispMemberChallengeSelect*>(getDispMember());
+	if (disp->isID(OWNER_MRMR, MEMBER_CHALLENGE_SELECT)) {
+		mDisp = disp;
+		test  = mDisp->mSelectedStageIndex;
+	} else {
+		mIsSection = true;
+	}
+
+	if (mIsSection) {
+		if (mDebugHeapParent) {
+			mDebugHeap = JKRExpHeap::create(0x100000, mDebugHeapParent, true);
+			P2ASSERTLINE(1339, mDebugHeap);
+			mDisp                        = new (mDebugHeap, 0) DispMemberChallengeSelect;
+			mDisp->mDebugExpHeap         = mDebugHeap;
+			mDisp->mDispWorldMapInfoWin0 = new og::Screen::DispMemberWorldMapInfoWin0;
+			getOwner()->setDispMember(mDisp);
+		} else {
+			JUT_PANICLINE(1349, "set DebugHeapParent. mail to morimun.\n");
+		}
+		mStageList = new Game::ChallengeGame::StageList;
+		void* file = JKRDvdRipper::loadToMainRAM("/user/Matoba/challenge/stages.txt", nullptr, Switch_0, 0, nullptr,
+		                                         JKRDvdRipper::ALLOC_DIR_BOTTOM, 0, nullptr, nullptr);
+		if (file) {
+			RamStream strm(file, -1);
+			strm.resetPosition(true, 1);
+			mStageList->read(strm);
+		}
+	}
+
+	if (!mIsSection) {
+		mDisp->mDispWorldMapInfoWin0 = new og::Screen::DispMemberWorldMapInfoWin0;
+	}
+
+	if (mIsSection) {
+		int id = randFloat() * 30.0f;
+		if (mAllCourseOpen) {
+			id = 30;
+		}
+		test       = (f32)id * randFloat();
+		mStageData = new DebugStageData*[30];
+		for (int i = 0; i < 30; i++) {
+			mStageData[i]            = new DebugStageData;
+			mStageData[i]->_03       = 0;
+			mStageData[i]->_02       = 0;
+			mStageData[i]->mIsChange = 0;
+			mStageData[i]->_00       = 0;
+			if (i <= id) {
+				f32 comp = randFloat();
+				if (comp < 0.2f) {
+					mStageData[i]->_03 = 1;
+				} else if (comp < 0.5f) {
+					mStageData[i]->_02 = 1;
+				} else {
+					mStageData[i]->_00 = 1;
+				}
+				if (!mStageData[i]->_03) {
+					if (randFloat() < 0.5f) {
+						mStageData[i]->mIsChange = true;
+					}
+				}
+				Game::ChallengeGame::StageData* data = mStageList->getStageData(i);
+				if (data) {
+					mStageData[i]->mFloors      = data->mFloorCounts;
+					mStageData[i]->mBitterSpray = data->mStartNumBitter;
+					mStageData[i]->mSpicySpray  = data->mStartNumSpicy;
+					mStageData[i]->mPikis[0]    = 100;
+					mStageData[i]->mPikis[1]    = data->mPikiContainer.getColorSum(0);
+					mStageData[i]->mPikis[2]    = data->mPikiContainer.getColorSum(2);
+					mStageData[i]->mPikis[3]    = data->mPikiContainer.getColorSum(4);
+					mStageData[i]->mPikis[4]    = data->mPikiContainer.getColorSum(3);
+					mStageData[i]->mScore1      = -1;
+					mStageData[i]->mScore2      = -1;
+					if (randFloat() < 0.5f) {
+						mStageData[i]->mScore1 = randFloat() * 100000.0f;
+						mStageData[i]->mScore2 = randFloat() * 100000.0f;
+					}
+				}
+			}
+		}
+	}
+	mCurrentSelection = test;
+	mDownOffset       = test / 5 - test % 5;
+	mRightOffset      = test - (test / 5 - test % 5);
+	u64 tags[2]       = { '4901_00', '4910_00' };
+	mOffsMesg         = new TOffsetMsgSet(tags, '4900_00', 2);
+	mControls         = getGamePad();
+
+	char* paths[4] = { "timg/flower_seed.bti", "timg/leaf_icon.bti", "timg/flower_icon.bti", "timg/flower_p_icon.bti" };
+	for (int i = 0; i < 4; i++) {
+		mIconTexture[i] = static_cast<ResTIMG*>(mArchive->getResource(paths[i]));
+		P2ASSERTLINE(1464, mIconTexture[i]);
+	}
+
+	mPlayModeScreen = new TChallengePlayModeScreen(arc, 0);
+	mPlayModeScreen->create("challenge_modo_1p_2p.blo", 0x20000);
+
+	mRulesScreen = new TChallengeSelectExplanationWindow(arc, 5);
+	mRulesScreen->create("challenge_rule_window.blo", 0x1040000);
+	mRulesScreen->addAnim("challenge_rule_window.btk");
+	mRulesScreen->addAnim("challenge_rule_window_02.btk");
+	mRulesScreen->addAnim("challenge_rule_window_03.btk");
+	mRulesScreen->addAnim("challenge_rule_window_04.btk");
+	mRulesScreen->addAnim("challenge_rule_window_05.btk");
+
+	mEfxDive        = new efx2d::T2DChalDive;
+	JKRHeap* backup = JKRGetCurrentHeap();
+	mDisp->mDebugExpHeap->becomeCurrentHeap();
+
+	mSelectScreen = new TChallengeScreen(arc, 10);
+	mSelectScreen->create("challengemodo_select.blo", 0x1040000);
+	mSelectScreen->createAnimPane("challengemodo_select.bck");
+	mSelectScreen->addAnim("challengemodo_select.bck");
+	mSelectScreen->addAnim("challengemodo_select.bpk");
+	mSelectScreen->addAnim("challengemodo_select.btk");
+	mSelectScreen->addAnim("challengemodo_select_02.btk");
+	mSelectScreen->addAnim("challengemodo_select_03.btk");
+	mSelectScreen->addAnim("challengemodo_select_04.btk");
+	mSelectScreen->addAnim("challengemodo_select_05.btk");
+	mSelectScreen->addAnim("challengemodo_select_06.btk");
+	mSelectScreen->addAnim("challengemodo_select_07.btk");
+	mSelectScreen->addAnim("challengemodo_select_08.btk");
+
+	P2DScreen::Mgr_tuning* screen = mSelectScreen->mScreenObj;
+
+	mChallengePiki[0] = new TChallengePiki(screen->search('Pr_fw'), screen->search('Pr_pk_r'), screen->search('Pr_pk_l'));
+	mChallengePiki[1] = new TChallengePiki(screen->search('Py_fw'), screen->search('Py_pk_r'), screen->search('Py_pk_l'));
+	mChallengePiki[2] = new TChallengePiki(screen->search('Pb_fw'), screen->search('Pb_pk_r'), screen->search('Pb_pk_l'));
+	mChallengePiki[3] = new TChallengePiki(screen->search('Pw_fw'), screen->search('Pw_pk_r'), screen->search('Pw_pk_l'));
+	mChallengePiki[4] = new TChallengePiki(screen->search('Pbl_fw'), screen->search('Pbl_pk_r'), screen->search('Pbl_pk_l'));
+	mPaneTYel[0]      = screen->search('Tyel1');
+	mPaneTYel[1]      = screen->search('Tyel2');
+	for (int i = 0; i < 2; i++) {
+		P2ASSERTLINE(1525, mPaneTYel[i]);
+	}
+	mDoping[0] = new TChallengeDoping(screen->search('PICT_027'), screen->search('PICT_025'), screen->search('PICT_026'),
+	                                  screen->search('PICT_027'));
+	mDoping[1] = new TChallengeDoping(screen->search('PICT_027'), screen->search('PICT_025'), screen->search('PICT_026'),
+	                                  screen->search('PICT_027'));
+
+	J2DPane* pane = screen->search('Peffect');
+	P2ASSERTLINE(1536, pane);
+	pane->show();
+	mPaneSelect = screen->search('Pselec00');
+	P2ASSERTLINE(1541, mPaneSelect);
+
+	mHighScoreCounter[0] = setScaleUpCounter(screen, 'Phs1p1', &mHighScoreValue[0], 5, mArchive);
+	mHighScoreCounter[1] = setScaleUpCounter(screen, 'Phs2p1', &mHighScoreValue[1], 5, mArchive);
+
+	u64 countertags[5] = { 'Prp1', 'Pyp1', 'Pbp1', 'Pwp1', 'Pblp1' };
+	for (int i = 0; i < 5; i++) {
+		mPikiCounters[i] = setScaleUpCounter(screen, countertags[i], &mPikiCounts[i], 3, mArchive);
+	}
+
+	mDopeCounter[0] = setScaleUpCounter(screen, 'Pekis_p1', &mDopeCount[0], 2, mArchive);
+	mDopeCounter[1] = setScaleUpCounter(screen, 'Pekis_r1', &mDopeCount[1], 2, mArchive);
+	mFloorCounter   = setScaleUpCounter(screen, 'Pfloor1', &mFloorCount, 2, mArchive);
+
+	// clang-format off
+	u64 panelTags[3][30]
+	    = { 'Pfl00', 'Pselec00', 'Pana00',
+			'Pfl01', 'Pselec01', 'Pana01',
+			'Pfl02', 'Pselec02', 'Pana02',
+			'Pfl03', 'Pselec03', 'Pana03',
+		    'Pfl04', 'Pselec04', 'Pana04',
+			'Pfl05', 'Pselec05', 'Pana05',
+			'Pfl06', 'Pselec06', 'Pana06',
+			'Pfl07', 'Pselec07', 'Pana07',
+		    'Pfl08', 'Pselec08', 'Pana08',
+			'Pfl09', 'Pselec09', 'Pana09',
+			'Pfl10', 'Pselec10', 'Pana10',
+			'Pfl11', 'Pselec11', 'Pana11',
+		    'Pfl12', 'Pselec12', 'Pana12',
+			'Pfl13', 'Pselec13', 'Pana13',
+			'Pfl14', 'Pselec14', 'Pana14',
+			'Pfl15', 'Pselec15', 'Pana15',
+		    'Pfl16', 'Pselec16', 'Pana16',
+			'Pfl17', 'Pselec17', 'Pana17',
+			'Pfl18', 'Pselec18', 'Pana18',
+			'Pfl19', 'Pselec19', 'Pana19',
+		    'Pfl20', 'Pselec20', 'Pana20',
+			'Pfl21', 'Pselec21', 'Pana21',
+			'Pfl22', 'Pselec22', 'Pana22',
+			'Pfl23', 'Pselec23', 'Pana23',
+		    'Pfl24', 'Pselec24', 'Pana24',
+			'Pfl25', 'Pselec25', 'Pana25',
+			'Pfl26', 'Pselec26', 'Pana26',
+			'Pfl27', 'Pselec27', 'Pana27',
+		    'Pfl28', 'Pselec28', 'Pana28',
+			'Pfl29', 'Pselec29', 'Pana29' };
+	// clang-format on
+
+	mPanelList = new TChallengePanel*[30];
+	for (int i = 0; i < 30; i++) {
+		mPanelList[i] = new TChallengePanel(static_cast<J2DPictureEx*>(screen->search(panelTags[0][i])), screen->search(panelTags[1][i]),
+		                                    screen->search(panelTags[2][i]));
+		int state     = getState(i);
+		TChallengePanel* panel = mPanelList[i];
+		panel->mArchive        = mArchive;
+		panel->mPane1->changeTexture(mIconTexture[state], 0);
+		panel->mState      = state;
+		panel->mIndex      = i;
+		int after          = getAfterState(state);
+		panel              = mPanelList[i];
+		panel->mAfterState = after;
+	}
+	mMaxStages = getIndexMax();
+	if (mMaxStages > 0) {
+		mMaxStages--;
+	}
+	setInfo(mCurrentSelection);
+	setStageName(mCurrentSelection);
+	for (int i = 0; i <= mMaxStages; i++) {
+		if (isChangeState(i)) {
+			TChallengePanel* panel = mPanelList[i];
+			if (panel->mState < 3) {
+				panel->_24 = true;
+			}
+		}
+	}
+
+	mSelected1p = true;
+	if (JUTGamePad::mPadStatus[1].err != -1) {
+		mSelected1p = true;
+	} else {
+		mSelected1p = false;
+	}
+
+	if (mDisp->mPlayType == 1) {
+		mSelected1p = false;
+	} else if (!mConnect2p) {
+		mSelected1p = true;
+	}
+
+	mPlayModeScreen->createMetPicture(static_cast<ResTIMG*>(mArchive->getResource("timg/sphere.bti")));
+	backup->becomeCurrentHeap();
+
 	/*
 	stwu     r1, -0x7a0(r1)
 	mflr     r0
@@ -5928,7 +4031,7 @@ lbl_80390760:
  * Address:	80390780
  * Size:	0014CC
  */
-void Morimura::TChallengeSelect::doUpdate(void)
+bool TChallengeSelect::doUpdate()
 {
 	/*
 	stwu     r1, -0x100(r1)
@@ -7516,7 +5619,7 @@ lbl_80391C0C:
  * Address:	80391C4C
  * Size:	000514
  */
-void Morimura::TChallengeSelect::doDraw(Graphics&)
+void TChallengeSelect::doDraw(Graphics& gfx)
 {
 	/*
 	stwu     r1, -0x90(r1)
@@ -7882,46 +5985,14 @@ setColor__14J2DGrafContextFQ28JUtility6TColorQ28JUtility6TColorQ28JUtility6TColo
  * Address:	80392160
  * Size:	000078
  */
-void Morimura::TChallengeSelect::doUpdateFadeoutFinish(void)
+void TChallengeSelect::doUpdateFadeoutFinish()
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r3
-	lwz      r0, 0x90(r3)
-	cmplwi   r0, 0
-	bne      lbl_8039219C
-	lis      r3, lbl_80493FD4@ha
-	lis      r5, lbl_80493FEC@ha
-	addi     r3, r3, lbl_80493FD4@l
-	li       r4, 0x8aa
-	addi     r5, r5, lbl_80493FEC@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_8039219C:
-	lbz      r0, 0x134(r31)
-	cmplwi   r0, 0
-	beq      lbl_803921B8
-	lwz      r3, 0x90(r31)
-	li       r0, 3
-	stw      r0, 0x1c(r3)
-	b        lbl_803921C4
-
-lbl_803921B8:
-	lwz      r3, 0x90(r31)
-	li       r0, 2
-	stw      r0, 0x1c(r3)
-
-lbl_803921C4:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	P2ASSERTLINE(2218, mDisp);
+	if (_134) {
+		mDisp->_1C = 3;
+	} else {
+		mDisp->_1C = 2;
+	}
 }
 
 /*
@@ -7929,7 +6000,7 @@ lbl_803921C4:
  * Address:	803921D8
  * Size:	0003F8
  */
-void Morimura::TChallengeSelect::setInfo(int)
+void TChallengeSelect::setInfo(int)
 {
 	/*
 	stwu     r1, -0x50(r1)
@@ -8232,66 +6303,21 @@ lbl_80392570:
  * Address:	803925D0
  * Size:	0000D0
  */
-void Morimura::TChallengeSelect::setStageName(int)
+void TChallengeSelect::setStageName(int id)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	mr       r29, r3
-	lbz      r0, mIsSection__Q28Morimura9TTestBase@sda21(r13)
-	lwz      r30, 0xe0(r3)
-	cmplwi   r0, 0
-	beq      lbl_80392640
-	lwz      r3, 0x7c(r29)
-	bl       getStageData__Q34Game13ChallengeGame9StageListFi
-	mr       r31, r3
-	lwz      r3, 0xec(r29)
-	lwz      r4, 0x74(r31)
-	addi     r4, r4, -1
-	bl       getMsgID__Q28Morimura13TOffsetMsgSetFi
-	stw      r4, 0x1c(r30)
-	stw      r3, 0x18(r30)
-	lwz      r4, 0x74(r31)
-	lwz      r31, 0xe4(r29)
-	lwz      r3, 0xec(r29)
-	addi     r4, r4, -1
-	bl       getMsgID__Q28Morimura13TOffsetMsgSetFi
-	stw      r4, 0x1c(r31)
-	stw      r3, 0x18(r31)
-	b        lbl_80392684
-
-lbl_80392640:
-	lwz      r3, 0x90(r29)
-	lwz      r3, 8(r3)
-	bl       __cl__Q24Game21Challenge2D_TitleInfoFi
-	mr       r31, r3
-	lwz      r3, 0xec(r29)
-	lwz      r4, 0x1c(r31)
-	addi     r4, r4, -1
-	bl       getMsgID__Q28Morimura13TOffsetMsgSetFi
-	stw      r4, 0x1c(r30)
-	stw      r3, 0x18(r30)
-	lwz      r4, 0x1c(r31)
-	lwz      r31, 0xe4(r29)
-	lwz      r3, 0xec(r29)
-	addi     r4, r4, -1
-	bl       getMsgID__Q28Morimura13TOffsetMsgSetFi
-	stw      r4, 0x1c(r31)
-	stw      r3, 0x18(r31)
-
-lbl_80392684:
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	J2DPane* pane1 = mPaneTYel[0];
+	if (mIsSection) {
+		Game::ChallengeGame::StageData* data = mStageList->getStageData(id);
+		pane1->setMsgID(mOffsMesg->getMsgID(data->mStageIndex - 1));
+		pane1 = mPaneTYel[1];
+		pane1->setMsgID(mOffsMesg->getMsgID(data->mStageIndex - 1));
+	} else {
+		// using operator() properly isnt working
+		Game::Challenge2D_TitleInfo::Info* info = mDisp->mTitleInfo->operator()(id);
+		pane1->setMsgID(mOffsMesg->getMsgID(info->mStageIndex - 1));
+		pane1 = mPaneTYel[1];
+		pane1->setMsgID(mOffsMesg->getMsgID(info->mStageIndex - 1));
+	}
 }
 
 /*
@@ -8299,107 +6325,42 @@ lbl_80392684:
  * Address:	803926A0
  * Size:	00012C
  */
-void Morimura::TChallengeSelect::getState(int)
+int TChallengeSelect::getState(int id)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	cmpwi    r31, 0x1e
-	stw      r30, 8(r1)
-	mr       r30, r3
-	blt      lbl_803926E0
-	lis      r3, lbl_80493FD4@ha
-	lis      r5, lbl_80493FEC@ha
-	addi     r3, r3, lbl_80493FD4@l
-	li       r4, 0x937
-	addi     r5, r5, lbl_80493FEC@l
-	crclr    6
-	bl       panic_f__12JUTExceptionFPCciPCce
-
-lbl_803926E0:
-	lbz      r0, mIsSection__Q28Morimura9TTestBase@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_80392734
-	lwz      r3, 0x98(r30)
-	slwi     r0, r31, 2
-	lwzx     r3, r3, r0
-	lbz      r0, 3(r3)
-	cmplwi   r0, 0
-	beq      lbl_8039270C
-	li       r3, 3
-	b        lbl_803927B4
-
-lbl_8039270C:
-	lbz      r0, 2(r3)
-	cmplwi   r0, 0
-	beq      lbl_80392720
-	li       r3, 2
-	b        lbl_803927B4
-
-lbl_80392720:
-	lbz      r0, 0(r3)
-	cmplwi   r0, 0
-	beq      lbl_803927B0
-	li       r3, 1
-	b        lbl_803927B4
-
-lbl_80392734:
-	lwz      r3, 0x90(r30)
-	mr       r4, r31
-	lwz      r3, 8(r3)
-	bl       __cl__Q24Game21Challenge2D_TitleInfoFi
-	lbz      r3, 0x20(r3)
-	rlwinm.  r0, r3, 0, 0x1a, 0x1a
-	beq      lbl_80392760
-	rlwinm   r0, r3, 0x1c, 0x1f, 0x1f
-	neg      r3, r0
-	addi     r3, r3, 2
-	b        lbl_803927B4
-
-lbl_80392760:
-	rlwinm.  r0, r3, 0, 0x1b, 0x1b
-	beq      lbl_80392770
-	li       r3, 1
-	b        lbl_803927B4
-
-lbl_80392770:
-	rlwinm.  r0, r3, 0, 0x1c, 0x1c
-	beq      lbl_80392780
-	li       r3, 0
-	b        lbl_803927B4
-
-lbl_80392780:
-	rlwinm.  r0, r3, 0, 0x1d, 0x1d
-	beq      lbl_80392790
-	li       r3, 3
-	b        lbl_803927B4
-
-lbl_80392790:
-	rlwinm.  r0, r3, 0, 0x1e, 0x1e
-	beq      lbl_803927A0
-	li       r3, 2
-	b        lbl_803927B4
-
-lbl_803927A0:
-	clrlwi.  r0, r3, 0x1f
-	beq      lbl_803927B0
-	li       r3, 1
-	b        lbl_803927B4
-
-lbl_803927B0:
-	li       r3, 0
-
-lbl_803927B4:
-	lwz      r0, 0x14(r1)
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	P2ASSERTLINE(2359, id < 30);
+	if (mIsSection) {
+		if (mStageData[id]->_03) {
+			return 3;
+		}
+		if (mStageData[id]->_02) {
+			return 2;
+		}
+		if (mStageData[id]->_00) {
+			return 1;
+		}
+	} else {
+		Game::Challenge2D_TitleInfo::Info* info = mDisp->mTitleInfo->operator()(id);
+		u8 flag                                 = info->mDisplayFlag.typeView;
+		if (flag & 0x20) {
+			return (int)(-(flag >> 4 & 1)) + 2; // highly questionable
+		}
+		if (flag & 0x10) {
+			return 1;
+		}
+		if (flag & 8) {
+			return 0;
+		}
+		if (flag & 4) {
+			return 3;
+		}
+		if (flag & 2) {
+			return 2;
+		}
+		if (flag & 1) {
+			return 1;
+		}
+	}
+	return 0;
 }
 
 /*
@@ -8407,8 +6368,21 @@ lbl_803927B4:
  * Address:	803927CC
  * Size:	0000A4
  */
-void Morimura::TChallengeSelect::getAfterState(int)
+int TChallengeSelect::getAfterState(int id)
 {
+	P2ASSERTLINE(2409, id < 30);
+	if (mIsSection) {
+		return 3;
+	} else {
+		Game::Challenge2D_TitleInfo::Info* info = mDisp->mTitleInfo->operator()(id);
+		if (info->mDisplayFlag.typeView & 4) {
+			return 3;
+		} else if (info->mDisplayFlag.typeView & 2) {
+			return 2;
+		} else {
+			return info->mDisplayFlag.typeView & 1;
+		}
+	}
 	/*
 	stwu     r1, -0x10(r1)
 	mflr     r0
@@ -8469,8 +6443,26 @@ lbl_80392858:
  * Address:	80392870
  * Size:	0000E4
  */
-void Morimura::TChallengeSelect::isChangeState(int)
+bool TChallengeSelect::isChangeState(int id)
 {
+	P2ASSERTLINE(2435, id < 30);
+	if (mIsSection) {
+		if (mStageData[id]->mIsChange)
+			return true;
+	} else {
+		Game::Challenge2D_TitleInfo::Info* info = mDisp->mTitleInfo->operator()(id);
+		getState(id);
+		if (info->mDisplayFlag.typeView & 8) {
+			return true;
+		}
+		if (info->mDisplayFlag.typeView & 0x10) {
+			return true;
+		}
+		if (info->mDisplayFlag.typeView & 0x20) {
+			return true;
+		}
+	}
+	return false;
 	/*
 	stwu     r1, -0x20(r1)
 	mflr     r0
@@ -8549,157 +6541,23 @@ lbl_80392938:
  * Address:	80392954
  * Size:	0001CC
  */
-void Morimura::TChallengeSelect::getIndexMax(void)
+int TChallengeSelect::getIndexMax()
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	stw      r29, 0x14(r1)
-	mr       r29, r3
-	lbz      r0, mIsSection__Q28Morimura9TTestBase@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_80392AB0
-	li       r0, 3
-	li       r3, 0
-	li       r6, 0
-	mtctr    r0
-
-lbl_8039298C:
-	lwz      r5, 0x94(r29)
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_803929A4
-	b        lbl_80392B04
-
-lbl_803929A4:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_803929C0
-	b        lbl_80392B04
-
-lbl_803929C0:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_803929DC
-	b        lbl_80392B04
-
-lbl_803929DC:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_803929F8
-	b        lbl_80392B04
-
-lbl_803929F8:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_80392A14
-	b        lbl_80392B04
-
-lbl_80392A14:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_80392A30
-	b        lbl_80392B04
-
-lbl_80392A30:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_80392A4C
-	b        lbl_80392B04
-
-lbl_80392A4C:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_80392A68
-	b        lbl_80392B04
-
-lbl_80392A68:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_80392A84
-	b        lbl_80392B04
-
-lbl_80392A84:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	lwzx     r4, r5, r6
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_80392AA0
-	b        lbl_80392B04
-
-lbl_80392AA0:
-	addi     r6, r6, 4
-	addi     r3, r3, 1
-	bdnz     lbl_8039298C
-	b        lbl_80392B00
-
-lbl_80392AB0:
-	li       r30, 0
-	li       r31, 0
-
-lbl_80392AB8:
-	lwz      r3, 0x90(r29)
-	mr       r4, r30
-	lwz      r3, 8(r3)
-	bl       __cl__Q24Game21Challenge2D_TitleInfoFi
-	lwz      r4, 0x94(r29)
-	lwzx     r4, r4, r31
-	lwz      r0, 0x1c(r4)
-	cmpwi    r0, 0
-	bne      lbl_80392AF0
-	lbz      r0, 0x20(r3)
-	rlwinm.  r0, r0, 0, 0x1c, 0x1c
-	bne      lbl_80392AF0
-	mr       r3, r30
-	b        lbl_80392B04
-
-lbl_80392AF0:
-	addi     r30, r30, 1
-	addi     r31, r31, 4
-	cmpwi    r30, 0x1e
-	blt      lbl_80392AB8
-
-lbl_80392B00:
-	li       r3, 0x1e
-
-lbl_80392B04:
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	if (mIsSection) {
+		for (int i = 0; i < 30; i++) {
+			if (mPanelList[i]->mState == 0) {
+				return i;
+			}
+		}
+	} else {
+		for (int i = 0; i < 30; i++) {
+			Game::Challenge2D_TitleInfo::Info* info = mDisp->mTitleInfo->operator()(i);
+			if (mPanelList[i]->mState == 0 && !(info->mDisplayFlag.typeView & 8)) {
+				return i;
+			}
+		}
+	}
+	return 30;
 }
 
 /*
@@ -8707,136 +6565,30 @@ lbl_80392B04:
  * Address:	80392B20
  * Size:	000024
  */
-void Morimura::TChallengeSelect::openWindow(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lwz      r3, 0x88(r3)
-	bl       openWindow__Q28Morimura24TSelectExplanationWindowFv
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void TChallengeSelect::openWindow() { mRulesScreen->openWindow(); }
 
 /*
  * --INFO--
  * Address:	80392B44
  * Size:	000024
  */
-void Morimura::TChallengeSelect::closeWindow(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lwz      r3, 0x88(r3)
-	bl       closeWindow__Q28Morimura24TSelectExplanationWindowFv
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
+void TChallengeSelect::closeWindow() { mRulesScreen->closeWindow(); }
 
 /*
  * --INFO--
  * Address:	80392B68
  * Size:	000140
  */
-void Morimura::TChallengeSelect::reset(void)
+void TChallengeSelect::reset()
 {
-	/*
-	li       r0, 0
-	lfs      f0, lbl_8051EF88@sda21(r2)
-	stb      r0, 0x135(r3)
-	mr       r8, r3
-	li       r9, 0
-	stfs     f0, 0x138(r3)
-
-lbl_80392B80:
-	lwz      r7, 0x9c(r8)
-	li       r6, 0x30
-	mulli    r4, r6, 0x24
-	li       r5, 0
-	stfs     f0, 0xc(r7)
-	subfic   r0, r6, 0x32
-	stfs     f0, 0x10(r7)
-	add      r4, r7, r4
-	stfs     f0, 0x730(r7)
-	stw      r5, 0x24(r7)
-	stw      r5, 0x48(r7)
-	stw      r5, 0x6c(r7)
-	stw      r5, 0x90(r7)
-	stw      r5, 0xb4(r7)
-	stw      r5, 0xd8(r7)
-	stw      r5, 0xfc(r7)
-	stw      r5, 0x120(r7)
-	stw      r5, 0x144(r7)
-	stw      r5, 0x168(r7)
-	stw      r5, 0x18c(r7)
-	stw      r5, 0x1b0(r7)
-	stw      r5, 0x1d4(r7)
-	stw      r5, 0x1f8(r7)
-	stw      r5, 0x21c(r7)
-	stw      r5, 0x240(r7)
-	stw      r5, 0x264(r7)
-	stw      r5, 0x288(r7)
-	stw      r5, 0x2ac(r7)
-	stw      r5, 0x2d0(r7)
-	stw      r5, 0x2f4(r7)
-	stw      r5, 0x318(r7)
-	stw      r5, 0x33c(r7)
-	stw      r5, 0x360(r7)
-	stw      r5, 0x384(r7)
-	stw      r5, 0x3a8(r7)
-	stw      r5, 0x3cc(r7)
-	stw      r5, 0x3f0(r7)
-	stw      r5, 0x414(r7)
-	stw      r5, 0x438(r7)
-	stw      r5, 0x45c(r7)
-	stw      r5, 0x480(r7)
-	stw      r5, 0x4a4(r7)
-	stw      r5, 0x4c8(r7)
-	stw      r5, 0x4ec(r7)
-	stw      r5, 0x510(r7)
-	stw      r5, 0x534(r7)
-	stw      r5, 0x558(r7)
-	stw      r5, 0x57c(r7)
-	stw      r5, 0x5a0(r7)
-	stw      r5, 0x5c4(r7)
-	stw      r5, 0x5e8(r7)
-	stw      r5, 0x60c(r7)
-	stw      r5, 0x630(r7)
-	stw      r5, 0x654(r7)
-	stw      r5, 0x678(r7)
-	stw      r5, 0x69c(r7)
-	stw      r5, 0x6c0(r7)
-	mtctr    r0
-	cmpwi    r6, 0x32
-	bge      lbl_80392C7C
-
-lbl_80392C70:
-	stwu     r5, 0x24(r4)
-	addi     r6, r6, 1
-	bdnz     lbl_80392C70
-
-lbl_80392C7C:
-	addi     r9, r9, 1
-	lwz      r0, 0x108(r8)
-	lwz      r4, 0x9c(r8)
-	cmpwi    r9, 5
-	addi     r8, r8, 4
-	stw      r0, 0x72c(r4)
-	blt      lbl_80392B80
-	li       r0, 0
-	stw      r0, mDivePikiNum__Q28Morimura16TChallengeSelect@sda21(r13)
-	stb      r0, 0x144(r3)
-	blr
-	*/
+	_135 = false;
+	_138 = 0.0f;
+	for (int i = 0; i < 5; i++) {
+		mChallengePiki[i]->reset();
+		mChallengePiki[i]->mMaxPiki = mPikiCounts[i];
+	}
+	mDivePikiNum = 0;
+	_144         = false;
 }
 
 /*
@@ -8844,7 +6596,7 @@ lbl_80392C7C:
  * Address:	........
  * Size:	000374
  */
-void Morimura::TChallengeSelect::jumpStart(void)
+void TChallengeSelect::jumpStart()
 {
 	// UNUSED FUNCTION
 }
@@ -8854,8 +6606,9 @@ void Morimura::TChallengeSelect::jumpStart(void)
  * Address:	80392CA8
  * Size:	0004C0
  */
-void Morimura::TChallengeSelect::demoStart(void)
+void TChallengeSelect::demoStart()
 {
+	reset();
 	/*
 	stwu     r1, -0x1a0(r1)
 	mflr     r0
@@ -9181,53 +6934,14 @@ lbl_8039309C:
  * Address:	80393168
  * Size:	00009C
  */
-void Morimura::TChallengeSelectScene::doCreateObj(JKRArchive*)
+void TChallengeSelectScene::doCreateObj(JKRArchive* arc)
 {
-	/*
-	stwu     r1, -0x20(r1)
-	mflr     r0
-	stw      r0, 0x24(r1)
-	stw      r31, 0x1c(r1)
-	stw      r30, 0x18(r1)
-	mr       r30, r4
-	stw      r29, 0x14(r1)
-	mr       r29, r3
-	li       r3, 0x150
-	bl       __nw__FUl
-	or.      r31, r3, r3
-	beq      lbl_803931A0
-	bl       __ct__Q28Morimura16TChallengeSelectFv
-	mr       r31, r3
+	TChallengeSelect* obj = new TChallengeSelect;
+	registObj(obj, arc);
+	mObject = obj;
 
-lbl_803931A0:
-	mr       r3, r29
-	mr       r4, r31
-	mr       r5, r30
-	bl       registObj__Q26Screen9SceneBaseFPQ26Screen7ObjBaseP10JKRArchive
-	stw      r31, 0x220(r29)
-	li       r3, 0xd8
-	bl       __nw__FUl
-	or.      r0, r3, r3
-	beq      lbl_803931D4
-	lis      r4, lbl_804946F0@ha
-	addi     r4, r4, lbl_804946F0@l
-	bl       __ct__Q28Morimura17TConfirmEndWindowFPCc
-	mr       r0, r3
-
-lbl_803931D4:
-	stw      r0, 0x224(r29)
-	mr       r3, r29
-	mr       r5, r30
-	lwz      r4, 0x224(r29)
-	bl       registObj__Q26Screen9SceneBaseFPQ26Screen7ObjBaseP10JKRArchive
-	lwz      r0, 0x24(r1)
-	lwz      r31, 0x1c(r1)
-	lwz      r30, 0x18(r1)
-	lwz      r29, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x20
-	blr
-	*/
+	mConfirmEndWindow = new TConfirmEndWindow("endWindow");
+	registObj(mConfirmEndWindow, arc);
 }
 
 /*
@@ -9235,190 +6949,12 @@ lbl_803931D4:
  * Address:	80393204
  * Size:	000034
  */
-void Morimura::TChallengeSelectScene::doStart(Screen::StartSceneArg*)
+bool TChallengeSelectScene::doStart(Screen::StartSceneArg* arg)
 {
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lwz      r3, 0x220(r3)
-	lwz      r12, 0(r3)
-	lwz      r12, 0x24(r12)
-	mtctr    r12
-	bctrl
-	lwz      r0, 0x14(r1)
-	li       r3, 1
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
+	mObject->start(arg);
+	return true;
 }
 
-/*
- * --INFO--
- * Address:	80393238
- * Size:	00000C
- */
-void Morimura::TChallengeSelectScene::getResName() const
-{
-	/*
-	lis      r3, lbl_804946FC@ha
-	addi     r3, r3, lbl_804946FC@l
-	blr
-	*/
-}
+TChallengeSelect::StaticValues TChallengeSelect::mMetOffset;
 
-/*
- * --INFO--
- * Address:	80393244
- * Size:	000008
- */
-u32 Morimura::TChallengeSelectScene::getSceneType(void) { return 0x2737; }
-
-/*
- * --INFO--
- * Address:	8039324C
- * Size:	00000C
- */
-void Morimura::TChallengeSelectScene::getOwnerID(void)
-{
-	/*
-	lis      r3, 0x4D524D52@ha
-	addi     r3, r3, 0x4D524D52@l
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80393258
- * Size:	000014
- */
-void Morimura::TChallengeSelectScene::getMemberID(void)
-{
-	/*
-	lis      r4, 0x4C454354@ha
-	lis      r3, 0x43485345@ha
-	addi     r4, r4, 0x4C454354@l
-	addi     r3, r3, 0x43485345@l
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	8039326C
- * Size:	000084
- */
-efx2d::T2DChalDive::~T2DChalDive(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	stw      r31, 0xc(r1)
-	mr       r31, r4
-	stw      r30, 8(r1)
-	or.      r30, r3, r3
-	beq      lbl_803932D4
-	lis      r3, __vt__Q25efx2d11T2DChalDive@ha
-	addi     r3, r3, __vt__Q25efx2d11T2DChalDive@l
-	stw      r3, 0(r30)
-	addi     r0, r3, 0x18
-	stw      r0, 8(r30)
-	beq      lbl_803932C4
-	lis      r4, __vt__Q25efx2d8TForever@ha
-	addi     r3, r30, 8
-	addi     r5, r4, __vt__Q25efx2d8TForever@l
-	li       r4, 0
-	stw      r5, 0(r30)
-	addi     r0, r5, 0x18
-	stw      r0, 8(r30)
-	bl       __dt__18JPAEmitterCallBackFv
-
-lbl_803932C4:
-	extsh.   r0, r31
-	ble      lbl_803932D4
-	mr       r3, r30
-	bl       __dl__FPv
-
-lbl_803932D4:
-	lwz      r0, 0x14(r1)
-	mr       r3, r30
-	lwz      r31, 0xc(r1)
-	lwz      r30, 8(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	803932F0
- * Size:	000034
- */
-void Morimura::TChallengeSelect::getDispMemberBase(void)
-{
-	/*
-	stwu     r1, -0x10(r1)
-	mflr     r0
-	stw      r0, 0x14(r1)
-	lbz      r0, mIsSection__Q28Morimura9TTestBase@sda21(r13)
-	cmplwi   r0, 0
-	beq      lbl_80393310
-	lwz      r3, 0x90(r3)
-	b        lbl_80393314
-
-lbl_80393310:
-	bl       getDispMember__Q26Screen7ObjBaseFv
-
-lbl_80393314:
-	lwz      r0, 0x14(r1)
-	mtlr     r0
-	addi     r1, r1, 0x10
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80393324
- * Size:	000014
- */
-void __sinit_challengeSelect2D_cpp(void)
-{
-	/*
-	lfs      f0, lbl_8051F078@sda21(r2)
-	addi     r3, r13, mMetOffset__Q28Morimura16TChallengeSelect@sda21
-	stfs     f0, mMetOffset__Q28Morimura16TChallengeSelect@sda21(r13)
-	stfs     f0, 4(r3)
-	blr
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80393338
- * Size:	000008
- */
-@24 @Morimura::TChallengeSelect::~TChallengeSelect(void)
-{
-	/*
-	addi     r3, r3, -24
-	b        __dt__Q28Morimura16TChallengeSelectFv
-	*/
-}
-
-/*
- * --INFO--
- * Address:	80393340
- * Size:	000008
- */
-@8 @efx2d::T2DChalDive::~T2DChalDive(void)
-{
-	/*
-	addi     r3, r3, -8
-	b        __dt__Q25efx2d11T2DChalDiveFv
-	*/
-}
+} // namespace Morimura

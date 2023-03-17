@@ -1,3 +1,5 @@
+#include "Sys/MatBaseAnimation.h"
+#include "Sys/MatBaseAnimator.h"
 #include "types.h"
 
 /*
@@ -82,7 +84,7 @@ namespace Sys {
  * Address:	........
  * Size:	000018
  */
-MatBaseAnimation::MatBaseAnimation(void)
+MatBaseAnimation::MatBaseAnimation()
 {
 	// UNUSED FUNCTION
 }
@@ -138,7 +140,7 @@ lbl_8043406C:
  * Address:	804340A4
  * Size:	000090
  */
-void MatBaseAnimation::getFrameMax(void)
+void MatBaseAnimation::getFrameMax()
 {
 	/*
 	stwu     r1, -0x20(r1)
@@ -187,7 +189,7 @@ lbl_804340EC:
  * Address:	80434134
  * Size:	00002C
  */
-MatTexAnimation::MatTexAnimation(void)
+MatTexAnimation::MatTexAnimation()
 {
 	/*
 	lis      r5, __vt__Q23Sys16MatBaseAnimation@ha
@@ -257,7 +259,7 @@ allocTexMtxAnimator__16J3DMaterialTableFP19J3DAnmTextureSRTKeyPP12J3DTexMtxAnm
  * Address:	804341E8
  * Size:	00002C
  */
-void MatTexAnimation::set(void)
+void MatTexAnimation::set()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -279,7 +281,7 @@ void MatTexAnimation::set(void)
  * Address:	80434214
  * Size:	00002C
  */
-void MatTexAnimation::remove(void)
+bool MatTexAnimation::remove()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -301,7 +303,7 @@ void MatTexAnimation::remove(void)
  * Address:	80434240
  * Size:	000030
  */
-MatTevRegAnimation::MatTevRegAnimation(void)
+MatTevRegAnimation::MatTevRegAnimation()
 {
 	/*
 	lis      r5, __vt__Q23Sys16MatBaseAnimation@ha
@@ -373,7 +375,7 @@ allocTevRegAnimator__16J3DMaterialTableFP15J3DAnmTevRegKeyPP14J3DTevColorAnmPP15
  * Address:	804342FC
  * Size:	00002C
  */
-void MatTevRegAnimation::set(void)
+void MatTevRegAnimation::set()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -395,7 +397,7 @@ void MatTevRegAnimation::set(void)
  * Address:	80434328
  * Size:	00002C
  */
-void MatTevRegAnimation::remove(void)
+bool MatTevRegAnimation::remove()
 {
 	/*
 	stwu     r1, -0x10(r1)
@@ -417,7 +419,7 @@ void MatTevRegAnimation::remove(void)
  * Address:	80434354
  * Size:	000018
  */
-MatBaseAnimator::MatBaseAnimator(void)
+MatBaseAnimator::MatBaseAnimator()
 {
 	/*
 	lis      r4, __vt__Q23Sys15MatBaseAnimator@ha
@@ -475,7 +477,7 @@ lbl_804343A4:
  * Address:	........
  * Size:	00004C
  */
-void MatBaseAnimator::removeMotion(void)
+void MatBaseAnimator::removeMotion()
 {
 	// UNUSED FUNCTION
 }
@@ -791,7 +793,7 @@ lbl_80434754:
  * Address:	80434778
  * Size:	00000C
  */
-void MatRepeatAnimator::onStart(void)
+void MatRepeatAnimator::onStart()
 {
 	// Generated from stb r0, 0xC(r3)
 	_0C = 1;
@@ -1043,14 +1045,14 @@ lbl_80434A88:
  * Address:	80434AAC
  * Size:	000004
  */
-void MatBaseAnimator::onStart(void) { }
+void MatBaseAnimator::onStart() { }
 
 /*
  * --INFO--
  * Address:	80434AB0
  * Size:	000008
  */
-void MatTevRegAnimation::getAnmBase(void)
+J3DAnmBase* MatTevRegAnimation::getAnmBase()
 {
 	/*
 	lwz      r3, 8(r3)
@@ -1063,7 +1065,7 @@ void MatTevRegAnimation::getAnmBase(void)
  * Address:	80434AB8
  * Size:	000008
  */
-void MatTexAnimation::getAnmBase(void)
+J3DAnmBase* MatTexAnimation::getAnmBase()
 {
 	/*
 	lwz      r3, 8(r3)
